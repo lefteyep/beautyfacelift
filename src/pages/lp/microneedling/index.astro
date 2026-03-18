@@ -1,0 +1,49 @@
+---
+export const prerender = true;
+
+import LandingPage from '../../../layouts/LandingPage.astro';
+import BookingWidget from '../../../components/booking/BookingWidget';
+---
+
+<LandingPage
+    title="Microneedling Zürich — Jetzt Termin buchen"
+    description="Microneedling an der Bahnhofstrasse Zürich. Das natürliche Facelift ohne OP."
+>
+    <section class="container lp-hero">
+        <div class="sub-display margin-bottom-md">Premium Medical Spa • Zürich</div>
+        <h1 class="lp-title">Micro<br><em>Needling</em></h1>
+        <p class="lp-subtitle">Das natürliche Facelift ohne OP. Kollagenstimulation für ein straffes, verfeinertes Hautbild — an der Bahnhofstrasse.</p>
+    </section>
+
+    <section class="container lp-benefits">
+        <div class="highlights-grid">
+            <div class="highlight-item">
+                <div class="highlight-number">01</div>
+                <h4>Kollagen-Boost</h4>
+                <p>Stimuliert natürliche Kollagen- und Elastinproduktion.</p>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-number">02</div>
+                <h4>Narben reduzieren</h4>
+                <p>Akne-Narben verblassen sichtbar nach wenigen Sitzungen.</p>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-number">03</div>
+                <h4>Ohne Operation</h4>
+                <p>Minimal-invasiv mit maximaler Wirkung.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" style="padding-bottom: 10vh;">
+        <BookingWidget client:load preselectedCategory="Microneedling" />
+    </section>
+</LandingPage>
+
+<style>
+    .lp-hero { padding-top: 16vh; padding-bottom: 6vh; text-align: center; }
+    .lp-title { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 1.5rem; text-transform: uppercase; }
+    .lp-title em { font-style: italic; }
+    .lp-subtitle { font-size: 1.15rem; max-width: 550px; margin: 0 auto; }
+    .lp-benefits { padding-bottom: 6vh; }
+</style>

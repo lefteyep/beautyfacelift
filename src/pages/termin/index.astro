@@ -1,0 +1,42 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import BookingWidget from '../../components/booking/BookingWidget';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "HealthAndBeautyBusiness",
+    "name": "Beauty Face Lift",
+    "url": "https://beautyfacelift.ch",
+    "telephone": "+41792143462",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bahnhofstrasse 94",
+        "addressLocality": "Zürich",
+        "postalCode": "8001",
+        "addressCountry": "CH"
+    },
+    "potentialAction": {
+        "@type": "ReserveAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://beautyfacelift.ch/termin/"
+        },
+        "result": {
+            "@type": "Reservation",
+            "name": "Termin buchen"
+        }
+    }
+};
+---
+
+<Base
+    title="Termin buchen | Beauty Face Lift Zürich"
+    description="Buchen Sie Ihren Termin bei Beauty Face Lift Zürich — Hydrafacial, Microneedling, Peeling und ColdPlasma. Online Buchung in wenigen Klicks."
+    structuredData={structuredData}
+>
+    <section class="container" style="padding-top: 16vh; padding-bottom: 10vh;">
+        <BookingWidget client:load />
+    </section>
+</Base>

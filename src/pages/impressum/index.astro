@@ -1,0 +1,92 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+    title="Impressum | Beauty Face Lift Zürich"
+    description="Impressum und rechtliche Angaben von Beauty Face Lift — Premium Medical Spa an der Bahnhofstrasse 94, 8001 Zürich."
+>
+    <section class="container legal-page">
+        <h1>Impressum</h1>
+
+        <h2>Angaben gemäss Art. 3 UWG</h2>
+
+        <h3>Unternehmen</h3>
+        <p>
+            Beauty Face Lift<br>
+            Bahnhofstrasse 94<br>
+            8001 Zürich<br>
+            Schweiz
+        </p>
+
+        <h3>Inhaberin</h3>
+        <p>Teresa Stimac</p>
+
+        <h3>Kontakt</h3>
+        <p>
+            Telefon: <a href="tel:+41792143462">+41 79 214 34 62</a><br>
+            E-Mail: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a><br>
+            Website: <a href="https://beautyfacelift.ch">beautyfacelift.ch</a>
+        </p>
+
+        <h3>Verantwortlich für den Inhalt</h3>
+        <p>Teresa Stimac, Bahnhofstrasse 94, 8001 Zürich</p>
+
+        <h3>Haftungsausschluss</h3>
+        <p>Der Autor übernimmt keinerlei Gewähr hinsichtlich der inhaltlichen Richtigkeit, Genauigkeit, Aktualität, Zuverlässigkeit und Vollständigkeit der Informationen. Haftungsansprüche gegen den Autor wegen Schäden materieller oder immaterieller Art, welche aus dem Zugriff oder der Nutzung bzw. Nichtnutzung der veröffentlichten Informationen entstanden sind, werden grundsätzlich ausgeschlossen.</p>
+
+        <h3>Haftung für Links</h3>
+        <p>Verweise und Links auf Webseiten Dritter liegen ausserhalb unseres Verantwortungsbereichs. Jegliche Verantwortung für solche Webseiten wird abgelehnt. Der Zugriff und die Nutzung solcher Webseiten erfolgen auf eigene Gefahr des Nutzers.</p>
+
+        <h3>Urheberrechte</h3>
+        <p>Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf dieser Website gehören ausschliesslich Beauty Face Lift oder den speziell genannten Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung der Urheberrechtsträger im Voraus einzuholen.</p>
+    </section>
+</Base>
+
+<style>
+    .legal-page {
+        padding-top: 18vh;
+        padding-bottom: 10vh;
+        max-width: 800px;
+    }
+
+    .legal-page h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 3rem;
+    }
+
+    .legal-page h2 {
+        font-size: 1.5rem;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        text-transform: none;
+    }
+
+    .legal-page h3 {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .legal-page p {
+        max-width: none;
+        margin-bottom: 1rem;
+    }
+
+    .legal-page a {
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .legal-page a:hover {
+        color: var(--accent-dark);
+    }
+</style>

@@ -1,0 +1,194 @@
+---
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Marquee from '../../../components/Marquee.astro';
+import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
+import BookingWidget from '../../../components/booking/BookingWidget';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Hydrafacial Behandlung Zürich",
+    "provider": {
+        "@type": "HealthAndBeautyBusiness",
+        "name": "Beauty Face Lift",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Bahnhofstrasse 94",
+            "addressLocality": "Zürich",
+            "postalCode": "8001",
+            "addressCountry": "CH"
+        }
+    },
+    "description": "Tiefenreinigung und Vitalisierung für einen perfekten Glow mit original Hydrafacial in Zürich.",
+    "areaServed": "Zürich"
+};
+
+const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+        "@type": "Question",
+        "name": "Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In unserem Premium Spa Beauty Face Lift bieten wir massgeschneiderte Hydrafacial Behandlungen an. Preisdetails sind transparent auf unserer Buchungsseite gelistet."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Wie oft sollte man Hydrafacial machen?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Für optimale Ergebnisse empfehlen wir eine Behandlung alle 4 Wochen, um die Kollagenproduktion und Hydratisierung aufrechtzuerhalten."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Wie lange dauert eine Hydrafacial Behandlung?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eine Hydrafacial Signature Behandlung dauert circa 60 Minuten, die Platinum Variante circa 90 Minuten. Direkt danach sind Sie wieder gesellschaftsfähig."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Für welche Hauttypen ist Hydrafacial geeignet?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hydrafacial eignet sich für alle Hauttypen — von fettig über Mischhaut bis trocken. Die verwendeten Seren werden individuell auf Ihren Hautzustand abgestimmt."
+        }
+    }]
+};
+---
+
+<Base
+    title="Hydrafacial Zürich | Beauty Face Lift an der Bahnhofstrasse"
+    description="Hydrafacial Zürich an der Bahnhofstrasse. Erleben Sie die revolutionäre Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Medical Spa."
+    preloadImage="/assets/spa_facial_treatment.png"
+    navVariant="treatment"
+    structuredData={structuredData}
+>
+    <!-- Editorial Hero with Background Image -->
+    <header class="treatment-hero">
+        <div class="treatment-hero-media">
+            <img src="/assets/spa_facial_treatment.png" alt="Hydrafacial Behandlung Zürich" id="treatment-hero-img">
+        </div>
+        <div class="hero-titles">
+            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
+                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Premium Behandlung • Zürich</span>
+            </div>
+            <h1 class="sr-only">Hydrafacial Zürich — Tiefenreinigung an der Bahnhofstrasse</h1>
+            <div class="title-line text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.5rem, 8vw, 8rem);">Hydra</span>
+            </div>
+            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="color: var(--text-inverse); font-style: italic; font-size: clamp(3.5rem, 8vw, 8rem);">Facial</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding-top: 1rem;">
+        <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Behandlungen", href: "/behandlungen/" },
+            { label: "Hydrafacial Zürich" }
+        ]} />
+    </div>
+
+    <Marquee items={["Tiefenreinigung", "Anti-Aging", "Glow Effekt", "Vortex Technology"]} />
+
+    <!-- Content Split -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">01 / Das Erlebnis</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Perfekter Glow.<br>Ohne Downtime."</h2>
+                <p class="margin-bottom-md">Hydrafacial ist die patentierte non-invasive Methode zur Reinigung, Peeling und Hydrierung der Haut. Durch die hochmoderne Vortex-Technologie werden Unreinheiten förmlich aus den Poren gesaugt, während gleichzeitig hochwirksame Antioxidantien und Peptide tief in die Haut eingeschleust werden. Das Resultat: Ein unschlagbarer Selfie-Glow für das pulsierende Leben in Zürich.</p>
+                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+            </div>
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_interior.png" alt="Hydrafacial Spa Ambience" class="anim-img" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Grid -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">02 / Vorteile</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">01</div>
+                <h4>Sofort sichtbar</h4>
+                <p>Strahlender Glow direkt nach der ersten Sitzung — kein Verstecken, kein Warten.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">02</div>
+                <h4>Keine Ausfallzeit</h4>
+                <p>Zurück in den Alltag innert Minuten. Ideal für den Zürcher Lifestyle.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">03</div>
+                <h4>Individuell abgestimmt</h4>
+                <p>Seren werden saisonal und auf Ihren Hauttyp massgeschneidert zusammengestellt.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section pad-y container">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Häufig gestellte Fragen</div>
+        <div class="faq-list">
+            <details class="faq-item scroll-anim">
+                <summary><h3>Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>In unserem Premium Spa "Beauty Face Lift" bieten wir massgeschneiderte Hydrafacial Signature und Platinum Behandlungen an. Die genauen Preise entnehmen Sie bitte unserer aktuellen Buchungsseite, da wir die Seren individuell auf das Wetter und die Saison anpassen.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Wie oft sollte man Hydrafacial machen?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Für den maximalen Anti-Aging- und Porenverfeinerungs-Effekt empfehlen wir zu Beginn eine Behandlung alle 4 Wochen. Anschliessend kann das Intervall auf alle 6 Wochen ausgeweitet werden, ideal integrierbar in Ihren Zürcher Lifestyle.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Wie lange dauert eine Hydrafacial Behandlung?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Die Hydrafacial Signature Behandlung dauert circa 60 Minuten, unsere Premium Platinum Variante circa 90 Minuten. Es gibt keine Ausfallzeit — Sie können direkt danach zurück in Ihren Alltag, mit sichtbarem Glow ab der ersten Sitzung.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Für welche Hauttypen ist Hydrafacial geeignet?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Hydrafacial eignet sich für alle Hauttypen — ob fettig, trocken, empfindlich oder Mischhaut. Die Seren werden individuell auf Ihren Hautzustand und die aktuelle Saison abgestimmt. Auch bei Akne, Rosacea oder ersten Zeichen der Hautalterung ist Hydrafacial eine ideale Wahl.</p>
+                </div></div>
+            </details>
+        </div>
+        <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
+    </section>
+
+    <!-- Booking Widget -->
+    <section class="container pad-y">
+        <BookingWidget client:visible preselectedCategory="Hydrafacial" />
+    </section>
+
+    <!-- More Treatments -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="more-treatments">
+            <div class="sub-display margin-bottom-lg">Weitere Behandlungen</div>
+            <div class="more-treatments-grid">
+                <TreatmentLinkCard
+                    href="/behandlungen/microneedling-zuerich/"
+                    title="Micro Needling"
+                    description="Das natürliche Face-Lift ohne OP. Kollagenstimulation für ein verfeinertes Hautbild."
+                />
+                <TreatmentLinkCard
+                    href="/behandlungen/fruchtsaeure-peeling-zuerich/"
+                    title="Fruchtsäure Peeling"
+                    description="Tiefenreinigung und Hauterneuerung für einen kompromisslos klaren Teint."
+                />
+            </div>
+        </div>
+    </section>
+</Base>

@@ -1,0 +1,119 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import TreatmentLinkCard from '../../components/TreatmentLinkCard.astro';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Behandlungen bei Beauty Face Lift Zürich",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+                "@type": "Service",
+                "name": "Hydrafacial Zürich",
+                "url": "https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+                "@type": "Service",
+                "name": "Microneedling Zürich",
+                "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+                "@type": "Service",
+                "name": "Fruchtsäure Peeling Zürich",
+                "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+                "@type": "Service",
+                "name": "ColdPlasma Behandlung Zürich",
+                "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/"
+            }
+        }
+    ]
+};
+---
+
+<Base
+    title="Behandlungen | Beauty Face Lift Zürich — Gesichtsbehandlungen an der Bahnhofstrasse"
+    description="Entdecken Sie unsere Premium Gesichtsbehandlungen in Zürich: Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Ihr Medical Spa an der Bahnhofstrasse."
+    structuredData={structuredData}
+>
+    <!-- Page Header -->
+    <section class="container" style="padding-top: 20vh; padding-bottom: 5vh;">
+        <div class="sub-display margin-bottom-md">Unsere Expertise</div>
+        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Behandlungen</h1>
+        <p style="max-width: 700px;">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild. Jede Behandlung wird individuell auf Ihren Hauttyp abgestimmt — in unserem Premium Medical Spa an der Bahnhofstrasse Zürich.</p>
+    </section>
+
+    <!-- Treatment Grid -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="treatments-overview-grid">
+            <a href="/behandlungen/hydrafacial-zuerich/" class="treatment-overview-card scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 70%;">
+                    <img src="/assets/spa_facial_treatment.png" alt="Hydrafacial Behandlung Zürich" class="anim-img" loading="lazy">
+                </div>
+                <div class="treatment-overview-content">
+                    <h3>Hydra Facial</h3>
+                    <p>Tiefenreinigung, Vitalisierung und Glow. Die ultimative Pflege für ein strahlendes Selfie-Hautbild mit patentierter Vortex-Technologie.</p>
+                    <span class="card-arrow">Details erfahren &rarr;</span>
+                </div>
+            </a>
+
+            <a href="/behandlungen/microneedling-zuerich/" class="treatment-overview-card scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 70%;">
+                    <img src="/assets/spa_products.png" alt="Microneedling Behandlung Zürich" class="anim-img" loading="lazy">
+                </div>
+                <div class="treatment-overview-content">
+                    <h3>Micro Needling</h3>
+                    <p>Das natürliche Face-Lift ohne OP. Stimulation der körpereigenen Kollagenproduktion für ein sichtbar verfeinertes, straffes Hautbild.</p>
+                    <span class="card-arrow">Details erfahren &rarr;</span>
+                </div>
+            </a>
+
+            <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="treatment-overview-card scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 70%;">
+                    <img src="/assets/spa_interior.png" alt="Fruchtsäure Peeling Zürich" class="anim-img" loading="lazy">
+                </div>
+                <div class="treatment-overview-content">
+                    <h3>Fruchtsäure Peeling</h3>
+                    <p>Intensive Hauterneuerung durch natürliche AHA-Säuren. Für einen ebenmässigen, strahlenden Teint und verfeinerte Poren.</p>
+                    <span class="card-arrow">Details erfahren &rarr;</span>
+                </div>
+            </a>
+
+            <a href="/behandlungen/coldplasma-zuerich/" class="treatment-overview-card scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 70%;">
+                    <img src="/assets/spa_facial_treatment.png" alt="ColdPlasma Behandlung Zürich" class="anim-img" loading="lazy">
+                </div>
+                <div class="treatment-overview-content">
+                    <h3>ColdPlasma</h3>
+                    <p>Innovative Plasma-Technologie zur Hautverjüngung. Stimuliert die Zellerneuerung und fördert die Aufnahme hochwirksamer Wirkstoffe.</p>
+                    <span class="card-arrow">Details erfahren &rarr;</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container" style="padding-bottom: 15vh; text-align: center;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
+        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
+        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    </section>
+</Base>

@@ -1,0 +1,16 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import AdminDashboard from '../../components/admin/AdminDashboard';
+---
+
+<Base
+    title="Admin | Beauty Face Lift"
+    description="Admin Dashboard"
+    noindex={true}
+>
+    <section class="container" style="padding-top: 14vh; padding-bottom: 5vh;">
+        <AdminDashboard client:load />
+    </section>
+</Base>

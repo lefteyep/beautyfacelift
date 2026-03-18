@@ -1,0 +1,118 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import Marquee from '../../components/Marquee.astro';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "HealthAndBeautyBusiness",
+    "name": "Beauty Face Lift",
+    "image": "https://beautyfacelift.ch/assets/spa_interior.png",
+    "@id": "https://beautyfacelift.ch",
+    "url": "https://beautyfacelift.ch",
+    "telephone": "+41792143462",
+    "email": "info@beautyfacelift.ch",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bahnhofstrasse 94",
+        "addressLocality": "Zürich",
+        "postalCode": "8001",
+        "addressCountry": "CH"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.3753,
+        "longitude": 8.5385
+    },
+    "founder": {
+        "@type": "Person",
+        "name": "Teresa Stimac",
+        "jobTitle": "Gründerin & Kosmetikerin"
+    },
+    "priceRange": "$$$$",
+    "sameAs": [
+        "https://www.instagram.com/beautyfacelift.zh/"
+    ]
+};
+---
+
+<Base
+    title="Über uns | Beauty Face Lift — Teresa Stimac, Kosmetikerin Zürich"
+    description="Lernen Sie Teresa Stimac kennen — die passionierte Kosmetikerin hinter Beauty Face Lift. Ihr Premium Medical Spa an der Bahnhofstrasse 94, im Herzen von Zürich."
+    preloadImage="/assets/spa_interior.png"
+    structuredData={structuredData}
+>
+    <!-- Page Header -->
+    <section class="container" style="padding-top: 20vh; padding-bottom: 5vh;">
+        <div class="sub-display margin-bottom-md">Das Studio</div>
+        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Über uns</h1>
+    </section>
+
+    <!-- Teresa Section -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 130%;">
+                    <img src="/assets/spa_facial_treatment.png" alt="Teresa Stimac — Gründerin Beauty Face Lift Zürich" class="anim-img" loading="lazy">
+                </div>
+            </div>
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">01 / Die Gründerin</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Die Haut ist 90% von<br>deinem Selfie."</h2>
+                <p class="margin-bottom-md">Teresa Stimac ist die Gründerin und Seele hinter Beauty Face Lift. Mit jahrelanger Erfahrung in der professionellen Hautpflege und einer tiefen Leidenschaft für innovative Behandlungsmethoden hat sie an der berühmten Bahnhofstrasse in Zürich eine Beauty-Oase geschaffen, die modernste Technologie mit persönlicher Betreuung verbindet.</p>
+                <p class="margin-bottom-lg">Ihre Mission: Jeder Kundin zu einem strahlenden, selbstbewussten Hautbild verhelfen — mit Behandlungen, die wirken und Ergebnisse liefern, die man sieht und spürt.</p>
+                <a href="/termin/" class="pill-btn pill-btn-outline">Termin bei Teresa buchen</a>
+            </div>
+        </div>
+    </section>
+
+    <Marquee items={["Expertise", "Leidenschaft", "Innovation", "Vertrauen"]} />
+
+    <!-- Studio Section -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">02 / Das Studio</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Bahnhofstrasse 94,<br>Zürich</h2>
+                <p class="margin-bottom-md">Im Herzen von Zürich, an einer der exklusivsten Adressen der Welt, erwartet Sie unser Premium Medical Spa. Ein Ort der Ruhe und Transformation — ausgestattet mit den neuesten Technologien und einer Atmosphäre, die Sie den Alltag vergessen lässt.</p>
+                <p class="margin-bottom-lg">Ob Hydrafacial, Microneedling, Fruchtsäure Peeling oder ColdPlasma — jede Behandlung wird individuell auf Ihren Hauttyp und Ihre Wünsche abgestimmt.</p>
+                <a href="/behandlungen/" class="pill-btn pill-btn-outline">Unsere Behandlungen</a>
+            </div>
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_interior.png" alt="Beauty Face Lift Studio Interieur — Bahnhofstrasse Zürich" class="anim-img" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Warum Beauty Face Lift</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">01</div>
+                <h4>Premium Lage</h4>
+                <p>Direkt an der Bahnhofstrasse 94, im Zentrum von Zürich. Leicht erreichbar und diskret gelegen.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">02</div>
+                <h4>Modernste Technologie</h4>
+                <p>Wir arbeiten nur mit den neuesten und wirksamsten Geräten und Produkten der professionellen Ästhetik.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">03</div>
+                <h4>Persönliche Betreuung</h4>
+                <p>Jede Behandlung wird von Teresa persönlich durchgeführt — individuell abgestimmt und mit voller Hingabe.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container" style="padding-bottom: 15vh; text-align: center;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
+        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Vereinbaren Sie Ihren persönlichen Termin bei Teresa — unkompliziert und in wenigen Klicks.</p>
+        <a href="/termin/" class="pill-btn">Jetzt Termin buchen</a>
+    </section>
+</Base>

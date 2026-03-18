@@ -1,0 +1,181 @@
+---
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Marquee from '../../../components/Marquee.astro';
+import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
+import BookingWidget from '../../../components/booking/BookingWidget';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "ColdPlasma Behandlung Zürich",
+    "provider": {
+        "@type": "HealthAndBeautyBusiness",
+        "name": "Beauty Face Lift",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Bahnhofstrasse 94",
+            "addressLocality": "Zürich",
+            "postalCode": "8001",
+            "addressCountry": "CH"
+        }
+    },
+    "description": "Innovative ColdPlasma Behandlung zur Hautverjüngung und Zellerneuerung in Zürich an der Bahnhofstrasse.",
+    "areaServed": "Zürich"
+};
+
+const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+        "@type": "Question",
+        "name": "Was ist ColdPlasma und wie wirkt es auf die Haut?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ColdPlasma ist ein ionisiertes Gas bei niedriger Temperatur, das die Zellerneuerung stimuliert, antimikrobiell wirkt und die Aufnahme von Wirkstoffen in die Haut massiv verbessert."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Ist die ColdPlasma Behandlung schmerzhaft?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nein, die Behandlung ist schmerzfrei. Sie spüren lediglich ein leichtes Kribbeln oder Wärmegefühl auf der Haut. Es ist eine der angenehmsten Anti-Aging Behandlungen überhaupt."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Für wen ist ColdPlasma geeignet?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ColdPlasma eignet sich für alle Hauttypen und ist besonders wirksam bei Hautalterung, Unreinheiten, Akne und zur allgemeinen Hautverjüngung. Ideal auch als Ergänzung zu anderen Behandlungen."
+        }
+    }]
+};
+---
+
+<Base
+    title="ColdPlasma Behandlung Zürich | Hautverjüngung an der Bahnhofstrasse"
+    description="ColdPlasma Behandlung in Zürich — innovative Plasma-Technologie zur Hautverjüngung, Zellerneuerung und Wirkstoffeinschleusung. Premium Medical Spa an der Bahnhofstrasse."
+    preloadImage="/assets/spa_facial_treatment.png"
+    navVariant="treatment"
+    structuredData={structuredData}
+>
+    <!-- Editorial Hero with Background Image -->
+    <header class="treatment-hero">
+        <div class="treatment-hero-media">
+            <img src="/assets/spa_facial_treatment.png" alt="ColdPlasma Behandlung Zürich" id="treatment-hero-img">
+        </div>
+        <div class="hero-titles">
+            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
+                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Plasma Technologie • Zürich</span>
+            </div>
+            <h1 class="sr-only">ColdPlasma Behandlung Zürich — Innovative Hautverjüngung an der Bahnhofstrasse</h1>
+            <div class="title-line text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.5rem, 8vw, 8rem);">Cold</span>
+            </div>
+            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="color: var(--text-inverse); font-style: italic; font-size: clamp(3.5rem, 8vw, 8rem);">Plasma</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding-top: 1rem;">
+        <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Behandlungen", href: "/behandlungen/" },
+            { label: "ColdPlasma Zürich" }
+        ]} />
+    </div>
+
+    <Marquee items={["Zellerneuerung", "Anti-Aging", "Wirkstoff-Boost", "Hautstraffung"]} />
+
+    <!-- Content Split -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">01 / Die Innovation</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Zukunft der<br>Hautpflege."</h2>
+                <p class="margin-bottom-md">ColdPlasma — auch bekannt als kaltes Plasma — ist eine der innovativsten Technologien in der modernen Ästhetik. Das ionisierte Gas stimuliert die Zellerneuerung auf molekularer Ebene, wirkt antimikrobiell und öffnet die Hautbarriere für eine maximale Aufnahme hochwirksamer Seren. Das Ergebnis: sichtbar jüngere, reinere und strahlendere Haut — ganz ohne Nadeln und ohne Downtime.</p>
+                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+            </div>
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_interior.png" alt="ColdPlasma Behandlung im Beauty Face Lift Zürich" class="anim-img" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Grid -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">02 / Vorteile</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">01</div>
+                <h4>Zellerneuerung</h4>
+                <p>Stimuliert die natürliche Regeneration der Hautzellen für ein frischeres, jüngeres Erscheinungsbild.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">02</div>
+                <h4>Wirkstoff-Boost</h4>
+                <p>Öffnet die Hautbarriere temporär und ermöglicht eine bis zu 300% bessere Aufnahme von Seren und Wirkstoffen.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">03</div>
+                <h4>Schmerzfrei</h4>
+                <p>Komplett non-invasiv und angenehm. Kein Piksen, keine Nadeln, keine Ausfallzeit — direkt zurück in den Alltag.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section pad-y container">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Häufig gestellte Fragen</div>
+        <div class="faq-list">
+            <details class="faq-item scroll-anim">
+                <summary><h3>Was ist ColdPlasma und wie wirkt es auf die Haut?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>ColdPlasma ist ein ionisiertes Gas, das bei niedriger Temperatur auf die Haut einwirkt. Es stimuliert die Zellerneuerung, wirkt antimikrobiell gegen Unreinheiten und Akne, und öffnet die Hautbarriere temporär, sodass anschliessend aufgetragene Wirkstoffe deutlich tiefer eindringen und besser wirken.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Ist die ColdPlasma Behandlung schmerzhaft?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Nein, die Behandlung ist vollkommen schmerzfrei. Sie spüren lediglich ein leichtes Kribbeln oder ein angenehmes Wärmegefühl auf der Haut. ColdPlasma ist eine der angenehmsten Behandlungen in unserem Zürcher Spa — ideal auch für empfindliche Hauttypen.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Für wen ist ColdPlasma geeignet?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>ColdPlasma eignet sich für alle Hauttypen und jedes Alter. Besonders wirksam ist es bei ersten Zeichen der Hautalterung, Unreinheiten, Akne und zur allgemeinen Revitalisierung. Es ist auch eine ideale Ergänzung zu Hydrafacial oder Microneedling.</p>
+                </div></div>
+            </details>
+        </div>
+        <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
+    </section>
+
+    <!-- Booking Widget -->
+    <section class="container pad-y">
+        <BookingWidget client:visible preselectedCategory="ColdPlasma" />
+    </section>
+
+    <!-- More Treatments -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="more-treatments">
+            <div class="sub-display margin-bottom-lg">Weitere Behandlungen</div>
+            <div class="more-treatments-grid">
+                <TreatmentLinkCard
+                    href="/behandlungen/hydrafacial-zuerich/"
+                    title="Hydra Facial"
+                    description="Tiefenreinigung, Vitalisierung und Glow. Die ultimative Pflege für den perfekten Selfie-Look."
+                />
+                <TreatmentLinkCard
+                    href="/behandlungen/microneedling-zuerich/"
+                    title="Micro Needling"
+                    description="Das natürliche Face-Lift ohne OP. Kollagenstimulation für ein verfeinertes Hautbild."
+                />
+            </div>
+        </div>
+    </section>
+</Base>

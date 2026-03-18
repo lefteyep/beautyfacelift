@@ -1,0 +1,194 @@
+---
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Marquee from '../../../components/Marquee.astro';
+import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
+import BookingWidget from '../../../components/booking/BookingWidget';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Microneedling Behandlung Zürich",
+    "provider": {
+        "@type": "HealthAndBeautyBusiness",
+        "name": "Beauty Face Lift",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Bahnhofstrasse 94",
+            "addressLocality": "Zürich",
+            "postalCode": "8001",
+            "addressCountry": "CH"
+        }
+    },
+    "description": "Kollagenstimulation und medizinisches Microneedling für ein jugendliches, verfeinertes Hauptbild in Zürich.",
+    "areaServed": "Zürich"
+};
+
+const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+        "@type": "Question",
+        "name": "Tut Microneedling weh?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dank modernster High-Tech-Geräte in unserem Zürcher Studio ist das Microneedling gut tolerierbar. Ein leichtes Piksen ist normal, aber es ist weitgehend schmerzarm."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Gibt es eine Ausfallzeit (Downtime) nach der Behandlung?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Die Haut ist nach der Behandlung für 24 bis 48 Stunden leicht gerötet. Starke Ausfallzeiten gibt es jedoch nicht."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Wie viele Microneedling Sitzungen braucht man für sichtbare Ergebnisse?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bereits nach der ersten Sitzung ist ein verbessertes Hautbild sichtbar. Für optimale Ergebnisse empfehlen wir 3 bis 5 Sitzungen im Abstand von 4 bis 6 Wochen."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Kann man Microneedling mit anderen Behandlungen kombinieren?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja, Microneedling lässt sich hervorragend mit Hydrafacial oder ColdPlasma kombinieren. Teresa berät Sie individuell zur optimalen Behandlungskombination."
+        }
+    }]
+};
+---
+
+<Base
+    title="Microneedling Zürich | Medical Spa Behandlungen & Anti-Aging"
+    description="Microneedling in Zürich für sichtbar straffere Haut, reduzierte Narben und feine Poren. Das natürliche Anti-Aging Facelift an der Bahnhofstrasse. Termin buchen."
+    preloadImage="/assets/spa_products.png"
+    navVariant="treatment"
+    structuredData={structuredData}
+>
+    <!-- Editorial Hero with Background Image -->
+    <header class="treatment-hero">
+        <div class="treatment-hero-media">
+            <img src="/assets/spa_products.png" alt="Microneedling Behandlung Zürich" id="treatment-hero-img">
+        </div>
+        <div class="hero-titles">
+            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
+                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Kollagen Boost • Zürich</span>
+            </div>
+            <h1 class="sr-only">Microneedling Zürich — Das natürliche Facelift an der Bahnhofstrasse</h1>
+            <div class="title-line text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.5rem, 8vw, 8rem);">Micro</span>
+            </div>
+            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="color: var(--text-inverse); font-style: italic; font-size: clamp(3.5rem, 8vw, 8rem);">Needling</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding-top: 1rem;">
+        <Breadcrumbs items={[
+            { label: "Home", href: "/" },
+            { label: "Behandlungen", href: "/behandlungen/" },
+            { label: "Microneedling Zürich" }
+        ]} />
+    </div>
+
+    <Marquee items={["Kollagen", "Anti-Aging", "Narbenpflege", "Hautverjüngung"]} />
+
+    <!-- Content Split -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">01 / Die Methode</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Natürliche Straffung.<br>Maximale Präzision."</h2>
+                <p class="margin-bottom-md">Microneedling gilt als das natürliche Face-Lift ohne OP. Feinste, sterile Nadeln simulieren Mikroverletzungen auf der Hautoberfläche. Dies löst eine enorme Wundheilungskaskade aus und stimuliert die körpereigene Kollagen- und Elastinproduktion um ein Vielfaches. Akne-Narben verblassen, feine Linien verschwinden und das Hautbild wirkt sichtbar verjüngt.</p>
+                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+            </div>
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_facial_treatment.png" alt="Microneedling Modul in Zürich" class="anim-img" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Grid -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">02 / Vorteile</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">01</div>
+                <h4>Kollagen-Boost</h4>
+                <p>Stimuliert die natürliche Kollagen- und Elastinproduktion für langanhaltende Straffung.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">02</div>
+                <h4>Narben reduzieren</h4>
+                <p>Akne-Narben und Hyperpigmentierung verblassen sichtbar nach wenigen Sitzungen.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">03</div>
+                <h4>Ohne Operation</h4>
+                <p>Das natürliche Face-Lift. Minimal-invasiv mit maximaler Wirkung und kurzer Regeneration.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section pad-y container">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Häufig gestellte Fragen</div>
+        <div class="faq-list">
+            <details class="faq-item scroll-anim">
+                <summary><h3>Tut Microneedling weh?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>In unserem Zürcher Studio verwenden wir High-Tech-Pens mit extrem schnellen Nadelmotoren. Ein leichtes Kribbeln oder Piksen ist spürbar, durch individuell anpassbare Nadeltiefen wird es in der Regel jedoch als absolut erträglich und nicht als schmerzhaft empfunden.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Gibt es eine Ausfallzeit nach der Behandlung?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Eine Rötung, ähnlich einem leichten Sonnenbrand, ist normal und klingt meist innert 24 bis 48 Stunden ab. Sie sind gesellschaftsfähig, sollten jedoch Sonneneinstrahlung vermeiden und auf Sport oder Saunagänge direkt nach dem Needling verzichten.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Wie viele Sitzungen braucht man für sichtbare Ergebnisse?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Bereits nach der ersten Sitzung ist eine Verbesserung der Hautstruktur spürbar. Für optimale Anti-Aging-Ergebnisse und eine deutliche Narbenreduktion empfehlen wir 3 bis 5 Sitzungen im Abstand von 4 bis 6 Wochen. Danach genügen Erhaltungsbehandlungen alle 2 bis 3 Monate.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Kann man Microneedling mit anderen Behandlungen kombinieren?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Ja, Microneedling lässt sich hervorragend mit Hydrafacial oder ColdPlasma kombinieren. Beispielsweise kann eine Hydrafacial-Behandlung vorab die Haut optimal vorbereiten, oder ColdPlasma im Anschluss die Wirkstoffaufnahme maximieren. Teresa berät Sie individuell zur optimalen Kombination.</p>
+                </div></div>
+            </details>
+        </div>
+        <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
+    </section>
+
+    <!-- Booking Widget -->
+    <section class="container pad-y">
+        <BookingWidget client:visible preselectedCategory="Microneedling" />
+    </section>
+
+    <!-- More Treatments -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="more-treatments">
+            <div class="sub-display margin-bottom-lg">Weitere Behandlungen</div>
+            <div class="more-treatments-grid">
+                <TreatmentLinkCard
+                    href="/behandlungen/hydrafacial-zuerich/"
+                    title="Hydra Facial"
+                    description="Tiefenreinigung, Vitalisierung und Glow. Die ultimative Pflege für den perfekten Selfie-Look."
+                />
+                <TreatmentLinkCard
+                    href="/behandlungen/fruchtsaeure-peeling-zuerich/"
+                    title="Fruchtsäure Peeling"
+                    description="Tiefenreinigung und Hauterneuerung für einen kompromisslos klaren Teint."
+                />
+            </div>
+        </div>
+    </section>
+</Base>

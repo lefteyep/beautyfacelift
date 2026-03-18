@@ -1,0 +1,21 @@
+{
+  "name": "Beauty Face Lift",
+  "short_name": "BFL",
+  "description": "Premium Medical Spa Zürich — Hydrafacial, Microneedling, Peeling & ColdPlasma an der Bahnhofstrasse",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EDEBE6",
+  "theme_color": "#CFA65E",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}

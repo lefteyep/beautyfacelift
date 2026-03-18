@@ -1,0 +1,139 @@
+---
+export const prerender = true;
+
+import Base from '../layouts/Base.astro';
+import Marquee from '../components/Marquee.astro';
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "HealthAndBeautyBusiness",
+    "name": "Beauty Face Lift",
+    "image": "https://beautyfacelift.ch/assets/spa_interior.png",
+    "@id": "https://beautyfacelift.ch",
+    "url": "https://beautyfacelift.ch",
+    "telephone": "+41792143462",
+    "email": "info@beautyfacelift.ch",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bahnhofstrasse 94",
+        "addressLocality": "Zürich",
+        "postalCode": "8001",
+        "addressCountry": "CH"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.3753,
+        "longitude": 8.5385
+    },
+    "priceRange": "$$$$",
+    "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "16:00" }
+    ],
+    "sameAs": [
+        "https://www.instagram.com/beautyfacelift.zh/"
+    ],
+    "potentialAction": {
+        "@type": "ReserveAction",
+        "target": "https://beautyfacelift.ch/termin/",
+        "result": { "@type": "Reservation", "name": "Termin buchen" }
+    }
+};
+---
+
+<Base
+    title="Beauty Face Lift | Premium Medical Spa Zürich"
+    description="Erleben Sie Premium Hydrafacial, Microneedling & Peeling an der Bahnhofstrasse Zürich. Ihr exklusives Medical Spa für ein strahlendes Selfie-Hautbild. Termin buchen."
+    preloadImage="/assets/spa_interior.png"
+    structuredData={structuredData}
+>
+    <!-- Editorial Hero -->
+    <header class="hero-editorial container">
+        <div class="hero-titles">
+            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
+                <span class="text-reveal">Premium Medical Spa • Zürich</span>
+            </div>
+
+            <h1 class="sr-only">Beauty Face Lift — Premium Medical Spa Zürich an der Bahnhofstrasse</h1>
+            <div class="title-line text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal">Beauty</span>
+            </div>
+            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
+                <span class="display-text text-reveal" style="font-style: italic;">Face Lift</span>
+            </div>
+        </div>
+
+        <!-- Growing Media Container via GSAP -->
+        <div class="hero-media-container" id="hero-media">
+            <img src="/assets/spa_interior.png" class="hero-img-inner" id="hero-img-1" alt="Spa Ambience Luxury">
+
+            <!-- Emotional floating image -->
+            <div class="hero-floating-img" style="position: absolute; top: 15%; right: 15%; width: 22%; aspect-ratio: 3/4; border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); transform: translateY(40px); opacity: 0;" id="hero-float-1">
+                <img src="/assets/spa_facial_treatment.png" id="hero-img-2" alt="Facial Treatment" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee -->
+    <Marquee items={["Hydrafacial", "Microneedling", "ColdPlasma", "Fruchtsäure Peeling"]} />
+
+    <!-- Asymmetrical Sticky Services -->
+    <section id="expertise" class="services-section pad-y container">
+        <div class="services-wrapper">
+            <!-- Left Sticky -->
+            <div class="services-sticky">
+                <div class="sub-display margin-bottom-md">01 / Behandlungen</div>
+                <h2>Unsere <br> Expertise</h2>
+                <p class="margin-bottom-lg">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild an der Bahnhofstrasse Zürich.</p>
+                <a href="/behandlungen/" class="pill-btn pill-btn-outline">Alle ansehen</a>
+            </div>
+
+            <!-- Right Scrolling -->
+            <div class="services-list">
+                <div class="service-card scroll-anim">
+                    <h3>Hydra Facial</h3>
+                    <div class="service-image-mask margin-bottom-md">
+                        <img src="/assets/spa_facial_treatment.png" alt="Hydra Facial" class="anim-img" loading="lazy">
+                    </div>
+                    <p>Tiefenreinigung, Vitalisierung & Glow. Die ultimative Pflege für Ihre Haut für den perfekten Selfie-Look.</p>
+                    <a href="/behandlungen/hydrafacial-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                </div>
+
+                <div class="service-card scroll-anim">
+                    <h3>Micro Needling</h3>
+                    <div class="service-image-mask margin-bottom-md">
+                        <img src="/assets/spa_products.png" alt="Micro Needling Modules" class="anim-img" loading="lazy">
+                    </div>
+                    <p>Das natürliche Face-Lift ohne OP. Stimulation der Kollagenproduktion für ein verfeinertes Hautbild.</p>
+                    <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                </div>
+
+                <div class="service-card scroll-anim">
+                    <h3>Fruchtsäure Peeling</h3>
+                    <div class="service-image-mask margin-bottom-md">
+                        <img src="/assets/peeling_treatment.jpg" alt="Fruchtsäure Peeling Behandlung" class="anim-img" loading="lazy">
+                    </div>
+                    <p>Überzeugend. Sichtbar. Kompromisslos. Tiefenreinigung für einen strahlenden Teint.</p>
+                    <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editorial About -->
+    <section id="about" class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/teresa_portrait.jpg" alt="Teresa Stimac — Gründerin Beauty Face Lift" class="anim-img" loading="lazy">
+                </div>
+            </div>
+            <div class="about-text">
+                <div class="sub-display margin-bottom-md">02 / Das Studio</div>
+                <h2 style="font-size: clamp(2.5rem, 4vw, 4rem); text-transform: none; margin-bottom: 2rem;">"Die Haut ist 90% von <br>deinem Selfie."</h2>
+                <p class="margin-bottom-md">Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von der passionierten Kosmetikerin Teresa Stimac.</p>
+                <a href="/ueber-uns/" class="pill-btn pill-btn-outline">Teresa Kennenlernen</a>
+            </div>
+        </div>
+    </section>
+</Base>

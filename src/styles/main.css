@@ -1,0 +1,192 @@
+/* Local fonts via @fontsource — no external Google Fonts request */
+/* Only latin subset — site is German, no Cyrillic/Vietnamese needed */
+@import '@fontsource-variable/outfit/wght.css';
+@import '@fontsource/cormorant-garamond/latin-300.css';
+@import '@fontsource/cormorant-garamond/latin-400.css';
+@import '@fontsource/cormorant-garamond/latin-500.css';
+@import '@fontsource/cormorant-garamond/latin-400-italic.css';
+
+:root {
+  /* Ultra-Premium Palette */
+  --bg-primary: #EDEBE6; /* Stone/bone */
+  --bg-secondary: #F7F6F2;
+  --bg-dark: #121212;
+
+  --text-primary: #121212;
+  --text-secondary: #5C5A55;
+  --text-inverse: #EDEBE6;
+
+  --accent: #CFA65E; /* Brand Gold */
+  --accent-light: #E8D09E;
+  --accent-dark: #A9803C;
+  --gold-gradient: linear-gradient(135deg, #E8D09E 0%, #CFA65E 40%, #A9803C 100%);
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Outfit', sans-serif;
+
+  /* Utils */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-pill: 100px;
+  --radius-card: 24px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-primary);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Typography Base */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+/* Massive display text */
+.display-text {
+  font-size: clamp(4rem, 12vw, 14rem);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.sub-display {
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+p {
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  padding: 0 4vw;
+}
+
+.pad-y {
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+}
+
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4vw;
+}
+
+.margin-bottom-sm { margin-bottom: 1.5rem; }
+.margin-bottom-md { margin-bottom: 2.5rem; }
+.margin-bottom-lg { margin-bottom: 5rem; }
+.align-center { align-items: center; }
+
+/* Buttons */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-pill);
+  background: var(--gold-gradient);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.4s var(--ease-expo), box-shadow 0.4s var(--ease-expo), filter 0.4s var(--ease-expo);
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(207, 166, 94, 0.4);
+}
+
+.pill-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(207, 166, 94, 0.6);
+  filter: brightness(1.1);
+  color: #fff;
+}
+
+.pill-btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--accent);
+  box-shadow: none;
+}
+
+.pill-btn-outline:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+  box-shadow: 0 8px 25px rgba(18, 18, 18, 0.15);
+  filter: none;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Global Helpers */
+.hidden-text-container {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.text-reveal {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+/* Animation base — no static will-change (uses too much GPU memory with 20+ elements) */
+.scroll-anim, .anim-img, .text-reveal {
+  backface-visibility: hidden;
+}

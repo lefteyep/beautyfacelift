@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://beautyfacelift.ch/sitemap-index.xml

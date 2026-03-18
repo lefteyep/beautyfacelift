@@ -1,0 +1,147 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+    title="Buchung bestätigt | Beauty Face Lift Zürich"
+    description="Ihre Buchung bei Beauty Face Lift wurde erfolgreich erstellt."
+    noindex={true}
+>
+    <section class="container confirmation-page">
+        <div class="confirmation-icon">✓</div>
+        <h1>Vielen Dank!</h1>
+        <p class="confirmation-subtitle">Ihre Buchung wurde erfolgreich erstellt.</p>
+
+        <div id="booking-details" class="booking-summary" style="max-width: 500px; margin: 2rem auto;">
+            <p class="booking-loading" id="details-loading">Buchungsdetails werden geladen...</p>
+        </div>
+
+        <div class="confirmation-info">
+            <p>Sie erhalten in Kürze eine Bestätigung per E-Mail.</p>
+            <p>Bei Fragen erreichen Sie uns unter <a href="tel:+41792143462">+41 79 214 34 62</a> oder <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a>.</p>
+        </div>
+
+        <div class="confirmation-actions">
+            <a href="/" class="pill-btn pill-btn-outline">Zur Startseite</a>
+            <a href="/behandlungen/" class="pill-btn pill-btn-outline">Weitere Behandlungen</a>
+        </div>
+    </section>
+</Base>
+
+<script is:inline>
+    (function() {
+        var params = new URLSearchParams(window.location.search);
+        var bookingId = params.get('id');
+        var loadingEl = document.getElementById('details-loading');
+
+        if (bookingId && loadingEl) {
+            loadingEl.innerHTML =
+                '<div style="text-align:center;padding:1rem;">' +
+                '<p style="font-family:var(--font-sans);font-size:0.9rem;color:var(--text-secondary);">' +
+                'Buchungs-ID: <strong style="color:var(--text-primary);">' + bookingId.substring(0, 8) + '...</strong>' +
+                '</p></div>';
+        } else if (loadingEl) {
+            loadingEl.textContent = '';
+        }
+
+        // --- Conversion Tracking ---
+        // Generate event_id for deduplication (same ID used for client + server)
+        var eventId = 'bfl_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+
+        // 1. Client-side: Push to GTM dataLayer (if GTM is loaded)
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'booking_complete',
+            event_id: eventId,
+            booking_id: bookingId,
+            currency: 'CHF'
+        });
+
+        // 2. Server-side: Send to /api/track for Meta CAPI + GA4 Measurement Protocol
+        var utmData = {};
+        try { utmData = JSON.parse(sessionStorage.getItem('bfl_utm') || '{}'); } catch(e) {}
+
+        // Read Meta cookies for better attribution
+        var cookies = document.cookie.split(';').reduce(function(acc, c) {
+            var parts = c.trim().split('=');
+            acc[parts[0]] = parts[1];
+            return acc;
+        }, {});
+
+        fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                event_name: 'Lead',
+                event_id: eventId,
+                event_source_url: window.location.href,
+                event_data: { currency: 'CHF' },
+                user_data: {
+                    fbc: cookies._fbc || null,
+                    fbp: cookies._fbp || null
+                }
+            })
+        }).catch(function() { /* tracking failure is non-critical */ });
+    })();
+</script>
+
+<style>
+    .confirmation-page {
+        padding-top: 18vh;
+        padding-bottom: 10vh;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .confirmation-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+    }
+
+    .confirmation-page h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        text-transform: none;
+    }
+
+    .confirmation-subtitle {
+        font-size: 1.2rem;
+        color: var(--text-primary);
+        max-width: none;
+        margin-bottom: 2rem;
+    }
+
+    .confirmation-info {
+        margin: 2.5rem 0;
+    }
+
+    .confirmation-info p {
+        max-width: none;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .confirmation-info a {
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .confirmation-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+</style>
