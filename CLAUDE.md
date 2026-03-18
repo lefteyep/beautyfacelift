@@ -1,0 +1,186 @@
+# Beauty Face Lift — Claude Project Context
+
+## Project Identity
+
+- **Client:** Beauty Face Lift — Premium Medical Spa, Bahnhofstrasse 94, 8001 Zurich, Switzerland
+- **Owner:** Teresa Stimac
+- **Domain:** beautyfacelift.ch (not yet connected — currently live at beautyfacelift.pages.dev)
+- **GitHub:** https://github.com/lefteyep/beautyfacelift (private)
+- **Live URL:** https://beautyfacelift.pages.dev
+- **Supabase:** https://izekwngqjllaqibrwotp.supabase.co (EU West / Frankfurt)
+
+## Tech Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| Framework | Astro | 6.0.5 |
+| Hosting | Cloudflare Pages (static) + Pages Functions (API) | Free tier |
+| Database | Supabase (Postgres + Auth) | Free tier, EU Frankfurt |
+| UI Islands | React | 19.2.4 |
+| Payments | Stripe (optional deposits) | Not yet configured |
+| CSS | Vanilla CSS with custom properties | No Tailwind |
+| Animations | GSAP + ScrollTrigger | 3.14.2 (npm bundled) |
+| Fonts | @fontsource (Cormorant Garamond + Outfit) | Latin-only subsets |
+| Tracking | GTM via Partytown + server-side Meta CAPI + GA4 | Not yet configured |
+| Emails | Resend (via Supabase Edge Function) | Not yet configured |
+
+## Architecture Decisions
+
+- **Static output mode** (`output: 'static'`) — all 16 pages are pre-rendered HTML. The `@astrojs/cloudflare` adapter was removed due to an `ASSETS` binding conflict with Cloudflare Pages v3 build system.
+- **API routes use Cloudflare Pages Functions** (`/functions/api/`) instead of Astro server routes. This sidesteps the adapter issue while keeping serverless API capability.
+- **React islands only where interactivity is needed** — BookingWidget (`client:visible` on treatment pages, `client:load` on /termin/), AdminDashboard (`client:load`). All other pages ship zero JavaScript (except GSAP animations).
+- **No Tailwind** — the client's existing vanilla CSS design system with custom properties is maintained.
+- **GSAP bundled via npm** (not CDN) — eliminates render-blocking external scripts.
+- **Fonts via @fontsource** (latin-only) — eliminates Google Fonts external request.
+
+## File Structure
+
+```
+astro-v2/
+├── astro.config.mjs          # Astro config: static output, sitemap, react, partytown
+├── functions/api/             # Cloudflare Pages Functions (serverless API)
+│   ├── services.ts            # GET — active treatments from Supabase
+│   ├── availability.ts        # GET — available dates for a month
+│   ├── slots.ts               # GET — time slots for date + service
+│   ├── bookings.ts            # POST — create booking (conflict check)
+│   └── track.ts               # POST — server-side tracking (Meta CAPI + GA4)
+├── src/
+│   ├── components/
+│   │   ├── Nav.astro           # Navigation + mobile hamburger
+│   │   ├── Footer.astro        # Footer + legal links + mobile sticky CTA
+│   │   ├── Marquee.astro       # Infinite scroll marquee
+│   │   ├── TreatmentLinkCard.astro  # Cross-navigation card
+│   │   ├── Breadcrumbs.astro   # Breadcrumbs + BreadcrumbList schema
+│   │   ├── booking/            # React booking widget (9 components)
+│   │   │   ├── BookingWidget.tsx     # 5-step orchestrator
+│   │   │   ├── steps/               # TreatmentSelect, DateSelect, TimeSelect, CustomerForm, DepositStep
+│   │   │   └── ui/                  # Calendar, StepIndicator, ErrorBoundary
+│   │   └── admin/              # React admin dashboard (7 components)
+│   │       ├── AdminDashboard.tsx    # Shell + tab routing
+│   │       ├── LoginForm.tsx
+│   │       ├── BookingsList.tsx
+│   │       ├── ServiceManager.tsx
+│   │       ├── AvailabilityEditor.tsx
+│   │       ├── BlockedDatesManager.tsx
+│   │       └── CustomerExport.tsx
+│   ├── layouts/
+│   │   ├── Base.astro          # Main layout (meta, fonts, GSAP, UTM, GTM)
+│   │   └── LandingPage.astro   # Stripped layout for ad landing pages
+│   ├── lib/
+│   │   ├── supabase.ts         # Supabase client (with graceful fallback)
+│   │   ├── stripe.ts           # Stripe.js loader
+│   │   └── validation.ts       # Swiss phone, email, date validation
+│   ├── pages/                  # 24 pages (all static pre-rendered)
+│   │   ├── index.astro                              # Homepage (testimonials, 6 FAQs, 4 services)
+│   │   ├── behandlungen/index.astro                 # Treatment overview (breadcrumbs, guidance, FAQ)
+│   │   ├── behandlungen/hydrafacial-zuerich/        # 3000+ words, pricing, 8 FAQs, booking
+│   │   ├── behandlungen/microneedling-zuerich/      # 3000+ words, pricing, 8 FAQs, booking
+│   │   ├── behandlungen/fruchtsaeure-peeling-zuerich/ # 3000+ words, pricing, 8 FAQs, booking
+│   │   ├── behandlungen/coldplasma-zuerich/         # 3000+ words, pricing, 7 FAQs, booking
+│   │   ├── behandlungen/vergleich/                  # Treatment comparison page
+│   │   ├── blog/index.astro                         # Blog listing
+│   │   ├── blog/hydrafacial-vs-microneedling/       # Blog article (2000+ words)
+│   │   ├── blog/hautpflege-routine-zuerich/         # Blog article (2000+ words)
+│   │   ├── blog/was-ist-hydrafacial/                # Blog article (2000+ words)
+│   │   ├── blog/microneedling-erfahrung/            # Blog article (2000+ words)
+│   │   ├── blog/anti-aging-behandlungen-zuerich/    # Blog article (2000+ words)
+│   │   ├── haeufige-fragen/                         # FAQ hub (20 FAQs, 4 categories)
+│   │   ├── ueber-uns/                               # About Teresa (E-E-A-T, credentials)
+│   │   ├── termin/                                  # Full booking page
+│   │   ├── buchung-bestaetigt/                      # Confirmation + tracking
+│   │   ├── admin/                                   # Admin dashboard (noindex)
+│   │   ├── impressum/                               # Legal
+│   │   ├── datenschutz/                             # Privacy
+│   │   ├── lp/hydrafacial/                          # Ad landing page (noindex)
+│   │   ├── lp/microneedling/                        # Ad landing page (noindex)
+│   │   ├── lp/peeling/                              # Ad landing page (noindex)
+│   │   └── 404.astro                                # Error page
+│   ├── styles/
+│   │   ├── main.css            # Design tokens, typography, buttons, .sr-only
+│   │   ├── components.css      # Nav, hero, marquee, services, FAQ, footer, responsive
+│   │   ├── booking.css         # Booking widget styles
+│   │   ├── admin.css           # Admin dashboard styles
+│   │   └── blog.css            # Blog article + listing styles
+│   └── api_backup/             # Original Astro API routes (saved, not used)
+├── supabase/
+│   ├── migrations/001_initial_schema.sql  # Full DB schema + seed data
+│   └── functions/notify-booking/index.ts  # Edge function for email notifications
+├── public/                     # Static assets
+├── docs/                       # Project documentation
+├── .env.example                # All required env vars documented
+└── PRD.md                      # Original Product Requirements Document
+```
+
+## Design System
+
+```css
+--bg-primary: #EDEBE6    /* stone/bone background */
+--bg-secondary: #F7F6F2  /* lighter cards */
+--bg-dark: #121212        /* footer, dark sections */
+--text-primary: #121212   /* headings */
+--text-secondary: #5C5A55 /* body text */
+--accent: #CFA65E         /* brand gold */
+--gold-gradient: linear-gradient(135deg, #E8D09E 0%, #CFA65E 40%, #A9803C 100%)
+--font-serif: 'Cormorant Garamond'  /* headings */
+--font-sans: 'Outfit'              /* body, UI */
+--radius-pill: 100px
+--radius-card: 24px
+```
+
+Single responsive breakpoint: `@media (max-width: 900px)`
+
+## Current Status (March 18, 2026 — after SEO/AIO overhaul)
+
+### Working
+- All 24 static pages live on Cloudflare CDN (was 16)
+- 5 blog articles (2000+ words each) with Article + FAQPage schema
+- 60+ FAQ items sitewide with FAQPage JSON-LD
+- All 4 treatment pages expanded to 3000+ words (pricing, process, FAQs, testimonials)
+- Rich Schema.org: AggregateRating (4.8/5), AggregateOffer, Review, Person, Article
+- AI discoverability: llms.txt + llms-full.txt + robots.txt (10 AI crawlers allowed)
+- Sitemap: priority-weighted, admin/LP/confirmation filtered
+- Geo meta tags (CH-ZH), max-image-preview:large, OG dimensions
+- Booking flow: treatment → date → time → details → submit (writes to Supabase)
+- Admin dashboard: login, bookings, services, availability, blocked dates, CSV export
+- Mobile hamburger menu with full-screen overlay
+- GSAP animations with prefers-reduced-motion support
+- UTM parameter persistence, server-side tracking, conversion tracking
+
+### Not Yet Configured (needs accounts/env vars)
+- Custom domain beautyfacelift.ch (Cloudflare DNS) — HIGHEST PRIORITY
+- Google Search Console — verify + submit sitemap
+- Google Business Profile — claim and verify
+- Stripe deposits (needs STRIPE_SECRET_KEY, PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET)
+- Email notifications (needs RESEND_API_KEY + deploy Supabase Edge Function)
+- GTM (needs PUBLIC_GTM_ID)
+- GA4 (needs GA4_MEASUREMENT_ID, GA4_API_SECRET)
+- Meta Pixel (needs META_PIXEL_ID, META_ACCESS_TOKEN)
+
+### Known Issues
+- Admin test credentials are weak (info@pauloferreira.de / test123) — change before production
+- Stripe deposit step in BookingWidget exists but isn't wired into the main flow yet
+- Supabase Edge Function notify-booking needs to be deployed via `supabase functions deploy`
+- Placeholder images need to be replaced with real Teresa/studio photos
+
+## Commands
+
+```bash
+npm run dev      # Local dev server (port 4321)
+npm run build    # Production build (output: dist/)
+npm run preview  # Preview production build locally
+```
+
+## Deployment
+
+Auto-deploys on every `git push` to `master` branch.
+Cloudflare Pages dashboard: dash.cloudflare.com → Workers und Pages → beautyfacelift
+
+## Conventions
+
+- All content in German (de_CH locale)
+- File-based routing: `src/pages/[slug]/index.astro` → `/[slug]/`
+- CSS class naming: `.component-name` (kebab-case, BEM-lite)
+- React components: PascalCase filenames, default exports
+- API functions: `functions/api/[name].ts` using Cloudflare Pages Functions format
+- Inline styles avoided — use CSS classes from the design system
+- No Tailwind, no CSS-in-JS, no CSS modules
