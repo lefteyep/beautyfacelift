@@ -8,7 +8,7 @@ function isValidPhone(phone: string): boolean {
   return /^(\+41|0)\d{9,10}$/.test(phone.replace(/\s+/g, ''));
 }
 
-export const onRequestPost: PagesFunction<{ SUPABASE_SERVICE_ROLE_KEY: string; PUBLIC_SUPABASE_URL: string }> = async (context) => {
+export const onRequestPost: PagesFunction<{ SUPABASE_SERVICE_ROLE_KEY?: string; PUBLIC_SUPABASE_URL: string; PUBLIC_SUPABASE_ANON_KEY: string }> = async (context) => {
   let body: Record<string, any>;
   try {
     body = await context.request.json();
@@ -24,7 +24,9 @@ export const onRequestPost: PagesFunction<{ SUPABASE_SERVICE_ROLE_KEY: string; P
     });
   }
 
-  const supabase = createClient(context.env.PUBLIC_SUPABASE_URL, context.env.SUPABASE_SERVICE_ROLE_KEY);
+  // Use service role key if available (bypasses RLS), fall back to anon key (RLS allows public INSERT)
+  const key = context.env.SUPABASE_SERVICE_ROLE_KEY || context.env.PUBLIC_SUPABASE_ANON_KEY;
+  const supabase = createClient(context.env.PUBLIC_SUPABASE_URL, key);
 
   const { data: service } = await supabase
     .from('services').select('duration_minutes, deposit_chf').eq('id', body.service_id).single();
