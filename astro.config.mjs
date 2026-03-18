@@ -7,11 +7,7 @@ import partytown from '@astrojs/partytown';
 
 export default defineConfig({
   site: 'https://beautyfacelift.ch',
-  output: 'server',
-  adapter: cloudflare({
-    platformProxy: { enabled: true },
-    imageService: 'passthrough',
-  }),
+  output: 'static',
   integrations: [
     sitemap(),
     react(),
