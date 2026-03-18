@@ -21,6 +21,11 @@ pnpm-debug.log*
 # cloudflare
 .wrangler/
 
+# Claude context (session memory, never push)
+CLAUDE.md
+.claude/*.md
+.claude/memory/
+
 # macOS-specific files
 .DS_Store
 
