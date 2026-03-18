@@ -10,6 +10,10 @@ const structuredData = {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Microneedling Behandlung Zürich",
+    "serviceType": "Microneedling",
+    "category": "Gesichtsbehandlung",
+    "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/",
+    "image": "https://beautyfacelift.ch/assets/spa_products.png",
     "provider": {
         "@type": "HealthAndBeautyBusiness",
         "name": "Beauty Face Lift",
@@ -21,8 +25,21 @@ const structuredData = {
             "addressCountry": "CH"
         }
     },
-    "description": "Kollagenstimulation und medizinisches Microneedling für ein jugendliches, verfeinertes Hauptbild in Zürich.",
-    "areaServed": "Zürich"
+    "description": "Professionelles Microneedling (Kollagen-Induktionstherapie) in Zürich an der Bahnhofstrasse. Minimal-invasive Hautverjüngung mit medizinischen Micro-Needling-Pens für sichtbar straffere Haut, reduzierte Narben und verfeinerte Poren.",
+    "areaServed": "Zürich",
+    "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "CHF",
+        "lowPrice": "250",
+        "highPrice": "450",
+        "offerCount": "3"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "240",
+        "bestRating": "5"
+    }
 };
 
 const faqData = {
@@ -33,36 +50,64 @@ const faqData = {
         "name": "Tut Microneedling weh?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Dank modernster High-Tech-Geräte in unserem Zürcher Studio ist das Microneedling gut tolerierbar. Ein leichtes Piksen ist normal, aber es ist weitgehend schmerzarm."
+            "text": "In unserem Zürcher Studio an der Bahnhofstrasse verwenden wir medizinische High-Tech-Pens mit extrem schnellen Nadelmotoren und individuell einstellbarer Nadeltiefe. Vor der Behandlung kann optional eine betäubende Creme aufgetragen werden, die das Schmerzempfinden deutlich reduziert. Die meisten unserer Kundinnen beschreiben das Gefühl als ein leichtes Kribbeln oder Piksen, das problemlos auszuhalten ist. Empfindliche Bereiche wie Stirn oder Nasenrücken können etwas intensiver wahrgenommen werden, doch Teresa passt die Nadeltiefe stets individuell an Ihre Schmerztoleranz und Ihren Hautzustand an."
         }
     }, {
         "@type": "Question",
-        "name": "Gibt es eine Ausfallzeit (Downtime) nach der Behandlung?",
+        "name": "Gibt es eine Ausfallzeit (Downtime) nach dem Microneedling?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Die Haut ist nach der Behandlung für 24 bis 48 Stunden leicht gerötet. Starke Ausfallzeiten gibt es jedoch nicht."
+            "text": "Eine Rötung, vergleichbar mit einem leichten Sonnenbrand, ist nach dem Microneedling völlig normal und klingt in der Regel innert 24 bis 48 Stunden vollständig ab. In dieser Zeit sollten Sie direkte Sonneneinstrahlung, intensiven Sport, Saunagänge und aggressive Pflegeprodukte mit Retinol oder Säuren meiden. Make-up sollte frühestens nach 12 Stunden aufgetragen werden. Die meisten unserer Kundinnen in Zürich sind bereits am nächsten Tag wieder vollständig gesellschaftsfähig und können ihrem Alltag an der Bahnhofstrasse wie gewohnt nachgehen."
         }
     }, {
         "@type": "Question",
         "name": "Wie viele Microneedling Sitzungen braucht man für sichtbare Ergebnisse?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Bereits nach der ersten Sitzung ist ein verbessertes Hautbild sichtbar. Für optimale Ergebnisse empfehlen wir 3 bis 5 Sitzungen im Abstand von 4 bis 6 Wochen."
+            "text": "Bereits nach der ersten Microneedling-Sitzung ist eine spürbare Verbesserung der Hautstruktur und des Hautgefühls möglich. Für optimale Anti-Aging-Ergebnisse, eine deutliche Narbenreduktion oder die Behandlung von Hyperpigmentierungen empfehlen wir bei Beauty Face Lift in Zürich eine Serie von 3 bis 5 Sitzungen im Abstand von jeweils 4 bis 6 Wochen. Nach Abschluss der Initialphase genügen Erhaltungsbehandlungen alle 2 bis 3 Monate, um die Kollagenproduktion dauerhaft auf hohem Niveau zu halten und das Ergebnis langfristig zu sichern."
         }
     }, {
         "@type": "Question",
         "name": "Kann man Microneedling mit anderen Behandlungen kombinieren?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja, Microneedling lässt sich hervorragend mit Hydrafacial oder ColdPlasma kombinieren. Teresa berät Sie individuell zur optimalen Behandlungskombination."
+            "text": "Ja, Microneedling lässt sich hervorragend mit anderen Behandlungen in unserem Zürcher Studio kombinieren. Eine vorbereitende Hydrafacial-Behandlung reinigt die Poren tiefenwirksam und optimiert die Wirkstoffaufnahme beim anschliessenden Needling. ColdPlasma im Nachgang kann die Regeneration beschleunigen und antibakteriell wirken. Auch ein leichtes Fruchtsäure-Peeling einige Tage vor dem Microneedling bereitet die Haut ideal vor. Teresa berät Sie bei Beauty Face Lift individuell zur optimalen Behandlungskombination, abgestimmt auf Ihre persönlichen Hautziele."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Microneedling oder Hydrafacial — was ist besser?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Microneedling und Hydrafacial sind zwei unterschiedliche Verfahren, die sich in ihrer Wirkung ergänzen. Hydrafacial ist eine sanfte Tiefenreinigung mit sofortigem Glow-Effekt und null Ausfallzeit — ideal für regelmässige Hautpflege und vor besonderen Anlässen. Microneedling hingegen wirkt tiefer in der Haut und stimuliert durch kontrollierte Mikroverletzungen die körpereigene Kollagenproduktion, was bei Narben, Falten und Hauterschlaffung deutlich effektiver ist. Für viele unserer Kundinnen in Zürich empfiehlt Teresa eine Kombination beider Verfahren: Hydrafacial zur regelmässigen Pflege und Microneedling als intensive Anti-Aging-Kur."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Was kostet Microneedling in Zürich?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bei Beauty Face Lift an der Bahnhofstrasse in Zürich bieten wir drei Microneedling-Pakete an: Micro Basic für CHF 250 (45 Minuten, Gesichtsbehandlung mit Hyaluronsäure-Serum), Micro Premium für CHF 350 (60 Minuten, inklusive PRP/Eigenblut-Serum und Wachstumsfaktoren) und Micro Intensiv für CHF 450 (90 Minuten, Gesicht, Hals und Dekolleté mit Premium-Wirkstoff-Cocktail). Alle Preise verstehen sich inklusive Hautanalyse, Reinigung, Nachpflege und individueller Beratung durch Teresa. Für optimale Ergebnisse empfehlen wir ein Paket aus mehreren Sitzungen."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Wie pflege ich meine Haut nach dem Microneedling?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Die richtige Nachpflege ist entscheidend für optimale Microneedling-Ergebnisse. In den ersten 24 Stunden nach der Behandlung sollten Sie ausschliesslich sanfte, parfümfreie Pflegeprodukte verwenden. Meiden Sie Retinol, AHA/BHA-Säuren, Vitamin C in hoher Konzentration und alkoholhaltige Produkte für mindestens 48 bis 72 Stunden. Tragen Sie reichlich Sonnenschutz mit mindestens LSF 50 auf, da die Haut nach dem Needling besonders lichtempfindlich ist. Hyaluronsäure-Seren und beruhigende Masken mit Aloe Vera oder Panthenol unterstützen die Regeneration ideal. Teresa gibt Ihnen nach jeder Behandlung bei Beauty Face Lift einen individuellen Nachpflegeplan mit."
+        }
+    }, {
+        "@type": "Question",
+        "name": "Ab welchem Alter ist Microneedling sinnvoll?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Microneedling kann grundsätzlich ab dem 18. Lebensjahr durchgeführt werden, wobei der ideale Zeitpunkt von der individuellen Hautproblematik abhängt. Jüngere Kundinnen ab Mitte 20 profitieren vor allem bei der Behandlung von Akne-Narben, vergrösserten Poren oder unregelmässigem Hautbild. Ab Mitte 30 wird Microneedling zunehmend als präventive Anti-Aging-Massnahme empfohlen, da die körpereigene Kollagenproduktion ab diesem Alter natürlicherweise abnimmt. Auch für reifere Haut ab 50 ist Microneedling bei Beauty Face Lift in Zürich eine ausgezeichnete Option, um Elastizität und Spannkraft sichtbar zu verbessern. Teresa berät Sie gerne individuell."
         }
     }]
 };
 ---
 
 <Base
-    title="Microneedling Zürich | Medical Spa Behandlungen & Anti-Aging"
-    description="Microneedling in Zürich für sichtbar straffere Haut, reduzierte Narben und feine Poren. Das natürliche Anti-Aging Facelift an der Bahnhofstrasse. Termin buchen."
+    title="Microneedling Zürich | Kollagen-Induktionstherapie ab CHF 250 | Beauty Face Lift"
+    description="Professionelles Microneedling in Zürich an der Bahnhofstrasse. Kollagen-Induktionstherapie gegen Falten, Narben & grosse Poren. Ab CHF 250. 4.8★ auf Treatwell. Jetzt Termin buchen."
     preloadImage="/assets/spa_products.png"
     navVariant="treatment"
     structuredData={structuredData}
@@ -70,13 +115,13 @@ const faqData = {
     <!-- Editorial Hero with Background Image -->
     <header class="treatment-hero">
         <div class="treatment-hero-media">
-            <img src="/assets/spa_products.png" alt="Microneedling Behandlung Zürich" id="treatment-hero-img">
+            <img src="/assets/spa_products.png" alt="Microneedling Behandlung im Medical Spa Beauty Face Lift Zürich" id="treatment-hero-img" width="1920" height="1080">
         </div>
         <div class="hero-titles">
             <div class="sub-display text-reveal-wrapper margin-bottom-sm">
-                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Kollagen Boost • Zürich</span>
+                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Kollagen-Induktionstherapie • Zürich</span>
             </div>
-            <h1 class="sr-only">Microneedling Zürich — Das natürliche Facelift an der Bahnhofstrasse</h1>
+            <h1 class="sr-only">Microneedling Zürich — Kollagen-Induktionstherapie an der Bahnhofstrasse für natürliche Hautverjüngung</h1>
             <div class="title-line text-reveal-wrapper" aria-hidden="true">
                 <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.5rem, 8vw, 8rem);">Micro</span>
             </div>
@@ -94,20 +139,21 @@ const faqData = {
         ]} />
     </div>
 
-    <Marquee items={["Kollagen", "Anti-Aging", "Narbenpflege", "Hautverjüngung"]} />
+    <Marquee items={["Kollagen-Boost", "Anti-Aging", "Narbenreduktion", "Hautverjüngung", "Porenverfeinerung"]} />
 
-    <!-- Content Split -->
+    <!-- Content Split: Die Methode -->
     <section class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim">
                 <div class="sub-display margin-bottom-md">01 / Die Methode</div>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Natürliche Straffung.<br>Maximale Präzision."</h2>
-                <p class="margin-bottom-md">Microneedling gilt als das natürliche Face-Lift ohne OP. Feinste, sterile Nadeln simulieren Mikroverletzungen auf der Hautoberfläche. Dies löst eine enorme Wundheilungskaskade aus und stimuliert die körpereigene Kollagen- und Elastinproduktion um ein Vielfaches. Akne-Narben verblassen, feine Linien verschwinden und das Hautbild wirkt sichtbar verjüngt.</p>
+                <p class="margin-bottom-md">Microneedling (auch Kollagen-Induktionstherapie genannt) ist ein minimal-invasives dermatologisches Verfahren, bei dem feinste sterile Nadeln kontrollierte Mikroverletzungen in der Haut erzeugen, um die körpereigene Kollagen- und Elastinproduktion anzuregen. Bei Beauty Face Lift an der Bahnhofstrasse in Zürich setzen wir auf medizinische High-Tech-Pens der neuesten Generation, die mit individuell einstellbarer Nadeltiefe und Geschwindigkeit arbeiten. Dieses Verfahren unterscheidet sich grundlegend von kosmetischem Dermarolling: Durch die vertikale Penetration der Nadeln werden Mikroverletzungen gleichmässiger und kontrollierter gesetzt, was die Wundheilungskaskade effektiver aktiviert und das Infektionsrisiko minimiert.</p>
+                <p class="margin-bottom-md">Die kontrollierte Stimulation löst eine natürliche Regenerationsreaktion in der Haut aus. Fibroblasten werden aktiviert, neue Kollagenfasern vom Typ I und III bilden sich, und die Hautstruktur wird von innen heraus gestärkt. Akne-Narben verblassen, feine Linien und Falten werden sichtbar gemildert, vergrösserte Poren ziehen sich zusammen und das gesamte Hautbild wirkt ebenmässiger, straffer und jugendlicher. Im Gegensatz zu ablativen Verfahren wie Laserbehandlungen bleibt die Hautoberfläche intakt, was die Ausfallzeit auf ein Minimum reduziert.</p>
                 <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_facial_treatment.png" alt="Microneedling Modul in Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_facial_treatment.png" alt="Microneedling Gesichtsbehandlung bei Beauty Face Lift in Zürich" class="anim-img" loading="lazy" width="800" height="960">
                 </div>
             </div>
         </div>
@@ -120,47 +166,212 @@ const faqData = {
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">01</div>
                 <h4>Kollagen-Boost</h4>
-                <p>Stimuliert die natürliche Kollagen- und Elastinproduktion für langanhaltende Straffung.</p>
+                <p>Stimuliert die natürliche Kollagen- und Elastinproduktion bis in die tieferen Hautschichten. Die neu gebildeten Kollagenfasern sorgen für eine langanhaltende Straffung und ein sichtbar festeres Hautbild, das sich über Wochen hinweg weiter verbessert.</p>
             </div>
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">02</div>
-                <h4>Narben reduzieren</h4>
-                <p>Akne-Narben und Hyperpigmentierung verblassen sichtbar nach wenigen Sitzungen.</p>
+                <h4>Narben &amp; Poren verfeinern</h4>
+                <p>Akne-Narben, Dehnungsstreifen und Hyperpigmentierungen verblassen sichtbar nach wenigen Sitzungen. Vergrösserte Poren ziehen sich zusammen, und der Teint wirkt ebenmässiger und klarer — wissenschaftlich bestätigt durch zahlreiche dermatologische Studien.</p>
             </div>
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">03</div>
                 <h4>Ohne Operation</h4>
-                <p>Das natürliche Face-Lift. Minimal-invasiv mit maximaler Wirkung und kurzer Regeneration.</p>
+                <p>Das natürliche Face-Lift ganz ohne Skalpell. Minimal-invasiv mit maximaler Wirkung und kurzer Regenerationszeit. Bereits nach 24 bis 48 Stunden sind Sie wieder gesellschaftsfähig — ideal für den anspruchsvollen Zürcher Lifestyle.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ablauf der Behandlung -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_interior.png" alt="Medical Spa Interieur Beauty Face Lift Zürich Bahnhofstrasse" class="anim-img" loading="lazy" width="800" height="960">
+                </div>
+            </div>
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">03 / Ablauf der Behandlung</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Vier Schritte zu<br>sichtbar schönerer Haut</h2>
+
+                <div class="margin-bottom-md">
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Schritt 1 — Hautanalyse &amp; Reinigung</h4>
+                    <p style="margin-bottom: 1.5rem;">Jede Microneedling-Sitzung bei Beauty Face Lift beginnt mit einer gründlichen Hautanalyse. Teresa untersucht Ihren aktuellen Hautzustand, bespricht Ihre Ziele und reinigt die Haut mit einer medizinischen Reinigungslösung, um Make-up, Talg und Unreinheiten vollständig zu entfernen. Dieser Schritt stellt sicher, dass die Nadeln einwandfrei arbeiten und keine Bakterien in die Haut gelangen.</p>
+
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Schritt 2 — Betäubungscreme (optional)</h4>
+                    <p style="margin-bottom: 1.5rem;">Auf Wunsch wird eine topische Betäubungscreme (Anästhesie-Creme) auf die Behandlungsbereiche aufgetragen, die nach einer Einwirkzeit von circa 20 Minuten das Schmerzempfinden deutlich reduziert. Gerade bei höheren Nadeltiefen oder empfindlichen Zonen wie Stirn, Nasenrücken und Lippenkontur empfehlen wir diesen optionalen Schritt für Ihren Komfort.</p>
+
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Schritt 3 — Microneedling-Behandlung</h4>
+                    <p style="margin-bottom: 1.5rem;">Mit unserem medizinischen Microneedling-Pen wird die Haut in systematischen, überlappenden Bahnen behandelt. Die Nadeltiefe (0,5 bis 2,5 mm) und Geschwindigkeit werden individuell an die jeweilige Gesichtszone und Ihre Hautproblematik angepasst. Während des Verfahrens werden hochkonzentrierte Wirkstoffe wie Hyaluronsäure, Peptide oder — bei der Premium-Variante — Ihr eigenes PRP-Serum (Platelet Rich Plasma) auf die Haut aufgetragen, die durch die Mikrokanäle bis zu 300 % tiefer eindringen als bei herkömmlicher Pflege.</p>
+
+                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Schritt 4 — Wirkstoff-Infusion &amp; Beruhigung</h4>
+                    <p>Nach dem Needling wird eine beruhigende, regenerierende Maske aufgelegt, die Rötungen lindert und die Haut mit Feuchtigkeit versorgt. Eine abschliessende Schicht aus Hyaluronsäure-Serum und Sonnenschutz schützt die behandelte Haut und unterstützt den Heilungsprozess. Teresa gibt Ihnen zudem einen individuellen Nachpflegeplan mit, damit Sie das Ergebnis zu Hause optimal unterstützen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wer profitiert -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">04 / Wer profitiert von Microneedling?</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">01</div>
+                <h4>Anti-Aging &amp; Falten</h4>
+                <p>Ab Mitte 30 nimmt die natürliche Kollagenproduktion jährlich um rund 1 % ab. Microneedling wirkt diesem Prozess aktiv entgegen und ist eine der effektivsten nicht-operativen Methoden, um feine Linien, Krähenfüsse und erschlaffte Haut sichtbar zu straffen.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">02</div>
+                <h4>Akne-Narben &amp; Pickelmale</h4>
+                <p>Eingesunkene oder erhabene Akne-Narben gehören zu den häufigsten Indikationen für Microneedling. Die kontrollierte Kollagenneubildung füllt Narbengewebe von innen auf und gleicht Unebenheiten aus — auch bei jahrzehntealten Narben.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">03</div>
+                <h4>Grosse Poren</h4>
+                <p>Vergrösserte Poren, besonders in der T-Zone, lassen sich durch Microneedling sichtbar verfeinern. Die Stimulation des umliegenden Gewebes sorgt für eine natürliche Verengung der Porenöffnungen und ein glatteren, ebenmässigeren Teint.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">04</div>
+                <h4>Dehnungsstreifen</h4>
+                <p>Ob durch Schwangerschaft, Gewichtsschwankungen oder schnelles Wachstum — Dehnungsstreifen an Bauch, Oberschenkeln oder Oberarmen können durch Microneedling deutlich gemildert werden. Die Behandlung regt die Neubildung von Kollagen im Narbengewebe an.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">05</div>
+                <h4>Hyperpigmentierung</h4>
+                <p>Dunkle Flecken, Altersflecken und unregelmässige Pigmentierung lassen sich mit Microneedling gezielt behandeln. Die beschleunigte Zellerneuerung trägt überpigmentierte Hautzellen schneller ab und fördert eine gleichmässigere Melaninverteilung.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preise -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-text scroll-anim" style="flex: 1;">
+                <div class="sub-display margin-bottom-md">05 / Preise</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Microneedling Preise<br>in Zürich</h2>
+
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="padding: 2rem; background: var(--bg-secondary); border-radius: var(--radius-card);">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+                            <h4 style="margin: 0;">Micro Basic</h4>
+                            <span style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent);">CHF 250</span>
+                        </div>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">45 Minuten — Gesichtsbehandlung mit Hyaluronsäure-Serum. Ideal für den Einstieg, bei feinen Linien und zur regelmässigen Hautpflege. Inklusive Hautanalyse, Reinigung und beruhigender Nachpflege.</p>
+                    </div>
+
+                    <div style="padding: 2rem; background: var(--bg-secondary); border-radius: var(--radius-card); border: 1px solid var(--accent);">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+                            <h4 style="margin: 0;">Micro Premium <span style="font-size: 0.75rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.05em;">Beliebt</span></h4>
+                            <span style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent);">CHF 350</span>
+                        </div>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">60 Minuten — Inklusive PRP/Eigenblut-Serum und Wachstumsfaktoren. Die intensivste Variante für maximale Kollagenstimulation. Ideal bei Akne-Narben, tieferen Falten und Hyperpigmentierung.</p>
+                    </div>
+
+                    <div style="padding: 2rem; background: var(--bg-secondary); border-radius: var(--radius-card);">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+                            <h4 style="margin: 0;">Micro Intensiv</h4>
+                            <span style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent);">CHF 450</span>
+                        </div>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">90 Minuten — Gesicht, Hals und Dekolleté mit Premium-Wirkstoff-Cocktail. Die umfassende Behandlung für alle, die das Maximum möchten. Inklusive LED-Lichttherapie zur beschleunigten Regeneration.</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">Alle Preise verstehen sich inklusive Hautanalyse, Reinigung, Nachpflege und individueller Beratung. Paketpreise für Behandlungsserien auf Anfrage.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="container" style="padding-bottom: 10vh;">
+        <div class="scroll-anim" style="text-align: center; max-width: 700px; margin: 0 auto;">
+            <div class="sub-display margin-bottom-md">06 / Kundenstimmen</div>
+            <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">★★★★★</div>
+            <blockquote style="margin: 0; padding: 0;">
+                <p style="font-family: var(--font-serif); font-size: clamp(1.5rem, 2.5vw, 2rem); font-style: italic; line-height: 1.4; margin-bottom: 1rem;">"Nur zum empfehlen"</p>
+                <footer style="color: var(--text-secondary); font-size: 0.95rem;">
+                    — <strong>Andjela</strong>, Micro-Needling Kundin
+                </footer>
+            </blockquote>
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">4.8 von 5 Sternen auf Treatwell&nbsp;•&nbsp;240+ Bewertungen</p>
+        </div>
+    </section>
+
+    <!-- Kombinationen -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">07 / Optimale Kombinationen</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Microneedling &amp;<br>Ergänzende Treatments</h2>
+                <p class="margin-bottom-md">Für maximale Ergebnisse lässt sich Microneedling bei Beauty Face Lift in Zürich ideal mit weiteren Behandlungen kombinieren. Unsere beliebtesten Synergien:</p>
+
+                <div class="margin-bottom-md">
+                    <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/hydrafacial-zuerich/" style="color: var(--accent); text-decoration: none;">Hydrafacial + Microneedling</a></h4>
+                    <p style="margin-bottom: 1.5rem;">Die optimale Vorbereitung: Ein Hydrafacial reinigt die Poren tiefenwirksam und entfernt abgestorbene Hautschüppchen, bevor das Microneedling die Wirkstoffe in die gereinigte Haut einschleust. Diese Kombination maximiert die Wirkstoffaufnahme und sorgt für einen sofortigen Glow-Effekt zusätzlich zur langfristigen Kollagenstimulation.</p>
+
+                    <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/coldplasma-zuerich/" style="color: var(--accent); text-decoration: none;">ColdPlasma + Microneedling</a></h4>
+                    <p style="margin-bottom: 1.5rem;">ColdPlasma im Anschluss an das Microneedling wirkt antibakteriell, entzündungshemmend und beschleunigt die Wundheilung. Diese Kombination ist besonders empfehlenswert bei Akne-Narben oder unreiner Haut, da das ColdPlasma die Regeneration der behandelten Mikrokanäle unterstützt und das Infektionsrisiko zusätzlich minimiert.</p>
+
+                    <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/fruchtsaeure-peeling-zuerich/" style="color: var(--accent); text-decoration: none;">Fruchtsäure-Peeling + Microneedling</a></h4>
+                    <p>Ein leichtes Fruchtsäure-Peeling einige Tage vor dem Microneedling entfernt die oberste Schicht abgestorbener Hautzellen und ebnet die Hautoberfläche. Dadurch können die Nadeln gleichmässiger arbeiten und die Wirkstoffe noch besser penetrieren. Diese Kombination eignet sich besonders bei Hyperpigmentierung und grobporiger Haut.</p>
+                </div>
+            </div>
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_products.png" alt="Premium Wirkstoffe und Seren für Microneedling in Zürich" class="anim-img" loading="lazy" width="800" height="960">
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
     <section class="faq-section pad-y container">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Häufig gestellte Fragen</div>
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">08 / Häufig gestellte Fragen</div>
         <div class="faq-list">
             <details class="faq-item scroll-anim">
                 <summary><h3>Tut Microneedling weh?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>In unserem Zürcher Studio verwenden wir High-Tech-Pens mit extrem schnellen Nadelmotoren. Ein leichtes Kribbeln oder Piksen ist spürbar, durch individuell anpassbare Nadeltiefen wird es in der Regel jedoch als absolut erträglich und nicht als schmerzhaft empfunden.</p>
+                    <p>In unserem Zürcher Studio an der Bahnhofstrasse verwenden wir medizinische High-Tech-Pens mit extrem schnellen Nadelmotoren und individuell einstellbarer Nadeltiefe. Vor der Behandlung kann optional eine betäubende Creme aufgetragen werden, die das Schmerzempfinden deutlich reduziert. Die meisten unserer Kundinnen beschreiben das Gefühl als ein leichtes Kribbeln oder Piksen, das problemlos auszuhalten ist. Empfindliche Bereiche wie Stirn oder Nasenrücken können etwas intensiver wahrgenommen werden, doch Teresa passt die Nadeltiefe stets individuell an Ihre Schmerztoleranz und Ihren Hautzustand an.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
-                <summary><h3>Gibt es eine Ausfallzeit nach der Behandlung?</h3></summary>
+                <summary><h3>Gibt es eine Ausfallzeit nach dem Microneedling?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Eine Rötung, ähnlich einem leichten Sonnenbrand, ist normal und klingt meist innert 24 bis 48 Stunden ab. Sie sind gesellschaftsfähig, sollten jedoch Sonneneinstrahlung vermeiden und auf Sport oder Saunagänge direkt nach dem Needling verzichten.</p>
+                    <p>Eine Rötung, vergleichbar mit einem leichten Sonnenbrand, ist nach dem Microneedling völlig normal und klingt in der Regel innert 24 bis 48 Stunden vollständig ab. In dieser Zeit sollten Sie direkte Sonneneinstrahlung, intensiven Sport, Saunagänge und aggressive Pflegeprodukte mit Retinol oder Säuren meiden. Make-up sollte frühestens nach 12 Stunden aufgetragen werden. Die meisten unserer Kundinnen in Zürich sind bereits am nächsten Tag wieder vollständig gesellschaftsfähig und können ihrem Alltag wie gewohnt nachgehen.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
                 <summary><h3>Wie viele Sitzungen braucht man für sichtbare Ergebnisse?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bereits nach der ersten Sitzung ist eine Verbesserung der Hautstruktur spürbar. Für optimale Anti-Aging-Ergebnisse und eine deutliche Narbenreduktion empfehlen wir 3 bis 5 Sitzungen im Abstand von 4 bis 6 Wochen. Danach genügen Erhaltungsbehandlungen alle 2 bis 3 Monate.</p>
+                    <p>Bereits nach der ersten Microneedling-Sitzung ist eine spürbare Verbesserung der Hautstruktur und des Hautgefühls möglich. Für optimale Anti-Aging-Ergebnisse, eine deutliche Narbenreduktion oder die Behandlung von Hyperpigmentierungen empfehlen wir bei Beauty Face Lift eine Serie von 3 bis 5 Sitzungen im Abstand von jeweils 4 bis 6 Wochen. Nach Abschluss der Initialphase genügen Erhaltungsbehandlungen alle 2 bis 3 Monate, um die Kollagenproduktion dauerhaft auf hohem Niveau zu halten und das Ergebnis langfristig zu sichern.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
                 <summary><h3>Kann man Microneedling mit anderen Behandlungen kombinieren?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Ja, Microneedling lässt sich hervorragend mit Hydrafacial oder ColdPlasma kombinieren. Beispielsweise kann eine Hydrafacial-Behandlung vorab die Haut optimal vorbereiten, oder ColdPlasma im Anschluss die Wirkstoffaufnahme maximieren. Teresa berät Sie individuell zur optimalen Kombination.</p>
+                    <p>Ja, Microneedling lässt sich hervorragend mit anderen Behandlungen in unserem Zürcher Studio kombinieren. Eine vorbereitende Hydrafacial-Behandlung reinigt die Poren tiefenwirksam und optimiert die Wirkstoffaufnahme beim anschliessenden Needling. ColdPlasma im Nachgang kann die Regeneration beschleunigen und antibakteriell wirken. Auch ein leichtes Fruchtsäure-Peeling einige Tage vor dem Microneedling bereitet die Haut ideal vor. Teresa berät Sie bei Beauty Face Lift individuell zur optimalen Behandlungskombination, abgestimmt auf Ihre persönlichen Hautziele.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Microneedling oder Hydrafacial — was ist besser?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Microneedling und Hydrafacial sind zwei grundverschiedene Verfahren, die sich in ihrer Wirkung ideal ergänzen. Hydrafacial ist eine sanfte Tiefenreinigung mit sofortigem Glow-Effekt und absolut null Ausfallzeit — ideal für die regelmässige Hautpflege und als Vorbereitung vor besonderen Anlässen. Microneedling hingegen wirkt tiefer in der Dermis und stimuliert durch kontrollierte Mikroverletzungen die körpereigene Kollagenproduktion, was bei Narben, Falten und Hauterschlaffung deutlich effektiver ist. Für viele unserer Kundinnen in Zürich empfiehlt Teresa eine Kombination beider Verfahren: Hydrafacial zur regelmässigen Pflege und Microneedling als intensive Anti-Aging-Kur alle 4 bis 6 Wochen.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Was kostet Microneedling in Zürich?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Bei Beauty Face Lift an der Bahnhofstrasse in Zürich bieten wir drei Microneedling-Pakete an: Micro Basic für CHF 250 (45 Minuten, Gesichtsbehandlung mit Hyaluronsäure-Serum), Micro Premium für CHF 350 (60 Minuten, inklusive PRP/Eigenblut-Serum und Wachstumsfaktoren) und Micro Intensiv für CHF 450 (90 Minuten, Gesicht, Hals und Dekolleté mit Premium-Wirkstoff-Cocktail). Alle Preise verstehen sich inklusive Hautanalyse, Reinigung, Nachpflege und individueller Beratung durch Teresa. Für optimale Ergebnisse empfehlen wir ein Paket aus mehreren Sitzungen — sprechen Sie uns gerne auf unsere Serienpreise an.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Wie pflege ich meine Haut nach dem Microneedling?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Die richtige Nachpflege ist entscheidend für optimale Microneedling-Ergebnisse. In den ersten 24 Stunden nach der Behandlung sollten Sie ausschliesslich sanfte, parfümfreie Pflegeprodukte verwenden. Meiden Sie Retinol, AHA/BHA-Säuren, Vitamin C in hoher Konzentration und alkoholhaltige Produkte für mindestens 48 bis 72 Stunden. Tragen Sie reichlich Sonnenschutz mit mindestens LSF 50 auf, da die Haut nach dem Needling besonders lichtempfindlich ist. Hyaluronsäure-Seren und beruhigende Masken mit Aloe Vera oder Panthenol unterstützen die Regeneration ideal. Teresa gibt Ihnen nach jeder Behandlung bei Beauty Face Lift einen individuellen Nachpflegeplan mit.</p>
+                </div></div>
+            </details>
+            <details class="faq-item scroll-anim">
+                <summary><h3>Ab welchem Alter ist Microneedling sinnvoll?</h3></summary>
+                <div class="faq-answer"><div class="faq-answer-inner">
+                    <p>Microneedling kann grundsätzlich ab dem 18. Lebensjahr durchgeführt werden, wobei der ideale Zeitpunkt von der individuellen Hautproblematik abhängt. Jüngere Kundinnen ab Mitte 20 profitieren vor allem bei der Behandlung von Akne-Narben, vergrösserten Poren oder unregelmässigem Hautbild. Ab Mitte 30 wird Microneedling zunehmend als präventive Anti-Aging-Massnahme empfohlen, da die körpereigene Kollagenproduktion ab diesem Alter natürlicherweise abnimmt. Auch für reifere Haut ab 50 ist Microneedling bei Beauty Face Lift in Zürich eine ausgezeichnete Option, um Elastizität und Spannkraft sichtbar zu verbessern. Teresa berät Sie gerne individuell zu Ihrem optimalen Behandlungsplan.</p>
                 </div></div>
             </details>
         </div>
@@ -168,7 +379,7 @@ const faqData = {
     </section>
 
     <!-- Booking Widget -->
-    <section class="container pad-y">
+    <section class="container pad-y" id="buchen">
         <BookingWidget client:visible preselectedCategory="Microneedling" />
     </section>
 
@@ -186,6 +397,11 @@ const faqData = {
                     href="/behandlungen/fruchtsaeure-peeling-zuerich/"
                     title="Fruchtsäure Peeling"
                     description="Tiefenreinigung und Hauterneuerung für einen kompromisslos klaren Teint."
+                />
+                <TreatmentLinkCard
+                    href="/behandlungen/coldplasma-zuerich/"
+                    title="ColdPlasma"
+                    description="Ionisiertes Gas für antibakterielle Wirkung und beschleunigte Hautregeneration."
                 />
             </div>
         </div>

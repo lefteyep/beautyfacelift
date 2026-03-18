@@ -1,0 +1,157 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const faqs = [
+    {
+        question: 'Was ist Beauty Face Lift?',
+        answer: 'Beauty Face Lift ist Ihr Premium Medical Spa an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir hochwirksame, schonende Gesichtsbehandlungen für ein strahlendes und jugendliches Hautbild. Unser Fokus liegt auf modernsten Verfahren wie <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a>, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> — individuell abgestimmt auf Ihren Hauttyp.'
+    },
+    {
+        question: 'Wo befindet sich das Studio?',
+        answer: 'Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt und bestens erreichbar mit öffentlichen Verkehrsmitteln. Der Hauptbahnhof Zürich ist nur wenige Gehminuten entfernt. Wir empfangen Sie in einer ruhigen, stilvollen Atmosphäre, die zum Entspannen einlädt. Weitere Informationen zu unserem Studio finden Sie auf unserer <a href="/ueber-uns/">Über-uns-Seite</a>.'
+    },
+    {
+        question: 'Wer führt die Behandlungen durch?',
+        answer: 'Alle Behandlungen werden persönlich von Teresa Stimac durchgeführt — Inhaberin und erfahrene Kosmetikerin mit langjähriger Expertise in der ästhetischen Hautpflege. Teresa nimmt sich für jede Kundin ausreichend Zeit und erstellt einen individuellen Behandlungsplan. So stellen wir sicher, dass Sie die bestmögliche Pflege erhalten. Mehr über Teresa erfahren Sie <a href="/ueber-uns/">hier</a>.'
+    },
+    {
+        question: 'Brauche ich einen Termin?',
+        answer: 'Ja, wir arbeiten ausschliesslich nach Terminvereinbarung. So garantieren wir Ihnen eine ungestörte, persönliche Behandlung ohne Wartezeiten. Jeder Termin wird individuell für Sie reserviert. Sie können Ihren Wunschtermin bequem über unsere <a href="/termin/">Online-Buchung</a> reservieren oder uns telefonisch kontaktieren.'
+    },
+    {
+        question: 'Wie buche ich einen Termin?',
+        answer: 'Am einfachsten buchen Sie direkt über unsere <a href="/termin/">Online-Terminbuchung</a>. Wählen Sie Ihre gewünschte Behandlung, ein passendes Datum und Ihre bevorzugte Uhrzeit — die Bestätigung erhalten Sie sofort per E-Mail. Der gesamte Buchungsprozess dauert nur wenige Klicks. Selbstverständlich können Sie uns auch telefonisch erreichen.'
+    },
+    {
+        question: 'Welche Zahlungsmethoden werden akzeptiert?',
+        answer: 'Bei Beauty Face Lift akzeptieren wir Barzahlung, EC-Karte (Debitkarte) sowie alle gängigen Kreditkarten (Visa, Mastercard). Die Zahlung erfolgt bequem nach der Behandlung vor Ort in unserem Studio an der Bahnhofstrasse. Bei Buchung einer Kur oder eines Pakets ist auch eine Vorauszahlung möglich.'
+    },
+    {
+        question: 'Welche Behandlungen bieten Sie an?',
+        answer: 'Unser Behandlungsspektrum umfasst vier Kernbereiche: <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> für Tiefenreinigung und sofortigen Glow, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> zur Stimulation der natürlichen Kollagenproduktion, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> für intensive Hauterneuerung und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> als innovative Plasma-Technologie zur Hautverjüngung. Eine vollständige Übersicht finden Sie auf unserer <a href="/behandlungen/">Behandlungsseite</a>.'
+    },
+    {
+        question: 'Welche Behandlung passt zu meinem Hauttyp?',
+        answer: 'Die optimale Behandlung hängt von Ihrem individuellen Hautbild und Ihren Zielen ab. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> eignet sich hervorragend für alle Hauttypen und ist besonders bei fahler, dehydrierter Haut wirksam. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ist ideal bei feinen Linien, Narben und Pigmentflecken. Teresa berät Sie gerne im persönlichen Gespräch, welche Behandlung oder Kombination für Sie am besten geeignet ist.'
+    },
+    {
+        question: 'Kann ich mehrere Behandlungen kombinieren?',
+        answer: 'Ja, viele unserer Behandlungen lassen sich sinnvoll kombinieren. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> — das Hydrafacial bereitet die Haut optimal vor und verstärkt die Wirkung des Needlings. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der mehrere Verfahren optimal aufeinander abstimmt.'
+    },
+    {
+        question: 'Sind die Behandlungen schmerzhaft?',
+        answer: 'Unsere Behandlungen sind so konzipiert, dass sie möglichst angenehm sind. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> ist vollkommen schmerzfrei und wird als entspannend empfunden. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> wird vorab eine betäubende Creme aufgetragen, sodass Sie nur ein leichtes Kribbeln spüren. Auch <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peelings</a> und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> sind gut verträglich. Ihr Wohlbefinden steht bei uns immer an erster Stelle.'
+    },
+    {
+        question: 'Gibt es Gegenanzeigen (Kontraindikationen)?',
+        answer: 'Ja, bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden oder während der Einnahme blutverdünnender Medikamente können einzelne Behandlungen nicht durchgeführt werden. Auch bei Akne im akuten Stadium ist Vorsicht geboten. Teresa bespricht im Vorgespräch Ihre gesundheitliche Situation und berät Sie, welche Behandlungen für Sie geeignet sind. Sicherheit und Wohlbefinden haben bei uns oberste Priorität.'
+    },
+    {
+        question: 'Kann ich Behandlungen in der Schwangerschaft machen?',
+        answer: 'Während der Schwangerschaft und Stillzeit raten wir von <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> und <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peelings</a> ab, da die Haut empfindlicher reagieren kann. Ein sanftes <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> ist in vielen Fällen möglich — bitte informieren Sie Teresa vor der Behandlung über eine bestehende Schwangerschaft, damit sie die Behandlung entsprechend anpassen kann.'
+    },
+    {
+        question: 'Was kosten die Behandlungen?',
+        answer: 'Unsere Preise richten sich nach Art und Dauer der Behandlung. Hydrafacial Signature beginnt ab CHF 190 (ca. 60 Min.), die Platinum Variante liegt bei CHF 290 (ca. 90 Min.). Microneedling, Fruchtsäure Peeling und ColdPlasma Behandlungen sind je nach Umfang ab CHF 150 verfügbar. Detaillierte Preisinformationen finden Sie auf den jeweiligen <a href="/behandlungen/">Behandlungsseiten</a>. Alle Preise verstehen sich inklusive MwSt.'
+    },
+    {
+        question: 'Gibt es Paketangebote oder Kuren?',
+        answer: 'Ja, wir bieten attraktive Kurpakete an, mit denen Sie gegenüber Einzelbehandlungen sparen. Besonders beliebt ist unsere 5er-Kur für Hydrafacial ab CHF 850 (Sie sparen 10%). Auch für Microneedling und andere Behandlungen gibt es Mehrfachpakete. Teresa berät Sie gerne, welches Paket für Ihre Hautziele am sinnvollsten ist. Buchen Sie ein <a href="/termin/">Beratungsgespräch</a>.'
+    },
+    {
+        question: 'Kann ich einen Termin stornieren?',
+        answer: 'Ja, eine kostenlose Stornierung ist bis 24 Stunden vor dem vereinbarten Termin möglich. Bitte informieren Sie uns rechtzeitig per Telefon oder E-Mail, damit wir den Termin anderweitig vergeben können. Bei kurzfristiger Absage oder Nichterscheinen behalten wir uns vor, eine Ausfallgebühr zu berechnen. Wir bitten um Verständnis — so können wir allen Kundinnen eine zuverlässige Terminplanung bieten.'
+    },
+    {
+        question: 'Bieten Sie Gutscheine an?',
+        answer: 'Ja, Gutscheine für einzelne Behandlungen oder einen frei wählbaren Betrag sind ein ideales Geschenk. Sie können Gutscheine direkt in unserem Studio an der Bahnhofstrasse 94 erwerben. Ob zum Geburtstag, zu Weihnachten oder einfach als besondere Überraschung — schenken Sie strahlend schöne Haut. Kontaktieren Sie uns für weitere Informationen.'
+    },
+    {
+        question: 'Wie pflege ich meine Haut nach einer Behandlung?',
+        answer: 'Die richtige Nachsorge ist entscheidend für optimale Ergebnisse. Generell empfehlen wir: Verwenden Sie in den ersten 24-48 Stunden milde, parfümfreie Pflegeprodukte und einen hohen Sonnenschutz (mindestens SPF 30). Verzichten Sie auf aggressive Peelings, Retinol und stark parfümierte Produkte. Teresa gibt Ihnen nach jeder Behandlung individuelle Pflegetipps für Ihren Hauttyp mit.'
+    },
+    {
+        question: 'Darf ich nach der Behandlung Sport machen?',
+        answer: 'Nach einem <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> können Sie sofort wieder sportlich aktiv werden — es gibt keinerlei Einschränkungen. Nach <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> und intensiven <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Peelings</a> empfehlen wir, 24 Stunden auf schweisstreiben Sport, Sauna und Schwimmbad zu verzichten, um Reizungen zu vermeiden. Leichte Bewegung wie Spaziergänge sind jederzeit möglich.'
+    },
+    {
+        question: 'Wann sehe ich die ersten Ergebnisse?',
+        answer: 'Bei <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> sehen Sie sofort nach der ersten Behandlung einen sichtbaren Glow und spürbar glattere Haut. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> zeigen sich die vollen Ergebnisse nach 4-6 Wochen, da die Kollagenbildung Zeit braucht. Fruchtsäure Peelings zeigen nach 2-3 Sitzungen deutliche Verbesserungen. Für langfristige Ergebnisse empfehlen wir eine regelmässige Behandlungsserie.'
+    },
+    {
+        question: 'Wie oft sollte ich Behandlungen wiederholen?',
+        answer: 'Die ideale Häufigkeit hängt von der Behandlungsart und Ihren Hautzielen ab. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> empfehlen wir alle 4-6 Wochen für dauerhaft strahlende Haut. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>-Kuren bestehen typischerweise aus 3-5 Sitzungen im Abstand von 4-6 Wochen. Teresa erstellt Ihnen gerne einen persönlichen Behandlungsplan. <a href="/termin/">Buchen Sie Ihren Beratungstermin</a> für eine individuelle Empfehlung.'
+    }
+];
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer.replace(/<[^>]*>/g, '')
+        }
+    }))
+};
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Häufige Fragen' }
+];
+
+const categories = [
+    { label: '01 / Allgemeine Fragen', start: 0, count: 6 },
+    { label: '02 / Behandlungen', start: 6, count: 6 },
+    { label: '03 / Preise & Buchung', start: 12, count: 4 },
+    { label: '04 / Nachsorge', start: 16, count: 4 }
+];
+---
+
+<Base
+    title="Häufige Fragen | Beauty Face Lift Zürich — FAQ"
+    description="Antworten auf die häufigsten Fragen zu Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Ihr Medical Spa FAQ aus Zürich."
+    structuredData={structuredData}
+>
+    <!-- Breadcrumbs -->
+    <section class="container" style="padding-top: 16vh;">
+        <Breadcrumbs items={breadcrumbs} />
+    </section>
+
+    <!-- Page Header -->
+    <section class="container" style="padding-bottom: 5vh;">
+        <div class="sub-display margin-bottom-md">Wir beantworten Ihre Fragen</div>
+        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Häufige Fragen</h1>
+        <p style="max-width: 700px;">Hier finden Sie Antworten auf die häufigsten Fragen rund um unsere Behandlungen, Preise, Buchung und Nachsorge. Sollte Ihre Frage nicht dabei sein, kontaktieren Sie uns gerne — wir beraten Sie persönlich.</p>
+    </section>
+
+    <!-- FAQ Categories -->
+    {categories.map((category) => (
+        <section class="faq-section pad-y container">
+            <div class="sub-display margin-bottom-lg" style="text-align: center;">{category.label}</div>
+            <div class="faq-list">
+                {faqs.slice(category.start, category.start + category.count).map((faq) => (
+                    <details class="faq-item scroll-anim">
+                        <summary><h3>{faq.question}</h3></summary>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p set:html={faq.answer} />
+                        </div></div>
+                    </details>
+                ))}
+            </div>
+        </section>
+    ))}
+
+    <!-- CTA Section -->
+    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Noch Fragen?</h2>
+        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie einen unverbindlichen Beratungstermin — Teresa nimmt sich persönlich Zeit für Ihre Anliegen.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="/termin/" class="pill-btn">Termin buchen</a>
+            <a href="/behandlungen/" class="pill-btn pill-btn-outline">Behandlungen ansehen</a>
+        </div>
+    </section>
+</Base>

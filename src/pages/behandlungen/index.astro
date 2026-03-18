@@ -2,6 +2,12 @@
 
 import Base from '../../layouts/Base.astro';
 import TreatmentLinkCard from '../../components/TreatmentLinkCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Behandlungen' }
+];
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -14,7 +20,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Hydrafacial Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/"
+                "url": "https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/",
+                "description": "Patentierte Vortex-Technologie zur Tiefenreinigung, Peeling und Hydrierung der Haut in drei Schritten. Sofort sichtbarer Glow ohne Ausfallzeit. Ab CHF 190, Dauer 60–90 Minuten."
             }
         },
         {
@@ -23,7 +30,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Microneedling Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/"
+                "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/",
+                "description": "Kollagenstimulation durch kontrollierte Mikroverletzungen der Haut. Das natürliche Facelift ohne Operation für straffere Haut und reduzierte Narben. Ab CHF 250, Dauer 60–90 Minuten."
             }
         },
         {
@@ -32,7 +40,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Fruchtsäure Peeling Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/"
+                "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/",
+                "description": "Medizinisches AHA-Peeling zur Hauterneuerung. Entfernt verhornte Zellen, verfeinert Poren und reduziert Akne-Narben und Hyperpigmentierung. Ab CHF 150, Dauer 45–60 Minuten."
             }
         },
         {
@@ -41,10 +50,43 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "ColdPlasma Behandlung Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/"
+                "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/",
+                "description": "Ionisiertes Gas bei niedriger Temperatur stimuliert Zellerneuerung, wirkt antimikrobiell und verbessert die Wirkstoffaufnahme um bis zu 300%. Ab CHF 200, Dauer 45–60 Minuten."
             }
         }
     ]
+};
+
+const pageFaqs = [
+    {
+        question: 'Was kostet eine Gesichtsbehandlung in Zürich?',
+        answer: 'Die Preise für professionelle Gesichtsbehandlungen bei Beauty Face Lift variieren je nach Behandlungsart und Dauer. Ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> beginnt ab CHF 150, ein <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> ab CHF 190, <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> ab CHF 200 und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ab CHF 250. Bei Buchung von Kurpaketen (z. B. 5er-Kur) erhalten Sie bis zu 10 % Rabatt. Alle Preise verstehen sich inklusive Mehrwertsteuer und einer individuellen Hautanalyse durch Teresa Stimac.'
+    },
+    {
+        question: 'Welche Behandlung ist die beste für Anfänger?',
+        answer: 'Für Einsteigerinnen empfehlen wir das <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> — es ist vollkommen schmerzfrei, erfordert keine Ausfallzeit und liefert sofort sichtbare Ergebnisse. Die patentierte Vortex-Technologie kombiniert Tiefenreinigung, sanftes Peeling und intensive Hydrierung in einer einzigen Sitzung. Bereits nach der ersten Behandlung strahlt Ihre Haut sichtbar. Bei einem persönlichen Beratungsgespräch stimmt Teresa die Behandlung individuell auf Ihren Hauttyp ab. <a href="/termin/">Buchen Sie Ihren ersten Termin</a> bequem online.'
+    },
+    {
+        question: 'Kann ich Behandlungen kombinieren?',
+        answer: 'Ja, viele unserer Behandlungen lassen sich hervorragend kombinieren, um optimale Ergebnisse zu erzielen. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> — das Hydrafacial bereitet die Haut ideal vor und verstärkt die Wirkung des Needlings erheblich. Auch ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> gefolgt von einer <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Behandlung</a> zeigt synergistische Effekte. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der verschiedene Verfahren optimal aufeinander abstimmt.'
+    },
+    {
+        question: 'Wie buche ich einen Termin?',
+        answer: 'Am einfachsten buchen Sie direkt über unsere <a href="/termin/">Online-Terminbuchung</a>. Wählen Sie Ihre gewünschte Behandlung, ein passendes Datum und Ihre bevorzugte Uhrzeit — die Bestätigung erhalten Sie umgehend per E-Mail. Der gesamte Buchungsprozess dauert nur wenige Klicks und ist rund um die Uhr verfügbar. Selbstverständlich können Sie uns auch telefonisch unter +41 79 214 34 62 oder per E-Mail an info@beautyfacelift.ch erreichen. Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich.'
+    }
+];
+
+const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": pageFaqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer.replace(/<[^>]*>/g, '')
+        }
+    }))
 };
 ---
 
@@ -53,11 +95,17 @@ const structuredData = {
     description="Entdecken Sie unsere Premium Gesichtsbehandlungen in Zürich: Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Ihr Medical Spa an der Bahnhofstrasse."
     structuredData={structuredData}
 >
+    <!-- Breadcrumbs -->
+    <section class="container" style="padding-top: 16vh; padding-bottom: 0;">
+        <Breadcrumbs items={breadcrumbs} />
+    </section>
+
     <!-- Page Header -->
-    <section class="container" style="padding-top: 20vh; padding-bottom: 5vh;">
+    <section class="container" style="padding-top: 2vh; padding-bottom: 5vh;">
         <div class="sub-display margin-bottom-md">Unsere Expertise</div>
         <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Behandlungen</h1>
         <p style="max-width: 700px;">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild. Jede Behandlung wird individuell auf Ihren Hauttyp abgestimmt — in unserem Premium Medical Spa an der Bahnhofstrasse Zürich.</p>
+        <p style="max-width: 700px; margin-top: 1.25rem;">Unser Behandlungsspektrum umfasst vier Kernbereiche: Tiefenreinigung und sofortigen Glow mit dem Hydrafacial, natürliches Anti-Aging durch Microneedling, intensive Hauterneuerung mit medizinischen Fruchtsäure Peelings sowie innovative Zellregeneration durch ColdPlasma-Technologie. Alle Verfahren sind nicht-invasiv, wissenschaftlich fundiert und werden von Teresa Stimac persönlich durchgeführt.</p>
     </section>
 
     <!-- Treatment Grid -->
@@ -65,7 +113,7 @@ const structuredData = {
         <div class="treatments-overview-grid">
             <a href="/behandlungen/hydrafacial-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 70%;">
-                    <img src="/assets/spa_facial_treatment.png" alt="Hydrafacial Behandlung Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_facial_treatment.png" alt="Hydrafacial Behandlung Zürich" class="anim-img" loading="lazy" width="600" height="420">
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Hydra Facial</h3>
@@ -76,7 +124,7 @@ const structuredData = {
 
             <a href="/behandlungen/microneedling-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 70%;">
-                    <img src="/assets/spa_products.png" alt="Microneedling Behandlung Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_products.png" alt="Microneedling Behandlung Zürich" class="anim-img" loading="lazy" width="600" height="420">
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Micro Needling</h3>
@@ -87,7 +135,7 @@ const structuredData = {
 
             <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 70%;">
-                    <img src="/assets/spa_interior.png" alt="Fruchtsäure Peeling Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_interior.png" alt="Fruchtsäure Peeling Zürich" class="anim-img" loading="lazy" width="600" height="420">
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Fruchtsäure Peeling</h3>
@@ -98,7 +146,7 @@ const structuredData = {
 
             <a href="/behandlungen/coldplasma-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 70%;">
-                    <img src="/assets/spa_facial_treatment.png" alt="ColdPlasma Behandlung Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_facial_treatment.png" alt="ColdPlasma Behandlung Zürich" class="anim-img" loading="lazy" width="600" height="420">
                 </div>
                 <div class="treatment-overview-content">
                     <h3>ColdPlasma</h3>
@@ -108,6 +156,65 @@ const structuredData = {
             </a>
         </div>
     </section>
+
+    <!-- Welche Behandlung passt zu mir? -->
+    <section class="container" style="padding-bottom: 12vh;">
+        <div class="sub-display margin-bottom-md">Ihr persönlicher Guide</div>
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; text-transform: none;">Welche Behandlung passt zu mir?</h2>
+        <p style="max-width: 650px; margin-bottom: 3rem;">Jedes Hautbild ist einzigartig. Finden Sie die passende Behandlung für Ihr persönliches Hautpflegeziel.</p>
+
+        <div class="highlights-grid highlights-grid--4col">
+            <a href="/behandlungen/hydrafacial-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                <div class="highlight-number">01</div>
+                <h4>Sofortiger Glow</h4>
+                <p>Fahle, müde Haut? Das Hydrafacial schenkt Ihnen in nur 60 Minuten sichtbar strahlende, hydratisierte Haut — ohne Ausfallzeit.</p>
+            </a>
+
+            <a href="/behandlungen/microneedling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                <div class="highlight-number">02</div>
+                <h4>Anti-Aging & Straffung</h4>
+                <p>Feine Linien und Elastizitätsverlust? Microneedling stimuliert Ihre natürliche Kollagenproduktion für sichtbar straffere Haut.</p>
+            </a>
+
+            <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                <div class="highlight-number">03</div>
+                <h4>Reine Haut & klarer Teint</h4>
+                <p>Unreinheiten, grosse Poren oder Pigmentflecken? Das Fruchtsäure Peeling erneuert Ihre Haut Schicht für Schicht.</p>
+            </a>
+
+            <a href="/behandlungen/coldplasma-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                <div class="highlight-number">04</div>
+                <h4>Innovation & Regeneration</h4>
+                <p>Maximale Wirkstoffaufnahme und Zellregeneration? ColdPlasma-Technologie steigert die Aufnahme um bis zu 300 %.</p>
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/behandlungen/vergleich/" style="font-family: var(--font-sans); font-weight: 500; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; transition: opacity 0.2s ease;">Ausführlicher Behandlungsvergleich &rarr;</a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="container faq-section" style="padding-top: 8vh; padding-bottom: 12vh;">
+        <div class="sub-display margin-bottom-md">Häufige Fragen</div>
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 3rem; text-transform: none;">Gut zu wissen</h2>
+
+        <div class="faq-list">
+            {pageFaqs.map((faq) => (
+                <details class="faq-item">
+                    <summary><h3>{faq.question}</h3></summary>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p set:html={faq.answer} />
+                        </div>
+                    </div>
+                </details>
+            ))}
+        </div>
+    </section>
+
+    <!-- FAQ JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
     <!-- CTA Section -->
     <section class="container" style="padding-bottom: 15vh; text-align: center;">

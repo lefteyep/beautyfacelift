@@ -1,0 +1,109 @@
+---
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import '../styles/blog.css';
+
+interface Props {
+    title: string;
+    description: string;
+    publishDate: string;
+    author?: string;
+    readingTime?: string;
+    ogImage?: string;
+}
+
+const { title, description, publishDate, author = 'Teresa Stimac', readingTime, ogImage } = Astro.props;
+
+const formattedDate = new Date(publishDate).toLocaleDateString('de-CH', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
+
+const articleData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "author": {
+        "@type": "Person",
+        "name": author,
+        "jobTitle": "Kosmetikerin",
+        "worksFor": { "@type": "HealthAndBeautyBusiness", "name": "Beauty Face Lift" }
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Beauty Face Lift",
+        "url": "https://beautyfacelift.ch"
+    },
+    "datePublished": publishDate,
+    "dateModified": publishDate,
+    "mainEntityOfPage": Astro.url.href,
+    ...(ogImage ? { "image": ogImage } : {})
+};
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Blog', href: '/blog/' },
+    { label: title }
+];
+---
+
+<Base
+    title={`${title} — Beauty Face Lift Zürich`}
+    description={description}
+    ogImage={ogImage}
+    structuredData={articleData}
+>
+    <!-- Breadcrumbs -->
+    <section class="container" style="padding-top: 16vh;">
+        <Breadcrumbs items={breadcrumbs} />
+    </section>
+
+    <!-- Article Header -->
+    <section class="container" style="padding-bottom: 4vh;">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <div class="sub-display margin-bottom-md">Blog</div>
+            <h1 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none; line-height: 1.15;">{title}</h1>
+            <div class="blog-meta">
+                <span>Von {author}</span>
+                <span>{formattedDate}</span>
+                {readingTime && <span>{readingTime} Lesezeit</span>}
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Body -->
+    <section class="container" style="padding-bottom: 10vh;">
+        <article class="blog-article">
+            <slot />
+        </article>
+
+        <!-- Author Bio -->
+        <div class="blog-article">
+            <div class="blog-author-bio">
+                <h3>Über die Autorin</h3>
+                <p>Teresa Stimac ist Inhaberin und leitende Kosmetikerin bei <strong>Beauty Face Lift</strong> an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege berät sie ihre Kundinnen individuell zu den besten Behandlungen für ein strahlendes Hautbild.</p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="/ueber-uns/" class="pill-btn-outline pill-btn" style="font-size: 0.8rem; padding: 10px 24px;">Mehr über Teresa</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Further Reading -->
+        <div class="blog-article">
+            <div class="blog-further-reading">
+                <h2>Weitere Artikel</h2>
+                <p style="max-width: 500px; margin: 0 auto 2rem;">Entdecken Sie mehr Expertenwissen rund um Hautpflege und Gesichtsbehandlungen in unserem Blog.</p>
+                <a href="/blog/" class="pill-btn-outline pill-btn" style="font-size: 0.8rem; padding: 10px 24px;">Alle Artikel ansehen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
+        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
+        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    </section>
+</Base>

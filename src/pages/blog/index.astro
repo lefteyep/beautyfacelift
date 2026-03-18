@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import '../../styles/blog.css';
+
+const blogPosts = [
+    {
+        title: 'Hydrafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?',
+        description: 'Beide Behandlungen versprechen ein strahlendes Hautbild — doch welche ist die richtige für Ihren Hauttyp? Ein direkter Vergleich.',
+        href: '/blog/hydrafacial-vs-microneedling/'
+    },
+    {
+        title: 'Die perfekte Hautpflege-Routine: Tipps von Ihrer Kosmetikerin',
+        description: 'Teresa Stimac verrät die wichtigsten Schritte für eine wirksame tägliche Hautpflege — abgestimmt auf das Zürcher Klima.',
+        href: '/blog/hautpflege-routine-zuerich/'
+    },
+    {
+        title: 'Was ist Hydrafacial? Alles was Sie wissen müssen',
+        description: 'Von der patentierten Vortex-Technologie bis zum sofortigen Glow-Effekt — alles Wissenswerte über die beliebteste Gesichtsbehandlung.',
+        href: '/blog/was-ist-hydrafacial/'
+    },
+    {
+        title: 'Microneedling Erfahrung: Was erwartet Sie bei Ihrer ersten Behandlung?',
+        description: 'Was passiert während einer Microneedling-Sitzung und wie fühlt sich die Behandlung an? Ein ehrlicher Erfahrungsbericht.',
+        href: '/blog/microneedling-erfahrung/'
+    },
+    {
+        title: 'Anti-Aging Behandlungen in Zürich: Ein Überblick',
+        description: 'Von Hydrafacial über ColdPlasma bis Fruchtsäure Peeling — welche Anti-Aging Methoden wirken nachweislich?',
+        href: '/blog/anti-aging-behandlungen-zuerich/'
+    }
+];
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Blog — Beauty Face Lift Zürich",
+    "description": "Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac.",
+    "url": "https://beautyfacelift.ch/blog/",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Beauty Face Lift",
+        "url": "https://beautyfacelift.ch"
+    }
+};
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Blog' }
+];
+---
+
+<Base
+    title="Blog | Hautpflege Tipps & Wissen — Beauty Face Lift Zürich"
+    description="Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac. Ihr Medical Spa Blog aus Zürich."
+    structuredData={structuredData}
+>
+    <!-- Breadcrumbs -->
+    <section class="container" style="padding-top: 16vh;">
+        <Breadcrumbs items={breadcrumbs} />
+    </section>
+
+    <!-- Page Header -->
+    <section class="container" style="padding-bottom: 5vh;">
+        <div class="sub-display margin-bottom-md">Hautpflege Wissen</div>
+        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Blog</h1>
+        <p style="max-width: 700px;">Aktuelle Beiträge rund um professionelle Hautpflege, Gesichtsbehandlungen und bewährte Beauty-Tipps. Teresa Stimac teilt ihr Expertenwissen aus der täglichen Praxis in unserem Medical Spa an der Bahnhofstrasse Zürich.</p>
+    </section>
+
+    <!-- Blog Grid -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="blog-grid">
+            {blogPosts.map((post) => (
+                <a href={post.href} class="blog-card scroll-anim">
+                    <h3>{post.title}</h3>
+                    <p>{post.description}</p>
+                    <span class="card-arrow">Weiterlesen &rarr;</span>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
+        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
+        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
+        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    </section>
+</Base>

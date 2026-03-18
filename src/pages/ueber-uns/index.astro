@@ -27,18 +27,31 @@ const structuredData = {
     "founder": {
         "@type": "Person",
         "name": "Teresa Stimac",
-        "jobTitle": "Gründerin & Kosmetikerin"
+        "jobTitle": "Gründerin & Kosmetikerin",
+        "description": "Selbstständige Kosmetikerin mit über 20 Jahren Erfahrung in Zürich",
+        "knowsAbout": ["Hydrafacial", "Microneedling", "Fruchtsäure Peeling", "ColdPlasma", "Hautpflege", "Anti-Aging"],
+        "worksFor": {
+            "@type": "HealthAndBeautyBusiness",
+            "name": "Beauty Face Lift"
+        }
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "240",
+        "bestRating": "5"
     },
     "priceRange": "$$$$",
     "sameAs": [
-        "https://www.instagram.com/beautyfacelift.zh/"
+        "https://www.instagram.com/beautyfacelift.zh/",
+        "https://www.treatwell.ch/ort/beauty-face-lift/"
     ]
 };
 ---
 
 <Base
     title="Über uns | Beauty Face Lift — Teresa Stimac, Kosmetikerin Zürich"
-    description="Lernen Sie Teresa Stimac kennen — die passionierte Kosmetikerin hinter Beauty Face Lift. Ihr Premium Medical Spa an der Bahnhofstrasse 94, im Herzen von Zürich."
+    description="Lernen Sie Teresa Stimac kennen — seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 4.8 Sterne bei 240+ Bewertungen. Ihr Premium Medical Spa an der Bahnhofstrasse 94."
     preloadImage="/assets/spa_interior.png"
     structuredData={structuredData}
 >
@@ -53,14 +66,14 @@ const structuredData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 130%;">
-                    <img src="/assets/spa_facial_treatment.png" alt="Teresa Stimac — Gründerin Beauty Face Lift Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_facial_treatment.png" alt="Teresa Stimac — Gründerin Beauty Face Lift Zürich, seit über 20 Jahren Kosmetikerin" class="anim-img" loading="lazy" width="600" height="780">
                 </div>
             </div>
             <div class="about-text scroll-anim">
                 <div class="sub-display margin-bottom-md">01 / Die Gründerin</div>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Die Haut ist 90% von<br>deinem Selfie."</h2>
-                <p class="margin-bottom-md">Teresa Stimac ist die Gründerin und Seele hinter Beauty Face Lift. Mit jahrelanger Erfahrung in der professionellen Hautpflege und einer tiefen Leidenschaft für innovative Behandlungsmethoden hat sie an der berühmten Bahnhofstrasse in Zürich eine Beauty-Oase geschaffen, die modernste Technologie mit persönlicher Betreuung verbindet.</p>
-                <p class="margin-bottom-lg">Ihre Mission: Jeder Kundin zu einem strahlenden, selbstbewussten Hautbild verhelfen — mit Behandlungen, die wirken und Ergebnisse liefern, die man sieht und spürt.</p>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Teresa Stimac — über 20 Jahre Leidenschaft für Ihre Haut</h2>
+                <p class="margin-bottom-md">Seit über 20 Jahren ist Teresa Stimac als selbstständige Kosmetikerin in Zürich tätig. Mit einer treuen und langjährigen Stammkundschaft — einige Kundinnen begleitet sie seit 2008 — hat sie sich als eine der vertrauenswürdigsten Expertinnen für professionelle Gesichtsbehandlungen in der Region etabliert. Tausende Behandlungen hat Teresa in dieser Zeit persönlich durchgeführt, jede einzelne mit voller Aufmerksamkeit und Hingabe.</p>
+                <p class="margin-bottom-md">An der Bahnhofstrasse 94 in Zürich hat Teresa mit Beauty Face Lift eine Oase geschaffen, die modernste Behandlungsmethoden mit persönlicher, ehrlicher Beratung verbindet. Ihre Mission war von Beginn an klar: Jeder Kundin und jedem Kunden zu einem strahlenden, selbstbewussten Hautbild verhelfen — mit Behandlungen, die wirken und Ergebnisse liefern, die man sieht und spürt.</p>
                 <a href="/termin/" class="pill-btn pill-btn-outline">Termin bei Teresa buchen</a>
             </div>
         </div>
@@ -68,27 +81,93 @@ const structuredData = {
 
     <Marquee items={["Expertise", "Leidenschaft", "Innovation", "Vertrauen"]} />
 
-    <!-- Studio Section -->
+    <!-- Philosophy Section -->
     <section class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">02 / Das Studio</div>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Bahnhofstrasse 94,<br>Zürich</h2>
-                <p class="margin-bottom-md">Im Herzen von Zürich, an einer der exklusivsten Adressen der Welt, erwartet Sie unser Premium Medical Spa. Ein Ort der Ruhe und Transformation — ausgestattet mit den neuesten Technologien und einer Atmosphäre, die Sie den Alltag vergessen lässt.</p>
-                <p class="margin-bottom-lg">Ob Hydrafacial, Microneedling, Fruchtsäure Peeling oder ColdPlasma — jede Behandlung wird individuell auf Ihren Hauttyp und Ihre Wünsche abgestimmt.</p>
+                <div class="sub-display margin-bottom-md">02 / Philosophie</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Nur das Beste ist gut genug</h2>
+                <p class="margin-bottom-md">Teresa verwendet ausschliesslich Produkte, deren Eigenschaften und Rezepturen sie persönlich kennt und selbst anwendet. Für ihre Kundinnen und Kunden ist ihr nur das Beste gut genug. Was Teresa nicht an ihrer eigenen Haut getestet hat, kommt nicht an Ihre — so einfach ist das Prinzip, das seit über zwei Jahrzehnten den Unterschied macht.</p>
+                <p class="margin-bottom-lg">Jede Behandlung wird von Teresa persönlich durchgeführt — keine Assistenten, keine Delegation. Wenn Sie bei Beauty Face Lift einen Termin buchen, werden Sie von der Gründerin selbst behandelt. Diese persönliche Betreuung ist kein Zufall, sondern Überzeugung: Nur wer jede Haut kennt, kann sie optimal behandeln. Diese Philosophie hat Teresa die Treue ihrer Kundinnen über viele Jahre gesichert.</p>
                 <a href="/behandlungen/" class="pill-btn pill-btn-outline">Unsere Behandlungen</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_interior.png" alt="Beauty Face Lift Studio Interieur — Bahnhofstrasse Zürich" class="anim-img" loading="lazy">
+                    <img src="/assets/spa_products.png" alt="Premium Hautpflegeprodukte bei Beauty Face Lift — persönlich von Teresa ausgewählt" class="anim-img" loading="lazy" width="600" height="720">
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Studio Section -->
+    <section class="about-editorial pad-y container">
+        <div class="split-layout align-center">
+            <div class="about-image scroll-anim">
+                <div class="service-image-mask" style="padding-bottom: 120%;">
+                    <img src="/assets/spa_interior.png" alt="Beauty Face Lift Studio Interieur — Bahnhofstrasse 94, Zürich" class="anim-img" loading="lazy" width="600" height="720">
+                </div>
+            </div>
+            <div class="about-text scroll-anim">
+                <div class="sub-display margin-bottom-md">03 / Das Studio</div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Bahnhofstrasse 94,<br>Zürich</h2>
+                <p class="margin-bottom-md">Im Herzen von Zürich, an einer der exklusivsten Adressen der Welt, erwartet Sie unser Premium Medical Spa. Ein Ort der Ruhe und Transformation — ausgestattet mit den neuesten Technologien und einer Atmosphäre, die Sie den Alltag vergessen lässt.</p>
+                <p class="margin-bottom-lg">Ob Hydrafacial, Microneedling, Fruchtsäure Peeling oder ColdPlasma — jede Behandlung wird individuell auf Ihren Hauttyp und Ihre Wünsche abgestimmt. Diskret gelegen, leicht erreichbar und mit einem Ambiente, das den Besuch bei Beauty Face Lift zu einem Erlebnis macht.</p>
+                <a href="/behandlungen/vergleich/" class="pill-btn pill-btn-outline">Behandlungen vergleichen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise & Credentials Section -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">04 / Expertise &amp; Erfahrung</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">01</div>
+                <h4>20+ Jahre Erfahrung</h4>
+                <p>Seit über zwei Jahrzehnten ist Teresa als selbstständige Kosmetikerin in Zürich tätig und hat tausende Behandlungen durchgeführt. Ihre langjährige Stammkundschaft — einige Kundinnen begleitet sie seit 2008 — ist der beste Beweis für ihre Kompetenz und Vertrauenswürdigkeit.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">02</div>
+                <h4>Persönliche Behandlung</h4>
+                <p>Jede einzelne Behandlung wird von Teresa persönlich durchgeführt. Keine Assistenten, keine Delegation — volle Aufmerksamkeit für Ihre Haut. Sie kennt die Geschichte jeder Kundin und kann so optimal auf Veränderungen und Bedürfnisse eingehen.</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <div class="highlight-number">03</div>
+                <h4>Ständige Weiterbildung</h4>
+                <p>Teresa bildet sich regelmässig in den neuesten Behandlungsmethoden und Technologien fort, um Ihnen stets die bestmögliche Behandlung zu bieten. Von Hydrafacial über Microneedling bis ColdPlasma — sie beherrscht jede Methode aus Überzeugung und Erfahrung.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">05 / Was unsere Kunden sagen</div>
+        <h2 style="text-align: center; font-size: clamp(2rem, 3.5vw, 3rem); text-transform: none; margin-bottom: 3rem;">Vertrauen, das man spürt</h2>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim">
+                <p style="font-family: var(--font-serif); font-size: 1.25rem; font-style: italic; margin-bottom: 1rem; line-height: 1.6;">&laquo;Wie immer eine wunderbare Verwöhnzeit!&raquo;</p>
+                <p style="font-weight: 600; margin-bottom: 0.25rem;">Emina</p>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Stammkundin bei Beauty Face Lift</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <p style="font-family: var(--font-serif); font-size: 1.25rem; font-style: italic; margin-bottom: 1rem; line-height: 1.6;">&laquo;Seit 2008 bei Teresa — absolute Vertrauenssache. Professionell, ehrlich und immer auf dem neuesten Stand.&raquo;</p>
+                <p style="font-weight: 600; margin-bottom: 0.25rem;">Daniel</p>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Stammkunde seit 2008</p>
+            </div>
+            <div class="highlight-item scroll-anim">
+                <p style="font-family: var(--font-serif); font-size: 1.25rem; font-style: italic; margin-bottom: 1rem; line-height: 1.6;">&laquo;Teresas Charme und Professionalität machen jeden Besuch besonders. Man fühlt sich sofort wohl und bestens aufgehoben.&raquo;</p>
+                <p style="font-weight: 600; margin-bottom: 0.25rem;">Andreas</p>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Verifizierter Kunde</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2.5rem; font-size: 1.0625rem; color: var(--text-secondary);">
+            <strong style="color: var(--accent); font-size: 1.25rem;">4.8 von 5 Sternen</strong> auf Treatwell &bull; 240+ Bewertungen
+        </p>
+    </section>
+
     <!-- Highlights -->
     <section class="container" style="padding-bottom: 15vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Warum Beauty Face Lift</div>
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">06 / Warum Beauty Face Lift</div>
         <div class="highlights-grid">
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">01</div>

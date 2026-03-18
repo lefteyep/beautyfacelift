@@ -30,19 +30,113 @@ const structuredData = {
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "16:00" }
     ],
     "sameAs": [
-        "https://www.instagram.com/beautyfacelift.zh/"
+        "https://www.instagram.com/beautyfacelift.zh/",
+        "https://www.treatwell.ch/ort/beauty-face-lift/"
     ],
     "potentialAction": {
         "@type": "ReserveAction",
         "target": "https://beautyfacelift.ch/termin/",
         "result": { "@type": "Reservation", "name": "Termin buchen" }
-    }
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+41792143462",
+        "email": "info@beautyfacelift.ch",
+        "contactType": "customer service",
+        "areaServed": "CH",
+        "availableLanguage": ["de", "en"]
+    },
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Gesichtsbehandlungen",
+        "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hydrafacial", "url": "https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Microneedling", "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fruchtsäure Peeling", "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ColdPlasma", "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/" } }
+        ]
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "240",
+        "bestRating": "5"
+    },
+    "review": [
+        {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Emina" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Wie immer eine wunderbare Verwöhnzeit!"
+        },
+        {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Daniel" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Stammkunde seit 2008 — absolut zuverlässig und professionell."
+        }
+    ]
+};
+
+const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Was ist ein Medical Spa?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ein Medical Spa vereint medizinisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-invasive Behandlungen wie Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte und medizinisch geprüfte Wirkstoffe, die tiefgreifende und langanhaltende Ergebnisse erzielen — ganz ohne chirurgische Eingriffe."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Welche Behandlung passt zu mir?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Hydrafacial eignet sich hervorragend für sofortigen Glow und intensive Feuchtigkeit. Microneedling ist die beste Wahl bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma fördert die Zellregeneration und strafft das Gewebe. Teresa berät Sie persönlich in einem kostenlosen Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Brauche ich eine Beratung vor der ersten Behandlung?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Eine kurze persönliche Beratung ist fester Bestandteil jeder Erstbehandlung bei Beauty Face Lift. Teresa nimmt sich Zeit, Ihren Hauttyp sorgfältig zu analysieren, eventuelle Empfindlichkeiten zu besprechen und die optimale Behandlung für Ihre individuellen Bedürfnisse zu empfehlen. Diese Beratung ist kostenlos und unverbindlich. So stellen wir sicher, dass Sie von Anfang an die bestmöglichen Ergebnisse erzielen und sich bei uns rundum wohlfühlen."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Kann ich mehrere Behandlungen kombinieren?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja, viele unserer Behandlungen ergänzen sich hervorragend und können für optimale Ergebnisse miteinander kombiniert werden. Besonders beliebt ist die Kombination aus Hydrafacial und ColdPlasma — die Tiefenreinigung des Hydrafacials bereitet die Haut ideal auf die regenerierende Wirkung des ColdPlasma vor. Auch Microneedling und Fruchtsäure Peeling lassen sich in einem abgestimmten Behandlungsplan integrieren. Teresa empfiehlt Ihnen die ideale Kombination basierend auf Ihrem Hautbild."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Sind die Behandlungen für empfindliche Haut geeignet?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja, alle unsere Behandlungen sind individuell auf Ihren Hauttyp anpassbar. Besonders Hydrafacial und ColdPlasma zeichnen sich durch ihre sanfte Wirkungsweise aus und sind hervorragend für empfindliche Haut geeignet. Die Intensität wird bei jeder Behandlung an Ihre persönliche Hautempfindlichkeit angepasst. Bei der Erstberatung bespricht Teresa allfällige Allergien oder Unverträglichkeiten mit Ihnen, damit wir die Behandlung perfekt auf Ihre Bedürfnisse abstimmen können."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Wo befindet sich Beauty Face Lift?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt, nur wenige Schritte vom Paradeplatz entfernt. Die zentrale Lage ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar: Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe. Auch mit dem Auto ist das Studio gut zugänglich, mit mehreren Parkhäusern in der Umgebung. Wir freuen uns auf Ihren Besuch in unserer Beauty Oase an Zürichs bekanntester Einkaufsstrasse."
+            }
+        }
+    ]
 };
 ---
 
 <Base
-    title="Beauty Face Lift | Premium Medical Spa Zürich"
-    description="Erleben Sie Premium Hydrafacial, Microneedling & Peeling an der Bahnhofstrasse Zürich. Ihr exklusives Medical Spa für ein strahlendes Selfie-Hautbild. Termin buchen."
+    title="Beauty Face Lift | Kosmetikstudio Zürich Bahnhofstrasse — Hydrafacial, Microneedling & Peeling"
+    description="Beauty Face Lift ★ 4.8/5 — Premium Gesichtsbehandlungen an der Bahnhofstrasse Zürich: Hydrafacial ab CHF 190, Microneedling, Fruchtsäure Peeling & ColdPlasma. Jetzt online buchen."
     preloadImage="/assets/spa_interior.png"
     structuredData={structuredData}
 >
@@ -64,11 +158,11 @@ const structuredData = {
 
         <!-- Growing Media Container via GSAP -->
         <div class="hero-media-container" id="hero-media">
-            <img src="/assets/spa_interior.png" class="hero-img-inner" id="hero-img-1" alt="Spa Ambience Luxury">
+            <img src="/assets/spa_interior.png" width="1200" height="800" class="hero-img-inner" id="hero-img-1" alt="Spa Ambience Luxury">
 
             <!-- Emotional floating image -->
             <div class="hero-floating-img" style="position: absolute; top: 15%; right: 15%; width: 22%; aspect-ratio: 3/4; border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); transform: translateY(40px); opacity: 0;" id="hero-float-1">
-                <img src="/assets/spa_facial_treatment.png" id="hero-img-2" alt="Facial Treatment" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="/assets/spa_facial_treatment.png" width="600" height="800" id="hero-img-2" alt="Facial Treatment" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
     </header>
@@ -92,7 +186,7 @@ const structuredData = {
                 <div class="service-card scroll-anim">
                     <h3>Hydra Facial</h3>
                     <div class="service-image-mask margin-bottom-md">
-                        <img src="/assets/spa_facial_treatment.png" alt="Hydra Facial" class="anim-img" loading="lazy">
+                        <img src="/assets/spa_facial_treatment.png" width="600" height="400" alt="Hydra Facial" class="anim-img" loading="lazy">
                     </div>
                     <p>Tiefenreinigung, Vitalisierung & Glow. Die ultimative Pflege für Ihre Haut für den perfekten Selfie-Look.</p>
                     <a href="/behandlungen/hydrafacial-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
@@ -101,7 +195,7 @@ const structuredData = {
                 <div class="service-card scroll-anim">
                     <h3>Micro Needling</h3>
                     <div class="service-image-mask margin-bottom-md">
-                        <img src="/assets/spa_products.png" alt="Micro Needling Modules" class="anim-img" loading="lazy">
+                        <img src="/assets/spa_products.png" width="600" height="400" alt="Micro Needling Modules" class="anim-img" loading="lazy">
                     </div>
                     <p>Das natürliche Face-Lift ohne OP. Stimulation der Kollagenproduktion für ein verfeinertes Hautbild.</p>
                     <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
@@ -110,10 +204,19 @@ const structuredData = {
                 <div class="service-card scroll-anim">
                     <h3>Fruchtsäure Peeling</h3>
                     <div class="service-image-mask margin-bottom-md">
-                        <img src="/assets/peeling_treatment.jpg" alt="Fruchtsäure Peeling Behandlung" class="anim-img" loading="lazy">
+                        <img src="/assets/peeling_treatment.jpg" width="600" height="400" alt="Fruchtsäure Peeling Behandlung" class="anim-img" loading="lazy">
                     </div>
                     <p>Überzeugend. Sichtbar. Kompromisslos. Tiefenreinigung für einen strahlenden Teint.</p>
                     <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                </div>
+
+                <div class="service-card scroll-anim">
+                    <h3>ColdPlasma</h3>
+                    <div class="service-image-mask margin-bottom-md">
+                        <img src="/assets/spa_interior.png" width="600" height="400" alt="ColdPlasma Behandlung Zürich" class="anim-img" loading="lazy">
+                    </div>
+                    <p>Innovation für Ihre Haut. Plasma-Technologie stimuliert die Zellerneuerung und verbessert die Wirkstoffaufnahme um bis zu 300%.</p>
+                    <a href="/behandlungen/coldplasma-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
                 </div>
             </div>
         </div>
@@ -124,15 +227,70 @@ const structuredData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/teresa_portrait.jpg" alt="Teresa Stimac — Gründerin Beauty Face Lift" class="anim-img" loading="lazy">
+                    <img src="/assets/teresa_portrait.jpg" width="600" height="720" alt="Teresa Stimac — Gründerin Beauty Face Lift" class="anim-img" loading="lazy">
                 </div>
             </div>
             <div class="about-text">
                 <div class="sub-display margin-bottom-md">02 / Das Studio</div>
                 <h2 style="font-size: clamp(2.5rem, 4vw, 4rem); text-transform: none; margin-bottom: 2rem;">"Die Haut ist 90% von <br>deinem Selfie."</h2>
-                <p class="margin-bottom-md">Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von der passionierten Kosmetikerin Teresa Stimac.</p>
+                <p class="margin-bottom-md">Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von Teresa Stimac — seit über 20 Jahren selbstständige Kosmetikerin in Zürich mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
                 <a href="/ueber-uns/" class="pill-btn pill-btn-outline">Teresa Kennenlernen</a>
             </div>
         </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="container" style="padding-bottom: 15vh;">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Kundenstimmen</div>
+        <div class="highlights-grid">
+            <div class="highlight-item scroll-anim" style="text-align: center;">
+                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); font-style: italic; max-width: 100%; margin-bottom: 1.5rem;">"Wie immer eine wunderbare Verwöhnzeit!"</p>
+                <p style="font-size: 0.85rem; max-width: 100%;"><strong>Emina</strong> — Hydrafacial Kundin</p>
+                <p style="color: var(--accent); max-width: 100%; font-size: 0.85rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            </div>
+            <div class="highlight-item scroll-anim" style="text-align: center;">
+                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); font-style: italic; max-width: 100%; margin-bottom: 1.5rem;">"Stammkunde seit 2008 — immer wieder begeistert."</p>
+                <p style="font-size: 0.85rem; max-width: 100%;"><strong>Daniel</strong> — Treuer Kunde seit 16 Jahren</p>
+                <p style="color: var(--accent); max-width: 100%; font-size: 0.85rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            </div>
+            <div class="highlight-item scroll-anim" style="text-align: center;">
+                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); font-style: italic; max-width: 100%; margin-bottom: 1.5rem;">"Teresa ist charmant, warm und absolut professionell."</p>
+                <p style="font-size: 0.85rem; max-width: 100%;"><strong>Andreas</strong> — Hydrating Facial Kunde</p>
+                <p style="color: var(--accent); max-width: 100%; font-size: 0.85rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin: 2rem auto 0; font-size: 0.9rem;">4.8 von 5 Sternen auf <a href="https://www.treatwell.ch/ort/beauty-face-lift/" target="_blank" rel="noopener" style="color: var(--accent);">Treatwell</a> • 240+ Bewertungen</p>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section pad-y container">
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">04 / Häufig gestellte Fragen</div>
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>Was ist ein Medical Spa?</summary>
+                <p>Ein Medical Spa vereint medizinisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-invasive Behandlungen wie Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte und medizinisch geprüfte Wirkstoffe, die tiefgreifende und langanhaltende Ergebnisse erzielen — ganz ohne chirurgische Eingriffe.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Welche Behandlung passt zu mir?</summary>
+                <p>Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Hydrafacial eignet sich hervorragend für sofortigen Glow und intensive Feuchtigkeit. Microneedling ist die beste Wahl bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma fördert die Zellregeneration und strafft das Gewebe. Teresa berät Sie persönlich in einem kostenlosen Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Brauche ich eine Beratung vor der ersten Behandlung?</summary>
+                <p>Eine kurze persönliche Beratung ist fester Bestandteil jeder Erstbehandlung bei Beauty Face Lift. Teresa nimmt sich Zeit, Ihren Hauttyp sorgfältig zu analysieren, eventuelle Empfindlichkeiten zu besprechen und die optimale Behandlung für Ihre individuellen Bedürfnisse zu empfehlen. Diese Beratung ist kostenlos und unverbindlich. So stellen wir sicher, dass Sie von Anfang an die bestmöglichen Ergebnisse erzielen und sich bei uns rundum wohlfühlen.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Kann ich mehrere Behandlungen kombinieren?</summary>
+                <p>Ja, viele unserer Behandlungen ergänzen sich hervorragend und können für optimale Ergebnisse miteinander kombiniert werden. Besonders beliebt ist die Kombination aus Hydrafacial und ColdPlasma — die Tiefenreinigung des Hydrafacials bereitet die Haut ideal auf die regenerierende Wirkung des ColdPlasma vor. Auch Microneedling und Fruchtsäure Peeling lassen sich in einem abgestimmten Behandlungsplan integrieren. Teresa empfiehlt Ihnen die ideale Kombination basierend auf Ihrem Hautbild.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Sind die Behandlungen für empfindliche Haut geeignet?</summary>
+                <p>Ja, alle unsere Behandlungen sind individuell auf Ihren Hauttyp anpassbar. Besonders Hydrafacial und ColdPlasma zeichnen sich durch ihre sanfte Wirkungsweise aus und sind hervorragend für empfindliche Haut geeignet. Die Intensität wird bei jeder Behandlung an Ihre persönliche Hautempfindlichkeit angepasst. Bei der Erstberatung bespricht Teresa allfällige Allergien oder Unverträglichkeiten mit Ihnen, damit wir die Behandlung perfekt auf Ihre Bedürfnisse abstimmen können.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Wo befindet sich Beauty Face Lift?</summary>
+                <p>Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt, nur wenige Schritte vom Paradeplatz entfernt. Die zentrale Lage ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar: Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe. Auch mit dem Auto ist das Studio gut zugänglich, mit mehreren Parkhäusern in der Umgebung. Wir freuen uns auf Ihren Besuch in unserer Beauty Oase an Zürichs bekanntester Einkaufsstrasse.</p>
+            </details>
+        </div>
+        <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 </Base>
