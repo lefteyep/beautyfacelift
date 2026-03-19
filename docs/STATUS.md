@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift.ch
 
-**Last updated:** March 18, 2026 (after SEO/AIO overhaul)
+**Last updated:** March 19, 2026 (after pixel-perfect design implementation)
 
 ## Deployment
 
@@ -71,6 +71,24 @@
 | Canonical URLs | Done | Resolves to beautyfacelift.ch |
 | Image width/height | Done | All img tags have dimensions (CLS prevention) |
 | Internal linking | Done | Cross-links between all treatment, blog, FAQ pages |
+
+## Design Implementation (March 19, 2026)
+
+Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
+
+| Area | Changes |
+|------|---------|
+| **Homepage** | Hero: 72px heading, 18px body, service cards with gold accent left border, testimonials with star ratings, editorial grid layout |
+| **Navigation** | Refined spacing (18px 60px padding), logo 42px height, pill-shaped gold CTA, improved mobile menu |
+| **Footer** | 3-column layout with 320px horizontal padding, newsletter input with inline button, proper link spacing |
+| **Treatment pages** | Pricing cards with `.pricing-card-accent` variant, FAQ sections with 320px padding, sub-display span labels |
+| **Behandlungen overview** | Editorial guidance grid, proper card gaps, gold accent decorations |
+| **Blog** | Card grid with hover lift effects, article typography with drop cap, improved reading layout |
+| **404 page** | Centered layout with design-system typography and gold accent |
+| **Termin page** | Booking section with proper padding and heading hierarchy |
+| **CSS tokens** | Updated spacing scale, border-radius (24px cards, 100px pills), gold gradient, shadow system |
+
+**Commit:** `48fb053` — 14 files changed, 789 insertions, 387 deletions
 
 ## Feature Completion
 

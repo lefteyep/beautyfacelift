@@ -1,6 +1,18 @@
 # TODO — beautyfacelift.ch
 
-**Last updated:** March 18, 2026
+**Last updated:** March 19, 2026
+
+## ✅ Completed (March 19, 2026 — Pixel-Perfect Design Implementation)
+- [x] Implement pixel-perfect design from .pen design file across all 24 pages
+- [x] Homepage: hero typography, service cards, testimonials, editorial grid
+- [x] Navigation: refined spacing, logo sizing, pill CTA
+- [x] Footer: 3-column layout, newsletter input, proper padding
+- [x] Treatment pages: pricing cards with accent variant, FAQ section styling
+- [x] Blog: card grid with hover effects, article typography with drop caps
+- [x] 404 page: centered layout with design-system typography
+- [x] Termin page: booking section styling
+- [x] CSS: comprehensive design token updates (spacing, colors, typography, radii, shadows)
+- [x] All pages verified against .pen design file via browser inspector
 
 ## ✅ Completed (March 18, 2026 — SEO/AIO Overhaul)
 - [x] Expand all 4 treatment pages to 3000+ words (pricing, FAQs, process, testimonials)
@@ -67,4 +79,4 @@
 - [ ] Customer reminder emails (24h before appointment)
 - [ ] Multi-language support (English version)
 - [ ] Booking calendar widget on homepage
-- [ ] Design elevation: Phases 2-7 (paused, see project_design_redesign.md)
+- [x] ~~Design elevation: Phases 2-7~~ — Replaced by pixel-perfect .pen design implementation (March 19, 2026)
