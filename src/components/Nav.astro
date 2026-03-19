@@ -8,9 +8,7 @@ const isTreatment = variant === 'treatment';
 ---
 
 <nav class={`nav-minimal ${isTreatment ? 'nav-treatment' : ''}`}>
-    <a href="/" class="nav-brand">
-        <img src="/assets/beautyfacelift-zurich-kosmetikstudio-logo.png" alt="Beauty Face Lift Zürich" style="height: 50px; width: auto;">
-    </a>
+    <a href="/" class="nav-brand">Beauty Face Lift</a>
     <ul class="nav-links">
         <li><a href="/behandlungen/">Behandlungen</a></li>
         <li><a href="/ueber-uns/">Über uns</a></li>
@@ -34,9 +32,15 @@ const isTreatment = variant === 'treatment';
             <li><a href="/behandlungen/">Behandlungen</a></li>
             <li><a href="/ueber-uns/">Über uns</a></li>
             <li><a href="/blog/">Blog</a></li>
+            <li><a href="/haeufige-fragen/">Häufige Fragen</a></li>
             <li><a href="/#contact">Kontakt</a></li>
         </ul>
-        <a href="/termin/" class="pill-btn nav-mobile-cta">Termin buchen</a>
+        <a href="/termin/" class="pill-btn pill-btn-lg nav-mobile-cta">Jetzt Termin buchen</a>
+        <div class="nav-mobile-contact">
+            <a href="tel:+41792143462">+41 79 214 34 62</a>
+            <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a>
+            <span>Bahnhofstrasse 94, 8001 Zürich</span>
+        </div>
     </div>
 </div>
 

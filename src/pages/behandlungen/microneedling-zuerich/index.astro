@@ -145,7 +145,7 @@ const faqData = {
     <section class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Die Methode</div>
+                <span class="sub-display">Die Methode</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Natürliche Straffung.<br>Maximale Präzision."</h2>
                 <p class="margin-bottom-md">Microneedling (auch Kollagen-Induktionstherapie genannt) ist ein minimal-invasives dermatologisches Verfahren, bei dem feinste sterile Nadeln kontrollierte Mikroverletzungen in der Haut erzeugen, um die körpereigene Kollagen- und Elastinproduktion anzuregen. Bei Beauty Face Lift an der Bahnhofstrasse in Zürich setzen wir auf medizinische High-Tech-Pens der neuesten Generation, die mit individuell einstellbarer Nadeltiefe und Geschwindigkeit arbeiten. Dieses Verfahren unterscheidet sich grundlegend von kosmetischem Dermarolling: Durch die vertikale Penetration der Nadeln werden Mikroverletzungen gleichmässiger und kontrollierter gesetzt, was die Wundheilungskaskade effektiver aktiviert und das Infektionsrisiko minimiert.</p>
                 <p class="margin-bottom-md">Die kontrollierte Stimulation löst eine natürliche Regenerationsreaktion in der Haut aus. Fibroblasten werden aktiviert, neue Kollagenfasern vom Typ I und III bilden sich, und die Hautstruktur wird von innen heraus gestärkt. Akne-Narben verblassen, feine Linien und Falten werden sichtbar gemildert, vergrösserte Poren ziehen sich zusammen und das gesamte Hautbild wirkt ebenmässiger, straffer und jugendlicher. Im Gegensatz zu ablativen Verfahren wie Laserbehandlungen bleibt die Hautoberfläche intakt, was die Ausfallzeit auf ein Minimum reduziert.</p>
@@ -190,7 +190,7 @@ const faqData = {
                 </div>
             </div>
             <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Ablauf der Behandlung</div>
+                <span class="sub-display">Ablauf der Behandlung</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Vier Schritte zu<br>sichtbar schönerer Haut</h2>
 
                 <div class="margin-bottom-md">
@@ -246,32 +246,29 @@ const faqData = {
     <section class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim" style="flex: 1;">
-                <div class="sub-display margin-bottom-md">Preise</div>
+                <span class="sub-display">Preise</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Microneedling Preise<br>in Zürich</h2>
 
-                <div style="display: flex; flex-direction: column; gap: 2rem;">
-                    <div style="padding: 2rem; background: var(--bg-secondary); border-radius: var(--radius-card);">
-                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
-                            <h4 style="margin: 0;">Micro Basic</h4>
-                            <span style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent);">CHF 250</span>
-                        </div>
-                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">45 Minuten — Gesichtsbehandlung mit Hyaluronsäure-Serum. Ideal für den Einstieg, bei feinen Linien und zur regelmässigen Hautpflege. Inklusive Hautanalyse, Reinigung und beruhigender Nachpflege.</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-label">Micro Basic</div>
+                        <div class="pricing-price">CHF 250</div>
+                        <div class="pricing-duration">45 Minuten</div>
+                        <p>Gesichtsbehandlung mit Hyaluronsäure-Serum. Ideal für den Einstieg, bei feinen Linien und zur regelmässigen Hautpflege. Inklusive Hautanalyse, Reinigung und beruhigender Nachpflege.</p>
                     </div>
 
-                    <div style="padding: 2rem; background: var(--bg-secondary); border-radius: var(--radius-card); border: 1px solid var(--accent);">
-                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
-                            <h4 style="margin: 0;">Micro Premium <span style="font-size: 0.75rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.05em;">Beliebt</span></h4>
-                            <span style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent);">CHF 350</span>
-                        </div>
-                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">60 Minuten — Inklusive PRP/Eigenblut-Serum und Wachstumsfaktoren. Die intensivste Variante für maximale Kollagenstimulation. Ideal bei Akne-Narben, tieferen Falten und Hyperpigmentierung.</p>
+                    <div class="pricing-card pricing-card-accent">
+                        <div class="pricing-label">Micro Premium</div>
+                        <div class="pricing-price">CHF 350</div>
+                        <div class="pricing-duration">60 Minuten</div>
+                        <p>Inklusive PRP/Eigenblut-Serum und Wachstumsfaktoren. Die intensivste Variante für maximale Kollagenstimulation. Ideal bei Akne-Narben, tieferen Falten und Hyperpigmentierung.</p>
                     </div>
 
-                    <div style="padding: 2rem; background: var(--bg-secondary); border-radius: var(--radius-card);">
-                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
-                            <h4 style="margin: 0;">Micro Intensiv</h4>
-                            <span style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent);">CHF 450</span>
-                        </div>
-                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">90 Minuten — Gesicht, Hals und Dekolleté mit Premium-Wirkstoff-Cocktail. Die umfassende Behandlung für alle, die das Maximum möchten. Inklusive LED-Lichttherapie zur beschleunigten Regeneration.</p>
+                    <div class="pricing-card">
+                        <div class="pricing-label">Micro Intensiv</div>
+                        <div class="pricing-price">CHF 450</div>
+                        <div class="pricing-duration">90 Minuten</div>
+                        <p>Gesicht, Hals und Dekolleté mit Premium-Wirkstoff-Cocktail. Die umfassende Behandlung für alle, die das Maximum möchten. Inklusive LED-Lichttherapie zur beschleunigten Regeneration.</p>
                     </div>
                 </div>
 
@@ -283,7 +280,7 @@ const faqData = {
     <!-- Testimonial -->
     <section class="container" style="padding-bottom: 10vh;">
         <div class="scroll-anim" style="text-align: center; max-width: 700px; margin: 0 auto;">
-            <div class="sub-display margin-bottom-md">Kundenstimmen</div>
+            <span class="sub-display">Kundenstimmen</span>
             <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">★★★★★</div>
             <blockquote style="margin: 0; padding: 0;">
                 <p style="font-family: var(--font-serif); font-size: clamp(1.5rem, 2.5vw, 2rem); font-style: italic; line-height: 1.4; margin-bottom: 1rem;">"Nur zum empfehlen"</p>
@@ -299,7 +296,7 @@ const faqData = {
     <section class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Optimale Kombinationen</div>
+                <span class="sub-display">Optimale Kombinationen</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Microneedling &amp;<br>Ergänzende Treatments</h2>
                 <p class="margin-bottom-md">Für maximale Ergebnisse lässt sich Microneedling bei Beauty Face Lift in Zürich ideal mit weiteren Behandlungen kombinieren. Unsere beliebtesten Synergien:</p>
 
@@ -323,8 +320,8 @@ const faqData = {
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section pad-y container">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Häufig gestellte Fragen</div>
+    <section class="faq-section" style="padding: 80px 320px;">
+        <div class="faq-label">Häufig gestellte Fragen</div>
         <div class="faq-list">
             <details class="faq-item scroll-anim">
                 <summary><h3>Tut Microneedling weh?</h3></summary>

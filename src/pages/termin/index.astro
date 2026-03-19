@@ -35,12 +35,16 @@ const structuredData = {
     description="Termin buchen bei Beauty Face Lift Zürich ★ 4.8/5 — Hydrafacial ab CHF 190, Microneedling, Peeling & ColdPlasma. Online Buchung in 3 Klicks. Bahnhofstrasse 94."
     structuredData={structuredData}
 >
-    <section class="container" style="padding-top: 16vh; padding-bottom: 2vh; text-align: center;">
-        <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; text-transform: none;">Termin buchen</h1>
-        <p style="max-width: 600px; margin: 0 auto 1rem;">Wählen Sie Ihre gewünschte Behandlung, ein passendes Datum und Ihre Wunschzeit — die Bestätigung erhalten Sie sofort per E-Mail.</p>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Bahnhofstrasse 94, 8001 Zürich • Mo–Fr 09–18 Uhr, Sa 10–16 Uhr</p>
+    <!-- Booking Header — design: centered, 80px 58px 40px -->
+    <section style="padding: 80px 58px 40px; text-align: center;">
+        <span class="sub-display" style="display: block; margin-bottom: 16px;">Online Buchen</span>
+        <h1 style="font-size: 42px; margin-bottom: 16px; text-transform: none;">Termin vereinbaren</h1>
+        <p style="max-width: 600px; margin: 0 auto;">Wählen Sie Ihre Behandlung und finden Sie Ihren Wunschtermin — unkompliziert und schnell.</p>
     </section>
-    <section class="container" style="padding-top: 2vh; padding-bottom: 10vh;">
+    <section style="padding: 0 200px 80px;">
         <BookingWidget client:load />
+    </section>
+    <section style="padding: 0 58px 80px; text-align: center;">
+        <p style="font-size: 13px; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Bahnhofstrasse 94 · Samstag Sonderöffnung · Persönliche Betreuung</p>
     </section>
 </Base>

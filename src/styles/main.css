@@ -21,6 +21,7 @@
   --accent: #CFA65E; /* Brand Gold */
   --accent-light: #E8D09E;
   --accent-dark: #A9803C;
+  --accent-text: #B8903A;
   --gold-gradient: linear-gradient(135deg, #E8D09E 0%, #CFA65E 40%, #A9803C 100%);
 
   /* Borders */
@@ -30,11 +31,12 @@
   /* Typography Scale */
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'Outfit', sans-serif;
-  --text-xs: 0.75rem;
-  --text-sm: 0.8125rem;
-  --text-base: 0.9375rem;
-  --text-md: 1.0625rem;
-  --tracking-caps: 0.12em;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 17px;
+  --tracking-caps: 1.9px;
+  --tracking-nav: 1.5px;
 
   /* Utils */
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -71,17 +73,17 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
 }
 
-/* Massive display text */
+/* Massive display text — 96px at 1440 desktop, scales down on mobile */
 .display-text {
-  font-size: clamp(4rem, 12vw, 14rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 8vw, 96px);
+  letter-spacing: -2px;
   white-space: nowrap;
   text-transform: uppercase;
 }
 
 .sub-display {
   font-family: var(--font-sans);
-  font-size: clamp(0.75rem, 1vw, 1rem);
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: var(--tracking-caps);
   font-weight: 500;
@@ -89,17 +91,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-  font-size: 1.0625rem;
+  font-size: 17px;
   font-weight: 300;
   line-height: 1.7;
   color: var(--text-secondary);
   max-width: 600px;
 }
 
-/* Pull Quote */
+/* Pull Quote — 38px italic per design */
 .pull-quote {
   font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.5rem, 3vw, 38px);
   font-weight: 300;
   font-style: italic;
   line-height: 1.3;
@@ -118,21 +120,21 @@ img, video {
   display: block;
 }
 
-/* Layout Utilities */
+/* Layout Utilities — design uses 58px horizontal padding at 1440 */
 .container {
   width: 100%;
-  padding: 0 4vw;
+  padding: 0 58px;
 }
 
 .pad-y {
-  padding-top: 15vh;
-  padding-bottom: 15vh;
+  padding-top: 120px;
+  padding-bottom: 120px;
 }
 
 .split-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4vw;
+  gap: 58px;
 }
 
 .margin-bottom-sm { margin-bottom: 1.5rem; }
@@ -140,17 +142,17 @@ img, video {
 .margin-bottom-lg { margin-bottom: 5rem; }
 .align-center { align-items: center; }
 
-/* Buttons */
+/* Buttons — per design: 13px/600/1.5px tracking */
 .pill-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 14px 32px;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--tracking-nav);
   border-radius: var(--radius-pill);
   background: var(--gold-gradient);
   color: #fff;
@@ -163,9 +165,14 @@ img, video {
 
 .pill-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(207, 166, 94, 0.6);
+  box-shadow: 0 6px 20px rgba(207, 166, 94, 0.5);
   filter: brightness(1.1);
   color: #fff;
+}
+
+.pill-btn-lg {
+  padding: 16px 40px;
+  box-shadow: 0 4px 20px rgba(207, 166, 94, 0.3);
 }
 
 .pill-btn-outline {
@@ -176,10 +183,10 @@ img, video {
 }
 
 .pill-btn-outline:hover {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border-color: var(--text-primary);
-  box-shadow: 0 8px 25px rgba(18, 18, 18, 0.15);
+  background: var(--bg-cream);
+  color: var(--accent-text);
+  border-color: var(--accent-text);
+  box-shadow: none;
   filter: none;
 }
 

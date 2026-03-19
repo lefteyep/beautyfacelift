@@ -132,31 +132,31 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                 (wrapper as HTMLElement).style.overflow = 'hidden';
             });
 
-            heroTl.fromTo('.title-line .text-reveal',
+            heroTl.fromTo('.hero-display-beauty .text-reveal, .hero-display-facelift .text-reveal',
                 { y: '110%', rotateY: 10 },
                 { y: '0%', rotateY: 0, duration: 1.5, stagger: 0.2, delay: 0.2 }
             )
-            .fromTo('.sub-display .text-reveal',
+            .fromTo('.hero-sub-display .text-reveal',
                 { y: '110%' },
                 { y: '0%', duration: 1 },
                 "-=1.2"
             );
 
-            // Floating emotional image fade up
-            gsap.to('#hero-float-1', {
-                y: 0,
-                opacity: 1,
-                duration: 1.5,
-                ease: "power3.out",
-                delay: 1.2
-            });
+            // Floating image fade up
+            const heroFloat = document.getElementById('hero-float-1');
+            if (heroFloat) {
+                gsap.fromTo(heroFloat,
+                    { y: 40, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 1.5, ease: "power3.out", delay: 1.2 }
+                );
+            }
 
             // 2. Hero Image Scaling on Scroll
             gsap.to('#hero-media', {
-                width: '100vw',
+                left: 0,
+                right: 0,
                 height: '100vh',
                 borderRadius: '0px',
-                y: '20vh',
                 scrollTrigger: {
                     trigger: '.hero-editorial',
                     start: 'top top',

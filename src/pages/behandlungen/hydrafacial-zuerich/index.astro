@@ -141,11 +141,11 @@ const faqData = {
 
     <Marquee items={["Tiefenreinigung", "Anti-Aging", "Glow Effekt", "Vortex Technology", "Keine Ausfallzeit", "Alle Hauttypen"]} />
 
-    <!-- Content Split -->
+    <!-- Content Split — design: 120px 58px, 58px gap -->
     <section class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Das Erlebnis</div>
+                <span class="sub-display">Das Erlebnis</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Perfekter Glow.<br>Ohne Downtime."</h2>
                 <p class="margin-bottom-md">Hydrafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet und weltweit zu den beliebtesten Medical-Spa-Behandlungen zählt. Bei Beauty Face Lift an der Bahnhofstrasse in Zürich erleben Sie diese revolutionäre Technologie in einem exklusiven Ambiente, das Luxus und persönliche Betreuung vereint. Jede Behandlung wird von Inhaberin Teresa Stimac persönlich durchgeführt und individuell auf Ihren Hauttyp abgestimmt.</p>
                 <p class="margin-bottom-md">Die hochmoderne Vortex-Technologie unterscheidet sich grundlegend von herkömmlichen Gesichtsbehandlungen: Statt die Haut mechanisch zu belasten, erzeugt das patentierte Verfahren einen spiralförmigen Sog, der Unreinheiten und abgestorbene Hautzellen sanft aus den Poren löst. Gleichzeitig werden hochwirksame Antioxidantien, Hyaluronsäure und Peptide tief in die Haut eingeschleust — für eine Tiefenwirkung, die mit klassischen Facials nicht erreichbar ist.</p>
@@ -221,24 +221,27 @@ const faqData = {
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Preise</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim" style="text-align: center;">
-                <div class="sub-display" style="margin-bottom: 0.5rem;">Express</div>
-                <h4 style="font-size: clamp(2rem, 3vw, 2.5rem); margin-bottom: 0.5rem;">CHF 190</h4>
-                <p style="max-width: 100%;">30 Minuten — Schnelle Auffrischung für den Glow zwischendurch. Reinigung und leichtes Peeling.</p>
+    <!-- Pricing Section — design: proper pricing cards -->
+    <section class="container" style="padding-bottom: 80px;">
+        <div class="sub-display" style="text-align: center; margin-bottom: 32px;">Preise</div>
+        <div class="pricing-grid">
+            <div class="pricing-card scroll-anim">
+                <div class="pricing-label">Express</div>
+                <div class="pricing-price">CHF 190</div>
+                <div class="pricing-duration">30 Minuten</div>
+                <p style="max-width: none; text-align: center;">Schnelle Auffrischung für den Glow zwischendurch. Reinigung und leichtes Peeling.</p>
             </div>
-            <div class="highlight-item scroll-anim" style="text-align: center;">
-                <div class="sub-display" style="margin-bottom: 0.5rem;">Signature</div>
-                <h4 style="font-size: clamp(2rem, 3vw, 2.5rem); margin-bottom: 0.5rem;">CHF 280</h4>
-                <p style="max-width: 100%;">60 Minuten — Unser Klassiker. Tiefenreinigung, Peeling und individuelle Serum-Infusion für maximalen Glow.</p>
+            <div class="pricing-card pricing-card-accent scroll-anim">
+                <div class="pricing-label">Signature</div>
+                <div class="pricing-price">CHF 280</div>
+                <div class="pricing-duration">60 Minuten</div>
+                <p style="max-width: none; text-align: center;">Unser Klassiker. Tiefenreinigung, Peeling und individuelle Serum-Infusion für maximalen Glow.</p>
             </div>
-            <div class="highlight-item scroll-anim" style="text-align: center;">
-                <div class="sub-display" style="margin-bottom: 0.5rem;">Platinum</div>
-                <h4 style="font-size: clamp(2rem, 3vw, 2.5rem); margin-bottom: 0.5rem;">CHF 350</h4>
-                <p style="max-width: 100%;">90 Minuten — Das ultimative Erlebnis. Inklusive LED-Lichttherapie, Lymphdrainage und Premium-Seren.</p>
+            <div class="pricing-card scroll-anim">
+                <div class="pricing-label">Platinum</div>
+                <div class="pricing-price">CHF 350</div>
+                <div class="pricing-duration">90 Minuten</div>
+                <p style="max-width: none; text-align: center;">Das ultimative Erlebnis. Inklusive LED-Lichttherapie, Lymphdrainage und Premium-Seren.</p>
             </div>
         </div>
     </section>
@@ -255,9 +258,9 @@ const faqData = {
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section class="faq-section pad-y container">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Häufig gestellte Fragen</div>
+    <!-- FAQ Section — design: narrower padding for treatment pages -->
+    <section class="faq-section" style="padding: 80px 320px;">
+        <div class="faq-label">Häufig gestellte Fragen</div>
         <div class="faq-list">
             <details class="faq-item scroll-anim">
                 <summary><h3>Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?</h3></summary>

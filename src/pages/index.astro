@@ -140,46 +140,50 @@ const faqData = {
     preloadImage="/assets/spa_interior.png"
     structuredData={structuredData}
 >
-    <!-- Editorial Hero -->
-    <header class="hero-editorial container">
-        <div class="hero-titles">
-            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
-                <span class="text-reveal">Premium Medical Spa • Zürich</span>
-            </div>
+    <!-- Editorial Hero — design: 900px, absolute positioning -->
+    <header class="hero-editorial">
+        <h1 class="sr-only">Beauty Face Lift — Premium Medical Spa Zürich an der Bahnhofstrasse</h1>
 
-            <h1 class="sr-only">Beauty Face Lift — Premium Medical Spa Zürich an der Bahnhofstrasse</h1>
-            <div class="title-line text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal">Beauty</span>
-            </div>
-            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="font-style: italic;">Face Lift</span>
-            </div>
+        <div class="hero-sub-display sub-display text-reveal-wrapper">
+            <span class="text-reveal">Premium Medical Spa  ·  Zürich</span>
         </div>
+
+        <div class="hero-display-beauty text-reveal-wrapper" aria-hidden="true">
+            <span class="display-text text-reveal">Beauty</span>
+        </div>
+        <div class="hero-display-facelift text-reveal-wrapper" aria-hidden="true">
+            <span class="display-text text-reveal" style="font-style: italic;">Face Lift</span>
+        </div>
+
+        <a href="/termin/" class="pill-btn pill-btn-outline hero-cta">Termin vereinbaren</a>
 
         <!-- Growing Media Container via GSAP -->
         <div class="hero-media-container" id="hero-media">
             <img src="/assets/spa_interior.png" width="1200" height="800" class="hero-img-inner" id="hero-img-1" alt="Spa Ambience Luxury">
-
-            <!-- Emotional floating image -->
-            <div class="hero-floating-img" style="position: absolute; top: 15%; right: 15%; width: 22%; aspect-ratio: 3/4; border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); transform: translateY(40px); opacity: 0;" id="hero-float-1">
-                <img src="/assets/spa_facial_treatment.png" width="600" height="800" id="hero-img-2" alt="Facial Treatment" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
         </div>
 
-        <div class="scroll-indicator" aria-hidden="true"></div>
+        <!-- Floating accent image -->
+        <div class="hero-floating-image" id="hero-float-1">
+            <img src="/assets/spa_facial_treatment.png" width="600" height="800" id="hero-img-2" alt="Facial Treatment">
+        </div>
+
+        <div class="scroll-indicator" aria-hidden="true">
+            <span class="scroll-indicator-line"></span>
+            <span class="scroll-indicator-label">Scroll</span>
+        </div>
     </header>
 
     <!-- Marquee -->
     <Marquee items={["Hydrafacial", "Microneedling", "ColdPlasma", "Fruchtsäure Peeling"]} />
 
-    <!-- Asymmetrical Sticky Services -->
-    <section id="expertise" class="services-section pad-y container">
+    <!-- Asymmetrical Sticky Services — design: 120px 58px, sticky left 380px -->
+    <section id="expertise" class="services-section">
         <div class="services-wrapper">
             <!-- Left Sticky -->
             <div class="services-sticky">
-                <div class="sub-display margin-bottom-md">Behandlungen</div>
-                <h2>Unsere <br> Expertise</h2>
-                <p class="margin-bottom-lg">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild an der Bahnhofstrasse Zürich.</p>
+                <span class="sub-display">Behandlungen</span>
+                <h2>Unsere<br>Expertise</h2>
+                <p>Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild an der Bahnhofstrasse Zürich.</p>
                 <a href="/behandlungen/" class="pill-btn pill-btn-outline">Alle ansehen</a>
             </div>
 
@@ -187,79 +191,88 @@ const faqData = {
             <div class="services-list">
                 <div class="service-card scroll-anim">
                     <h3>Hydra Facial</h3>
-                    <div class="service-image-mask margin-bottom-md">
+                    <div class="service-image-mask">
                         <img src="/assets/spa_facial_treatment.png" width="600" height="400" alt="Hydra Facial" class="anim-img" loading="lazy">
                     </div>
                     <p>Tiefenreinigung, Vitalisierung & Glow. Die ultimative Pflege für Ihre Haut für den perfekten Selfie-Look.</p>
-                    <a href="/behandlungen/hydrafacial-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                    <a href="/behandlungen/hydrafacial-zuerich/" class="pill-btn pill-btn-outline">Details Erfahren</a>
                 </div>
 
                 <div class="service-card scroll-anim">
                     <h3>Micro Needling</h3>
-                    <div class="service-image-mask margin-bottom-md">
+                    <div class="service-image-mask">
                         <img src="/assets/spa_products.png" width="600" height="400" alt="Micro Needling Modules" class="anim-img" loading="lazy">
                     </div>
                     <p>Das natürliche Face-Lift ohne OP. Stimulation der Kollagenproduktion für ein verfeinertes Hautbild.</p>
-                    <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                    <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline">Details Erfahren</a>
                 </div>
 
                 <div class="service-card scroll-anim">
                     <h3>Fruchtsäure Peeling</h3>
-                    <div class="service-image-mask margin-bottom-md">
+                    <div class="service-image-mask">
                         <img src="/assets/peeling_treatment.jpg" width="600" height="400" alt="Fruchtsäure Peeling Behandlung" class="anim-img" loading="lazy">
                     </div>
                     <p>Überzeugend. Sichtbar. Kompromisslos. Tiefenreinigung für einen strahlenden Teint.</p>
-                    <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                    <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="pill-btn pill-btn-outline">Details Erfahren</a>
                 </div>
 
                 <div class="service-card scroll-anim">
                     <h3>ColdPlasma</h3>
-                    <div class="service-image-mask margin-bottom-md">
+                    <div class="service-image-mask">
                         <img src="/assets/spa_interior.png" width="600" height="400" alt="ColdPlasma Behandlung Zürich" class="anim-img" loading="lazy">
                     </div>
                     <p>Innovation für Ihre Haut. Plasma-Technologie stimuliert die Zellerneuerung und verbessert die Wirkstoffaufnahme um bis zu 300%.</p>
-                    <a href="/behandlungen/coldplasma-zuerich/" class="pill-btn pill-btn-outline" style="margin-top: 1.5rem; display: inline-block;">Details Erfahren</a>
+                    <a href="/behandlungen/coldplasma-zuerich/" class="pill-btn pill-btn-outline">Details Erfahren</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Editorial About -->
+    <!-- Editorial About — design: 120px 58px, 58px gap, image 540x650 -->
     <section id="about" class="about-editorial pad-y container">
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/teresa_portrait.jpg" width="600" height="720" alt="Teresa Stimac — Gründerin Beauty Face Lift" class="anim-img" loading="lazy">
+                <div class="about-portrait">
+                    <img src="/assets/teresa_portrait.jpg" width="540" height="650" alt="Teresa Stimac — Gründerin Beauty Face Lift" class="anim-img" loading="lazy">
                 </div>
             </div>
             <div class="about-text">
-                <div class="sub-display margin-bottom-md">Das Studio</div>
-                <h2 class="pull-quote">"Die Haut ist 90% von <br>deinem Selfie."</h2>
-                <p class="margin-bottom-md">Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von Teresa Stimac — seit über 20 Jahren selbstständige Kosmetikerin in Zürich mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
+                <span class="sub-display">Das Studio</span>
+                <blockquote class="about-quote">
+                    <p>"Die Haut ist 90% von<br>deinem Selfie."</p>
+                </blockquote>
+                <p>Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von Teresa Stimac — seit über 20 Jahren selbstständige Kosmetikerin in Zürich mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
                 <a href="/ueber-uns/" class="pill-btn pill-btn-outline">Teresa Kennenlernen</a>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Kundenstimmen</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim" style="border-left: 2px solid var(--border-medium); border-top: none; border-right: none; border-bottom: none; border-radius: 0;">
-                <p class="pull-quote" style="max-width: 100%; margin-bottom: 1.5rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem);">"Wie immer eine wunderbare Verwöhnzeit!"</p>
-                <p style="font-family: var(--font-sans); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-secondary); max-width: 100%;"><strong>Emina</strong> — Hydrafacial</p>
+    <!-- Testimonials — design: 3-column, left border, stars -->
+    <section class="testimonials-section">
+        <div class="testimonials-label">Kundenstimmen</div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card scroll-anim">
+                <span class="testimonial-stars">★★★★★</span>
+                <p class="testimonial-quote">"Wie immer eine wunderbare Verwöhnzeit!"</p>
+                <span class="testimonial-author">Emina — Hydrafacial · Treatwell verifiziert</span>
             </div>
-            <div class="highlight-item scroll-anim" style="border-left: 2px solid var(--border-medium); border-top: none; border-right: none; border-bottom: none; border-radius: 0;">
-                <p class="pull-quote" style="max-width: 100%; margin-bottom: 1.5rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem);">"Stammkunde seit 2008 — immer wieder begeistert."</p>
-                <p style="font-family: var(--font-sans); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-secondary); max-width: 100%;"><strong>Daniel</strong> — Stammkunde</p>
+            <div class="testimonial-card scroll-anim">
+                <span class="testimonial-stars">★★★★★</span>
+                <p class="testimonial-quote">"Stammkunde seit 2008 — immer wieder begeistert."</p>
+                <span class="testimonial-author">Daniel — Stammkunde · Treatwell verifiziert</span>
             </div>
-            <div class="highlight-item scroll-anim" style="border-left: 2px solid var(--border-medium); border-top: none; border-right: none; border-bottom: none; border-radius: 0;">
-                <p class="pull-quote" style="max-width: 100%; margin-bottom: 1.5rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem);">"Teresa ist charmant, warm und absolut professionell."</p>
-                <p style="font-family: var(--font-sans); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-secondary); max-width: 100%;"><strong>Andreas</strong> — Gesichtsbehandlung</p>
+            <div class="testimonial-card scroll-anim">
+                <span class="testimonial-stars">★★★★★</span>
+                <p class="testimonial-quote">"Teresa ist charmant, warm und absolut professionell."</p>
+                <span class="testimonial-author">Andreas — Gesichtsbehandlung · Treatwell verifiziert</span>
             </div>
         </div>
-        <p style="text-align: center; margin: 2.5rem auto 0; font-size: var(--text-sm); color: var(--text-secondary);">4.8 von 5 Sternen auf <a href="https://www.treatwell.ch/ort/beauty-face-lift/" target="_blank" rel="noopener" style="color: var(--text-primary); font-weight: 500;">Treatwell</a> · 240+ Bewertungen</p>
     </section>
+
+    <!-- Rating Line -->
+    <div class="rating-line">
+        <p style="text-align: center; margin: 0 auto; font-size: 13px; color: var(--text-secondary);">4.8 von 5 Sternen auf <a href="https://www.treatwell.ch/ort/beauty-face-lift/" target="_blank" rel="noopener" style="color: var(--text-primary); font-weight: 500;">Treatwell</a> · 240+ Bewertungen</p>
+    </div>
 
     <!-- Trust Strip -->
     <div class="trust-strip" aria-label="Vertrauensindikatoren">
@@ -269,9 +282,9 @@ const faqData = {
         <span class="trust-strip-item">Persönliche Betreuung</span>
     </div>
 
-    <!-- FAQ Section -->
-    <section class="faq-section pad-y container">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Häufig gestellte Fragen</div>
+    <!-- FAQ Section — design: 120px 160px padding -->
+    <section class="faq-section">
+        <div class="faq-label">Häufig gestellte Fragen</div>
         <div class="faq-list">
             <details class="faq-item">
                 <summary>Was ist ein Medical Spa?</summary>

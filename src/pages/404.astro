@@ -9,54 +9,55 @@ import Base from '../layouts/Base.astro';
 >
     <section class="container error-page">
         <div class="error-content">
-            <div class="error-number">404</div>
+            <div class="error-number" aria-hidden="true">404</div>
             <h1>Seite nicht gefunden</h1>
-            <p>Die Seite, die Sie suchen, existiert leider nicht oder wurde verschoben.</p>
-            <div class="error-links">
-                <a href="/" class="pill-btn">Zur Startseite</a>
-                <a href="/behandlungen/" class="pill-btn pill-btn-outline">Behandlungen ansehen</a>
-            </div>
+            <p>Die angeforderte Seite existiert nicht. Vielleicht finden Sie, was Sie suchen, auf unserer Startseite.</p>
+            <a href="/" class="pill-btn pill-btn-outline">Alle ansehen</a>
         </div>
     </section>
 </Base>
 
 <style>
     .error-page {
-        height: 100vh;
+        min-height: 700px;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
+        padding: 0 58px;
     }
 
     .error-content {
-        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
     }
 
     .error-number {
         font-family: var(--font-serif);
-        font-size: clamp(6rem, 15vw, 12rem);
+        font-size: clamp(8rem, 20vw, 16rem);
         line-height: 1;
-        color: var(--accent);
-        opacity: 0.3;
-        margin-bottom: 1rem;
+        color: var(--text-primary);
+        opacity: 0.06;
+        letter-spacing: 8px;
     }
 
     .error-page h1 {
-        font-size: clamp(2rem, 4vw, 3rem);
-        margin-bottom: 1.5rem;
+        font-family: var(--font-serif);
+        font-size: 38px;
         text-transform: none;
+        margin: 0;
     }
 
     .error-page p {
-        max-width: none;
-        margin-bottom: 2.5rem;
+        max-width: 500px;
+        margin: 0;
+        text-align: center;
     }
 
-    .error-links {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
+    @media (max-width: 900px) {
+        .error-page { padding: 0 24px; min-height: 500px; }
+        .error-page h1 { font-size: 28px; }
     }
 </style>
