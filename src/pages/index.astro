@@ -165,6 +165,8 @@ const faqData = {
                 <img src="/assets/spa_facial_treatment.png" width="600" height="800" id="hero-img-2" alt="Facial Treatment" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
+
+        <div class="scroll-indicator" aria-hidden="true"></div>
     </header>
 
     <!-- Marquee -->
@@ -175,7 +177,7 @@ const faqData = {
         <div class="services-wrapper">
             <!-- Left Sticky -->
             <div class="services-sticky">
-                <div class="sub-display margin-bottom-md">01 / Behandlungen</div>
+                <div class="sub-display margin-bottom-md">Behandlungen</div>
                 <h2>Unsere <br> Expertise</h2>
                 <p class="margin-bottom-lg">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild an der Bahnhofstrasse Zürich.</p>
                 <a href="/behandlungen/" class="pill-btn pill-btn-outline">Alle ansehen</a>
@@ -231,8 +233,8 @@ const faqData = {
                 </div>
             </div>
             <div class="about-text">
-                <div class="sub-display margin-bottom-md">02 / Das Studio</div>
-                <h2 style="font-size: clamp(2.5rem, 4vw, 4rem); text-transform: none; margin-bottom: 2rem;">"Die Haut ist 90% von <br>deinem Selfie."</h2>
+                <div class="sub-display margin-bottom-md">Das Studio</div>
+                <h2 class="pull-quote">"Die Haut ist 90% von <br>deinem Selfie."</h2>
                 <p class="margin-bottom-md">Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von Teresa Stimac — seit über 20 Jahren selbstständige Kosmetikerin in Zürich mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
                 <a href="/ueber-uns/" class="pill-btn pill-btn-outline">Teresa Kennenlernen</a>
             </div>
@@ -241,30 +243,35 @@ const faqData = {
 
     <!-- Testimonials -->
     <section class="container" style="padding-bottom: 15vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">03 / Kundenstimmen</div>
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">Kundenstimmen</div>
         <div class="highlights-grid">
-            <div class="highlight-item scroll-anim" style="text-align: center;">
-                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); font-style: italic; max-width: 100%; margin-bottom: 1.5rem;">"Wie immer eine wunderbare Verwöhnzeit!"</p>
-                <p style="font-size: 0.85rem; max-width: 100%;"><strong>Emina</strong> — Hydrafacial Kundin</p>
-                <p style="color: var(--accent); max-width: 100%; font-size: 0.85rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <div class="highlight-item scroll-anim" style="border-left: 2px solid var(--border-medium); border-top: none; border-right: none; border-bottom: none; border-radius: 0;">
+                <p class="pull-quote" style="max-width: 100%; margin-bottom: 1.5rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem);">"Wie immer eine wunderbare Verwöhnzeit!"</p>
+                <p style="font-family: var(--font-sans); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-secondary); max-width: 100%;"><strong>Emina</strong> — Hydrafacial</p>
             </div>
-            <div class="highlight-item scroll-anim" style="text-align: center;">
-                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); font-style: italic; max-width: 100%; margin-bottom: 1.5rem;">"Stammkunde seit 2008 — immer wieder begeistert."</p>
-                <p style="font-size: 0.85rem; max-width: 100%;"><strong>Daniel</strong> — Treuer Kunde seit 16 Jahren</p>
-                <p style="color: var(--accent); max-width: 100%; font-size: 0.85rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <div class="highlight-item scroll-anim" style="border-left: 2px solid var(--border-medium); border-top: none; border-right: none; border-bottom: none; border-radius: 0;">
+                <p class="pull-quote" style="max-width: 100%; margin-bottom: 1.5rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem);">"Stammkunde seit 2008 — immer wieder begeistert."</p>
+                <p style="font-family: var(--font-sans); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-secondary); max-width: 100%;"><strong>Daniel</strong> — Stammkunde</p>
             </div>
-            <div class="highlight-item scroll-anim" style="text-align: center;">
-                <p style="font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); font-style: italic; max-width: 100%; margin-bottom: 1.5rem;">"Teresa ist charmant, warm und absolut professionell."</p>
-                <p style="font-size: 0.85rem; max-width: 100%;"><strong>Andreas</strong> — Hydrating Facial Kunde</p>
-                <p style="color: var(--accent); max-width: 100%; font-size: 0.85rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <div class="highlight-item scroll-anim" style="border-left: 2px solid var(--border-medium); border-top: none; border-right: none; border-bottom: none; border-radius: 0;">
+                <p class="pull-quote" style="max-width: 100%; margin-bottom: 1.5rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem);">"Teresa ist charmant, warm und absolut professionell."</p>
+                <p style="font-family: var(--font-sans); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-secondary); max-width: 100%;"><strong>Andreas</strong> — Gesichtsbehandlung</p>
             </div>
         </div>
-        <p style="text-align: center; margin: 2rem auto 0; font-size: 0.9rem;">4.8 von 5 Sternen auf <a href="https://www.treatwell.ch/ort/beauty-face-lift/" target="_blank" rel="noopener" style="color: var(--accent);">Treatwell</a> • 240+ Bewertungen</p>
+        <p style="text-align: center; margin: 2.5rem auto 0; font-size: var(--text-sm); color: var(--text-secondary);">4.8 von 5 Sternen auf <a href="https://www.treatwell.ch/ort/beauty-face-lift/" target="_blank" rel="noopener" style="color: var(--text-primary); font-weight: 500;">Treatwell</a> · 240+ Bewertungen</p>
     </section>
+
+    <!-- Trust Strip -->
+    <div class="trust-strip" aria-label="Vertrauensindikatoren">
+        <span class="trust-strip-item">Bahnhofstrasse Zürich</span>
+        <span class="trust-strip-item">4.8 auf Treatwell</span>
+        <span class="trust-strip-item">20+ Jahre Erfahrung</span>
+        <span class="trust-strip-item">Persönliche Betreuung</span>
+    </div>
 
     <!-- FAQ Section -->
     <section class="faq-section pad-y container">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">04 / Häufig gestellte Fragen</div>
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">Häufig gestellte Fragen</div>
         <div class="faq-list">
             <details class="faq-item">
                 <summary>Was ist ein Medical Spa?</summary>

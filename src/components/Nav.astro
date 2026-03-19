@@ -7,17 +7,17 @@ const { variant = 'default' } = Astro.props;
 const isTreatment = variant === 'treatment';
 ---
 
-<nav class="nav-minimal" style={`mix-blend-mode: normal; color: var(--text-${isTreatment ? 'inverse' : 'primary'}); padding-top: 2vw;`}>
-    <a href="/" class="nav-brand" style="text-decoration: none;">
+<nav class={`nav-minimal ${isTreatment ? 'nav-treatment' : ''}`}>
+    <a href="/" class="nav-brand">
         <img src="/assets/beautyfacelift-zurich-kosmetikstudio-logo.png" alt="Beauty Face Lift Zürich" style="height: 50px; width: auto;">
     </a>
-    <ul class="nav-links" style={isTreatment ? 'color: var(--text-inverse);' : ''}>
+    <ul class="nav-links">
         <li><a href="/behandlungen/">Behandlungen</a></li>
         <li><a href="/ueber-uns/">Über uns</a></li>
         <li><a href="/blog/">Blog</a></li>
         <li><a href="/#contact">Kontakt</a></li>
     </ul>
-    <a href="/termin/" class="pill-btn nav-cta" style="mix-blend-mode: normal;">Termin buchen</a>
+    <a href="/termin/" class="pill-btn nav-cta">Termin buchen</a>
 
     <!-- Mobile Hamburger -->
     <button class="nav-hamburger" aria-label="Menü öffnen" aria-expanded="false">
@@ -43,6 +43,7 @@ const isTreatment = variant === 'treatment';
 <script>
     const hamburger = document.querySelector('.nav-hamburger');
     const overlay = document.querySelector('.nav-mobile-overlay');
+    const nav = document.querySelector('.nav-minimal');
 
     if (hamburger && overlay) {
         hamburger.addEventListener('click', () => {
@@ -63,5 +64,12 @@ const isTreatment = variant === 'treatment';
                 document.body.style.overflow = '';
             });
         });
+    }
+
+    // Scroll-aware nav background
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('nav-scrolled', window.scrollY > 100);
+        }, { passive: true });
     }
 </script>

@@ -161,15 +161,30 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                     trigger: '.hero-editorial',
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: 1
+                    scrub: 1.5
                 }
             });
 
-            // 3. Image Parallax inside masked containers
+            // 3. Image Parallax + clip-path curtain reveal
             document.querySelectorAll('.service-image-mask, .about-image .service-image-mask').forEach(container => {
                 const img = container.querySelector('.anim-img');
                 if (!img) return;
 
+                // Curtain-up reveal
+                gsap.fromTo(container,
+                    { clipPath: 'inset(100% 0 0 0)' },
+                    {
+                        clipPath: 'inset(0 0 0 0)',
+                        duration: 1.2,
+                        ease: 'expo.out',
+                        scrollTrigger: {
+                            trigger: container,
+                            start: 'top 85%',
+                        }
+                    }
+                );
+
+                // Parallax
                 gsap.fromTo(img,
                     { y: '-10%' },
                     {

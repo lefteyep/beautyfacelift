@@ -1,8 +1,15 @@
 /* Booking Widget */
+.booking-section-wrapper {
+  background: var(--bg-warm);
+  border-radius: var(--radius-card);
+  padding: 6vw 4vw;
+  margin: 0 4vw;
+}
+
 .booking-widget {
   max-width: 700px;
   margin: 0 auto;
-  padding: 3rem 0;
+  padding: 0;
 }
 
 .booking-header {
@@ -13,59 +20,34 @@
 .booking-header h2 {
   font-size: clamp(2rem, 4vw, 3rem);
   margin-bottom: 2rem;
-  text-transform: none;
 }
 
-/* Step Indicator */
+/* Step Indicator — minimal progress bar */
 .booking-steps {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem;
+  gap: 4px;
+  margin-bottom: 0;
 }
 
 .booking-step {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  opacity: 0.35;
-  transition: opacity 0.3s ease;
+  flex: 1;
+  height: 2px;
+  background: var(--border-medium);
+  border-radius: 1px;
+  transition: background 0.4s var(--ease-expo);
 }
 
 .booking-step.active,
 .booking-step.completed {
-  opacity: 1;
+  background: var(--text-primary);
 }
 
 .booking-step-number {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.booking-step.active .booking-step-number {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-}
-
-.booking-step.completed .booking-step-number {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
+  display: none;
 }
 
 .booking-step-label {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  display: none;
 }
 
 /* Back Button */
@@ -126,7 +108,6 @@
 .booking-treatment-card h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
-  text-transform: none;
 }
 
 .booking-treatment-card p {
@@ -143,7 +124,7 @@
   font-weight: 500;
   color: var(--accent-dark);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--tracking-caps);
 }
 
 /* Calendar */
@@ -320,10 +301,10 @@
 .booking-field label {
   display: block;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-caps);
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
@@ -332,13 +313,13 @@
 .booking-field textarea {
   width: 100%;
   padding: 14px 16px;
-  border: 1px solid rgba(18, 18, 18, 0.15);
+  border: 1px solid var(--border-medium);
   border-radius: 12px;
   font-family: var(--font-sans);
   font-size: 1rem;
   background: var(--bg-secondary);
   color: var(--text-primary);
-  transition: border-color 0.2s ease;
+  transition: border-color 0.3s ease;
 }
 
 .booking-field input:focus,
@@ -362,7 +343,7 @@
 .booking-error-banner {
   background: rgba(192, 57, 43, 0.08);
   border: 1px solid rgba(192, 57, 43, 0.2);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   padding: 1rem 1.25rem;
   font-family: var(--font-sans);
   font-size: 0.9rem;
@@ -389,11 +370,13 @@
     grid-template-columns: 1fr;
   }
 
-  .booking-steps {
-    gap: 0.75rem;
+  .booking-section-wrapper {
+    margin: 0;
+    border-radius: 0;
+    padding: 10vw 6vw;
   }
 
-  .booking-step-label {
-    display: none;
+  .booking-steps {
+    gap: 3px;
   }
 }
