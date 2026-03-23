@@ -8,14 +8,16 @@ const isTreatment = variant === 'treatment';
 ---
 
 <nav class={`nav-minimal ${isTreatment ? 'nav-treatment' : ''}`}>
-    <a href="/" class="nav-brand">Beauty Face Lift</a>
+    <a href="/" class="nav-brand">
+        <img src="/assets/logo.png" alt="Beauty Face Lift" class="nav-logo" width="224" height="130">
+    </a>
     <ul class="nav-links">
         <li><a href="/behandlungen/">Behandlungen</a></li>
         <li><a href="/ueber-uns/">Über uns</a></li>
         <li><a href="/blog/">Blog</a></li>
         <li><a href="/#contact">Kontakt</a></li>
     </ul>
-    <a href="/termin/" class="pill-btn pill-btn-outline nav-cta">Termin buchen</a>
+    <a href="/termin/" class="pill-btn nav-cta">Termin buchen</a>
 
     <!-- Mobile Hamburger -->
     <button class="nav-hamburger" aria-label="Menü öffnen" aria-expanded="false">
