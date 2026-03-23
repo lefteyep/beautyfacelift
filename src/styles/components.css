@@ -378,9 +378,9 @@
 }
 
 .services-sticky p {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.65;
   max-width: 340px;
 }
 
@@ -397,18 +397,18 @@
 }
 
 .service-card h3 {
-  font-size: 42px;
+  font-size: 36px;
 }
 
 .service-card p {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .service-image-mask {
   width: 100%;
-  height: 360px;
+  height: 280px;
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-card);
@@ -504,24 +504,25 @@
 
 .highlight-number {
   font-family: var(--font-serif);
-  font-size: 3rem;
-  color: var(--accent);
-  opacity: 0.5;
+  font-size: 42px;
+  color: rgba(184, 144, 58, 0.5);
   line-height: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 .highlight-item h4 {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
-  margin-bottom: 0.75rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
 }
 
 .highlight-item p {
-  font-size: 0.95rem;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
   max-width: none;
 }
 
@@ -559,6 +560,15 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  transition: color 0.2s ease;
+}
+
+.faq-item summary:hover {
+  color: var(--accent-text);
+}
+
+.faq-item summary:hover h3 {
+  color: var(--accent-text);
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -579,7 +589,7 @@
   font-family: var(--font-sans);
   font-size: 24px;
   font-weight: 300;
-  color: var(--accent);
+  color: var(--accent-text);
   flex-shrink: 0;
   transition: transform 0.3s var(--ease-expo);
 }
@@ -604,7 +614,9 @@
 }
 
 .faq-answer-inner p {
-  font-size: 1rem;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
   max-width: none;
   padding-bottom: 2rem;
 }
@@ -645,25 +657,28 @@
 }
 
 .treatment-link-card h3 {
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-  text-transform: uppercase;
+  font-size: 36px;
+  text-transform: none;
 }
 
 .treatment-link-card p {
-  font-size: 0.95rem;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
 }
 
 .treatment-link-card .card-arrow {
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--accent);
+  letter-spacing: 1.5px;
+  color: var(--accent-text);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: auto;
+  transition: transform 0.3s ease;
 }
 
 /* Big Footer — design: 120px top, 58px horizontal, 32px bottom, corner-radius 24 24 0 0 */
@@ -708,7 +723,7 @@
   font-weight: 300;
   display: block;
   margin-bottom: 0;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
 /* Footer CTA for dark backgrounds */
@@ -827,25 +842,28 @@
 }
 
 .treatment-overview-content h3 {
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-  text-transform: uppercase;
+  font-size: 36px;
+  text-transform: none;
 }
 
 .treatment-overview-content p {
-  font-size: 0.95rem;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
 }
 
 .treatment-overview-content .card-arrow {
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--accent);
+  letter-spacing: 1.5px;
+  color: var(--accent-text);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  transition: transform 0.3s ease;
 }
 
 /* Responsive */
@@ -885,17 +903,17 @@
 
 .pricing-label {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color: var(--text-secondary);
   margin-bottom: 0;
 }
 
 .pricing-price {
   font-family: var(--font-serif);
-  font-size: 42px;
+  font-size: 36px;
   color: var(--text-primary);
   line-height: 1.1;
   margin-bottom: 0;
@@ -903,13 +921,16 @@
 
 .pricing-duration {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 300;
   color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
 .pricing-card p {
-  font-size: 0.95rem;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
   max-width: none;
 }
 
@@ -935,15 +956,17 @@
 
 .process-step h4 {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
 }
 
 .process-step p {
-  font-size: 0.95rem;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
   max-width: none;
 }
 
@@ -979,7 +1002,7 @@
 
 .about-quote p {
   font-family: var(--font-serif);
-  font-size: 38px;
+  font-size: clamp(28px, 3vw, 38px);
   font-style: italic;
   font-weight: 300;
   line-height: 1.3;
@@ -1180,7 +1203,7 @@
   .services-sticky h2 { font-size: 36px; }
   .service-card { padding: 32px 0; gap: 16px; }
   .service-card h3 { font-size: 28px; }
-  .service-image-mask { height: 240px; }
+  .service-image-mask { height: 220px; }
 
   .container { padding: 0 24px; }
   .pad-y { padding-top: 48px; padding-bottom: 48px; }
