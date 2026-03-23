@@ -9,10 +9,10 @@ const { items } = Astro.props;
 <div class="marquee-container">
     <div class="marquee-content" id="marquee-1">
         {items.map(item => (
-            <div class="marquee-item">{item} <span class="marquee-dot">+</span></div>
+            <div class="marquee-item">{item} <span class="marquee-dot">&#x2022;</span></div>
         ))}
         {items.map(item => (
-            <div class="marquee-item" aria-hidden="true">{item} <span class="marquee-dot">+</span></div>
+            <div class="marquee-item" aria-hidden="true">{item} <span class="marquee-dot">&#x2022;</span></div>
         ))}
     </div>
 </div>

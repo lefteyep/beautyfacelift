@@ -115,7 +115,17 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
         })();
     </script>
 
-    <!-- GSAP (bundled via npm, tree-shaken by Vite) -->
+    <!-- Lazy image reveal -->
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+                if (img.complete) { img.classList.add('loaded'); }
+                else { img.addEventListener('load', function() { img.classList.add('loaded'); }); }
+            });
+        });
+    </script>
+
+    <!-- GSAP — cinematic animations -->
     <script>
         import gsap from 'gsap';
         import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -125,33 +135,46 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         if (!prefersReducedMotion) {
-            // 1. Text Reveal Animation for Hero
-            const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+            // Global defaults
+            gsap.defaults({ ease: "power4.out" });
+
+            // 1. Hero Text Reveal — cinematic stagger
+            const heroTl = gsap.timeline();
 
             document.querySelectorAll('.text-reveal-wrapper').forEach(wrapper => {
                 (wrapper as HTMLElement).style.overflow = 'hidden';
             });
 
-            heroTl.fromTo('.hero-display-beauty .text-reveal, .hero-display-facelift .text-reveal',
-                { y: '110%', rotateY: 10 },
-                { y: '0%', rotateY: 0, duration: 1.5, stagger: 0.2, delay: 0.2 }
+            heroTl.fromTo('.hero-sub-display .text-reveal',
+                { y: '110%', opacity: 0 },
+                { y: '0%', opacity: 1, duration: 1, delay: 0.3 }
             )
-            .fromTo('.hero-sub-display .text-reveal',
-                { y: '110%' },
-                { y: '0%', duration: 1 },
-                "-=1.2"
+            .fromTo('.hero-display-beauty .text-reveal',
+                { y: '110%', rotateX: 8 },
+                { y: '0%', rotateX: 0, duration: 1.4 },
+                "-=0.7"
+            )
+            .fromTo('.hero-display-facelift .text-reveal',
+                { y: '110%', rotateX: 8 },
+                { y: '0%', rotateX: 0, duration: 1.4 },
+                "-=1.1"
+            )
+            .fromTo('.hero-cta',
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+                "-=0.6"
             );
 
-            // Floating image fade up
+            // 2. Floating image fade up with slight rotation
             const heroFloat = document.getElementById('hero-float-1');
             if (heroFloat) {
                 gsap.fromTo(heroFloat,
-                    { y: 40, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1.5, ease: "power3.out", delay: 1.2 }
+                    { y: 60, opacity: 0, rotate: 2 },
+                    { y: 0, opacity: 1, rotate: 0, duration: 1.8, ease: "power3.out", delay: 1.0 }
                 );
             }
 
-            // 2. Hero Image Scaling on Scroll
+            // 3. Hero Image Scaling on Scroll — smooth expansion
             gsap.to('#hero-media', {
                 left: 0,
                 right: 0,
@@ -161,11 +184,11 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                     trigger: '.hero-editorial',
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: 1.5
+                    scrub: 1.8
                 }
             });
 
-            // 3. Image Parallax + clip-path curtain reveal
+            // 4. Image Parallax + clip-path curtain reveal
             document.querySelectorAll('.service-image-mask, .about-image .service-image-mask').forEach(container => {
                 const img = container.querySelector('.anim-img');
                 if (!img) return;
@@ -175,7 +198,7 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                     { clipPath: 'inset(100% 0 0 0)' },
                     {
                         clipPath: 'inset(0 0 0 0)',
-                        duration: 1.2,
+                        duration: 1.4,
                         ease: 'expo.out',
                         scrollTrigger: {
                             trigger: container,
@@ -193,31 +216,31 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                             trigger: container,
                             start: 'top bottom',
                             end: 'bottom top',
-                            scrub: 1
+                            scrub: 1.2
                         }
                     }
                 );
             });
 
-            // 4. Fade Up Reveal for blocks
+            // 5. Fade Up Reveal for blocks — staggered with more finesse
             gsap.utils.toArray('.scroll-anim').forEach(element => {
                 gsap.fromTo(element as Element,
-                    { opacity: 0, y: 40 },
+                    { opacity: 0, y: 50 },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 1.2,
+                        duration: 1.4,
                         ease: "expo.out",
                         scrollTrigger: {
                             trigger: element as Element,
-                            start: 'top 85%',
+                            start: 'top 88%',
                             toggleActions: "play none none reverse"
                         }
                     }
                 );
             });
 
-            // 5. Treatment Hero Parallax
+            // 6. Treatment Hero Parallax
             const treatmentHeroImg = document.querySelector('#treatment-hero-img');
             if (treatmentHeroImg) {
                 gsap.fromTo(treatmentHeroImg,
@@ -234,22 +257,118 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                 );
             }
 
-            // 6. Footer Text Reveal
+            // 7. Footer Text Reveal — cinematic entrance
             const footerReveal = document.querySelector('.footer-editorial .text-reveal');
             if (footerReveal) {
                 gsap.fromTo(footerReveal,
                     { y: '110%' },
                     {
                         y: '0%',
-                        duration: 1.5,
+                        duration: 1.6,
                         ease: "expo.out",
                         scrollTrigger: {
                             trigger: '.footer-editorial',
-                            start: 'top 75%'
+                            start: 'top 80%'
                         }
                     }
                 );
             }
+
+            // 8. Parallax depth on about portrait
+            const aboutPortrait = document.querySelector('.about-portrait img');
+            if (aboutPortrait) {
+                gsap.fromTo(aboutPortrait,
+                    { y: '-5%', scale: 1.08 },
+                    {
+                        y: '5%',
+                        scale: 1.08,
+                        scrollTrigger: {
+                            trigger: '.about-portrait',
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: 1.5
+                        }
+                    }
+                );
+            }
+
+            // 9. Stagger service cards for sequential reveal
+            const serviceCards = gsap.utils.toArray('.service-card');
+            if (serviceCards.length > 0) {
+                serviceCards.forEach((card, i) => {
+                    gsap.fromTo(card as Element,
+                        { opacity: 0, y: 60 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1.2,
+                            ease: "expo.out",
+                            scrollTrigger: {
+                                trigger: card as Element,
+                                start: 'top 90%',
+                            }
+                        }
+                    );
+                });
+            }
+
+            // 10. Testimonial cards stagger
+            const testimonialCards = gsap.utils.toArray('.testimonial-card');
+            if (testimonialCards.length > 0) {
+                gsap.fromTo(testimonialCards as Element[],
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: '.testimonials-grid',
+                            start: 'top 85%',
+                        }
+                    }
+                );
+            }
+
+            // 11. FAQ items stagger
+            const faqItems = gsap.utils.toArray('.faq-item');
+            if (faqItems.length > 0) {
+                gsap.fromTo(faqItems as Element[],
+                    { opacity: 0, y: 20 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        stagger: 0.08,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: '.faq-list',
+                            start: 'top 85%',
+                        }
+                    }
+                );
+            }
+
+            // 12. Highlight/Process grid stagger
+            const highlightItems = gsap.utils.toArray('.highlight-item, .process-step');
+            if (highlightItems.length > 0) {
+                gsap.fromTo(highlightItems as Element[],
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.9,
+                        stagger: 0.1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: (highlightItems[0] as Element).parentElement,
+                            start: 'top 85%',
+                        }
+                    }
+                );
+            }
+
         } else {
             // Reduced motion: make everything visible immediately
             document.querySelectorAll('.text-reveal').forEach(el => {
@@ -264,6 +383,10 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                 heroFloat.style.opacity = '1';
                 heroFloat.style.transform = 'none';
             }
+            document.querySelectorAll('.service-card, .testimonial-card, .faq-item, .highlight-item, .process-step').forEach(el => {
+                (el as HTMLElement).style.opacity = '1';
+                (el as HTMLElement).style.transform = 'none';
+            });
         }
     </script>
 </body>
