@@ -119,12 +119,12 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: var(--tracking-tight);
 }
 
-/* Massive display text — 96px at 1440 desktop, scales down on mobile */
+/* Massive display text — 72px at 1440 desktop, scales down on mobile */
 .display-text {
-  font-size: clamp(3rem, 8vw, 96px);
-  letter-spacing: -3px;
-  white-space: nowrap;
-  text-transform: uppercase;
+  font-size: clamp(2.5rem, 5.5vw, 72px);
+  letter-spacing: -2px;
+  text-transform: none;
+  line-height: 1.05;
 }
 
 .sub-display {
