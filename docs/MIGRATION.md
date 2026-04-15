@@ -3,6 +3,7 @@
 **Date:** 2026-04-15
 **Branch:** `cf-workers-migration`
 **Plan:** [docs/superpowers/plans/2026-04-15-cloudflare-workers-migration.md](superpowers/plans/2026-04-15-cloudflare-workers-migration.md)
+**Cutover runbook (step-by-step commands):** [docs/CUTOVER-RUNBOOK.md](CUTOVER-RUNBOOK.md)
 
 ---
 
