@@ -1,0 +1,161 @@
+# Cloudflare Pages → Workers Migration
+
+**Date:** 2026-04-15
+**Branch:** `cf-workers-migration`
+**Plan:** [docs/superpowers/plans/2026-04-15-cloudflare-workers-migration.md](superpowers/plans/2026-04-15-cloudflare-workers-migration.md)
+
+---
+
+## Why We Migrated
+
+1. **Unified runtime.** Pages split into "static + Pages Functions" — Workers Static Assets unifies both under one deployable. No more juggling `functions/api/` vs. build output.
+2. **Workers-only features become available.** Durable Objects, Cron Triggers, Queues, Workers Analytics Engine are not available on Pages.
+3. **Cloudflare is steering new projects to Workers.** New features land on Workers first; Pages is maintenance-mode for static sites.
+4. **Better local dev.** `wrangler dev` runs the full production stack locally (Worker + ASSETS binding) — closer to production than Pages' local emulation.
+5. **Stale `@astrojs/cloudflare` dep.** The adapter was listed but not imported. Migration was a good moment to clean it up.
+
+---
+
+## What Changed
+
+### Deployment
+| Before | After |
+|---|---|
+| Cloudflare Pages git integration (auto-deploy on push to master) | GitHub Actions running `wrangler deploy` on push to master |
+| Dashboard: Workers & Pages → beautyfacelift (Pages project) | Dashboard: Workers & Pages → beautyfacelift (Workers project) |
+| URL: `beautyfacelift.pages.dev` | URL: `beautyfacelift.<account-subdomain>.workers.dev` |
+
+### API Layer
+| Before | After |
+|---|---|
+| `functions/api/*.ts` (5 files, `onRequestGet`/`onRequestPost` + `PagesFunction<Env>` signature) | `worker/routes/*.ts` (5 files, plain `async function(request, env): Promise<Response>`) |
+| Auto-bound `ASSETS` by Pages | Explicit `ASSETS` binding in `wrangler.jsonc` |
+| Pages served `functions/` ahead of static assets by default | Workers serve static assets by default; `run_worker_first: ["/api/*"]` overrides for `/api/*` only |
+| Each function was its own isolated script | Single Worker entry at `worker/index.ts` uses `itty-router` to dispatch |
+
+### Build Output
+**Unchanged.** `dist/` still contains 24 pre-rendered HTML pages. `output: 'static'` in `astro.config.mjs` remains. No Astro adapter is used.
+
+### New Files
+- `wrangler.jsonc` — Workers config (main entry, ASSETS binding, compat flags)
+- `worker/env.ts` — shared `Env` interface
+- `worker/index.ts` — Worker entry + itty-router
+- `worker/routes/*.ts` — 5 route handlers
+- `.github/workflows/deploy.yml` — CI deploy pipeline
+- `.dev.vars.example` — local env-var template
+- `docs/MIGRATION.md` — this file
+
+### Removed
+- `@astrojs/cloudflare` (dependency) — was stale, never imported
+
+### Archived
+- `functions/` → `functions.legacy/` (kept for reference + emergency rollback; delete after 30 days of stable Workers traffic)
+
+---
+
+## Environment Variable Mapping
+
+The variable names stay identical — only the delivery mechanism changes.
+
+| Variable | Pages location | Workers location | Notes |
+|---|---|---|---|
+| `PUBLIC_SUPABASE_URL` | Pages env var | `wrangler.jsonc` → `vars` block (public, non-secret) | |
+| `PUBLIC_SUPABASE_ANON_KEY` | Pages env var | `wrangler secret put` | |
+| `SUPABASE_SERVICE_ROLE_KEY` | Pages env var | `wrangler secret put` | Optional — bypasses RLS |
+| `META_PIXEL_ID` | Pages env var | `wrangler secret put` | Optional |
+| `META_ACCESS_TOKEN` | Pages env var | `wrangler secret put` | Optional |
+| `GA4_MEASUREMENT_ID` | Pages env var | `wrangler secret put` | Optional |
+| `GA4_API_SECRET` | Pages env var | `wrangler secret put` | Optional |
+| `STRIPE_SECRET_KEY` | Pages env var | `wrangler secret put` | Optional (not wired) |
+| `STRIPE_WEBHOOK_SECRET` | Pages env var | `wrangler secret put` | Optional (not wired) |
+| `RESEND_API_KEY` | Pages env var | `wrangler secret put` | Optional (used by Supabase Edge Function, not the Worker) |
+
+Pull current values from: Cloudflare dashboard → Workers & Pages → beautyfacelift (Pages) → Settings → Environment Variables.
+
+---
+
+## GitHub Actions Secrets
+
+Set these in the GitHub repo: Settings → Secrets and variables → Actions.
+
+**Repository secrets:**
+| Name | Source |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | dash.cloudflare.com → My Profile → API Tokens → "Edit Cloudflare Workers" template |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard sidebar (right-hand "Account ID") |
+| `PUBLIC_SUPABASE_ANON_KEY` | Supabase dashboard → Project Settings → API |
+
+**Repository variables:**
+| Name | Value |
+|---|---|
+| `PUBLIC_SUPABASE_URL` | `https://izekwngqjllaqibrwotp.supabase.co` |
+
+---
+
+## Local Development
+
+```bash
+# Option A: Astro dev server (UI work, hot reload, port 4321)
+npm run dev
+
+# Option B: Wrangler dev (full prod stack with /api/* routes, port 8787)
+cp .dev.vars.example .dev.vars    # once — then populate with real values
+npm run build                      # build assets
+npm run cf:dev                     # wrangler dev
+
+# Deploy from local (manual, useful for testing)
+npm run cf:deploy
+
+# Stream production logs
+npm run cf:tail
+```
+
+Use **Option A** for UI iteration — hot reload is instant. Use **Option B** when testing API routes or the `ASSETS` fallthrough logic.
+
+---
+
+## Deployment URLs
+
+| Environment | URL | Status |
+|---|---|---|
+| Old Pages deploy | https://beautyfacelift.pages.dev | Still live as rollback target; disable auto-deploy in dashboard once Workers is stable |
+| New Workers deploy | https://beautyfacelift.`<account-subdomain>`.workers.dev | TBD after first `wrangler deploy` |
+| Production custom domain | https://beautyfacelift.ch | Not yet connected in Cloudflare DNS — flagged as "HIGHEST PRIORITY" in `CLAUDE.md` |
+
+---
+
+## Rollback Instructions
+
+If the Workers deploy breaks production after cutover:
+
+1. **Cloudflare dashboard → Workers & Pages → beautyfacelift (Worker) → Triggers**
+2. **Remove the custom route** (`beautyfacelift.ch/*` and `www.beautyfacelift.ch/*`).
+3. **Go to the Pages project** (`beautyfacelift` Pages, still exists until 30-day cleanup).
+4. **Custom Domains tab → re-add `beautyfacelift.ch`.** DNS propagates in seconds on Cloudflare.
+5. Traffic is back on Pages within ~1 minute.
+
+To also re-enable auto-deploys on Pages: Settings → Builds & deployments → "Auto-deploy from git" → Enable.
+
+---
+
+## Known Differences from Pages (behavioural)
+
+1. **`run_worker_first`** — assets now serve first by default. Only `/api/*` goes through the Worker. If you need a catch-all middleware (auth, logging, A/B), you have to widen this array.
+2. **No `_routes.json`** — all routing config lives in `wrangler.jsonc`.
+3. **No `_worker.js` auto-compile** — single explicit entry at `worker/index.ts`.
+4. **Assets binding is manual** — `ASSETS` is declared in `wrangler.jsonc` rather than auto-provided. The `Env` type reflects this.
+5. **Observability is opt-in** — enabled in `wrangler.jsonc` under `"observability": { "enabled": true }`.
+
+---
+
+## 30-Day Post-Migration Cleanup
+
+After 30 days of stable Workers traffic:
+
+1. Delete the old Pages project (Cloudflare dashboard → Pages project → Settings → Delete).
+2. Remove `functions.legacy/` from the repo:
+   ```bash
+   git rm -r functions.legacy
+   git commit -m "chore(cf): remove legacy Pages Functions 30 days post-migration"
+   git push origin master
+   ```
