@@ -70,6 +70,7 @@ export async function bookingsRoute(request: Request, env: Env): Promise<Respons
     .select('id').single();
 
   if (error) {
+    console.error('Booking insert failed:', JSON.stringify(error));
     return new Response(JSON.stringify({ error: 'Buchung fehlgeschlagen.' }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     });
