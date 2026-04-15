@@ -20,6 +20,10 @@ pnpm-debug.log*
 
 # cloudflare
 .wrangler/
+.dev.vars
+
+# git worktrees (superpowers)
+.worktrees/
 
 # Claude context (session memory, never push)
 CLAUDE.md
