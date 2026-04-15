@@ -13,6 +13,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL') || 'info@beautyfacelift.ch';
 const OWNER_PHONE = Deno.env.get('OWNER_PHONE') || '+41792143462';
+const EMAIL_FROM = Deno.env.get('EMAIL_FROM') || 'onboarding@resend.dev';
 
 interface BookingRecord {
   id: string;
@@ -55,7 +56,7 @@ async function sendEmail(to: string, subject: string, html: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Beauty Face Lift <noreply@beautyfacelift.ch>',
+      from: EMAIL_FROM === 'onboarding@resend.dev' ? EMAIL_FROM : `Beauty Face Lift <${EMAIL_FROM}>`,
       to: [to],
       subject,
       html,
