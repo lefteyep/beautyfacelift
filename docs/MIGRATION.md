@@ -49,8 +49,8 @@
 ### Removed
 - `@astrojs/cloudflare` (dependency) — was stale, never imported
 
-### Archived
-- `functions/` → `functions.legacy/` (kept for reference; safe to delete anytime — git history preserves the originals)
+### Archived then removed
+- `functions/` was archived to `functions.legacy/` during the migration, then deleted after the CI deploy went green. The originals live in git history at commit `394942f` for anyone who needs to read them.
 
 ---
 
@@ -149,10 +149,11 @@ The Pages project was deleted at cutover, so the "flip DNS back to Pages" path n
 ## Post-Migration Cleanup
 
 - **Pages project:** deleted 2026-04-15 during cutover.
-- **`functions.legacy/`:** still in the repo. Safe to delete anytime — git history preserves the originals. Suggested: delete once the team stops referencing it.
+- **`functions.legacy/`:** removed from the repo 2026-04-15. Originals preserved in git history at commit `394942f`.
+- **Release tag:** `v2.0.0-workers` marks the cutover commit.
+- **Feature branch + worktree:** `cf-workers-migration` branch and `.worktrees/cf-workers-migration/` worktree cleaned up after merge.
 
 ## Post-Migration TODOs
 
 1. **Rotate Supabase service_role key** — the current value was pasted into a chat during cutover. Rotate in Supabase dashboard → Settings → API Keys, then `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` with the new value.
 2. **Connect custom domain `beautyfacelift.ch`** — DNS zone needs to be added to Cloudflare, then bind the domain to the Worker (dashboard → Workers → beautyfacelift → Settings → Domains & Routes → Add Custom Domain).
-3. **Tag the release** (optional): `git tag -a v2.0.0-workers -m "Migrated from Cloudflare Pages to Workers" && git push origin v2.0.0-workers`.

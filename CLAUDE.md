@@ -50,7 +50,6 @@ astro-v2/
 │       ├── slots.ts           # GET /api/slots — time slots for date + service
 │       ├── bookings.ts        # POST /api/bookings — create booking (conflict check)
 │       └── track.ts           # POST /api/track — server-side tracking (Meta CAPI + GA4)
-├── functions.legacy/          # Archived Pages Functions (delete 30 days post-migration)
 ├── .github/workflows/deploy.yml  # CI deploy pipeline (wrangler deploy on push to master)
 ├── src/
 │   ├── components/
@@ -139,12 +138,12 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 
 ## Current Status (April 15, 2026 — migrated to Cloudflare Workers)
 
-### Migrated 2026-04-15 — Cloudflare Pages → Workers
+### Migrated 2026-04-15 — Cloudflare Pages → Workers (tag: `v2.0.0-workers`)
 - Live at https://beautyfacelift.mediapaulo.workers.dev (CI auto-deploys on push to master).
 - All API routes unified under `worker/index.ts` with `itty-router`.
 - Build output unchanged (24 static HTML pages in `dist/`).
-- Pages project deleted at cutover. Rollback via Worker version history (dashboard → Deployments → Rollback).
-- `functions/` archived as `functions.legacy/` — safe to delete anytime; git history preserves originals.
+- Pages project deleted at cutover. Rollback via Worker version history (dashboard → Deployments → Rollback) or `git revert` + push.
+- Legacy Pages Functions removed from repo; originals preserved in git history at commit `394942f`.
 - Fixed during cutover: booking RLS bug (service_role key was an anon JWT on Pages; replaced with real `sb_secret_*` key — bookings had been broken on Pages all along).
 - See `docs/MIGRATION.md` for full context, env-var mapping, and rollback steps.
 
