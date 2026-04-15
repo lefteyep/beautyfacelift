@@ -140,10 +140,12 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 ## Current Status (April 15, 2026 — migrated to Cloudflare Workers)
 
 ### Migrated 2026-04-15 — Cloudflare Pages → Workers
+- Live at https://beautyfacelift.mediapaulo.workers.dev (CI auto-deploys on push to master).
 - All API routes unified under `worker/index.ts` with `itty-router`.
 - Build output unchanged (24 static HTML pages in `dist/`).
-- `functions/` archived as `functions.legacy/` — delete after 30 days of stable Workers traffic.
-- Pages project at `beautyfacelift.pages.dev` kept live as rollback target.
+- Pages project deleted at cutover. Rollback via Worker version history (dashboard → Deployments → Rollback).
+- `functions/` archived as `functions.legacy/` — safe to delete anytime; git history preserves originals.
+- Fixed during cutover: booking RLS bug (service_role key was an anon JWT on Pages; replaced with real `sb_secret_*` key — bookings had been broken on Pages all along).
 - See `docs/MIGRATION.md` for full context, env-var mapping, and rollback steps.
 
 ## Prior Status (March 18, 2026 — after SEO/AIO overhaul)

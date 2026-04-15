@@ -50,7 +50,7 @@
 - `@astrojs/cloudflare` (dependency) — was stale, never imported
 
 ### Archived
-- `functions/` → `functions.legacy/` (kept for reference + emergency rollback; delete after 30 days of stable Workers traffic)
+- `functions/` → `functions.legacy/` (kept for reference; safe to delete anytime — git history preserves the originals)
 
 ---
 
@@ -119,23 +119,20 @@ Use **Option A** for UI iteration — hot reload is instant. Use **Option B** wh
 
 | Environment | URL | Status |
 |---|---|---|
-| Old Pages deploy | https://beautyfacelift.pages.dev | Still live as rollback target; disable auto-deploy in dashboard once Workers is stable |
-| New Workers deploy | https://beautyfacelift.`<account-subdomain>`.workers.dev | TBD after first `wrangler deploy` |
+| Workers deploy | https://beautyfacelift.mediapaulo.workers.dev | Live (CI-deployed on push to master) |
 | Production custom domain | https://beautyfacelift.ch | Not yet connected in Cloudflare DNS — flagged as "HIGHEST PRIORITY" in `CLAUDE.md` |
+
+The old Pages project (`beautyfacelift.pages.dev`) was deleted on 2026-04-15 as part of cutover.
 
 ---
 
 ## Rollback Instructions
 
-If the Workers deploy breaks production after cutover:
+The Pages project was deleted at cutover, so the "flip DNS back to Pages" path no longer exists. If the Worker breaks:
 
-1. **Cloudflare dashboard → Workers & Pages → beautyfacelift (Worker) → Triggers**
-2. **Remove the custom route** (`beautyfacelift.ch/*` and `www.beautyfacelift.ch/*`).
-3. **Go to the Pages project** (`beautyfacelift` Pages, still exists until 30-day cleanup).
-4. **Custom Domains tab → re-add `beautyfacelift.ch`.** DNS propagates in seconds on Cloudflare.
-5. Traffic is back on Pages within ~1 minute.
-
-To also re-enable auto-deploys on Pages: Settings → Builds & deployments → "Auto-deploy from git" → Enable.
+1. **Previous Worker version:** Cloudflare dashboard → Workers & Pages → beautyfacelift → Deployments → pick a known-good version → **Rollback**. Takes seconds.
+2. **Previous git state:** `git revert` the bad commit and push — CI redeploys in ~60s.
+3. **Nuclear option:** Recreate a Pages project from an older commit (before migration). `functions.legacy/` has the originals, or use any pre-migration commit. ~10 min.
 
 ---
 
@@ -149,14 +146,13 @@ To also re-enable auto-deploys on Pages: Settings → Builds & deployments → "
 
 ---
 
-## 30-Day Post-Migration Cleanup
+## Post-Migration Cleanup
 
-After 30 days of stable Workers traffic:
+- **Pages project:** deleted 2026-04-15 during cutover.
+- **`functions.legacy/`:** still in the repo. Safe to delete anytime — git history preserves the originals. Suggested: delete once the team stops referencing it.
 
-1. Delete the old Pages project (Cloudflare dashboard → Pages project → Settings → Delete).
-2. Remove `functions.legacy/` from the repo:
-   ```bash
-   git rm -r functions.legacy
-   git commit -m "chore(cf): remove legacy Pages Functions 30 days post-migration"
-   git push origin master
-   ```
+## Post-Migration TODOs
+
+1. **Rotate Supabase service_role key** — the current value was pasted into a chat during cutover. Rotate in Supabase dashboard → Settings → API Keys, then `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` with the new value.
+2. **Connect custom domain `beautyfacelift.ch`** — DNS zone needs to be added to Cloudflare, then bind the domain to the Worker (dashboard → Workers → beautyfacelift → Settings → Domains & Routes → Add Custom Domain).
+3. **Tag the release** (optional): `git tag -a v2.0.0-workers -m "Migrated from Cloudflare Pages to Workers" && git push origin v2.0.0-workers`.
