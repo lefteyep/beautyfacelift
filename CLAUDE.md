@@ -159,6 +159,7 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 - Sitemap: priority-weighted, admin/LP/confirmation filtered
 - Geo meta tags (CH-ZH), max-image-preview:large, OG dimensions
 - Booking flow: treatment → date → time → details → submit (writes to Supabase)
+- **Email notifications (Resend)** — Supabase Edge Function `notify-booking` fires on booking INSERT/UPDATE via Database Webhook. Sends owner notification + customer confirmation. Currently in **sandbox mode** (`EMAIL_FROM=onboarding@resend.dev` default); customer emails only deliver when sender domain is verified in Resend. To switch to real sending: verify `beautyfacelift.ch` in Resend DNS + set `EMAIL_FROM=noreply@beautyfacelift.ch` in Supabase Edge Function secrets.
 - Admin dashboard: login, bookings, services, availability, blocked dates, CSV export
 - Mobile hamburger menu with full-screen overlay
 - GSAP animations with prefers-reduced-motion support
@@ -169,7 +170,7 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 - Google Search Console — verify + submit sitemap
 - Google Business Profile — claim and verify
 - Stripe deposits (needs STRIPE_SECRET_KEY, PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET)
-- Email notifications (needs RESEND_API_KEY + deploy Supabase Edge Function)
+- Email in production mode: verify `beautyfacelift.ch` sender domain in Resend (currently sandbox — see "Working" section)
 - GTM (needs PUBLIC_GTM_ID)
 - GA4 (needs GA4_MEASUREMENT_ID, GA4_API_SECRET)
 - Meta Pixel (needs META_PIXEL_ID, META_ACCESS_TOKEN)
@@ -177,7 +178,6 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 ### Known Issues
 - Admin test credentials are weak (info@pauloferreira.de / test123) — change before production
 - Stripe deposit step in BookingWidget exists but isn't wired into the main flow yet
-- Supabase Edge Function notify-booking needs to be deployed via `supabase functions deploy`
 - Placeholder images need to be replaced with real Teresa/studio photos
 
 ## Commands
