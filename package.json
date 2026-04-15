@@ -9,10 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "cf:dev": "wrangler dev",
+    "cf:build": "astro build",
+    "cf:deploy": "astro build && wrangler deploy",
+    "cf:tail": "wrangler tail"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.1.2",
     "@astrojs/partytown": "^2.1.5",
     "@astrojs/react": "^5.0.0",
     "@astrojs/sitemap": "^3.7.1",
@@ -25,7 +28,11 @@
     "astro": "^6.0.5",
     "astro-seo": "^1.1.0",
     "gsap": "^3.14.2",
+    "itty-router": "^5.0.23",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "wrangler": "^4.83.0"
   }
 }

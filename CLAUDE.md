@@ -14,7 +14,7 @@
 | Layer | Technology | Version |
 |-------|-----------|---------|
 | Framework | Astro | 6.0.5 |
-| Hosting | Cloudflare Pages (static) + Pages Functions (API) | Free tier |
+| Hosting | Cloudflare Workers Static Assets (unified) | Free tier |
 | Database | Supabase (Postgres + Auth) | Free tier, EU Frankfurt |
 | UI Islands | React | 19.2.4 |
 | Payments | Stripe (optional deposits) | Not yet configured |
@@ -26,8 +26,9 @@
 
 ## Architecture Decisions
 
-- **Static output mode** (`output: 'static'`) — all 16 pages are pre-rendered HTML. The `@astrojs/cloudflare` adapter was removed due to an `ASSETS` binding conflict with Cloudflare Pages v3 build system.
-- **API routes use Cloudflare Pages Functions** (`/functions/api/`) instead of Astro server routes. This sidesteps the adapter issue while keeping serverless API capability.
+- **Static output mode** (`output: 'static'`) — all 24 pages are pre-rendered HTML served from the Workers `ASSETS` binding. No Astro adapter is used.
+- **Unified Worker at `worker/index.ts`** — uses `itty-router` to dispatch 5 `/api/*` routes, falls through to `ASSETS` for everything else. `run_worker_first: ["/api/*"]` in `wrangler.jsonc` ensures static paths skip the Worker entirely.
+- **Deployment via Wrangler + GitHub Actions** — `wrangler deploy` runs on push to `master` via `.github/workflows/deploy.yml`. No more Pages git-integration. See `docs/MIGRATION.md` for full migration details.
 - **React islands only where interactivity is needed** — BookingWidget (`client:visible` on treatment pages, `client:load` on /termin/), AdminDashboard (`client:load`). All other pages ship zero JavaScript (except GSAP animations).
 - **No Tailwind** — the client's existing vanilla CSS design system with custom properties is maintained.
 - **GSAP bundled via npm** (not CDN) — eliminates render-blocking external scripts.
@@ -38,12 +39,19 @@
 ```
 astro-v2/
 ├── astro.config.mjs          # Astro config: static output, sitemap, react, partytown
-├── functions/api/             # Cloudflare Pages Functions (serverless API)
-│   ├── services.ts            # GET — active treatments from Supabase
-│   ├── availability.ts        # GET — available dates for a month
-│   ├── slots.ts               # GET — time slots for date + service
-│   ├── bookings.ts            # POST — create booking (conflict check)
-│   └── track.ts               # POST — server-side tracking (Meta CAPI + GA4)
+├── wrangler.jsonc             # Cloudflare Workers config (ASSETS binding, run_worker_first)
+├── .dev.vars.example          # Template for local wrangler-dev env vars
+├── worker/
+│   ├── index.ts               # Worker entry — itty-router + ASSETS fallthrough
+│   ├── env.ts                 # Shared Env interface
+│   └── routes/
+│       ├── services.ts        # GET /api/services — active treatments from Supabase
+│       ├── availability.ts    # GET /api/availability — available dates for a month
+│       ├── slots.ts           # GET /api/slots — time slots for date + service
+│       ├── bookings.ts        # POST /api/bookings — create booking (conflict check)
+│       └── track.ts           # POST /api/track — server-side tracking (Meta CAPI + GA4)
+├── functions.legacy/          # Archived Pages Functions (delete 30 days post-migration)
+├── .github/workflows/deploy.yml  # CI deploy pipeline (wrangler deploy on push to master)
 ├── src/
 │   ├── components/
 │   │   ├── Nav.astro           # Navigation + mobile hamburger
@@ -129,7 +137,16 @@ astro-v2/
 
 Single responsive breakpoint: `@media (max-width: 900px)`
 
-## Current Status (March 18, 2026 — after SEO/AIO overhaul)
+## Current Status (April 15, 2026 — migrated to Cloudflare Workers)
+
+### Migrated 2026-04-15 — Cloudflare Pages → Workers
+- All API routes unified under `worker/index.ts` with `itty-router`.
+- Build output unchanged (24 static HTML pages in `dist/`).
+- `functions/` archived as `functions.legacy/` — delete after 30 days of stable Workers traffic.
+- Pages project at `beautyfacelift.pages.dev` kept live as rollback target.
+- See `docs/MIGRATION.md` for full context, env-var mapping, and rollback steps.
+
+## Prior Status (March 18, 2026 — after SEO/AIO overhaul)
 
 ### Working
 - All 24 static pages live on Cloudflare CDN (was 16)
@@ -165,15 +182,18 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 ## Commands
 
 ```bash
-npm run dev      # Local dev server (port 4321)
-npm run build    # Production build (output: dist/)
-npm run preview  # Preview production build locally
+npm run dev        # Astro dev server (UI work, hot reload, port 4321)
+npm run build      # Production build → dist/
+npm run preview    # Preview production build locally
+npm run cf:dev     # Wrangler dev (full prod stack: Worker + ASSETS, port 8787)
+npm run cf:deploy  # Build + deploy to Workers from local
+npm run cf:tail    # Stream production logs
 ```
 
 ## Deployment
 
-Auto-deploys on every `git push` to `master` branch.
-Cloudflare Pages dashboard: dash.cloudflare.com → Workers und Pages → beautyfacelift
+Auto-deploys on every `git push` to `master` branch via GitHub Actions (`.github/workflows/deploy.yml`).
+Cloudflare dashboard: dash.cloudflare.com → Workers & Pages → beautyfacelift (Worker)
 
 ## Conventions
 
