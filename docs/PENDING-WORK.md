@@ -1,0 +1,90 @@
+# Pending Work
+
+Last updated: 2026-04-15 (end of Workers migration + email setup session)
+
+Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, CI green, bookings + emails working.
+
+---
+
+## 🔴 Blocks launch on custom domain
+
+### 1. Connect `beautyfacelift.ch` to Cloudflare DNS
+
+Currently no DNS connection — site only reachable at the `.workers.dev` URL. This unblocks:
+- Real domain in browser, SEO, shareability
+- Google Search Console verification
+- Resend sender domain verification (then customer emails work in production)
+- Worker custom domain binding (replaces `.workers.dev` URL)
+
+**What to do:** find current DNS host of `beautyfacelift.ch`, transfer nameservers to Cloudflare (or move the zone), then in Cloudflare dashboard → Workers → beautyfacelift → Settings → Domains & Routes → Add Custom Domain → `beautyfacelift.ch` + `www.beautyfacelift.ch`.
+
+### 2. Rotate Supabase `service_role` key
+
+The current value (`sb_secret_rpcIMm1bprNr8KqclbuiuA_luMs7vCK`) was pasted in a chat during migration. Rotate in Supabase dashboard → Project Settings → API Keys → Rotate. Then `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` with the new value.
+
+### 3. Replace admin credentials
+
+Current: `info@pauloferreira.de / test123` (in `src/components/admin/LoginForm.tsx` or equivalent — weak test credentials). Change before first real customer reaches `/admin/`.
+
+---
+
+## 🟡 High-impact features not yet wired
+
+### Stripe deposits (code ready, blocked on keys)
+
+**Status:** `DepositStep.tsx` component exists but disconnected from `BookingWidget.tsx`.
+
+**What's needed:**
+- `STRIPE_SECRET_KEY`, `PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` from Stripe dashboard
+- Code changes:
+  - Add `worker/routes/create-payment-intent.ts` route
+  - Extend `worker/index.ts` router to dispatch to it
+  - Import `DepositStep` into `BookingWidget.tsx`, extend to 5 steps
+  - Rework booking submit flow so booking is created BEFORE deposit step, then deposit captured against the booking ID
+  - Add `stripe_payment_intent_id` column to `bookings` table (Supabase migration)
+  - Webhook route to mark bookings as `paid` on `payment_intent.succeeded`
+
+Estimated effort: 2-3 hours of implementation once keys are in hand.
+
+### Real images (blocked on assets)
+
+**Status:** Generic stock images reused across all treatment pages with misleading alt text.
+
+See [docs/IMAGES.md](IMAGES.md) for the full image brief — exact paths, dimensions, alt text context, and AI generation prompts for each.
+
+**Important:** Teresa's portrait (`teresa_portrait.jpg`) must be a real photo — never AI-generate a founder headshot. Everything else can be AI-generated as a stopgap.
+
+---
+
+## 🟢 Production email (sandbox → live)
+
+**Currently:** Working in Resend sandbox mode (`EMAIL_FROM=onboarding@resend.dev`). Owner notifications deliver to the Resend account owner's email only. Customer emails silently drop.
+
+**To go live:**
+1. Verify `beautyfacelift.ch` in Resend dashboard → Domains → Add Domain → follow the DNS record instructions (SPF, DKIM, DMARC records).
+2. Once verified, add `EMAIL_FROM=noreply@beautyfacelift.ch` to Supabase Edge Function secrets.
+3. No code change required.
+
+Blocked on custom domain (#1 above) because SPF/DKIM records must be added to Cloudflare DNS.
+
+---
+
+## 🟢 Growth / marketing setup
+
+All of these need the custom domain connected first.
+
+- **Google Search Console** — add property, verify via DNS TXT record, submit `/sitemap-index.xml`
+- **Google Business Profile** — claim Beauty Face Lift, verify via postcard (takes ~5 days)
+- **GA4** — create property, add `GA4_MEASUREMENT_ID` + `GA4_API_SECRET` as Worker secrets. Server-side tracking already wired in `worker/routes/track.ts`.
+- **Meta Pixel** — create Pixel, add `META_PIXEL_ID` + `META_ACCESS_TOKEN` as Worker secrets. CAPI already wired.
+- **GTM** — create container, add `PUBLIC_GTM_ID` as build-time env var.
+
+---
+
+## 🟢 Nice-to-haves
+
+- Deploy Supabase Edge Function notify-booking **done** (2026-04-15)
+- Delete the Pages project **done** (2026-04-15)
+- Remove `functions.legacy/` **done** (2026-04-15)
+- Tag `v2.0.0-workers` **done** (2026-04-15)
+- Node.js 24 upgrade for GitHub Actions — currently on deprecated Node 20 runners. Set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` in workflow env when ready. Not urgent — forced default June 2026.

@@ -138,6 +138,12 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 
 ## Current Status (April 15, 2026 — migrated to Cloudflare Workers)
 
+### Session references
+- **[docs/PENDING-WORK.md](docs/PENDING-WORK.md)** — canonical list of what's left, blockers, and priorities.
+- **[docs/IMAGES.md](docs/IMAGES.md)** — image brief with AI generation prompts for each placeholder image.
+- **[docs/MIGRATION.md](docs/MIGRATION.md)** — Cloudflare Pages → Workers migration context.
+- **[docs/CUTOVER-RUNBOOK.md](docs/CUTOVER-RUNBOOK.md)** — historical cutover runbook (executed 2026-04-15).
+
 ### Migrated 2026-04-15 — Cloudflare Pages → Workers (tag: `v2.0.0-workers`)
 - Live at https://beautyfacelift.mediapaulo.workers.dev (CI auto-deploys on push to master).
 - All API routes unified under `worker/index.ts` with `itty-router`.
