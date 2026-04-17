@@ -1,0 +1,140 @@
+---
+interface Item {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-accordion-lp">
+  {items.map((item, i) => (
+    <details class="faq-item-lp" open={i === 0}>
+      <summary>
+        <h3>{item.q}</h3>
+        <span class="faq-icon-lp" aria-hidden="true">
+          <span class="faq-icon-plus">+</span>
+          <span class="faq-icon-minus">−</span>
+        </span>
+      </summary>
+      <div class="faq-body-lp"><p>{item.a}</p></div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq-accordion-lp {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .faq-item-lp {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .faq-item-lp:first-child {
+    border-top: 1px solid var(--border-subtle);
+  }
+  .faq-item-lp summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    transition: color 0.3s ease;
+  }
+  .faq-item-lp summary:hover h3 {
+    color: var(--accent-text);
+  }
+  .faq-item-lp summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item-lp summary h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+  }
+
+  .faq-icon-lp {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.4s var(--ease-expo);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .faq-icon-plus,
+  .faq-icon-minus {
+    position: absolute;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .faq-icon-minus {
+    opacity: 0;
+  }
+  .faq-item-lp[open] .faq-icon-lp {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .faq-item-lp[open] .faq-icon-plus {
+    opacity: 0;
+    transform: rotate(90deg);
+  }
+  .faq-item-lp[open] .faq-icon-minus {
+    opacity: 1;
+  }
+
+  .faq-body-lp {
+    padding: 0 0 28px;
+    max-width: 680px;
+  }
+  .faq-body-lp p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  @media (max-width: 600px) {
+    .faq-item-lp summary {
+      padding: 20px 0;
+      gap: 0.75rem;
+    }
+    .faq-item-lp summary h3 {
+      font-size: 1.1rem;
+      line-height: 1.35;
+    }
+    .faq-icon-lp {
+      width: 30px;
+      height: 30px;
+    }
+    .faq-icon-plus,
+    .faq-icon-minus {
+      font-size: 1rem;
+    }
+    .faq-body-lp {
+      padding-bottom: 20px;
+    }
+    .faq-body-lp p {
+      font-size: 0.95rem;
+    }
+  }
+</style>

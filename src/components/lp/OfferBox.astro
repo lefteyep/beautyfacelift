@@ -1,0 +1,208 @@
+---
+interface Props {
+  oldPrice: number;
+  newPrice: number;
+  currency?: string;
+  discountLabel?: string;
+  eyebrow?: string;
+  urgency?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  variant?: 'chip' | 'box';
+}
+
+const {
+  oldPrice,
+  newPrice,
+  currency = 'CHF',
+  discountLabel,
+  eyebrow,
+  urgency,
+  ctaText,
+  ctaHref,
+  variant = 'box',
+} = Astro.props;
+
+const computedPercent = Math.round(((oldPrice - newPrice) / oldPrice) * 100);
+const badge = discountLabel ?? `${computedPercent}% Rabatt`;
+---
+
+{variant === 'chip' ? (
+  <div class="offer-chip">
+    <span class="offer-chip-badge">{badge}</span>
+    <span class="offer-chip-prices">
+      <s>{currency} {oldPrice.toFixed(0)}</s>
+      <strong>{currency} {newPrice.toFixed(0)}</strong>
+    </span>
+    {urgency && <span class="offer-chip-urgency">{urgency}</span>}
+  </div>
+) : (
+  <div class="offer-box">
+    {eyebrow && <div class="offer-eyebrow">{eyebrow}</div>}
+    <div class="offer-box-prices">
+      <span class="offer-old">{currency} {oldPrice.toFixed(0)}</span>
+      <span class="offer-new">{currency} {newPrice.toFixed(0)}</span>
+    </div>
+    <div class="offer-badge">{badge}</div>
+    {urgency && <p class="offer-urgency">{urgency}</p>}
+    {ctaText && ctaHref && (
+      <a href={ctaHref} class="pill-btn offer-cta">{ctaText}</a>
+    )}
+  </div>
+)}
+
+<style>
+  .offer-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem 1.1rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: var(--text-sm);
+    flex-wrap: wrap;
+    row-gap: 0.65rem;
+    max-width: 100%;
+  }
+  .offer-chip-badge {
+    background: var(--gold-gradient);
+    color: #1A1816;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: var(--shadow-gold);
+  }
+  .offer-chip-prices {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    white-space: nowrap;
+  }
+  .offer-chip-prices s {
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+  .offer-chip-prices strong {
+    font-family: var(--font-serif);
+    font-size: 1.65rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .offer-chip-urgency {
+    color: var(--text-secondary);
+    font-size: 11px;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .offer-chip-urgency::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .offer-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-card);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .offer-eyebrow {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin-bottom: 1rem;
+  }
+  .offer-box-prices {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .offer-old {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  .offer-new {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .offer-badge {
+    display: inline-block;
+    background: var(--gold-gradient);
+    color: #1A1816;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-gold);
+  }
+  .offer-urgency {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: 1.5rem;
+  }
+  .offer-cta {
+    display: inline-block;
+  }
+
+  @media (max-width: 600px) {
+    .offer-box {
+      padding: 2rem 1.25rem;
+      border-radius: 16px;
+    }
+    .offer-box-prices {
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .offer-old {
+      font-size: 1.2rem;
+    }
+    .offer-new {
+      font-size: clamp(2.25rem, 13vw, 3rem);
+    }
+    .offer-badge {
+      margin-bottom: 1rem;
+      font-size: 11px;
+    }
+    .offer-urgency {
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+    }
+    .offer-cta {
+      width: 100%;
+    }
+  }
+</style>

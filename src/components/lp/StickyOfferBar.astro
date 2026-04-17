@@ -1,0 +1,96 @@
+---
+interface Props {
+  oldPrice: number;
+  newPrice: number;
+  currency?: string;
+  href?: string;
+  ctaText?: string;
+}
+
+const {
+  oldPrice,
+  newPrice,
+  currency = 'CHF',
+  href = '#buchen',
+  ctaText = 'Jetzt buchen',
+} = Astro.props;
+---
+
+<div class="sticky-offer-bar" role="complementary" aria-label="Angebot">
+  <div class="sticky-offer-prices">
+    <span class="sticky-offer-old">{currency} {oldPrice.toFixed(0)}.-</span>
+    <strong class="sticky-offer-new">{currency} {newPrice.toFixed(0)}.-</strong>
+  </div>
+  <a href={href} class="pill-btn sticky-offer-cta">{ctaText}</a>
+</div>
+
+<style>
+  .sticky-offer-bar {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 39;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(237, 235, 230, 0.96);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border-top: 1px solid var(--border-medium);
+    box-shadow: 0 -8px 30px rgba(18, 18, 18, 0.08);
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .sticky-offer-prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    line-height: 1.1;
+  }
+  .sticky-offer-old {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  .sticky-offer-new {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .sticky-offer-cta {
+    padding: 12px 22px;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 900px) {
+    .sticky-offer-bar {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .sticky-offer-bar {
+      padding: 0.6rem 0.85rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+      gap: 0.5rem;
+    }
+    .sticky-offer-old {
+      font-size: 0.7rem;
+    }
+    .sticky-offer-new {
+      font-size: 1.3rem;
+    }
+    .sticky-offer-cta {
+      padding: 10px 16px;
+      font-size: 10px;
+      letter-spacing: 1.2px;
+    }
+  }
+</style>

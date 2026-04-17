@@ -1,0 +1,139 @@
+---
+interface Promise {
+  text: string;
+}
+
+interface Props {
+  variant?: 'rating' | 'promises';
+  rating?: string;
+  reviewCount?: string;
+  address?: string;
+  years?: string;
+  promises?: Promise[];
+  align?: 'left' | 'center';
+}
+
+const {
+  variant = 'rating',
+  rating = '4.8',
+  reviewCount = '230+ Bewertungen',
+  address = 'Bahnhofstrasse 94',
+  years = '20+ Jahre',
+  promises = [
+    { text: 'Keine Ausfallzeit' },
+    { text: 'Persönliche Betreuung' },
+    { text: 'Transparente Preise' },
+    { text: 'Unverbindliche Anfrage' },
+  ],
+  align = 'left',
+} = Astro.props;
+---
+
+{variant === 'rating' ? (
+  <div class={`trust-strip-lp trust-strip-lp--${align}`} aria-label={`${rating} von 5 Sternen, ${reviewCount}`}>
+    <span class="trust-rating-group">
+      <span class="trust-stars" aria-hidden="true">★★★★★</span>
+      <strong class="trust-rating-num">{rating}</strong>
+      <span class="trust-rating-label">{reviewCount}</span>
+    </span>
+    <span class="trust-sep" aria-hidden="true"></span>
+    <span class="trust-item">{address}</span>
+    <span class="trust-sep" aria-hidden="true"></span>
+    <span class="trust-item">{years} Erfahrung</span>
+  </div>
+) : (
+  <div class={`trust-strip-lp trust-strip-lp--promises trust-strip-lp--${align}`}>
+    {promises.map((p, i) => (
+      <>
+        {i > 0 && <span class="trust-sep" aria-hidden="true"></span>}
+        <span class="trust-item trust-item--check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          {p.text}
+        </span>
+      </>
+    ))}
+  </div>
+)}
+
+<style>
+  .trust-strip-lp {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .trust-strip-lp--left {
+    justify-content: flex-start;
+  }
+  .trust-strip-lp--center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .trust-rating-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .trust-stars {
+    color: var(--accent);
+    letter-spacing: 2px;
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+  .trust-rating-num {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .trust-rating-label {
+    color: var(--text-secondary);
+  }
+
+  .trust-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .trust-item {
+    color: var(--text-secondary);
+  }
+  .trust-item--check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--text-primary);
+  }
+  .trust-item--check svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .trust-strip-lp {
+      gap: 0.6rem;
+      font-size: 10px;
+    }
+    .trust-stars {
+      font-size: 0.85rem;
+    }
+    .trust-rating-num {
+      font-size: 0.95rem;
+    }
+  }
+</style>

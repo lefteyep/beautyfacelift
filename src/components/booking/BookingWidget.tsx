@@ -5,6 +5,7 @@ import { TreatmentSelect } from './steps/TreatmentSelect';
 import { DateSelect } from './steps/DateSelect';
 import { TimeSelect } from './steps/TimeSelect';
 import { CustomerForm } from './steps/CustomerForm';
+import { trackLead } from '../../lib/track';
 
 interface Service {
   id: string;
@@ -148,6 +149,15 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
         }
         return;
       }
+
+      // Fire Meta Lead event (client Pixel + server CAPI, deduped via event_id)
+      await trackLead({
+        email: data.email,
+        phone: data.phone,
+        value: selectedService.price_chf,
+        currency: 'CHF',
+        source: preselectedCategory || 'booking',
+      });
 
       // Redirect to confirmation
       window.location.href = result.redirect;

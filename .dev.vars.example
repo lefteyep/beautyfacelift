@@ -6,6 +6,9 @@ PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
 
 # Tracking (optional — leave blank to disable)
+# PUBLIC_META_PIXEL_ID is exposed to the browser for client-side Pixel (fbq).
+# META_PIXEL_ID + META_ACCESS_TOKEN are server-side (CAPI) — keep these secret.
+PUBLIC_META_PIXEL_ID=
 META_PIXEL_ID=
 META_ACCESS_TOKEN=
 GA4_MEASUREMENT_ID=
