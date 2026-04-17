@@ -240,3 +240,45 @@ The full-page mobile screenshot revealed inconsistent section padding, some over
 - `src/components/lp/FAQAccordion.astro` — ≤600px block expansion
 - `src/components/lp/TestimonialStrip.astro` — ≤600px block expansion
 - `src/pages/lp/carbon-microneedling/index.astro` — `.lp-hero-offer`, `.lp-hero-ctas`, full rewrite of both ≤900px and ≤600px scoped blocks
+
+### Round 3 — mobile edge-padding + nav + badge flattening (commit `1eb2307`)
+
+Client reported sections "sticky to the border of the screen" on mobile plus two other visual issues.
+
+1. **Edge-padding bug (the big one)**: the mobile polish in round 2 used `.lp-section { padding: 5rem 0 }` — the `padding` shorthand **overrode** `.container { padding: 0 24px }` entirely because the Astro-scoped `.lp-section[data-astro-cid-xxx]` selector wins on specificity. Result: every content section had `padding: 5rem 0 0 0` at ≤900px → content glued to screen edges.
+   - **Fix:** swapped shorthand for `padding-block` on all three `.lp-section` rules (base `8vh`, ≤900px `5rem`, ≤600px `4rem`). `padding-block` only sets top/bottom; `.container`'s horizontal padding cascades through untouched. `#buchen.lp-section { padding-bottom: calc(...) }` was already longhand, unaffected.
+
+2. **LP nav — not sticky, centered on mobile**: nav was `position: fixed` globally and left-aligned (`justify-content: space-between` with one child pins it to start).
+   - **Fix:** added scoped `<style>` block in `LandingPage.astro` with `.nav-minimal--lp` modifier class. Scoped specificity (`data-astro-cid-xxx`) overrides global `.nav-minimal` without affecting the main site `Nav.astro`. On desktop `justify-content: flex-start`, at ≤900px `justify-content: center`. `position: static` so nav is in document flow — scrolls away with the page rather than following.
+
+3. **"27% Rabatt" badge flattened**: the gold-gradient pill containers around the discount chip read as kitschy on the editorial aesthetic.
+   - **Fix:** removed `background`, `border-radius`, `padding`, and `box-shadow` from both `.offer-chip-badge` and `.offer-badge`. Now flat gold uppercase text via `color: var(--accent-text)`. Keeps weight 600 + `--tracking-caps` letter-spacing + `text-transform: uppercase` so the "27% RABATT" still reads as a distinct label.
+
+4. **"Nur für Neukundinnen" removed site-wide**: client found the phrasing off-brand.
+   - **Fix:** dropped the `urgency="Nur für Neukundinnen"` prop from the hero `<OfferBox variant="chip" />`. Offer-box `urgency="Einführungspreis · nur für Neukundinnen"` → `"Einführungspreis"`. Meta description `"Aktion für Neukundinnen..."` → `"Einführungsaktion..."`.
+
+5. **WhatsApp label copy**: `WhatsAppButton.astro` default `label` was `"Via WhatsApp schreiben"` → `"WhatsApp schreiben"` (drop redundant "Via").
+
+### Round 4 — full typography swap to Inter + IBM Plex Sans (commit `5d1072e`)
+
+Client requested: Inter for headlines, IBM Plex Sans for body text. Remove Cormorant Garamond **and** Outfit entirely — no other font families anywhere on the site.
+
+- `package.json`: dropped `@fontsource/cormorant-garamond` **and** `@fontsource-variable/outfit`. Added `@fontsource-variable/inter` (variable) and `@fontsource/ibm-plex-sans` (static 300/400/500/600).
+- `src/styles/main.css`:
+  - Removed 4× Cormorant `@import` lines and the Outfit `@import`.
+  - Added `@import '@fontsource-variable/inter/wght.css'` (Inter variable doesn't ship per-subset entrypoints; browser unicode-range slicing handles runtime subset loading) and 4× `@fontsource/ibm-plex-sans/latin-{300,400,500,600}.css`.
+  - Flipped CSS variables: `--font-serif: 'Inter', sans-serif;` and `--font-sans: 'IBM Plex Sans', sans-serif;`.
+- **Why keep the `--font-serif` name?** The codebase has ~50+ `font-family: var(--font-serif)` references across CSS + component scoped styles (headlines, testimonials, offer prices, pull-quotes). Aliasing `--font-serif` to Inter is a one-line cascade swap; a full rename would be ~50 mechanical edits with zero additional value. Legacy naming is preserved for consistency.
+- **Intermediate detour**: round 3 briefly aliased `--font-serif` to Outfit before round 4 swapped to Inter. Outfit was dropped in round 4 so the site currently ships only Inter + IBM Plex Sans.
+
+**Built-output verification**: `grep -ic 'cormorant\|outfit'` across `dist/_astro/*.css` = 0. `grep -c 'IBM Plex Sans\|Inter'` = confirms both fonts bundled. Woff2 files for Inter (all subsets via unicode-range) + IBM Plex Sans (latin weights 300/400/500/600) ship in `dist/_astro/`.
+
+### Cumulative commit history on master
+
+| Commit | Summary |
+|--------|---------|
+| `46c5f0b` | feat(lp): initial Carbon Microneedling LP + Meta Pixel wiring (phases 1–3, round 1+2 fixes) |
+| `1eb2307` | fix(lp): edge-padded sections, static nav, flat discount badge, Outfit-only typography |
+| `5d1072e` | refactor(fonts): swap to Inter (headlines) + IBM Plex Sans (body), drop Outfit |
+
+All three auto-deployed via `.github/workflows/deploy.yml` → `wrangler deploy` to Cloudflare Workers. Live at `https://beautyfacelift.mediapaulo.workers.dev/lp/carbon-microneedling/`.
