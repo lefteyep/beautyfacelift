@@ -1,6 +1,11 @@
 /* Local fonts via @fontsource — no external Google Fonts request */
 /* Only latin subset — site is German, no Cyrillic/Vietnamese needed */
-@import '@fontsource-variable/outfit/wght.css';
+/* Inter for headlines, IBM Plex Sans for body */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource/ibm-plex-sans/latin-300.css';
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-500.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
 
 :root {
   /* Ultra-Premium Palette */
@@ -29,9 +34,10 @@
   --border-light-subtle: rgba(237, 235, 230, 0.08);
   --border-light-medium: rgba(237, 235, 230, 0.2);
 
-  /* Typography Scale — Outfit only (serif alias kept for legacy refs) */
-  --font-serif: 'Outfit', sans-serif;
-  --font-sans: 'Outfit', sans-serif;
+  /* Typography — Inter for headlines, IBM Plex Sans for body */
+  /* --font-serif kept as alias for headline refs across codebase */
+  --font-serif: 'Inter', sans-serif;
+  --font-sans: 'IBM Plex Sans', sans-serif;
   --text-xs: 11px;
   --text-sm: 13px;
   --text-base: 15px;
