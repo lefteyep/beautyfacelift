@@ -38,14 +38,47 @@ const pixelNoscriptHtml = pixelId
     {pixelId && <noscript set:html={pixelNoscriptHtml}></noscript>}
 </head>
 <body>
-    <!-- Minimal Nav: Logo only -->
-    <nav class="nav-minimal" style="mix-blend-mode: normal; color: var(--text-primary); padding-top: 2vw;">
-        <a href="/" style="text-decoration: none; pointer-events: auto;">
-            <img src="/assets/beautyfacelift-zurich-kosmetikstudio-logo.png" alt="Beauty Face Lift Zürich" style="height: 40px; width: auto;">
+    <!-- Minimal Nav: Logo only — static in document flow (scrolls with page) -->
+    <nav class="nav-minimal nav-minimal--lp">
+        <a href="/" class="nav-minimal-brand">
+            <img src="/assets/beautyfacelift-zurich-kosmetikstudio-logo.png" alt="Beauty Face Lift Zürich">
         </a>
     </nav>
 
     <slot />
+
+    <style>
+        .nav-minimal--lp {
+            position: static;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: transparent;
+            color: var(--text-primary);
+            mix-blend-mode: normal;
+        }
+        .nav-minimal-brand {
+            display: inline-flex;
+            text-decoration: none;
+            pointer-events: auto;
+        }
+        .nav-minimal-brand img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .nav-minimal--lp {
+                justify-content: center;
+                padding: 1.25rem 1.5rem;
+            }
+            .nav-minimal-brand img {
+                height: 36px;
+            }
+        }
+    </style>
 
     <!-- UTM Persistence -->
     <script is:inline>

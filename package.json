@@ -20,7 +20,6 @@
     "@astrojs/react": "^5.0.0",
     "@astrojs/sitemap": "^3.7.1",
     "@fontsource-variable/outfit": "^5.2.8",
-    "@fontsource/cormorant-garamond": "^5.2.11",
     "@stripe/stripe-js": "^8.10.0",
     "@supabase/supabase-js": "^2.99.2",
     "@types/react": "^19.2.14",

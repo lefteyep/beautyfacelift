@@ -67,16 +67,16 @@ const badge = discountLabel ?? `${computedPercent}% Rabatt`;
     max-width: 100%;
   }
   .offer-chip-badge {
-    background: var(--gold-gradient);
-    color: #1A1816;
-    padding: 0.4rem 0.9rem;
-    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--accent-text);
+    padding: 0;
+    border-radius: 0;
     font-weight: 600;
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     white-space: nowrap;
-    box-shadow: var(--shadow-gold);
+    box-shadow: none;
   }
   .offer-chip-prices {
     display: inline-flex;
@@ -158,16 +158,16 @@ const badge = discountLabel ?? `${computedPercent}% Rabatt`;
   }
   .offer-badge {
     display: inline-block;
-    background: var(--gold-gradient);
-    color: #1A1816;
-    padding: 0.4rem 1rem;
-    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--accent-text);
+    padding: 0;
+    border-radius: 0;
     font-weight: 600;
     font-size: var(--text-sm);
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     margin-bottom: 1.25rem;
-    box-shadow: var(--shadow-gold);
+    box-shadow: none;
   }
   .offer-urgency {
     color: var(--text-secondary);

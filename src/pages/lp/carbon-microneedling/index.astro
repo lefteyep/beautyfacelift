@@ -110,7 +110,7 @@ const structuredData = {
 
 <LandingPage
   title="Carbon Microneedling Zürich — CHF 160 statt 220 | Beauty Face Lift"
-  description="Carbon Microneedling an der Bahnhofstrasse Zürich. Glow-Up-Methode für straffe, porenreine Haut. Aktion für Neukundinnen: CHF 160.- statt 220.-."
+  description="Carbon Microneedling an der Bahnhofstrasse Zürich. Glow-Up-Methode für straffe, porenreine Haut. Einführungsaktion: CHF 160.- statt 220.-."
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
@@ -133,7 +133,6 @@ const structuredData = {
             variant="chip"
             oldPrice={OLD_PRICE}
             newPrice={NEW_PRICE}
-            urgency="Nur für Neukundinnen"
           />
         </div>
 
@@ -259,7 +258,7 @@ const structuredData = {
       eyebrow="Einführungsangebot"
       oldPrice={OLD_PRICE}
       newPrice={NEW_PRICE}
-      urgency="Einführungspreis · nur für Neukundinnen"
+      urgency="Einführungspreis"
       ctaText="Jetzt Platz sichern"
       ctaHref="#buchen"
     />
@@ -455,7 +454,7 @@ const structuredData = {
   /* ═══════════════════════════════════════════════════════════════
      SECTIONS (shared)
      ═══════════════════════════════════════════════════════════════ */
-  .lp-section { padding: 8vh 0; }
+  .lp-section { padding-block: 8vh; }
   .lp-section-head {
     max-width: 740px;
     margin: 0 auto 3.5rem;
@@ -838,7 +837,7 @@ const structuredData = {
   /* Small tablet → large phone */
   @media (max-width: 900px) {
     .lp-hero { padding-top: 9vh; padding-bottom: 4vh; }
-    .lp-section { padding: 5rem 0; }
+    .lp-section { padding-block: 5rem; }
     .lp-section-head { margin-bottom: 2.5rem; }
 
     .lp-divider { padding: 1rem 0; }
@@ -892,7 +891,7 @@ const structuredData = {
   /* Phone */
   @media (max-width: 600px) {
     .lp-hero { padding-top: 7vh; padding-bottom: 2vh; }
-    .lp-section { padding: 4rem 0; }
+    .lp-section { padding-block: 4rem; }
     .lp-section-head { margin-bottom: 1.75rem; }
 
     .lp-hero-content {
