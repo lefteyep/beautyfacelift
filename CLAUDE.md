@@ -20,7 +20,7 @@
 | Payments | Stripe (optional deposits) | Not yet configured |
 | CSS | Vanilla CSS with custom properties | No Tailwind |
 | Animations | GSAP + ScrollTrigger | 3.14.2 (npm bundled) |
-| Fonts | @fontsource (Cormorant Garamond + Outfit) | Latin-only subsets |
+| Fonts | @fontsource (Cormorant Garamond display + Inter body + JetBrains Mono labels) | Latin-only subsets |
 | Tracking | GTM via Partytown + server-side Meta CAPI + GA4 | Not yet configured |
 | Emails | Resend (via Supabase Edge Function) | Not yet configured |
 
@@ -118,21 +118,42 @@ astro-v2/
 └── PRD.md                      # Original Product Requirements Document
 ```
 
-## Design System
+## Design System — Atelier
+
+Warm paper neutrals + a single dark gold accent. Cormorant Garamond for display, Inter for body, JetBrains Mono for labels. No italics, no gradients, no ambient glows — emphasis through weight + colour + serif.
+
+**Live reference:** `/admin/design-system` (noindex). Pinned to Atelier spec via inline tokens so it stays correct even if site CSS drifts.
+
+Canonical tokens (in `src/styles/main.css :root`):
 
 ```css
---bg-primary: #EDEBE6    /* stone/bone background */
---bg-secondary: #F7F6F2  /* lighter cards */
---bg-dark: #121212        /* footer, dark sections */
---text-primary: #121212   /* headings */
---text-secondary: #5C5A55 /* body text */
---accent: #CFA65E         /* brand gold */
---gold-gradient: linear-gradient(135deg, #E8D09E 0%, #CFA65E 40%, #A9803C 100%)
---font-serif: 'Cormorant Garamond'  /* headings */
---font-sans: 'Outfit'              /* body, UI */
---radius-pill: 100px
---radius-card: 24px
+/* Paper neutrals */
+--paper: #F6F1EA; --paper-2: #EFE8DE; --paper-3: #E6DCCE; --bone: #FBF8F3;
+/* Ink */
+--ink: #1C1A17; --ink-2: #3B3731; --ink-3: #6E665B;
+/* Gold — the only accent */
+--gold: #B98F47; --gold-deep: #8E6A2E; --gold-soft: #E8D9B5;
+
+/* Shadows */
+--shadow-1: 0 1px 2px rgba(28,26,23,.04), 0 2px 6px rgba(28,26,23,.04);
+--shadow-2: 0 4px 14px rgba(28,26,23,.06), 0 12px 32px rgba(28,26,23,.06);
+
+/* Radii */
+--r-sm: 4px; --r-md: 8px; --r-lg: 14px; --r-xl: 22px; --r-pill: 999px;
+
+/* Type */
+--f-display: "Cormorant Garamond", "Times New Roman", serif;
+--f-body:    "Inter", ui-sans-serif, system-ui, sans-serif;
+--f-mono:    "JetBrains Mono", ui-monospace, monospace;
 ```
+
+**Legacy aliases** (`--bg-primary`, `--accent`, `--font-serif`, `--gold-gradient`, etc.) are retained and resolve through the canonical tokens so existing pages keep working. New code should prefer canonical names.
+
+**Rules:**
+- No `font-style: italic;` anywhere. Emphasise with `font-weight: 300` + `color: var(--gold)` on Cormorant (see `.accent-word` helper).
+- No gradients. `--gold-gradient` aliases to solid `var(--gold)`.
+- No glows/filters on interactive elements. `--gold-glow` aliases to `none`.
+- `.pill-btn` is solid `--gold`, hover `--gold-deep`, shadow-1 → shadow-2.
 
 Single responsive breakpoint: `@media (max-width: 900px)`
 
@@ -140,6 +161,8 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 
 ### Session references
 - **[docs/PENDING-WORK.md](docs/PENDING-WORK.md)** — canonical list of what's left, blockers, and priorities.
+- **[docs/LAYOUT-SYSTEM.md](docs/LAYOUT-SYSTEM.md)** — sitewide 1920 full-bleed / 1240 content-cap layout + hero typography refinement (2026-04-20).
+- **[docs/HERO-LAYOUT-REVISION.md](docs/HERO-LAYOUT-REVISION.md)** — earlier two-column hero rework (2026-04-20).
 - **[docs/IMAGES.md](docs/IMAGES.md)** — image brief with AI generation prompts for each placeholder image.
 - **[docs/MIGRATION.md](docs/MIGRATION.md)** — Cloudflare Pages → Workers migration context.
 - **[docs/CUTOVER-RUNBOOK.md](docs/CUTOVER-RUNBOOK.md)** — historical cutover runbook (executed 2026-04-15).

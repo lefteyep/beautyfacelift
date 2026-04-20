@@ -30,6 +30,43 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Critical layout CSS — inlined to prevent FOUC. Must apply before
+         any external stylesheet / dev-mode JS-injected CSS loads. -->
+    <style>
+        :root { --content-px: max(58px, calc(50vw - 620px)); }
+        body { margin: 0; position: relative; overflow-x: hidden; }
+        .nav-minimal {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 28px var(--content-px);
+            pointer-events: none;
+        }
+        .nav-minimal > * { pointer-events: auto; }
+        .hero-editorial { max-width: 1240px; margin: 0 auto; padding: 12vh 58px 8vh; }
+        .services-section,
+        .about-editorial,
+        .testimonials-section,
+        .faq-section,
+        .rating-line,
+        .trust-strip,
+        .footer-editorial,
+        .treatment-hero { padding-left: var(--content-px); padding-right: var(--content-px); }
+        .marquee-container { padding: 32px 0; overflow: hidden; }
+        @media (max-width: 900px) {
+            .nav-minimal { padding: 16px 24px; }
+            .hero-editorial { padding: 80px 24px 48px; }
+            .services-section,
+            .about-editorial,
+            .testimonials-section,
+            .faq-section,
+            .rating-line,
+            .trust-strip,
+            .footer-editorial,
+            .treatment-hero { padding-left: 24px; padding-right: 24px; }
+        }
+    </style>
+
     <meta name="description" content={description}>
     <title>{title}</title>
     <link rel="canonical" href={canonicalUrl}>
@@ -138,30 +175,21 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
             // Global defaults
             gsap.defaults({ ease: "power4.out" });
 
-            // 1. Hero Text Reveal — cinematic stagger
+            // 1. Hero Fade-In — simple, robust, descender-safe.
+            // immediateRender: false keeps elements at their natural CSS state
+            // until the tween actually plays. If the ticker ever stalls (e.g.
+            // tab backgrounded on load) the text stays visible instead of
+            // being stuck at opacity 0.
             const heroTl = gsap.timeline();
-
-            document.querySelectorAll('.text-reveal-wrapper').forEach(wrapper => {
-                (wrapper as HTMLElement).style.overflow = 'hidden';
-            });
-
-            heroTl.fromTo('.hero-sub-display .text-reveal',
-                { y: '110%', opacity: 0 },
-                { y: '0%', opacity: 1, duration: 1, delay: 0.3 }
+            heroTl.from('.hero-sub-display .text-reveal',
+                { opacity: 0, y: 12, duration: 0.9, delay: 0.2, immediateRender: false }
             )
-            .fromTo('.hero-display-beauty .text-reveal',
-                { y: '110%', rotateX: 8 },
-                { y: '0%', rotateX: 0, duration: 1.4 },
-                "-=0.7"
+            .from('.hero-display .text-reveal',
+                { opacity: 0, y: 20, duration: 1.1, immediateRender: false },
+                "-=0.6"
             )
-            .fromTo('.hero-display-facelift .text-reveal',
-                { y: '110%', rotateX: 8 },
-                { y: '0%', rotateX: 0, duration: 1.4 },
-                "-=1.1"
-            )
-            .fromTo('.hero-cta',
-                { y: 20, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+            .from('.hero-cta',
+                { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", immediateRender: false },
                 "-=0.6"
             );
 

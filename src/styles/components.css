@@ -6,15 +6,15 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  padding: 28px 58px;
+  right: 0;
+  padding: 28px var(--content-px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 100;
   color: var(--text-primary);
   pointer-events: none;
-  transition: padding 0.5s var(--ease-expo), background 0.5s var(--ease-expo), backdrop-filter 0.5s var(--ease-expo);
+  transition: padding-top 0.5s var(--ease-expo), padding-bottom 0.5s var(--ease-expo), background 0.5s var(--ease-expo), backdrop-filter 0.5s var(--ease-expo);
 }
 
 .nav-treatment {
@@ -257,6 +257,10 @@
 
 .hero-editorial {
   min-height: 100svh;
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -278,14 +282,12 @@
   margin: 0;
 }
 
-.hero-display-beauty {
+.hero-display {
+  font-family: var(--font-sans);
   font-style: normal;
-}
-
-.hero-display-facelift {
-  font-style: normal;
-  font-weight: 300;
-  color: var(--gold);
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
 }
 
 .hero-body {
@@ -473,7 +475,7 @@
 
 .services-section {
   position: relative;
-  padding: var(--space-2xl) 58px;
+  padding: var(--space-2xl) var(--content-px);
 }
 
 .services-wrapper {
@@ -590,7 +592,7 @@
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
-  padding: 0 58px 48px;
+  padding: 0 var(--content-px) 48px;
 }
 
 .treatment-hero .hero-titles {
@@ -693,7 +695,7 @@
 
 .faq-section {
   border-top: 1px solid var(--border-subtle);
-  padding: var(--space-2xl) var(--space-3xl);
+  padding: var(--space-2xl) max(var(--space-3xl), calc(50vw - 620px));
 }
 
 .faq-label {
@@ -870,7 +872,7 @@
 .footer-editorial {
   background: var(--bg-dark);
   color: var(--text-inverse);
-  padding: var(--space-2xl) 58px 32px;
+  padding: var(--space-2xl) var(--content-px) 32px;
   border-radius: var(--radius-card) var(--radius-card) 0 0;
   position: relative;
 }
@@ -1189,7 +1191,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .about-editorial {
-  padding: var(--space-2xl) 58px;
+  padding: var(--space-2xl) var(--content-px);
 }
 
 .about-portrait {
@@ -1238,7 +1240,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .testimonials-section {
-  padding: var(--space-xl) 58px var(--space-2xl);
+  padding: var(--space-xl) var(--content-px) var(--space-2xl);
   text-align: center;
 }
 
@@ -1302,7 +1304,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .rating-line {
-  padding: 0 58px 40px;
+  padding: 0 var(--content-px) 40px;
   display: flex;
   justify-content: center;
 }
@@ -1312,7 +1314,7 @@
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding: 44px 58px;
+  padding: 44px var(--content-px);
   font-family: var(--font-sans);
   font-size: var(--text-xs);
   text-transform: uppercase;
@@ -1413,8 +1415,7 @@
     padding: 80px 24px 48px;
   }
   .hero-content { max-width: 100%; gap: 1rem; }
-  .hero-display-beauty { font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
-  .hero-display-facelift { font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
+  .hero-display { font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
   .hero-body { max-width: 100%; font-size: 14px; }
   .hero-ctas { margin-top: 0.5rem; }
   .hero-media { order: -1; max-width: 520px; margin: 0 auto; justify-self: center; }
