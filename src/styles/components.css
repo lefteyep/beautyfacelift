@@ -92,6 +92,101 @@
   letter-spacing: var(--tracking-nav);
 }
 
+/* Nav: Treatments dropdown */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform .2s ease;
+  opacity: .7;
+}
+
+.nav-dropdown:hover .nav-dropdown-trigger::after,
+.nav-dropdown.is-open .nav-dropdown-trigger::after {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.nav-submenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  min-width: 240px;
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--paper-3);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+  z-index: 110;
+}
+
+.nav-dropdown:hover .nav-submenu,
+.nav-dropdown:focus-within .nav-submenu,
+.nav-dropdown.is-open .nav-submenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+  transition-delay: 0s;
+}
+
+.nav-submenu li {
+  margin: 0;
+}
+
+.nav-submenu a {
+  display: block;
+  padding: 10px 20px;
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease;
+}
+
+.nav-submenu a:hover,
+.nav-submenu a:focus-visible {
+  background: var(--gold-soft);
+  color: var(--gold-deep);
+  outline: none;
+}
+
+/* Hide dropdown on mobile — mobile overlay has the flat sub-list instead */
+@media (max-width: 900px) {
+  .nav-submenu {
+    display: none;
+  }
+}
+
+/* Mobile: indented sub-items under "Behandlungen" */
+.nav-mobile-sub a {
+  padding-left: 1.5rem;
+  font-size: 0.95em;
+  opacity: 0.85;
+}
+
+.nav-mobile-sub a::before {
+  content: "› ";
+  opacity: 0.5;
+}
+
 .nav-links a {
   position: relative;
   transition: opacity 0.3s ease;

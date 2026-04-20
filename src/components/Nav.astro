@@ -5,6 +5,13 @@ interface Props {
 
 const { variant = 'default' } = Astro.props;
 const isTreatment = variant === 'treatment';
+
+const treatments = [
+  { href: '/behandlungen/hydrafacial-zuerich/',         label: 'Hydrafacial' },
+  { href: '/behandlungen/microneedling-zuerich/',       label: 'Microneedling' },
+  { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', label: 'Fruchtsäure Peeling' },
+  { href: '/behandlungen/coldplasma-zuerich/',          label: 'ColdPlasma' },
+];
 ---
 
 <nav class={`nav-minimal ${isTreatment ? 'nav-treatment' : ''}`}>
@@ -12,7 +19,14 @@ const isTreatment = variant === 'treatment';
         <img src="/assets/logo.png" alt="Beauty Face Lift" class="nav-logo" width="224" height="130">
     </a>
     <ul class="nav-links">
-        <li><a href="/behandlungen/">Behandlungen</a></li>
+        <li class="nav-dropdown">
+            <a href="/behandlungen/" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">Behandlungen</a>
+            <ul class="nav-submenu" role="menu">
+                {treatments.map(t => (
+                    <li role="none"><a href={t.href} role="menuitem">{t.label}</a></li>
+                ))}
+            </ul>
+        </li>
         <li><a href="/ueber-uns/">Über uns</a></li>
         <li><a href="/blog/">Blog</a></li>
         <li><a href="/#contact">Kontakt</a></li>
@@ -32,6 +46,9 @@ const isTreatment = variant === 'treatment';
     <div class="nav-mobile-content">
         <ul class="nav-mobile-links">
             <li><a href="/behandlungen/">Behandlungen</a></li>
+            {treatments.map(t => (
+                <li class="nav-mobile-sub"><a href={t.href}>{t.label}</a></li>
+            ))}
             <li><a href="/ueber-uns/">Über uns</a></li>
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/haeufige-fragen/">Häufige Fragen</a></li>
@@ -77,5 +94,34 @@ const isTreatment = variant === 'treatment';
         window.addEventListener('scroll', () => {
             nav.classList.toggle('nav-scrolled', window.scrollY > 100);
         }, { passive: true });
+    }
+
+    // Desktop dropdown: keyboard + click-to-open on touch devices.
+    const dropdownTrigger = document.querySelector('.nav-dropdown-trigger');
+    const dropdown = document.querySelector('.nav-dropdown');
+    if (dropdownTrigger && dropdown) {
+        const setOpen = (open) => {
+            dropdown.classList.toggle('is-open', open);
+            dropdownTrigger.setAttribute('aria-expanded', String(open));
+        };
+        // Hover already works via CSS. Add focus-within + keyboard:
+        dropdown.addEventListener('focusin',  () => setOpen(true));
+        dropdown.addEventListener('focusout', (e) => {
+            if (!dropdown.contains(e.relatedTarget)) setOpen(false);
+        });
+        dropdownTrigger.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setOpen(true);
+                const first = dropdown.querySelector('.nav-submenu a');
+                first && first.focus();
+            }
+        });
+        dropdown.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                setOpen(false);
+                dropdownTrigger.focus();
+            }
+        });
     }
 </script>
