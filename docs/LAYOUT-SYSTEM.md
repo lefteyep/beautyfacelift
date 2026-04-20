@@ -101,3 +101,27 @@ Animation changed from a masked slide-up ("text lives below an `overflow: hidden
 
 - Dev preview runs in a headless/hidden context where `document.visibilityState === 'hidden'`. That stops `requestAnimationFrame`, which stops GSAP's ticker, which leaves `.from()` tweens stuck at their initial state. Using `immediateRender: false` ensures the element stays at its natural CSS state until the tween actually plays — so the page looks correct in the preview even when animations can't run.
 - Production build (`npm run build`) generates 26 static pages cleanly. All pages share the same `--content-px` token via the inlined critical CSS, so the layout is consistent everywhere.
+
+## Follow-up: sitewide container cleanup (2026-04-20)
+
+After the layout refactor above, the homepage was migrated correctly but **15 `.about-editorial` sections and 1 `.faq-section` across 7 other pages still carried a leftover `.container` class** from the pre-refactor era. `.container` defines `max-width: 1240px; padding: 0 58px;` — at equal specificity, it came later in source order than `.about-editorial`, so its 58px horizontal padding beat `var(--content-px)` _and_ its `max-width: 1240px` shrank the outer element. Net effect on wide viewports: content sat in a 1124px (= 1240 − 2×58) left-of-centre column instead of the intended 1240px-capped-but-centred cap.
+
+Removed the `container` token from every one of those sections:
+
+| Page | Sections |
+|------|----------|
+| `ueber-uns/` | 3 (`.about-editorial pad-y`) |
+| `behandlungen/hydrafacial-zuerich/` | 2 |
+| `behandlungen/microneedling-zuerich/` | 4 |
+| `behandlungen/fruchtsaeure-peeling-zuerich/` | 3 |
+| `behandlungen/coldplasma-zuerich/` | 2 |
+| `behandlungen/vergleich/` | 1 |
+| `haeufige-fragen/` | 1 (`.faq-section pad-y`) |
+
+Verification at 1920×1080: computed `padding-left` on every fixed section is now **340px** (= `max(58, 50vw − 620)` = `max(58, 340)` = 340), with `max-width: none`. Previously 58px. Grep for `(about-editorial|faq-section).*\bcontainer\b` across `src/pages` now returns 0 matches.
+
+## Follow-up: Behandlungen nav dropdown (2026-04-20)
+
+Added a CSS-driven dropdown under the "Behandlungen" nav item listing the 4 treatment pages (Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma). The top-level link continues to navigate to `/behandlungen/` on click; hover or focus reveals the submenu. Keyboard: ArrowDown/Enter/Space on the trigger opens the menu and focuses the first item; Escape closes and restores focus.
+
+On mobile (≤ 900px), the absolute-positioned submenu is hidden and replaced by 4 flat indented sub-items inside the hamburger overlay — always visible, no extra tap. The sub-items are scoped under `.nav-mobile-links .nav-mobile-sub a` to beat the existing `.nav-mobile-links a` rule that zeroes horizontal padding, and the stagger-in animation (`:nth-child(n)` with 0.06s-stepped delays) was extended from 5 items to 9 to account for the new insertions.

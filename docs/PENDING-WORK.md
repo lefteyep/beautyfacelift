@@ -1,8 +1,15 @@
 # Pending Work
 
-Last updated: 2026-04-15 (end of Workers migration + email setup session)
+Last updated: 2026-04-20 (sitewide container cleanup + nav dropdown session)
 
 Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, CI green, bookings + emails working.
+
+---
+
+## Recently completed (2026-04-20)
+
+- **Sitewide width regression fixed** — removed the leftover `.container` double-wrap from 15 `.about-editorial` + 1 `.faq-section` sections across 7 pages. Every editorial section now centres correctly at 1920px viewport (computed `padding-left: 340px`, was 58px). See [LAYOUT-SYSTEM.md § Follow-up: sitewide container cleanup](LAYOUT-SYSTEM.md#follow-up-sitewide-container-cleanup-2026-04-20).
+- **Behandlungen nav dropdown added** — desktop hover/keyboard reveals 4 treatment links; mobile overlay shows flat indented sub-items. See [LAYOUT-SYSTEM.md § Follow-up: Behandlungen nav dropdown](LAYOUT-SYSTEM.md#follow-up-behandlungen-nav-dropdown-2026-04-20).
 
 ---
 
