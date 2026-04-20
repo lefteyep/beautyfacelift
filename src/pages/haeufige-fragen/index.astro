@@ -130,7 +130,7 @@ const categories = [
 
     <!-- FAQ Categories -->
     {categories.map((category) => (
-        <section class="faq-section pad-y container">
+        <section class="faq-section pad-y">
             <div class="sub-display margin-bottom-lg" style="text-align: center;">{category.label}</div>
             <div class="faq-list">
                 {faqs.slice(category.start, category.start + category.count).map((faq) => (
