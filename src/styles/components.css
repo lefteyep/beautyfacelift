@@ -175,14 +175,16 @@
   }
 }
 
-/* Mobile: indented sub-items under "Behandlungen" */
-.nav-mobile-sub a {
+/* Mobile: indented sub-items under "Behandlungen".
+   Scoped under .nav-mobile-links to beat the existing `.nav-mobile-links a`
+   rule (padding: 28px 0) which zeroes horizontal padding. */
+.nav-mobile-links .nav-mobile-sub a {
   padding-left: 1.5rem;
-  font-size: 0.95em;
+  font-size: 0.85em;
   opacity: 0.85;
 }
 
-.nav-mobile-sub a::before {
+.nav-mobile-links .nav-mobile-sub a::before {
   content: "› ";
   opacity: 0.5;
 }
@@ -290,6 +292,10 @@
 .nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.20s; }
 .nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.26s; }
 .nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.32s; }
+.nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.38s; }
+.nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(7) { opacity: 1; transform: none; transition-delay: 0.44s; }
+.nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(8) { opacity: 1; transform: none; transition-delay: 0.50s; }
+.nav-mobile-overlay.is-open .nav-mobile-links li:nth-child(9) { opacity: 1; transform: none; transition-delay: 0.56s; }
 
 .nav-mobile-links a {
   font-family: var(--font-serif);
