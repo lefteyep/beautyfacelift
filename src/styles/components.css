@@ -256,68 +256,68 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .hero-editorial {
-  height: 100svh;
-  min-height: 700px;
-  max-height: 1000px;
+  min-height: 100svh;
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 12vh 58px 8vh;
   overflow: hidden;
 }
 
-.hero-titles {
+.hero-content {
   display: flex;
   flex-direction: column;
+  gap: 1.25rem;
+  max-width: 560px;
   z-index: 10;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 
 .hero-sub-display {
-  position: absolute;
-  top: 160px;
-  left: 58px;
-  z-index: 10;
+  margin: 0;
 }
 
 .hero-display-beauty {
-  position: absolute;
-  top: 200px;
-  left: 58px;
-  z-index: 10;
   font-style: normal;
-  max-width: 60%;
 }
 
 .hero-display-facelift {
-  position: absolute;
-  top: 290px;
-  left: 58px;
-  z-index: 10;
-  font-style: italic;
-  max-width: 60%;
+  font-style: normal;
+  font-weight: 300;
+  color: var(--gold);
 }
 
 .hero-body {
-  position: absolute;
-  top: 390px;
-  left: 58px;
-  z-index: 10;
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: 300;
   color: var(--text-secondary);
   line-height: 1.7;
   max-width: 520px;
-  margin: 0;
+  margin: 0.5rem 0 0;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
 .hero-cta {
-  position: absolute;
-  top: 500px;
-  left: 58px;
-  z-index: 10;
+  flex: 0 0 auto;
+}
+
+.pill-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  box-shadow: none;
+}
+.pill-btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .title-line {
@@ -331,42 +331,50 @@
   justify-content: flex-end;
 }
 
-.hero-media-container {
-  position: absolute;
-  bottom: 0;
-  left: 58px;
-  right: 58px;
-  height: 480px;
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
-  overflow: hidden;
-  will-change: width, height, border-radius;
+.hero-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 640px;
+  justify-self: end;
 }
 
-.hero-media-container img {
+.hero-media-main {
+  position: absolute;
+  left: 0;
+  top: 8%;
+  width: 62%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-2);
+}
+
+.hero-media-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.1);
+  display: block;
 }
 
-/* Floating accent image — overlaps background image for dynamic effect */
-.hero-floating-image {
+.hero-media-overlap {
   position: absolute;
-  bottom: 120px;
-  right: 120px;
-  width: 240px;
-  height: 320px;
+  right: 0;
+  top: 0;
+  width: 48%;
+  aspect-ratio: 1 / 1;
   border-radius: var(--radius-card);
   overflow: hidden;
-  z-index: 15;
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.08);
+  z-index: 2;
+  box-shadow: var(--shadow-2);
   border: 3px solid var(--bg-primary);
 }
 
-.hero-floating-image img {
+.hero-media-overlap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Scroll Indicator — minimal vertical line */
@@ -429,7 +437,6 @@
   font-family: var(--font-serif);
   font-size: 26px;
   text-transform: uppercase;
-  font-style: italic;
   color: rgba(237, 235, 230, 0.45);
   display: flex;
   align-items: center;
@@ -657,7 +664,7 @@
 .highlight-number {
   font-family: var(--font-serif);
   font-size: 48px;
-  color: rgba(207, 166, 94, 0.35);
+  color: rgba(185, 143, 71, 0.35);
   line-height: 1;
   margin-bottom: 16px;
   letter-spacing: -1px;
@@ -1096,9 +1103,9 @@
 }
 
 .pricing-card-accent {
-  border-color: var(--accent);
-  background: linear-gradient(180deg, rgba(207, 166, 94, 0.06) 0%, var(--bg-cream) 100%);
-  box-shadow: var(--gold-glow);
+  border-color: var(--gold);
+  background: var(--bone);
+  box-shadow: var(--shadow-1);
 }
 
 .pricing-label {
@@ -1218,7 +1225,6 @@
 .about-quote p {
   font-family: var(--font-serif);
   font-size: clamp(28px, 3vw, 38px);
-  font-style: italic;
   font-weight: 300;
   line-height: 1.3;
   color: var(--text-primary);
@@ -1275,7 +1281,6 @@
 .testimonial-quote {
   font-family: var(--font-serif);
   font-size: 22px;
-  font-style: italic;
   font-weight: 300;
   color: var(--text-primary);
   line-height: 1.4;
@@ -1352,7 +1357,6 @@
 .testimonial-block blockquote {
   font-family: var(--font-serif);
   font-size: 22px;
-  font-style: italic;
   font-weight: 300;
   color: var(--text-primary);
   line-height: 1.4;
@@ -1402,14 +1406,18 @@
   .nav-cta { display: none; }
   .nav-hamburger { display: flex; }
 
-  .hero-editorial { height: auto; min-height: auto; max-height: none; padding-bottom: 0; }
-  .hero-sub-display { position: relative; top: auto; left: auto; padding: 80px 24px 0; }
-  .hero-display-beauty { position: relative; top: auto; left: auto; padding: 8px 24px 0; font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
-  .hero-display-facelift { position: relative; top: auto; left: auto; padding: 0 24px; font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
-  .hero-body { position: relative; top: auto; left: auto; padding: 16px 24px 0; max-width: 100%; font-size: 14px; }
-  .hero-cta { position: relative; top: auto; left: auto; margin: 24px 24px 0; }
-  .hero-media-container { position: relative; left: 0; right: 0; height: 320px; border-radius: 0; margin-top: 32px; }
-  .hero-floating-image { display: none; }
+  .hero-editorial {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    min-height: auto;
+    padding: 80px 24px 48px;
+  }
+  .hero-content { max-width: 100%; gap: 1rem; }
+  .hero-display-beauty { font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
+  .hero-display-facelift { font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
+  .hero-body { max-width: 100%; font-size: 14px; }
+  .hero-ctas { margin-top: 0.5rem; }
+  .hero-media { order: -1; max-width: 520px; margin: 0 auto; justify-self: center; }
   .scroll-indicator { display: none; }
   .service-image-tall { height: 260px; }
   .nav-logo { height: 36px; }

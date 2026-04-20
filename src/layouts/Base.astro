@@ -37,7 +37,7 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
     <!-- SEO -->
     {noindex && <meta name="robots" content="noindex, nofollow">}
     {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">}
-    <meta name="theme-color" content="#CFA65E">
+    <meta name="theme-color" content="#B98F47">
     <meta name="geo.region" content="CH-ZH">
     <meta name="geo.placename" content="Zürich">
     <meta name="geo.position" content="47.3753;8.5385">
@@ -174,19 +174,6 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
                 );
             }
 
-            // 3. Hero Image Scaling on Scroll — smooth expansion
-            gsap.to('#hero-media', {
-                left: 0,
-                right: 0,
-                height: '100vh',
-                borderRadius: '0px',
-                scrollTrigger: {
-                    trigger: '.hero-editorial',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: 1.8
-                }
-            });
 
             // 4. Image Parallax + clip-path curtain reveal
             document.querySelectorAll('.service-image-mask, .about-image .service-image-mask').forEach(container => {
