@@ -297,16 +297,16 @@ body {
 }
 
 .pill-btn-outline {
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-medium);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: 1px solid var(--text-primary);
   box-shadow: none;
 }
 
 .pill-btn-outline:hover {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border-color: var(--text-primary);
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-medium);
   box-shadow: none;
   transform: translateY(-1px);
 }
