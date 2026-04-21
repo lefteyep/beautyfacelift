@@ -76,18 +76,22 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
         .marquee-container { padding: 32px 0; overflow: hidden; }
         .nav-treatment { color: #F6F1EA; }
         .nav-treatment .nav-logo { filter: brightness(0) invert(1); }
+        body.page-treatment { background: #1C1A17; }
+        body.page-treatment main { background: #F6F1EA; }
         body.page-treatment .treatment-hero {
             min-height: 600px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
+            margin-top: 0;
             padding: 0 var(--content-px) 48px;
             background: #1C1A17;
+            isolation: isolate;
         }
         body.page-treatment .treatment-hero-media {
             position: absolute;
-            inset: 0;
+            inset: -1px 0 0;
             overflow: hidden;
             border-radius: 0 0 22px 22px;
         }
@@ -124,7 +128,7 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
                 min-height: 380px;
                 padding: 0 24px 32px;
             }
-            body.page-treatment .treatment-hero-media { border-radius: 0; }
+            body.page-treatment .treatment-hero-media { inset: -1px 0 0; border-radius: 0; }
         }
     </style>
 

@@ -193,6 +193,7 @@ const isTreatment = variant === 'treatment';
         overlay.inert = false;
         overlay.setAttribute('aria-hidden', 'false');
         requestAnimationFrame(() => overlay.classList.add('is-open'));
+        nav?.classList.add('is-overlay-open');
         hamburger.classList.add('is-open');
         hamburger.setAttribute('aria-expanded', 'true');
         hamburger.setAttribute('aria-label', 'Menü schliessen');
@@ -203,6 +204,7 @@ const isTreatment = variant === 'treatment';
     const closeOverlay = (restoreFocus = true) => {
         if (!hamburger || !overlay) return;
         overlay.classList.remove('is-open');
+        nav?.classList.remove('is-overlay-open');
         hamburger.classList.remove('is-open');
         hamburger.setAttribute('aria-expanded', 'false');
         hamburger.setAttribute('aria-label', 'Menü öffnen');
