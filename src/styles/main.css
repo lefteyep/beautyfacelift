@@ -317,7 +317,7 @@ body {
 }
 
 /* Text Link Hover Animation */
-a:not(.pill-btn):not(.nav-brand):not(.treatment-overview-card):not(.treatment-link-card):not(.nav-mobile-links a):not(.wa-sticky) {
+a:not(.pill-btn):not(.nav-brand):not(.treatment-overview-card):not(.treatment-link-card):not(.nav-mobile-links a):not(.wa-sticky):not(.skip-link) {
   position: relative;
   display: inline;
 }
