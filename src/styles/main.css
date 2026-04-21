@@ -79,9 +79,9 @@
   --font-mono:  var(--f-mono);
 
   --text-xs: 12px;
-  --text-sm: 15px;
-  --text-base: 17px;
-  --text-md: 19px;
+  --text-sm: 16px;
+  --text-base: 19px;
+  --text-md: 21px;
   --text-lg: 24px;
   --tracking-caps: 2.2px;
   --tracking-nav: 1.8px;
