@@ -526,8 +526,10 @@ body.nav-lock {
   margin-top: 1rem;
 }
 
-.hero-cta {
+.hero-cta,
+.hero-cta-secondary {
   flex: 0 0 auto;
+  min-width: 325px;
 }
 
 .pill-btn-ghost {
