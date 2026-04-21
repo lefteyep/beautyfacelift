@@ -25,7 +25,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: '#CFA65E',
+  pending: '#B98F47',
   confirmed: '#27ae60',
   cancelled: '#c0392b',
   completed: '#7f8c8d',

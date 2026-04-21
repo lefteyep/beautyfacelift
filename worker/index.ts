@@ -5,6 +5,7 @@ import { availabilityRoute } from './routes/availability';
 import { slotsRoute } from './routes/slots';
 import { bookingsRoute } from './routes/bookings';
 import { trackRoute } from './routes/track';
+import { contactRoute } from './routes/contact';
 
 const router = Router();
 
@@ -13,6 +14,7 @@ router.get('/api/availability', (req: Request, env: Env) => availabilityRoute(re
 router.get('/api/slots', (req: Request, env: Env) => slotsRoute(req, env));
 router.post('/api/bookings', (req: Request, env: Env) => bookingsRoute(req, env));
 router.post('/api/track', (req: Request, env: Env) => trackRoute(req, env));
+router.post('/api/contact', (req: Request, env: Env) => contactRoute(req, env));
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {

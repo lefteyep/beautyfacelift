@@ -20,3 +20,9 @@ STRIPE_WEBHOOK_SECRET=
 
 # Email notifications (optional — used by Supabase Edge Function, not the Worker)
 RESEND_API_KEY=
+CONTACT_FROM_EMAIL=
+CONTACT_TO_EMAIL=
+OWNER_EMAIL=
+
+# Contact form security (required in production, optional locally)
+TURNSTILE_SECRET_KEY=

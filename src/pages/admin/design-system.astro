@@ -1,0 +1,792 @@
+---
+// Atelier Design System — reference page
+// Self-contained (no shared layouts/tokens) so it stays pinned to Atelier spec
+// even if site tokens drift. noindex'd via meta + unadvertised /admin/* path.
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#B98F47">
+    <title>Atelier Design System — Beauty Face Lift</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F6F1EA;
+            --paper-2: #EFE8DE;
+            --paper-3: #E6DCCE;
+            --bone: #FBF8F3;
+            --ink: #1C1A17;
+            --ink-2: #3B3731;
+            --ink-3: #6E665B;
+            --gold: #B98F47;
+            --gold-deep: #8E6A2E;
+            --gold-soft: #E8D9B5;
+            --shadow-1: 0 1px 2px rgba(28,26,23,.04), 0 2px 6px rgba(28,26,23,.04);
+            --shadow-2: 0 4px 14px rgba(28,26,23,.06), 0 12px 32px rgba(28,26,23,.06);
+            --r-sm: 4px;
+            --r-md: 8px;
+            --r-lg: 14px;
+            --r-xl: 22px;
+            --r-pill: 999px;
+            --f-display: "Cormorant Garamond", "Times New Roman", serif;
+            --f-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+            --f-mono: "JetBrains Mono", ui-monospace, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        em, i { font-style: normal; }
+
+        html, body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--f-body);
+            font-weight: 400;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection { background: var(--gold-soft); color: var(--ink); }
+
+        .ds-shell { max-width: 1200px; margin: 0 auto; padding: 80px 48px 120px; }
+
+        /* Masthead */
+        .ds-masthead { margin-bottom: 120px; padding-bottom: 40px; border-bottom: 1px solid rgba(28,26,23,.12); }
+        .ds-eyebrow {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2.2px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            margin-bottom: 24px;
+        }
+        .ds-title {
+            font-family: var(--f-display);
+            font-weight: 300;
+            font-size: clamp(48px, 7vw, 88px);
+            line-height: 1.02;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+        .ds-title-accent { color: var(--gold); font-weight: 300; }
+        .ds-lead {
+            max-width: 620px;
+            font-size: 17px;
+            color: var(--ink-2);
+            line-height: 1.6;
+        }
+
+        /* Sections */
+        .ds-section { margin-bottom: 120px; }
+        .ds-section-header { margin-bottom: 48px; }
+        .ds-section-num {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2.2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .ds-section-title {
+            font-family: var(--f-display);
+            font-weight: 400;
+            font-size: 42px;
+            line-height: 1.1;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        /* Typography specimens */
+        .ds-specimen {
+            padding: 48px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-1);
+        }
+        .ds-specimen-label {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            margin-bottom: 20px;
+        }
+        .ds-serif-xl { font-family: var(--f-display); font-weight: 300; font-size: 72px; line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); }
+        .ds-serif-lg { font-family: var(--f-display); font-weight: 400; font-size: 42px; line-height: 1.15; color: var(--ink); }
+        .ds-sans-lead { font-family: var(--f-body); font-weight: 400; font-size: 20px; line-height: 1.55; color: var(--ink-2); max-width: 640px; }
+        .ds-sans-body { font-family: var(--f-body); font-weight: 400; font-size: 15px; line-height: 1.7; color: var(--ink-2); max-width: 640px; }
+        .ds-mono-label { font-family: var(--f-mono); font-size: 13px; font-weight: 500; letter-spacing: 1.8px; text-transform: uppercase; color: var(--ink-3); }
+
+        .ds-scale {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 24px 32px;
+            align-items: baseline;
+            padding: 48px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-1);
+        }
+        .ds-scale-key { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 1.6px; text-transform: uppercase; }
+        .ds-scale-val { font-family: var(--f-display); font-weight: 300; color: var(--ink); letter-spacing: -0.02em; }
+
+        /* Colour swatches */
+        .ds-swatches {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .ds-swatch {
+            padding: 20px;
+            border-radius: var(--r-md);
+            background: var(--bone);
+            box-shadow: var(--shadow-1);
+        }
+        .ds-swatch-chip {
+            height: 110px;
+            border-radius: var(--r-sm);
+            margin-bottom: 14px;
+            border: 1px solid rgba(28,26,23,.06);
+        }
+        .ds-swatch-name {
+            font-family: var(--f-body);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .ds-swatch-hex {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            color: var(--ink-3);
+            margin-top: 2px;
+        }
+        .ds-group-title {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            margin: 40px 0 16px;
+        }
+        .ds-group-title:first-child { margin-top: 0; }
+
+        /* Token cards */
+        .ds-token-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .ds-token-card {
+            padding: 32px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-1);
+        }
+        .ds-token-list {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .ds-token-list li {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--f-mono);
+            font-size: 12px;
+            color: var(--ink-2);
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(28,26,23,.08);
+        }
+        .ds-token-list li:last-child { border-bottom: none; }
+        .ds-token-list b { color: var(--ink); font-weight: 500; }
+
+        /* Components */
+        .ds-component-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .ds-component-tile {
+            padding: 40px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .ds-component-tile-wide { grid-column: 1 / -1; }
+
+        /* Buttons demo */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 36px;
+            font-family: var(--f-body);
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            border-radius: var(--r-pill);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
+        }
+        .btn-primary { background: var(--gold); color: #fff; box-shadow: var(--shadow-1); }
+        .btn-primary:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: var(--shadow-2); }
+        .btn-outline { background: transparent; color: var(--ink); border: 1px solid rgba(28,26,23,.12); }
+        .btn-outline:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateY(-1px); }
+        .btn-ghost { background: transparent; color: var(--ink); padding: 15px 24px; }
+        .btn-ghost:hover { color: var(--gold); }
+
+        /* Chips */
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            border-radius: var(--r-pill);
+            background: var(--paper-2);
+            color: var(--ink-2);
+        }
+        .chip-gold { background: var(--gold-soft); color: var(--gold-deep); }
+
+        /* Nav */
+        .ds-nav-demo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 28px;
+            background: var(--paper);
+            border: 1px solid rgba(28,26,23,.08);
+            border-radius: var(--r-md);
+            width: 100%;
+        }
+        .ds-nav-brand {
+            font-family: var(--f-display);
+            font-weight: 400;
+            font-size: 22px;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+        }
+        .ds-nav-brand span { color: var(--gold); font-weight: 300; }
+        .ds-nav-links { display: flex; gap: 28px; }
+        .ds-nav-links a {
+            font-family: var(--f-body);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--ink-2);
+            text-decoration: none;
+        }
+        .ds-nav-links a:hover { color: var(--gold); }
+
+        /* Rating */
+        .ds-rating { display: inline-flex; align-items: center; gap: 10px; }
+        .ds-rating-stars { color: var(--gold); letter-spacing: 3px; font-size: 14px; }
+        .ds-rating-meta { font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-3); }
+
+        /* Form */
+        .ds-form { width: 100%; display: grid; gap: 16px; }
+        .ds-form label {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            margin-bottom: 6px;
+            display: block;
+        }
+        .ds-form input, .ds-form textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(28,26,23,.12);
+            border-radius: var(--r-md);
+            background: var(--paper);
+            font-family: var(--f-body);
+            font-size: 15px;
+            color: var(--ink);
+        }
+        .ds-form input:focus, .ds-form textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-soft);
+        }
+
+        /* Treatment card */
+        .ds-card-treatment {
+            padding: 40px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-1);
+            width: 100%;
+        }
+        .ds-card-eyebrow { font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+        .ds-card-title { font-family: var(--f-display); font-weight: 400; font-size: 32px; line-height: 1.15; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+        .ds-card-lead { font-family: var(--f-body); font-size: 15px; color: var(--ink-2); line-height: 1.65; margin-bottom: 20px; }
+        .ds-card-meta { display: flex; gap: 20px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 24px; }
+
+        /* Testimonial */
+        .ds-testimonial {
+            padding: 48px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-1);
+            width: 100%;
+        }
+        .ds-testimonial blockquote {
+            font-family: var(--f-display);
+            font-weight: 300;
+            font-size: 28px;
+            line-height: 1.35;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            margin-bottom: 20px;
+        }
+        .ds-testimonial cite {
+            font-family: var(--f-mono);
+            font-size: 11px;
+            font-style: normal;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+        }
+
+        /* FAQ */
+        .ds-faq-item {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(28,26,23,.08);
+        }
+        .ds-faq-item:first-child { padding-top: 0; }
+        .ds-faq-q {
+            font-family: var(--f-display);
+            font-weight: 400;
+            font-size: 22px;
+            color: var(--ink);
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .ds-faq-a {
+            font-family: var(--f-body);
+            font-size: 15px;
+            color: var(--ink-2);
+            line-height: 1.65;
+        }
+
+        /* Logo lockups */
+        .ds-logo-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .ds-logo-tile {
+            padding: 48px;
+            border-radius: var(--r-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+        .ds-logo-tile-paper { background: var(--paper); box-shadow: var(--shadow-1); }
+        .ds-logo-tile-ink { background: var(--ink); }
+        .ds-logo-tile-gold { background: var(--gold); }
+        .ds-logo-mark {
+            font-family: var(--f-display);
+            font-weight: 400;
+            font-size: 28px;
+            letter-spacing: -0.01em;
+        }
+        .ds-logo-mark span { font-weight: 300; }
+        .ds-logo-paper { color: var(--ink); }
+        .ds-logo-paper span { color: var(--gold); }
+        .ds-logo-ink { color: var(--paper); }
+        .ds-logo-ink span { color: var(--gold); }
+        .ds-logo-gold { color: var(--paper); }
+        .ds-logo-gold span { color: var(--ink); }
+
+        /* Imagery placeholders */
+        .ds-imagery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .ds-imagery-tile {
+            aspect-ratio: 4 / 5;
+            border-radius: var(--r-lg);
+            background: linear-gradient(135deg, var(--paper-2), var(--paper-3));
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            font-family: var(--f-mono);
+            font-size: 11px;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+        }
+
+        /* Voice */
+        .ds-voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .ds-voice-card {
+            padding: 32px;
+            background: var(--bone);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-1);
+        }
+        .ds-voice-title {
+            font-family: var(--f-display);
+            font-weight: 400;
+            font-size: 22px;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+        .ds-voice-body {
+            font-family: var(--f-body);
+            font-size: 14px;
+            color: var(--ink-2);
+            line-height: 1.6;
+        }
+
+        /* Marquee */
+        .ds-marquee {
+            background: var(--ink);
+            padding: 28px 0;
+            border-radius: var(--r-md);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ds-marquee span {
+            display: inline-block;
+            font-family: var(--f-display);
+            font-weight: 300;
+            font-size: 28px;
+            text-transform: uppercase;
+            color: rgba(246,241,234,.45);
+            letter-spacing: 0.02em;
+            margin-right: 56px;
+        }
+        .ds-marquee span b { color: var(--gold); font-weight: 300; }
+
+        @media (max-width: 900px) {
+            .ds-shell { padding: 48px 24px 80px; }
+            .ds-section { margin-bottom: 80px; }
+            .ds-token-grid, .ds-logo-row, .ds-imagery, .ds-voice-grid { grid-template-columns: 1fr; }
+            .ds-component-row { grid-template-columns: 1fr; }
+            .ds-specimen { padding: 32px 24px; }
+            .ds-serif-xl { font-size: 48px; }
+            .ds-serif-lg { font-size: 32px; }
+            .ds-scale { grid-template-columns: 70px 1fr; padding: 32px 24px; }
+            .ds-nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ds-shell">
+
+        <!-- Masthead -->
+        <header class="ds-masthead">
+            <div class="ds-eyebrow">Design System · v1 · Atelier</div>
+            <h1 class="ds-title">Beauty Face Lift <span class="ds-title-accent">Atelier</span></h1>
+            <p class="ds-lead">Editorial system for beautyfacelift.ch. Warm paper neutrals, a single dark gold accent, Cormorant Garamond for display, Inter for body, JetBrains Mono for labels. No italics, no gradients, no ambient glows — emphasis through weight, colour and type.</p>
+        </header>
+
+        <!-- 01 Typography -->
+        <section class="ds-section">
+            <div class="ds-section-header">
+                <div class="ds-section-num">01 — Typography</div>
+                <h2 class="ds-section-title">Type, in three voices.</h2>
+            </div>
+
+            <div class="ds-specimen">
+                <div class="ds-specimen-label">Display · Cormorant Garamond 300 · −0.03em</div>
+                <div class="ds-serif-xl">Sichtbar <span style="color: var(--gold); font-weight: 300;">jünger</span>, spürbar frischer.</div>
+            </div>
+
+            <div class="ds-specimen">
+                <div class="ds-specimen-label">Heading · Cormorant Garamond 400</div>
+                <div class="ds-serif-lg">Ein ruhiger Moment an der Bahnhofstrasse 94.</div>
+            </div>
+
+            <div class="ds-specimen">
+                <div class="ds-specimen-label">Lead · Inter 400 · 20/32</div>
+                <p class="ds-sans-lead">Teresa Stimac begleitet seit über zwanzig Jahren Kundinnen, die ihrer Haut vertrauen wollen. Jede Behandlung beginnt mit einem Gespräch.</p>
+            </div>
+
+            <div class="ds-specimen">
+                <div class="ds-specimen-label">Body · Inter 400 · 15/26</div>
+                <p class="ds-sans-body">Microneedling, Hydrafacial, ColdPlasma und Fruchtsäurepeelings — in Zürich, persönlich, ohne Serienrhythmus. Jede Anwendung wird auf deinen Hauttyp, dein Budget und dein Ziel abgestimmt.</p>
+            </div>
+
+            <div class="ds-specimen">
+                <div class="ds-specimen-label">Label · JetBrains Mono 500 · 2.2px tracking</div>
+                <div class="ds-mono-label">Termin vereinbaren · Bahnhofstrasse 94 · Zürich</div>
+            </div>
+
+            <div class="ds-scale">
+                <div class="ds-scale-key">72 · 300</div><div class="ds-scale-val" style="font-size: 72px;">Atelier</div>
+                <div class="ds-scale-key">56 · 300</div><div class="ds-scale-val" style="font-size: 56px;">Display</div>
+                <div class="ds-scale-key">42 · 400</div><div class="ds-scale-val" style="font-size: 42px;">Section</div>
+                <div class="ds-scale-key">28 · 400</div><div class="ds-scale-val" style="font-size: 28px;">Title</div>
+                <div class="ds-scale-key">22 · 400</div><div class="ds-scale-val" style="font-size: 22px;">Subtitle</div>
+                <div class="ds-scale-key">17 · 400</div><div class="ds-scale-val" style="font-size: 17px; font-family: var(--f-body);">Lead body</div>
+                <div class="ds-scale-key">15 · 400</div><div class="ds-scale-val" style="font-size: 15px; font-family: var(--f-body);">Body copy</div>
+                <div class="ds-scale-key">13 · 500</div><div class="ds-scale-val" style="font-size: 13px; font-family: var(--f-body);">UI text</div>
+                <div class="ds-scale-key">11 · 500</div><div class="ds-scale-val" style="font-size: 11px; font-family: var(--f-mono); letter-spacing: 2.2px; text-transform: uppercase;">Eyebrow</div>
+            </div>
+        </section>
+
+        <!-- 02 Colour -->
+        <section class="ds-section">
+            <div class="ds-section-header">
+                <div class="ds-section-num">02 — Colour</div>
+                <h2 class="ds-section-title">A tight, considered palette.</h2>
+            </div>
+
+            <div class="ds-group-title">Core</div>
+            <div class="ds-swatches">
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #F6F1EA;"></div><div class="ds-swatch-name">Paper</div><div class="ds-swatch-hex">#F6F1EA</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #EFE8DE;"></div><div class="ds-swatch-name">Paper 2</div><div class="ds-swatch-hex">#EFE8DE</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #E6DCCE;"></div><div class="ds-swatch-name">Paper 3</div><div class="ds-swatch-hex">#E6DCCE</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #FBF8F3;"></div><div class="ds-swatch-name">Bone</div><div class="ds-swatch-hex">#FBF8F3</div></div>
+            </div>
+
+            <div class="ds-group-title">Ink</div>
+            <div class="ds-swatches">
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #1C1A17;"></div><div class="ds-swatch-name">Ink</div><div class="ds-swatch-hex">#1C1A17</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #3B3731;"></div><div class="ds-swatch-name">Ink 2</div><div class="ds-swatch-hex">#3B3731</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #6E665B;"></div><div class="ds-swatch-name">Ink 3</div><div class="ds-swatch-hex">#6E665B</div></div>
+            </div>
+
+            <div class="ds-group-title">Gold (single accent)</div>
+            <div class="ds-swatches">
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #B98F47;"></div><div class="ds-swatch-name">Gold</div><div class="ds-swatch-hex">#B98F47</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #8E6A2E;"></div><div class="ds-swatch-name">Gold Deep</div><div class="ds-swatch-hex">#8E6A2E</div></div>
+                <div class="ds-swatch"><div class="ds-swatch-chip" style="background: #E8D9B5;"></div><div class="ds-swatch-name">Gold Soft</div><div class="ds-swatch-hex">#E8D9B5</div></div>
+            </div>
+        </section>
+
+        <!-- 03 Spacing / radii / shadows -->
+        <section class="ds-section">
+            <div class="ds-section-header">
+                <div class="ds-section-num">03 — Tokens</div>
+                <h2 class="ds-section-title">Spacing, radii, shadow.</h2>
+            </div>
+            <div class="ds-token-grid">
+                <div class="ds-token-card">
+                    <div class="ds-mono-label">Spacing</div>
+                    <ul class="ds-token-list">
+                        <li><b>xs</b><span>8px</span></li>
+                        <li><b>sm</b><span>16px</span></li>
+                        <li><b>md</b><span>24px</span></li>
+                        <li><b>lg</b><span>48px</span></li>
+                        <li><b>xl</b><span>80px</span></li>
+                        <li><b>2xl</b><span>120px</span></li>
+                        <li><b>3xl</b><span>160px</span></li>
+                    </ul>
+                </div>
+                <div class="ds-token-card">
+                    <div class="ds-mono-label">Radius</div>
+                    <ul class="ds-token-list">
+                        <li><b>sm</b><span>4px</span></li>
+                        <li><b>md</b><span>8px</span></li>
+                        <li><b>lg</b><span>14px</span></li>
+                        <li><b>xl</b><span>22px</span></li>
+                        <li><b>pill</b><span>999px</span></li>
+                    </ul>
+                </div>
+                <div class="ds-token-card">
+                    <div class="ds-mono-label">Shadow</div>
+                    <ul class="ds-token-list">
+                        <li><b>1</b><span>0 1px 2px · 0 2px 6px</span></li>
+                        <li><b>2</b><span>0 4px 14px · 0 12px 32px</span></li>
+                    </ul>
+                    <div style="margin-top: 24px; display: grid; gap: 16px;">
+                        <div style="padding: 16px; background: var(--paper); border-radius: var(--r-md); box-shadow: var(--shadow-1); font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-3);">Shadow 1 — rest</div>
+                        <div style="padding: 16px; background: var(--paper); border-radius: var(--r-md); box-shadow: var(--shadow-2); font-family: var(--f-mono); font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ink-3);">Shadow 2 — lifted</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 Components -->
+        <section class="ds-section">
+            <div class="ds-section-header">
+                <div class="ds-section-num">04 — Components</div>
+                <h2 class="ds-section-title">Surfaces, controls, content.</h2>
+            </div>
+
+            <div class="ds-component-row">
+                <div class="ds-component-tile ds-component-tile-wide">
+                    <div class="ds-mono-label">Navigation</div>
+                    <nav class="ds-nav-demo">
+                        <div class="ds-nav-brand">Beauty Face <span>Lift</span></div>
+                        <div class="ds-nav-links">
+                            <a href="#">Behandlungen</a>
+                            <a href="#">Über uns</a>
+                            <a href="#">Blog</a>
+                            <a href="#">Termin</a>
+                        </div>
+                        <a href="#" class="btn btn-primary" style="padding: 10px 22px; font-size: 11px;">Termin</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="ds-component-row">
+                <div class="ds-component-tile">
+                    <div class="ds-mono-label">Buttons</div>
+                    <a href="#" class="btn btn-primary">Termin vereinbaren</a>
+                    <a href="#" class="btn btn-outline">Mehr erfahren</a>
+                    <a href="#" class="btn btn-ghost">Preise ansehen →</a>
+                </div>
+                <div class="ds-component-tile">
+                    <div class="ds-mono-label">Chips</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <span class="chip">Gesichtsbehandlung</span>
+                        <span class="chip">Anti-Aging</span>
+                        <span class="chip chip-gold">Neu bei uns</span>
+                        <span class="chip">60 min</span>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div class="ds-mono-label" style="margin-bottom: 8px;">Rating</div>
+                        <div class="ds-rating">
+                            <span class="ds-rating-stars">★★★★★</span>
+            <span class="ds-rating-meta">4.8 · 240+ verifizierte Bewertungen</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ds-component-tile">
+                    <div class="ds-mono-label">Form</div>
+                    <form class="ds-form" onsubmit="return false;">
+                        <div>
+                            <label>Name</label>
+                            <input type="text" placeholder="Maria Beispiel" />
+                        </div>
+                        <div>
+                            <label>E-Mail</label>
+                            <input type="email" placeholder="maria@beispiel.ch" />
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 8px;">Senden</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="ds-component-row">
+                <div class="ds-component-tile ds-component-tile-wide">
+                    <div class="ds-mono-label">Treatment card</div>
+                    <div class="ds-card-treatment">
+                        <div class="ds-card-eyebrow">Signature · 60 min</div>
+                        <h3 class="ds-card-title">Hydrafacial — deine tiefste Reinigung.</h3>
+                        <p class="ds-card-lead">Vier Schritte, ein Ergebnis: sanft gelöste Verhornung, tief gereinigte Poren, infundierte Seren, strahlende Haut — direkt, ohne Ausfallzeit.</p>
+                        <div class="ds-card-meta">
+                            <span>CHF 240</span>
+                            <span>Bahnhofstrasse 94</span>
+                            <span>Teresa Stimac</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Termin vereinbaren</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-component-row">
+                <div class="ds-component-tile ds-component-tile-wide">
+                    <div class="ds-mono-label">Testimonial</div>
+                    <div class="ds-testimonial">
+                        <blockquote>«Seit 2008 bei Teresa — absolute <span style="color: var(--gold); font-weight: 300;">Vertrauenssache</span>. Professionell, ehrlich und immer auf dem neuesten Stand.»</blockquote>
+                        <cite>Daniel · Stammkunde seit 2008</cite>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ds-component-row">
+                <div class="ds-component-tile ds-component-tile-wide">
+                    <div class="ds-mono-label">FAQ</div>
+                    <div style="width: 100%;">
+                        <div class="ds-faq-item">
+                            <div class="ds-faq-q">Wie lange dauert eine Hydrafacial-Behandlung?</div>
+                            <div class="ds-faq-a">Rund 60 Minuten. Die ersten 10 Minuten verbringen wir mit einer Hautanalyse und Beratung, die restlichen 50 Minuten ist reine Behandlungszeit.</div>
+                        </div>
+                        <div class="ds-faq-item">
+                            <div class="ds-faq-q">Kann ich direkt nach der Behandlung wieder arbeiten?</div>
+                            <div class="ds-faq-a">Ja — Hydrafacial hat praktisch keine Ausfallzeit. Du verlässt das Studio mit sichtbar frischer Haut, leichter Rötung in den ersten ein bis zwei Stunden.</div>
+                        </div>
+                        <div class="ds-faq-item">
+                            <div class="ds-faq-q">Wie oft sollte ich die Behandlung machen?</div>
+                            <div class="ds-faq-a">Für ein gleichbleibend strahlendes Hautbild empfehlen wir alle vier bis sechs Wochen. Vor besonderen Anlässen gern zwei bis drei Tage vorher.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05 Brand -->
+        <section class="ds-section">
+            <div class="ds-section-header">
+                <div class="ds-section-num">05 — Brand</div>
+                <h2 class="ds-section-title">The mark, imagery, voice.</h2>
+            </div>
+
+            <div class="ds-group-title">Logo lockups</div>
+            <div class="ds-logo-row">
+                <div class="ds-logo-tile ds-logo-tile-paper">
+                    <div class="ds-logo-mark ds-logo-paper">Beauty Face <span>Lift</span></div>
+                </div>
+                <div class="ds-logo-tile ds-logo-tile-ink">
+                    <div class="ds-logo-mark ds-logo-ink">Beauty Face <span>Lift</span></div>
+                </div>
+                <div class="ds-logo-tile ds-logo-tile-gold">
+                    <div class="ds-logo-mark ds-logo-gold">Beauty Face <span>Lift</span></div>
+                </div>
+            </div>
+
+            <div class="ds-group-title">Imagery</div>
+            <div class="ds-imagery">
+                <div class="ds-imagery-tile">4:5 · Portrait · Studio</div>
+                <div class="ds-imagery-tile">4:5 · Treatment detail</div>
+                <div class="ds-imagery-tile">4:5 · Environment</div>
+            </div>
+
+            <div class="ds-group-title">Voice</div>
+            <div class="ds-voice-grid">
+                <div class="ds-voice-card">
+                    <div class="ds-voice-title">Ruhig.</div>
+                    <div class="ds-voice-body">Keine Ausrufezeichen. Keine „NEU!"-Banner. Eine klare Empfehlung reicht — die Kundin entscheidet selbst.</div>
+                </div>
+                <div class="ds-voice-card">
+                    <div class="ds-voice-title">Präzise.</div>
+                    <div class="ds-voice-body">Zahlen statt Adjektive: 60 Minuten, CHF 240, seit 2008, 20 Jahre Erfahrung, Bahnhofstrasse 94.</div>
+                </div>
+                <div class="ds-voice-card">
+                    <div class="ds-voice-title">Persönlich.</div>
+                    <div class="ds-voice-body">Teresa, Emina, Daniel, Andreas — Menschen, nicht Segmente. Jede Behandlung beginnt mit einem Gespräch.</div>
+                </div>
+            </div>
+
+            <div class="ds-group-title">Marquee</div>
+            <div class="ds-marquee">
+                <span>Hydrafacial · <b>Microneedling</b> · Fruchtsäurepeeling · <b>ColdPlasma</b> · Carbon Microneedling · <b>Beratung</b> · Bahnhofstrasse 94 ·</span>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>

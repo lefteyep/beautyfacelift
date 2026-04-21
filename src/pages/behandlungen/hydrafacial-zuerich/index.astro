@@ -1,10 +1,20 @@
 ---
-
 import Base from '../../../layouts/Base.astro';
-import Marquee from '../../../components/Marquee.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { Image, getImage } from 'astro:assets';
+import { spaFacialTreatment, spaInterior } from '../../../lib/site-images';
+
+const treatmentHeroSizes = '100vw';
+const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const hydrafacialHeroPreload = await getImage({
+    src: spaFacialTreatment,
+    widths: [768, 1024, 1440, 1920],
+    sizes: treatmentHeroSizes,
+    format: 'webp',
+    quality: 'mid',
+});
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -108,14 +118,30 @@ const faqData = {
 <Base
     title="Hydrafacial Zürich | Beauty Face Lift an der Bahnhofstrasse"
     description="Hydrafacial Zürich an der Bahnhofstrasse. Erleben Sie die revolutionäre Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Medical Spa. Ab CHF 190."
-    preloadImage="/assets/spa_facial_treatment.png"
+    preloadImage={{
+        href: hydrafacialHeroPreload.src,
+        imagesrcset: hydrafacialHeroPreload.srcSet.attribute,
+        imagesizes: treatmentHeroSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
     navVariant="treatment"
+    bodyClass="treatment-page"
     structuredData={structuredData}
 >
     <!-- Editorial Hero with Background Image -->
     <header class="treatment-hero">
         <div class="treatment-hero-media">
-            <img src="/assets/spa_facial_treatment.png" alt="Hydrafacial Behandlung Zürich — Tiefenreinigung und Glow im Premium Medical Spa" id="treatment-hero-img" width="800" height="600">
+            <Image
+                src={spaFacialTreatment}
+                widths={[768, 1024, 1440, 1920]}
+                sizes={treatmentHeroSizes}
+                format="webp"
+                quality="mid"
+                priority
+                alt="Hydrafacial Behandlung Zürich — Tiefenreinigung und Glow im Premium Medical Spa"
+                id="treatment-hero-img"
+            />
         </div>
         <div class="hero-titles">
             <div class="sub-display text-reveal-wrapper margin-bottom-sm">
@@ -131,15 +157,13 @@ const faqData = {
         </div>
     </header>
 
-    <div class="container" style="padding-top: 1rem;">
+    <div class="container treatment-breadcrumbs">
         <Breadcrumbs items={[
             { label: "Home", href: "/" },
             { label: "Behandlungen", href: "/behandlungen/" },
             { label: "Hydrafacial Zürich" }
         ]} />
     </div>
-
-    <Marquee items={["Tiefenreinigung", "Anti-Aging", "Glow Effekt", "Vortex Technology", "Keine Ausfallzeit", "Alle Hauttypen"]} />
 
     <!-- Content Split — design: 120px 58px, 58px gap -->
     <section class="about-editorial pad-y">
@@ -154,7 +178,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_interior.png" alt="Premium Hydrafacial Behandlungsraum bei Beauty Face Lift Zürich Bahnhofstrasse" class="anim-img" loading="lazy" width="600" height="720">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Premium Hydrafacial Behandlungsraum bei Beauty Face Lift Zürich Bahnhofstrasse"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -215,7 +248,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 100%;">
-                    <img src="/assets/spa_interior.png" alt="Hydrafacial Beratung bei Beauty Face Lift Zürich" class="anim-img" loading="lazy" width="600" height="600">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Hydrafacial Beratung bei Beauty Face Lift Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -253,7 +295,7 @@ const faqData = {
                 <div class="sub-display margin-bottom-md">Kundenstimmen</div>
                 <h2 style="font-size: clamp(1.5rem, 2.5vw, 2.5rem); text-transform: none; margin-bottom: 1rem; font-weight: 300;">"Wie immer eine wunderbare Verwöhnzeit!"</h2>
                 <p style="max-width: 100%; text-align: center;">— Emina, Hydrafacial Kundin</p>
-                <p style="max-width: 100%; text-align: center; margin-top: 1rem; font-size: 0.9rem;">4.8 von 5 Sternen auf Treatwell • 240+ Bewertungen</p>
+                <p style="max-width: 100%; text-align: center; margin-top: 1rem; font-size: var(--text-sm);">4.8 von 5 Sternen aus 240+ verifizierten Bewertungen</p>
             </div>
         </div>
     </section>

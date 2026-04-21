@@ -1,7 +1,29 @@
 ---
-
 import Base from '../layouts/Base.astro';
 import Marquee from '../components/Marquee.astro';
+import { Image, getImage } from 'astro:assets';
+import {
+    coldplasmaCard,
+    heroCenter,
+    heroRight,
+    hydrafacialCard,
+    microneedlingCard,
+    peelingCard,
+    teresaPortrait,
+} from '../lib/site-images';
+
+const heroMainSizes = '(min-width: 1240px) 396px, (min-width: 901px) 32vw, 88vw';
+const heroSecondarySizes = '(min-width: 1240px) 307px, (min-width: 901px) 24vw, 54vw';
+const cardSizes = '(min-width: 1240px) 760px, (min-width: 901px) 56vw, 100vw';
+const portraitSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+
+const homepageHeroPreload = await getImage({
+    src: heroCenter,
+    widths: [480, 720, 960, 1200],
+    sizes: heroMainSizes,
+    format: 'webp',
+    quality: 'mid',
+});
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -30,8 +52,7 @@ const structuredData = {
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "16:00" }
     ],
     "sameAs": [
-        "https://www.instagram.com/beautyfacelift.zh/",
-        "https://www.treatwell.ch/ort/beauty-face-lift/"
+        "https://www.instagram.com/beautyfacelift.zh/"
     ],
     "potentialAction": {
         "@type": "ReserveAction",
@@ -137,7 +158,13 @@ const faqData = {
 <Base
     title="Beauty Face Lift | Kosmetikstudio Zürich Bahnhofstrasse — Hydrafacial, Microneedling & Peeling"
     description="Beauty Face Lift ★ 4.8/5 — Premium Gesichtsbehandlungen an der Bahnhofstrasse Zürich: Hydrafacial ab CHF 190, Microneedling, Fruchtsäure Peeling & ColdPlasma. Jetzt online buchen."
-    preloadImage="/assets/spa_interior.png"
+    preloadImage={{
+        href: homepageHeroPreload.src,
+        imagesrcset: homepageHeroPreload.srcSet.attribute,
+        imagesizes: heroMainSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
     structuredData={structuredData}
 >
     <!-- Hero — Conversion-optimized -->
@@ -161,10 +188,30 @@ const faqData = {
 
         <div class="hero-media" id="hero-media">
             <div class="hero-media-main">
-                <img src="/assets/hero_center.png" width="1200" height="800" class="hero-img-inner" id="hero-img-1" alt="Beauty Face Lift Kosmetikstudio Zürich Bahnhofstrasse — Premium Gesichtsbehandlungen">
+                <Image
+                    src={heroCenter}
+                    widths={[480, 720, 960, 1200]}
+                    sizes={heroMainSizes}
+                    format="webp"
+                    quality="mid"
+                    priority
+                    class="hero-img-inner"
+                    id="hero-img-1"
+                    alt="Beauty Face Lift Kosmetikstudio Zürich Bahnhofstrasse — Premium Gesichtsbehandlungen"
+                />
             </div>
             <div class="hero-media-overlap" id="hero-float-1">
-                <img src="/assets/hero_right.png" width="600" height="800" id="hero-img-2" alt="Professionelle Gesichtsbehandlung bei Beauty Face Lift Zürich">
+                <Image
+                    src={heroRight}
+                    widths={[320, 480, 640]}
+                    sizes={heroSecondarySizes}
+                    format="webp"
+                    quality="mid"
+                    loading="lazy"
+                    fetchpriority="low"
+                    id="hero-img-2"
+                    alt="Professionelle Gesichtsbehandlung bei Beauty Face Lift Zürich"
+                />
             </div>
         </div>
 
@@ -194,7 +241,16 @@ const faqData = {
                     <span class="number-accent">01</span>
                     <h3>Hydrafacial</h3>
                     <div class="service-image-mask service-image-tall">
-                        <img src="/assets/hydrafacial_treatment.png" width="600" height="500" alt="Hydrafacial Behandlung Zürich — Tiefenreinigung und Glow" class="anim-img" loading="lazy">
+                        <Image
+                            src={hydrafacialCard}
+                            widths={[360, 540, 720, 960]}
+                            sizes={cardSizes}
+                            format="webp"
+                            quality="mid"
+                            alt="Hydrafacial Behandlung Zürich — Tiefenreinigung und Glow"
+                            class="anim-img"
+                            loading="lazy"
+                        />
                     </div>
                     <p>Die beliebteste Gesichtsbehandlung der Welt — jetzt an der Bahnhofstrasse Zürich. Hydrafacial kombiniert Tiefenreinigung, sanftes Peeling und intensive Feuchtigkeitspflege in einer schmerzfreien 60-Minuten-Behandlung. Sofort sichtbarer Glow, keine Ausfallzeit.</p>
                     <a href="/behandlungen/hydrafacial-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Hydrafacial entdecken</a>
@@ -204,7 +260,16 @@ const faqData = {
                     <span class="number-accent">02</span>
                     <h3>Microneedling</h3>
                     <div class="service-image-mask service-image-tall">
-                        <img src="/assets/microneedling_treatment.png" width="600" height="500" alt="Microneedling Zürich — Anti-Aging und Kollagenbooster" class="anim-img" loading="lazy">
+                        <Image
+                            src={microneedlingCard}
+                            widths={[360, 540, 720, 960]}
+                            sizes={cardSizes}
+                            format="webp"
+                            quality="mid"
+                            alt="Microneedling Zürich — Anti-Aging und Kollagenbooster"
+                            class="anim-img"
+                            loading="lazy"
+                        />
                     </div>
                     <p>Der natürliche Anti-Aging-Booster für anspruchsvolle Haut. Microneedling stimuliert die körpereigene Kollagenproduktion und regt die Zellerneuerung an — für sichtbar straffere Haut, verfeinerte Poren und weniger Falten.</p>
                     <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Microneedling entdecken</a>
@@ -214,7 +279,16 @@ const faqData = {
                     <span class="number-accent">03</span>
                     <h3>Fruchtsäure Peeling</h3>
                     <div class="service-image-mask service-image-tall">
-                        <img src="/assets/peeling_treatment_new.png" width="600" height="500" alt="Fruchtsäure Peeling Zürich — Chemisches Peeling für reine Haut" class="anim-img" loading="lazy">
+                        <Image
+                            src={peelingCard}
+                            widths={[360, 540, 720, 960]}
+                            sizes={cardSizes}
+                            format="webp"
+                            quality="mid"
+                            alt="Fruchtsäure Peeling Zürich — Chemisches Peeling für reine Haut"
+                            class="anim-img"
+                            loading="lazy"
+                        />
                     </div>
                     <p>Das professionelle chemische Peeling für einen ebenmässigen, strahlenden Teint. AHA-Fruchtsäuren lösen abgestorbene Hautzellen und mildern Unreinheiten, Akne und Hyperpigmentierung.</p>
                     <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Peeling entdecken</a>
@@ -224,7 +298,16 @@ const faqData = {
                     <span class="number-accent">04</span>
                     <h3>ColdPlasma</h3>
                     <div class="service-image-mask service-image-tall">
-                        <img src="/assets/coldplasma_treatment.png" width="600" height="500" alt="ColdPlasma Behandlung Zürich — Innovative Hautregeneration" class="anim-img" loading="lazy">
+                        <Image
+                            src={coldplasmaCard}
+                            widths={[360, 540, 720, 960]}
+                            sizes={cardSizes}
+                            format="webp"
+                            quality="mid"
+                            alt="ColdPlasma Behandlung Zürich — Innovative Hautregeneration"
+                            class="anim-img"
+                            loading="lazy"
+                        />
                     </div>
                     <p>Die Innovation der Hautpflege. ColdPlasma-Technologie aktiviert die Zellregeneration auf molekularer Ebene und steigert die Wirkstoffaufnahme um bis zu 300%.</p>
                     <a href="/behandlungen/coldplasma-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">ColdPlasma entdecken</a>
@@ -240,7 +323,16 @@ const faqData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
                 <div class="about-portrait">
-                    <img src="/assets/teresa_portrait.jpg" width="540" height="650" alt="Teresa Stimac — Gründerin und Kosmetikerin Beauty Face Lift Zürich" class="anim-img" loading="lazy">
+                    <Image
+                        src={teresaPortrait}
+                        widths={[360, 540, 720]}
+                        sizes={portraitSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Teresa Stimac — Gründerin und Kosmetikerin Beauty Face Lift Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
             <div class="about-text">
@@ -263,30 +355,30 @@ const faqData = {
             <div class="testimonial-card">
                 <span class="testimonial-stars">★ ★ ★ ★ ★</span>
                 <p class="testimonial-quote">"Wie immer eine wunderbare Verwöhnzeit!"</p>
-                <span class="testimonial-author">Emina — Hydrafacial · Treatwell verifiziert</span>
+                <span class="testimonial-author">Emina — Hydrafacial · verifizierte Bewertung</span>
             </div>
             <div class="testimonial-card">
                 <span class="testimonial-stars">★ ★ ★ ★ ★</span>
                 <p class="testimonial-quote">"Stammkunde seit 2008 — immer wieder begeistert."</p>
-                <span class="testimonial-author">Daniel — Stammkunde · Treatwell verifiziert</span>
+                <span class="testimonial-author">Daniel — Stammkunde · verifizierte Bewertung</span>
             </div>
             <div class="testimonial-card">
                 <span class="testimonial-stars">★ ★ ★ ★ ★</span>
                 <p class="testimonial-quote">"Teresa ist charmant, warm und absolut professionell."</p>
-                <span class="testimonial-author">Andreas — Gesichtsbehandlung · Treatwell verifiziert</span>
+                <span class="testimonial-author">Andreas — Gesichtsbehandlung · verifizierte Bewertung</span>
             </div>
         </div>
     </section>
 
     <!-- Rating Line -->
     <div class="rating-line">
-        <p style="text-align: center; margin: 0 auto; font-size: 12px; color: var(--text-muted); letter-spacing: 0.03em;">4.8 von 5 Sternen auf <a href="https://www.treatwell.ch/ort/beauty-face-lift/" target="_blank" rel="noopener" style="color: var(--text-primary); font-weight: 400;">Treatwell</a> · 240+ Bewertungen</p>
+        <p style="text-align: center; margin: 0 auto; font-size: var(--text-xs); color: var(--text-muted); letter-spacing: 0.03em;">4.8 von 5 Sternen aus 240+ verifizierten Bewertungen</p>
     </div>
 
     <!-- Trust Strip -->
     <div class="trust-strip" aria-label="Vertrauensindikatoren">
         <span class="trust-strip-item">Bahnhofstrasse Zürich</span>
-        <span class="trust-strip-item">4.8 auf Treatwell</span>
+        <span class="trust-strip-item">240+ verifizierte Bewertungen</span>
         <span class="trust-strip-item">20+ Jahre Erfahrung</span>
         <span class="trust-strip-item">Persönliche Betreuung</span>
     </div>

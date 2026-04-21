@@ -1,10 +1,21 @@
 ---
 
 import Base from '../../../layouts/Base.astro';
-import Marquee from '../../../components/Marquee.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { Image, getImage } from 'astro:assets';
+import { spaFacialTreatment, spaInterior, spaProducts } from '../../../lib/site-images';
+
+const treatmentHeroSizes = '100vw';
+const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const microneedlingHeroPreload = await getImage({
+    src: spaProducts,
+    widths: [768, 1024, 1440, 1920],
+    sizes: treatmentHeroSizes,
+    format: 'webp',
+    quality: 'mid',
+});
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -107,15 +118,31 @@ const faqData = {
 
 <Base
     title="Microneedling Zürich | Kollagen-Induktionstherapie ab CHF 250 | Beauty Face Lift"
-    description="Professionelles Microneedling in Zürich an der Bahnhofstrasse. Kollagen-Induktionstherapie gegen Falten, Narben & grosse Poren. Ab CHF 250. 4.8★ auf Treatwell. Jetzt Termin buchen."
-    preloadImage="/assets/spa_products.png"
+    description="Professionelles Microneedling in Zürich an der Bahnhofstrasse. Kollagen-Induktionstherapie gegen Falten, Narben und grosse Poren. Ab CHF 250. Jetzt Termin buchen."
+    preloadImage={{
+        href: microneedlingHeroPreload.src,
+        imagesrcset: microneedlingHeroPreload.srcSet.attribute,
+        imagesizes: treatmentHeroSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
     navVariant="treatment"
+    bodyClass="treatment-page"
     structuredData={structuredData}
 >
     <!-- Editorial Hero with Background Image -->
     <header class="treatment-hero">
         <div class="treatment-hero-media">
-            <img src="/assets/spa_products.png" alt="Microneedling Behandlung im Medical Spa Beauty Face Lift Zürich" id="treatment-hero-img" width="1920" height="1080">
+            <Image
+                src={spaProducts}
+                widths={[768, 1024, 1440, 1920]}
+                sizes={treatmentHeroSizes}
+                format="webp"
+                quality="mid"
+                priority
+                alt="Microneedling Behandlung im Medical Spa Beauty Face Lift Zürich"
+                id="treatment-hero-img"
+            />
         </div>
         <div class="hero-titles">
             <div class="sub-display text-reveal-wrapper margin-bottom-sm">
@@ -131,15 +158,13 @@ const faqData = {
         </div>
     </header>
 
-    <div class="container" style="padding-top: 1rem;">
+    <div class="container treatment-breadcrumbs">
         <Breadcrumbs items={[
             { label: "Home", href: "/" },
             { label: "Behandlungen", href: "/behandlungen/" },
             { label: "Microneedling Zürich" }
         ]} />
     </div>
-
-    <Marquee items={["Kollagen-Boost", "Anti-Aging", "Narbenreduktion", "Hautverjüngung", "Porenverfeinerung"]} />
 
     <!-- Content Split: Die Methode -->
     <section class="about-editorial pad-y">
@@ -153,7 +178,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_facial_treatment.png" alt="Microneedling Gesichtsbehandlung bei Beauty Face Lift in Zürich" class="anim-img" loading="lazy" width="800" height="960">
+                    <Image
+                        src={spaFacialTreatment}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Microneedling Gesichtsbehandlung bei Beauty Face Lift in Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -186,7 +220,16 @@ const faqData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_interior.png" alt="Medical Spa Interieur Beauty Face Lift Zürich Bahnhofstrasse" class="anim-img" loading="lazy" width="800" height="960">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Medical Spa Interieur Beauty Face Lift Zürich Bahnhofstrasse"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
             <div class="about-text scroll-anim">
@@ -288,7 +331,7 @@ const faqData = {
                     — <strong>Andjela</strong>, Micro-Needling Kundin
                 </footer>
             </blockquote>
-            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">4.8 von 5 Sternen auf Treatwell&nbsp;•&nbsp;240+ Bewertungen</p>
+            <p style="margin-top: 2rem; font-size: var(--text-sm); color: var(--text-secondary);">4.8 von 5 Sternen aus 240+ verifizierten Bewertungen</p>
         </div>
     </section>
 
@@ -313,7 +356,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_products.png" alt="Premium Wirkstoffe und Seren für Microneedling in Zürich" class="anim-img" loading="lazy" width="800" height="960">
+                    <Image
+                        src={spaProducts}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Premium Wirkstoffe und Seren für Microneedling in Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>

@@ -10,4 +10,8 @@ export interface Env {
   STRIPE_SECRET_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
   RESEND_API_KEY?: string;
+  OWNER_EMAIL?: string;
+  CONTACT_FROM_EMAIL?: string;
+  CONTACT_TO_EMAIL?: string;
+  TURNSTILE_SECRET_KEY?: string;
 }

@@ -1,10 +1,20 @@
 ---
-
 import Base from '../../../layouts/Base.astro';
-import Marquee from '../../../components/Marquee.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { Image, getImage } from 'astro:assets';
+import { spaFacialTreatment, spaInterior, spaProducts } from '../../../lib/site-images';
+
+const treatmentHeroSizes = '100vw';
+const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const coldPlasmaHeroPreload = await getImage({
+    src: spaFacialTreatment,
+    widths: [768, 1024, 1440, 1920],
+    sizes: treatmentHeroSizes,
+    format: 'webp',
+    quality: 'mid',
+});
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -101,14 +111,30 @@ const faqData = {
 <Base
     title="ColdPlasma Behandlung Zürich | Hautverjüngung an der Bahnhofstrasse"
     description="ColdPlasma Behandlung in Zürich — innovative Plasma-Technologie zur Hautverjüngung, Zellerneuerung und Wirkstoffeinschleusung. Premium Medical Spa an der Bahnhofstrasse."
-    preloadImage="/assets/spa_facial_treatment.png"
+    preloadImage={{
+        href: coldPlasmaHeroPreload.src,
+        imagesrcset: coldPlasmaHeroPreload.srcSet.attribute,
+        imagesizes: treatmentHeroSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
     navVariant="treatment"
+    bodyClass="treatment-page"
     structuredData={structuredData}
 >
     <!-- Editorial Hero with Background Image -->
     <header class="treatment-hero">
         <div class="treatment-hero-media">
-            <img src="/assets/spa_facial_treatment.png" alt="ColdPlasma Behandlung Zürich — Innovative Hautverjüngung an der Bahnhofstrasse" id="treatment-hero-img" width="1200" height="800">
+            <Image
+                src={spaFacialTreatment}
+                widths={[768, 1024, 1440, 1920]}
+                sizes={treatmentHeroSizes}
+                format="webp"
+                quality="mid"
+                priority
+                alt="ColdPlasma Behandlung Zürich — Innovative Hautverjüngung an der Bahnhofstrasse"
+                id="treatment-hero-img"
+            />
         </div>
         <div class="hero-titles">
             <div class="sub-display text-reveal-wrapper margin-bottom-sm">
@@ -124,15 +150,13 @@ const faqData = {
         </div>
     </header>
 
-    <div class="container" style="padding-top: 1rem;">
+    <div class="container treatment-breadcrumbs">
         <Breadcrumbs items={[
             { label: "Home", href: "/" },
             { label: "Behandlungen", href: "/behandlungen/" },
             { label: "ColdPlasma Zürich" }
         ]} />
     </div>
-
-    <Marquee items={["Zellerneuerung", "Anti-Aging", "Wirkstoff-Boost", "Hautstraffung"]} />
 
     <!-- Content Split -->
     <section class="about-editorial pad-y">
@@ -145,7 +169,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_interior.png" alt="ColdPlasma Behandlung im Beauty Face Lift Zürich" class="anim-img" loading="lazy" width="600" height="720">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="ColdPlasma Behandlung im Beauty Face Lift Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -245,7 +278,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 100%;">
-                    <img src="/assets/spa_products.png" alt="Premium Seren und Wirkstoffe für ColdPlasma Behandlung in Zürich" class="anim-img" loading="lazy" width="600" height="600">
+                    <Image
+                        src={spaProducts}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Premium Seren und Wirkstoffe für ColdPlasma Behandlung in Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -279,7 +321,7 @@ const faqData = {
                 "Stammkundin seit 2008 — Teresa versteht meine Haut wie keine andere."
             </blockquote>
             <p style="color: var(--text-secondary); font-size: 1rem; margin-bottom: 0.5rem;">— Daniel, Stammkunde</p>
-            <p style="color: var(--accent); font-size: 0.95rem; font-weight: 500;">4.8 von 5 Sternen auf Treatwell • 240+ Bewertungen</p>
+            <p style="color: var(--accent); font-size: var(--text-sm); font-weight: 500;">4.8 von 5 Sternen aus 240+ verifizierten Bewertungen</p>
         </div>
     </section>
 

@@ -11,18 +11,39 @@ interface Props {
   title: string;
   description: string;
   canonical?: string;
-  preloadImage?: string;
+  preloadImage?: string | {
+    href: string;
+    imagesrcset?: string;
+    imagesizes?: string;
+    type?: string;
+    fetchpriority?: 'high' | 'low' | 'auto';
+  };
   ogImage?: string;
   navVariant?: 'default' | 'treatment';
   structuredData?: object;
   noindex?: boolean;
   articleDate?: string;
   articleModified?: string;
+  bodyClass?: string;
 }
 
-const { title, description, canonical, preloadImage, ogImage, navVariant = 'default', structuredData, noindex = false, articleDate, articleModified } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  preloadImage,
+  ogImage,
+  navVariant = 'default',
+  structuredData,
+  noindex = false,
+  articleDate,
+  articleModified,
+  bodyClass,
+} = Astro.props;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, 'https://beautyfacelift.ch').href;
 const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png';
+const isTreatment = navVariant === 'treatment';
+const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
 ---
 
 <!DOCTYPE html>
@@ -53,6 +74,41 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
         .footer-editorial,
         .treatment-hero { padding-left: var(--content-px); padding-right: var(--content-px); }
         .marquee-container { padding: 32px 0; overflow: hidden; }
+        .nav-treatment { color: #F6F1EA; }
+        .nav-treatment .nav-logo { filter: brightness(0) invert(1); }
+        body.page-treatment .treatment-hero {
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            padding: 0 var(--content-px) 48px;
+            background: #1C1A17;
+        }
+        body.page-treatment .treatment-hero-media {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            border-radius: 0 0 22px 22px;
+        }
+        body.page-treatment .treatment-hero-media::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26,24,22,0.88) 0%, rgba(26,24,22,0.32) 46%, rgba(26,24,22,0.06) 72%);
+            z-index: 1;
+        }
+        body.page-treatment .treatment-hero-media img,
+        body.page-treatment .treatment-hero-media picture,
+        body.page-treatment .treatment-hero-media picture > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        body.page-treatment .treatment-hero .hero-titles {
+            position: relative;
+            z-index: 2;
+        }
         @media (max-width: 900px) {
             .nav-minimal { padding: 16px 24px; }
             .hero-editorial { padding: 80px 24px 48px; }
@@ -64,6 +120,11 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
             .trust-strip,
             .footer-editorial,
             .treatment-hero { padding-left: 24px; padding-right: 24px; }
+            body.page-treatment .treatment-hero {
+                min-height: 380px;
+                padding: 0 24px 32px;
+            }
+            body.page-treatment .treatment-hero-media { border-radius: 0; }
         }
     </style>
 
@@ -123,9 +184,19 @@ const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="manifest" href="/manifest.json">
 
-    {preloadImage && <link rel="preload" as="image" href={preloadImage}>}
+    {preloadImageLink && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadImageLink.href}
+        imagesrcset={preloadImageLink.imagesrcset}
+        imagesizes={preloadImageLink.imagesizes}
+        type={preloadImageLink.type}
+        fetchpriority={preloadImageLink.fetchpriority}
+      />
+    )}
 </head>
-<body>
+<body class:list={[bodyClass, isTreatment && 'page-treatment']}>
     <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
     <Nav variant={navVariant} />
 

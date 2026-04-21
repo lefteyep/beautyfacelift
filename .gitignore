@@ -29,9 +29,13 @@ pnpm-debug.log*
 CLAUDE.md
 .claude/*.md
 .claude/memory/
+.claude/worktrees/
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
+
+# local Supabase CLI state
+supabase/.temp/

@@ -1,10 +1,20 @@
 ---
-
 import Base from '../../../layouts/Base.astro';
-import Marquee from '../../../components/Marquee.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { Image, getImage } from 'astro:assets';
+import { peelingTreatment, spaFacialTreatment, spaInterior } from '../../../lib/site-images';
+
+const treatmentHeroSizes = '100vw';
+const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const peelingHeroPreload = await getImage({
+    src: spaInterior,
+    widths: [768, 1024, 1440, 1920],
+    sizes: treatmentHeroSizes,
+    format: 'webp',
+    quality: 'mid',
+});
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -110,14 +120,30 @@ const faqData = {
 <Base
     title="Fruchtsäure Peeling Zürich | Medical Skin Peeling"
     description="Professionelles Fruchtsäure Peeling in Zürich ab CHF 150. AHA-Peeling gegen Akne, Hyperpigmentierung und Grauschleier. Premium Medical Spa an der Bahnhofstrasse. Jetzt Termin buchen."
-    preloadImage="/assets/spa_interior.png"
+    preloadImage={{
+        href: peelingHeroPreload.src,
+        imagesrcset: peelingHeroPreload.srcSet.attribute,
+        imagesizes: treatmentHeroSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
     navVariant="treatment"
+    bodyClass="treatment-page"
     structuredData={structuredData}
 >
     <!-- Editorial Hero with Background Image -->
     <header class="treatment-hero">
         <div class="treatment-hero-media">
-            <img src="/assets/spa_interior.png" alt="Fruchtsäure Peeling im Premium Medical Spa Beauty Face Lift Zürich" id="treatment-hero-img" width="1920" height="1080">
+            <Image
+                src={spaInterior}
+                widths={[768, 1024, 1440, 1920]}
+                sizes={treatmentHeroSizes}
+                format="webp"
+                quality="mid"
+                priority
+                alt="Fruchtsäure Peeling im Premium Medical Spa Beauty Face Lift Zürich"
+                id="treatment-hero-img"
+            />
         </div>
         <div class="hero-titles">
             <div class="sub-display text-reveal-wrapper margin-bottom-sm">
@@ -133,15 +159,13 @@ const faqData = {
         </div>
     </header>
 
-    <div class="container" style="padding-top: 1rem;">
+    <div class="container treatment-breadcrumbs">
         <Breadcrumbs items={[
             { label: "Home", href: "/" },
             { label: "Behandlungen", href: "/behandlungen/" },
             { label: "Fruchtsäure Peeling Zürich" }
         ]} />
     </div>
-
-    <Marquee items={["AHA Peeling", "Hauterneuerung", "Porenverfeinerung", "Strahlender Teint", "Glykolsäure", "Anti-Akne"]} />
 
     <!-- Die Methode — Content Split -->
     <section class="about-editorial pad-y">
@@ -155,7 +179,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_interior.png" alt="Fruchtsäure Peeling Behandlungsraum Beauty Face Lift Zürich Bahnhofstrasse" class="anim-img" loading="lazy" width="800" height="960">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Fruchtsäure Peeling Behandlungsraum Beauty Face Lift Zürich Bahnhofstrasse"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -193,7 +226,16 @@ const faqData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim" style="order: -1;">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/peeling_treatment.jpg" alt="Professionelles Fruchtsäure Peeling Behandlung Ablauf Zürich" class="anim-img" loading="lazy" width="800" height="960">
+                    <Image
+                        src={peelingTreatment}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Professionelles Fruchtsäure Peeling Behandlung Ablauf Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
             <div class="about-text scroll-anim">
@@ -258,7 +300,16 @@ const faqData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_facial_treatment.png" alt="Kundin erhält Fruchtsäure Peeling Behandlung bei Beauty Face Lift Zürich" class="anim-img" loading="lazy" width="800" height="960">
+                    <Image
+                        src={spaFacialTreatment}
+                        widths={[360, 540, 720, 960]}
+                        sizes={treatmentContentSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Kundin erhält Fruchtsäure Peeling Behandlung bei Beauty Face Lift Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -298,7 +349,7 @@ const faqData = {
             <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 2rem;">Gesichtsbehandlung Kundin</p>
             <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
                 <span style="color: var(--accent); font-size: 1.2rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                <span style="font-weight: 500;">4.8 von 5 Sternen auf Treatwell</span>
+                <span style="font-weight: 500;">4.8 von 5 Sternen aus verifizierten Bewertungen</span>
                 <span style="opacity: 0.6;">&bull; 240+ Bewertungen</span>
             </div>
         </div>

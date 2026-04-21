@@ -1,8 +1,16 @@
 ---
-
 import Base from '../../layouts/Base.astro';
 import TreatmentLinkCard from '../../components/TreatmentLinkCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { Image } from 'astro:assets';
+import {
+    coldplasmaCard,
+    hydrafacialCard,
+    microneedlingCard,
+    peelingCard,
+} from '../../lib/site-images';
+
+const overviewCardSizes = '(min-width: 1240px) 595px, (min-width: 901px) 44vw, 100vw';
 
 const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -113,7 +121,16 @@ const faqStructuredData = {
         <div class="treatments-overview-grid">
             <a href="/behandlungen/hydrafacial-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask service-image-tall">
-                    <img src="/assets/hydrafacial_treatment.png" alt="Hydrafacial Behandlung Zürich" class="anim-img" loading="lazy" width="600" height="500">
+                    <Image
+                        src={hydrafacialCard}
+                        widths={[360, 540, 720, 960]}
+                        sizes={overviewCardSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Hydrafacial Behandlung Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Hydra Facial</h3>
@@ -124,7 +141,16 @@ const faqStructuredData = {
 
             <a href="/behandlungen/microneedling-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask service-image-tall">
-                    <img src="/assets/microneedling_treatment.png" alt="Microneedling Behandlung Zürich" class="anim-img" loading="lazy" width="600" height="500">
+                    <Image
+                        src={microneedlingCard}
+                        widths={[360, 540, 720, 960]}
+                        sizes={overviewCardSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Microneedling Behandlung Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Micro Needling</h3>
@@ -135,7 +161,16 @@ const faqStructuredData = {
 
             <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask service-image-tall">
-                    <img src="/assets/peeling_treatment_new.png" alt="Fruchtsäure Peeling Zürich" class="anim-img" loading="lazy" width="600" height="500">
+                    <Image
+                        src={peelingCard}
+                        widths={[360, 540, 720, 960]}
+                        sizes={overviewCardSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="Fruchtsäure Peeling Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Fruchtsäure Peeling</h3>
@@ -146,7 +181,16 @@ const faqStructuredData = {
 
             <a href="/behandlungen/coldplasma-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask service-image-tall">
-                    <img src="/assets/coldplasma_treatment.png" alt="ColdPlasma Behandlung Zürich" class="anim-img" loading="lazy" width="600" height="500">
+                    <Image
+                        src={coldplasmaCard}
+                        widths={[360, 540, 720, 960]}
+                        sizes={overviewCardSizes}
+                        format="webp"
+                        quality="mid"
+                        alt="ColdPlasma Behandlung Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
                 <div class="treatment-overview-content">
                     <h3>ColdPlasma</h3>

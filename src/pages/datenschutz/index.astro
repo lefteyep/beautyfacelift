@@ -10,7 +10,7 @@ import Base from '../../layouts/Base.astro';
     <section class="container legal-page">
         <h1>Datenschutzerklärung</h1>
 
-        <p><strong>Stand:</strong> März 2026</p>
+        <p><strong>Stand:</strong> April 2026</p>
 
         <h2>1. Verantwortliche Stelle</h2>
         <p>
@@ -28,6 +28,7 @@ import Base from '../../layouts/Base.astro';
             <li>Name</li>
             <li>E-Mail-Adresse</li>
             <li>Telefonnummer</li>
+            <li>Angaben aus dem Kontaktformular (Thema, Nachricht, gewünschter Rückrufzeitpunkt)</li>
             <li>Buchungsdaten (gewählte Behandlung, Datum, Uhrzeit)</li>
             <li>Optionale Anmerkungen zur Buchung</li>
         </ul>
@@ -38,12 +39,14 @@ import Base from '../../layouts/Base.astro';
             <li>Bearbeitung und Bestätigung Ihrer Terminbuchung</li>
             <li>Kommunikation bezüglich Ihres Termins (Bestätigung, Erinnerung, Änderung, Stornierung)</li>
             <li>Beantwortung Ihrer Anfragen</li>
+            <li>Spam- und Missbrauchsschutz für unser Kontaktformular</li>
             <li>Verbesserung unseres Angebots und unserer Website</li>
         </ul>
 
         <h2>4. Datenspeicherung</h2>
         <p>Ihre Buchungsdaten werden in einer Datenbank bei <strong>Supabase</strong> (EU-Region, Frankfurt) gespeichert. Die Daten werden verschlüsselt übertragen (TLS) und in einer EU-konformen Infrastruktur gehostet.</p>
         <p>Zahlungsdaten für optionale Anzahlungen werden direkt von <strong>Stripe</strong> verarbeitet. Wir speichern keine Kreditkartendaten auf unseren Servern.</p>
+        <p>Kontaktanfragen werden serverseitig verarbeitet. Dabei werden Ihre Formularangaben, die IP-Adresse, der User-Agent sowie der Zeitpunkt der Anfrage zur Missbrauchsprävention und Bearbeitung der Nachricht verarbeitet.</p>
 
         <h2>5. Cookies und Tracking</h2>
         <p>Unsere Website verwendet Cookies und Tracking-Technologien zur Analyse der Website-Nutzung und zur Optimierung unserer Werbemassnahmen:</p>
@@ -62,9 +65,10 @@ import Base from '../../layouts/Base.astro';
         <p>Wir nutzen folgende Drittanbieter zur Erbringung unserer Dienste:</p>
         <ul>
             <li><strong>Cloudflare:</strong> Hosting und Bereitstellung der Website (USA/EU)</li>
+            <li><strong>Cloudflare Turnstile:</strong> Bot- und Missbrauchsschutz für das Kontaktformular</li>
             <li><strong>Supabase:</strong> Datenbank und Authentifizierung (EU — Frankfurt)</li>
             <li><strong>Stripe:</strong> Zahlungsabwicklung für Anzahlungen (EU/USA)</li>
-            <li><strong>Resend:</strong> Versand von E-Mail-Benachrichtigungen (USA)</li>
+            <li><strong>Resend:</strong> Versand von E-Mail-Benachrichtigungen und Kontaktanfragen (USA)</li>
             <li><strong>Google:</strong> Analytics, Ads, Tag Manager (USA)</li>
             <li><strong>Meta:</strong> Pixel, Conversions API (USA)</li>
         </ul>
