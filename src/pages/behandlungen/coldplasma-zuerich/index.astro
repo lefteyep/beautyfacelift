@@ -4,12 +4,12 @@ import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image, getImage } from 'astro:assets';
-import { spaFacialTreatment, spaInterior, spaProducts } from '../../../lib/site-images';
+import { coldplasmaCard, spaInterior, spaProducts } from '../../../lib/site-images';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const coldPlasmaHeroPreload = await getImage({
-    src: spaFacialTreatment,
+    src: coldplasmaCard,
     widths: [768, 1024, 1440, 1920],
     sizes: treatmentHeroSizes,
     format: 'webp',
@@ -21,7 +21,7 @@ const structuredData = {
     "@type": "Service",
     "name": "ColdPlasma Behandlung Zürich",
     "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/spa_facial_treatment.png",
+    "image": "https://beautyfacelift.ch/assets/coldplasma_treatment.png",
     "serviceType": "ColdPlasma",
     "category": "Gesichtsbehandlung",
     "provider": {
@@ -126,7 +126,7 @@ const faqData = {
     <header class="treatment-hero">
         <div class="treatment-hero-media">
             <Image
-                src={spaFacialTreatment}
+                src={coldplasmaCard}
                 widths={[768, 1024, 1440, 1920]}
                 sizes={treatmentHeroSizes}
                 format="webp"

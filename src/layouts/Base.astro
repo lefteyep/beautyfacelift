@@ -41,7 +41,7 @@ const {
   bodyClass,
 } = Astro.props;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, 'https://beautyfacelift.ch').href;
-const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/spa_interior.png';
+const ogImageUrl = ogImage || 'https://beautyfacelift.ch/assets/hero_center.png';
 const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
 ---

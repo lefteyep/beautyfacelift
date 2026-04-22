@@ -4,12 +4,12 @@ import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image, getImage } from 'astro:assets';
-import { peelingTreatment, spaFacialTreatment, spaInterior } from '../../../lib/site-images';
+import { peelingCard, peelingTreatment, spaFacialTreatment, spaInterior } from '../../../lib/site-images';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const peelingHeroPreload = await getImage({
-    src: spaInterior,
+    src: peelingCard,
     widths: [768, 1024, 1440, 1920],
     sizes: treatmentHeroSizes,
     format: 'webp',
@@ -23,7 +23,7 @@ const structuredData = {
     "serviceType": "Fruchtsäure Peeling",
     "category": "Gesichtsbehandlung",
     "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/spa_interior.png",
+    "image": "https://beautyfacelift.ch/assets/peeling_treatment_new.png",
     "provider": {
         "@type": "HealthAndBeautyBusiness",
         "name": "Beauty Face Lift",
@@ -135,7 +135,7 @@ const faqData = {
     <header class="treatment-hero">
         <div class="treatment-hero-media">
             <Image
-                src={spaInterior}
+                src={peelingCard}
                 widths={[768, 1024, 1440, 1920]}
                 sizes={treatmentHeroSizes}
                 format="webp"

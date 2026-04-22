@@ -9,7 +9,11 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/admin') && !page.includes('/lp/') && !page.includes('/buchung-bestaetigt'),
+      filter: (page) =>
+        !page.includes('/admin') &&
+        !page.includes('/lp/') &&
+        !page.includes('/buchung-bestaetigt') &&
+        !page.includes('/kontakt/danke'),
       changefreq: 'weekly',
       priority: 0.7,
       serialize(item) {

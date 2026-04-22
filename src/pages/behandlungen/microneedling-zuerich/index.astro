@@ -5,12 +5,12 @@ import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image, getImage } from 'astro:assets';
-import { spaFacialTreatment, spaInterior, spaProducts } from '../../../lib/site-images';
+import { microneedlingCard, spaFacialTreatment, spaInterior, spaProducts } from '../../../lib/site-images';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const microneedlingHeroPreload = await getImage({
-    src: spaProducts,
+    src: microneedlingCard,
     widths: [768, 1024, 1440, 1920],
     sizes: treatmentHeroSizes,
     format: 'webp',
@@ -24,7 +24,7 @@ const structuredData = {
     "serviceType": "Microneedling",
     "category": "Gesichtsbehandlung",
     "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/spa_products.png",
+    "image": "https://beautyfacelift.ch/assets/microneedling_treatment.png",
     "provider": {
         "@type": "HealthAndBeautyBusiness",
         "name": "Beauty Face Lift",
@@ -134,7 +134,7 @@ const faqData = {
     <header class="treatment-hero">
         <div class="treatment-hero-media">
             <Image
-                src={spaProducts}
+                src={microneedlingCard}
                 widths={[768, 1024, 1440, 1920]}
                 sizes={treatmentHeroSizes}
                 format="webp"
