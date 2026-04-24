@@ -6,9 +6,16 @@ import '../styles/booking.css';
 interface Props {
   title: string;
   description: string;
+  preloadImage?: {
+    href: string;
+    imagesrcset?: string;
+    imagesizes?: string;
+    type?: string;
+    fetchpriority?: 'high' | 'low' | 'auto';
+  };
 }
 
-const { title, description } = Astro.props;
+const { title, description, preloadImage } = Astro.props;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const pixelNoscriptHtml = pixelId
     ? `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${pixelId}&amp;ev=PageView&amp;noscript=1" />`
@@ -25,6 +32,17 @@ const pixelNoscriptHtml = pixelId
     <title>{title}</title>
     <meta name="theme-color" content="#B98F47">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    {preloadImage && (
+        <link
+            rel="preload"
+            as="image"
+            href={preloadImage.href}
+            imagesrcset={preloadImage.imagesrcset}
+            imagesizes={preloadImage.imagesizes}
+            type={preloadImage.type}
+            fetchpriority={preloadImage.fetchpriority}
+        />
+    )}
     {pixelId && (
         <script is:inline define:vars={{ pixelId }}>
             !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?

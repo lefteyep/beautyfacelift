@@ -134,9 +134,19 @@
     padding: 60px 320px;
     border-top: 1px solid var(--border-subtle);
     border-bottom: 1px solid var(--border-subtle);
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 28px;
     align-items: center;
-    gap: 24px;
+}
+
+.blog-author-bio .blog-author-avatar {
+    grid-column: 1;
+    grid-row: 1 / -1;
+}
+
+.blog-author-bio > *:not(.blog-author-avatar) {
+    grid-column: 2;
 }
 
 .blog-author-bio h3 {
@@ -151,8 +161,8 @@
 }
 
 .blog-author-avatar {
-    width: 60px;
-    height: 60px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;

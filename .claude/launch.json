@@ -4,7 +4,7 @@
     {
       "name": "astro-dev",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["-e", "import('file:///C:/Users/Nutzer/Desktop/Projekte/Kunden/beautyfacelift/astro-v2/node_modules/astro/dist/cli/index.js')"],
+      "runtimeArgs": ["node_modules/astro/bin/astro.mjs", "dev"],
       "port": 4321
     }
   ]

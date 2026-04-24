@@ -1,6 +1,8 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { Image } from 'astro:assets';
+import { teresaPortrait } from '../../../lib/site-images';
 import '../../../styles/blog.css';
 
 const breadcrumbs = [
@@ -392,6 +394,17 @@ const structuredData = [
 
             <!-- Author Bio -->
             <div class="blog-author-bio">
+                <div class="blog-author-avatar">
+                    <Image
+                        src={teresaPortrait}
+                        widths={[120, 192]}
+                        sizes="96px"
+                        format="webp"
+                        quality="high"
+                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
+                        loading="lazy"
+                    />
+                </div>
                 <h3>Über die Autorin</h3>
                 <p>
                     <strong>Teresa Stimac</strong> ist diplomierte Kosmetikerin und Inhaberin von Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege hat sie sich auf wirkungsvolle Gesichtsbehandlungen spezialisiert, die natürliche Ergebnisse liefern. Ihre Leidenschaft: individuelle Behandlungskonzepte, die auf die einzigartigen Bedürfnisse jeder Kundin abgestimmt sind.

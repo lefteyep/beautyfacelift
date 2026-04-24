@@ -3,11 +3,11 @@
 import Base from '../../layouts/Base.astro';
 import Marquee from '../../components/Marquee.astro';
 import { Image, getImage } from 'astro:assets';
-import { consultationTrust, spaInterior, spaProducts } from '../../lib/site-images';
+import { spaInterior, spaProducts, teresaPortrait } from '../../lib/site-images';
 
 const aboutImageSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
-const aboutConsultationPreload = await getImage({
-    src: consultationTrust,
+const aboutTeresaPreload = await getImage({
+    src: teresaPortrait,
     widths: [360, 540, 720, 960, 1023],
     sizes: aboutImageSizes,
     format: 'webp',
@@ -18,7 +18,7 @@ const structuredData = {
     "@context": "https://schema.org",
     "@type": "HealthAndBeautyBusiness",
     "name": "Beauty Face Lift",
-    "image": "https://beautyfacelift.ch/assets/consultation_trust.png",
+    "image": "https://beautyfacelift.ch/assets/teresa_portrait.jpg",
     "@id": "https://beautyfacelift.ch",
     "url": "https://beautyfacelift.ch",
     "telephone": "+41792143462",
@@ -38,6 +38,7 @@ const structuredData = {
     "founder": {
         "@type": "Person",
         "name": "Teresa Stimac",
+        "image": "https://beautyfacelift.ch/assets/teresa_portrait.jpg",
         "jobTitle": "Gründerin & Kosmetikerin",
         "description": "Selbstständige Kosmetikerin mit über 20 Jahren Erfahrung in Zürich",
         "knowsAbout": ["Hydrafacial", "Microneedling", "Fruchtsäure Peeling", "ColdPlasma", "Hautpflege", "Anti-Aging"],
@@ -63,13 +64,13 @@ const structuredData = {
     title="Über uns | Beauty Face Lift — Teresa Stimac, Kosmetikerin Zürich"
     description="Lernen Sie Teresa Stimac kennen — seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 4.8 Sterne bei 240+ Bewertungen. Ihr Premium Medical Spa an der Bahnhofstrasse 94."
     preloadImage={{
-        href: aboutConsultationPreload.src,
-        imagesrcset: aboutConsultationPreload.srcSet.attribute,
+        href: aboutTeresaPreload.src,
+        imagesrcset: aboutTeresaPreload.srcSet.attribute,
         imagesizes: aboutImageSizes,
         type: 'image/webp',
         fetchpriority: 'high',
     }}
-    ogImage="https://beautyfacelift.ch/assets/consultation_trust.png"
+    ogImage="https://beautyfacelift.ch/assets/teresa_portrait.jpg"
     structuredData={structuredData}
 >
     <!-- Page Header -->
@@ -84,12 +85,12 @@ const structuredData = {
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 130%;">
                     <Image
-                        src={consultationTrust}
+                        src={teresaPortrait}
                         widths={[360, 540, 720, 960, 1023]}
                         sizes={aboutImageSizes}
                         format="webp"
                         quality="high"
-                        alt="Persönliche Hautanalyse und Beratung bei Beauty Face Lift Zürich"
+                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
                         class="anim-img"
                         loading="eager"
                     />

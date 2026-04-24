@@ -8,10 +8,21 @@ import TestimonialStrip from '../../../components/lp/TestimonialStrip.astro';
 import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
 import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
+import { Image, getImage } from 'astro:assets';
+import { microneedlingCard, teresaPortrait } from '../../../lib/site-images';
 
 const OLD_PRICE = 220;
 const NEW_PRICE = 160;
 const DISCOUNT_PERCENT = Math.round(((OLD_PRICE - NEW_PRICE) / OLD_PRICE) * 100);
+const lpHeroSizes = '(min-width: 1101px) 50vw, (min-width: 601px) 540px, 100vw';
+const lpAboutSizes = '(min-width: 1101px) 48vw, (min-width: 601px) 520px, 100vw';
+const lpHeroPreload = await getImage({
+  src: microneedlingCard,
+  widths: [480, 720, 960, 1200, 1536],
+  sizes: lpHeroSizes,
+  format: 'webp',
+  quality: 'high',
+});
 
 const whatsappMessage = `Hallo Teresa, ich interessiere mich für die Carbon-Microneedling-Aktion (CHF ${NEW_PRICE}).`;
 
@@ -84,7 +95,7 @@ const structuredData = {
       '@id': 'https://beautyfacelift.ch/lp/carbon-microneedling/#product',
       name: 'Carbon Microneedling — Glow-Up-Methode',
       description: 'Premium Carbon Microneedling an der Bahnhofstrasse Zürich. Carbon-Peeling + Microneedling + Hyaluron-Finish in einer 90-minütigen Sitzung.',
-      image: 'https://beautyfacelift.ch/assets/lp-carbon/glow-up-hero-zurich-beauty-face-lift.webp',
+      image: 'https://beautyfacelift.ch/assets/microneedling_treatment_editorial.png',
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
         '@type': 'Offer',
@@ -111,6 +122,13 @@ const structuredData = {
 <LandingPage
   title="Carbon Microneedling Zürich — CHF 160 statt 220 | Beauty Face Lift"
   description="Carbon Microneedling an der Bahnhofstrasse Zürich. Glow-Up-Methode für straffe, porenreine Haut. Einführungsaktion: CHF 160.- statt 220.-."
+  preloadImage={{
+    href: lpHeroPreload.src,
+    imagesrcset: lpHeroPreload.srcSet.attribute,
+    imagesizes: lpHeroSizes,
+    type: 'image/webp',
+    fetchpriority: 'high',
+  }}
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
@@ -137,8 +155,8 @@ const structuredData = {
         </div>
 
         <div class="lp-hero-ctas">
-          <a href="#buchen" class="pill-btn">Jetzt Termin sichern</a>
-          <WhatsAppButton variant="inline" message={whatsappMessage} source="hero" />
+          <a href="#buchen" class="pill-btn lp-hero-primary">Termin buchen</a>
+          <WhatsAppButton variant="inline" message={whatsappMessage} source="hero" label="WhatsApp" />
         </div>
 
         <div class="lp-hero-trust">
@@ -147,13 +165,14 @@ const structuredData = {
       </div>
 
       <div class="lp-hero-media">
-        <img
-          src="/assets/lp-carbon/glow-up-hero-zurich-beauty-face-lift.webp"
-          alt="Carbon Microneedling Glow-Up bei Beauty Face Lift Zürich"
-          loading="eager"
-          fetchpriority="high"
-          width="720"
-          height="900"
+        <Image
+          src={microneedlingCard}
+          widths={[480, 720, 960, 1200, 1536]}
+          sizes={lpHeroSizes}
+          format="webp"
+          quality="high"
+          priority
+          alt="Microneedling Behandlung mit medizinischem Pen bei Beauty Face Lift Zürich"
         />
       </div>
     </div>
@@ -278,16 +297,18 @@ const structuredData = {
     <TestimonialStrip testimonials={testimonials} />
   </section>
 
-  <!-- ABOUT TERESA -->
+  <!-- ABOUT / TRUST -->
   <section class="container lp-section lp-about">
     <div class="lp-about-grid">
       <div class="lp-about-media">
-        <img
-          src="/assets/lp-carbon/uber-mich-beauty-face-lift-.webp"
-          alt="Teresa Stimac — Gründerin von Beauty Face Lift Zürich"
+        <Image
+          src={teresaPortrait}
+          widths={[360, 540, 720, 960, 1023]}
+          sizes={lpAboutSizes}
+          format="webp"
+          quality="high"
+          alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
           loading="lazy"
-          width="600"
-          height="720"
         />
       </div>
       <div class="lp-about-content">
@@ -429,11 +450,16 @@ const structuredData = {
     flex-wrap: wrap;
     align-items: stretch;
   }
-  .lp-hero-ctas > :global(.pill-btn) {
-    flex: 1 1 200px;
+  .lp-hero-primary {
+    flex: 1 1 220px;
+    min-width: 220px;
+  }
+  .lp-hero-ctas > :global(.wa-inline) {
+    flex: 0 1 auto;
     min-width: 0;
     justify-content: center;
     text-align: center;
+    white-space: nowrap;
   }
   .lp-hero-trust {
     padding-top: 0.75rem;
@@ -844,7 +870,7 @@ const structuredData = {
     .lp-divider { padding: 1rem 0; }
 
     .lp-hero-media {
-      order: -1;
+      order: 0;
       max-width: 440px;
     }
 
@@ -891,30 +917,56 @@ const structuredData = {
 
   /* Phone */
   @media (max-width: 600px) {
-    .lp-hero { padding-top: 7vh; padding-bottom: 2vh; }
+    .lp-hero { padding-top: 3vh; padding-bottom: 3.5rem; }
     .lp-section { padding-block: 4rem; }
     .lp-section-head { margin-bottom: 1.75rem; }
 
+    .lp-hero-grid {
+      gap: 2rem;
+    }
     .lp-hero-content {
       gap: 1.25rem;
     }
+    .lp-title {
+      font-size: clamp(3rem, 12vw, 3.45rem);
+      line-height: 1.04;
+    }
     .lp-hero-media {
-      max-width: 380px;
+      order: 0;
+      max-width: 360px;
     }
     .lp-hero-media img {
-      max-height: 420px;
+      aspect-ratio: 4 / 3;
+      max-height: 300px;
       object-fit: cover;
-      object-position: center 18%;
+      object-position: center center;
     }
     .lp-hero-offer {
-      padding: 0.9rem 0 0.9rem 1rem;
-      margin: 0.5rem 0;
+      display: none;
+    }
+    .lp-hero-ctas {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(112px, auto);
+      gap: 0.6rem;
+      align-items: stretch;
+    }
+    .lp-hero-primary {
+      min-width: 0;
+    }
+    .lp-hero-ctas > :global(.pill-btn) {
+      min-height: 50px;
+      padding: 13px 18px;
+      width: 100%;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+    .lp-hero-ctas > :global(.wa-inline) {
+      min-width: 0;
     }
     .lp-hero-trust {
       padding-top: 0.75rem;
       margin-top: 0.25rem;
     }
-
     .lp-subtitle {
       font-size: 1rem;
       line-height: 1.55;

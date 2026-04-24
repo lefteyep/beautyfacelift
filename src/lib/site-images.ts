@@ -5,6 +5,7 @@ import microneedlingCard from '../assets/marketing/microneedling_treatment_edito
 import peelingCard from '../assets/marketing/peeling_treatment_editorial.png';
 import coldplasmaCard from '../assets/marketing/coldplasma_treatment_editorial.png';
 import consultationTrust from '../assets/marketing/consultation_trust.png';
+import teresaPortrait from '../assets/marketing/teresa_portrait.jpg';
 import spaInterior from '../assets/marketing/spa_interior.png';
 import spaProducts from '../assets/marketing/spa_products.png';
 import spaFacialTreatment from '../assets/marketing/spa_facial_treatment.png';
@@ -22,4 +23,5 @@ export {
   spaFacialTreatment,
   spaInterior,
   spaProducts,
+  teresaPortrait,
 };

@@ -17,7 +17,19 @@
       "Bash(gh repo:*)",
       "Bash(while read:*)",
       "Bash(do sed:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(npm view:*)",
+      "WebFetch(domain:www.treatwell.ch)",
+      "Bash(npm root:*)",
+      "Bash(where npm.cmd)",
+      "Bash(where npm:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4321/)",
+      "Bash(taskkill //F //FI 'WINDOWTITLE eq astro')",
+      "Bash(lsof -ti:4321)",
+      "Bash(xargs kill:*)",
+      "Bash(node node_modules/astro/dist/cli/index.js dev)",
+      "Bash(node -e \"import\\(''''file:///C:/Users/Nutzer/Desktop/Projekte/Kunden/beautyfacelift/astro-v2/node_modules/astro/dist/cli/index.js''''\\).then\\(m => m.cli\\([''''dev'''']\\)\\).catch\\(e => console.error\\(e\\)\\)\")",
+      "WebFetch(domain:www.figma.com)"
     ]
   }
 }

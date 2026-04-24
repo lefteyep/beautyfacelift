@@ -1,6 +1,8 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { Image } from 'astro:assets';
+import { teresaPortrait } from '../../../lib/site-images';
 import '../../../styles/blog.css';
 
 const title = 'Die perfekte Hautpflege-Routine: Tipps von Ihrer Kosmetikerin';
@@ -442,6 +444,17 @@ const structuredData = [articleSchema, faqSchema];
         <!-- Author Bio -->
         <div class="blog-article">
             <div class="blog-author-bio">
+                <div class="blog-author-avatar">
+                    <Image
+                        src={teresaPortrait}
+                        widths={[120, 192]}
+                        sizes="96px"
+                        format="webp"
+                        quality="high"
+                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
+                        loading="lazy"
+                    />
+                </div>
                 <h3>Über die Autorin</h3>
                 <p>Teresa Stimac ist Inhaberin und leitende Kosmetikerin bei <strong>Beauty Face Lift</strong> an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege berät sie ihre Kundinnen individuell zu den besten Behandlungen und Pflegeroutinen für ein strahlendes Hautbild.</p>
                 <div style="margin-top: 1.5rem;">

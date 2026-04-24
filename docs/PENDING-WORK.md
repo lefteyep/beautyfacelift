@@ -1,10 +1,16 @@
 # Pending Work
 
-Last updated: 2026-04-20 (sitewide container cleanup + nav dropdown session)
+Last updated: 2026-04-24 (real Teresa portrait rolled out sitewide)
 
 Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, CI green, bookings + emails working.
 
 ---
+
+## Recently completed (2026-04-24)
+
+- **Real Teresa portrait sitewide** — replaced the `consultationTrust` stock placeholder with the real `teresa_portrait.jpg` on the homepage about-section, `ueber-uns` hero/og-image/schema.org founder image, and the Carbon Microneedling LP "Deine Expertin" block. Source PNG (1.7MB) compressed to ~100KB JPEG for both the Astro Image pipeline (`src/assets/marketing/`) and the direct og:image (`public/assets/`). Astro emits WebP variants at build.
+- **Author avatar on blog posts** — added a 96px circular Teresa avatar to the author bio on all five blog articles and the `BlogPost.astro` layout. `.blog-author-bio` switched from flex to CSS grid so the avatar spans the bio rows cleanly without wrapping markup.
+- **Reusable optimisation script** — [`scripts/optimize-teresa.mjs`](../scripts/optimize-teresa.mjs) regenerates both JPEGs from the source PNG via sharp.
 
 ## Recently completed (2026-04-20)
 
@@ -53,9 +59,9 @@ Current: `info@pauloferreira.de / test123` (in `src/components/admin/LoginForm.t
 
 Estimated effort: 2-3 hours of implementation once keys are in hand.
 
-### Real images (blocked on assets)
+### Real images (partially done)
 
-**Status:** Generic stock images reused across all treatment pages with misleading alt text.
+**Status:** Teresa's portrait is now the real photo sitewide (2026-04-24). Studio interior and treatment cards remain generic stock with misleading alt text.
 
 See [docs/IMAGES.md](IMAGES.md) for the full image brief — exact paths, dimensions, alt text context, and AI generation prompts for each.
 

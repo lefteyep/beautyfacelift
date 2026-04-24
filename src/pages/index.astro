@@ -4,12 +4,12 @@ import Marquee from '../components/Marquee.astro';
 import { Image, getImage } from 'astro:assets';
 import {
     coldplasmaCard,
-    consultationTrust,
     heroCenter,
     heroRight,
     hydrafacialCard,
     microneedlingCard,
     peelingCard,
+    teresaPortrait,
 } from '../lib/site-images';
 
 const heroMainSizes = '(min-width: 1240px) 396px, (min-width: 901px) 32vw, 88vw';
@@ -324,12 +324,12 @@ const faqData = {
             <div class="about-image scroll-anim">
                 <div class="about-portrait">
                     <Image
-                        src={consultationTrust}
+                        src={teresaPortrait}
                         widths={[360, 540, 720]}
                         sizes={portraitSizes}
                         format="webp"
                         quality="high"
-                        alt="Persönliche Hautanalyse und Beratung bei Beauty Face Lift Zürich"
+                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
                         class="anim-img"
                         loading="lazy"
                     />
