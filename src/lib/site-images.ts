@@ -10,8 +10,10 @@ import spaInterior from '../assets/marketing/spa_interior.png';
 import spaProducts from '../assets/marketing/spa_products.png';
 import spaFacialTreatment from '../assets/marketing/spa_facial_treatment.png';
 import peelingTreatment from '../assets/marketing/peeling_treatment_editorial.png';
+import carbonTreatmentTeresa from '../assets/marketing/carbon_treatment_teresa.png';
 
 export {
+  carbonTreatmentTeresa,
   coldplasmaCard,
   consultationTrust,
   heroCenter,

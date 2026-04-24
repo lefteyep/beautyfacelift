@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Marquee from '../components/Marquee.astro';
 import { Image, getImage } from 'astro:assets';
 import {
+    carbonTreatmentTeresa,
     coldplasmaCard,
     heroCenter,
     heroRight,
@@ -211,6 +212,19 @@ const faqData = {
                     fetchpriority="low"
                     id="hero-img-2"
                     alt="Professionelle Gesichtsbehandlung bei Beauty Face Lift Zürich"
+                />
+            </div>
+            <div class="hero-media-overlap-bottom" id="hero-float-2">
+                <Image
+                    src={carbonTreatmentTeresa}
+                    widths={[320, 480, 640]}
+                    sizes={heroSecondarySizes}
+                    format="webp"
+                    quality="mid"
+                    loading="lazy"
+                    fetchpriority="low"
+                    id="hero-img-3"
+                    alt="Teresa Stimac bei einer Carbon Peeling Behandlung im Studio an der Bahnhofstrasse Zürich"
                 />
             </div>
         </div>
