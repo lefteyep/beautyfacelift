@@ -19,7 +19,7 @@ const cardSizes = '(min-width: 1240px) 760px, (min-width: 901px) 56vw, 100vw';
 const portraitSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 
 const homepageHeroPreload = await getImage({
-    src: heroCenter,
+    src: carbonTreatmentTeresa,
     widths: [480, 720, 960, 1122],
     sizes: heroMainSizes,
     format: 'webp',
@@ -190,7 +190,7 @@ const faqData = {
         <div class="hero-media" id="hero-media">
             <div class="hero-media-main">
                 <Image
-                    src={heroCenter}
+                    src={carbonTreatmentTeresa}
                     widths={[480, 720, 960, 1122]}
                     sizes={heroMainSizes}
                     format="webp"
@@ -198,7 +198,7 @@ const faqData = {
                     priority
                     class="hero-img-inner"
                     id="hero-img-1"
-                    alt="Frau mit natürlicher, strahlender Haut in einem warmen Premium Kosmetikstudio"
+                    alt="Teresa Stimac bei einer Carbon Peeling Behandlung im Studio an der Bahnhofstrasse Zürich"
                 />
             </div>
             <div class="hero-media-overlap" id="hero-float-1">
@@ -216,7 +216,7 @@ const faqData = {
             </div>
             <div class="hero-media-overlap-bottom" id="hero-float-2">
                 <Image
-                    src={carbonTreatmentTeresa}
+                    src={heroCenter}
                     widths={[320, 480, 640]}
                     sizes={heroSecondarySizes}
                     format="webp"
@@ -224,7 +224,7 @@ const faqData = {
                     loading="lazy"
                     fetchpriority="low"
                     id="hero-img-3"
-                    alt="Teresa Stimac bei einer Carbon Peeling Behandlung im Studio an der Bahnhofstrasse Zürich"
+                    alt="Frau mit natürlicher, strahlender Haut in einem warmen Premium Kosmetikstudio"
                 />
             </div>
         </div>
