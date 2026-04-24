@@ -54,48 +54,53 @@ const badge = discountLabel ?? `${computedPercent}% Rabatt`;
 <style>
   .offer-chip {
     display: inline-flex;
-    align-items: center;
-    gap: 0.6rem 1.1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
     padding: 0;
     background: transparent;
     border: none;
     border-radius: 0;
     box-shadow: none;
-    font-size: var(--text-sm);
-    flex-wrap: wrap;
-    row-gap: 0.65rem;
     max-width: 100%;
   }
   .offer-chip-badge {
-    background: transparent;
-    color: var(--accent-text);
-    padding: 0;
-    border-radius: 0;
-    font-weight: 600;
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-caps);
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--r-sm, 4px);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
     box-shadow: none;
+    line-height: 1.2;
   }
   .offer-chip-prices {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.55rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
     white-space: nowrap;
   }
   .offer-chip-prices s {
     color: var(--text-muted);
     font-family: var(--font-sans);
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    line-height: 1.1;
   }
   .offer-chip-prices strong {
-    font-family: var(--font-serif);
-    font-size: 1.65rem;
-    font-weight: 500;
+    font-family: var(--font-sans);
+    font-size: clamp(2.2rem, 4vw, 2.75rem);
+    font-weight: 700;
     color: var(--text-primary);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
     line-height: 1;
   }
   .offer-chip-urgency {
