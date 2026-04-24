@@ -21,6 +21,13 @@ The design system defines the active visual identity:
 
 ## Audit Summary
 
+### Homepage Hero CTA
+
+The two primary homepage hero buttons had visually inconsistent widths because
+their layout was still content-sized. The CTA group now uses a fixed responsive
+column width and both links stretch to 100%, so "Jetzt Termin buchen" and
+"Behandlungen entdecken" render with matching widths across desktop and mobile.
+
 ### Hero
 
 The homepage hero needed a stronger brand-defining image. The previous imagery did not carry enough premium editorial trust or immediate emotional pull.
