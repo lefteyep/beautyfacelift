@@ -10,10 +10,10 @@ const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const peelingHeroPreload = await getImage({
     src: peelingCard,
-    widths: [768, 1024, 1440, 1920],
+    widths: [768, 1024, 1440, 1536],
     sizes: treatmentHeroSizes,
     format: 'webp',
-    quality: 'mid',
+    quality: 'high',
 });
 
 const structuredData = {
@@ -23,7 +23,7 @@ const structuredData = {
     "serviceType": "Fruchtsäure Peeling",
     "category": "Gesichtsbehandlung",
     "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/peeling_treatment_new.png",
+    "image": "https://beautyfacelift.ch/assets/peeling_treatment_editorial.png",
     "provider": {
         "@type": "HealthAndBeautyBusiness",
         "name": "Beauty Face Lift",
@@ -136,10 +136,10 @@ const faqData = {
         <div class="treatment-hero-media">
             <Image
                 src={peelingCard}
-                widths={[768, 1024, 1440, 1920]}
+                widths={[768, 1024, 1440, 1536]}
                 sizes={treatmentHeroSizes}
                 format="webp"
-                quality="mid"
+                quality="high"
                 priority
                 alt="Fruchtsäure Peeling im Premium Medical Spa Beauty Face Lift Zürich"
                 id="treatment-hero-img"
@@ -231,7 +231,7 @@ const faqData = {
                         widths={[360, 540, 720, 960]}
                         sizes={treatmentContentSizes}
                         format="webp"
-                        quality="mid"
+                        quality="high"
                         alt="Professionelles Fruchtsäure Peeling Behandlung Ablauf Zürich"
                         class="anim-img"
                         loading="lazy"

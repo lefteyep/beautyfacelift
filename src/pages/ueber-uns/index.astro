@@ -2,12 +2,23 @@
 
 import Base from '../../layouts/Base.astro';
 import Marquee from '../../components/Marquee.astro';
+import { Image, getImage } from 'astro:assets';
+import { consultationTrust, spaInterior, spaProducts } from '../../lib/site-images';
+
+const aboutImageSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const aboutConsultationPreload = await getImage({
+    src: consultationTrust,
+    widths: [360, 540, 720, 960, 1023],
+    sizes: aboutImageSizes,
+    format: 'webp',
+    quality: 'high',
+});
 
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "HealthAndBeautyBusiness",
     "name": "Beauty Face Lift",
-    "image": "https://beautyfacelift.ch/assets/teresa_portrait.jpg",
+    "image": "https://beautyfacelift.ch/assets/consultation_trust.png",
     "@id": "https://beautyfacelift.ch",
     "url": "https://beautyfacelift.ch",
     "telephone": "+41792143462",
@@ -51,7 +62,14 @@ const structuredData = {
 <Base
     title="Über uns | Beauty Face Lift — Teresa Stimac, Kosmetikerin Zürich"
     description="Lernen Sie Teresa Stimac kennen — seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 4.8 Sterne bei 240+ Bewertungen. Ihr Premium Medical Spa an der Bahnhofstrasse 94."
-    preloadImage="/assets/teresa_portrait.jpg"
+    preloadImage={{
+        href: aboutConsultationPreload.src,
+        imagesrcset: aboutConsultationPreload.srcSet.attribute,
+        imagesizes: aboutImageSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
+    ogImage="https://beautyfacelift.ch/assets/consultation_trust.png"
     structuredData={structuredData}
 >
     <!-- Page Header -->
@@ -65,7 +83,16 @@ const structuredData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 130%;">
-                    <img src="/assets/teresa_portrait.jpg" alt="Teresa Stimac — Gründerin Beauty Face Lift Zürich, seit über 20 Jahren Kosmetikerin" class="anim-img" loading="lazy" width="600" height="780">
+                    <Image
+                        src={consultationTrust}
+                        widths={[360, 540, 720, 960, 1023]}
+                        sizes={aboutImageSizes}
+                        format="webp"
+                        quality="high"
+                        alt="Persönliche Hautanalyse und Beratung bei Beauty Face Lift Zürich"
+                        class="anim-img"
+                        loading="eager"
+                    />
                 </div>
             </div>
             <div class="about-text scroll-anim">
@@ -94,7 +121,16 @@ const structuredData = {
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_products.png" alt="Premium Hautpflegeprodukte bei Beauty Face Lift — persönlich von Teresa ausgewählt" class="anim-img" loading="lazy" width="600" height="720">
+                    <Image
+                        src={spaProducts}
+                        widths={[360, 540, 720, 960]}
+                        sizes={aboutImageSizes}
+                        format="webp"
+                        quality="high"
+                        alt="Premium Hautpflegeprodukte bei Beauty Face Lift — persönlich von Teresa ausgewählt"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
         </div>
@@ -107,7 +143,16 @@ const structuredData = {
         <div class="split-layout align-center">
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <img src="/assets/spa_interior.png" alt="Beauty Face Lift Studio Interieur — Bahnhofstrasse 94, Zürich" class="anim-img" loading="lazy" width="600" height="720">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes={aboutImageSizes}
+                        format="webp"
+                        quality="high"
+                        alt="Beauty Face Lift Studio Interieur — Bahnhofstrasse 94, Zürich"
+                        class="anim-img"
+                        loading="lazy"
+                    />
                 </div>
             </div>
             <div class="about-text scroll-anim">

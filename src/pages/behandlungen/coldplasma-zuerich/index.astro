@@ -10,10 +10,10 @@ const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const coldPlasmaHeroPreload = await getImage({
     src: coldplasmaCard,
-    widths: [768, 1024, 1440, 1920],
+    widths: [768, 1024, 1440, 1536],
     sizes: treatmentHeroSizes,
     format: 'webp',
-    quality: 'mid',
+    quality: 'high',
 });
 
 const structuredData = {
@@ -21,7 +21,7 @@ const structuredData = {
     "@type": "Service",
     "name": "ColdPlasma Behandlung Zürich",
     "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/coldplasma_treatment.png",
+    "image": "https://beautyfacelift.ch/assets/coldplasma_treatment_editorial.png",
     "serviceType": "ColdPlasma",
     "category": "Gesichtsbehandlung",
     "provider": {
@@ -127,10 +127,10 @@ const faqData = {
         <div class="treatment-hero-media">
             <Image
                 src={coldplasmaCard}
-                widths={[768, 1024, 1440, 1920]}
+                widths={[768, 1024, 1440, 1536]}
                 sizes={treatmentHeroSizes}
                 format="webp"
-                quality="mid"
+                quality="high"
                 priority
                 alt="ColdPlasma Behandlung Zürich — Innovative Hautverjüngung an der Bahnhofstrasse"
                 id="treatment-hero-img"

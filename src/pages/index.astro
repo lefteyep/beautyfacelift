@@ -4,12 +4,12 @@ import Marquee from '../components/Marquee.astro';
 import { Image, getImage } from 'astro:assets';
 import {
     coldplasmaCard,
+    consultationTrust,
     heroCenter,
     heroRight,
     hydrafacialCard,
     microneedlingCard,
     peelingCard,
-    teresaPortrait,
 } from '../lib/site-images';
 
 const heroMainSizes = '(min-width: 1240px) 396px, (min-width: 901px) 32vw, 88vw';
@@ -19,17 +19,17 @@ const portraitSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw
 
 const homepageHeroPreload = await getImage({
     src: heroCenter,
-    widths: [480, 720, 960, 1200],
+    widths: [480, 720, 960, 1122],
     sizes: heroMainSizes,
     format: 'webp',
-    quality: 'mid',
+    quality: 'high',
 });
 
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "HealthAndBeautyBusiness",
     "name": "Beauty Face Lift",
-    "image": "https://beautyfacelift.ch/assets/hero_center.png",
+    "image": "https://beautyfacelift.ch/assets/hero_editorial_portrait.png",
     "@id": "https://beautyfacelift.ch",
     "url": "https://beautyfacelift.ch",
     "telephone": "+41792143462",
@@ -171,7 +171,7 @@ const faqData = {
     <header class="hero-editorial">
         <div class="hero-content">
             <div class="hero-sub-display sub-display text-reveal-wrapper">
-                <span class="text-reveal">Premium Kosmetikstudio  ·  Bahnhofstrasse Zürich</span>
+                <span class="text-reveal">Premium Kosmetikstudio ·<br class="hero-sub-mobile-break"> Bahnhofstrasse Zürich</span>
             </div>
 
             <h1 class="hero-display text-reveal-wrapper">
@@ -190,14 +190,14 @@ const faqData = {
             <div class="hero-media-main">
                 <Image
                     src={heroCenter}
-                    widths={[480, 720, 960, 1200]}
+                    widths={[480, 720, 960, 1122]}
                     sizes={heroMainSizes}
                     format="webp"
-                    quality="mid"
+                    quality="high"
                     priority
                     class="hero-img-inner"
                     id="hero-img-1"
-                    alt="Beauty Face Lift Kosmetikstudio Zürich Bahnhofstrasse — Premium Gesichtsbehandlungen"
+                    alt="Frau mit natürlicher, strahlender Haut in einem warmen Premium Kosmetikstudio"
                 />
             </div>
             <div class="hero-media-overlap" id="hero-float-1">
@@ -246,7 +246,7 @@ const faqData = {
                             widths={[360, 540, 720, 960]}
                             sizes={cardSizes}
                             format="webp"
-                            quality="mid"
+                            quality="high"
                             alt="Hydrafacial Behandlung Zürich — Tiefenreinigung und Glow"
                             class="anim-img"
                             loading="lazy"
@@ -265,7 +265,7 @@ const faqData = {
                             widths={[360, 540, 720, 960]}
                             sizes={cardSizes}
                             format="webp"
-                            quality="mid"
+                            quality="high"
                             alt="Microneedling Zürich — Anti-Aging und Kollagenbooster"
                             class="anim-img"
                             loading="lazy"
@@ -284,7 +284,7 @@ const faqData = {
                             widths={[360, 540, 720, 960]}
                             sizes={cardSizes}
                             format="webp"
-                            quality="mid"
+                            quality="high"
                             alt="Fruchtsäure Peeling Zürich — Chemisches Peeling für reine Haut"
                             class="anim-img"
                             loading="lazy"
@@ -303,7 +303,7 @@ const faqData = {
                             widths={[360, 540, 720, 960]}
                             sizes={cardSizes}
                             format="webp"
-                            quality="mid"
+                            quality="high"
                             alt="ColdPlasma Behandlung Zürich — Innovative Hautregeneration"
                             class="anim-img"
                             loading="lazy"
@@ -324,12 +324,12 @@ const faqData = {
             <div class="about-image scroll-anim">
                 <div class="about-portrait">
                     <Image
-                        src={teresaPortrait}
+                        src={consultationTrust}
                         widths={[360, 540, 720]}
                         sizes={portraitSizes}
                         format="webp"
-                        quality="mid"
-                        alt="Teresa Stimac — Gründerin und Kosmetikerin Beauty Face Lift Zürich"
+                        quality="high"
+                        alt="Persönliche Hautanalyse und Beratung bei Beauty Face Lift Zürich"
                         class="anim-img"
                         loading="lazy"
                     />

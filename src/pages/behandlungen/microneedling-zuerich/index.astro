@@ -11,10 +11,10 @@ const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const microneedlingHeroPreload = await getImage({
     src: microneedlingCard,
-    widths: [768, 1024, 1440, 1920],
+    widths: [768, 1024, 1440, 1536],
     sizes: treatmentHeroSizes,
     format: 'webp',
-    quality: 'mid',
+    quality: 'high',
 });
 
 const structuredData = {
@@ -24,7 +24,7 @@ const structuredData = {
     "serviceType": "Microneedling",
     "category": "Gesichtsbehandlung",
     "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/microneedling_treatment.png",
+    "image": "https://beautyfacelift.ch/assets/microneedling_treatment_editorial.png",
     "provider": {
         "@type": "HealthAndBeautyBusiness",
         "name": "Beauty Face Lift",
@@ -135,10 +135,10 @@ const faqData = {
         <div class="treatment-hero-media">
             <Image
                 src={microneedlingCard}
-                widths={[768, 1024, 1440, 1920]}
+                widths={[768, 1024, 1440, 1536]}
                 sizes={treatmentHeroSizes}
                 format="webp"
-                quality="mid"
+                quality="high"
                 priority
                 alt="Microneedling Behandlung im Medical Spa Beauty Face Lift Zürich"
                 id="treatment-hero-img"

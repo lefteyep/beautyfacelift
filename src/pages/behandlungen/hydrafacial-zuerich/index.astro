@@ -4,16 +4,16 @@ import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image, getImage } from 'astro:assets';
-import { hydrafacialCard, spaInterior } from '../../../lib/site-images';
+import { consultationTrust, hydrafacialCard, spaInterior } from '../../../lib/site-images';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const hydrafacialHeroPreload = await getImage({
     src: hydrafacialCard,
-    widths: [768, 1024, 1440, 1920],
+    widths: [768, 1024, 1400],
     sizes: treatmentHeroSizes,
     format: 'webp',
-    quality: 'mid',
+    quality: 'high',
 });
 
 const structuredData = {
@@ -134,10 +134,10 @@ const faqData = {
         <div class="treatment-hero-media">
             <Image
                 src={hydrafacialCard}
-                widths={[768, 1024, 1440, 1920]}
+                widths={[768, 1024, 1400]}
                 sizes={treatmentHeroSizes}
                 format="webp"
-                quality="mid"
+                quality="high"
                 priority
                 alt="Hydrafacial Behandlung Zürich — Tiefenreinigung und Glow im Premium Medical Spa"
                 id="treatment-hero-img"
@@ -249,12 +249,12 @@ const faqData = {
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 100%;">
                     <Image
-                        src={spaInterior}
-                        widths={[360, 540, 720, 960]}
+                        src={consultationTrust}
+                        widths={[360, 540, 720, 960, 1023]}
                         sizes={treatmentContentSizes}
                         format="webp"
-                        quality="mid"
-                        alt="Hydrafacial Beratung bei Beauty Face Lift Zürich"
+                        quality="high"
+                        alt="Persönliche Hautanalyse und Hydrafacial Beratung bei Beauty Face Lift Zürich"
                         class="anim-img"
                         loading="lazy"
                     />

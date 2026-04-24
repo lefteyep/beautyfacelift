@@ -501,6 +501,10 @@ body.nav-lock {
   margin: 0;
 }
 
+.hero-sub-mobile-break {
+  display: none;
+}
+
 .hero-display {
   font-family: var(--font-sans);
   font-style: normal;
@@ -521,15 +525,17 @@ body.nav-lock {
 
 .hero-ctas {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.75rem;
-  flex-wrap: wrap;
+  width: min(100%, 500px);
   margin-top: 1rem;
 }
 
 .hero-cta,
 .hero-cta-secondary {
-  flex: 0 0 auto;
-  min-width: 325px;
+  width: 100%;
+  min-width: 0;
 }
 
 .pill-btn-ghost {
@@ -2398,7 +2404,19 @@ body.page-treatment main {
     min-height: auto;
     padding: 80px 24px 48px;
   }
-  .hero-content { max-width: 100%; gap: 1rem; }
+  .hero-content { max-width: 100%; min-width: 0; gap: 1rem; }
+  .hero-sub-display {
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.6;
+  }
+  .hero-sub-mobile-break { display: block; }
+  .hero-sub-display .text-reveal {
+    display: inline;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
   .hero-display { font-size: clamp(2rem, 10vw, 3rem); max-width: 100%; }
   .hero-body { max-width: 36ch; }
   .hero-ctas { margin-top: 0.5rem; }
