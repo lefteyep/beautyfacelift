@@ -10,6 +10,7 @@
 - Security follow-up migrations applied on 2026-05-05 through the Supabase Management API:
   - `20260505184333_private_admin_helper`: moves admin RLS checks to `private.is_admin()` and removes exposed `public.is_admin()` RPC.
   - `20260505184508_move_btree_gist_extension`: moves `btree_gist` from `public` to `extensions`.
+  - `20260505185112_tighten_public_read_policies`: narrows public read policies to `anon` and removes duplicate authenticated SELECT policy evaluation.
 - The two official Treatwell range-price services are present through the Worker API:
   - `maske-soin-initiale-augenmaske`: visible label `CHF 30-150`, stored lower-bound `price_chf = 30`.
   - `klassische-ganzkoerpermassage`: visible label `CHF 135-1200`, stored lower-bound `price_chf = 135`.
@@ -61,9 +62,14 @@ Security follow-up verification on 2026-05-05:
 Remote migrations include:
 20260505184333 private_admin_helper
 20260505184508 move_btree_gist_extension
+20260505185112 tighten_public_read_policies
 
 Supabase security advisor remaining warning:
 auth_leaked_password_protection
+
+Supabase performance advisor remaining INFO items:
+unused idx_bookings_date
+unused bookings_active_slot_overlap_excl
 ```
 
 ## Backup Notes
