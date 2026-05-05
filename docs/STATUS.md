@@ -68,7 +68,7 @@ Expected checks:
 - Contact form rejects submissions without Turnstile on the production host.
 - Tracking rejects invalid events and raw PII.
 - Admin page stays `noindex` and `no-store`.
-- Baseline security headers are present.
+- Baseline security headers, including HSTS, are present.
 
 ## Remaining launch work
 

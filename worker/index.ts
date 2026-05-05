@@ -24,6 +24,7 @@ function withSecurityHeaders(response: Response, request: Request): Response {
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   headers.set('X-Frame-Options', 'DENY');
+  headers.set('Strict-Transport-Security', 'max-age=31536000');
 
   if (url.pathname.startsWith('/admin/')) {
     headers.set('Cache-Control', 'no-store');

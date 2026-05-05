@@ -6,6 +6,7 @@ const REQUIRED_HEADERS = {
   'referrer-policy': 'strict-origin-when-cross-origin',
   'permissions-policy': 'camera=(), microphone=(), geolocation=()',
   'x-frame-options': 'DENY',
+  'strict-transport-security': 'max-age=31536000',
 };
 
 const args = parseArgs(process.argv.slice(2));

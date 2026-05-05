@@ -96,5 +96,6 @@ Blocked until the real domain is connected:
 ## Design and content backlog
 
 - Studio interior and treatment-card imagery still need real or approved generated assets.
+- Content Security Policy rollout should start in report-only mode because the site uses Astro inline scripts, Partytown/GTM, Turnstile, and optional Meta pixel scripts.
 - The stale Claude worktree contains a V2 homepage preview at `src/pages/v2/` plus `src/styles/homepage-v2.css`; keep it as reference until a dedicated UX/conversion PR decides whether to adopt or delete it.
 - Node.js 24 GitHub Actions migration is optional before the platform default changes.
