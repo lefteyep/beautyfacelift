@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { isValidEmail, isValidSwissPhone } from '../../../lib/validation';
 
 interface Service {
@@ -33,6 +33,11 @@ export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, su
   const [phone, setPhone] = useState('');
   const [notes, setNotes] = useState('');
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const fieldRefs = {
+    name: useRef<HTMLInputElement>(null),
+    email: useRef<HTMLInputElement>(null),
+    phone: useRef<HTMLInputElement>(null),
+  };
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,6 +49,8 @@ export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, su
 
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
+      const firstError = Object.keys(errors)[0] as keyof typeof fieldRefs;
+      fieldRefs[firstError]?.current?.focus();
       return;
     }
 
@@ -76,6 +83,7 @@ export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, su
           <strong>CHF {service.price_chf.toFixed(0)}</strong>
         </div>
       </div>
+      <p className="booking-reassurance">Ihre Anfrage wird direkt an Beauty Face Lift übermittelt. Bei Rückfragen melden wir uns persönlich per Telefon oder E-Mail.</p>
 
       {/* Form */}
       <form onSubmit={handleSubmit} noValidate>
@@ -83,42 +91,60 @@ export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, su
           <label htmlFor="booking-name">Name *</label>
           <input
             id="booking-name"
+            ref={fieldRefs.name}
             type="text"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e => {
+              setName(e.target.value);
+              if (validationErrors.name) setValidationErrors({ ...validationErrors, name: '' });
+            }}
             placeholder="Ihr vollständiger Name"
             required
             autoComplete="name"
+            aria-invalid={Boolean(validationErrors.name)}
+            aria-describedby={validationErrors.name ? 'booking-name-error' : undefined}
           />
-          {validationErrors.name && <span className="booking-error">{validationErrors.name}</span>}
+          {validationErrors.name && <span className="booking-error" id="booking-name-error" role="alert">{validationErrors.name}</span>}
         </div>
 
         <div className="booking-field">
           <label htmlFor="booking-email">E-Mail *</label>
           <input
             id="booking-email"
+            ref={fieldRefs.email}
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => {
+              setEmail(e.target.value);
+              if (validationErrors.email) setValidationErrors({ ...validationErrors, email: '' });
+            }}
             placeholder="ihre@email.ch"
             required
             autoComplete="email"
+            aria-invalid={Boolean(validationErrors.email)}
+            aria-describedby={validationErrors.email ? 'booking-email-error' : undefined}
           />
-          {validationErrors.email && <span className="booking-error">{validationErrors.email}</span>}
+          {validationErrors.email && <span className="booking-error" id="booking-email-error" role="alert">{validationErrors.email}</span>}
         </div>
 
         <div className="booking-field">
           <label htmlFor="booking-phone">Telefon *</label>
           <input
             id="booking-phone"
+            ref={fieldRefs.phone}
             type="tel"
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            onChange={e => {
+              setPhone(e.target.value);
+              if (validationErrors.phone) setValidationErrors({ ...validationErrors, phone: '' });
+            }}
             placeholder="+41 79 123 45 67"
             required
             autoComplete="tel"
+            aria-invalid={Boolean(validationErrors.phone)}
+            aria-describedby={validationErrors.phone ? 'booking-phone-error' : undefined}
           />
-          {validationErrors.phone && <span className="booking-error">{validationErrors.phone}</span>}
+          {validationErrors.phone && <span className="booking-error" id="booking-phone-error" role="alert">{validationErrors.phone}</span>}
         </div>
 
         <div className="booking-field">
@@ -132,9 +158,9 @@ export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, su
           />
         </div>
 
-        {error && <div className="booking-error-banner">{error}</div>}
+        {error && <div className="booking-error-banner" role="alert">{error}</div>}
 
-        <button type="submit" className="pill-btn booking-submit" disabled={submitting}>
+        <button type="submit" className="pill-btn booking-submit" disabled={submitting} aria-busy={submitting}>
           {submitting ? 'Wird gebucht...' : 'Jetzt verbindlich buchen'}
         </button>
       </form>

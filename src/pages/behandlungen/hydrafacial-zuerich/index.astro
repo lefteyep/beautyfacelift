@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { consultationTrust, hydrafacialCard, spaInterior } from '../../../lib/site-images';
 
@@ -40,9 +41,9 @@ const structuredData = {
     "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "CHF",
-        "lowPrice": "190",
-        "highPrice": "350",
-        "offerCount": "3"
+        "lowPrice": "250",
+        "highPrice": "380",
+        "offerCount": "2"
     },
     "aggregateRating": {
         "@type": "AggregateRating",
@@ -60,7 +61,7 @@ const faqData = {
         "name": "Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet eine Hydrafacial Behandlung zwischen CHF 190 und CHF 350. Die Express-Variante (30 Min.) beginnt bei CHF 190 und eignet sich für eine schnelle Auffrischung. Die Signature-Behandlung (60 Min.) liegt bei CHF 280 und bietet das vollständige Hydrafacial Erlebnis mit individueller Serum-Auswahl. Die Platinum-Variante (90 Min.) kostet CHF 350 und beinhaltet zusätzlich LED-Lichttherapie, Lymphdrainage und Premium-Seren. Alle Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Inhaberin Teresa Stimac."
+            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet Hydrafacial aktuell CHF 250 für Hydrafacial Signature (60 Min.) und CHF 380 für Hydrafacial Platinum (90 Min.). Beide Varianten beinhalten persönliche Beratung und Hautanalyse durch Inhaberin Teresa Stimac; Platinum ergänzt die Behandlung um zusätzliche Anti-Aging-Seren und LED-Lichttherapie."
         }
     }, {
         "@type": "Question",
@@ -74,7 +75,7 @@ const faqData = {
         "name": "Wie lange dauert eine Hydrafacial Behandlung?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Die Behandlungsdauer hängt von der gewählten Variante ab: Die Express-Behandlung dauert circa 30 Minuten und eignet sich perfekt für die Mittagspause. Die Signature-Behandlung nimmt circa 60 Minuten in Anspruch und bietet das vollständige Hydrafacial Erlebnis mit Reinigung, Peeling, Extraktion und Serum-Infusion. Die Platinum-Variante dauert circa 90 Minuten und beinhaltet zusätzlich LED-Lichttherapie und Lymphdrainage. Direkt danach sind Sie wieder gesellschaftsfähig — ohne jede Ausfallzeit."
+            "text": "Die Behandlungsdauer hängt von der gewählten Variante ab: Hydrafacial Signature nimmt circa 60 Minuten in Anspruch und bietet das vollständige Hydrafacial Erlebnis mit Reinigung, Peeling, Extraktion und Serum-Infusion. Hydrafacial Platinum dauert circa 90 Minuten und beinhaltet zusätzlich Anti-Aging-Seren und LED-Lichttherapie. Direkt danach sind Sie wieder gesellschaftsfähig — ohne jede Ausfallzeit."
         }
     }, {
         "@type": "Question",
@@ -102,7 +103,7 @@ const faqData = {
         "name": "Wie viel kostet Hydrafacial in Zürich?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Die Kosten für eine Hydrafacial Behandlung in Zürich variieren je nach Anbieter und Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir drei Varianten an: Express (30 Min.) ab CHF 190, Signature (60 Min.) für CHF 280 und Platinum (90 Min.) für CHF 350. Im Vergleich zu anderen Zürcher Anbietern erhalten Sie bei uns ein erstklassiges Preis-Leistungs-Verhältnis inklusive individueller Serum-Auswahl, persönlicher Betreuung durch Teresa und einer vorgängigen Hautanalyse."
+            "text": "Die Kosten für eine Hydrafacial Behandlung in Zürich variieren je nach Anbieter und Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir aktuell zwei online buchbare Varianten an: Signature (60 Min.) für CHF 250 und Platinum (90 Min.) für CHF 380. Beide Preise verstehen sich inklusive persönlicher Betreuung durch Teresa und vorgängiger Hautanalyse."
         }
     }, {
         "@type": "Question",
@@ -117,7 +118,7 @@ const faqData = {
 
 <Base
     title="Hydrafacial Zürich | Beauty Face Lift an der Bahnhofstrasse"
-    description="Hydrafacial Zürich an der Bahnhofstrasse. Erleben Sie die revolutionäre Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Medical Spa. Ab CHF 190."
+    description="Hydrafacial Zürich an der Bahnhofstrasse. Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Medical Spa. Ab CHF 250."
     preloadImage={{
         href: hydrafacialHeroPreload.src,
         imagesrcset: hydrafacialHeroPreload.srcSet.attribute,
@@ -164,6 +165,8 @@ const faqData = {
             { label: "Hydrafacial Zürich" }
         ]} />
     </div>
+
+    <TreatmentActionBar treatment="Hydrafacial" />
 
     <!-- Content Split — design: 120px 58px, 58px gap -->
     <section class="about-editorial pad-y">
@@ -266,24 +269,18 @@ const faqData = {
     <!-- Pricing Section — design: proper pricing cards -->
     <section class="container" style="padding-bottom: 80px;">
         <div class="sub-display" style="text-align: center; margin-bottom: 32px;">Preise</div>
-        <div class="pricing-grid">
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Express</div>
-                <div class="pricing-price">CHF 190</div>
-                <div class="pricing-duration">30 Minuten</div>
-                <p style="max-width: none; text-align: center;">Schnelle Auffrischung für den Glow zwischendurch. Reinigung und leichtes Peeling.</p>
-            </div>
+        <div class="pricing-grid pricing-grid-two">
             <div class="pricing-card pricing-card-accent scroll-anim">
                 <div class="pricing-label">Signature</div>
-                <div class="pricing-price">CHF 280</div>
+                <div class="pricing-price">CHF 250</div>
                 <div class="pricing-duration">60 Minuten</div>
                 <p style="max-width: none; text-align: center;">Unser Klassiker. Tiefenreinigung, Peeling und individuelle Serum-Infusion für maximalen Glow.</p>
             </div>
             <div class="pricing-card scroll-anim">
                 <div class="pricing-label">Platinum</div>
-                <div class="pricing-price">CHF 350</div>
+                <div class="pricing-price">CHF 380</div>
                 <div class="pricing-duration">90 Minuten</div>
-                <p style="max-width: none; text-align: center;">Das ultimative Erlebnis. Inklusive LED-Lichttherapie, Lymphdrainage und Premium-Seren.</p>
+                <p style="max-width: none; text-align: center;">Das umfassende Erlebnis. Inklusive zusätzlicher Anti-Aging-Seren und LED-Lichttherapie.</p>
             </div>
         </div>
     </section>
@@ -307,7 +304,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir drei Hydrafacial-Varianten an: Die Express-Behandlung (30 Min.) beginnt bei CHF 190 und eignet sich perfekt für eine schnelle Auffrischung in der Mittagspause. Die Signature-Behandlung (60 Min.) liegt bei CHF 280 und bietet das vollständige Hydrafacial Erlebnis mit Tiefenreinigung, Peeling, Extraktion und individueller Serum-Infusion. Die Platinum-Variante (90 Min.) kostet CHF 350 und beinhaltet zusätzlich LED-Lichttherapie, Lymphdrainage und Premium-Seren für maximale Hautverjüngung. Alle Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Inhaberin Teresa Stimac.</p>
+                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir aktuell zwei online buchbare Hydrafacial-Varianten an: Hydrafacial Signature (60 Min.) kostet CHF 250 und bietet Tiefenreinigung, Peeling, Extraktion und individuelle Serum-Infusion. Hydrafacial Platinum (90 Min.) kostet CHF 380 und ergänzt die Behandlung um zusätzliche Anti-Aging-Seren und LED-Lichttherapie. Beide Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Inhaberin Teresa Stimac.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -319,7 +316,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Wie lange dauert eine Hydrafacial Behandlung?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Die Behandlungsdauer hängt von der gewählten Variante ab: Die Express-Behandlung dauert circa 30 Minuten und eignet sich perfekt für die Mittagspause. Die Signature-Behandlung nimmt circa 60 Minuten in Anspruch und bietet das vollständige Hydrafacial Erlebnis mit Reinigung, Peeling, Extraktion und Serum-Infusion. Die Platinum-Variante dauert circa 90 Minuten und beinhaltet zusätzlich LED-Lichttherapie, Lymphdrainage und eine erweiterte Premium-Serenpflege. Alle Varianten beginnen mit einer kurzen Hautanalyse durch Teresa. Das Besondere: Es gibt keinerlei Ausfallzeit — Sie können direkt danach Make-up auftragen und Ihrem Tag nachgehen.</p>
+                    <p>Die Behandlungsdauer hängt von der gewählten Variante ab: Hydrafacial Signature nimmt circa 60 Minuten in Anspruch und bietet das vollständige Hydrafacial Erlebnis mit Reinigung, Peeling, Extraktion und Serum-Infusion. Hydrafacial Platinum dauert circa 90 Minuten und beinhaltet zusätzlich Anti-Aging-Seren und LED-Lichttherapie. Beide Varianten beginnen mit einer kurzen Hautanalyse durch Teresa. Das Besondere: Es gibt keinerlei Ausfallzeit — Sie können direkt danach Make-up auftragen und Ihrem Tag nachgehen.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -343,7 +340,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Wie viel kostet Hydrafacial in Zürich?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Die Kosten für eine Hydrafacial Behandlung in Zürich variieren je nach Anbieter und Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir drei Varianten an: Express (30 Min.) ab CHF 190, Signature (60 Min.) für CHF 280 und Platinum (90 Min.) für CHF 350. Im Vergleich zu anderen Zürcher Anbietern erhalten Sie bei uns ein erstklassiges Preis-Leistungs-Verhältnis inklusive individueller Serum-Auswahl, persönlicher Betreuung durch Inhaberin Teresa Stimac und einer vorgängigen Hautanalyse. Alle Preise verstehen sich inklusive MwSt.</p>
+                    <p>Die Kosten für eine Hydrafacial Behandlung in Zürich variieren je nach Anbieter und Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir aktuell Hydrafacial Signature (60 Min.) für CHF 250 und Hydrafacial Platinum (90 Min.) für CHF 380 an. Beide Preise verstehen sich inklusive MwSt., individueller Serum-Auswahl, persönlicher Betreuung durch Inhaberin Teresa Stimac und einer vorgängigen Hautanalyse.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">

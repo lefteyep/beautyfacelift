@@ -1,0 +1,22 @@
+---
+interface Props {
+    treatment: string;
+    href?: string;
+}
+
+const {
+    treatment,
+    href = '#buchen',
+} = Astro.props;
+---
+
+<section class="treatment-action-bar container" aria-label={`${treatment} Termin und Beratung`}>
+    <div class="treatment-action-copy">
+        <span class="sub-display">Direkt buchen</span>
+        <p>{treatment} an der Bahnhofstrasse 94. Persönliche Behandlung durch Teresa Stimac, transparente Preise und kurze Rückfrage per WhatsApp möglich.</p>
+    </div>
+    <div class="treatment-action-buttons">
+        <a href={href} class="pill-btn">Termin buchen</a>
+        <a href="https://wa.me/41792143462" class="pill-btn pill-btn-outline">Beratung fragen</a>
+    </div>
+</section>

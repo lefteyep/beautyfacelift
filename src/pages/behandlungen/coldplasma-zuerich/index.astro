@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { coldplasmaCard, spaInterior, spaProducts } from '../../../lib/site-images';
 
@@ -40,9 +41,9 @@ const structuredData = {
     "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "CHF",
-        "lowPrice": "200",
-        "highPrice": "380",
-        "offerCount": "3"
+        "lowPrice": "320",
+        "highPrice": "320",
+        "offerCount": "1"
     },
     "aggregateRating": {
         "@type": "AggregateRating",
@@ -88,7 +89,7 @@ const faqData = {
         "name": "Was kostet ColdPlasma in Zürich?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir drei ColdPlasma-Optionen an: Die Plasma Express Behandlung (30 Min.) kostet CHF 200 und umfasst die gezielte Behandlung einzelner Problemzonen wie Stirn, Wangen oder Kinn. Unsere Plasma Signature Behandlung (45 Min.) kostet CHF 300 und beinhaltet eine vollständige Gesichtsbehandlung mit Premium-Seren. Die umfassendste Option ist Plasma Premium (60 Min.) für CHF 380 — sie umfasst Gesicht, Hals und Dekolleté mit einem individuell zusammengestellten Anti-Aging-Wirkstoff-Cocktail. Alle Preise verstehen sich inklusive MwSt., persönlicher Hautanalyse und Beratung durch Inhaberin Teresa Stimac."
+            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet die online buchbare ColdPlasma Behandlung aktuell CHF 320 und dauert 60 Minuten. Der Preis versteht sich inklusive persönlicher Hautanalyse, Beratung durch Inhaberin Teresa Stimac und einer individuell abgestimmten Wirkstoffpflege."
         }
     }, {
         "@type": "Question",
@@ -158,6 +159,8 @@ const faqData = {
         ]} />
     </div>
 
+    <TreatmentActionBar treatment="ColdPlasma" />
+
     <!-- Content Split -->
     <section class="about-editorial pad-y">
         <div class="split-layout align-center">
@@ -209,24 +212,12 @@ const faqData = {
     <!-- Pricing Section -->
     <section class="container" style="padding-bottom: 10vh;">
         <div class="sub-display margin-bottom-lg" style="text-align: center;">Preise</div>
-        <div class="pricing-grid">
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Plasma Express</div>
-                <div class="pricing-price">CHF 200</div>
-                <div class="pricing-duration">ca. 30 Minuten</div>
-                <p>Gezielte Behandlung einzelner Zonen wie Stirn, Wangen oder Kinn. Ideal als schnelle Auffrischung oder Einstieg in die ColdPlasma Technologie.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Plasma Signature</div>
-                <div class="pricing-price">CHF 300</div>
-                <div class="pricing-duration">ca. 45 Minuten</div>
-                <p>Vollständige Gesichtsbehandlung mit Premium-Seren. ColdPlasma wird grossflächig appliziert und öffnet die Hautbarriere für maximale Wirkstoffaufnahme.</p>
-            </div>
+        <div class="pricing-grid pricing-grid-single">
             <div class="pricing-card pricing-card-accent scroll-anim">
-                <div class="pricing-label">Plasma Premium</div>
-                <div class="pricing-price">CHF 380</div>
+                <div class="pricing-label">ColdPlasma Behandlung</div>
+                <div class="pricing-price">CHF 320</div>
                 <div class="pricing-duration">ca. 60 Minuten</div>
-                <p>Unsere umfassendste Plasma-Behandlung: Gesicht, Hals und Dekolleté mit einem individuell zusammengestellten Anti-Aging-Wirkstoff-Cocktail für maximale Hautverjüngung.</p>
+                <p>Innovative Plasma-Technologie zur Zellerneuerung und Wirkstoffeinschleusung. Die Behandlung wird individuell auf Hautzustand und Ziel abgestimmt.</p>
             </div>
         </div>
         <p style="text-align: center; margin: 2rem auto; font-size: 0.9rem;">Alle Preise inkl. MwSt. Individuelle Beratung und Hautanalyse inklusive.</p>
@@ -356,7 +347,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Was kostet ColdPlasma in Zürich?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir drei ColdPlasma-Optionen an: Die Plasma Express Behandlung (30 Min.) kostet CHF 200 und umfasst die gezielte Behandlung einzelner Problemzonen wie Stirn, Wangen oder Kinn. Unsere Plasma Signature Behandlung (45 Min.) kostet CHF 300 und beinhaltet eine vollständige Gesichtsbehandlung mit Premium-Seren. Die umfassendste Option ist Plasma Premium (60 Min.) für CHF 380 — sie umfasst Gesicht, Hals und Dekolleté mit einem individuell zusammengestellten Anti-Aging-Wirkstoff-Cocktail. Alle Preise verstehen sich inklusive MwSt., persönlicher Hautanalyse und Beratung durch Inhaberin Teresa Stimac.</p>
+                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet die online buchbare ColdPlasma Behandlung aktuell CHF 320 und dauert 60 Minuten. Der Preis versteht sich inklusive MwSt., persönlicher Hautanalyse, Beratung durch Inhaberin Teresa Stimac und einer individuell abgestimmten Wirkstoffpflege.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">

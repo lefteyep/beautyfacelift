@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { peelingCard, peelingTreatment, spaFacialTreatment, spaInterior } from '../../../lib/site-images';
 
@@ -35,16 +36,16 @@ const structuredData = {
             "addressCountry": "CH"
         },
         "telephone": "+41445001234",
-        "priceRange": "CHF 150–280"
+        "priceRange": "CHF 180"
     },
     "description": "Professionelles Fruchtsäure Peeling (AHA-Peeling) in Zürich. Medizinische Hautbehandlung gegen Akne, Hyperpigmentierung und Grauschleier an der Bahnhofstrasse.",
     "areaServed": "Zürich",
     "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "CHF",
-        "lowPrice": "150",
-        "highPrice": "280",
-        "offerCount": "3"
+        "lowPrice": "180",
+        "highPrice": "180",
+        "offerCount": "1"
     },
     "aggregateRating": {
         "@type": "AggregateRating",
@@ -69,7 +70,7 @@ const faqData = {
         "name": "Pellt man sich extrem nach der Behandlung?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Nein, moderne professionelle Fruchtsäure Peelings verursachen keine massive oder entstellende Schuppung. Sie erleben in der Regel eine feine, kaum sichtbare Mikroschuppung, die etwa 2 bis 5 Tage nach der Behandlung einsetzt und sich einfach mit einer reichhaltigen Feuchtigkeitscreme pflegen lässt. Im Zürcher Alltag fällt diese Erneuerungsphase niemandem auf. Die Intensität der Schuppung hängt von der Säurekonzentration ab — bei unserem Peeling Mild ist sie minimal, beim Peeling Intensiv etwas ausgeprägter."
+            "text": "Nein, moderne professionelle Fruchtsäure Peelings verursachen keine massive oder entstellende Schuppung. Sie erleben in der Regel eine feine, kaum sichtbare Mikroschuppung, die etwa 2 bis 5 Tage nach der Behandlung einsetzt und sich einfach mit einer reichhaltigen Feuchtigkeitscreme pflegen lässt. Im Zürcher Alltag fällt diese Erneuerungsphase niemandem auf. Die Intensität wird individuell auf Ihre Haut abgestimmt und bleibt kontrolliert."
         }
     }, {
         "@type": "Question",
@@ -90,7 +91,7 @@ const faqData = {
         "name": "Was kostet ein Fruchtsäure Peeling in Zürich?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Bei Beauty Face Lift an der Bahnhofstrasse Zürich bieten wir drei Peeling-Stufen an: Das Peeling Mild für Einsteiger kostet CHF 150 (30 Minuten), das Peeling Classic mit individueller Säurekonzentration CHF 220 (45 Minuten) und das Peeling Intensiv für tiefenwirksame Ergebnisse bei Akne-Narben und Hyperpigmentierung CHF 280 (60 Minuten). Alle Preise sind transparent und inklusive Hautanalyse, Nachpflege und Sonnenschutz."
+            "text": "Bei Beauty Face Lift an der Bahnhofstrasse Zürich kostet das online buchbare Fruchtsäure Peeling aktuell CHF 180 und dauert 45 Minuten. Der Preis versteht sich inklusive persönlicher Hautanalyse, professioneller Nachpflege und Sonnenschutz-Empfehlung."
         }
     }, {
         "@type": "Question",
@@ -119,7 +120,7 @@ const faqData = {
 
 <Base
     title="Fruchtsäure Peeling Zürich | Medical Skin Peeling"
-    description="Professionelles Fruchtsäure Peeling in Zürich ab CHF 150. AHA-Peeling gegen Akne, Hyperpigmentierung und Grauschleier. Premium Medical Spa an der Bahnhofstrasse. Jetzt Termin buchen."
+    description="Professionelles Fruchtsäure Peeling in Zürich für CHF 180. AHA-Peeling gegen Akne, Hyperpigmentierung und Grauschleier. Premium Medical Spa an der Bahnhofstrasse."
     preloadImage={{
         href: peelingHeroPreload.src,
         imagesrcset: peelingHeroPreload.srcSet.attribute,
@@ -166,6 +167,8 @@ const faqData = {
             { label: "Fruchtsäure Peeling Zürich" }
         ]} />
     </div>
+
+    <TreatmentActionBar treatment="Fruchtsäure Peeling" />
 
     <!-- Die Methode — Content Split -->
     <section class="about-editorial pad-y">
@@ -254,27 +257,13 @@ const faqData = {
     <!-- Preise -->
     <section class="container" style="padding-bottom: 10vh;">
         <div class="sub-display margin-bottom-lg" style="text-align: center;">Preise</div>
-        <div class="pricing-grid">
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Mild</div>
-                <h4>Peeling Mild</h4>
-                <div class="pricing-price">CHF 150</div>
-                <div class="pricing-duration">30 Minuten</div>
-                <p>Leichtes AHA-Peeling für Einsteiger und empfindliche Haut. Ideal als erste Behandlung oder zur regelmässigen Auffrischung. Sanfte Glykolsäure-Konzentration für ein sofort frischeres Hautgefühl ohne nennenswerte Ausfallzeit.</p>
-            </div>
+        <div class="pricing-grid pricing-grid-single">
             <div class="pricing-card pricing-card-accent scroll-anim">
-                <div class="pricing-label">Classic</div>
-                <h4>Peeling Classic</h4>
-                <div class="pricing-price">CHF 220</div>
+                <div class="pricing-label">Fruchtsäure Peeling</div>
+                <h4>Peeling Behandlung</h4>
+                <div class="pricing-price">CHF 180</div>
                 <div class="pricing-duration">45 Minuten</div>
-                <p>Mittleres Peeling mit individuell abgestimmter Säurekonzentration. Wirksam gegen Unreinheiten, vergrösserte Poren und ersten Grauschleier. Inklusive beruhigender Nachpflege-Maske und persönlicher Hautberatung.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Intensiv</div>
-                <h4>Peeling Intensiv</h4>
-                <div class="pricing-price">CHF 280</div>
-                <div class="pricing-duration">60 Minuten</div>
-                <p>Tiefenwirkendes Peeling mit hochkonzentrierter Säure für hartnäckige Akne-Narben, ausgeprägte Hyperpigmentierung und tiefere Falten. Maximale Erneuerung der Hautstruktur — für sichtbar transformierte Haut.</p>
+                <p>Intensive Hauterneuerung mit AHA-Säuren für einen klaren Teint. Die Säurekonzentration und Nachpflege werden individuell auf Ihre Haut abgestimmt.</p>
             </div>
         </div>
         <p style="text-align: center; margin-top: 2rem; opacity: 0.7; font-size: 0.9rem;">Alle Preise inklusive Hautanalyse, professioneller Nachpflege und Sonnenschutz. Kur-Rabatt bei 4+ Behandlungen auf Anfrage.</p>
@@ -368,7 +357,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Pellt man sich extrem nach der Behandlung?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Nein, moderne professionelle Fruchtsäure Peelings verursachen keine massive oder entstellende Schuppung, wie man sie vielleicht aus Social-Media-Videos kennt. Sie erleben in der Regel eine feine, kaum sichtbare Mikroschuppung, die etwa 2 bis 5 Tage nach der Behandlung einsetzt und sich einfach mit einer reichhaltigen Feuchtigkeitscreme pflegen lässt. Im Zürcher Alltag — sei es im Büro, beim Einkaufen an der Bahnhofstrasse oder beim Treffen mit Freunden — fällt diese Erneuerungsphase niemandem auf. Die Intensität der Schuppung hängt von der Säurekonzentration ab: Bei unserem Peeling Mild ist sie minimal, beim Peeling Intensiv etwas ausgeprägter, aber stets kontrolliert.</p>
+                    <p>Nein, moderne professionelle Fruchtsäure Peelings verursachen keine massive oder entstellende Schuppung, wie man sie vielleicht aus Social-Media-Videos kennt. Sie erleben in der Regel eine feine, kaum sichtbare Mikroschuppung, die etwa 2 bis 5 Tage nach der Behandlung einsetzt und sich einfach mit einer reichhaltigen Feuchtigkeitscreme pflegen lässt. Im Zürcher Alltag — sei es im Büro, beim Einkaufen an der Bahnhofstrasse oder beim Treffen mit Freunden — fällt diese Erneuerungsphase niemandem auf. Die Intensität wird individuell auf Ihre Haut abgestimmt und bleibt kontrolliert.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -386,7 +375,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Was kostet ein Fruchtsäure Peeling in Zürich?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir drei Peeling-Stufen an, die auf unterschiedliche Bedürfnisse zugeschnitten sind: Das Peeling Mild für Einsteiger und empfindliche Haut kostet CHF 150 (30 Minuten), das Peeling Classic mit individuell abgestimmter Säurekonzentration CHF 220 (45 Minuten) und das Peeling Intensiv für tiefenwirksame Ergebnisse bei Akne-Narben und Hyperpigmentierung CHF 280 (60 Minuten). Alle Preise verstehen sich inklusive Hautanalyse, professioneller Nachpflege und Sonnenschutz. Bei Buchung einer Kur ab 4 Behandlungen bieten wir attraktive Paketpreise an.</p>
+                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet das online buchbare Fruchtsäure Peeling aktuell CHF 180 und dauert 45 Minuten. Der Preis versteht sich inklusive Hautanalyse, professioneller Nachpflege und Sonnenschutz-Empfehlung. Bei Buchung einer Kur ab 4 Behandlungen sprechen wir gerne über einen individuellen Behandlungsplan.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
