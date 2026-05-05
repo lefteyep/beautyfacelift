@@ -16,19 +16,41 @@ router.post('/api/bookings', (req: Request, env: Env) => bookingsRoute(req, env)
 router.post('/api/track', (req: Request, env: Env) => trackRoute(req, env));
 router.post('/api/contact', (req: Request, env: Env) => contactRoute(req, env));
 
+function withSecurityHeaders(response: Response, request: Request): Response {
+  const url = new URL(request.url);
+  const headers = new Headers(response.headers);
+
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  headers.set('X-Frame-Options', 'DENY');
+
+  if (url.pathname.startsWith('/admin/')) {
+    headers.set('Cache-Control', 'no-store');
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     if (url.pathname.startsWith('/api/')) {
       const response = await router.fetch(request, env, ctx);
-      if (response) return response;
-      return new Response(JSON.stringify({ error: 'Not found' }), {
+      if (response) return withSecurityHeaders(response, request);
+      return withSecurityHeaders(new Response(JSON.stringify({ error: 'Not found' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
-      });
+      }), request);
     }
 
-    return env.ASSETS.fetch(request);
+    const response = await env.ASSETS.fetch(request);
+    return withSecurityHeaders(response, request);
   },
 };

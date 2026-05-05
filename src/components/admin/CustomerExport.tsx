@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
+function csvCell(value: unknown): string {
+  const rawValue = value === null || value === undefined ? '' : String(value);
+  const singleLineValue = rawValue.replace(/[\r\n]+/g, ' ');
+  const safeValue = /^[=+\-@\t\r]/.test(singleLineValue) ? `'${singleLineValue}` : singleLineValue;
+  return `"${safeValue.replace(/"/g, '""')}"`;
+}
+
 export function CustomerExport() {
   const [exporting, setExporting] = useState(false);
 
@@ -27,12 +34,18 @@ export function CustomerExport() {
       return true;
     });
 
-    const csv = [
-      'Name,E-Mail,Telefon,Letzte Buchung,Letzte Behandlung',
-      ...unique.map(row =>
-        `"${row.customer_name}","${row.customer_email}","${row.customer_phone}","${row.booking_date}","${(row.services as any)?.name || ''}"`
-      )
-    ].join('\n');
+    const rows = [
+      ['Name', 'E-Mail', 'Telefon', 'Letzte Buchung', 'Letzte Behandlung'],
+      ...unique.map(row => [
+        row.customer_name,
+        row.customer_email,
+        row.customer_phone,
+        row.booking_date,
+        (row.services as any)?.name || '',
+      ]),
+    ];
+
+    const csv = rows.map(row => row.map(csvCell).join(',')).join('\n');
 
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);

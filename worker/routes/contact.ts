@@ -11,6 +11,8 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const contactRateLimit = new Map<string, number[]>();
 
+class ContactConfigError extends Error {}
+
 type ContactSubmission = {
   name: string;
   email: string;
@@ -155,6 +157,15 @@ function getClientIp(request: Request): string {
     || 'unknown';
 }
 
+function isProductionRequest(request: Request, env: Env): boolean {
+  if (env.ENVIRONMENT === 'production') return true;
+
+  const hostname = new URL(request.url).hostname.toLowerCase();
+  return hostname === 'beautyfacelift.mediapaulo.workers.dev'
+    || hostname === 'beautyfacelift.ch'
+    || hostname === 'www.beautyfacelift.ch';
+}
+
 function isAllowedTopic(topic: string): boolean {
   return CONTACT_TOPICS.includes(topic as (typeof CONTACT_TOPICS)[number]);
 }
@@ -165,6 +176,7 @@ function validateSubmission(data: ContactSubmission): string | null {
   if (!data.email && !data.phone) return 'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.';
   if (data.email && !isValidEmail(data.email)) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
   if (data.phone && !isValidPhone(data.phone)) return 'Bitte geben Sie eine gültige Telefonnummer an.';
+  if (data.preferredCallbackTime.length > 160) return 'Der gewünschte Rückrufzeitpunkt ist zu lang.';
   if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie ein gültiges Thema aus.';
   if (!data.message) return 'Bitte schreiben Sie eine Nachricht.';
   if (data.message.length > 4000) return 'Die Nachricht ist zu lang.';
@@ -216,7 +228,7 @@ async function verifyTurnstile(token: string, ip: string, secret: string): Promi
 
 async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string): Promise<void> {
   if (!env.RESEND_API_KEY) {
-    throw new Error('RESEND_API_KEY is missing');
+    throw new ContactConfigError('RESEND_API_KEY is missing');
   }
 
   const to = env.CONTACT_TO_EMAIL || env.OWNER_EMAIL || CONTACT_TO_EMAIL_FALLBACK;
@@ -278,8 +290,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   });
 
   if (!resendResponse.ok) {
-    const detail = await resendResponse.text();
-    throw new Error(`Resend request failed: ${detail}`);
+    throw new Error(`Resend request failed with status ${resendResponse.status}`);
   }
 }
 
@@ -312,12 +323,17 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  if (env.TURNSTILE_SECRET_KEY) {
+  const turnstileRequired = isProductionRequest(request, env);
+  if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
+    return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
+  }
+
+  if (turnstileRequired || env.TURNSTILE_SECRET_KEY) {
     if (!data.turnstileToken) {
       return respondError('Bitte bestätigen Sie die Sicherheitsprüfung.', 400, expectsHtml);
     }
 
-    const isHuman = await verifyTurnstile(data.turnstileToken, ip, env.TURNSTILE_SECRET_KEY);
+    const isHuman = await verifyTurnstile(data.turnstileToken, ip, env.TURNSTILE_SECRET_KEY || '');
     if (!isHuman) {
       return respondError('Die Sicherheitsprüfung konnte nicht bestätigt werden. Bitte versuchen Sie es erneut.', 400, expectsHtml);
     }
@@ -326,8 +342,13 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
   try {
     await sendNotificationEmail(data, request, env, ip);
   } catch (error) {
-    console.error('Contact route failed:', error);
-    return respondError('Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 500, expectsHtml);
+    const isConfigError = error instanceof ContactConfigError;
+    console.error('Contact route failed:', isConfigError ? error.message : 'email delivery failed');
+    return respondError(
+      'Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.',
+      isConfigError ? 503 : 502,
+      expectsHtml,
+    );
   }
 
   return expectsHtml ? redirectResponse('/kontakt/danke/') : jsonResponse({ ok: true }, 201);

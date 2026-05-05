@@ -14,6 +14,7 @@
     "enabled": true
   },
   "vars": {
-    "PUBLIC_SUPABASE_URL": "https://izekwngqjllaqibrwotp.supabase.co"
+    "PUBLIC_SUPABASE_URL": "https://izekwngqjllaqibrwotp.supabase.co",
+    "ENVIRONMENT": "production"
   }
 }
