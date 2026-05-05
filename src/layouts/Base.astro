@@ -233,6 +233,7 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
     <script is:inline>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+                img.loading = 'eager';
                 if (img.complete) { img.classList.add('loaded'); }
                 else { img.addEventListener('load', function() { img.classList.add('loaded'); }); }
             });
@@ -283,9 +284,8 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             // 2. Floating image fade up with slight rotation
             const heroFloat = document.getElementById('hero-float-1');
             if (heroFloat) {
-                gsap.fromTo(heroFloat,
-                    { y: 60, opacity: 0, rotate: 2 },
-                    { y: 0, opacity: 1, rotate: 0, duration: 1.8, ease: "power3.out", delay: 1.0 }
+                gsap.from(heroFloat,
+                    { y: 36, opacity: 0, rotate: 1.5, duration: 1.4, ease: "power3.out", delay: 0.8, immediateRender: false }
                 );
             }
 
@@ -294,20 +294,6 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             document.querySelectorAll('.service-image-mask, .about-image .service-image-mask').forEach(container => {
                 const img = container.querySelector('.anim-img');
                 if (!img) return;
-
-                // Curtain-up reveal
-                gsap.fromTo(container,
-                    { clipPath: 'inset(100% 0 0 0)' },
-                    {
-                        clipPath: 'inset(0 0 0 0)',
-                        duration: 1.4,
-                        ease: 'expo.out',
-                        scrollTrigger: {
-                            trigger: container,
-                            start: 'top 85%',
-                        }
-                    }
-                );
 
                 // Parallax
                 gsap.fromTo(img,
@@ -326,17 +312,16 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
 
             // 5. Fade Up Reveal for blocks — staggered with more finesse
             gsap.utils.toArray('.scroll-anim').forEach(element => {
-                gsap.fromTo(element as Element,
-                    { opacity: 0, y: 50 },
+                gsap.from(element as Element,
                     {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1.4,
+                        y: 32,
+                        duration: 1.1,
                         ease: "expo.out",
+                        immediateRender: false,
                         scrollTrigger: {
                             trigger: element as Element,
                             start: 'top 88%',
-                            toggleActions: "play none none reverse"
+                            once: true,
                         }
                     }
                 );
@@ -362,15 +347,16 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             // 7. Footer Text Reveal — cinematic entrance
             const footerReveal = document.querySelector('.footer-editorial .text-reveal');
             if (footerReveal) {
-                gsap.fromTo(footerReveal,
-                    { y: '110%' },
+                gsap.from(footerReveal,
                     {
-                        y: '0%',
-                        duration: 1.6,
+                        y: '42%',
+                        duration: 1.15,
                         ease: "expo.out",
+                        immediateRender: false,
                         scrollTrigger: {
                             trigger: '.footer-editorial',
-                            start: 'top 80%'
+                            start: 'top 82%',
+                            once: true,
                         }
                     }
                 );
@@ -398,16 +384,16 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             const serviceCards = gsap.utils.toArray('.service-card');
             if (serviceCards.length > 0) {
                 serviceCards.forEach((card, i) => {
-                    gsap.fromTo(card as Element,
-                        { opacity: 0, y: 60 },
+                    gsap.from(card as Element,
                         {
-                            opacity: 1,
-                            y: 0,
-                            duration: 1.2,
+                            y: 36,
+                            duration: 1,
                             ease: "expo.out",
+                            immediateRender: false,
                             scrollTrigger: {
                                 trigger: card as Element,
                                 start: 'top 90%',
+                                once: true,
                             }
                         }
                     );
@@ -417,17 +403,17 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             // 10. Testimonial cards stagger
             const testimonialCards = gsap.utils.toArray('.testimonial-card');
             if (testimonialCards.length > 0) {
-                gsap.fromTo(testimonialCards as Element[],
-                    { opacity: 0, y: 40 },
+                gsap.from(testimonialCards as Element[],
                     {
-                        opacity: 1,
-                        y: 0,
+                        y: 28,
                         duration: 1,
                         stagger: 0.15,
                         ease: "power3.out",
+                        immediateRender: false,
                         scrollTrigger: {
                             trigger: '.testimonials-grid',
                             start: 'top 85%',
+                            once: true,
                         }
                     }
                 );
@@ -436,17 +422,17 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             // 11. FAQ items stagger
             const faqItems = gsap.utils.toArray('.faq-item');
             if (faqItems.length > 0) {
-                gsap.fromTo(faqItems as Element[],
-                    { opacity: 0, y: 20 },
+                gsap.from(faqItems as Element[],
                     {
-                        opacity: 1,
-                        y: 0,
+                        y: 18,
                         duration: 0.8,
                         stagger: 0.08,
                         ease: "power3.out",
+                        immediateRender: false,
                         scrollTrigger: {
                             trigger: '.faq-list',
                             start: 'top 85%',
+                            once: true,
                         }
                     }
                 );
@@ -455,17 +441,17 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             // 12. Highlight/Process grid stagger
             const highlightItems = gsap.utils.toArray('.highlight-item, .process-step');
             if (highlightItems.length > 0) {
-                gsap.fromTo(highlightItems as Element[],
-                    { opacity: 0, y: 30 },
+                gsap.from(highlightItems as Element[],
                     {
-                        opacity: 1,
-                        y: 0,
+                        y: 24,
                         duration: 0.9,
                         stagger: 0.1,
                         ease: "power3.out",
+                        immediateRender: false,
                         scrollTrigger: {
                             trigger: (highlightItems[0] as Element).parentElement,
                             start: 'top 85%',
+                            once: true,
                         }
                     }
                 );
