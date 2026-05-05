@@ -1,10 +1,10 @@
 # Pending Work
 
-Last updated: 2026-05-05 (Treatwell catalog live; Supabase migration history needs repair)
+Last updated: 2026-05-05 (Treatwell catalog live; Supabase migration history repaired)
 
 Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`.
 
-Important operational note: production Supabase data is correct, but migration bookkeeping is out of sync. Do not run `supabase db push` until [SUPABASE-MIGRATION-STATUS.md](SUPABASE-MIGRATION-STATUS.md) is resolved.
+Important operational note: Supabase migration bookkeeping now matches local migrations `001`-`005`. Before future production DB migrations, run `supabase db push --linked --dry-run` and take a logical backup with Docker Desktop or native `pg_dump`. See [SUPABASE-MIGRATION-STATUS.md](SUPABASE-MIGRATION-STATUS.md).
 
 ---
 
