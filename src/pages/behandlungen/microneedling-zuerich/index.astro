@@ -2,14 +2,16 @@
 
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
+import BookingCta from '../../../components/BookingCta.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { microneedlingCard, spaFacialTreatment, spaInterior, spaProducts } from '../../../lib/site-images';
+import { bookingLinkForService } from '../../../../shared/site';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const bookingHref = bookingLinkForService('Microneedling');
 const microneedlingHeroPreload = await getImage({
     src: microneedlingCard,
     widths: [768, 1024, 1440, 1536],
@@ -167,7 +169,7 @@ const faqData = {
         ]} />
     </div>
 
-    <TreatmentActionBar treatment="Microneedling" />
+    <TreatmentActionBar treatment="Microneedling" href={bookingHref} />
 
     <!-- Content Split: Die Methode -->
     <section class="about-editorial pad-y">
@@ -177,7 +179,7 @@ const faqData = {
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Natürliche Straffung.<br>Maximale Präzision."</h2>
                 <p class="margin-bottom-md">Microneedling (auch Kollagen-Induktionstherapie genannt) ist ein minimal-invasives dermatologisches Verfahren, bei dem feinste sterile Nadeln kontrollierte Mikroverletzungen in der Haut erzeugen, um die körpereigene Kollagen- und Elastinproduktion anzuregen. Bei Beauty Face Lift an der Bahnhofstrasse in Zürich setzen wir auf medizinische High-Tech-Pens der neuesten Generation, die mit individuell einstellbarer Nadeltiefe und Geschwindigkeit arbeiten. Dieses Verfahren unterscheidet sich grundlegend von kosmetischem Dermarolling: Durch die vertikale Penetration der Nadeln werden Mikroverletzungen gleichmässiger und kontrollierter gesetzt, was die Wundheilungskaskade effektiver aktiviert und das Infektionsrisiko minimiert.</p>
                 <p class="margin-bottom-md">Die kontrollierte Stimulation löst eine natürliche Regenerationsreaktion in der Haut aus. Fibroblasten werden aktiviert, neue Kollagenfasern vom Typ I und III bilden sich, und die Hautstruktur wird von innen heraus gestärkt. Akne-Narben verblassen, feine Linien und Falten werden sichtbar gemildert, vergrösserte Poren ziehen sich zusammen und das gesamte Hautbild wirkt ebenmässiger, straffer und jugendlicher. Im Gegensatz zu ablativen Verfahren wie Laserbehandlungen bleibt die Hautoberfläche intakt, was die Ausfallzeit auf ein Minimum reduziert.</p>
-                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+                <a href={bookingHref} class="pill-btn pill-btn-outline">Termin vereinbaren</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
@@ -430,9 +432,9 @@ const faqData = {
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 
-    <!-- Booking Widget -->
+    <!-- Booking CTA -->
     <section class="container pad-y" id="buchen">
-        <BookingWidget client:visible preselectedCategory="Microneedling" />
+        <BookingCta treatment="Microneedling" href={bookingHref} />
     </section>
 
     <!-- More Treatments -->

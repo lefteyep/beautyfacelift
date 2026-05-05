@@ -13,7 +13,8 @@
     "cf:dev": "wrangler dev",
     "cf:build": "astro build",
     "cf:deploy": "astro build && wrangler deploy",
-    "cf:tail": "wrangler tail"
+    "cf:tail": "wrangler tail",
+    "qa:worker": "node scripts/check-worker-api.mjs"
   },
   "dependencies": {
     "@astrojs/partytown": "^2.1.5",

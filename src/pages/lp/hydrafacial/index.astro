@@ -1,7 +1,10 @@
 ---
 
 import LandingPage from '../../../layouts/LandingPage.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
+import BookingCta from '../../../components/BookingCta.astro';
+import { bookingLinkForService } from '../../../../shared/site';
+
+const bookingHref = bookingLinkForService('Hydrafacial');
 ---
 
 <LandingPage
@@ -34,8 +37,8 @@ import BookingWidget from '../../../components/booking/BookingWidget';
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 10vh;">
-        <BookingWidget client:load preselectedCategory="Hydrafacial" />
+    <section id="buchen" class="container" style="padding-bottom: 10vh;">
+        <BookingCta treatment="Hydrafacial" href={bookingHref} />
     </section>
 </LandingPage>
 

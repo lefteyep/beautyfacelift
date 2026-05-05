@@ -1,14 +1,16 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
+import BookingCta from '../../../components/BookingCta.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { peelingCard, peelingTreatment, spaFacialTreatment, spaInterior } from '../../../lib/site-images';
+import { bookingLinkForService } from '../../../../shared/site';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const bookingHref = bookingLinkForService('Peeling');
 const peelingHeroPreload = await getImage({
     src: peelingCard,
     widths: [768, 1024, 1440, 1536],
@@ -168,7 +170,7 @@ const faqData = {
         ]} />
     </div>
 
-    <TreatmentActionBar treatment="Fruchtsäure Peeling" />
+    <TreatmentActionBar treatment="Fruchtsäure Peeling" href={bookingHref} />
 
     <!-- Die Methode — Content Split -->
     <section class="about-editorial pad-y">
@@ -178,7 +180,7 @@ const faqData = {
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Tiefenreinigung.<br>Kompromisslos klar."</h2>
                 <p class="margin-bottom-md">Ein Fruchtsäure Peeling (auch AHA-Peeling oder Chemical Peel genannt) ist eine dermatologische Behandlung, bei der Alpha-Hydroxysäuren wie Glykolsäure, Milchsäure oder Mandelsäure in kontrollierter Konzentration auf die Haut aufgetragen werden, um die oberste Hautschicht abzulösen und die Zellerneuerung zu beschleunigen. Bei Beauty Face Lift an der Bahnhofstrasse Zürich setzen wir auf medizinisch formulierte Peelings, die weit über kosmetische Standardprodukte hinausgehen. Die hochkonzentrierten Säuren dringen gezielt in die Epidermis ein, lösen die Verbindungen zwischen abgestorbenen Hautzellen und stimulieren die Produktion von neuem, frischem Gewebe. Das Resultat ist eine grundlegend erneuerte Hautstruktur — glatter, ebenmässiger und mit einem sichtbar klaren, strahlenden Teint.</p>
                 <p class="margin-bottom-md">Anders als oberflächliche Peelings aus der Drogerie arbeiten wir mit professionellen Säurekonzentrationen von bis zu 70 %, die ausschliesslich von geschulten Kosmetikerinnen angewendet werden dürfen. Die Behandlung wird individuell auf Ihren Hautzustand, Ihren Hauttyp und Ihre spezifischen Anliegen abgestimmt — ob Akne, Hyperpigmentierung, Sonnenschäden oder die ersten Zeichen der Hautalterung. In unserem Premium Medical Spa mitten in Zürich erleben Sie das Gefühl von völlig freier, atmender Haut in einem Ambiente, das höchsten Ansprüchen gerecht wird.</p>
-                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+                <a href={bookingHref} class="pill-btn pill-btn-outline">Termin vereinbaren</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
@@ -407,9 +409,9 @@ const faqData = {
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 
-    <!-- Booking Widget -->
+    <!-- Booking CTA -->
     <section id="buchen" class="container pad-y">
-        <BookingWidget client:visible preselectedCategory="Peeling" />
+        <BookingCta treatment="Fruchtsäure Peeling" href={bookingHref} />
     </section>
 
     <!-- More Treatments -->

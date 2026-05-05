@@ -1,0 +1,38 @@
+---
+import { bookingLinkForService } from '../../shared/site';
+
+interface Props {
+  treatment?: string;
+  href?: string;
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+
+const {
+  treatment,
+  href,
+  eyebrow = 'Online buchen',
+  title = treatment ? `${treatment} Termin buchen` : 'Termin buchen',
+  text = 'Die Online-Buchung läuft jetzt über Aesthetika. Ihre Auswahl öffnet sich in einem neuen, zentralen Buchungsfluss.',
+} = Astro.props;
+
+const bookingHref = href || bookingLinkForService(treatment);
+---
+
+<div class="booking-cta">
+  <span class="booking-cta-kicker">{eyebrow}</span>
+  <h2>{title}</h2>
+  <p>{text}</p>
+  <div class="booking-cta-actions">
+    <a href={bookingHref} class="pill-btn">Termin buchen</a>
+    <a
+      href="https://wa.me/41792143462?text=Guten%20Tag%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Behandlung%20bei%20Beauty%20Face%20Lift."
+      class="pill-btn pill-btn-outline"
+      target="_blank"
+      rel="noopener"
+    >
+      Beratung fragen
+    </a>
+  </div>
+</div>

@@ -4,25 +4,26 @@ import Base from '../../layouts/Base.astro';
 ---
 
 <Base
-    title="Buchung bestätigt | Beauty Face Lift Zürich"
-    description="Ihre Buchung bei Beauty Face Lift wurde erfolgreich erstellt."
+    title="Buchungsstatus | Beauty Face Lift Zürich"
+    description="Hinweis zu einer älteren Beauty Face Lift Buchung."
     noindex={true}
 >
     <section class="container confirmation-page">
         <div class="confirmation-icon">✓</div>
-        <h1>Vielen Dank!</h1>
-        <p class="confirmation-subtitle">Ihre Buchung wurde erfolgreich erstellt.</p>
+        <h1>Buchungshinweis</h1>
+        <p class="confirmation-subtitle">Die Online-Buchung läuft jetzt zentral über Aesthetika.</p>
 
         <div id="booking-details" class="booking-summary" style="max-width: 500px; margin: 2rem auto;">
             <p class="booking-loading" id="details-loading">Buchungsdetails werden geladen...</p>
         </div>
 
         <div class="confirmation-info">
-            <p>Sie erhalten in Kürze eine Bestätigung per E-Mail.</p>
+            <p>Falls Sie eine ältere Bestätigung geöffnet haben, bleiben die Angaben hier nur zur Orientierung sichtbar.</p>
             <p>Bei Fragen erreichen Sie uns unter <a href="tel:+41792143462">+41 79 214 34 62</a> oder <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a>.</p>
         </div>
 
         <div class="confirmation-actions">
+            <a href="/termin/" class="pill-btn">Zur neuen Buchung</a>
             <a href="/" class="pill-btn pill-btn-outline">Zur Startseite</a>
             <a href="/behandlungen/" class="pill-btn pill-btn-outline">Weitere Behandlungen</a>
         </div>
@@ -44,45 +45,6 @@ import Base from '../../layouts/Base.astro';
         } else if (loadingEl) {
             loadingEl.textContent = '';
         }
-
-        // --- Conversion Tracking ---
-        // Generate event_id for deduplication (same ID used for client + server)
-        var eventId = 'bfl_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
-
-        // 1. Client-side: Push to GTM dataLayer (if GTM is loaded)
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            event: 'booking_complete',
-            event_id: eventId,
-            booking_id: bookingId,
-            currency: 'CHF'
-        });
-
-        // 2. Server-side: Send to /api/track for Meta CAPI + GA4 Measurement Protocol
-        var utmData = {};
-        try { utmData = JSON.parse(sessionStorage.getItem('bfl_utm') || '{}'); } catch(e) {}
-
-        // Read Meta cookies for better attribution
-        var cookies = document.cookie.split(';').reduce(function(acc, c) {
-            var parts = c.trim().split('=');
-            acc[parts[0]] = parts[1];
-            return acc;
-        }, {});
-
-        fetch('/api/track', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                event_name: 'Lead',
-                event_id: eventId,
-                event_source_url: window.location.href,
-                event_data: { currency: 'CHF' },
-                user_data: {
-                    fbc: cookies._fbc || null,
-                    fbp: cookies._fbp || null
-                }
-            })
-        }).catch(function() { /* tracking failure is non-critical */ });
     })();
 </script>
 

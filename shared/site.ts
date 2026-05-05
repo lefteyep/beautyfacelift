@@ -1,5 +1,31 @@
 export const SITE_NAME = 'Beauty Face Lift';
 
+export const AESTHETIKA_BOOKING_URL = 'https://booking.beautyfacelift.ch/buchen';
+
+export const BOOKING_ATTRIBUTION_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+  'gclid',
+  'fbclid',
+] as const;
+
+export const BOOKING_INTENT_KEYS = ['service'] as const;
+
+export const BOOKING_FORWARD_KEYS = [
+  ...BOOKING_ATTRIBUTION_KEYS,
+  ...BOOKING_INTENT_KEYS,
+] as const;
+
+export function bookingLinkForService(service?: string): string {
+  if (!service) return '/termin/';
+
+  const params = new URLSearchParams({ service });
+  return `/termin/?${params.toString()}`;
+}
+
 export const CONTACT_PHONE = '+41792143462';
 export const CONTACT_PHONE_DISPLAY = '+41 79 214 34 62';
 export const CONTACT_EMAIL = 'info@beautyfacelift.ch';

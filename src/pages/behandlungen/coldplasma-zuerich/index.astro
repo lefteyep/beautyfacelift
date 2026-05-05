@@ -1,14 +1,16 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
+import BookingCta from '../../../components/BookingCta.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { coldplasmaCard, spaInterior, spaProducts } from '../../../lib/site-images';
+import { bookingLinkForService } from '../../../../shared/site';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const bookingHref = bookingLinkForService('ColdPlasma');
 const coldPlasmaHeroPreload = await getImage({
     src: coldplasmaCard,
     widths: [768, 1024, 1440, 1536],
@@ -159,7 +161,7 @@ const faqData = {
         ]} />
     </div>
 
-    <TreatmentActionBar treatment="ColdPlasma" />
+    <TreatmentActionBar treatment="ColdPlasma" href={bookingHref} />
 
     <!-- Content Split -->
     <section class="about-editorial pad-y">
@@ -168,7 +170,7 @@ const faqData = {
                 <span class="sub-display">Die Innovation</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Zukunft der<br>Hautpflege."</h2>
                 <p class="margin-bottom-md">ColdPlasma (auch kaltes Atmosphärenplasma oder Non-Thermal Plasma genannt) ist eine innovative Technologie aus der medizinischen Forschung, bei der Gas bei niedriger Temperatur ionisiert wird und auf die Hautoberfläche einwirkt. Das ionisierte Gas stimuliert die Zellerneuerung auf molekularer Ebene, wirkt antimikrobiell und öffnet die Hautbarriere temporär für eine bis zu 300% verbesserte Wirkstoffaufnahme. Bei Beauty Face Lift an der Bahnhofstrasse Zürich wird jede ColdPlasma Behandlung von Inhaberin Teresa Stimac persönlich durchgeführt und individuell auf Ihren Hauttyp abgestimmt. Das Ergebnis: sichtbar jüngere, reinere und strahlendere Haut — ganz ohne Nadeln, ohne Chemie und ohne Downtime.</p>
-                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+                <a href={bookingHref} class="pill-btn pill-btn-outline">Termin vereinbaren</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
@@ -384,9 +386,9 @@ const faqData = {
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 
-    <!-- Booking Widget -->
-    <section class="container pad-y">
-        <BookingWidget client:visible preselectedCategory="ColdPlasma" />
+    <!-- Booking CTA -->
+    <section class="container pad-y" id="buchen">
+        <BookingCta treatment="ColdPlasma" href={bookingHref} />
     </section>
 
     <!-- More Treatments -->

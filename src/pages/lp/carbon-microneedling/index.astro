@@ -1,6 +1,6 @@
 ---
 import LandingPage from '../../../layouts/LandingPage.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
+import BookingCta from '../../../components/BookingCta.astro';
 import OfferBox from '../../../components/lp/OfferBox.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
@@ -10,8 +10,10 @@ import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { carbonTreatmentTeresa, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
+import { bookingLinkForService } from '../../../../shared/site';
 
 const OFFICIAL_PRICE = 250;
+const bookingHref = bookingLinkForService('Carbon Microneedling');
 const lpHeroMainSizes = '(min-width: 1101px) 32vw, (min-width: 601px) 340px, 62vw';
 const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 48vw';
 const lpAboutSizes = '(min-width: 1101px) 48vw, (min-width: 601px) 520px, 100vw';
@@ -153,7 +155,7 @@ const structuredData = {
         </div>
 
         <div class="lp-hero-ctas">
-          <a href="#buchen" class="pill-btn lp-hero-primary">Termin buchen</a>
+          <a href={bookingHref} class="pill-btn lp-hero-primary">Termin buchen</a>
           <WhatsAppButton variant="inline" message={whatsappMessage} source="hero" label="WhatsApp" />
         </div>
 
@@ -290,7 +292,7 @@ const structuredData = {
       discountLabel="Treatwell-Katalog"
       urgency="90 Minuten · Carbon Laser Peeling + Microneedling"
       ctaText="Jetzt Platz sichern"
-      ctaHref="#buchen"
+      ctaHref={bookingHref}
     />
     <p class="lp-offer-footnote">
       Offizieller Preis laut Treatwell-Katalog: CHF {OFFICIAL_PRICE}.- für Carbon Laser Peeling + Microneedling.
@@ -366,9 +368,9 @@ const structuredData = {
     <div class="lp-section-head">
       <div class="sub-display">Termin buchen</div>
       <h2 class="lp-section-title">Sichere dir deine Glow-Up-Sitzung</h2>
-      <p class="lp-section-lead">Wähle Datum & Uhrzeit — wir bestätigen deinen Termin per E-Mail.</p>
+      <p class="lp-section-lead">Die Terminbuchung läuft jetzt zentral über Aesthetika.</p>
     </div>
-    <BookingWidget client:load preselectedCategory="Carbon Microneedling" />
+    <BookingCta treatment="Carbon Microneedling" href={bookingHref} />
   </section>
 
   <!-- FINAL CTA (full-bleed dark) -->
@@ -392,16 +394,13 @@ const structuredData = {
   </section>
 
   <WhatsAppButton variant="sticky" message={whatsappMessage} source="sticky" />
-  <StickyOfferBar newPrice={OFFICIAL_PRICE} />
+  <StickyOfferBar newPrice={OFFICIAL_PRICE} href={bookingHref} />
 </LandingPage>
 
 <script>
-  import { trackPageView, trackLead } from '../../../lib/track';
+  import { trackPageView } from '../../../lib/track';
 
   trackPageView();
-
-  // Surface trackLead for BookingWidget to call after a successful booking.
-  (window as any).__bflTrackLead = trackLead;
 </script>
 
 <style>
