@@ -22,32 +22,59 @@
   margin-bottom: 2rem;
 }
 
-/* Step Indicator — minimal progress bar */
+/* Step Indicator — minimal progress bar with accessible labels */
 .booking-steps {
+  margin-bottom: 0;
+}
+
+.booking-step-list {
   display: flex;
   gap: 4px;
+  list-style: none;
+  padding: 0;
   margin-bottom: 0;
 }
 
 .booking-step {
   flex: 1;
+  min-width: 0;
+}
+
+.booking-step-bar {
+  display: block;
   height: 2px;
   background: var(--border-medium);
   border-radius: 1px;
   transition: background 0.4s var(--ease-expo);
 }
 
-.booking-step.active,
-.booking-step.completed {
+.booking-step.active .booking-step-bar,
+.booking-step.completed .booking-step-bar {
   background: var(--text-primary);
 }
 
 .booking-step-number {
-  display: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-dark);
+  margin-right: 0.35rem;
 }
 
 .booking-step-label {
-  display: none;
+  display: block;
+  margin-top: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-step.active .booking-step-label {
+  color: var(--text-primary);
 }
 
 /* Back Button */
@@ -77,6 +104,190 @@
   color: var(--text-secondary);
 }
 
+.booking-state {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.booking-state h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.booking-state p {
+  margin: 0 auto 1rem;
+  font-size: 0.95rem;
+  max-width: 42ch;
+}
+
+.booking-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+}
+
+.booking-text-link {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.booking-choice-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1.25rem;
+}
+
+.booking-choice-intro p {
+  font-size: 0.95rem;
+  margin: 0;
+  max-width: 42ch;
+}
+
+.booking-treatment-controls {
+  margin-bottom: 1.5rem;
+}
+
+.booking-search-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.booking-search-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.booking-search-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-card);
+  padding: 0 1rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+.booking-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.booking-search-input:focus-visible,
+.booking-search-clear:focus-visible,
+.booking-category-chip:focus-visible,
+.booking-treatment-card:focus-visible,
+.booking-back:focus-visible,
+.booking-time-pill:focus-visible,
+.calendar-nav:focus-visible,
+.calendar-cell:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+}
+
+.booking-search-clear {
+  min-height: 48px;
+  padding: 0 1rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-card);
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.booking-category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.15rem 0 0;
+}
+
+.booking-category-chip {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.32);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.booking-category-chip:hover,
+.booking-category-chip.active {
+  border-color: var(--accent-dark);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+.booking-result-count {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  max-width: none;
+}
+
+.booking-inline-note {
+  margin: 0 auto 1.25rem;
+  padding: 0.85rem 1rem;
+  max-width: 420px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-card);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.booking-category + .booking-category {
+  margin-top: 1.75rem;
+}
+
+.booking-category-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
 /* Treatment Grid */
 .booking-treatment-grid {
   display: grid;
@@ -93,6 +304,8 @@
   cursor: pointer;
   transition: border-color 0.3s ease, transform 0.3s var(--ease-expo);
   font-family: inherit;
+  position: relative;
+  min-height: 164px;
 }
 
 .booking-treatment-card:hover {
@@ -110,6 +323,16 @@
   margin-bottom: 0.5rem;
 }
 
+.booking-treatment-kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
 .booking-treatment-card p {
   font-size: 0.85rem;
   margin-bottom: 1rem;
@@ -125,6 +348,31 @@
   color: var(--accent-dark);
   text-transform: uppercase;
   letter-spacing: var(--tracking-caps);
+}
+
+.booking-treatment-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  min-height: 34px;
+  padding: 8px 16px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-nav);
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.booking-treatment-card:hover .booking-treatment-action,
+.booking-treatment-card.selected .booking-treatment-action {
+  border-color: var(--accent-dark);
+  background: var(--gold);
+  color: var(--ink);
 }
 
 /* Calendar */
@@ -328,6 +576,12 @@
   border-color: var(--accent);
 }
 
+.booking-field input[aria-invalid="true"],
+.booking-field textarea[aria-invalid="true"] {
+  border-color: #c0392b;
+  background: rgba(192, 57, 43, 0.04);
+}
+
 .booking-field textarea {
   resize: vertical;
 }
@@ -349,6 +603,13 @@
   font-size: 0.9rem;
   color: #c0392b;
   margin-bottom: 1.5rem;
+}
+
+.booking-reassurance {
+  margin: -0.75rem 0 1.5rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  max-width: none;
 }
 
 .booking-submit {
@@ -376,7 +637,55 @@
     padding: 10vw 6vw;
   }
 
-  .booking-steps {
-    gap: 3px;
+  .booking-step-list {
+    position: relative;
+    padding-bottom: 1.75rem;
+  }
+
+  .booking-step-label {
+    display: none;
+  }
+
+  .booking-step.active .booking-step-label {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0.75rem;
+    width: 100%;
+    margin-top: 0;
+    overflow: visible;
+    white-space: normal;
+    text-align: left;
+    text-overflow: clip;
+  }
+
+  .booking-choice-intro,
+  .booking-state-actions,
+  .booking-search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking-search-clear {
+    width: 100%;
+  }
+
+  .booking-category-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-right: -6vw;
+    padding-right: 6vw;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .booking-category-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .booking-choice-intro .booking-text-link,
+  .booking-state-actions .booking-text-link {
+    text-align: center;
   }
 }

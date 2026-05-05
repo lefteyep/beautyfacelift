@@ -258,17 +258,27 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
             // tab backgrounded on load) the text stays visible instead of
             // being stuck at opacity 0.
             const heroTl = gsap.timeline();
-            heroTl.from('.hero-sub-display .text-reveal',
-                { opacity: 0, y: 12, duration: 0.9, delay: 0.2, immediateRender: false }
-            )
-            .from('.hero-display .text-reveal',
-                { opacity: 0, y: 20, duration: 1.1, immediateRender: false },
-                "-=0.6"
-            )
-            .from('.hero-cta',
-                { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", immediateRender: false },
-                "-=0.6"
-            );
+            const heroSubDisplay = document.querySelector('.hero-sub-display .text-reveal');
+            const heroDisplay = document.querySelector('.hero-display .text-reveal');
+            const heroCta = document.querySelector('.hero-cta');
+
+            if (heroSubDisplay) {
+                heroTl.from(heroSubDisplay,
+                    { opacity: 0, y: 12, duration: 0.9, delay: 0.2, immediateRender: false }
+                );
+            }
+            if (heroDisplay) {
+                heroTl.from(heroDisplay,
+                    { opacity: 0, y: 20, duration: 1.1, immediateRender: false },
+                    heroSubDisplay ? "-=0.6" : 0
+                );
+            }
+            if (heroCta) {
+                heroTl.from(heroCta,
+                    { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", immediateRender: false },
+                    heroDisplay ? "-=0.6" : 0
+                );
+            }
 
             // 2. Floating image fade up with slight rotation
             const heroFloat = document.getElementById('hero-float-1');

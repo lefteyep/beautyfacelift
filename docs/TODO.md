@@ -35,7 +35,7 @@
 - [ ] Connect custom domain `beautyfacelift.ch` in Cloudflare DNS
 - [ ] Verify domain in Google Search Console + submit sitemap
 - [ ] Claim/verify Google Business Profile (Bahnhofstrasse 94, 8001 Zürich)
-- [ ] Change admin password from test123 to a strong password
+- [ ] Replace weak/test admin password with a strong unique password
 - [ ] Replace placeholder images with real Teresa/studio photos
 - [ ] Get real treatment prices from Teresa and update pages + Supabase
 

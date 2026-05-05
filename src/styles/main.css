@@ -274,7 +274,7 @@ body {
   letter-spacing: var(--tracking-nav);
   border-radius: var(--radius-pill);
   background: var(--gold);
-  color: #fff;
+  color: var(--ink);
   border: none;
   cursor: pointer;
   transition: background 0.3s var(--ease-expo), transform 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo);

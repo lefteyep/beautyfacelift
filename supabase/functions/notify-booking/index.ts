@@ -23,6 +23,7 @@ interface BookingRecord {
   booking_date: string;
   booking_time: string;
   service_id: string;
+  status?: string;
   notes?: string;
 }
 
@@ -41,6 +42,23 @@ const MONTHS = [
 function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split('-').map(Number);
   return `${d}. ${MONTHS[m - 1]} ${y}`;
+}
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function safeSubject(value: unknown): string {
+  return String(value ?? '').replace(/[\r\n]+/g, ' ').slice(0, 160);
+}
+
+function safeTelHref(value: unknown): string {
+  return String(value ?? '').replace(/[^\d+]/g, '');
 }
 
 async function sendEmail(to: string, subject: string, html: string) {
@@ -70,20 +88,28 @@ Deno.serve(async (req: Request) => {
 
   if (payload.type === 'INSERT') {
     // --- New Booking ---
+    const bookingDate = escapeHtml(formatDate(booking.booking_date));
+    const bookingTime = escapeHtml(booking.booking_time);
+    const customerName = escapeHtml(booking.customer_name);
+    const customerNameSubject = safeSubject(booking.customer_name);
+    const customerPhone = escapeHtml(booking.customer_phone);
+    const customerPhoneHref = escapeHtml(safeTelHref(booking.customer_phone));
+    const customerEmail = escapeHtml(booking.customer_email);
+    const notes = booking.notes ? escapeHtml(booking.notes) : '';
 
     // 1. Email to Teresa (owner)
     await sendEmail(
       OWNER_EMAIL,
-      `Neue Buchung: ${booking.customer_name} — ${formatDate(booking.booking_date)}`,
+      `Neue Buchung: ${customerNameSubject} — ${safeSubject(formatDate(booking.booking_date))}`,
       `
       <div style="font-family: 'Outfit', Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 2rem;">
         <h2 style="font-family: 'Cormorant Garamond', serif; color: #121212; margin-bottom: 1.5rem;">Neue Buchung</h2>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; color: #5C5A55;">Kundin</td><td style="padding: 8px 0; font-weight: 500;">${booking.customer_name}</td></tr>
-          <tr><td style="padding: 8px 0; color: #5C5A55;">Datum</td><td style="padding: 8px 0; font-weight: 500;">${formatDate(booking.booking_date)} um ${booking.booking_time}</td></tr>
-          <tr><td style="padding: 8px 0; color: #5C5A55;">Telefon</td><td style="padding: 8px 0;"><a href="tel:${booking.customer_phone}">${booking.customer_phone}</a></td></tr>
-          <tr><td style="padding: 8px 0; color: #5C5A55;">E-Mail</td><td style="padding: 8px 0;"><a href="mailto:${booking.customer_email}">${booking.customer_email}</a></td></tr>
-          ${booking.notes ? `<tr><td style="padding: 8px 0; color: #5C5A55;">Anmerkungen</td><td style="padding: 8px 0;">${booking.notes}</td></tr>` : ''}
+          <tr><td style="padding: 8px 0; color: #5C5A55;">Kundin</td><td style="padding: 8px 0; font-weight: 500;">${customerName}</td></tr>
+          <tr><td style="padding: 8px 0; color: #5C5A55;">Datum</td><td style="padding: 8px 0; font-weight: 500;">${bookingDate} um ${bookingTime}</td></tr>
+          <tr><td style="padding: 8px 0; color: #5C5A55;">Telefon</td><td style="padding: 8px 0;"><a href="tel:${customerPhoneHref}">${customerPhone}</a></td></tr>
+          <tr><td style="padding: 8px 0; color: #5C5A55;">E-Mail</td><td style="padding: 8px 0;"><a href="mailto:${customerEmail}">${customerEmail}</a></td></tr>
+          ${notes ? `<tr><td style="padding: 8px 0; color: #5C5A55;">Anmerkungen</td><td style="padding: 8px 0;">${notes}</td></tr>` : ''}
         </table>
         <div style="margin-top: 2rem;">
           <a href="https://beautyfacelift.ch/admin/" style="display: inline-block; padding: 12px 24px; background: #CFA65E; color: white; text-decoration: none; border-radius: 100px; font-size: 14px;">Admin öffnen</a>
@@ -95,16 +121,16 @@ Deno.serve(async (req: Request) => {
     // 2. Confirmation email to customer
     await sendEmail(
       booking.customer_email,
-      `Ihre Buchung bei Beauty Face Lift — ${formatDate(booking.booking_date)}`,
+      `Ihre Buchung bei Beauty Face Lift — ${safeSubject(formatDate(booking.booking_date))}`,
       `
       <div style="font-family: 'Outfit', Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 2rem; background: #EDEBE6;">
-        <h2 style="font-family: 'Cormorant Garamond', serif; color: #121212; margin-bottom: 0.5rem;">Vielen Dank, ${booking.customer_name}!</h2>
+        <h2 style="font-family: 'Cormorant Garamond', serif; color: #121212; margin-bottom: 0.5rem;">Vielen Dank, ${customerName}!</h2>
         <p style="color: #5C5A55; margin-bottom: 2rem;">Ihre Buchung wurde erfolgreich erstellt.</p>
 
         <div style="background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
           <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #5C5A55; font-size: 14px;">Datum</td><td style="padding: 8px 0; font-weight: 500;">${formatDate(booking.booking_date)}</td></tr>
-            <tr><td style="padding: 8px 0; color: #5C5A55; font-size: 14px;">Uhrzeit</td><td style="padding: 8px 0; font-weight: 500;">${booking.booking_time} Uhr</td></tr>
+            <tr><td style="padding: 8px 0; color: #5C5A55; font-size: 14px;">Datum</td><td style="padding: 8px 0; font-weight: 500;">${bookingDate}</td></tr>
+            <tr><td style="padding: 8px 0; color: #5C5A55; font-size: 14px;">Uhrzeit</td><td style="padding: 8px 0; font-weight: 500;">${bookingTime} Uhr</td></tr>
           </table>
         </div>
 
@@ -129,13 +155,16 @@ Deno.serve(async (req: Request) => {
     const newStatus = (payload.record as any).status;
 
     if (oldStatus !== newStatus && newStatus === 'confirmed') {
+      const bookingDate = escapeHtml(formatDate(booking.booking_date));
+      const bookingTime = escapeHtml(booking.booking_time);
+
       await sendEmail(
         booking.customer_email,
-        `Buchung bestätigt — ${formatDate(booking.booking_date)}`,
+        `Buchung bestätigt — ${safeSubject(formatDate(booking.booking_date))}`,
         `
         <div style="font-family: 'Outfit', Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 2rem;">
           <h2 style="color: #121212;">Ihre Buchung wurde bestätigt!</h2>
-          <p>Wir freuen uns auf Sie am <strong>${formatDate(booking.booking_date)} um ${booking.booking_time} Uhr</strong>.</p>
+          <p>Wir freuen uns auf Sie am <strong>${bookingDate} um ${bookingTime} Uhr</strong>.</p>
           <p style="color: #5C5A55;">Beauty Face Lift, Bahnhofstrasse 94, 8001 Zürich</p>
         </div>
         `
@@ -143,13 +172,16 @@ Deno.serve(async (req: Request) => {
     }
 
     if (oldStatus !== newStatus && newStatus === 'cancelled') {
+      const bookingDate = escapeHtml(formatDate(booking.booking_date));
+      const bookingTime = escapeHtml(booking.booking_time);
+
       await sendEmail(
         booking.customer_email,
-        `Buchung storniert — ${formatDate(booking.booking_date)}`,
+        `Buchung storniert — ${safeSubject(formatDate(booking.booking_date))}`,
         `
         <div style="font-family: 'Outfit', Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 2rem;">
           <h2 style="color: #121212;">Buchung storniert</h2>
-          <p>Ihre Buchung am <strong>${formatDate(booking.booking_date)} um ${booking.booking_time} Uhr</strong> wurde storniert.</p>
+          <p>Ihre Buchung am <strong>${bookingDate} um ${bookingTime} Uhr</strong> wurde storniert.</p>
           <p style="color: #5C5A55;">Falls eine Anzahlung geleistet wurde, wird diese automatisch erstattet.</p>
           <p>Bei Fragen: <a href="tel:+41792143462" style="color: #CFA65E;">+41 79 214 34 62</a></p>
         </div>

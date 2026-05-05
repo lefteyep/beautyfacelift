@@ -20,17 +20,46 @@ const TABS: { key: Tab; label: string }[] = [
 export default function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [authError, setAuthError] = useState('');
   const [activeTab, setActiveTab] = useState<Tab>(() => {
     const hash = typeof window !== 'undefined' ? window.location.hash.slice(1) : '';
     return (TABS.find(t => t.key === hash)?.key || 'bookings') as Tab;
   });
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setAuthenticated(!!data.session);
-      setChecking(false);
-    });
+    verifyAdminSession(false);
   }, []);
+
+  async function verifyAdminSession(showUnauthorizedMessage = true) {
+    setChecking(true);
+    setAuthError('');
+
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) {
+      setAuthenticated(false);
+      setChecking(false);
+      return;
+    }
+
+    const { data: adminUser, error } = await supabase
+      .from('admin_users')
+      .select('user_id')
+      .eq('user_id', data.session.user.id)
+      .maybeSingle();
+
+    if (error || !adminUser) {
+      await supabase.auth.signOut();
+      setAuthenticated(false);
+      if (showUnauthorizedMessage) {
+        setAuthError('Dieses Konto ist nicht für den Adminbereich freigeschaltet.');
+      }
+      setChecking(false);
+      return;
+    }
+
+    setAuthenticated(true);
+    setChecking(false);
+  }
 
   function handleTabChange(tab: Tab) {
     setActiveTab(tab);
@@ -47,7 +76,12 @@ export default function AdminDashboard() {
   }
 
   if (!authenticated) {
-    return <LoginForm onLogin={() => setAuthenticated(true)} />;
+    return (
+      <>
+        {authError && <div className="booking-error-banner">{authError}</div>}
+        <LoginForm onLogin={() => verifyAdminSession(true)} />
+      </>
+    );
   }
 
   return (

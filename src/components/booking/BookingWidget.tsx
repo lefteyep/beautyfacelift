@@ -24,6 +24,20 @@ interface Props {
 
 const STEP_LABELS = ['Behandlung', 'Datum', 'Uhrzeit', 'Buchen'];
 
+function BookingRecovery({ title, message }: { title: string; message: string }) {
+  return (
+    <div className="booking-state" role="alert">
+      <h3>{title}</h3>
+      <p>{message}</p>
+      <div className="booking-state-actions">
+        <a href="/kontakt/" className="pill-btn pill-btn-outline">Kontakt aufnehmen</a>
+        <a href="tel:+41792143462" className="booking-text-link">+41 79 214 34 62</a>
+        <a href="https://wa.me/41792143462" className="booking-text-link">WhatsApp schreiben</a>
+      </div>
+    </div>
+  );
+}
+
 function BookingWidgetInner({ preselectedCategory }: Props) {
   const [step, setStep] = useState(1);
   const [services, setServices] = useState<Service[]>([]);
@@ -37,16 +51,26 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [servicesError, setServicesError] = useState<string | null>(null);
+  const [datesError, setDatesError] = useState<string | null>(null);
+  const [slotsError, setSlotsError] = useState<string | null>(null);
 
   // Load services on mount
   useEffect(() => {
     fetch('/api/services')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('services failed');
+        return r.json();
+      })
       .then(data => {
         setServices(data.services || []);
+        setServicesError(null);
         setLoadingServices(false);
       })
-      .catch(() => setLoadingServices(false));
+      .catch(() => {
+        setServicesError('Die Behandlungen konnten nicht geladen werden.');
+        setLoadingServices(false);
+      });
   }, []);
 
   // Auto-advance if only 1 service in preselected category
@@ -68,24 +92,40 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
 
   const loadAvailability = useCallback((month: string) => {
     setLoadingDates(true);
+    setDatesError(null);
     fetch(`/api/availability?month=${month}`)
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('availability failed');
+        return r.json();
+      })
       .then(data => {
         setAvailableDates(new Set(data.dates || []));
         setLoadingDates(false);
       })
-      .catch(() => setLoadingDates(false));
+      .catch(() => {
+        setDatesError('Die Verfügbarkeit konnte nicht geladen werden.');
+        setAvailableDates(new Set());
+        setLoadingDates(false);
+      });
   }, []);
 
   function loadSlots(date: string, serviceId: string) {
     setLoadingSlots(true);
+    setSlotsError(null);
     fetch(`/api/slots?date=${date}&service_id=${serviceId}`)
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('slots failed');
+        return r.json();
+      })
       .then(data => {
         setSlots(data.slots || []);
         setLoadingSlots(false);
       })
-      .catch(() => setLoadingSlots(false));
+      .catch(() => {
+        setSlotsError('Die freien Zeiten konnten nicht geladen werden.');
+        setSlots([]);
+        setLoadingSlots(false);
+      });
   }
 
   function handleServiceSelect(service: Service) {
@@ -172,7 +212,16 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
   }
 
   if (loadingServices) {
-    return <div className="booking-loading">Behandlungen werden geladen...</div>;
+    return <div className="booking-loading" role="status" aria-live="polite">Behandlungen werden geladen...</div>;
+  }
+
+  if (servicesError) {
+    return (
+      <BookingRecovery
+        title="Online-Buchung kurz nicht verfügbar"
+        message="Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt. Wir finden Ihren Termin persönlich."
+      />
+    );
   }
 
   return (
@@ -205,6 +254,7 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
             onSelect={handleDateSelect}
             onMonthChange={loadAvailability}
             loading={loadingDates}
+            error={datesError}
           />
         )}
 
@@ -215,6 +265,7 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
             onSelect={handleTimeSelect}
             loading={loadingSlots}
             selectedDate={selectedDate}
+            error={slotsError}
           />
         )}
 

@@ -130,6 +130,6 @@ Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
 
 - Schema applied: Yes (001_initial_schema.sql)
 - Seed data: 6 services, 7 availability records, 2 settings
-- Admin user: info@pauloferreira.de / test123 (CHANGE BEFORE PRODUCTION)
+- Admin user: Supabase Auth owner account exists, but weak/test credentials must be replaced before production customer data is exposed.
 - RLS policies: Active on all tables
 - Edge Functions deployed: No (notify-booking not yet deployed)

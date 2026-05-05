@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
 interface Props {
-  onLogin: () => void;
+  onLogin: () => void | Promise<void>;
 }
 
 export function LoginForm({ onLogin }: Props) {
@@ -22,7 +22,8 @@ export function LoginForm({ onLogin }: Props) {
       setError('Ungültige Anmeldedaten.');
       setLoading(false);
     } else {
-      onLogin();
+      await onLogin();
+      setLoading(false);
     }
   }
 

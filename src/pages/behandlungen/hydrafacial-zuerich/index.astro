@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { consultationTrust, hydrafacialCard, spaInterior } from '../../../lib/site-images';
 
@@ -40,9 +41,9 @@ const structuredData = {
     "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "CHF",
-        "lowPrice": "190",
-        "highPrice": "350",
-        "offerCount": "3"
+        "lowPrice": "170",
+        "highPrice": "280",
+        "offerCount": "5"
     },
     "aggregateRating": {
         "@type": "AggregateRating",
@@ -60,7 +61,7 @@ const faqData = {
         "name": "Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet eine Hydrafacial Behandlung zwischen CHF 190 und CHF 350. Die Express-Variante (30 Min.) beginnt bei CHF 190 und eignet sich für eine schnelle Auffrischung. Die Signature-Behandlung (60 Min.) liegt bei CHF 280 und bietet das vollständige Hydrafacial Erlebnis mit individueller Serum-Auswahl. Die Platinum-Variante (90 Min.) kostet CHF 350 und beinhaltet zusätzlich LED-Lichttherapie, Lymphdrainage und Premium-Seren. Alle Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Inhaberin Teresa Stimac."
+            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet Hydra4Face aktuell CHF 180 für Basic Intensiv (60 Min.), CHF 250 für Anti Aging (90 Min.) und CHF 280 für Gesicht, Hals, Dekolletee oder Hydra4Face mit coldPLASMA für Akne. Die Kombination Hydra4Face + Microneedling ist aktuell für CHF 170 gelistet. Alle Varianten beinhalten persönliche Beratung und Hautanalyse durch Teresa Stimac."
         }
     }, {
         "@type": "Question",
@@ -74,7 +75,7 @@ const faqData = {
         "name": "Wie lange dauert eine Hydrafacial Behandlung?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Die Behandlungsdauer hängt von der gewählten Variante ab: Die Express-Behandlung dauert circa 30 Minuten und eignet sich perfekt für die Mittagspause. Die Signature-Behandlung nimmt circa 60 Minuten in Anspruch und bietet das vollständige Hydrafacial Erlebnis mit Reinigung, Peeling, Extraktion und Serum-Infusion. Die Platinum-Variante dauert circa 90 Minuten und beinhaltet zusätzlich LED-Lichttherapie und Lymphdrainage. Direkt danach sind Sie wieder gesellschaftsfähig — ohne jede Ausfallzeit."
+            "text": "Die Behandlungsdauer hängt von der gewählten Variante ab: Hydra4Face Basic Intensiv dauert circa 60 Minuten. Anti Aging, Gesicht/Hals/Dekolletee, Hydra4Face + coldPLASMA und Hydra4Face + Microneedling dauern circa 90 Minuten. Direkt danach sind Sie wieder gesellschaftsfähig — ohne jede Ausfallzeit."
         }
     }, {
         "@type": "Question",
@@ -102,7 +103,7 @@ const faqData = {
         "name": "Wie viel kostet Hydrafacial in Zürich?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Die Kosten für eine Hydrafacial Behandlung in Zürich variieren je nach Anbieter und Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir drei Varianten an: Express (30 Min.) ab CHF 190, Signature (60 Min.) für CHF 280 und Platinum (90 Min.) für CHF 350. Im Vergleich zu anderen Zürcher Anbietern erhalten Sie bei uns ein erstklassiges Preis-Leistungs-Verhältnis inklusive individueller Serum-Auswahl, persönlicher Betreuung durch Teresa und einer vorgängigen Hautanalyse."
+            "text": "Die Kosten für eine Hydra4Face Behandlung in Zürich variieren je nach Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir aktuell Hydra4Face Basic Intensiv für CHF 180, Anti Aging für CHF 250 sowie erweiterte 90-Minuten-Varianten bis CHF 280 an. Die Kombination Hydra4Face + Microneedling ist aktuell für CHF 170 gelistet."
         }
     }, {
         "@type": "Question",
@@ -117,7 +118,7 @@ const faqData = {
 
 <Base
     title="Hydrafacial Zürich | Beauty Face Lift an der Bahnhofstrasse"
-    description="Hydrafacial Zürich an der Bahnhofstrasse. Erleben Sie die revolutionäre Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Medical Spa. Ab CHF 190."
+    description="Hydra4Face / Hydrafacial Zürich an der Bahnhofstrasse. Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Medical Spa. Ab CHF 180."
     preloadImage={{
         href: hydrafacialHeroPreload.src,
         imagesrcset: hydrafacialHeroPreload.srcSet.attribute,
@@ -164,6 +165,8 @@ const faqData = {
             { label: "Hydrafacial Zürich" }
         ]} />
     </div>
+
+    <TreatmentActionBar treatment="Hydrafacial" />
 
     <!-- Content Split — design: 120px 58px, 58px gap -->
     <section class="about-editorial pad-y">
@@ -267,23 +270,35 @@ const faqData = {
     <section class="container" style="padding-bottom: 80px;">
         <div class="sub-display" style="text-align: center; margin-bottom: 32px;">Preise</div>
         <div class="pricing-grid">
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Express</div>
-                <div class="pricing-price">CHF 190</div>
-                <div class="pricing-duration">30 Minuten</div>
-                <p style="max-width: none; text-align: center;">Schnelle Auffrischung für den Glow zwischendurch. Reinigung und leichtes Peeling.</p>
-            </div>
             <div class="pricing-card pricing-card-accent scroll-anim">
-                <div class="pricing-label">Signature</div>
-                <div class="pricing-price">CHF 280</div>
+                <div class="pricing-label">Hydra4Face Basic Intensiv</div>
+                <div class="pricing-price">CHF 180</div>
                 <div class="pricing-duration">60 Minuten</div>
-                <p style="max-width: none; text-align: center;">Unser Klassiker. Tiefenreinigung, Peeling und individuelle Serum-Infusion für maximalen Glow.</p>
+                <p style="max-width: none; text-align: center;">Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.</p>
             </div>
             <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Platinum</div>
-                <div class="pricing-price">CHF 350</div>
+                <div class="pricing-label">Hydra4Face Anti Aging</div>
+                <div class="pricing-price">CHF 250</div>
                 <div class="pricing-duration">90 Minuten</div>
-                <p style="max-width: none; text-align: center;">Das ultimative Erlebnis. Inklusive LED-Lichttherapie, Lymphdrainage und Premium-Seren.</p>
+                <p style="max-width: none; text-align: center;">Intensive Hydra4Face Pflege mit Anti-Aging-Fokus und Glow-Finish.</p>
+            </div>
+            <div class="pricing-card scroll-anim">
+                <div class="pricing-label">Gesicht, Hals, Dekolletee</div>
+                <div class="pricing-price">CHF 280</div>
+                <div class="pricing-duration">90 Minuten</div>
+                <p style="max-width: none; text-align: center;">Erweiterte Hydra4Face Behandlung für ein harmonisches Ergebnis über Gesicht, Hals und Dekolletee.</p>
+            </div>
+            <div class="pricing-card scroll-anim">
+                <div class="pricing-label">Hydra4Face + coldPLASMA</div>
+                <div class="pricing-price">CHF 280</div>
+                <div class="pricing-duration">90 Minuten</div>
+                <p style="max-width: none; text-align: center;">Für Akne und unreine Haut: Hydra4Face Reinigung kombiniert mit coldPLASMA.</p>
+            </div>
+            <div class="pricing-card scroll-anim">
+                <div class="pricing-label">Hydra4Face + Microneedling</div>
+                <div class="pricing-price">CHF 170</div>
+                <div class="pricing-duration">90 Minuten</div>
+                <p style="max-width: none; text-align: center;">Kombinationsbehandlung für Tiefenreinigung, Wirkstoffaufnahme und Kollagenstimulation.</p>
             </div>
         </div>
     </section>
@@ -307,7 +322,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Was kostet ein Hydrafacial in Zürich an der Bahnhofstrasse?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir drei Hydrafacial-Varianten an: Die Express-Behandlung (30 Min.) beginnt bei CHF 190 und eignet sich perfekt für eine schnelle Auffrischung in der Mittagspause. Die Signature-Behandlung (60 Min.) liegt bei CHF 280 und bietet das vollständige Hydrafacial Erlebnis mit Tiefenreinigung, Peeling, Extraktion und individueller Serum-Infusion. Die Platinum-Variante (90 Min.) kostet CHF 350 und beinhaltet zusätzlich LED-Lichttherapie, Lymphdrainage und Premium-Seren für maximale Hautverjüngung. Alle Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Inhaberin Teresa Stimac.</p>
+                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir aktuell mehrere Hydra4Face-Varianten an: Basic Intensiv (60 Min.) kostet CHF 180, Anti Aging (90 Min.) CHF 250, Gesicht/Hals/Dekolletee (90 Min.) CHF 280 und Hydra4Face + coldPLASMA für Akne (90 Min.) CHF 280. Die Kombination Hydra4Face + Microneedling ist aktuell für CHF 170 gelistet. Alle Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Teresa Stimac.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -319,7 +334,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Wie lange dauert eine Hydrafacial Behandlung?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Die Behandlungsdauer hängt von der gewählten Variante ab: Die Express-Behandlung dauert circa 30 Minuten und eignet sich perfekt für die Mittagspause. Die Signature-Behandlung nimmt circa 60 Minuten in Anspruch und bietet das vollständige Hydrafacial Erlebnis mit Reinigung, Peeling, Extraktion und Serum-Infusion. Die Platinum-Variante dauert circa 90 Minuten und beinhaltet zusätzlich LED-Lichttherapie, Lymphdrainage und eine erweiterte Premium-Serenpflege. Alle Varianten beginnen mit einer kurzen Hautanalyse durch Teresa. Das Besondere: Es gibt keinerlei Ausfallzeit — Sie können direkt danach Make-up auftragen und Ihrem Tag nachgehen.</p>
+                    <p>Die Behandlungsdauer hängt von der gewählten Variante ab: Hydra4Face Basic Intensiv dauert circa 60 Minuten. Anti Aging, Gesicht/Hals/Dekolletee, Hydra4Face + coldPLASMA und Hydra4Face + Microneedling dauern circa 90 Minuten. Jede Behandlung beginnt mit einer kurzen Hautanalyse durch Teresa. Das Besondere: Es gibt keinerlei Ausfallzeit — Sie können direkt danach Make-up auftragen und Ihrem Tag nachgehen.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -343,7 +358,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Wie viel kostet Hydrafacial in Zürich?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Die Kosten für eine Hydrafacial Behandlung in Zürich variieren je nach Anbieter und Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir drei Varianten an: Express (30 Min.) ab CHF 190, Signature (60 Min.) für CHF 280 und Platinum (90 Min.) für CHF 350. Im Vergleich zu anderen Zürcher Anbietern erhalten Sie bei uns ein erstklassiges Preis-Leistungs-Verhältnis inklusive individueller Serum-Auswahl, persönlicher Betreuung durch Inhaberin Teresa Stimac und einer vorgängigen Hautanalyse. Alle Preise verstehen sich inklusive MwSt.</p>
+                    <p>Die Kosten für eine Hydra4Face Behandlung in Zürich variieren je nach Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse kostet Basic Intensiv CHF 180, Anti Aging CHF 250, Gesicht/Hals/Dekolletee CHF 280 und Hydra4Face + coldPLASMA für Akne CHF 280. Die Kombination Hydra4Face + Microneedling ist aktuell für CHF 170 gelistet. Alle Preise verstehen sich inklusive MwSt., persönlicher Betreuung durch Teresa und einer vorgängigen Hautanalyse.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">

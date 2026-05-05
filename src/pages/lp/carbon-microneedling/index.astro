@@ -11,9 +11,7 @@ import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { carbonTreatmentTeresa, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
 
-const OLD_PRICE = 220;
-const NEW_PRICE = 160;
-const DISCOUNT_PERCENT = Math.round(((OLD_PRICE - NEW_PRICE) / OLD_PRICE) * 100);
+const OFFICIAL_PRICE = 250;
 const lpHeroMainSizes = '(min-width: 1101px) 32vw, (min-width: 601px) 340px, 62vw';
 const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 48vw';
 const lpAboutSizes = '(min-width: 1101px) 48vw, (min-width: 601px) 520px, 100vw';
@@ -25,7 +23,7 @@ const lpHeroPreload = await getImage({
   quality: 'high',
 });
 
-const whatsappMessage = `Hallo Teresa, ich interessiere mich für die Carbon-Microneedling-Aktion (CHF ${NEW_PRICE}).`;
+const whatsappMessage = `Hallo Teresa, ich interessiere mich für Carbon Laser Peeling + Microneedling (CHF ${OFFICIAL_PRICE}).`;
 
 const benefits = [
   { icon: 'droplet' as const, title: 'Intensive Hydration', text: 'Hyaluron & Vitamine ziehen bis in die tieferen Hautschichten ein.' },
@@ -101,8 +99,7 @@ const structuredData = {
       offers: {
         '@type': 'Offer',
         priceCurrency: 'CHF',
-        price: NEW_PRICE.toFixed(2),
-        priceValidUntil: '2026-06-30',
+        price: OFFICIAL_PRICE.toFixed(2),
         availability: 'https://schema.org/InStock',
         url: 'https://beautyfacelift.ch/lp/carbon-microneedling/',
       },
@@ -121,8 +118,8 @@ const structuredData = {
 ---
 
 <LandingPage
-  title="Carbon Microneedling Zürich — CHF 160 statt 220 | Beauty Face Lift"
-  description="Carbon Microneedling an der Bahnhofstrasse Zürich. Glow-Up-Methode für straffe, porenreine Haut. Einführungsaktion: CHF 160.- statt 220.-."
+  title="Carbon Microneedling Zürich — CHF 250 | Beauty Face Lift"
+  description="Carbon Laser Peeling + Microneedling an der Bahnhofstrasse Zürich. Glow-Up-Methode für straffe, porenreine Haut. Offizieller Preis CHF 250."
   preloadImage={{
     href: lpHeroPreload.src,
     imagesrcset: lpHeroPreload.srcSet.attribute,
@@ -150,8 +147,8 @@ const structuredData = {
         <div class="lp-hero-offer">
           <OfferBox
             variant="chip"
-            oldPrice={OLD_PRICE}
-            newPrice={NEW_PRICE}
+            newPrice={OFFICIAL_PRICE}
+            discountLabel="Offizieller Preis"
           />
         </div>
 
@@ -223,7 +220,7 @@ const structuredData = {
       <div class="sub-display">Enthalten im Preis</div>
       <h2 class="lp-section-title">Was du bei jeder Sitzung bekommst</h2>
       <p class="lp-section-lead">
-        90 Minuten. Sechs Schritte. Eine pauschale — ohne Überraschungen auf der Rechnung.
+        90 Minuten. Sechs Schritte. Ein offizieller Preis — ohne Überraschungen auf der Rechnung.
       </p>
     </div>
     <ul class="lp-included-list">
@@ -288,15 +285,15 @@ const structuredData = {
   <section class="container lp-section lp-offer">
     <OfferBox
       variant="box"
-      eyebrow="Einführungsangebot"
-      oldPrice={OLD_PRICE}
-      newPrice={NEW_PRICE}
-      urgency="Einführungspreis"
+      eyebrow="Offizieller Preis"
+      newPrice={OFFICIAL_PRICE}
+      discountLabel="Treatwell-Katalog"
+      urgency="90 Minuten · Carbon Laser Peeling + Microneedling"
       ctaText="Jetzt Platz sichern"
       ctaHref="#buchen"
     />
     <p class="lp-offer-footnote">
-      Rabatt entspricht einer Ersparnis von CHF {OLD_PRICE - NEW_PRICE}.- ({DISCOUNT_PERCENT}% Nachlass auf den regulären Preis von CHF {OLD_PRICE}.-).
+      Offizieller Preis laut Treatwell-Katalog: CHF {OFFICIAL_PRICE}.- für Carbon Laser Peeling + Microneedling.
     </p>
   </section>
 
@@ -395,7 +392,7 @@ const structuredData = {
   </section>
 
   <WhatsAppButton variant="sticky" message={whatsappMessage} source="sticky" />
-  <StickyOfferBar oldPrice={OLD_PRICE} newPrice={NEW_PRICE} />
+  <StickyOfferBar newPrice={OFFICIAL_PRICE} />
 </LandingPage>
 
 <script>

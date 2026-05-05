@@ -33,11 +33,11 @@ Currently no DNS connection — site only reachable at the `.workers.dev` URL. T
 
 ### 2. Rotate Supabase `service_role` key
 
-The current value (`sb_secret_rpcIMm1bprNr8KqclbuiuA_luMs7vCK`) was pasted in a chat during migration. Rotate in Supabase dashboard → Project Settings → API Keys → Rotate. Then `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` with the new value.
+A previous `service_role` value was exposed during migration and must be considered compromised. Rotate in Supabase dashboard → Project Settings → API Keys → Rotate. Then run `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --name beautyfacelift` with the new value.
 
 ### 3. Replace admin credentials
 
-Current: `info@pauloferreira.de / test123` (in `src/components/admin/LoginForm.tsx` or equivalent — weak test credentials). Change before first real customer reaches `/admin/`.
+Weak test admin credentials were documented during migration. Replace the Supabase Auth password with a strong unique password before first real customer data reaches `/admin/`, and allowlist only the owner user in `public.admin_users`.
 
 ---
 
