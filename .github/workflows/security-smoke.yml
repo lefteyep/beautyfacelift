@@ -1,0 +1,25 @@
+name: Security smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Live or staging base URL to verify
+        required: false
+        default: https://beautyfacelift.mediapaulo.workers.dev
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Run security smoke checks
+        run: npm run smoke:security -- --base-url "${{ inputs.base_url }}"
