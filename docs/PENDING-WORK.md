@@ -1,105 +1,100 @@
 # Pending Work
 
-Last updated: 2026-05-05 (Treatwell catalog live; Supabase migration history repaired)
+Last updated: 2026-05-05 (security hardening live; smoke checks added)
 
-Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`.
+Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`, booking/contact/tracking hardening is live, and Supabase migration history is repaired.
 
-Important operational note: Supabase migration bookkeeping now matches local migrations `001`-`005`. Before future production DB migrations, run `supabase db push --linked --dry-run` and take a logical backup with Docker Desktop or native `pg_dump`. See [SUPABASE-MIGRATION-STATUS.md](SUPABASE-MIGRATION-STATUS.md).
-
----
-
-## Recently completed (2026-04-24)
-
-- **Real Teresa portrait sitewide** — replaced the `consultationTrust` stock placeholder with the real `teresa_portrait.jpg` on the homepage about-section, `ueber-uns` hero/og-image/schema.org founder image, and the Carbon Microneedling LP "Deine Expertin" block. Source PNG (1.7MB) compressed to ~100KB JPEG for both the Astro Image pipeline (`src/assets/marketing/`) and the direct og:image (`public/assets/`). Astro emits WebP variants at build.
-- **Author avatar on blog posts** — added a 96px circular Teresa avatar to the author bio on all five blog articles and the `BlogPost.astro` layout. `.blog-author-bio` switched from flex to CSS grid so the avatar spans the bio rows cleanly without wrapping markup.
-- **Reusable optimisation script** — [`scripts/optimize-teresa.mjs`](../scripts/optimize-teresa.mjs) regenerates both JPEGs from the source PNG via sharp.
-
-## Recently completed (2026-04-20)
-
-- **Sitewide width regression fixed** — removed the leftover `.container` double-wrap from 15 `.about-editorial` + 1 `.faq-section` sections across 7 pages. Every editorial section now centres correctly at 1920px viewport (computed `padding-left: 340px`, was 58px). See [LAYOUT-SYSTEM.md § Follow-up: sitewide container cleanup](LAYOUT-SYSTEM.md#follow-up-sitewide-container-cleanup-2026-04-20).
-- **Behandlungen nav dropdown added** — desktop hover/keyboard reveals 4 treatment links; mobile overlay shows flat indented sub-items. See [LAYOUT-SYSTEM.md § Follow-up: Behandlungen nav dropdown](LAYOUT-SYSTEM.md#follow-up-behandlungen-nav-dropdown-2026-04-20).
+Important operational note: Supabase migration bookkeeping matches local migrations. Before future production DB migrations, run `supabase db push --linked --dry-run` and take a logical backup with Docker Desktop or native `pg_dump`. See [SUPABASE-MIGRATION-STATUS.md](SUPABASE-MIGRATION-STATUS.md).
 
 ---
 
-## 🔴 Blocks launch on custom domain
+## Recently completed
+
+- **Security hardening live** — booking validation, admin allowlist RLS, private admin helper, booking overlap constraint, contact Turnstile fail-closed behavior, tracking validation, email escaping, CSV injection protection, and baseline Worker security headers are implemented.
+- **Contact runtime configured** — Cloudflare Turnstile and Resend secrets are present on the Worker. Current sender configuration is suitable for development only until the real domain is verified.
+- **Repeatable smoke checks** — `npm run smoke:security` verifies live API and header behavior against the `.workers.dev` deployment.
+- **Treatwell catalog live** — `/api/services` returns the official 65-service catalog.
+- **Supabase migration bookkeeping repaired** — local migration records align with production history.
+
+---
+
+## Blocks launch on custom domain
 
 ### 1. Connect `beautyfacelift.ch` to Cloudflare DNS
 
-Currently no DNS connection — site only reachable at the `.workers.dev` URL. This unblocks:
-- Real domain in browser, SEO, shareability
-- Google Search Console verification
-- Resend sender domain verification (then customer emails work in production)
-- Worker custom domain binding (replaces `.workers.dev` URL)
+The current public target is still the `.workers.dev` URL. Connecting the real domain unblocks:
 
-**What to do:** find current DNS host of `beautyfacelift.ch`, transfer nameservers to Cloudflare (or move the zone), then in Cloudflare dashboard → Workers → beautyfacelift → Settings → Domains & Routes → Add Custom Domain → `beautyfacelift.ch` + `www.beautyfacelift.ch`.
+- Real domain in browser, SEO, and share links
+- Google Search Console DNS verification
+- Resend sender-domain verification
+- Worker custom domain binding
+- Production Supabase Auth redirect URLs
 
-### 2. Rotate Supabase `service_role` key
+What to do when DNS access is available: find the current DNS host of `beautyfacelift.ch`, transfer nameservers to Cloudflare or move the zone, then in Cloudflare dashboard go to Workers & Pages -> `beautyfacelift` -> Settings -> Domains & Routes -> Add Custom Domain for `beautyfacelift.ch` and `www.beautyfacelift.ch`.
 
-A previous `service_role` value was exposed during migration and must be considered compromised. Rotate in Supabase dashboard → Project Settings → API Keys → Rotate. Then run `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --name beautyfacelift` with the new value.
+### 2. Revoke and rotate exposed credentials
 
-### 3. Replace admin credentials
+Credentials pasted into chat or logs must be treated as temporary development credentials.
 
-Weak test admin credentials were documented during migration. Replace the Supabase Auth password with a strong unique password before first real customer data reaches `/admin/`, and allowlist only the owner user in `public.admin_users`.
+Before real launch:
 
----
+- Revoke the temporary Resend API key and create a new sending key.
+- Revoke the temporary Cloudflare API token and create a new least-privilege token only when needed.
+- Rotate the Supabase `service_role` key, then update Cloudflare with `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --name beautyfacelift`.
+- Rotate the Supabase database password if it was shared outside the dashboard.
 
-## 🟡 High-impact features not yet wired
+### 3. Replace admin credentials and auth redirects
 
-### Stripe deposits (code ready, blocked on keys)
+The admin account is allowlisted in `admin_users`, but the password and auth redirect configuration still need production cleanup:
 
-**Status:** `DepositStep.tsx` component exists but disconnected from `BookingWidget.tsx`.
-
-**What's needed:**
-- `STRIPE_SECRET_KEY`, `PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` from Stripe dashboard
-- Code changes:
-  - Add `worker/routes/create-payment-intent.ts` route
-  - Extend `worker/index.ts` router to dispatch to it
-  - Import `DepositStep` into `BookingWidget.tsx`, extend to 5 steps
-  - Rework booking submit flow so booking is created BEFORE deposit step, then deposit captured against the booking ID
-  - Add `stripe_payment_intent_id` column to `bookings` table (Supabase migration)
-  - Webhook route to mark bookings as `paid` on `payment_intent.succeeded`
-
-Estimated effort: 2-3 hours of implementation once keys are in hand.
-
-### Real images (partially done)
-
-**Status:** Teresa's portrait is now the real photo sitewide (2026-04-24). Studio interior and treatment cards remain generic stock with misleading alt text.
-
-See [docs/IMAGES.md](IMAGES.md) for the full image brief — exact paths, dimensions, alt text context, and AI generation prompts for each.
-
-**Important:** Teresa's portrait (`teresa_portrait.jpg`) must be a real photo — never AI-generate a founder headshot. Everything else can be AI-generated as a stopgap.
+- Replace the admin password with a strong unique password.
+- Enable MFA where available.
+- Update Supabase Auth Site URL and Redirect URLs so password recovery goes to the live Worker/custom domain instead of localhost.
+- Keep public signups disabled.
+- Enable leaked-password protection.
 
 ---
 
-## 🟢 Production email (sandbox → live)
+## High-impact features not yet wired
 
-**Currently:** Working in Resend sandbox mode (`EMAIL_FROM=onboarding@resend.dev`). Owner notifications deliver to the Resend account owner's email only. Customer emails silently drop.
+### Stripe deposits
 
-**To go live:**
-1. Verify `beautyfacelift.ch` in Resend dashboard → Domains → Add Domain → follow the DNS record instructions (SPF, DKIM, DMARC records).
-2. Once verified, add `EMAIL_FROM=noreply@beautyfacelift.ch` to Supabase Edge Function secrets.
-3. No code change required.
+Status: partial code exists, but deposits should remain disabled.
 
-Blocked on custom domain (#1 above) because SPF/DKIM records must be added to Cloudflare DNS.
+Required before enabling:
+
+- Stripe secret, publishable, and webhook keys
+- Payment-intent route
+- Booking flow integration
+- `stripe_payment_intent_id` storage
+- Verified webhook route that updates booking payment state
+- Refund/cancellation policy and tests
+
+### Production email domain
+
+Current status: Resend works for development using a temporary sender setup. Customer-facing sender reputation and broad delivery require a verified domain.
+
+Required after DNS access:
+
+- Verify `beautyfacelift.ch` in Resend with DKIM/SPF/DMARC DNS records.
+- Switch Worker `CONTACT_FROM_EMAIL` to a domain sender such as `Beauty Face Lift <kontakt@beautyfacelift.ch>`.
+- Switch Supabase Edge Function email sender secrets to the verified domain.
+- Send a live contact and booking notification test.
+
+### Growth and analytics
+
+Blocked until the real domain is connected:
+
+- Google Search Console
+- Google Business Profile
+- GA4 server-side measurement secrets
+- Meta Pixel/CAPI secrets
+- Optional GTM container
 
 ---
 
-## 🟢 Growth / marketing setup
+## Design and content backlog
 
-All of these need the custom domain connected first.
-
-- **Google Search Console** — add property, verify via DNS TXT record, submit `/sitemap-index.xml`
-- **Google Business Profile** — claim Beauty Face Lift, verify via postcard (takes ~5 days)
-- **GA4** — create property, add `GA4_MEASUREMENT_ID` + `GA4_API_SECRET` as Worker secrets. Server-side tracking already wired in `worker/routes/track.ts`.
-- **Meta Pixel** — create Pixel, add `META_PIXEL_ID` + `META_ACCESS_TOKEN` as Worker secrets. CAPI already wired.
-- **GTM** — create container, add `PUBLIC_GTM_ID` as build-time env var.
-
----
-
-## 🟢 Nice-to-haves
-
-- Deploy Supabase Edge Function notify-booking **done** (2026-04-15)
-- Delete the Pages project **done** (2026-04-15)
-- Remove `functions.legacy/` **done** (2026-04-15)
-- Tag `v2.0.0-workers` **done** (2026-04-15)
-- Node.js 24 upgrade for GitHub Actions — currently on deprecated Node 20 runners. Set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` in workflow env when ready. Not urgent — forced default June 2026.
+- Studio interior and treatment-card imagery still need real or approved generated assets.
+- The stale Claude worktree contains a V2 homepage preview at `src/pages/v2/` plus `src/styles/homepage-v2.css`; keep it as reference until a dedicated UX/conversion PR decides whether to adopt or delete it.
+- Node.js 24 GitHub Actions migration is optional before the platform default changes.

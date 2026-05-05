@@ -1,135 +1,81 @@
-# Project Status — beautyfacelift.ch
+# Project Status — Beauty Face Lift Astro/Worker
 
-**Last updated:** March 19, 2026 (after pixel-perfect design implementation)
+Last updated: 2026-05-05
 
 ## Deployment
 
 | Environment | URL | Status |
-|------------|-----|--------|
-| Production | https://beautyfacelift.pages.dev | Live (24 pages) |
-| Custom Domain | beautyfacelift.ch | Not yet connected |
-| GitHub | https://github.com/lefteyep/beautyfacelift | Private repo |
-| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Active (EU Frankfurt) |
+| --- | --- | --- |
+| Worker production/dev target | https://beautyfacelift.mediapaulo.workers.dev | Live |
+| Custom domain | https://beautyfacelift.ch | Pending DNS access |
+| GitHub | https://github.com/lefteyep/beautyfacelift | Active |
+| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Active |
 
-## Site Map (24 pages)
+## Current state
 
-### Main Pages
-| Page | URL | Status |
-|------|-----|--------|
-| Homepage | / | Done — testimonials, 6 FAQs, 4 services, enriched schema |
-| Treatment overview | /behandlungen/ | Done — breadcrumbs, guidance grid, 4 FAQs, comparison link |
-| Hydrafacial | /behandlungen/hydrafacial-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
-| Microneedling | /behandlungen/microneedling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
-| Fruchtsaeure Peeling | /behandlungen/fruchtsaeure-peeling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
-| ColdPlasma | /behandlungen/coldplasma-zuerich/ | Done — 3000+ words, pricing, 7 FAQs, process, testimonials |
-| Treatment comparison | /behandlungen/vergleich/ | Done — side-by-side comparison, 5 FAQs |
-| About | /ueber-uns/ | Done — E-E-A-T bio, credentials, testimonials, Person schema |
-| Booking | /termin/ | Done — H1, address, booking widget |
-| Booking confirmation | /buchung-bestaetigt/ | Done — conversion tracking |
-| FAQ hub | /haeufige-fragen/ | Done — 20 FAQs in 4 categories |
-| Impressum | /impressum/ | Done |
-| Datenschutz | /datenschutz/ | Done |
-| 404 | /404 | Done |
-| Admin | /admin/ | Done — noindex |
+- Astro app is served by Cloudflare Workers with static assets bound through `ASSETS`.
+- `master` is the live deploy branch and deploys through GitHub Actions.
+- Public booking, slot, contact, and tracking APIs are hardened and live.
+- Admin access depends on Supabase Auth plus the `admin_users` allowlist enforced by RLS.
+- `/api/services` returns the official Treatwell-aligned catalog with 65 active services.
+- Contact Turnstile and Resend runtime secrets are configured for the Worker.
+- Supabase `notify-booking` edge function is deployed with escaped HTML output.
+- Dependency audit currently passes at `moderate` severity.
 
-### Blog (5 articles)
-| Article | URL | Words |
-|---------|-----|-------|
-| Blog index | /blog/ | — |
-| Hydrafacial vs. Microneedling | /blog/hydrafacial-vs-microneedling/ | 2000+ |
-| Hautpflege-Routine Zürich | /blog/hautpflege-routine-zuerich/ | 2000+ |
-| Was ist Hydrafacial? | /blog/was-ist-hydrafacial/ | 2000+ |
-| Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ |
-| Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ |
-
-### Ad Landing Pages (noindex)
-| Page | URL |
-|------|-----|
-| Hydrafacial LP | /lp/hydrafacial/ |
-| Microneedling LP | /lp/microneedling/ |
-| Peeling LP | /lp/peeling/ |
-
-## SEO & AIO Status
-
-| Feature | Status | Details |
-|---------|--------|---------|
-| Schema.org (HealthAndBeautyBusiness) | Done | Homepage — AggregateRating, reviews, OfferCatalog, geo, hours |
-| Schema.org (Service) | Done | All 4 treatments — AggregateOffer, AggregateRating |
-| Schema.org (FAQPage) | Done | 60+ FAQ items sitewide with JSON-LD |
-| Schema.org (Article) | Done | All 5 blog articles |
-| Schema.org (Person) | Done | About page — Teresa Stimac |
-| Schema.org (BreadcrumbList) | Done | Treatment pages, blog, FAQ hub |
-| Schema.org (ItemList) | Done | Treatment overview |
-| Sitemap | Done | Priority-weighted, admin/LP/confirmation filtered |
-| robots.txt | Done | 10 AI crawlers allowed (GPTBot, ClaudeBot, etc.) |
-| llms.txt | Done | Concise business summary for AI platforms |
-| llms-full.txt | Done | Detailed version with treatments, pricing, 24 FAQs |
-| Geo meta tags | Done | CH-ZH, lat/long, ICBM |
-| max-image-preview:large | Done | All indexed pages |
-| OG image dimensions | Done | 1200x630 |
-| Article OG tags | Done | published_time, author, section |
-| Canonical URLs | Done | Resolves to beautyfacelift.ch |
-| Image width/height | Done | All img tags have dimensions (CLS prevention) |
-| Internal linking | Done | Cross-links between all treatment, blog, FAQ pages |
-
-## Design Implementation (March 19, 2026)
-
-Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
-
-| Area | Changes |
-|------|---------|
-| **Homepage** | Hero: 72px heading, 18px body, service cards with gold accent left border, testimonials with star ratings, editorial grid layout |
-| **Navigation** | Refined spacing (18px 60px padding), logo 42px height, pill-shaped gold CTA, improved mobile menu |
-| **Footer** | 3-column layout with 320px horizontal padding, newsletter input with inline button, proper link spacing |
-| **Treatment pages** | Pricing cards with `.pricing-card-accent` variant, FAQ sections with 320px padding, sub-display span labels |
-| **Behandlungen overview** | Editorial guidance grid, proper card gaps, gold accent decorations |
-| **Blog** | Card grid with hover lift effects, article typography with drop cap, improved reading layout |
-| **404 page** | Centered layout with design-system typography and gold accent |
-| **Termin page** | Booking section with proper padding and heading hierarchy |
-| **CSS tokens** | Updated spacing scale, border-radius (24px cards, 100px pills), gold gradient, shadow system |
-
-**Commit:** `48fb053` — 14 files changed, 789 insertions, 387 deletions
-
-## Feature Completion
+## Feature completion
 
 | Feature | Status | Notes |
-|---------|--------|-------|
-| Booking widget | Done | 5-step flow, writes to Supabase |
-| Admin dashboard | Done | Login, bookings, services, availability, blocked dates, CSV export |
-| GSAP animations | Done | Bundled npm, reduced-motion support |
-| Local fonts | Done | @fontsource latin-only |
-| UTM persistence | Done | sessionStorage capture |
-| Server-side tracking | Done | /api/track endpoint |
-| Conversion tracking | Done | Thank-you page fires client + server events |
-| Stripe deposits | Partial | Components + API created, not wired into booking flow |
-| Email notifications | Created | Edge function written, not deployed |
-| Custom domain | Pending | Need to connect in Cloudflare |
-| GTM + Partytown | Ready | Code in place, needs PUBLIC_GTM_ID env var |
-| GA4 | Ready | Endpoint ready, needs env vars |
-| Meta Pixel | Ready | Endpoint ready, needs env vars |
+| --- | --- | --- |
+| Public site | Live | Astro/Worker deployment |
+| Booking widget | Live | Service/date/time/customer flow |
+| Booking API hardening | Live | Strict validation, duplicate checks, overlap handling |
+| Admin dashboard | Live | RLS allowlist is the real access control |
+| Contact form | Dev-ready | Turnstile required on production host; sender domain still temporary |
+| Tracking endpoint | Live but analytics inactive | GA4/Meta secrets not configured yet |
+| Supabase migrations | Repaired | Production bookkeeping aligned |
+| Edge booking emails | Live | Supabase function deployed |
+| Stripe deposits | Disabled | Partial code only; do not enable yet |
+| Custom domain | Pending | Requires `beautyfacelift.ch` DNS access |
 
-## Environment Variables Status
+## Runtime configuration
 
-| Variable | Set in Cloudflare? | Working? |
-|----------|-------------------|----------|
-| PUBLIC_SUPABASE_URL | Yes | Yes |
-| PUBLIC_SUPABASE_ANON_KEY | Yes | Yes |
-| SUPABASE_SERVICE_ROLE_KEY | Yes | Untested (anon key fallback works) |
-| NODE_VERSION | Yes (22) | Yes |
-| PUBLIC_STRIPE_PUBLISHABLE_KEY | No | — |
-| STRIPE_SECRET_KEY | No | — |
-| STRIPE_WEBHOOK_SECRET | No | — |
-| RESEND_API_KEY | No | — |
-| PUBLIC_GTM_ID | No | — |
-| GA4_MEASUREMENT_ID | No | — |
-| GA4_API_SECRET | No | — |
-| META_PIXEL_ID | No | — |
-| META_ACCESS_TOKEN | No | — |
+| Variable or secret | Location | Status |
+| --- | --- | --- |
+| `PUBLIC_SUPABASE_URL` | Worker/GitHub var | Set |
+| `PUBLIC_SUPABASE_ANON_KEY` | Worker/GitHub secret | Set |
+| `SUPABASE_SERVICE_ROLE_KEY` | Worker secret | Set, rotate again before launch |
+| `PUBLIC_TURNSTILE_SITE_KEY` | GitHub var | Set |
+| `TURNSTILE_SECRET_KEY` | Worker secret | Set |
+| `RESEND_API_KEY` | Worker secret | Set, temporary/dev key |
+| `CONTACT_FROM_EMAIL` | Worker secret | Set, temporary/dev sender |
+| `CONTACT_TO_EMAIL` | Worker secret | Set |
+| `GA4_MEASUREMENT_ID` / `GA4_API_SECRET` | Worker secrets | Not set |
+| `META_PIXEL_ID` / `META_ACCESS_TOKEN` | Worker secrets | Not set |
+| Stripe keys | Worker/build secrets | Not set |
 
-## Supabase Database
+## Verification
 
-- Schema applied: Yes (001_initial_schema.sql)
-- Seed data: 6 services, 7 availability records, 2 settings
-- Admin user: Supabase Auth owner account exists, but weak/test credentials must be replaced before production customer data is exposed.
-- RLS policies: Active on all tables
-- Edge Functions deployed: No (notify-booking not yet deployed)
+Use the smoke script after production changes:
+
+```powershell
+npm run smoke:security -- --base-url https://beautyfacelift.mediapaulo.workers.dev
+```
+
+Expected checks:
+
+- Services API returns a non-empty catalog.
+- Invalid slot parameters return `400`.
+- Contact form rejects submissions without Turnstile on the production host.
+- Tracking rejects invalid events and raw PII.
+- Admin page stays `noindex` and `no-store`.
+- Baseline security headers are present.
+
+## Remaining launch work
+
+- Connect `beautyfacelift.ch` DNS to Cloudflare and bind it to the Worker.
+- Verify the real sender domain in Resend and update sender secrets.
+- Revoke/recreate temporary pasted tokens and rotate Supabase secrets.
+- Fix Supabase Auth password-recovery redirects away from localhost.
+- Replace the admin password before real customer data is collected.
+- Enable Supabase leaked-password protection.
+- Keep Stripe deposits disabled until the payment flow is fully implemented and tested.
