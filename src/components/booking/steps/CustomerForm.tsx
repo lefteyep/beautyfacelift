@@ -6,6 +6,9 @@ interface Service {
   name: string;
   duration_minutes: number;
   price_chf: number;
+  price_label?: string;
+  price_min_chf?: number;
+  price_max_chf?: number;
 }
 
 interface Props {
@@ -25,6 +28,10 @@ const MONTHS = [
 function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split('-').map(Number);
   return `${d}. ${MONTHS[m - 1]} ${y}`;
+}
+
+function formatServicePrice(service: Service): string {
+  return service.price_label || `CHF ${service.price_chf.toFixed(0)}`;
 }
 
 export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, submitting, error }: Props) {
@@ -80,7 +87,7 @@ export function CustomerForm({ service, selectedDate, selectedTime, onSubmit, su
         </div>
         <div className="booking-summary-row">
           <span>Preis</span>
-          <strong>CHF {service.price_chf.toFixed(0)}</strong>
+          <strong>{formatServicePrice(service)}</strong>
         </div>
       </div>
       <p className="booking-reassurance">Ihre Anfrage wird direkt an Beauty Face Lift übermittelt. Bei Rückfragen melden wir uns persönlich per Telefon oder E-Mail.</p>

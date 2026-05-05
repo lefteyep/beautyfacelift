@@ -14,6 +14,9 @@ interface Service {
   description: string;
   duration_minutes: number;
   price_chf: number;
+  price_label?: string;
+  price_min_chf?: number;
+  price_max_chf?: number;
   deposit_chf: number;
   category: string;
 }
@@ -194,7 +197,7 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
       await trackLead({
         email: data.email,
         phone: data.phone,
-        value: selectedService.price_chf,
+        value: selectedService.price_min_chf ?? selectedService.price_chf,
         currency: 'CHF',
         source: preselectedCategory || 'booking',
       });

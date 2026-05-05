@@ -14,6 +14,15 @@ interface Service {
   sort_order: number;
 }
 
+const PRICE_RANGE_LABELS: Record<string, string> = {
+  'maske-soin-initiale-augenmaske': 'CHF 30-150',
+  'klassische-ganzkoerpermassage': 'CHF 135-1200',
+};
+
+function formatAdminPrice(service: Service): string {
+  return PRICE_RANGE_LABELS[service.slug] || `CHF ${service.price_chf}`;
+}
+
 export function ServiceManager() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -93,7 +102,7 @@ export function ServiceManager() {
                     <td><strong>{s.name}</strong></td>
                     <td>{s.category}</td>
                     <td>{s.duration_minutes} Min.</td>
-                    <td>CHF {s.price_chf}</td>
+                    <td>{formatAdminPrice(s)}</td>
                     <td>CHF {s.deposit_chf}</td>
                     <td>
                       <button onClick={() => toggleActive(s.id, s.is_active)} className="admin-toggle">

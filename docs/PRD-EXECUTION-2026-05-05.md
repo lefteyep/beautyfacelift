@@ -29,8 +29,10 @@ Initial execution used the live `/api/services` values because Teresa's official
 - coldPLASMA Stabilisierung Hautbarriere: CHF 220, 90 min
 - Carbon Laser Peeling + Microneedling: CHF 250, 90 min
 - Carbon Laser Peeling + Maske: CHF 200, 60 min
+- Maske Soin initiale (Augenmaske): CHF 30-150, 20 min
+- Klassische Ganzkörpermassage: CHF 135-1200, 60 min
 
-The current code patch updates public site copy, visible booking service data for the existing live Supabase rows, and adds `supabase/migrations/004_treatwell_service_catalog.sql` for all exact-price Treatwell services. Two Treatwell offers use price ranges and need booking price-range support before being added safely.
+The current code patch updates public site copy, visible booking service data for the existing live Supabase rows, and adds `supabase/migrations/004_treatwell_service_catalog.sql` for all exact-price Treatwell services. Migration `005_treatwell_range_price_services.sql` adds the two official Treatwell range-price services; the Worker API exposes display labels while `price_chf` keeps the lower bound for booking/tracking compatibility.
 
 ## Files Changed
 
@@ -59,6 +61,7 @@ The current code patch updates public site copy, visible booking service data fo
 - `worker/routes/services.ts`
 - `worker/data/officialServices.ts`
 - `supabase/migrations/004_treatwell_service_catalog.sql`
+- `supabase/migrations/005_treatwell_range_price_services.sql`
 - `src/styles/main.css`
 - `src/styles/components.css`
 - `src/styles/booking.css`
