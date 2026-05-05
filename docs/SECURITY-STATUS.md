@@ -14,7 +14,7 @@ Production URL reviewed: https://beautyfacelift.mediapaulo.workers.dev/
 - Tracking API allowlists events and source hosts, requires hashed email/phone values, restricts Meta cookie fields, rate-limits requests, and keeps IP/user-agent server-controlled.
 - Supabase `notify-booking` edge function is deployed with escaped booking fields in HTML emails.
 - Customer CSV export quotes cells safely and prevents spreadsheet formula injection.
-- Worker responses include baseline security headers, including HSTS, and `/admin/` receives `no-store` plus `X-Robots-Tag: noindex, nofollow`.
+- Worker responses include baseline security headers, including HSTS and CSP report-only, and `/admin/` receives `no-store` plus `X-Robots-Tag: noindex, nofollow`.
 - `npm audit --audit-level=moderate` is part of deployment CI and currently passes.
 
 ## Repeatable verification
@@ -25,9 +25,9 @@ Run the live security smoke checks after deploys or secret/config changes:
 npm run smoke:security -- --base-url https://beautyfacelift.mediapaulo.workers.dev
 ```
 
-The smoke script verifies booking-adjacent APIs, contact Turnstile enforcement, tracking validation, admin noindex behavior, and baseline security headers. If `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` are available, it also checks that the anon key cannot enumerate bookings.
+The smoke script verifies booking-adjacent APIs, contact Turnstile enforcement, tracking validation, admin noindex behavior, baseline security headers, CSP report-only, and `HEAD /api/services` monitoring behavior. If `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` are available, it also checks that the anon key cannot enumerate bookings.
 
-Content Security Policy is still intentionally pending. Roll it out separately in report-only mode first because the current site uses Astro inline scripts, Partytown/GTM, Cloudflare Turnstile, and optional Meta pixel scripts.
+Content Security Policy is intentionally report-only. Move it to enforcement only after observing the real custom-domain launch with Astro inline scripts, Partytown/GTM, Cloudflare Turnstile, and optional Meta pixel scripts enabled.
 
 ## Still required before real launch
 

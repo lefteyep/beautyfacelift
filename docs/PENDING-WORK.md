@@ -1,6 +1,6 @@
 # Pending Work
 
-Last updated: 2026-05-05 (security hardening live; smoke checks added)
+Last updated: 2026-05-05 (security hardening live; CSP report-only added)
 
 Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`, booking/contact/tracking hardening is live, and Supabase migration history is repaired.
 
@@ -10,7 +10,7 @@ Important operational note: Supabase migration bookkeeping matches local migrati
 
 ## Recently completed
 
-- **Security hardening live** — booking validation, admin allowlist RLS, private admin helper, booking overlap constraint, contact Turnstile fail-closed behavior, tracking validation, email escaping, CSV injection protection, and baseline Worker security headers are implemented.
+- **Security hardening live** — booking validation, admin allowlist RLS, private admin helper, booking overlap constraint, contact Turnstile fail-closed behavior, tracking validation, email escaping, CSV injection protection, baseline Worker security headers, and CSP report-only monitoring are implemented.
 - **Contact runtime configured** — Cloudflare Turnstile and Resend secrets are present on the Worker. Current sender configuration is suitable for development only until the real domain is verified.
 - **Repeatable smoke checks** — `npm run smoke:security` verifies live API and header behavior against the `.workers.dev` deployment.
 - **Treatwell catalog live** — `/api/services` returns the official 65-service catalog.
@@ -96,6 +96,6 @@ Blocked until the real domain is connected:
 ## Design and content backlog
 
 - Studio interior and treatment-card imagery still need real or approved generated assets.
-- Content Security Policy rollout should start in report-only mode because the site uses Astro inline scripts, Partytown/GTM, Turnstile, and optional Meta pixel scripts.
+- Content Security Policy is live in report-only mode. Move to enforcement only after observing the real custom-domain launch with Turnstile, analytics, and Meta scripts enabled.
 - The stale Claude worktree contains a V2 homepage preview at `src/pages/v2/` plus `src/styles/homepage-v2.css`; keep it as reference until a dedicated UX/conversion PR decides whether to adopt or delete it.
 - Node.js 24 GitHub Actions migration is optional before the platform default changes.

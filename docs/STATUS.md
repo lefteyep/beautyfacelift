@@ -21,6 +21,7 @@ Last updated: 2026-05-05
 - Contact Turnstile and Resend runtime secrets are configured for the Worker.
 - Supabase `notify-booking` edge function is deployed with escaped HTML output.
 - Dependency audit currently passes at `moderate` severity.
+- Worker responses include HSTS and CSP report-only monitoring.
 
 ## Feature completion
 
@@ -68,7 +69,7 @@ Expected checks:
 - Contact form rejects submissions without Turnstile on the production host.
 - Tracking rejects invalid events and raw PII.
 - Admin page stays `noindex` and `no-store`.
-- Baseline security headers, including HSTS, are present.
+- Baseline security headers, including HSTS and CSP report-only, are present.
 
 ## Remaining launch work
 
