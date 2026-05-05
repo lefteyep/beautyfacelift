@@ -6,15 +6,16 @@
 - Worker API: `https://beautyfacelift.mediapaulo.workers.dev/api/services`.
 - Production service catalog has been updated to the official Treatwell catalog.
 - After applying `supabase/migrations/005_treatwell_range_price_services.sql` with `supabase db query --linked --file`, the Worker API returned 65 services.
+- Supabase migration bookkeeping was repaired on 2026-05-05. `supabase db push --linked --dry-run` now reports that the remote database is up to date.
 - The two official Treatwell range-price services are present through the Worker API:
   - `maske-soin-initiale-augenmaske`: visible label `CHF 30-150`, stored lower-bound `price_chf = 30`.
   - `klassische-ganzkoerpermassage`: visible label `CHF 135-1200`, stored lower-bound `price_chf = 135`.
 
-## Migration History Finding
+## Migration History Finding and Resolution
 
-The production data is correct, but Supabase migration bookkeeping is not aligned with the repo.
+The production data was correct, but Supabase migration bookkeeping was not aligned with the repo.
 
-Observed remote migration table:
+Original remote migration table:
 
 ```text
 version: 20260417151241
@@ -33,39 +34,61 @@ Observed local migration files:
 
 This means the production database has migrations/data changes that were applied through the dashboard or direct SQL execution, but the Supabase migration history table does not record local versions `001` through `005`.
 
+Repair applied on 2026-05-05:
+
+```bash
+npx supabase migration repair 001 002 003 004 005 --status applied --linked
+npx supabase migration repair 20260417151241 --status reverted --linked
+```
+
+Verified result:
+
+```text
+Local | Remote
+001   | 001
+002   | 002
+003   | 003
+004   | 004
+005   | 005
+```
+
+## Backup Notes
+
+Supabase Free Plan does not include dashboard scheduled backups. A manual logical backup through `supabase db dump` was attempted, but the local CLI requires Docker Desktop or native Postgres tooling for `pg_dump`; Docker was not available on this machine.
+
+Because the repair only mutates `supabase_migrations.schema_migrations`, a targeted before/after backup of that table was saved locally outside the repo:
+
+```text
+_archives/supabase-migration-repair-2026-05-05/
+  schema_migrations-before.json
+  schema_migrations-after.json
+  public-row-counts-before.json
+```
+
+Do not rely on `_archives/supabase-backup-2026-05-05/` if present from earlier attempts; the Docker-blocked dump files were zero-byte and were removed.
+
 ## Guardrails
 
-- Do not run `supabase db push`, `supabase db push --include-all`, or `supabase migration repair` against production until the migration history is intentionally repaired.
-- Do not assume `supabase db push --dry-run` is safe enough as the only check. On 2026-05-05, `supabase migration list --linked` failed without a valid `SUPABASE_DB_PASSWORD`, and `supabase db push --linked --dry-run` timed out.
-- If a production data correction is urgent before repair, run only a single reviewed SQL file through `supabase db query --linked --file <file>` and verify via the Worker API afterward.
+- Use `supabase db push --linked --dry-run` before any future production migration.
+- Do not use `supabase db push --include-all` on production unless deliberately recovering migration history.
+- Take a logical backup with Docker Desktop or native `pg_dump` before schema/data migrations with real blast radius.
+- If a production data correction is urgent, run only a single reviewed SQL file through `supabase db query --linked --file <file>` and verify via the Worker API afterward.
 
-## Recommended Repair Plan
+## Future Migration Workflow
 
-1. Take a remote backup before changing migration history:
-
-```bash
-npx supabase db dump --linked --file supabase-backup-YYYY-MM-DD.sql
-```
-
-2. Ensure the CLI can connect consistently:
+1. Create a non-`master` branch.
+2. Add a new migration file under `supabase/migrations/`.
+3. Run the SQL locally or against a staging copy when available.
+4. Run:
 
 ```bash
-$env:SUPABASE_DB_PASSWORD = "<production-db-password>"
 npx supabase migration list --linked
+npx supabase db push --linked --dry-run
 ```
 
-3. Export the current migration history for audit:
-
-```bash
-npx supabase db query --linked "select * from supabase_migrations.schema_migrations order by version;"
-```
-
-4. Prefer a baseline repair in a dedicated branch:
-   - Pull or dump the current production schema.
-   - Create a single current-state baseline migration, or intentionally mark the already-applied local versions as applied.
-   - Handle the existing remote-only `20260417151241` carbon migration explicitly so it does not remain a hidden mismatch.
-
-5. Only after the repair is verified should future DB changes use normal migrations and `supabase db push`.
+5. Apply only after reviewing the dry-run output.
+6. Verify through the live Worker API or a direct read-only SQL query.
+7. Document the result in the PR.
 
 ## Operational Rule
 
