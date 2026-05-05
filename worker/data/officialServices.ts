@@ -5,6 +5,9 @@ export type PublicServiceRow = {
   description: string | null;
   duration_minutes: number;
   price_chf: number;
+  price_label?: string;
+  price_min_chf?: number;
+  price_max_chf?: number;
   deposit_chf: number | null;
   category: string | null;
 };
@@ -13,6 +16,8 @@ type OfficialServiceOverride = Pick<
   PublicServiceRow,
   'name' | 'description' | 'duration_minutes' | 'price_chf' | 'category'
 >;
+
+type OfficialPriceRange = Pick<PublicServiceRow, 'price_label' | 'price_min_chf' | 'price_max_chf'>;
 
 export const OFFICIAL_SERVICE_OVERRIDES: Record<string, OfficialServiceOverride> = {
   'hydrafacial-signature': {
@@ -66,12 +71,27 @@ export const OFFICIAL_SERVICE_OVERRIDES: Record<string, OfficialServiceOverride>
   },
 };
 
+export const OFFICIAL_PRICE_RANGES: Record<string, OfficialPriceRange> = {
+  'maske-soin-initiale-augenmaske': {
+    price_label: 'CHF 30-150',
+    price_min_chf: 30,
+    price_max_chf: 150,
+  },
+  'klassische-ganzkoerpermassage': {
+    price_label: 'CHF 135-1200',
+    price_min_chf: 135,
+    price_max_chf: 1200,
+  },
+};
+
 export function applyOfficialServiceOverride<T extends PublicServiceRow>(service: T): T {
   const override = OFFICIAL_SERVICE_OVERRIDES[service.slug];
-  if (!override) return service;
+  const priceRange = OFFICIAL_PRICE_RANGES[service.slug];
+  if (!override && !priceRange) return service;
 
   return {
     ...service,
     ...override,
+    ...priceRange,
   };
 }

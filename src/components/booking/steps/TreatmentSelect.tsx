@@ -6,6 +6,9 @@ interface Service {
   description: string;
   duration_minutes: number;
   price_chf: number;
+  price_label?: string;
+  price_min_chf?: number;
+  price_max_chf?: number;
   category: string;
 }
 
@@ -14,6 +17,10 @@ interface Props {
   selectedId: string | null;
   onSelect: (service: Service) => void;
   preselectedCategory?: string;
+}
+
+function formatServicePrice(service: Service): string {
+  return service.price_label || `CHF ${service.price_chf.toFixed(0)}`;
 }
 
 export function TreatmentSelect({ services, selectedId, onSelect, preselectedCategory }: Props) {
@@ -169,7 +176,7 @@ export function TreatmentSelect({ services, selectedId, onSelect, preselectedCat
                   <p>{service.description}</p>
                   <div className="booking-treatment-meta">
                     <span>{service.duration_minutes} Min.</span>
-                    <span>CHF {service.price_chf.toFixed(0)}</span>
+                    <span>{formatServicePrice(service)}</span>
                   </div>
                   <span className="booking-treatment-action">
                     {selectedId === service.id ? 'Ausgewählt' : 'Auswählen'}

@@ -3,8 +3,7 @@
 -- Notes:
 -- - Existing slugs used by the site are preserved so active booking links keep working.
 -- - Existing deposit_chf values are preserved because Treatwell does not publish deposit rules.
--- - Two Treatwell range-priced offers are intentionally not inserted until booking supports price ranges:
---   Maske Soin initiale (Augenmaske) CHF 30-150 and Klassische Ganzkörpermassage CHF 135-1200.
+-- - Range-priced Treatwell offers are added separately in migration 005.
 
 WITH official_services (
   name,
