@@ -1,8 +1,10 @@
 # Pending Work
 
-Last updated: 2026-04-24 (real Teresa portrait rolled out sitewide)
+Last updated: 2026-05-05 (Treatwell catalog live; Supabase migration history needs repair)
 
-Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, CI green, bookings + emails working.
+Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`.
+
+Important operational note: production Supabase data is correct, but migration bookkeeping is out of sync. Do not run `supabase db push` until [SUPABASE-MIGRATION-STATUS.md](SUPABASE-MIGRATION-STATUS.md) is resolved.
 
 ---
 
