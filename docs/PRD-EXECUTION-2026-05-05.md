@@ -12,15 +12,25 @@ Executed the safe, high-impact slice from `PRD.md` for the Beauty Face Lift Astr
 
 ## Price Source Used
 
-The implementation used the live `/api/services` values as the source of truth for this slice:
+Initial execution used the live `/api/services` values because Teresa's official catalog had not yet been provided. That source was superseded on 2026-05-05 by the official Treatwell catalog:
 
-- Hydrafacial Signature: CHF 250, 60 min
-- Hydrafacial Platinum: CHF 380, 90 min
-- Microneedling Gesicht: CHF 290, 60 min
-- Microneedling Gesicht + Hals: CHF 350, 75 min
-- Fruchtsaeure Peeling: CHF 180, 45 min
-- ColdPlasma Behandlung: CHF 320, 60 min
-- Carbon Microneedling: CHF 160, 90 min
+- Source: https://buchung.treatwell.ch/ort/beauty-face-lift/
+- Hydra4Face Basic Intensiv: CHF 180, 60 min
+- Hydra4Face Anti Aging: CHF 250, 90 min
+- Hydra4Face Gesicht, Hals, Dekolletee: CHF 280, 90 min
+- Hydra4Face + coldPLASMA für Akne: CHF 280, 90 min
+- Hydra4Face + Microneedling: CHF 170, 90 min
+- Microneedling: CHF 210, 90 min
+- Micro Needling Anti Aging mit coldPLASMA: CHF 220, 90 min
+- Fruchtsäure: CHF 150, 45 min
+- BDR Fruchtsäurebehandlung: CHF 150, 60 min
+- coldPLASMA Akne/unreine Haut: CHF 180, 90 min
+- coldPLASMA Anti Aging Luxus Behandlung: CHF 220, 90 min
+- coldPLASMA Stabilisierung Hautbarriere: CHF 220, 90 min
+- Carbon Laser Peeling + Microneedling: CHF 250, 90 min
+- Carbon Laser Peeling + Maske: CHF 200, 60 min
+
+The current code patch updates public site copy, visible booking service data for the existing live Supabase rows, and adds `supabase/migrations/004_treatwell_service_catalog.sql` for all exact-price Treatwell services. Two Treatwell offers use price ranges and need booking price-range support before being added safely.
 
 ## Files Changed
 
@@ -41,6 +51,14 @@ The implementation used the live `/api/services` values as the source of truth f
 - `src/pages/behandlungen/microneedling-zuerich/index.astro`
 - `src/pages/behandlungen/fruchtsaeure-peeling-zuerich/index.astro`
 - `src/pages/behandlungen/coldplasma-zuerich/index.astro`
+- `src/pages/blog/was-ist-hydrafacial/index.astro`
+- `src/pages/blog/hydrafacial-vs-microneedling/index.astro`
+- `src/pages/lp/carbon-microneedling/index.astro`
+- `src/components/lp/OfferBox.astro`
+- `src/components/lp/StickyOfferBar.astro`
+- `worker/routes/services.ts`
+- `worker/data/officialServices.ts`
+- `supabase/migrations/004_treatwell_service_catalog.sql`
 - `src/styles/main.css`
 - `src/styles/components.css`
 - `src/styles/booking.css`
@@ -85,7 +103,7 @@ After: Submenu dots align closer to labels, footer treatment links breathe bette
 - Checked mobile document overflow for homepage, Hydrafacial, and booking at a phone-sized viewport; no document-level horizontal scroll was detected.
 - Confirmed local booking failure renders a recoverable error state instead of a blank or dead end.
 - After live deployment QA, adjusted the mobile booking stepper so the active step label can use the full row below the progress bar instead of truncating inside one column.
-- Verified the deployed Workers site after release: homepage, Hydrafacial, and booking pages returned 200; `/api/services` returned 7 services; Hydrafacial page exposed CHF 250 and CHF 380 without the old CHF 190 / 280 / 350 values; booking mobile at 390px showed 7 service cards and no document-level horizontal overflow.
+- Verified the deployed Workers site after the initial release: homepage, Hydrafacial, and booking pages returned 200; booking mobile at 390px showed 7 service cards and no document-level horizontal overflow. This was superseded by the Treatwell pricing correction described above.
 
 ## Environment Notes
 

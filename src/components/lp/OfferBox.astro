@@ -1,6 +1,6 @@
 ---
 interface Props {
-  oldPrice: number;
+  oldPrice?: number;
   newPrice: number;
   currency?: string;
   discountLabel?: string;
@@ -23,15 +23,16 @@ const {
   variant = 'box',
 } = Astro.props;
 
-const computedPercent = Math.round(((oldPrice - newPrice) / oldPrice) * 100);
-const badge = discountLabel ?? `${computedPercent}% Rabatt`;
+const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
+const computedPercent = hasDiscount ? Math.round((((oldPrice as number) - newPrice) / (oldPrice as number)) * 100) : 0;
+const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Offizieller Preis');
 ---
 
 {variant === 'chip' ? (
   <div class="offer-chip">
     <span class="offer-chip-badge">{badge}</span>
     <span class="offer-chip-prices">
-      <s>{currency} {oldPrice.toFixed(0)}</s>
+      {hasDiscount && <s>{currency} {(oldPrice as number).toFixed(0)}</s>}
       <strong>{currency} {newPrice.toFixed(0)}</strong>
     </span>
     {urgency && <span class="offer-chip-urgency">{urgency}</span>}
@@ -40,7 +41,7 @@ const badge = discountLabel ?? `${computedPercent}% Rabatt`;
   <div class="offer-box">
     {eyebrow && <div class="offer-eyebrow">{eyebrow}</div>}
     <div class="offer-box-prices">
-      <span class="offer-old">{currency} {oldPrice.toFixed(0)}</span>
+      {hasDiscount && <span class="offer-old">{currency} {(oldPrice as number).toFixed(0)}</span>}
       <span class="offer-new">{currency} {newPrice.toFixed(0)}</span>
     </div>
     <div class="offer-badge">{badge}</div>

@@ -1,6 +1,6 @@
 ---
 interface Props {
-  oldPrice: number;
+  oldPrice?: number;
   newPrice: number;
   currency?: string;
   href?: string;
@@ -14,11 +14,13 @@ const {
   href = '#buchen',
   ctaText = 'Jetzt buchen',
 } = Astro.props;
+
+const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
 ---
 
 <div class="sticky-offer-bar" role="complementary" aria-label="Angebot">
   <div class="sticky-offer-prices">
-    <span class="sticky-offer-old">{currency} {oldPrice.toFixed(0)}.-</span>
+    {hasDiscount && <span class="sticky-offer-old">{currency} {(oldPrice as number).toFixed(0)}.-</span>}
     <strong class="sticky-offer-new">{currency} {newPrice.toFixed(0)}.-</strong>
   </div>
   <a href={href} class="pill-btn sticky-offer-cta">{ctaText}</a>

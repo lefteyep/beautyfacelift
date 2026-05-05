@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Env } from '../env';
+import { applyOfficialServiceOverride, type PublicServiceRow } from '../data/officialServices';
 
 export async function servicesRoute(_request: Request, env: Env): Promise<Response> {
   const supabase = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_ANON_KEY);
@@ -17,7 +18,9 @@ export async function servicesRoute(_request: Request, env: Env): Promise<Respon
     });
   }
 
-  return new Response(JSON.stringify({ services: data }), {
+  const services = ((data ?? []) as PublicServiceRow[]).map(applyOfficialServiceOverride);
+
+  return new Response(JSON.stringify({ services }), {
     status: 200,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300' },
   });

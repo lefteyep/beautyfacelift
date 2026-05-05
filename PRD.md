@@ -138,12 +138,14 @@ Target:
 
 ### P1: Price Consistency
 
-Live booking API shows:
+Official Treatwell catalog now shows:
 
-- Hydrafacial Signature: CHF 250
-- Hydrafacial Platinum: CHF 380
+- Hydra4Face Basic Intensiv: CHF 180
+- Hydra4Face Anti Aging: CHF 250
+- Hydra4Face Gesicht, Hals, Dekolletee: CHF 280
+- Hydra4Face + Microneedling: CHF 170
 
-Hydrafacial page and SEO content still reference CHF 190 / 280 / 350.
+The site previously used live `/api/services` rows as a temporary source of truth. Treatwell is now the official pricing source and must drive page copy, structured data, booking service rows, and future admin updates.
 
 Files:
 
@@ -274,14 +276,14 @@ Impact:
 
 Requirements:
 
-- All public prices must match live booking data.
+- All public prices must match the official Treatwell catalog and the booking service data.
 - Structured data price values must match visible page content.
 - Homepage teaser copy must not advertise outdated "ab CHF" values.
-- Treatment pricing cards must either be driven by the same service data source or manually audited against `/api/services`.
+- Treatment pricing cards must either be driven by the same service data source or manually audited against Treatwell.
 
 Acceptance criteria:
 
-- Hydrafacial page no longer contains outdated CHF 190 / 280 / 350 values unless those are confirmed as real active services.
+- Hydrafacial page no longer contains outdated CHF 190 / 350 / 380 values unless those are confirmed as real active services.
 - Booking prices, FAQ answers, pricing cards, meta descriptions, and JSON-LD agree.
 - Search snippets do not advertise a price unavailable in booking.
 
@@ -543,12 +545,12 @@ Acceptance criteria:
 
 ### Epic A: Price Trust
 
-- [ ] Confirm final active prices with Teresa. Implementation used live `/api/services` values as the current source of truth.
+- [x] Confirm final active prices from the official Treatwell catalog supplied by the client on 2026-05-05.
 - [x] Update Hydrafacial pricing content.
 - [x] Update Hydrafacial FAQ answers.
 - [x] Update Hydrafacial JSON-LD `lowPrice` and `highPrice`.
 - [x] Update homepage Hydrafacial teaser price.
-- [x] Audit Microneedling, Peeling, ColdPlasma, and Carbon Microneedling against `/api/services`.
+- [x] Audit Microneedling, Peeling, ColdPlasma, and Carbon Microneedling against Treatwell.
 
 ### Epic B: Mobile Conversion
 

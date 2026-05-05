@@ -1,0 +1,113 @@
+-- Aligns Beauty Face Lift services with the official Treatwell catalog checked on 2026-05-05.
+-- Source: https://buchung.treatwell.ch/ort/beauty-face-lift/
+-- Notes:
+-- - Existing slugs used by the site are preserved so active booking links keep working.
+-- - Existing deposit_chf values are preserved because Treatwell does not publish deposit rules.
+-- - Two Treatwell range-priced offers are intentionally not inserted until booking supports price ranges:
+--   Maske Soin initiale (Augenmaske) CHF 30-150 and Klassische Ganzkörpermassage CHF 135-1200.
+
+WITH official_services (
+  name,
+  slug,
+  description,
+  duration_minutes,
+  price_chf,
+  category,
+  sort_order
+) AS (
+  VALUES
+    ('Gesichtsbehandlung - Hydra4Face Basic Intensiv', 'hydrafacial-signature', 'Hydra4Face Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.', 60, 180.00, 'Hydrafacial', 1),
+    ('Gesichtsbehandlung - Hydra4Face Anti Aging', 'hydrafacial-platinum', 'Hydra4Face Anti-Aging-Behandlung mit intensiver Feuchtigkeitspflege und Glow-Finish.', 90, 250.00, 'Hydrafacial', 2),
+    ('Gesichtsbehandlung - Hydra4Face Gesicht, Hals, Dekolletee', 'hydra4face-gesicht-hals-dekolletee', 'Erweiterte Hydra4Face Behandlung für Gesicht, Hals und Dekolletee.', 90, 280.00, 'Hydrafacial', 3),
+    ('Gesichtsbehandlung - Hydra4Face + coldPLASMA für Akne', 'hydra4face-coldplasma-akne', 'Hydra4Face kombiniert mit coldPLASMA für Akne und unreine Haut.', 90, 280.00, 'Hydrafacial', 4),
+    ('Gesichtsbehandlung - Hydra4Face + Microneedling', 'hydra4face-microneedling', 'Hydra4Face kombiniert mit Microneedling für Glow und Kollagenstimulation.', 90, 170.00, 'Hydrafacial', 5),
+    ('Gesichtsbehandlung - Microneedling', 'microneedling-gesicht', 'Kollagenstimulation für verfeinerte Poren, glattere Struktur und sichtbar frischere Haut.', 90, 210.00, 'Microneedling', 10),
+    ('Gesichtsbehandlung - Micro Needling Anti Aging mit coldPLASMA', 'microneedling-gesicht-hals', 'Microneedling Anti-Aging-Behandlung kombiniert mit coldPLASMA zur Regeneration.', 90, 220.00, 'Microneedling', 11),
+    ('Gesichtsbehandlung - Carbon Laser Peeling + Microneedling', 'carbon-microneedling', 'Carbon Laser Peeling kombiniert mit Microneedling in einer 90-minütigen Sitzung.', 90, 250.00, 'Carbon Microneedling', 12),
+    ('Gesichtsbehandlung - Fruchtsäure', 'fruchtsaeure-peeling', 'Professionelles Fruchtsäure-Peeling für Hauterneuerung, klares Hautbild und verfeinerte Poren.', 45, 150.00, 'Peeling', 20),
+    ('Gesichtsbehandlung - BDR Fruchtsäurebehandlung', 'bdr-fruchtsaeurebehandlung', 'BDR Fruchtsäurebehandlung für kontrollierte Hauterneuerung und ebenmässigeren Teint.', 60, 150.00, 'Peeling', 21),
+    ('Gesichtsbehandlung - coldPLASMA Akne/unreine Haut', 'coldplasma', 'coldPLASMA Behandlung für unreine Haut, Hautbarriere und Wirkstoffaufnahme.', 90, 180.00, 'ColdPlasma', 30),
+    ('Gesichtsbehandlung - coldPLASMA Anti Aging Luxus Behandlung', 'coldplasma-anti-aging-luxus', 'coldPLASMA Anti-Aging-Behandlung mit Regenerations- und Wirkstofffokus.', 90, 220.00, 'ColdPlasma', 31),
+    ('Gesichtsbehandlung - coldPLASMA Stabilisierung Hautbarriere', 'coldplasma-hautbarriere', 'coldPLASMA Behandlung zur Stabilisierung der Hautbarriere.', 90, 220.00, 'ColdPlasma', 32),
+    ('Gesichtsbehandlung - Carbon Laser Peeling + Maske', 'carbon-laser-peeling-maske', 'Carbon Laser Peeling mit abschliessender Maske.', 60, 200.00, 'Carbon Microneedling', 33),
+    ('Gesichtsbehandlung - Tiefenreinigung 180', 'tiefenreinigung-180', 'Klassische Tiefenreinigung mit Peeling, Vapozon, Ampulle, Massage und Maske.', 90, 180.00, 'Gesichtsbehandlungen', 40),
+    ('Gesichtsbehandlung - Fresh Up! Treatment', 'fresh-up-treatment', 'Fresh-Up Behandlung für schnelle Frische und sichtbare Vitalität.', 90, 180.00, 'Gesichtsbehandlungen', 41),
+    ('Gesichtsbehandlung - Caviar', 'caviar', 'Luxusbehandlung mit Caviar-Fokus für anspruchsvolle Haut.', 90, 235.00, 'Gesichtsbehandlungen', 42),
+    ('Gesichtsbehandlung - Maske Soin Initiale', 'maske-soin-initiale', 'Soin Initiale Maske mit Handmassage und vitalisierender Pflege.', 120, 200.00, 'Gesichtsbehandlungen', 43),
+    ('Gesichtsbehandlung - Kurzurlaub für den Herren', 'kurzurlaub-herren', 'Kurzbehandlung für gepflegte, vitale Männerhaut.', 45, 150.00, 'Gesichtsbehandlungen', 44),
+    ('Gesichtsbehandlung - BDR Stimulationsbehandlung intensiv', 'bdr-stimulationsbehandlung-intensiv', 'Intensive BDR Stimulationsbehandlung zum Aufbau der Haut.', 90, 210.00, 'Gesichtsbehandlungen', 45),
+    ('Augenbrauen & Wimpern färben', 'augenbrauen-wimpern-faerben', 'Färben von Augenbrauen und Wimpern für mehr Ausdruck.', 45, 65.00, 'Augenbrauen & Wimpern', 50),
+    ('Augenbrauen & Wimpern färben (während einer Gesichtsbehandlung)', 'augenbrauen-wimpern-faerben-gesichtsbehandlung', 'Färben von Augenbrauen und Wimpern während einer Gesichtsbehandlung.', 30, 55.00, 'Augenbrauen & Wimpern', 51),
+    ('Augenbrauen färben mit Korrektur', 'augenbrauen-faerben-korrektur', 'Augenbrauen färben inklusive Korrektur.', 20, 35.00, 'Augenbrauen & Wimpern', 52),
+    ('Augenbrauenkorrektur', 'augenbrauenkorrektur', 'Formen und Korrigieren der Augenbrauen.', 15, 20.00, 'Augenbrauen & Wimpern', 53),
+    ('Brauenlifting RefectoCil', 'brauenlifting-refectocil', 'Brauenlifting mit RefectoCil.', 60, 65.00, 'Augenbrauen & Wimpern', 54),
+    ('Wimpernlifting RefectoCil', 'wimpernlifting-refectocil', 'Wimpernlifting mit RefectoCil.', 60, 110.00, 'Augenbrauen & Wimpern', 55),
+    ('Damen Waxing - Ganze Beine inkl. Bikini', 'waxing-damen-ganze-beine-bikini', 'Damen Waxing für ganze Beine inklusive Bikini.', 60, 130.00, 'Waxing', 60),
+    ('Damen Waxing - Achseln & Bikini', 'waxing-damen-achseln-bikini', 'Damen Waxing Achseln und Bikini.', 30, 60.00, 'Waxing', 61),
+    ('Damen Waxing - Bikini ganz', 'waxing-damen-bikini-ganz', 'Damen Waxing Bikini ganz.', 30, 80.00, 'Waxing', 62),
+    ('Damen Waxing - Bikini', 'waxing-damen-bikini', 'Damen Waxing Bikini.', 20, 35.00, 'Waxing', 63),
+    ('Damen Waxing - Halbe Beine', 'waxing-damen-halbe-beine', 'Damen Waxing halbe Beine.', 30, 60.00, 'Waxing', 64),
+    ('Damen Waxing - Achseln', 'waxing-damen-achseln', 'Damen Waxing Achseln.', 20, 35.00, 'Waxing', 65),
+    ('Damen Waxing - Gesicht', 'waxing-damen-gesicht', 'Damen Waxing Gesicht.', 20, 40.00, 'Waxing', 66),
+    ('Herren Waxing - Rücken', 'waxing-herren-ruecken', 'Herren Waxing Rücken.', 45, 80.00, 'Waxing', 67),
+    ('Laser - Oberlippe', 'laser-oberlippe', 'Dauerhafte Haarentfernung Oberlippe.', 15, 85.00, 'Dauerhafte Haarentfernung', 70),
+    ('Laser - Oberlippe und Kinn', 'laser-oberlippe-kinn', 'Dauerhafte Haarentfernung Oberlippe und Kinn.', 15, 140.00, 'Dauerhafte Haarentfernung', 71),
+    ('Laser - Halskragen', 'laser-halskragen', 'Dauerhafte Haarentfernung Halskragen.', 15, 140.00, 'Dauerhafte Haarentfernung', 72),
+    ('Laser - ganzes Gesicht', 'laser-ganzes-gesicht', 'Dauerhafte Haarentfernung ganzes Gesicht.', 30, 180.00, 'Dauerhafte Haarentfernung', 73),
+    ('Laser - ganzes Gesicht und Hals', 'laser-gesicht-hals', 'Dauerhafte Haarentfernung ganzes Gesicht und Hals.', 30, 255.00, 'Dauerhafte Haarentfernung', 74),
+    ('Laser - Achselhöhlen', 'laser-achselhoehlen', 'Dauerhafte Haarentfernung Achselhöhlen.', 15, 110.00, 'Dauerhafte Haarentfernung', 75),
+    ('Laser - Hände', 'laser-haende', 'Dauerhafte Haarentfernung Hände.', 15, 90.00, 'Dauerhafte Haarentfernung', 76),
+    ('Laser - Unterarme', 'laser-unterarme', 'Dauerhafte Haarentfernung Unterarme.', 20, 130.00, 'Dauerhafte Haarentfernung', 77),
+    ('Laser - Oberarme', 'laser-oberarme', 'Dauerhafte Haarentfernung Oberarme.', 20, 130.00, 'Dauerhafte Haarentfernung', 78),
+    ('Laser - ganze Arme und Hände', 'laser-ganze-arme-haende', 'Dauerhafte Haarentfernung ganze Arme und Hände.', 60, 260.00, 'Dauerhafte Haarentfernung', 79),
+    ('Laser - Unterschenkel', 'laser-unterschenkel', 'Dauerhafte Haarentfernung Unterschenkel.', 30, 200.00, 'Dauerhafte Haarentfernung', 80),
+    ('Laser - Unterschenkel mit Knie', 'laser-unterschenkel-knie', 'Dauerhafte Haarentfernung Unterschenkel mit Knie.', 30, 220.00, 'Dauerhafte Haarentfernung', 81),
+    ('Laser - Oberschenkel', 'laser-oberschenkel', 'Dauerhafte Haarentfernung Oberschenkel.', 30, 250.00, 'Dauerhafte Haarentfernung', 82),
+    ('Laser - ganze Beine und Füsse', 'laser-ganze-beine-fuesse', 'Dauerhafte Haarentfernung ganze Beine und Füsse.', 60, 500.00, 'Dauerhafte Haarentfernung', 83),
+    ('Laser - ganze Beine, Bikini und Füsse', 'laser-ganze-beine-bikini-fuesse', 'Dauerhafte Haarentfernung ganze Beine, Bikini und Füsse.', 75, 600.00, 'Dauerhafte Haarentfernung', 84),
+    ('Laser - Bikini Linie', 'laser-bikini-linie', 'Dauerhafte Haarentfernung Bikini Linie.', 15, 125.00, 'Dauerhafte Haarentfernung', 85),
+    ('Laser - Bikini Brazil', 'laser-bikini-brazil', 'Dauerhafte Haarentfernung Bikini Brazil.', 30, 195.00, 'Dauerhafte Haarentfernung', 86),
+    ('Laser Herren - Brustkranz', 'laser-herren-brustkranz', 'Dauerhafte Haarentfernung Herren Brustkranz.', 15, 85.00, 'Dauerhafte Haarentfernung', 87),
+    ('Laser Herren - Brust', 'laser-herren-brust', 'Dauerhafte Haarentfernung Herren Brust.', 15, 130.00, 'Dauerhafte Haarentfernung', 88),
+    ('Laser Herren - Bauch', 'laser-herren-bauch', 'Dauerhafte Haarentfernung Herren Bauch.', 15, 130.00, 'Dauerhafte Haarentfernung', 89),
+    ('Laser Herren - Brust und Bauch', 'laser-herren-brust-bauch', 'Dauerhafte Haarentfernung Herren Brust und Bauch.', 30, 310.00, 'Dauerhafte Haarentfernung', 90),
+    ('Laser Herren - Schultern', 'laser-herren-schultern', 'Dauerhafte Haarentfernung Herren Schultern.', 15, 150.00, 'Dauerhafte Haarentfernung', 91),
+    ('Laser Herren - Unterer Rücken/Rückenlende', 'laser-herren-unterer-ruecken-rueckenlende', 'Dauerhafte Haarentfernung Herren unterer Rücken und Rückenlende.', 15, 150.00, 'Dauerhafte Haarentfernung', 92),
+    ('Laser Herren - Rücken und Rückenlende', 'laser-herren-ruecken-rueckenlende', 'Dauerhafte Haarentfernung Herren Rücken und Rückenlende.', 20, 200.00, 'Dauerhafte Haarentfernung', 93),
+    ('Laser Herren - ganzer Rücken, Rückenlende und Schultern', 'laser-herren-ganzer-ruecken-rueckenlende-schultern', 'Dauerhafte Haarentfernung Herren ganzer Rücken, Rückenlende und Schultern.', 60, 370.00, 'Dauerhafte Haarentfernung', 94),
+    ('Tages Make-Up', 'tages-make-up', 'Tages Make-Up für einen natürlichen, gepflegten Look.', 45, 100.00, 'Make-Up', 100),
+    ('Gala Make-Up', 'gala-make-up', 'Gala Make-Up für besondere Anlässe.', 50, 120.00, 'Make-Up', 101),
+    ('Hochzeits-Make-Up mit Probe Make-Up', 'hochzeits-make-up-probe', 'Hochzeits-Make-Up inklusive Probe Make-Up.', 60, 140.00, 'Make-Up', 102),
+    ('Nacken - & Rückenmassage', 'nacken-rueckenmassage', 'Nacken- und Rückenmassage zur Lockerung von Schultern, Nacken und Rücken.', 30, 65.00, 'Massagen', 110)
+)
+INSERT INTO services (
+  name,
+  slug,
+  description,
+  duration_minutes,
+  price_chf,
+  deposit_chf,
+  category,
+  sort_order,
+  is_active
+)
+SELECT
+  name,
+  slug,
+  description,
+  duration_minutes,
+  price_chf,
+  0,
+  category,
+  sort_order,
+  true
+FROM official_services
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  duration_minutes = EXCLUDED.duration_minutes,
+  price_chf = EXCLUDED.price_chf,
+  category = EXCLUDED.category,
+  sort_order = EXCLUDED.sort_order,
+  is_active = true,
+  deposit_chf = services.deposit_chf;
