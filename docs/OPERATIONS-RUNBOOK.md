@@ -36,6 +36,8 @@ $env:PUBLIC_SUPABASE_ANON_KEY="<anon key>"
 npm run smoke:security
 ```
 
+The GitHub Actions `Security smoke` workflow receives those Supabase values from repository configuration, so its manual run includes the anon bookings check automatically.
+
 ## Secret handling
 
 - Never commit secrets or paste them into docs.
