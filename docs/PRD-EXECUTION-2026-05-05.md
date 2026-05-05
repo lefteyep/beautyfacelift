@@ -85,6 +85,7 @@ After: Submenu dots align closer to labels, footer treatment links breathe bette
 - Checked mobile document overflow for homepage, Hydrafacial, and booking at a phone-sized viewport; no document-level horizontal scroll was detected.
 - Confirmed local booking failure renders a recoverable error state instead of a blank or dead end.
 - After live deployment QA, adjusted the mobile booking stepper so the active step label can use the full row below the progress bar instead of truncating inside one column.
+- Verified the deployed Workers site after release: homepage, Hydrafacial, and booking pages returned 200; `/api/services` returned 7 services; Hydrafacial page exposed CHF 250 and CHF 380 without the old CHF 190 / 280 / 350 values; booking mobile at 390px showed 7 service cards and no document-level horizontal overflow.
 
 ## Environment Notes
 
@@ -104,4 +105,5 @@ After: Submenu dots align closer to labels, footer treatment links breathe bette
 
 - Branch: `codex/prd-live-ux-fixes`
 - Build status before release: passed locally.
-- GitHub push and live deployment are documented in the final handoff for this execution.
+- Draft PR: https://github.com/lefteyep/beautyfacelift/pull/1
+- Live URL: https://beautyfacelift.mediapaulo.workers.dev/

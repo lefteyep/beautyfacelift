@@ -600,7 +600,7 @@ Acceptance criteria:
 ### Epic G: QA and Release
 
 - [x] Build passes.
-- [ ] Live-like Workers test passes. Local API validation is blocked by missing Supabase anon key; live verification is part of release.
+- [x] Live-like Workers test passes. Local API validation was blocked by missing Supabase anon key, but post-release live Workers verification passed.
 - [x] Screenshots checked at desktop/mobile. Tablet remains recommended for the next QA sweep.
 - [x] No mobile horizontal overflow on key pages.
 - [x] Booking flow tested through validation and recoverable error states.
