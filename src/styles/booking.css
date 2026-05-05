@@ -531,8 +531,9 @@
     padding: 10vw 6vw;
   }
 
-  .booking-steps {
-    gap: 3px;
+  .booking-step-list {
+    position: relative;
+    padding-bottom: 1.75rem;
   }
 
   .booking-step-label {
@@ -541,8 +542,16 @@
 
   .booking-step.active .booking-step-label {
     display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0.75rem;
+    width: 100%;
+    margin-top: 0;
+    overflow: visible;
     white-space: normal;
     text-align: left;
+    text-overflow: clip;
   }
 
   .booking-choice-intro,

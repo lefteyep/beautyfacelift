@@ -84,6 +84,7 @@ After: Submenu dots align closer to labels, footer treatment links breathe bette
 - Captured responsive screenshots for homepage, Hydrafacial, and booking error states.
 - Checked mobile document overflow for homepage, Hydrafacial, and booking at a phone-sized viewport; no document-level horizontal scroll was detected.
 - Confirmed local booking failure renders a recoverable error state instead of a blank or dead end.
+- After live deployment QA, adjusted the mobile booking stepper so the active step label can use the full row below the progress bar instead of truncating inside one column.
 
 ## Environment Notes
 
