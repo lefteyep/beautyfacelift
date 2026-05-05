@@ -98,4 +98,4 @@ Blocked until the real domain is connected:
 - Studio interior and treatment-card imagery still need real or approved generated assets.
 - Content Security Policy is live in report-only mode. Move to enforcement only after observing the real custom-domain launch with Turnstile, analytics, and Meta scripts enabled.
 - The stale Claude worktree contains a V2 homepage preview at `src/pages/v2/` plus `src/styles/homepage-v2.css`; keep it as reference until a dedicated UX/conversion PR decides whether to adopt or delete it.
-- Node.js 24 GitHub Actions migration is optional before the platform default changes.
+- Track Cloudflare `wrangler-action` for a future Node 24-native release; GitHub-owned checkout/setup actions already use v6.
