@@ -8,6 +8,14 @@ const REQUIRED_HEADERS = {
   'x-frame-options': 'DENY',
   'strict-transport-security': 'max-age=31536000',
 };
+const REQUIRED_HEADER_PARTS = {
+  'content-security-policy-report-only': [
+    "default-src 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    'upgrade-insecure-requests',
+  ],
+};
 
 const args = parseArgs(process.argv.slice(2));
 const baseUrl = normalizeBaseUrl(args['base-url'] || process.env.SECURITY_SMOKE_BASE_URL || DEFAULT_BASE_URL);
@@ -81,6 +89,12 @@ function assertSecurityHeaders(response) {
     const actual = response.headers.get(header);
     assert(actual === expected, `${header} expected "${expected}", got "${actual}"`);
   }
+  for (const [header, expectedParts] of Object.entries(REQUIRED_HEADER_PARTS)) {
+    const actual = response.headers.get(header) || '';
+    for (const expectedPart of expectedParts) {
+      assert(actual.includes(expectedPart), `${header} missing "${expectedPart}", got "${actual}"`);
+    }
+  }
 }
 
 async function postJson(path, body) {
@@ -105,6 +119,12 @@ await check('services API returns active catalog', async () => {
   assert(data.services.length > 0, 'services payload is empty');
   assert(data.services.every((service) => typeof service.id === 'string' && typeof service.name === 'string'), 'service rows are missing id/name');
   return `${data.services.length} services`;
+});
+
+await check('services API supports HEAD for monitoring', async () => {
+  const response = await fetch(buildUrl('/api/services'), { method: 'HEAD' });
+  assert(response.status === 200, `expected 200, got ${response.status}`);
+  assertSecurityHeaders(response);
 });
 
 await check('slots API rejects malformed input', async () => {
