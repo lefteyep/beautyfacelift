@@ -7,6 +7,9 @@
 - Production service catalog has been updated to the official Treatwell catalog.
 - After applying `supabase/migrations/005_treatwell_range_price_services.sql` with `supabase db query --linked --file`, the Worker API returned 65 services.
 - Supabase migration bookkeeping was repaired on 2026-05-05. `supabase db push --linked --dry-run` now reports that the remote database is up to date.
+- Security follow-up migrations applied on 2026-05-05 through the Supabase Management API:
+  - `20260505184333_private_admin_helper`: moves admin RLS checks to `private.is_admin()` and removes exposed `public.is_admin()` RPC.
+  - `20260505184508_move_btree_gist_extension`: moves `btree_gist` from `public` to `extensions`.
 - The two official Treatwell range-price services are present through the Worker API:
   - `maske-soin-initiale-augenmaske`: visible label `CHF 30-150`, stored lower-bound `price_chf = 30`.
   - `klassische-ganzkoerpermassage`: visible label `CHF 135-1200`, stored lower-bound `price_chf = 135`.
@@ -50,6 +53,17 @@ Local | Remote
 003   | 003
 004   | 004
 005   | 005
+```
+
+Security follow-up verification on 2026-05-05:
+
+```text
+Remote migrations include:
+20260505184333 private_admin_helper
+20260505184508 move_btree_gist_extension
+
+Supabase security advisor remaining warning:
+auth_leaked_password_protection
 ```
 
 ## Backup Notes
