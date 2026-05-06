@@ -10,6 +10,7 @@ import {
     hydrafacialCard,
     microneedlingCard,
     peelingCard,
+    spaProducts,
     teresaPortrait,
 } from '../lib/site-images';
 
@@ -75,7 +76,8 @@ const structuredData = {
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hydrafacial", "url": "https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Microneedling", "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/" } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fruchtsäure Peeling", "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ColdPlasma", "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/" } }
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ColdPlasma", "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exosome Therapie", "url": "https://beautyfacelift.ch/behandlungen/exosome-therapie-zuerich/" } }
         ]
     },
     "aggregateRating": {
@@ -109,7 +111,7 @@ const faqData = {
             "name": "Was ist ein Medical Spa?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Ein Medical Spa vereint medizinisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-invasive Behandlungen wie Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte und medizinisch geprüfte Wirkstoffe, die tiefgreifende und langanhaltende Ergebnisse erzielen — ganz ohne chirurgische Eingriffe."
+                "text": "Ein Medical Spa vereint medizinisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-invasive Behandlungen wie Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte, hochwertige Wirkstoffe und persönliche Beratung — ganz ohne chirurgische Eingriffe."
             }
         },
         {
@@ -117,7 +119,7 @@ const faqData = {
             "name": "Welche Behandlung passt zu mir?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Hydrafacial eignet sich hervorragend für sofortigen Glow und intensive Feuchtigkeit. Microneedling ist die beste Wahl bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma fördert die Zellregeneration und strafft das Gewebe. Teresa berät Sie persönlich in einem kostenlosen Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut."
+                "text": "Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Hydrafacial eignet sich hervorragend für sofortigen Glow und intensive Feuchtigkeit. Microneedling ist eine Option bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie persönlich in einem Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut."
             }
         },
         {
@@ -158,7 +160,7 @@ const faqData = {
 
 <Base
     title="Beauty Face Lift | Kosmetikstudio Zürich Bahnhofstrasse — Hydrafacial, Microneedling & Peeling"
-    description="Beauty Face Lift ★ 4.8/5 — Premium Gesichtsbehandlungen an der Bahnhofstrasse Zürich: Hydra4Face ab CHF 180, Microneedling, Fruchtsäure Peeling & ColdPlasma. Jetzt online buchen."
+    description="Beauty Face Lift ★ 4.8/5 — Premium Gesichtsbehandlungen an der Bahnhofstrasse Zürich: Hydra4Face, Microneedling, Peeling, ColdPlasma & Exosome Therapie."
     preloadImage={{
         href: homepageHeroPreload.src,
         imagesrcset: homepageHeroPreload.srcSet.attribute,
@@ -184,7 +186,7 @@ const faqData = {
                 <span class="display-text text-reveal">Dein Weg zu natürlicher Schönheit</span>
             </h1>
 
-            <p class="hero-body">Professionelle Gesichtsbehandlungen für strahlende Haut — Hydrafacial, Microneedling, Peeling & ColdPlasma. Persönliche Beratung durch Teresa Stimac, seit 20 Jahren an der Bahnhofstrasse.</p>
+            <p class="hero-body">Professionelle Gesichtsbehandlungen für strahlende Haut — Hydrafacial, Microneedling, Peeling, ColdPlasma & Exosome Therapie. Persönliche Beratung durch Teresa Stimac, seit 20 Jahren an der Bahnhofstrasse.</p>
 
             <div class="hero-ctas">
                 <a href="/termin/" class="pill-btn hero-cta">Jetzt Termin buchen</a>
@@ -241,7 +243,7 @@ const faqData = {
     </header>
 
     <!-- Marquee -->
-    <Marquee items={["Hydrafacial", "Microneedling", "ColdPlasma", "Fruchtsäure Peeling"]} />
+    <Marquee items={["Hydrafacial", "Microneedling", "ColdPlasma", "Fruchtsäure Peeling", "Exosome Therapie"]} />
 
     <!-- Services -->
     <section id="expertise" class="services-section">
@@ -331,6 +333,25 @@ const faqData = {
                     <p>Die Innovation der Hautpflege. ColdPlasma-Technologie aktiviert die Zellregeneration auf molekularer Ebene und steigert die Wirkstoffaufnahme um bis zu 300%.</p>
                     <a href="/behandlungen/coldplasma-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">ColdPlasma entdecken</a>
                 </div>
+
+                <div class="service-card">
+                    <span class="number-accent">05</span>
+                    <h3>Exosome Therapie</h3>
+                    <div class="service-image-mask service-image-tall">
+                        <Image
+                            src={spaProducts}
+                            widths={[360, 540, 720, 960]}
+                            sizes={cardSizes}
+                            format="webp"
+                            quality="high"
+                            alt="Exosome Therapie Zürich — regeneratives Serum und Hyaluronsäure"
+                            class="anim-img"
+                            loading="lazy"
+                        />
+                    </div>
+                    <p>Regenerative Kosmetik mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie. Für Feuchtigkeit, Hautbarriere, Glow und ein ruhigeres Hautbild — mit ehrlicher Beratung und realistischen Erwartungen.</p>
+                    <a href="/behandlungen/exosome-therapie-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Exosome Therapie entdecken</a>
+                </div>
             </div>
         </div>
     </section>
@@ -410,11 +431,11 @@ const faqData = {
         <div class="faq-list">
             <details class="faq-item">
                 <summary>Was ist ein Medical Spa?</summary>
-                <p>Ein Medical Spa vereint medizinisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-invasive Behandlungen wie Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte und medizinisch geprüfte Wirkstoffe, die tiefgreifende und langanhaltende Ergebnisse erzielen — ganz ohne chirurgische Eingriffe.</p>
+                <p>Ein Medical Spa vereint medizinisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-invasive Behandlungen wie Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte, hochwertige Wirkstoffe und persönliche Beratung — ganz ohne chirurgische Eingriffe.</p>
             </details>
             <details class="faq-item">
                 <summary>Welche Behandlung passt zu mir?</summary>
-                <p>Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Hydrafacial eignet sich hervorragend für sofortigen Glow und intensive Feuchtigkeit. Microneedling ist die beste Wahl bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma fördert die Zellregeneration und strafft das Gewebe. Teresa berät Sie persönlich in einem kostenlosen Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut.</p>
+                <p>Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Hydrafacial eignet sich hervorragend für sofortigen Glow und intensive Feuchtigkeit. Microneedling ist eine Option bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie persönlich in einem Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut.</p>
             </details>
             <details class="faq-item">
                 <summary>Brauche ich eine Beratung vor der ersten Behandlung?</summary>

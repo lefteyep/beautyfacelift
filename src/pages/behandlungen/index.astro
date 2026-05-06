@@ -8,6 +8,7 @@ import {
     hydrafacialCard,
     microneedlingCard,
     peelingCard,
+    spaProducts,
 } from '../../lib/site-images';
 
 const overviewCardSizes = '(min-width: 1240px) 595px, (min-width: 901px) 44vw, 100vw';
@@ -61,6 +62,16 @@ const structuredData = {
                 "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/",
                 "description": "Ionisiertes Gas bei niedriger Temperatur stimuliert Zellerneuerung, wirkt antimikrobiell und verbessert die Wirkstoffaufnahme um bis zu 300%. Ab CHF 180, Dauer 90 Minuten."
             }
+        },
+        {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+                "@type": "Service",
+                "name": "Exosome Therapie Zürich",
+                "url": "https://beautyfacelift.ch/behandlungen/exosome-therapie-zuerich/",
+                "description": "Kosmetisch-ästhetische Exosome Gesichtsbehandlung mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie, Hyaluronsäure und persönlicher Hautanalyse."
+            }
         }
     ]
 };
@@ -68,7 +79,7 @@ const structuredData = {
 const pageFaqs = [
     {
         question: 'Was kostet eine Gesichtsbehandlung in Zürich?',
-        answer: 'Die Preise für professionelle Gesichtsbehandlungen bei Beauty Face Lift variieren je nach Behandlungsart und Dauer. Ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> kostet aktuell CHF 150, <a href="/behandlungen/hydrafacial-zuerich/">Hydra4Face</a> beginnt bei CHF 180, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> beginnt bei CHF 210 und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> beginnt bei CHF 180. Alle Preise verstehen sich inklusive Mehrwertsteuer und einer individuellen Hautanalyse durch Teresa Stimac.'
+        answer: 'Die Preise für professionelle Gesichtsbehandlungen bei Beauty Face Lift variieren je nach Behandlungsart und Dauer. Ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> kostet aktuell CHF 150, <a href="/behandlungen/hydrafacial-zuerich/">Hydra4Face</a> beginnt bei CHF 180, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> beginnt bei CHF 210 und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> beginnt bei CHF 180. Umfang und Preis der <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> klärt Teresa in der persönlichen Beratung, da Produktwahl und Kombination vom Hautziel abhängen. Alle Preise verstehen sich inklusive Mehrwertsteuer und einer individuellen Hautanalyse durch Teresa Stimac.'
     },
     {
         question: 'Welche Behandlung ist die beste für Anfänger?',
@@ -100,24 +111,24 @@ const faqStructuredData = {
 
 <Base
     title="Behandlungen | Beauty Face Lift Zürich — Gesichtsbehandlungen an der Bahnhofstrasse"
-    description="Entdecken Sie unsere Premium Gesichtsbehandlungen in Zürich: Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Ihr Medical Spa an der Bahnhofstrasse."
+    description="Entdecken Sie Premium Gesichtsbehandlungen in Zürich: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie."
     structuredData={structuredData}
 >
     <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 100px; padding-bottom: 0;">
+    <section class="container" style="padding-top: 88px; padding-bottom: 0;">
         <Breadcrumbs items={breadcrumbs} />
     </section>
 
     <!-- Page Header — design: 100px 58px 60px -->
-    <section class="container" style="padding-top: 16px; padding-bottom: 60px;">
+    <section class="container" style="padding-top: 16px; padding-bottom: 48px;">
         <span class="sub-display" style="display: block; margin-bottom: 16px;">Unsere Expertise</span>
         <h1 style="font-size: 52px; margin-bottom: 16px;">Behandlungen</h1>
         <p style="max-width: 700px;">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild. Jede Behandlung wird individuell auf Ihren Hauttyp abgestimmt — in unserem Premium Medical Spa an der Bahnhofstrasse Zürich.</p>
-        <p style="max-width: 700px; margin-top: 1.25rem;">Unser Behandlungsspektrum umfasst vier Kernbereiche: Tiefenreinigung und sofortigen Glow mit dem Hydrafacial, natürliches Anti-Aging durch Microneedling, intensive Hauterneuerung mit medizinischen Fruchtsäure Peelings sowie innovative Zellregeneration durch ColdPlasma-Technologie. Alle Verfahren sind nicht-invasiv, wissenschaftlich fundiert und werden von Teresa Stimac persönlich durchgeführt.</p>
+        <p style="max-width: 700px; margin-top: 1.25rem;">Unser Behandlungsspektrum umfasst fünf Kernbereiche: Tiefenreinigung und sofortigen Glow mit dem Hydrafacial, natürliches Anti-Aging durch Microneedling, intensive Hauterneuerung mit medizinischen Fruchtsäure Peelings, innovative Wirkstoffpflege durch ColdPlasma-Technologie sowie regenerative Kosmetik mit Exosome Therapie. Alle Verfahren werden individuell geplant und von Teresa Stimac persönlich durchgeführt.</p>
     </section>
 
     <!-- Treatment Grid -->
-    <section class="container" style="padding-bottom: 120px;">
+    <section class="container" style="padding-bottom: 88px;">
         <div class="treatments-overview-grid">
             <a href="/behandlungen/hydrafacial-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask service-image-tall">
@@ -198,16 +209,36 @@ const faqStructuredData = {
                     <span class="card-arrow">Details erfahren &rarr;</span>
                 </div>
             </a>
+
+            <a href="/behandlungen/exosome-therapie-zuerich/" class="treatment-overview-card scroll-anim">
+                <div class="service-image-mask service-image-tall">
+                    <Image
+                        src={spaProducts}
+                        widths={[360, 540, 720, 960]}
+                        sizes={overviewCardSizes}
+                        format="webp"
+                        quality="high"
+                        alt="Exosome Therapie Zürich mit Serum und Hyaluronsäure"
+                        class="anim-img"
+                        loading="lazy"
+                    />
+                </div>
+                <div class="treatment-overview-content">
+                    <h3>Exosome Therapie</h3>
+                    <p>Regenerative Kosmetik mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie. Für Feuchtigkeit, Hautbarriere, Glow und ein ruhigeres Hautbild.</p>
+                    <span class="card-arrow">Details erfahren &rarr;</span>
+                </div>
+            </a>
         </div>
     </section>
 
     <div class="section-divider"></div>
 
     <!-- Welche Behandlung passt zu mir? -->
-    <section class="container" style="padding-bottom: 12vh;">
+    <section class="container" style="padding-top: 76px; padding-bottom: 92px;">
         <div class="sub-display margin-bottom-md">Ihr persönlicher Guide</div>
         <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; text-transform: none;">Welche Behandlung passt zu mir?</h2>
-        <p style="max-width: 650px; margin-bottom: 3rem;">Jedes Hautbild ist einzigartig. Finden Sie die passende Behandlung für Ihr persönliches Hautpflegeziel.</p>
+        <p style="max-width: 650px; margin-bottom: 2.25rem;">Jedes Hautbild ist einzigartig. Finden Sie die passende Behandlung für Ihr persönliches Hautpflegeziel.</p>
 
         <div class="highlights-grid highlights-grid--4col">
             <a href="/behandlungen/hydrafacial-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
@@ -233,10 +264,16 @@ const faqStructuredData = {
                 <h4>Innovation & Regeneration</h4>
                 <p>Maximale Wirkstoffaufnahme und Zellregeneration? ColdPlasma-Technologie steigert die Aufnahme um bis zu 300 %.</p>
             </a>
+
+            <a href="/behandlungen/exosome-therapie-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                <div class="highlight-number">05</div>
+                <h4>Regenerative Wirkstoffpflege</h4>
+                <p>Fahle, gestresste Haut oder Wunsch nach Exosomen Kosmetik? Exosome Therapie kann Feuchtigkeit, Hautbarriere und Glow unterstützen.</p>
+            </a>
         </div>
 
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="/behandlungen/vergleich/" style="font-family: var(--font-sans); font-weight: 500; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; transition: opacity 0.2s ease;">Ausführlicher Behandlungsvergleich &rarr;</a>
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <a href="/behandlungen/vergleich/" style="font-family: var(--font-sans); font-weight: 500; color: var(--accent-text); text-decoration: none; border-bottom: 1px solid var(--accent-text); padding-bottom: 2px; transition: opacity 0.2s ease;">Ausführlicher Behandlungsvergleich &rarr;</a>
         </div>
     </section>
 
@@ -267,7 +304,7 @@ const faqStructuredData = {
     <div class="section-divider"></div>
 
     <!-- CTA Section — design: 100px 58px padding -->
-    <section class="container" style="padding-bottom: 100px; text-align: center;">
+    <section class="container" style="padding-bottom: 80px; text-align: center;">
         <h2 style="font-size: 38px; margin-bottom: 20px; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
         <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
         <a href="/termin/" class="pill-btn">Termin buchen</a>

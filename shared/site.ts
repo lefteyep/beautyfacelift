@@ -54,6 +54,7 @@ export const TREATMENTS = [
   { href: '/behandlungen/microneedling-zuerich/', label: 'Microneedling' },
   { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', label: 'Fruchtsäure Peeling' },
   { href: '/behandlungen/coldplasma-zuerich/', label: 'ColdPlasma' },
+  { href: '/behandlungen/exosome-therapie-zuerich/', label: 'Exosome Therapie' },
 ] as const;
 
 export const CONTACT_TOPICS = [

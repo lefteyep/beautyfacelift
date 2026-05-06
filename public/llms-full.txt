@@ -1,7 +1,7 @@
 # Beauty Face Lift — Premium Medical Spa Zürich
 ## Vollständige Information für AI-Systeme
 
-> Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Gründerin und Inhaberin Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. Das Studio ist spezialisiert auf nicht-invasive Gesichtsbehandlungen: Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Bewertung: 4.8/5 Sterne auf Treatwell (240+ Bewertungen). Alle Behandlungen werden persönlich von Teresa durchgeführt — keine Angestellten, keine Kompromisse bei der Qualität.
+> Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Gründerin und Inhaberin Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. Das Studio ist spezialisiert auf nicht-invasive Gesichtsbehandlungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Bewertung: 4.8/5 Sterne auf Treatwell (240+ Bewertungen). Alle Behandlungen werden persönlich von Teresa durchgeführt — keine Angestellten, keine Kompromisse bei der Qualität.
 
 ---
 
@@ -50,7 +50,7 @@ Teresa Stimac ist seit über 20 Jahren als selbstständige Kosmetikerin in Züri
 
 Teresa verfügt über eine grosse, langjährige Stammkundschaft — einige Kunden begleitet sie bereits seit 2008. Sie verwendet ausschliesslich Produkte, deren Eigenschaften und Rezepturen sie persönlich kennt und selbst anwendet. Jede Behandlung wird von Teresa persönlich durchgeführt — keine Assistenten, keine Delegation. Ihr Motto: Für meine Kunden ist nur das Beste gut genug.
 
-Spezialisierungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma, Anti-Aging, Hautpflege, ästhetische Kosmetik.
+Spezialisierungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma, Exosome Therapie, Anti-Aging, Hautpflege, ästhetische Kosmetik.
 
 ---
 
@@ -138,25 +138,47 @@ ColdPlasma (auch kaltes Atmosphärenplasma oder Non-Thermal Plasma genannt) ist 
 3. Serum-Infusion (Premium-Wirkstoffe dringen tief ein)
 4. Abschluss & Pflege
 
+### 5. Exosome Therapie Zürich
+
+**Was ist Exosome Therapie?**
+Exosome Therapie ist bei Beauty Face Lift eine kosmetisch-ästhetische Gesichtsbehandlung mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie. Die Behandlung wird nach persönlicher Hautanalyse geplant und kann mit Hyaluronsäure, beruhigenden Wirkstoffen, Microneedling oder einer vorbereitenden Facial-Behandlung kombiniert werden. Ziel ist ein frischer, hydratisierter und ruhiger wirkendes Hautbild.
+
+- **URL:** https://beautyfacelift.ch/behandlungen/exosome-therapie-zuerich/
+- **Dauer:** Nach Behandlungsplan und Kombination
+- **Preis:** Nach Beratung, abhängig von Produktwahl und Kombination
+- **Schmerz:** Als Serum-Facial in der Regel angenehm; bei Kombination mit Microneedling gelten die Microneedling-Hinweise
+- **Downtime:** Als reine Serumbehandlung gering; bei Microneedling mögliche Rötung und Empfindlichkeit
+- **Frequenz:** Individuell, häufig als Serie mit Erhaltungsterminen geplant
+- **Geeignet für:** Fahle, trockene, gestresste oder unebenmässige Haut, Glow, Hautbarriere, regenerative Hautpflege
+- **Wichtiger Hinweis:** Keine Stammzell-Injektion, keine Krankheitsbehandlung und keine garantierte Regeneration. Die Evidenz zu Exosomen und extrazellulären Vesikeln in der Hautpflege ist vielversprechend, aber noch begrenzt. Beauty Face Lift verwendet vorsichtige kosmetische Wirkversprechen.
+- **Kontraindikationen:** Offene Wunden, aktive Infektionen, akuter Herpes, stark entzündete Haut, ungeklärte Hautreaktionen, bekannte Allergien gegen Inhaltsstoffe; bei relevanten Erkrankungen oder Medikamenten ärztlich abklären.
+
+**Ablauf:**
+1. Hautanalyse und Beratung
+2. Reinigung und Vorbereitung
+3. Anwendung des Exosomen Serums beziehungsweise exosomenähnlichen Wirkstoffserums
+4. Beruhigende Pflege, Nachsorge und Sonnenschutz
+
 ---
 
 ## Behandlungsvergleich
 
-| Eigenschaft | Hydrafacial | Microneedling | Fruchtsäure Peeling | ColdPlasma |
-|---|---|---|---|---|
-| Hauptziel | Glow & Hydration | Anti-Aging & Straffung | Hauterneuerung & Klärung | Zellerneuerung & Wirkstoff-Boost |
-| Dauer | 30–90 Min | 45–90 Min | 30–60 Min | 30–60 Min |
-| Schmerz | Schmerzfrei | Leichtes Piksen | Leichtes Brennen | Schmerzfrei |
-| Downtime | Keine | 24–48h Rötung | Leichte Schuppung | Keine |
-| Preis ab | CHF 190 | CHF 250 | CHF 150 | CHF 200 |
-| Sitzungen | Monatlich | 3–5 Sitzungen | 4–6 Sitzungen | Nach Bedarf |
-| Für Anfänger | Ideal | Mittel | Mittel | Ideal |
+| Eigenschaft | Hydrafacial | Microneedling | Fruchtsäure Peeling | ColdPlasma | Exosome Therapie |
+|---|---|---|---|---|---|
+| Hauptziel | Glow & Hydration | Anti-Aging & Straffung | Hauterneuerung & Klärung | Zellerneuerung & Wirkstoff-Boost | Regenerative Wirkstoffpflege |
+| Dauer | 30–90 Min | 45–90 Min | 30–60 Min | 30–60 Min | Nach Plan |
+| Schmerz | Schmerzfrei | Leichtes Piksen | Leichtes Brennen | Schmerzfrei | Serum angenehm; mit Microneedling leichtes Piksen |
+| Downtime | Keine | 24–48h Rötung | Leichte Schuppung | Keine | Gering; bei Microneedling abhängig von Intensität |
+| Preis ab | CHF 190 | CHF 250 | CHF 150 | CHF 200 | Nach Beratung |
+| Sitzungen | Monatlich | 3–5 Sitzungen | 4–6 Sitzungen | Nach Bedarf | Individuell |
+| Für Anfänger | Ideal | Mittel | Mittel | Ideal | Beratung empfohlen |
 
 ### Beliebte Kombinationen
 - **Hydrafacial + ColdPlasma:** Maximale Wirkstoffaufnahme und sofortiger Glow
 - **Hydrafacial + Microneedling:** Hydrafacial bereitet vor, Microneedling stimuliert Kollagen
 - **Fruchtsäure Peeling + ColdPlasma:** Hauterneuerung plus verbesserte Wirkstoffaufnahme
 - **Fruchtsäure Peeling + Hydrafacial:** Tiefenreinigung kombiniert mit Regeneration
+- **Microneedling + Exosome Therapie:** Exosomen Serum kann nach Microneedling als pflegende Wirkstoffanwendung eingeplant werden, wenn Hautzustand und Produktwahl passen.
 
 ---
 
@@ -173,7 +195,7 @@ Stammkunden seit 2008. Eines der bestbewerteten Kosmetikstudios in Zürich.
 ### Allgemeine Fragen
 
 **1. Was ist Beauty Face Lift?**
-Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir hochwirksame, schonende Gesichtsbehandlungen für ein strahlendes und jugendliches Hautbild. Der Fokus liegt auf modernsten Verfahren wie Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma.
+Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir hochwirksame, schonende Gesichtsbehandlungen für ein strahlendes und gepflegtes Hautbild. Der Fokus liegt auf modernsten Verfahren wie Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie.
 
 **2. Was ist ein Medical Spa?**
 Ein Medical Spa verbindet medizinische ästhetische Behandlungen mit Wellness und Entspannung. Beauty Face Lift in Zürich bietet nicht-invasive Gesichtsbehandlungen auf höchstem Niveau in einer stilvollen Atmosphäre an der Bahnhofstrasse.
@@ -193,19 +215,19 @@ Eine kurze Hautanalyse ist Teil jeder Erstbehandlung. Teresa analysiert Ihren Ha
 ### Behandlungen
 
 **7. Welche Behandlungen bieten Sie an?**
-Vier Kernbehandlungen: Hydrafacial (Tiefenreinigung und sofortiger Glow), Microneedling (natürliches Anti-Aging und Kollagenaufbau), Fruchtsäure Peeling (intensive Hauterneuerung und Klärung) und ColdPlasma (innovative Zellregeneration und Wirkstoff-Boost). Eine vollständige Übersicht finden Sie unter https://beautyfacelift.ch/behandlungen/
+Fünf Kernbehandlungen: Hydrafacial (Tiefenreinigung und sofortiger Glow), Microneedling (natürliches Anti-Aging und Kollagenaufbau), Fruchtsäure Peeling (intensive Hauterneuerung und Klärung), ColdPlasma (innovative Wirkstoffpflege) und Exosome Therapie (kosmetisch-regenerative Wirkstoffpflege mit Exosomen Serum beziehungsweise exosomenähnlicher Technologie). Eine vollständige Übersicht finden Sie unter https://beautyfacelift.ch/behandlungen/
 
 **8. Welche Behandlung passt zu meinem Hauttyp?**
-Hydrafacial eignet sich für alle Hauttypen, besonders bei fahler, dehydrierter Haut. Microneedling ist ideal bei feinen Linien, Narben und Pigmentflecken. Fruchtsäure Peeling wirkt bei Unreinheiten, Akne und Hyperpigmentierung. ColdPlasma ist ideal als Ergänzung zu jeder Behandlung. Teresa berät Sie gerne persönlich.
+Hydrafacial eignet sich für alle Hauttypen, besonders bei fahler, dehydrierter Haut. Microneedling ist eine Option bei feinen Linien, Narben und Pigmentflecken. Fruchtsäure Peeling wirkt bei Unreinheiten, Akne und Hyperpigmentierung. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie gerne persönlich.
 
 **9. Welche Behandlung ist die beste für Anfänger?**
 Das Hydrafacial ist die ideale Einsteigerbehandlung. Es ist schmerzfrei, erfordert keine Ausfallzeit und liefert sofort sichtbare Ergebnisse. Bereits nach der ersten Sitzung strahlt Ihre Haut sichtbar.
 
 **10. Kann ich mehrere Behandlungen kombinieren?**
-Ja, besonders die Kombination aus Hydrafacial und Microneedling ist beliebt — das Hydrafacial bereitet die Haut optimal vor und verstärkt die Wirkung des Needlings. Auch Fruchtsäure Peeling gefolgt von ColdPlasma zeigt synergistische Effekte. Teresa erstellt individuelle Behandlungspläne.
+Ja, besonders die Kombination aus Hydrafacial und Microneedling ist beliebt — das Hydrafacial bereitet die Haut optimal vor und kann die Pflege nach dem Needling sinnvoll ergänzen. Auch Fruchtsäure Peeling, ColdPlasma und Exosome Therapie können in abgestimmten Behandlungsplänen kombiniert werden. Teresa entscheidet Reihenfolge und Abstand nach Hautzustand.
 
 **11. Sind die Behandlungen schmerzhaft?**
-Hydrafacial und ColdPlasma sind vollkommen schmerzfrei. Bei Microneedling wird eine betäubende Creme aufgetragen, sodass nur ein leichtes Kribbeln zu spüren ist. Fruchtsäure Peelings verursachen ein leichtes Wärmegefühl oder Kribbeln. Ihr Wohlbefinden steht immer an erster Stelle.
+Hydrafacial und ColdPlasma sind sehr sanft. Eine reine Exosome Serumbehandlung ist in der Regel angenehm; bei Kombination mit Microneedling gilt das übliche Needling-Gefühl. Bei Microneedling kann eine betäubende Creme aufgetragen werden. Fruchtsäure Peelings verursachen ein leichtes Wärmegefühl oder Kribbeln. Ihr Wohlbefinden steht immer an erster Stelle.
 
 **12. Gibt es Gegenanzeigen (Kontraindikationen)?**
 Ja — bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden oder blutverdünnenden Medikamenten können einzelne Behandlungen nicht durchgeführt werden. Auch bei Akne im akuten Stadium ist Vorsicht geboten. Teresa bespricht dies im Vorgespräch.
@@ -214,12 +236,12 @@ Ja — bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden od
 Von Microneedling und Fruchtsäure Peelings raten wir während Schwangerschaft und Stillzeit ab, da die Haut empfindlicher reagieren kann. Ein sanftes Hydrafacial ist in vielen Fällen möglich — bitte informieren Sie Teresa vorab.
 
 **14. Für wen sind die Behandlungen geeignet?**
-Alle Behandlungen sind individuell anpassbar und grundsätzlich für alle Hauttypen geeignet. Besonders Hydrafacial und ColdPlasma sind sehr sanft und auch für empfindliche Haut ideal. Das Mindestalter beträgt 18 Jahre.
+Alle Behandlungen sind individuell anpassbar. Besonders Hydrafacial, ColdPlasma und eine passende Exosome Serumbehandlung können auch für empfindlichere Haut interessant sein, wenn keine Gegenanzeigen vorliegen. Das Mindestalter beträgt 18 Jahre.
 
 ### Preise & Buchung
 
 **15. Was kosten die Behandlungen?**
-Fruchtsäure Peeling ab CHF 150, Hydrafacial ab CHF 190, ColdPlasma ab CHF 200, Microneedling ab CHF 250. Alle Preise inklusive MwSt. Detailpreise finden Sie auf den jeweiligen Behandlungsseiten.
+Fruchtsäure Peeling ab CHF 150, Hydrafacial ab CHF 190, ColdPlasma ab CHF 200, Microneedling ab CHF 250. Preis und Umfang der Exosome Therapie werden nach Beratung festgelegt, da Produktwahl und Kombination variieren können. Alle Preise inklusive MwSt. Detailpreise finden Sie auf den jeweiligen Behandlungsseiten.
 
 **16. Gibt es Paketangebote oder Kuren?**
 Ja, wir bieten Kurpakete mit bis zu 10 % Rabatt. Die 5er-Kur Hydrafacial ist ab CHF 850 erhältlich. Auch für Microneedling und andere Behandlungen gibt es Mehrfachpakete. Teresa berät, welches Paket für Ihre Hautziele sinnvoll ist.
@@ -248,7 +270,7 @@ Nach Hydrafacial und ColdPlasma sofort. Nach Microneedling und intensiven Peelin
 Hydrafacial: sofort nach der ersten Behandlung. Microneedling: volle Ergebnisse nach 4–6 Wochen (Kollagenaufbau). Fruchtsäure Peeling: deutliche Verbesserung nach 2–3 Sitzungen. Für langfristige Ergebnisse empfehlen wir regelmässige Behandlungsserien.
 
 **24. Wie oft sollte ich Behandlungen wiederholen?**
-Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4–6 Wochen. Fruchtsäure Peeling: 4–6 Behandlungen alle 2–4 Wochen. ColdPlasma: nach Bedarf, oft als Ergänzung. Teresa erstellt Ihnen einen persönlichen Behandlungsplan.
+Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4–6 Wochen. Fruchtsäure Peeling: 4–6 Behandlungen alle 2–4 Wochen. ColdPlasma: nach Bedarf, oft als Ergänzung. Exosome Therapie: individuell, häufig als Serie oder ergänzende Wirkstoffpflege. Teresa erstellt Ihnen einen persönlichen Behandlungsplan.
 
 ---
 
@@ -256,7 +278,7 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 
 ### Hauptseiten
 - **Startseite:** https://beautyfacelift.ch/ — Premium Medical Spa Zürich an der Bahnhofstrasse 94. Übersicht aller Leistungen, Bewertungen und Buchungsmöglichkeiten.
-- **Behandlungen:** https://beautyfacelift.ch/behandlungen/ — Übersicht aller vier Gesichtsbehandlungen mit Beschreibungen, Bildern und direkten Links zu Detailseiten.
+- **Behandlungen:** https://beautyfacelift.ch/behandlungen/ — Übersicht aller fünf Gesichtsbehandlungen mit Beschreibungen, Bildern und direkten Links zu Detailseiten.
 - **Über uns:** https://beautyfacelift.ch/ueber-uns/ — Vorstellung von Teresa Stimac, 20+ Jahre Erfahrung als Kosmetikerin in Zürich. Studio-Einblicke und Philosophie.
 - **Termin buchen:** https://beautyfacelift.ch/termin/ — Online-Terminbuchung mit Behandlungsauswahl, Kalender und Uhrzeitwahl. Buchung in wenigen Klicks möglich.
 - **Häufige Fragen:** https://beautyfacelift.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
@@ -266,7 +288,8 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 - **Microneedling Zürich:** https://beautyfacelift.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Kollagenaufbau, Ablauf, Preise (ab CHF 250), FAQ, Ergebnisse. Mit integrierter Terminbuchung.
 - **Fruchtsäure Peeling Zürich:** https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Mit integrierter Terminbuchung.
 - **ColdPlasma Zürich:** https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 200), FAQ. Mit integrierter Terminbuchung.
-- **Behandlungsvergleich:** https://beautyfacelift.ch/behandlungen/vergleich/ — Alle vier Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
+- **Exosome Therapie Zürich:** https://beautyfacelift.ch/behandlungen/exosome-therapie-zuerich/ — Detailseite zur Exosome Gesichtsbehandlung: Exosomen Serum, regenerative Hautpflege, Microneedling mit Exosomen, Sicherheit, realistische Erwartungen und FAQ.
+- **Behandlungsvergleich:** https://beautyfacelift.ch/behandlungen/vergleich/ — Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
 
 ### Blog & Informationen
 - **Blog:** https://beautyfacelift.ch/blog/ — Hautpflegetipps, Behandlungsinformationen, saisonale Empfehlungen und Neuigkeiten aus dem Studio.
