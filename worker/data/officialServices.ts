@@ -43,7 +43,7 @@ export const OFFICIAL_SERVICE_OVERRIDES: Record<string, OfficialServiceOverride>
   },
   'microneedling-gesicht-hals': {
     name: 'Gesichtsbehandlung - Micro Needling Anti Aging mit coldPLASMA',
-    description: 'Microneedling Anti-Aging-Behandlung kombiniert mit coldPLASMA zur Regeneration.',
+    description: 'Microneedling Anti-Aging-Behandlung kombiniert mit coldPLASMA zur kosmetischen Hautbildpflege.',
     duration_minutes: 90,
     price_chf: 220,
     category: 'Microneedling',

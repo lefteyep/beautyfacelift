@@ -112,7 +112,7 @@ Deno.serve(async (req: Request) => {
           ${notes ? `<tr><td style="padding: 8px 0; color: #5C5A55;">Anmerkungen</td><td style="padding: 8px 0;">${notes}</td></tr>` : ''}
         </table>
         <div style="margin-top: 2rem;">
-          <a href="https://beautyfacelift.ch/admin/" style="display: inline-block; padding: 12px 24px; background: #CFA65E; color: white; text-decoration: none; border-radius: 100px; font-size: 14px;">Admin öffnen</a>
+          <a href="https://beautyfacelift-zuerich.ch/admin/" style="display: inline-block; padding: 12px 24px; background: #CFA65E; color: white; text-decoration: none; border-radius: 100px; font-size: 14px;">Admin öffnen</a>
         </div>
       </div>
       `

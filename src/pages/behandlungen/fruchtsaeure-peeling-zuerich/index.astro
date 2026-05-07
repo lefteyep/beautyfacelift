@@ -4,9 +4,10 @@ import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingCta from '../../../components/BookingCta.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
+import AiSummary from '../../../components/AiSummary.astro';
 import { Image, getImage } from 'astro:assets';
 import { peelingCard, peelingTreatment, spaFacialTreatment, spaInterior } from '../../../lib/site-images';
-import { bookingLinkForService } from '../../../../shared/site';
+import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
@@ -19,42 +20,35 @@ const peelingHeroPreload = await getImage({
     quality: 'high',
 });
 
+const summaryFacts = [
+    { label: 'Dauer', value: '45 bis 60 Minuten' },
+    { label: 'Preis', value: 'CHF 150' },
+    { label: 'Downtime', value: 'mögliche feine Schuppung für 2 bis 5 Tage' },
+    { label: 'Nachpflege', value: 'milde Pflege und konsequenter Sonnenschutz' },
+];
+
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Fruchtsäure Peeling Zürich",
     "serviceType": "Fruchtsäure Peeling",
     "category": "Gesichtsbehandlung",
-    "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/peeling_treatment_editorial.png",
+    "url": absoluteUrl('/behandlungen/fruchtsaeure-peeling-zuerich/'),
+    "image": absoluteUrl('/assets/peeling_treatment_editorial.png'),
     "provider": {
-        "@type": "HealthAndBeautyBusiness",
-        "name": "Beauty Face Lift",
+        "@type": "BeautySalon",
+        "name": "Beauty Face Lift Zürich",
+        "url": absoluteUrl('/'),
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Bahnhofstrasse 94",
             "addressLocality": "Zürich",
             "postalCode": "8001",
             "addressCountry": "CH"
-        },
-        "telephone": "+41445001234",
-        "priceRange": "CHF 150"
+        }
     },
-    "description": "Professionelles Fruchtsäure Peeling (AHA-Peeling) in Zürich. Medizinische Hautbehandlung gegen Akne, Hyperpigmentierung und Grauschleier an der Bahnhofstrasse.",
-    "areaServed": "Zürich",
-    "offers": {
-        "@type": "AggregateOffer",
-        "priceCurrency": "CHF",
-        "lowPrice": "150",
-        "highPrice": "150",
-        "offerCount": "2"
-    },
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "240",
-        "bestRating": "5"
-    }
+    "description": "Professionelles Fruchtsäure Peeling (AHA-Peeling) in Zürich. Kosmetische Hautbildpflege bei Unreinheiten, Pigmentflecken und Grauschleier an der Bahnhofstrasse.",
+    "areaServed": "Zürich"
 };
 
 const faqData = {
@@ -65,7 +59,7 @@ const faqData = {
         "name": "Brennt ein Fruchtsäure Peeling?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ein leichtes Brennen oder Kribbeln während der Behandlung ist vollkommen normal und sogar ein gewünschtes Zeichen der Wirksamkeit. Die Intensität hängt von der gewählten Säurekonzentration und Ihrem individuellen Hauttyp ab. Bei Beauty Face Lift arbeiten wir mit stufenweise aufbauenden Konzentrationen, sodass Ihre Haut sich schrittweise an die Behandlung gewöhnt. Die Säure wird nach der exakten Einwirkzeit fachgerecht neutralisiert, und eine beruhigende Maske lindert jegliche Empfindungen unmittelbar."
+            "text": "Ein leichtes Brennen oder Kribbeln während der Behandlung ist vollkommen normal und sogar ein gewünschtes Zeichen der Wirksamkeit. Die Intensität hängt von der gewählten Säurekonzentration und Ihrem individuellen Hauttyp ab. Bei Beauty Face Lift arbeiten wir mit stufenweise aufbauenden Konzentrationen, sodass Ihre Haut sich schrittweise an die Behandlung gewöhnt. Die Säure wird nach der exakten Einwirkzeit fachgerecht neutralisiert, und eine beruhigende Maske lindert Empfindungen in der Regel."
         }
     }, {
         "@type": "Question",
@@ -79,7 +73,7 @@ const faqData = {
         "name": "Wie oft sollte man ein Fruchtsäure Peeling machen?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Für ein optimal ebenmässiges und klares Hautbild empfehlen wir eine Kur von 4 bis 6 Behandlungen im Abstand von 2 bis 4 Wochen. Diese regelmässigen Intervalle ermöglichen es, die Säurekonzentration schrittweise zu steigern und tiefere Hautschichten zu erreichen. Nach Abschluss der Kur genügen Erhaltungsbehandlungen alle 6 bis 8 Wochen, um das Ergebnis langfristig zu bewahren. Teresa berät Sie bei Beauty Face Lift individuell zum optimalen Behandlungsplan."
+            "text": "Für ein möglichst ebenmässiges und klares Hautbild empfehlen wir eine Kur von 4 bis 6 Behandlungen im Abstand von 2 bis 4 Wochen. Diese regelmässigen Intervalle ermöglichen es, die Säurekonzentration schrittweise zu steigern und tiefere Hautschichten zu erreichen. Nach Abschluss der Kur genügen Erhaltungsbehandlungen alle 6 bis 8 Wochen, um das Ergebnis langfristig zu bewahren. Teresa berät Sie bei Beauty Face Lift individuell zum passenden Behandlungsplan."
         }
     }, {
         "@type": "Question",
@@ -100,7 +94,7 @@ const faqData = {
         "name": "Fruchtsäure Peeling oder Microneedling — was wirkt besser gegen Akne?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Beide Behandlungen sind hochwirksam gegen Akne, setzen jedoch an unterschiedlichen Stellen an. Das Fruchtsäure Peeling löst die oberste Hornschicht chemisch ab, befreit verstopfte Poren und reduziert aktive Unreinheiten sowie Entzündungen. Microneedling hingegen stimuliert die Kollagenproduktion in tieferen Hautschichten und eignet sich besonders für die Behandlung von Akne-Narben und eingesunkenen Läsionen. Für aktive Akne empfehlen wir oft zunächst das Fruchtsäure Peeling, für Narben das Microneedling. Eine Kombination beider Methoden liefert die besten Gesamtergebnisse."
+            "text": "Beide Behandlungen sind häufig sinnvoll bei Akne, setzen jedoch an unterschiedlichen Stellen an. Das Fruchtsäure Peeling löst die oberste Hornschicht chemisch ab, befreit verstopfte Poren und reduziert aktive Unreinheiten sowie Entzündungen. Microneedling hingegen stimuliert die Kollagenproduktion in tieferen Hautschichten und eignet sich besonders für die Behandlung von Akne-Narben und eingesunkenen Läsionen. Für aktive Akne empfehlen wir oft zunächst das Fruchtsäure Peeling, für Narben das Microneedling. Eine Kombination beider Methoden liefert die möglichst gute Gesamtergebnisse."
         }
     }, {
         "@type": "Question",
@@ -121,8 +115,8 @@ const faqData = {
 ---
 
 <Base
-    title="Fruchtsäure Peeling Zürich | Medical Skin Peeling"
-    description="Professionelles Fruchtsäure Peeling in Zürich für CHF 150. AHA-Peeling gegen Akne, Hyperpigmentierung und Grauschleier. Premium Medical Spa an der Bahnhofstrasse."
+    title="Fruchtsäurepeeling Zürich | Beauty Face Lift Zürich"
+    description="Professionelles Fruchtsäure Peeling in Zürich für CHF 150. AHA-Peeling gegen Akne, Hyperpigmentierung und Grauschleier. Premium Kosmetikinstitut an der Bahnhofstrasse."
     preloadImage={{
         href: peelingHeroPreload.src,
         imagesrcset: peelingHeroPreload.srcSet.attribute,
@@ -144,7 +138,7 @@ const faqData = {
                 format="webp"
                 quality="high"
                 priority
-                alt="Fruchtsäure Peeling im Premium Medical Spa Beauty Face Lift Zürich"
+                alt="Fruchtsäure Peeling im Premium Kosmetikinstitut Beauty Face Lift Zürich"
                 id="treatment-hero-img"
             />
         </div>
@@ -172,14 +166,20 @@ const faqData = {
 
     <TreatmentActionBar treatment="Fruchtsäure Peeling" href={bookingHref} />
 
+    <AiSummary
+        title="Fruchtsäure Peeling Zürich"
+        intro="Ein Fruchtsäure Peeling ist ein professionelles AHA-Peeling, das abgestorbene Hornzellen löst und ein klareres, ebenmässiger wirkendes Hautbild unterstützen kann. Die Säureart und Einwirkzeit werden bei Beauty Face Lift individuell an Hautzustand und Verträglichkeit angepasst."
+        facts={summaryFacts}
+    />
+
     <!-- Die Methode — Content Split -->
     <section class="about-editorial pad-y">
         <div class="split-layout align-center">
             <div class="about-text scroll-anim">
                 <span class="sub-display">Die Methode</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Tiefenreinigung.<br>Kompromisslos klar."</h2>
-                <p class="margin-bottom-md">Ein Fruchtsäure Peeling (auch AHA-Peeling oder Chemical Peel genannt) ist eine dermatologische Behandlung, bei der Alpha-Hydroxysäuren wie Glykolsäure, Milchsäure oder Mandelsäure in kontrollierter Konzentration auf die Haut aufgetragen werden, um die oberste Hautschicht abzulösen und die Zellerneuerung zu beschleunigen. Bei Beauty Face Lift an der Bahnhofstrasse Zürich setzen wir auf medizinisch formulierte Peelings, die weit über kosmetische Standardprodukte hinausgehen. Die hochkonzentrierten Säuren dringen gezielt in die Epidermis ein, lösen die Verbindungen zwischen abgestorbenen Hautzellen und stimulieren die Produktion von neuem, frischem Gewebe. Das Resultat ist eine grundlegend erneuerte Hautstruktur — glatter, ebenmässiger und mit einem sichtbar klaren, strahlenden Teint.</p>
-                <p class="margin-bottom-md">Anders als oberflächliche Peelings aus der Drogerie arbeiten wir mit professionellen Säurekonzentrationen von bis zu 70 %, die ausschliesslich von geschulten Kosmetikerinnen angewendet werden dürfen. Die Behandlung wird individuell auf Ihren Hautzustand, Ihren Hauttyp und Ihre spezifischen Anliegen abgestimmt — ob Akne, Hyperpigmentierung, Sonnenschäden oder die ersten Zeichen der Hautalterung. In unserem Premium Medical Spa mitten in Zürich erleben Sie das Gefühl von völlig freier, atmender Haut in einem Ambiente, das höchsten Ansprüchen gerecht wird.</p>
+                <p class="margin-bottom-md">Ein Fruchtsäure Peeling (auch AHA-Peeling oder Chemical Peel genannt) ist eine professionelle kosmetische Behandlung, bei der Alpha-Hydroxysäuren wie Glykolsäure, Milchsäure oder Mandelsäure in kontrollierter Konzentration auf die Haut aufgetragen werden, um die oberste Hautschicht abzulösen und die Hauterneuerung kosmetisch zu unterstützen. Bei Beauty Face Lift an der Bahnhofstrasse Zürich setzen wir auf medizinisch formulierte Peelings, die weit über kosmetische Standardprodukte hinausgehen. Die hochkonzentrierten Säuren dringen gezielt in die Epidermis ein, lösen die Verbindungen zwischen abgestorbenen Hautzellen und stimulieren die Produktion von neuem, frischem Gewebe. Das Resultat ist eine grundlegend erneuerte Hautstruktur — glatter, ebenmässiger und mit einem sichtbar klaren, strahlenden Teint.</p>
+                <p class="margin-bottom-md">Anders als oberflächliche Peelings aus der Drogerie arbeiten wir mit professionellen Säurekonzentrationen von bis zu 70 %, die ausschliesslich von geschulten Kosmetikerinnen angewendet werden dürfen. Die Behandlung wird individuell auf Ihren Hautzustand, Ihren Hauttyp und Ihre spezifischen Anliegen abgestimmt — ob Akne, Hyperpigmentierung, Sonnenschäden oder die ersten Zeichen der Hautalterung. In unserem Premium Kosmetikinstitut mitten in Zürich erleben Sie das Gefühl von völlig freier, atmender Haut in einem Ambiente, das höchsten Ansprüchen gerecht wird.</p>
                 <a href={bookingHref} class="pill-btn pill-btn-outline">Termin vereinbaren</a>
             </div>
             <div class="about-image scroll-anim">
@@ -206,7 +206,7 @@ const faqData = {
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">01</div>
                 <h4>Tiefenwirkung</h4>
-                <p>Alpha-Hydroxysäuren wie Glykolsäure dringen tief in die Epidermis vor und lösen die Bindungen zwischen abgestorbenen Hornzellen. Diese kontrollierte Exfoliation entfernt nicht nur oberflächlichen Schmutz, sondern stimuliert die Zellerneuerung von innen heraus — für eine echte, nachhaltige Hauterneuerung.</p>
+                <p>Alpha-Hydroxysäuren wie Glykolsäure dringen tief in die Epidermis vor und lösen die Bindungen zwischen abgestorbenen Hornzellen. Diese kontrollierte Exfoliation entfernt oberflächliche Hornzellen und kann die kosmetische Hauterneuerung unterstützen — für ein glatter und klarer wirkendes Hautbild.</p>
             </div>
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">02</div>
@@ -245,12 +245,12 @@ const faqData = {
             </div>
             <div class="about-text scroll-anim">
                 <span class="sub-display">Ablauf der Behandlung</span>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Vier Schritte zu<br>erneuerte Haut</h2>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Vier Schritte zu<br>erneuerter Haut</h2>
                 <div class="margin-bottom-md">
-                    <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent);">Schritt 1 — Hautanalyse & Vorbereitung</strong><br>Jede Behandlung beginnt mit einer gründlichen Hautanalyse. Wir beurteilen Ihren aktuellen Hautzustand, besprechen Ihre Anliegen und Ziele und bestimmen die optimale Säureart und Konzentration. Anschliessend wird die Haut sorgfältig gereinigt und entfettet, um eine gleichmässige Aufnahme der Säure zu gewährleisten.</p>
-                    <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent);">Schritt 2 — Auftragen der Fruchtsäure</strong><br>Die individuell abgestimmte Säurelösung wird gleichmässig auf die Haut aufgetragen. Je nach Behandlungsstufe verwenden wir Glykolsäure für maximale Penetration, Milchsäure für empfindliche Haut oder Mandelsäure für eine besonders sanfte Exfoliation. Die Konzentration wird über den Behandlungsverlauf hinweg schrittweise gesteigert.</p>
+                    <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent);">Schritt 1 — Hautanalyse & Vorbereitung</strong><br>Jede Behandlung beginnt mit einer gründlichen Hautanalyse. Wir beurteilen Ihren aktuellen Hautzustand, besprechen Ihre Anliegen und Ziele und bestimmen die passende Säureart und Konzentration. Anschliessend wird die Haut sorgfältig gereinigt und entfettet, um eine gleichmässige Aufnahme der Säure zu gewährleisten.</p>
+                    <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent);">Schritt 2 — Auftragen der Fruchtsäure</strong><br>Die individuell abgestimmte Säurelösung wird gleichmässig auf die Haut aufgetragen. Je nach Behandlungsstufe verwenden wir Glykolsäure für intensive Exfoliation, Milchsäure für empfindliche Haut oder Mandelsäure für eine besonders sanfte Exfoliation. Die Konzentration wird über den Behandlungsverlauf hinweg schrittweise gesteigert.</p>
                     <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent);">Schritt 3 — Einwirkzeit & Neutralisation</strong><br>Die Säure wirkt für eine präzise festgelegte Dauer auf der Haut ein — in der Regel 3 bis 10 Minuten, abhängig von Konzentration und Hautzustand. Während dieser Phase überwachen wir die Hautreaktion kontinuierlich. Anschliessend wird die Säure mit einer alkalischen Lösung fachgerecht neutralisiert, um den Peeling-Prozess sofort zu stoppen.</p>
-                    <p><strong style="color: var(--accent);">Schritt 4 — Beruhigung & Sonnenschutz</strong><br>Zum Abschluss tragen wir eine kühlende, beruhigende Maske auf, die Rötungen lindert und die Hautbarriere sofort stärkt. Ein hochwirksamer Sonnenschutz mit SPF 50+ schützt die frisch erneuerte Haut vor UV-Strahlung. Sie erhalten zudem einen persönlichen Nachpflegeplan für die kommenden Tage.</p>
+                    <p><strong style="color: var(--accent);">Schritt 4 — Beruhigung & Sonnenschutz</strong><br>Zum Abschluss tragen wir eine kühlende, beruhigende Maske auf, die Rötungen lindert und die Hautbarriere sofort stärkt. Ein professioneller Sonnenschutz mit SPF 50+ schützt die frisch erneuerte Haut vor UV-Strahlung. Sie erhalten zudem einen persönlichen Nachpflegeplan für die kommenden Tage.</p>
                 </div>
             </div>
         </div>
@@ -284,17 +284,17 @@ const faqData = {
             <div class="about-text scroll-anim">
                 <span class="sub-display">Für wen ist das Peeling geeignet?</span>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Wer profitiert von<br>einem Fruchtsäure Peeling?</h2>
-                <p class="margin-bottom-md">Das Fruchtsäure Peeling ist eine der vielseitigsten Behandlungen in der medizinischen Kosmetik und eignet sich für zahlreiche Hautanliegen. Besonders profitieren Kundinnen und Kunden mit folgenden Indikationen:</p>
+                <p class="margin-bottom-md">Das Fruchtsäure Peeling ist eine der vielseitigsten Behandlungen in der professionellen Kosmetik und eignet sich für zahlreiche Hautanliegen. Häufig besprechen wir das Peeling bei folgenden Hautanliegen:</p>
                 <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
                     <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Akne & Unreinheiten</strong> — Verstopfte Poren werden befreit, entzündliche Läsionen reduziert und die Talgproduktion reguliert.</li>
-                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Akne-Narben</strong> — Eingesunkene und verfärbte Narben werden durch wiederholte Peelings sukzessive geglättet und aufgehellt.</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Akne-Narben</strong> — Eingesunkene und verfärbte Narben werden durch wiederholte Peelings nach und nach gemildert.</li>
                     <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Hyperpigmentierung & Altersflecken</strong> — Übermässige Melanineinlagerungen werden Schicht für Schicht abgetragen und ausgeglichen.</li>
                     <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Grauschleier & müde Haut</strong> — Die Entfernung abgestorbener Hautzellen bringt die natürliche Leuchtkraft der Haut zurück.</li>
-                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Vergrösserte Poren</strong> — Regelmässige AHA-Peelings verfeinern die Porenstruktur sichtbar und nachhaltig.</li>
-                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Sonnenschäden</strong> — UV-bedingte Hautunebenheiten und vorzeitige Alterungszeichen werden effektiv behandelt.</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Vergrösserte Poren</strong> — Regelmässige AHA-Peelings verfeinern die Porenstruktur sichtbar, je nach Hautzustand.</li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.08);"><strong>Sonnenschäden</strong> — UV-bedingte Hautunebenheiten und vorzeitige Alterungszeichen werden kosmetisch begleitet.</li>
                     <li style="padding: 0.75rem 0;"><strong>Ungleichmässiger Teint</strong> — Für ein harmonisches, ebenmässiges Hautbild ohne Flecken und Verfärbungen.</li>
                 </ul>
-                <p class="margin-bottom-md">Bei Beauty Face Lift an der Zürcher Bahnhofstrasse führen wir vor jeder Behandlung eine ausführliche Hautanalyse durch, um die optimale Säureart, Konzentration und Behandlungsdauer individuell für Sie zu bestimmen. So stellen wir sicher, dass Sie das bestmögliche Ergebnis erzielen — sicher und schonend.</p>
+                <p class="margin-bottom-md">Bei Beauty Face Lift an der Zürcher Bahnhofstrasse führen wir vor jeder Behandlung eine ausführliche Hautanalyse durch, um die optimale Säureart, Konzentration und Behandlungsdauer individuell für Sie zu bestimmen. So stellen wir sicher, dass Sie das möglichst gute Ergebnis erzielen — sicher und schonend.</p>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
@@ -315,22 +315,22 @@ const faqData = {
 
     <!-- Kombination mit anderen Behandlungen -->
     <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Optimale Kombinationen</div>
+        <div class="sub-display margin-bottom-lg" style="text-align: center;">Sinnvolle Kombinationen</div>
         <div class="split-layout align-center" style="gap: 4rem;">
             <div class="scroll-anim" style="flex: 1;">
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Kombinationsbehandlungen<br>für maximale Ergebnisse</h2>
-                <p class="margin-bottom-md">Ein Fruchtsäure Peeling entfaltet seine volle Wirkung besonders dann, wenn es mit komplementären Behandlungen kombiniert wird. Bei Beauty Face Lift erstellen wir individuelle Behandlungspläne, die mehrere Methoden gezielt aufeinander abstimmen.</p>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Kombinationsbehandlungen<br>für abgestimmte Ergebnisse</h2>
+                <p class="margin-bottom-md">Ein Fruchtsäure Peeling kann besonders sinnvoll sein, wenn es passend mit komplementären Behandlungen kombiniert wird. Bei Beauty Face Lift erstellen wir individuelle Behandlungspläne, die mehrere Methoden gezielt aufeinander abstimmen.</p>
                 <div style="margin-bottom: 2rem;">
                     <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/hydrafacial-zuerich/" style="color: var(--accent); text-decoration: none;">Fruchtsäure Peeling + Hydrafacial</a></h4>
-                    <p>Die ideale Kombination für einen sofortigen Glow. Das Fruchtsäure Peeling bereitet die Haut optimal vor, indem es abgestorbene Zellschichten entfernt. Das anschliessende Hydrafacial schleust dann hochwirksame Seren tief in die gereinigte Haut ein. Das Ergebnis ist eine tiefenhydrierte, strahlende Haut mit maximaler Wirkstoffaufnahme.</p>
+                    <p>Die ideale Kombination für einen frischen Glow. Das Fruchtsäure Peeling bereitet die Haut sorgfältig vor, indem es abgestorbene Zellschichten entfernt. Das anschliessende Hydrafacial schleust dann professionelle Seren tief in die gereinigte Haut ein. Das Ergebnis ist eine tiefenhydrierte, strahlende Haut mit gezielter Wirkstoffpflege.</p>
                 </div>
                 <div style="margin-bottom: 2rem;">
                     <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/microneedling-zuerich/" style="color: var(--accent); text-decoration: none;">Fruchtsäure Peeling + Microneedling</a></h4>
-                    <p>Das Kraftpaket gegen Akne-Narben und Hautalterung. Während das Peeling die Oberfläche erneuert und Pigmentflecken reduziert, stimuliert das Microneedling die Kollagen- und Elastinproduktion in tieferen Hautschichten. Gemeinsam behandeln diese Methoden sowohl die Oberfläche als auch die Tiefenstruktur der Haut — für ein umfassend verjüngtes Erscheinungsbild.</p>
+                    <p>Das Eine mögliche Kombination bei Akne-Narben und unebenmässiger Haut. Während das Peeling die Oberfläche erneuert und Pigmentflecken reduziert, stimuliert das Microneedling die Kollagen- und Elastinproduktion in tieferen Hautschichten. Gemeinsam behandeln diese Methoden sowohl die Oberfläche als auch die Tiefenstruktur der Haut — für ein insgesamt gepflegteres Hautbild.</p>
                 </div>
                 <div style="margin-bottom: 2rem;">
                     <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/coldplasma-zuerich/" style="color: var(--accent); text-decoration: none;">Fruchtsäure Peeling + ColdPlasma</a></h4>
-                    <p>Innovation trifft Bewährtes. Nach dem Fruchtsäure Peeling ist die Haut besonders aufnahmebereit. Die ColdPlasma-Technologie nutzt dieses Zeitfenster, um die Hauterneuerung auf zellulärer Ebene zusätzlich anzuregen und antibakterielle Wirkung zu entfalten. Besonders empfehlenswert bei entzündlicher Akne und hartnäckigen Hautproblemen.</p>
+                    <p>Eine ergänzende Option. Nach dem Fruchtsäure Peeling ist die Haut besonders aufnahmebereit. Die ColdPlasma-Technologie nutzt dieses Zeitfenster, um die Hauterneuerung kosmetisch zu unterstützen und die Pflege zu ergänzen. Ob diese Kombination sinnvoll ist, entscheidet Teresa nach Hautanalyse.</p>
                 </div>
             </div>
         </div>
@@ -348,7 +348,7 @@ const faqData = {
             <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
                 <span style="color: var(--accent); font-size: 1.2rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                 <span style="font-weight: 500;">4.8 von 5 Sternen aus verifizierten Bewertungen</span>
-                <span style="opacity: 0.6;">&bull; 240+ Bewertungen</span>
+                <span style="opacity: 0.6;">&bull; 248+ Bewertungen</span>
             </div>
         </div>
     </section>
@@ -360,7 +360,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Brennt ein Fruchtsäure Peeling?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Ein leichtes Brennen oder Kribbeln während der Behandlung ist vollkommen normal und sogar ein gewünschtes Zeichen der Wirksamkeit — es zeigt an, dass die Säure aktiv an der Erneuerung Ihrer Haut arbeitet. Die Intensität dieser Empfindung hängt von der gewählten Säurekonzentration und Ihrem individuellen Hauttyp ab. Bei Beauty Face Lift arbeiten wir mit stufenweise aufbauenden Konzentrationen, sodass Ihre Haut sich schrittweise an die Behandlung gewöhnt. Die Säure wird nach der exakten Einwirkzeit fachgerecht neutralisiert, und eine beruhigende Maske lindert jegliche Empfindungen unmittelbar.</p>
+                    <p>Ein leichtes Brennen oder Kribbeln während der Behandlung ist vollkommen normal und sogar ein gewünschtes Zeichen der Wirksamkeit — es zeigt an, dass die Säure aktiv an der Erneuerung Ihrer Haut arbeitet. Die Intensität dieser Empfindung hängt von der gewählten Säurekonzentration und Ihrem individuellen Hauttyp ab. Bei Beauty Face Lift arbeiten wir mit stufenweise aufbauenden Konzentrationen, sodass Ihre Haut sich schrittweise an die Behandlung gewöhnt. Die Säure wird nach der exakten Einwirkzeit fachgerecht neutralisiert, und eine beruhigende Maske lindert Empfindungen in der Regel.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -372,7 +372,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Wie oft sollte man ein Fruchtsäure Peeling machen?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Für ein optimal ebenmässiges und klares Hautbild empfehlen wir eine Kur von 4 bis 6 Behandlungen im Abstand von 2 bis 4 Wochen. Diese regelmässigen Intervalle ermöglichen es, die Säurekonzentration schrittweise zu steigern und tiefere Hautschichten zu erreichen, ohne die Haut zu überfordern. Nach Abschluss der Kur genügen Erhaltungsbehandlungen alle 6 bis 8 Wochen, um das Ergebnis langfristig zu bewahren und die Haut in Bestform zu halten. Teresa berät Sie bei Beauty Face Lift individuell zum optimalen Behandlungsplan, abgestimmt auf Ihre persönlichen Ziele und Ihren Alltag.</p>
+                    <p>Für ein möglichst ebenmässiges und klares Hautbild empfehlen wir eine Kur von 4 bis 6 Behandlungen im Abstand von 2 bis 4 Wochen. Diese regelmässigen Intervalle ermöglichen es, die Säurekonzentration schrittweise zu steigern und tiefere Hautschichten zu erreichen, ohne die Haut zu überfordern. Nach Abschluss der Kur genügen Erhaltungsbehandlungen alle 6 bis 8 Wochen, um das Ergebnis langfristig zu bewahren und die Haut in Bestform zu halten. Teresa berät Sie bei Beauty Face Lift individuell zum passenden Behandlungsplan, abgestimmt auf Ihre persönlichen Ziele und Ihren Alltag.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -390,7 +390,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Fruchtsäure Peeling oder Microneedling — was wirkt besser gegen Akne?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Beide Behandlungen sind hochwirksam gegen Akne, setzen jedoch an unterschiedlichen Stellen an. Das Fruchtsäure Peeling löst die oberste Hornschicht chemisch ab, befreit verstopfte Poren und reduziert aktive Unreinheiten sowie Entzündungen — es arbeitet primär an der Oberfläche. Microneedling hingegen stimuliert die Kollagenproduktion in tieferen Hautschichten und eignet sich besonders für die Behandlung von Akne-Narben und eingesunkenen Läsionen. Für aktive Akne empfehlen wir oft zunächst eine Fruchtsäure-Kur, für Narbenbehandlung das Microneedling. Am wirksamsten ist oft eine Kombination beider Methoden — Teresa erstellt Ihnen gerne einen individuellen Behandlungsplan.</p>
+                    <p>Beide Behandlungen sind häufig sinnvoll bei Akne, setzen jedoch an unterschiedlichen Stellen an. Das Fruchtsäure Peeling löst die oberste Hornschicht chemisch ab, befreit verstopfte Poren und reduziert aktive Unreinheiten sowie Entzündungen — es arbeitet primär an der Oberfläche. Microneedling hingegen stimuliert die Kollagenproduktion in tieferen Hautschichten und eignet sich besonders für die Behandlung von Akne-Narben und eingesunkenen Läsionen. Für aktive Akne empfehlen wir oft zunächst eine Fruchtsäure-Kur, für Narbenbehandlung das Microneedling. Am wirksamsten ist oft eine Kombination beider Methoden — Teresa erstellt Ihnen gerne einen individuellen Behandlungsplan.</p>
                 </div></div>
             </details>
             <details class="faq-item scroll-anim">
@@ -402,7 +402,7 @@ const faqData = {
             <details class="faq-item scroll-anim">
                 <summary><h3>Gibt es Gegenanzeigen für ein Fruchtsäure Peeling?</h3></summary>
                 <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Ja, bestimmte Gegenanzeigen schliessen ein Fruchtsäure Peeling vorübergehend oder dauerhaft aus. Dazu zählen aktive Herpes-simplex-Infektionen im Gesichtsbereich, offene Wunden oder akute Entzündungen im Behandlungsareal, Schwangerschaft und Stillzeit, die Einnahme von Isotretinoin (Accutane) in den letzten 6 Monaten sowie frische Sonnenbrände oder kürzliche Laserbehandlungen. Auch bei sehr empfindlicher Haut, Rosazea oder Neurodermitis ist besondere Vorsicht geboten. Bei der ausführlichen Hautanalyse vor jeder Behandlung bei Beauty Face Lift klären wir alle individuellen Gegenanzeigen sorgfältig mit Ihnen ab, um Ihre Sicherheit zu gewährleisten.</p>
+                    <p>Ja, bestimmte Gegenanzeigen schliessen ein Fruchtsäure Peeling vorübergehend oder dauerhaft aus. Dazu zählen aktive Herpes-simplex-Infektionen im Gesichtsbereich, offene Wunden oder akute Entzündungen im Behandlungsareal, Schwangerschaft und Stillzeit, die Einnahme von Isotretinoin (Accutane) in den letzten 6 Monaten sowie frische Sonnenbrände oder kürzliche Laserbehandlungen. Auch bei sehr empfindlicher Haut, Rosazea oder Neurodermitis ist besondere Vorsicht geboten. Bei der ausführlichen Hautanalyse vor jeder Behandlung bei Beauty Face Lift klären wir alle individuellen Gegenanzeigen sorgfältig mit Ihnen ab, um die Eignung sorgfältig zu prüfen.</p>
                 </div></div>
             </details>
         </div>
@@ -422,12 +422,12 @@ const faqData = {
                 <TreatmentLinkCard
                     href="/behandlungen/hydrafacial-zuerich/"
                     title="Hydra Facial"
-                    description="Tiefenreinigung, Vitalisierung und Glow. Die ultimative Pflege für strahlende, hydratisierte Haut."
+                    description="Tiefenreinigung, Vitalisierung und Glow. Professionelle Pflege für strahlende, hydratisierte Haut."
                 />
                 <TreatmentLinkCard
                     href="/behandlungen/microneedling-zuerich/"
                     title="Micro Needling"
-                    description="Das natürliche Face-Lift ohne OP. Kollagenstimulation für ein verfeinertes, verjüngtes Hautbild."
+                    description="Kosmetische Hautbildverbesserung ohne OP. Kollagenstimulation für ein verfeinertes, verjüngtes Hautbild."
                 />
                 <TreatmentLinkCard
                     href="/behandlungen/coldplasma-zuerich/"

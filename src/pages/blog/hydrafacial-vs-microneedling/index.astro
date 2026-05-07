@@ -1,4 +1,5 @@
 ---
+import { absoluteUrl } from '../../../../shared/site';
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
@@ -10,7 +11,7 @@ const articleSchema = {
     "@type": "Article",
     "headline": "Hydrafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?",
     "description": "Hydrafacial und Microneedling im direkten Vergleich: Wirkung, Ablauf, Kosten und Downtime. Finden Sie die passende Behandlung für Ihren Hauttyp in Zürich.",
-    "image": "https://beautyfacelift.ch/assets/spa_facial_treatment.png",
+    "image": absoluteUrl('/assets/spa_facial_treatment.png'),
     "datePublished": "2026-03-15",
     "dateModified": "2026-05-05",
     "author": {
@@ -18,23 +19,23 @@ const articleSchema = {
         "name": "Teresa Stimac",
         "jobTitle": "Inhaberin & Kosmetikerin",
         "worksFor": {
-            "@type": "HealthAndBeautyBusiness",
+            "@type": "BeautySalon",
             "name": "Beauty Face Lift",
-            "url": "https://beautyfacelift.ch"
+            "url": absoluteUrl('/')
         }
     },
     "publisher": {
         "@type": "Organization",
         "name": "Beauty Face Lift",
-        "url": "https://beautyfacelift.ch",
+        "url": absoluteUrl('/'),
         "logo": {
             "@type": "ImageObject",
-            "url": "https://beautyfacelift.ch/assets/logo.svg"
+            "url": absoluteUrl('/assets/logo.svg')
         }
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://beautyfacelift.ch/blog/hydrafacial-vs-microneedling/"
+        "@id": absoluteUrl('/blog/hydrafacial-vs-microneedling/')
     },
     "wordCount": "2200",
     "inLanguage": "de-CH",
@@ -54,7 +55,7 @@ const faqSchema = {
             "name": "Ist Hydrafacial oder Microneedling besser gegen Falten?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Microneedling ist bei Falten und feinen Linien in der Regel wirksamer als Hydrafacial, da es die körpereigene Kollagenproduktion durch kontrollierte Mikroverletzungen der Haut anregt. Das Ergebnis ist eine nachhaltige Hautstraffung, die sich über Wochen aufbaut. Hydrafacial bietet hingegen eine sofortige Auffrischung und verbessert das Hautbild kurzfristig durch Tiefenreinigung und Hydrierung. Für einen langfristigen Anti-Aging-Effekt empfiehlt Teresa Stimac bei Beauty Face Lift in Zürich eine Kombination beider Behandlungen."
+                "text": "Microneedling ist bei Falten und feinen Linien häufig passender als Hydrafacial, da es die körpereigene Kollagenproduktion durch kontrollierte Mikroverletzungen der Haut unterstützen kann. Die Hautstruktur kann sich über Wochen verbessern. Hydrafacial bietet hingegen eine direkte Auffrischung und kann das Hautbild kurzfristig durch Tiefenreinigung und Hydrierung verbessern. Für einen langfristigen Anti-Aging-Effekt empfiehlt Teresa Stimac bei Beauty Face Lift in Zürich eine Kombination beider Behandlungen."
             }
         },
         {
@@ -78,7 +79,7 @@ const faqSchema = {
             "name": "Welche Behandlung hat weniger Downtime — Hydrafacial oder Microneedling?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Hydrafacial hat praktisch keine Downtime. Sie können direkt nach der Behandlung Ihren Tag fortsetzen und sogar Make-up auftragen. Microneedling hingegen erfordert 2 bis 5 Tage Erholungszeit, in der die Haut gerötet sein kann und besondere Pflege benötigt. Direktes Sonnenlicht, Sport und dekorative Kosmetik sollten in dieser Zeit vermieden werden. Hydrafacial eignet sich daher besser als Behandlung für zwischendurch, beispielsweise in der Mittagspause."
+                "text": "Hydrafacial hat meist keine Downtime. Sie können direkt nach der Behandlung Ihren Tag fortsetzen und sogar Make-up auftragen. Microneedling hingegen erfordert 2 bis 5 Tage Erholungszeit, in der die Haut gerötet sein kann und besondere Pflege benötigt. Direktes Sonnenlicht, Sport und dekorative Kosmetik sollten in dieser Zeit vermieden werden. Hydrafacial eignet sich daher besser als Behandlung für zwischendurch, beispielsweise in der Mittagspause."
             }
         },
         {
@@ -104,7 +105,7 @@ const breadcrumbs = [
 <Base
     title="Hydrafacial vs. Microneedling: Welche Behandlung passt? | Beauty Face Lift Zürich"
     description="Hydrafacial vs Microneedling Zürich: Wirkung, Ablauf, Kosten und Downtime im direkten Vergleich. Finden Sie die passende Gesichtsbehandlung."
-    canonical="https://beautyfacelift.ch/blog/hydrafacial-vs-microneedling/"
+    canonical={absoluteUrl('/blog/hydrafacial-vs-microneedling/')}
     structuredData={structuredData}
 >
     <!-- Breadcrumbs -->
@@ -137,13 +138,13 @@ const breadcrumbs = [
 
             <h3>Ablauf einer Hydrafacial-Behandlung</h3>
 
-            <p>Die <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial-Behandlung</a> bei Beauty Face Lift in Zürich gliedert sich in drei klar definierte Schritte. Im ersten Schritt — Reinigung und Peeling — werden abgestorbene Hautzellen sanft gelöst und die Hautoberfläche erneuert. Der zweite Schritt umfasst die Extraktion, bei der Mitesser und Talg mittels schmerzfreier Vakuumtechnologie aus den Poren entfernt werden. Im dritten und letzten Schritt wird die gereinigte Haut mit hochwirksamen Seren durchflutet, die je nach Hautbedürfnis individuell ausgewählt werden — beispielsweise Hyaluronsäure für Feuchtigkeit, Vitamin C für Strahlkraft oder Peptide für Anti-Aging-Wirkung.</p>
+            <p>Die <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial-Behandlung</a> bei Beauty Face Lift in Zürich gliedert sich in drei klar definierte Schritte. Im ersten Schritt — Reinigung und Peeling — werden abgestorbene Hautzellen sanft gelöst und die Hautoberfläche erneuert. Der zweite Schritt umfasst die Extraktion, bei der Mitesser und Talg mittels schonender Vakuumtechnologie aus den Poren entfernt werden. Im dritten und letzten Schritt wird die gereinigte Haut mit professionellen Seren durchflutet, die je nach Hautbedürfnis individuell ausgewählt werden — beispielsweise Hyaluronsäure für Feuchtigkeit, Vitamin C für Strahlkraft oder Peptide für Anti-Aging-Wirkung.</p>
 
             <h3>Vorteile von Hydrafacial</h3>
 
             <ul>
-                <li><strong>Sofort sichtbare Ergebnisse:</strong> Bereits nach einer einzigen Sitzung wirkt die Haut frischer, praller und strahlender. Der sogenannte Glow-Effekt tritt unmittelbar nach der Behandlung ein.</li>
-                <li><strong>Keine Downtime:</strong> Hydrafacial erfordert keinerlei Erholungszeit. Sie können sofort nach der Behandlung Ihren normalen Alltag fortsetzen und bei Bedarf Make-up auftragen.</li>
+                <li><strong>Ein sichtbar frischeres Hautbild:</strong> Bereits nach einer einzigen Sitzung wirkt die Haut frischer, praller und strahlender. Der sogenannte Glow-Effekt tritt unmittelbar nach der Behandlung ein.</li>
+                <li><strong>Keine Downtime:</strong> Hydrafacial erfordert meist keine Erholungszeit. Sie können sofort nach der Behandlung Ihren normalen Alltag fortsetzen und bei Bedarf Make-up auftragen.</li>
                 <li><strong>Schmerzfrei:</strong> Die Behandlung ist angenehm und wird von den meisten Kundinnen als entspannend empfunden. Kein Stechen, kein Brennen, kein Unbehagen.</li>
                 <li><strong>Für alle Hauttypen geeignet:</strong> Hydrafacial kann an empfindlicher, trockener, öliger und reifer Haut gleichermassen durchgeführt werden. Selbst bei Rosacea oder leichter Akne ist die Behandlung möglich.</li>
                 <li><strong>Kombinierbar:</strong> Hydrafacial lässt sich problemlos mit LED-Lichttherapie, Lymphdrainage oder anderen ergänzenden Verfahren kombinieren.</li>
@@ -151,7 +152,7 @@ const breadcrumbs = [
 
             <h3>Für wen eignet sich Hydrafacial besonders?</h3>
 
-            <p>Hydrafacial ist die ideale Behandlung für alle, die eine sofortige Verbesserung ihres Hautbildes wünschen — sei es vor einem besonderen Anlass, als regelmässige Pflegeroutine oder als Einstieg in professionelle Gesichtsbehandlungen. Besonders geeignet ist die Methode bei fahler Haut, vergrösserten Poren, leichten Unreinheiten, Dehydrierung und ersten Anzeichen von Hautalterung. Wer regelmässig Hydrafacial-Behandlungen in einem Rhythmus von vier bis sechs Wochen durchführt, erzielt ein nachhaltig verbessertes Hautbild.</p>
+            <p>Hydrafacial passt gut, wenn das Hautbild direkt frischer wirken soll — etwa vor einem Anlass, als regelmässige Pflegeroutine oder als Einstieg in professionelle Gesichtsbehandlungen. Besonders geeignet ist die Methode bei fahler Haut, vergrösserten Poren, leichten Unreinheiten, Dehydrierung und ersten Anzeichen von Hautalterung. Regelmässige Behandlungen im Rhythmus von vier bis sechs Wochen können die Hautpflege langfristig unterstützen.</p>
 
             <h2>Was ist Microneedling?</h2>
 
@@ -164,16 +165,16 @@ const breadcrumbs = [
             <h3>Vorteile von Microneedling</h3>
 
             <ul>
-                <li><strong>Langanhaltende Hautverjüngung:</strong> Durch die Stimulation der Kollagen- und Elastinproduktion verbessert sich die Hautstruktur nachhaltig über Wochen und Monate hinweg.</li>
+                <li><strong>Langanhaltende Hautverjüngung:</strong> Durch die Stimulation der Kollagen- und Elastinproduktion kann sich die Hautstruktur über Wochen und Monate verbessern.</li>
                 <li><strong>Wirksam bei Narben:</strong> Microneedling ist eine der effektivsten nicht-chirurgischen Methoden zur Behandlung von Aknenarben, Dehnungsstreifen und anderen Narbentypen.</li>
                 <li><strong>Tiefe Wirkung:</strong> Im Gegensatz zu oberflächlichen Behandlungen wirkt Microneedling in tieferen Hautschichten (Dermis) und regt dort die Geweberegeneration an.</li>
-                <li><strong>Verbesserte Wirkstoffaufnahme:</strong> Durch die Mikrokanäle können Wirkstoffe und Seren bis zu 300 Prozent besser in die Haut eindringen als bei topischer Anwendung.</li>
+                <li><strong>Verbesserte Wirkstoffaufnahme:</strong> Durch die Mikrokanäle können Wirkstoffe und Seren vorübergehend besser in die Haut eindringen als bei topischer Anwendung.</li>
                 <li><strong>Vielseitig einsetzbar:</strong> Microneedling eignet sich für Gesicht, Hals, Dekolleté und sogar Hände — überall dort, wo die Haut straffer und jünger wirken soll.</li>
             </ul>
 
             <h3>Für wen eignet sich Microneedling besonders?</h3>
 
-            <p>Microneedling ist besonders geeignet für Personen mit fortgeschrittenen Zeichen der Hautalterung, tiefen Falten, Aknenarben, vergrösserten Poren, Pigmentflecken oder einem insgesamt erschlafften Hautbild. Die Behandlung empfiehlt sich ab einem Alter von etwa 25 bis 30 Jahren, wenn die natürliche Kollagenproduktion der Haut spürbar nachlässt. Für optimale Ergebnisse sind in der Regel drei bis vier Sitzungen im Abstand von vier bis sechs Wochen erforderlich. Die volle Wirkung der Kollagenneubildung entfaltet sich dabei über einen Zeitraum von drei bis sechs Monaten nach Behandlungsende.</p>
+            <p>Microneedling ist besonders geeignet für Personen mit fortgeschrittenen Zeichen der Hautalterung, tiefen Falten, Aknenarben, vergrösserten Poren, Pigmentflecken oder einem insgesamt erschlafften Hautbild. Die Behandlung kann ab einem Alter von etwa 25 bis 30 Jahren sinnvoll sein, wenn die natürliche Kollagenproduktion der Haut nachlässt. Für möglichst gute Ergebnisse sind in der Regel drei bis vier Sitzungen im Abstand von vier bis sechs Wochen erforderlich. Die sichtbare Entwicklung baut sich individuell über mehrere Wochen bis Monate auf.</p>
 
             <h2>Der grosse Vergleich: Hydrafacial vs. Microneedling</h2>
 
@@ -190,7 +191,7 @@ const breadcrumbs = [
                 <tbody>
                     <tr style="border-bottom: 1px solid rgba(18,18,18,0.08);">
                         <td style="padding: 0.75rem; font-weight: 500; color: var(--text-primary);">Hauptziel</td>
-                        <td style="padding: 0.75rem; color: var(--text-secondary);">Tiefenreinigung, Hydrierung, sofortiger Glow</td>
+                        <td style="padding: 0.75rem; color: var(--text-secondary);">Tiefenreinigung, Hydrierung, direkter Glow</td>
                         <td style="padding: 0.75rem; color: var(--text-secondary);">Kollagenneubildung, Hautverjüngung, Narbenreduktion</td>
                     </tr>
                     <tr style="border-bottom: 1px solid rgba(18,18,18,0.08); background: var(--bg-secondary);">
@@ -242,11 +243,11 @@ const breadcrumbs = [
 
             <h3>Fahle, müde wirkende Haut</h3>
 
-            <p>Wenn Ihre Haut ihren natürlichen Glanz verloren hat und fahl oder erschöpft wirkt, ist Hydrafacial die schnellste und effektivste Lösung. Die Kombination aus Tiefenreinigung und intensiver Hydrierung sorgt für einen sofort sichtbaren Frische-Kick. Besonders vor wichtigen Terminen oder Veranstaltungen ist Hydrafacial die Behandlung der Wahl, da keinerlei Downtime erforderlich ist und das Ergebnis unmittelbar sichtbar wird.</p>
+            <p>Wenn Ihre Haut ihren natürlichen Glanz verloren hat und fahl oder erschöpft wirkt, ist Hydrafacial eine passende Option. Die Kombination aus Tiefenreinigung und intensiver Hydrierung sorgt für einen sichtbar frischeres Hautgefühl. Besonders vor wichtigen Terminen oder Veranstaltungen ist Hydrafacial die Behandlung der Wahl, da meist keine Downtime einzuplanen ist und viele Kundinnen direkt ein frischeres Hautgefühl bemerken.</p>
 
             <h3>Falten und feine Linien</h3>
 
-            <p>Bei Falten und feinen Linien ist Microneedling die wirksamere Behandlung, da es die körpereigene Kollagenproduktion nachhaltig ankurbelt. Die neu gebildeten Kollagenfasern polstern die Haut von innen auf und glätten feine Linien über einen Zeitraum von mehreren Wochen. Für tiefere Falten kann Microneedling mit speziellen Anti-Aging-Seren kombiniert werden, die über die Mikrokanäle direkt in die Haut gelangen und dort ihre volle Wirkung entfalten.</p>
+            <p>Bei Falten und feinen Linien ist Microneedling häufig passender als Hydrafacial, weil es die körpereigene Kollagenbildung durch kontrollierte Mikroverletzungen unterstützt. Die Hautstruktur kann sich über mehrere Wochen verbessern. Für tiefere Falten kann Microneedling mit geeigneten Seren kombiniert werden; die individuelle Wirkung hängt von Hautzustand und Behandlungsserie ab.</p>
 
             <h3>Aknenarben und Narbengewebe</h3>
 
@@ -258,7 +259,7 @@ const breadcrumbs = [
 
             <h3>Pigmentflecken und ungleichmässiger Teint</h3>
 
-            <p>Sowohl Hydrafacial als auch Microneedling können bei Pigmentflecken und einem ungleichmässigen Teint eingesetzt werden. Hydrafacial mit speziellen aufhellenden Seren (etwa mit Vitamin C oder Kojisäure) verbessert den Teint oberflächlich und sofort. Microneedling wirkt tiefer und kann in Kombination mit depigmentierenden Wirkstoffen eine nachhaltigere Aufhellung erzielen. Bei ausgeprägten Pigmentstörungen empfehlen wir bei Beauty Face Lift eine Kombinationstherapie mit ergänzendem <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a>.</p>
+            <p>Sowohl Hydrafacial als auch Microneedling können bei Pigmentflecken und einem ungleichmässigen Teint eingesetzt werden. Hydrafacial mit geeigneten Seren kann den Teint kurzfristig frischer wirken lassen. Microneedling wirkt tiefer und kann in Kombination mit depigmentierenden Wirkstoffen die Hautbildverbesserung unterstützen. Bei ausgeprägten Pigmentstörungen empfehlen wir eine persönliche Beratung und gegebenenfalls eine Kombination mit <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a>.</p>
 
             <h3>Empfindliche oder reaktive Haut</h3>
 
@@ -270,7 +271,7 @@ const breadcrumbs = [
 
             <h3>Das Kombi-Protokoll bei Beauty Face Lift</h3>
 
-            <p>In unserer Praxis an der Bahnhofstrasse in Zürich haben wir ein bewährtes Kombinationsprotokoll entwickelt. Die empfohlene Reihenfolge ist: Zuerst wird ein Hydrafacial durchgeführt, das die Haut tiefenreinigt, alte Ablagerungen entfernt und die Hautbarriere stärkt. Nach einer Erholungsphase von sieben bis vierzehn Tagen folgt die Microneedling-Sitzung. Die durch das Hydrafacial optimal vorbereitete Haut ist nun besonders aufnahmefähig für die beim Microneedling eingesetzten Wirkstoffe, was das Gesamtergebnis deutlich verbessert.</p>
+            <p>In unserer Praxis an der Bahnhofstrasse in Zürich haben wir ein bewährtes Kombinationsprotokoll entwickelt. Die empfohlene Reihenfolge ist: Zuerst wird ein Hydrafacial durchgeführt, das die Haut tiefenreinigt, alte Ablagerungen entfernt und die Hautbarriere stärkt. Nach einer Erholungsphase von sieben bis vierzehn Tagen folgt die Microneedling-Sitzung. Die durch das Hydrafacial sorgfältig vorbereitete Haut ist nun besonders aufnahmefähig für die beim Microneedling eingesetzten Wirkstoffe, was das Gesamtergebnis deutlich verbessert.</p>
 
             <h3>Vorteile der Kombination</h3>
 
@@ -282,9 +283,9 @@ const breadcrumbs = [
 
             <h2>Fazit und Empfehlung</h2>
 
-            <p>Hydrafacial und Microneedling sind beide hochwirksame professionelle Gesichtsbehandlungen mit jeweils eigenen Stärken. Die richtige Wahl hängt von Ihrem individuellen Hautzustand, Ihren Behandlungszielen und Ihren Lebensumständen ab.</p>
+            <p>Hydrafacial und Microneedling sind beide professionelle professionelle Gesichtsbehandlungen mit jeweils eigenen Stärken. Die richtige Wahl hängt von Ihrem individuellen Hautzustand, Ihren Behandlungszielen und Ihren Lebensumständen ab.</p>
 
-            <p><strong>Wählen Sie Hydrafacial, wenn</strong> Sie eine sofort sichtbare Auffrischung wünschen, keine Downtime in Kauf nehmen möchten, empfindliche Haut haben oder eine regelmässige Pflegeroutine aufbauen wollen. Hydrafacial ist die perfekte Einstiegsbehandlung und eignet sich hervorragend als monatliche Hautpflege.</p>
+            <p><strong>Wählen Sie Hydrafacial, wenn</strong> Sie eine direkt frischer wirkende Haut wünschen, möglichst wenig Downtime einplanen möchten, empfindliche Haut haben oder eine regelmässige Pflegeroutine aufbauen wollen. Hydrafacial ist eine passende Einstiegsbehandlung und eignet sich hervorragend als monatliche Hautpflege.</p>
 
             <p><strong>Wählen Sie Microneedling, wenn</strong> Sie langfristige Hautverjüngung anstreben, mit Falten, Narben oder erschlaffter Haut zu kämpfen haben und bereit sind, für das Ergebnis eine kurze Downtime zu akzeptieren. Microneedling bietet die tiefgreifendere Wirkung und ist besonders bei fortgeschrittenen Hautanliegen die bessere Wahl.</p>
 
@@ -299,7 +300,7 @@ const breadcrumbs = [
 
             <details class="faq-item">
                 <summary>Ist Hydrafacial oder Microneedling besser gegen Falten?</summary>
-                <p>Microneedling ist bei Falten und feinen Linien in der Regel wirksamer als Hydrafacial, da es die körpereigene Kollagenproduktion durch kontrollierte Mikroverletzungen der Haut anregt. Das Ergebnis ist eine nachhaltige Hautstraffung, die sich über Wochen aufbaut. Hydrafacial bietet hingegen eine sofortige Auffrischung und verbessert das Hautbild kurzfristig durch Tiefenreinigung und Hydrierung. Für einen langfristigen Anti-Aging-Effekt empfiehlt Teresa Stimac bei Beauty Face Lift eine Kombination beider Behandlungen.</p>
+                <p>Microneedling ist bei Falten und feinen Linien häufig passender als Hydrafacial, da es die körpereigene Kollagenproduktion durch kontrollierte Mikroverletzungen der Haut unterstützen kann. Die Hautstruktur kann sich über Wochen verbessern. Hydrafacial bietet hingegen eine direkte Auffrischung und kann das Hautbild kurzfristig durch Tiefenreinigung und Hydrierung verbessern. Für einen langfristigen Anti-Aging-Effekt empfiehlt Teresa Stimac bei Beauty Face Lift eine Kombination beider Behandlungen.</p>
             </details>
 
             <details class="faq-item">
@@ -309,12 +310,12 @@ const breadcrumbs = [
 
             <details class="faq-item">
                 <summary>Wie viel kostet Hydrafacial vs. Microneedling in Zürich?</summary>
-                <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich beginnt Hydra4Face bei CHF 180 (Basic Intensiv, 60 Min.) und reicht bis CHF 280 für erweiterte 90-Minuten-Varianten. Microneedling kostet aktuell CHF 210 für 90 Minuten; Micro Needling Anti Aging mit coldPLASMA kostet CHF 220. Beide Behandlungen beinhalten eine persönliche Beratung und Hautanalyse durch Teresa Stimac. Für optimale Ergebnisse empfehlen wir bei Microneedling eine Serie von 3 bis 4 Sitzungen.</p>
+                <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich beginnt Hydra4Face bei CHF 180 (Basic Intensiv, 60 Min.) und reicht bis CHF 280 für erweiterte 90-Minuten-Varianten. Microneedling kostet aktuell CHF 210 für 90 Minuten; Micro Needling Anti Aging mit coldPLASMA kostet CHF 220. Beide Behandlungen beinhalten eine persönliche Beratung und Hautanalyse durch Teresa Stimac. Für möglichst gute Ergebnisse empfehlen wir bei Microneedling eine Serie von 3 bis 4 Sitzungen.</p>
             </details>
 
             <details class="faq-item">
                 <summary>Welche Behandlung hat weniger Downtime — Hydrafacial oder Microneedling?</summary>
-                <p>Hydrafacial hat praktisch keine Downtime. Sie können direkt nach der Behandlung Ihren Tag fortsetzen und sogar Make-up auftragen. Microneedling hingegen erfordert 2 bis 5 Tage Erholungszeit, in der die Haut gerötet sein kann und besondere Pflege benötigt. Direktes Sonnenlicht, Sport und dekorative Kosmetik sollten in dieser Zeit vermieden werden. Hydrafacial eignet sich daher besser als Behandlung für zwischendurch, beispielsweise in der Mittagspause.</p>
+                <p>Hydrafacial hat meist keine Downtime. Sie können direkt nach der Behandlung Ihren Tag fortsetzen und sogar Make-up auftragen. Microneedling hingegen erfordert 2 bis 5 Tage Erholungszeit, in der die Haut gerötet sein kann und besondere Pflege benötigt. Direktes Sonnenlicht, Sport und dekorative Kosmetik sollten in dieser Zeit vermieden werden. Hydrafacial eignet sich daher besser als Behandlung für zwischendurch, beispielsweise in der Mittagspause.</p>
             </details>
 
             <details class="faq-item">
@@ -345,7 +346,7 @@ const breadcrumbs = [
                 <div class="blog-grid">
                     <a href="/blog/was-ist-hydrafacial/" class="blog-card">
                         <h3>Was ist Hydrafacial? Alles was Sie wissen müssen</h3>
-                        <p>Von der patentierten Vortex-Technologie bis zum sofortigen Glow-Effekt.</p>
+                        <p>Von der patentierten Vortex-Technologie bis zum Glow-Effekt.</p>
                         <span class="card-arrow">Weiterlesen &rarr;</span>
                     </a>
                     <a href="/blog/microneedling-erfahrung/" class="blog-card">

@@ -1,12 +1,13 @@
 import type { Env } from '../env';
+import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../../shared/site';
 
 const TRACK_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const TRACK_RATE_LIMIT_MAX_REQUESTS = 120;
 const ALLOWED_EVENTS = new Set(['PageView', 'Lead', 'Contact']);
 const ALLOWED_SOURCE_HOSTS = new Set([
-  'beautyfacelift.mediapaulo.workers.dev',
-  'beautyfacelift.ch',
-  'www.beautyfacelift.ch',
+  TEMP_WORKERS_DEV_HOST,
+  CANONICAL_HOST,
+  WWW_HOST,
 ]);
 const SHA256_HEX_RE = /^[a-f0-9]{64}$/i;
 const META_COOKIE_RE = /^[A-Za-z0-9._:-]{1,200}$/;

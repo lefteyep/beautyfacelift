@@ -1,6 +1,21 @@
-export const SITE_NAME = 'Beauty Face Lift';
+export const SITE_NAME = 'Beauty Face Lift Zürich';
+export const CANONICAL_HOST = 'beautyfacelift-zuerich.ch';
+export const CANONICAL_ORIGIN = 'https://beautyfacelift-zuerich.ch';
+export const WWW_HOST = 'www.beautyfacelift-zuerich.ch';
+export const TEMP_WORKERS_DEV_HOST = 'beautyfacelift.mediapaulo.workers.dev';
+export const SITE_URL = CANONICAL_ORIGIN;
+export const SITE_DOMAIN = CANONICAL_HOST;
+export const STAGING_HOST = TEMP_WORKERS_DEV_HOST;
+
+export function absoluteUrl(path = '/'): string {
+  if (/^https?:\/\//i.test(path)) return path;
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return new URL(normalizedPath, SITE_URL).href;
+}
 
 export const AESTHETIKA_BOOKING_URL = 'https://booking.beautyfacelift.ch/buchen';
+export const TREATWELL_URL = 'https://www.treatwell.ch/ort/beauty-face-lift/';
 
 export const BOOKING_ATTRIBUTION_KEYS = [
   'utm_source',

@@ -1,4 +1,5 @@
 ---
+import { absoluteUrl } from '../../../../shared/site';
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
@@ -24,26 +25,26 @@ const structuredData = [
             "name": "Teresa Stimac",
             "jobTitle": "Kosmetikerin & Inhaberin",
             "worksFor": {
-                "@type": "HealthAndBeautyBusiness",
+                "@type": "BeautySalon",
                 "name": "Beauty Face Lift",
-                "url": "https://beautyfacelift.ch"
+                "url": absoluteUrl('/')
             }
         },
         "publisher": {
             "@type": "Organization",
             "name": "Beauty Face Lift",
-            "url": "https://beautyfacelift.ch",
+            "url": absoluteUrl('/'),
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://beautyfacelift.ch/assets/logo.svg"
+                "url": absoluteUrl('/assets/logo.svg')
             }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https://beautyfacelift.ch/blog/microneedling-erfahrung/"
+            "@id": absoluteUrl('/blog/microneedling-erfahrung/')
         },
-        "url": "https://beautyfacelift.ch/blog/microneedling-erfahrung/",
-        "image": "https://beautyfacelift.ch/assets/spa_interior.png",
+        "url": absoluteUrl('/blog/microneedling-erfahrung/'),
+        "image": absoluteUrl('/assets/spa_interior.png'),
         "articleSection": "Hautpflege",
         "inLanguage": "de-CH"
     },
@@ -72,7 +73,7 @@ const structuredData = [
                 "name": "Wie viele Microneedling-Sitzungen brauche ich?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Für optimale Ergebnisse empfehlen wir eine Serie von 3 bis 6 Sitzungen im Abstand von 4 bis 6 Wochen. Die genaue Anzahl hängt von Ihrem Hautzustand und Ihren Behandlungszielen ab. Bereits nach der ersten Sitzung sehen Sie eine spürbare Verbesserung."
+                    "text": "Für möglichst gute Ergebnisse empfehlen wir eine Serie von 3 bis 6 Sitzungen im Abstand von 4 bis 6 Wochen. Die genaue Anzahl hängt von Ihrem Hautzustand und Ihren Behandlungszielen ab. Bereits nach der ersten Sitzung sehen Sie eine spürbare Verbesserung."
                 }
             },
             {
@@ -127,7 +128,7 @@ const structuredData = [
                 Sie haben sich entschieden, Microneedling auszuprobieren — oder spielen zumindest mit dem Gedanken. Vielleicht haben Sie von beeindruckenden Vorher-Nachher-Ergebnissen gelesen, vielleicht hat Ihnen eine Freundin davon vorgeschwärmt. Doch bevor Sie sich in den Behandlungsstuhl setzen, möchten Sie genau wissen, was auf Sie zukommt. Das ist absolut verständlich, und genau dafür ist dieser Beitrag gedacht.
             </p>
             <p>
-                Als Kosmetikerin führe ich in unserem Medical Spa an der <strong>Bahnhofstrasse in Zürich</strong> täglich Microneedling-Behandlungen durch. Ich weiss aus Erfahrung, dass die erste Sitzung für viele Kundinnen mit einer Mischung aus Neugier und leichter Nervosität verbunden ist. In diesem ausführlichen Beitrag nehme ich Sie mit durch den gesamten Prozess — Schritt für Schritt, ehrlich und transparent.
+                Als Kosmetikerin führe ich in unserem Kosmetikinstitut an der <strong>Bahnhofstrasse in Zürich</strong> täglich Microneedling-Behandlungen durch. Ich weiss aus Erfahrung, dass die erste Sitzung für viele Kundinnen mit einer Mischung aus Neugier und leichter Nervosität verbunden ist. In diesem ausführlichen Beitrag nehme ich Sie mit durch den gesamten Prozess — Schritt für Schritt, ehrlich und transparent.
             </p>
             <p>
                 Ob Sie sich für eine <a href="/behandlungen/microneedling-zuerich/">Microneedling-Behandlung bei Beauty Face Lift</a> interessieren oder sich allgemein informieren möchten: Nach der Lektüre wissen Sie genau, was Sie erwartet.
@@ -157,7 +158,7 @@ const structuredData = [
             </ul>
 
             <!-- Vor der Behandlung: Vorbereitung -->
-            <h2>Vor der Behandlung: Wie Sie sich optimal vorbereiten</h2>
+            <h2>Vor der Behandlung: Wie Sie sich sorgfältig vorbereiten</h2>
             <p>
                 Eine gute Vorbereitung ist der Grundstein für ein optimales Ergebnis. Bereits in den Tagen vor Ihrem Termin gibt es einige Dinge zu beachten, damit die Behandlung so wirkungsvoll und angenehm wie möglich verläuft.
             </p>
@@ -203,7 +204,7 @@ const structuredData = [
 
             <h3>Schritt 3: Betäubungscreme auftragen</h3>
             <p>
-                Auf die gereinigte Haut tragen wir eine topische Betäubungscreme auf. Diese enthält in der Regel Lidocain und braucht etwa 20 bis 30 Minuten, um ihre volle Wirkung zu entfalten. In dieser Wartezeit können Sie sich entspannen — viele Kundinnen nutzen die Zeit, um die Augen zu schliessen und zur Ruhe zu kommen.
+                Auf die gereinigte Haut tragen wir eine topische Betäubungscreme auf. Diese enthält in der Regel Lidocain und braucht etwa 20 bis 30 Minuten, um ihre Wirkung zu entwickeln. In dieser Wartezeit können Sie sich entspannen — viele Kundinnen nutzen die Zeit, um die Augen zu schliessen und zur Ruhe zu kommen.
             </p>
             <p>
                 Die Betäubungscreme ist ein wichtiger Bestandteil des Komfort-Protokolls. Sie macht die Behandlung für die grosse Mehrheit unserer Kundinnen sehr gut verträglich. Nach der Einwirkzeit wird die Creme sorgfältig abgewischt.
@@ -222,10 +223,10 @@ const structuredData = [
 
             <h3>Schritt 5: Serum-Einschleusung</h3>
             <p>
-                Unmittelbar nach dem Needling befindet sich Ihre Haut in einem Zustand maximaler Aufnahmefähigkeit. Die tausenden Mikrokanäle sind wie winzige Eingangstüren für hochkonzentrierte Wirkstoffe. Diesen Moment nutzen wir optimal: Ich trage ein speziell abgestimmtes Serum auf, das tief in die Hautschichten eindringt.
+                Unmittelbar nach dem Needling befindet sich Ihre Haut in einem Zustand maximaler Aufnahmefähigkeit. Die tausenden Mikrokanäle sind wie winzige Eingangstüren für professionelle Wirkstoffe. Diesen Moment nutzen wir optimal: Ich trage ein speziell abgestimmtes Serum auf, das tief in die Hautschichten eindringt.
             </p>
             <p>
-                Je nach Hautbedürfnis setzen wir unterschiedliche Seren ein — Hyaluronsäure für intensive Feuchtigkeit, Vitamin C für Aufhellung und Antioxidation, Wachstumsfaktoren für maximale Hauterneuerung oder eine Kombination daraus. Die Wirkstoffaufnahme ist nach Microneedling um ein Vielfaches höher als bei normaler topischer Anwendung.
+                Je nach Hautbedürfnis setzen wir unterschiedliche Seren ein — Hyaluronsäure für intensive Feuchtigkeit, Vitamin C für Aufhellung und Antioxidation, pflegende Wirkstoffe für gezielte Hautpflege oder eine Kombination daraus. Die Wirkstoffaufnahme ist nach Microneedling um ein Vielfaches höher als bei normaler topischer Anwendung.
             </p>
 
             <h3>Schritt 6: Beruhigung und Abschluss</h3>
@@ -260,7 +261,7 @@ const structuredData = [
                 Unmittelbar nach der Behandlung wird Ihre Haut deutlich gerötet sein — ähnlich wie bei einem leichten Sonnenbrand. Das ist ein vollkommen normaler und gewünschter Effekt, denn die Rötung zeigt, dass die Haut intensiv durchblutet wird und der Heilungsprozess beginnt.
             </p>
             <p>
-                Trotz der Rötung bemerken viele Kundinnen bereits jetzt einen <strong>sofortigen Glow-Effekt</strong>: Die Haut wirkt praller, straffer und irgendwie von innen heraus leuchtend. Das liegt an der verbesserten Durchblutung und der intensiven Serum-Einschleusung.
+                Trotz der Rötung bemerken viele Kundinnen bereits jetzt einen <strong>Glow-Effekt</strong>: Die Haut wirkt praller, straffer und irgendwie von innen heraus leuchtend. Das liegt an der verbesserten Durchblutung und der intensiven Serum-Einschleusung.
             </p>
             <p>
                 In den ersten Stunden nach der Behandlung sollten Sie folgende Punkte beachten:
@@ -318,7 +319,7 @@ const structuredData = [
                 Für tiefere Aknenarben, ausgeprägte Falten oder starke Pigmentveränderungen empfehle ich eine <strong>Serie von 3 bis 6 Behandlungen</strong> im Abstand von vier bis sechs Wochen. Mit jeder Sitzung baut sich das Kollagengerüst weiter auf, und die Ergebnisse verstärken sich kumulativ. Nach einer vollständigen Behandlungsserie können die Resultate ein bis zwei Jahre anhalten, bevor eine Auffrischung sinnvoll wird.
             </p>
             <p>
-                Für besonders hartnäckige Hautprobleme kann Microneedling auch hervorragend mit anderen Behandlungen kombiniert werden. Eine <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial-Behandlung</a> zwei Wochen vor dem Needling bereitet die Haut optimal vor, während ein sanftes <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> zwischen den Sitzungen die Zellerneuerung zusätzlich ankurbeln kann. Auch die innovative <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Therapie</a> lässt sich ideal ergänzen.
+                Für besonders hartnäckige Hautprobleme kann Microneedling auch hervorragend mit anderen Behandlungen kombiniert werden. Eine <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial-Behandlung</a> zwei Wochen vor dem Needling bereitet die Haut sorgfältig vor, während ein sanftes <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> zwischen den Sitzungen die Zellerneuerung zusätzlich ankurbeln kann. Auch die innovative <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Therapie</a> lässt sich ideal ergänzen.
             </p>
 
             <!-- Für wen ist Microneedling geeignet? -->
@@ -374,7 +375,7 @@ const structuredData = [
             <details class="faq-item">
                 <summary><h3>Wie viele Microneedling-Sitzungen brauche ich?</h3></summary>
                 <p>
-                    Für optimale Ergebnisse empfehlen wir eine Serie von 3 bis 6 Sitzungen im Abstand von 4 bis 6 Wochen. Die genaue Anzahl hängt von Ihrem Hautzustand und Ihren Behandlungszielen ab. Bereits nach der ersten Sitzung sehen Sie eine spürbare Verbesserung der Hauttextur und des Hauttons. Mit jeder weiteren Sitzung verstärken sich die Ergebnisse kumulativ.
+                    Für möglichst gute Ergebnisse empfehlen wir eine Serie von 3 bis 6 Sitzungen im Abstand von 4 bis 6 Wochen. Die genaue Anzahl hängt von Ihrem Hautzustand und Ihren Behandlungszielen ab. Bereits nach der ersten Sitzung sehen Sie eine spürbare Verbesserung der Hauttextur und des Hauttons. Mit jeder weiteren Sitzung verstärken sich die Ergebnisse kumulativ.
                 </p>
             </details>
 
@@ -425,7 +426,7 @@ const structuredData = [
                         <span class="card-arrow">Weiterlesen &rarr;</span>
                     </a>
                     <a href="/blog/hautpflege-routine-zuerich/" class="blog-card">
-                        <h3>Die perfekte Hautpflege-Routine</h3>
+                        <h3>Die passende Hautpflege-Routine</h3>
                         <p>Tipps von Ihrer Kosmetikerin für eine wirksame tägliche Pflege.</p>
                         <span class="card-arrow">Weiterlesen &rarr;</span>
                     </a>

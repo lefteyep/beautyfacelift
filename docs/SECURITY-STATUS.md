@@ -1,8 +1,10 @@
 # Security Status
 
-Last updated: 2026-05-04
+Last updated: 2026-05-07
 
-Production URL reviewed: https://beautyfacelift.mediapaulo.workers.dev/
+Production URL: https://beautyfacelift-zuerich.ch/
+
+The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical and returned 404 in post-launch verification because `workers_dev=false` is active.
 
 ## Implemented in repo
 

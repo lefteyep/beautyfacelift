@@ -1,4 +1,6 @@
 ---
+import { absoluteUrl } from '../../shared/site';
+
 interface BreadcrumbItem {
   label: string;
   href?: string;
@@ -17,7 +19,7 @@ const structuredData = {
     "@type": "ListItem",
     "position": i + 1,
     "name": item.label,
-    ...(item.href ? { "item": `https://beautyfacelift.ch${item.href}` } : {})
+    ...(item.href ? { "item": absoluteUrl(item.href) } : {})
   }))
 };
 ---

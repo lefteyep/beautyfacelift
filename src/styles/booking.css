@@ -141,29 +141,80 @@
 .booking-loading,
 .booking-empty {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 3.5rem 1.5rem;
   font-family: var(--font-sans);
   font-size: 1rem;
   color: var(--text-secondary);
 }
 
+.booking-loading {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  background: linear-gradient(180deg, rgba(251, 248, 243, 0.72), rgba(246, 241, 234, 0.72));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+
+.booking-loader {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-medium);
+  border-top-color: var(--accent-dark);
+  border-radius: 50%;
+  animation: booking-spin 0.9s linear infinite;
+}
+
+.booking-loading-title {
+  font-weight: 450;
+  color: var(--text-primary);
+}
+
+.booking-loading-note {
+  max-width: 34ch;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+@keyframes booking-spin {
+  to { transform: rotate(360deg); }
+}
+
 .booking-state {
-  background: var(--bg-secondary);
+  background: linear-gradient(180deg, var(--bg-secondary), var(--bg-cream));
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-card);
-  padding: 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
   text-align: center;
+  box-shadow: var(--shadow-soft);
+}
+
+.booking-state-kicker {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent-dark);
 }
 
 .booking-state h3 {
-  font-size: 1.35rem;
+  font-size: clamp(1.65rem, 4vw, 2.25rem);
   margin-bottom: 0.75rem;
+  line-height: 1.08;
 }
 
 .booking-state p {
-  margin: 0 auto 1rem;
-  font-size: 0.95rem;
-  max-width: 42ch;
+  margin: 0 auto 1.35rem;
+  font-size: 1rem;
+  max-width: 48ch;
+  color: var(--text-secondary);
 }
 
 .booking-state-actions {
@@ -176,10 +227,18 @@
 
 .booking-text-link {
   font-family: var(--font-sans);
-  font-size: 0.88rem;
+  font-size: 0.9rem;
+  font-weight: 450;
   color: var(--accent-dark);
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+.booking-state-actions .pill-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
 }
 
 .booking-choice-intro {

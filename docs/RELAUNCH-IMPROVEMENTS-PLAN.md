@@ -2,7 +2,7 @@
 
 ## Goal
 
-Implement the relaunch fixes for `beautyfacelift.ch` without changing the established Atelier visual language. The work targets five outcomes:
+Implement the relaunch fixes for `beautyfacelift-zuerich.ch` without changing the established Atelier visual language. The work targets five outcomes:
 
 1. Faster image delivery and cleaner LCP behavior.
 2. Better mobile readability and type consistency.

@@ -5,6 +5,9 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_TOPICS,
   CONTACT_TO_EMAIL_FALLBACK,
+  CANONICAL_HOST,
+  TEMP_WORKERS_DEV_HOST,
+  WWW_HOST,
 } from '../../shared/site';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
@@ -161,9 +164,9 @@ function isProductionRequest(request: Request, env: Env): boolean {
   if (env.ENVIRONMENT === 'production') return true;
 
   const hostname = new URL(request.url).hostname.toLowerCase();
-  return hostname === 'beautyfacelift.mediapaulo.workers.dev'
-    || hostname === 'beautyfacelift.ch'
-    || hostname === 'www.beautyfacelift.ch';
+  return hostname === TEMP_WORKERS_DEV_HOST
+    || hostname === CANONICAL_HOST
+    || hostname === WWW_HOST;
 }
 
 function isAllowedTopic(topic: string): boolean {

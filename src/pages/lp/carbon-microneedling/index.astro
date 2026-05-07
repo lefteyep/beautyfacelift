@@ -10,7 +10,7 @@ import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { carbonTreatmentTeresa, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
-import { bookingLinkForService } from '../../../../shared/site';
+import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const OFFICIAL_PRICE = 250;
 const bookingHref = bookingLinkForService('Carbon Microneedling');
@@ -39,7 +39,7 @@ const benefits = [
 const includedItems = [
   'Reinigung & Hautanalyse',
   'Carbon-Aktivkohle-Peeling',
-  'Microneedling mit medizinischem Pen',
+  'Microneedling mit professionellem Pen',
   'Hyaluron- & Vitamin-Infusion',
   'Beruhigende Abschlussmaske',
   'Persönliche After-Care-Beratung',
@@ -47,7 +47,7 @@ const includedItems = [
 
 const testimonials = [
   {
-    text: 'Nach nur einer Sitzung hatte ich wirklich diesen sofortigen Glow. Teresa nimmt sich Zeit und erklärt jeden Schritt.',
+    text: 'Nach nur einer Sitzung hatte ich wirklich diesen frischen Glow. Teresa nimmt sich Zeit und erklärt jeden Schritt.',
     name: 'Laura M.',
     role: 'Zürich',
   },
@@ -57,7 +57,7 @@ const testimonials = [
     role: 'Zollikon',
   },
   {
-    text: 'Professionell, sauber, keine Ausfallzeit. Ich war am Abend wieder gesellschaftsfähig — mit besserer Haut.',
+    text: 'Professionell, sauber, meist keine Ausfallzeit. Ich war am Abend wieder gesellschaftsfähig — mit besserer Haut.',
     name: 'Marina K.',
     role: 'Zürich',
   },
@@ -76,7 +76,7 @@ const faqs = [
   },
   {
     q: 'Wie viele Sitzungen brauche ich?',
-    a: 'Schon eine Sitzung bringt sichtbare Ergebnisse. Für nachhaltige Effekte empfehlen wir 3 Behandlungen im Abstand von je 4 Wochen.',
+    a: 'Schon eine Sitzung kann sichtbare Veränderungen bringen. Für längerfristige Effekte empfehlen wir 3 Behandlungen im Abstand von je 4 Wochen.',
   },
   {
     q: 'Für wen ist Carbon Microneedling geeignet?',
@@ -93,19 +93,18 @@ const structuredData = {
   '@graph': [
     {
       '@type': 'Product',
-      '@id': 'https://beautyfacelift.ch/lp/carbon-microneedling/#product',
+      '@id': absoluteUrl('/lp/carbon-microneedling/#product'),
       name: 'Carbon Microneedling — Glow-Up-Methode',
       description: 'Premium Carbon Microneedling an der Bahnhofstrasse Zürich. Carbon-Peeling + Microneedling + Hyaluron-Finish in einer 90-minütigen Sitzung.',
-      image: 'https://beautyfacelift.ch/assets/microneedling_treatment_editorial.png',
+      image: absoluteUrl('/assets/microneedling_treatment_editorial.png'),
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
         '@type': 'Offer',
         priceCurrency: 'CHF',
         price: OFFICIAL_PRICE.toFixed(2),
         availability: 'https://schema.org/InStock',
-        url: 'https://beautyfacelift.ch/lp/carbon-microneedling/',
+        url: absoluteUrl('/lp/carbon-microneedling/'),
       },
-      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', reviewCount: '230' },
     },
     {
       '@type': 'FAQPage',
@@ -173,7 +172,7 @@ const structuredData = {
             format="webp"
             quality="high"
             priority
-            alt="Microneedling Behandlung mit medizinischem Pen bei Beauty Face Lift Zürich"
+            alt="Microneedling Behandlung mit professionellem Pen bei Beauty Face Lift Zürich"
           />
         </div>
         <div class="lp-hero-media-overlap">
@@ -321,7 +320,7 @@ const structuredData = {
           format="webp"
           quality="high"
           alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
-          loading="lazy"
+          loading="eager"
         />
       </div>
       <div class="lp-about-content">
@@ -334,13 +333,13 @@ const structuredData = {
 
         <p>
           Seit über 20 Jahren widmet sich Teresa der modernen Ästhetik. In ihrem Studio an der
-          Bahnhofstrasse 94 verbindet sie medizinische Präzision mit einer persönlichen,
+          Bahnhofstrasse 94 verbindet sie professionelle Präzision mit einer persönlichen,
           diskreten Betreuung.
         </p>
         <ul class="lp-about-list">
           <li>Bahnhofstrasse 94 · 8001 Zürich</li>
           <li>Ausgebildete Kosmetikerin mit Spezialisierung auf Microneedling</li>
-          <li>230+ fünf-Sterne-Bewertungen</li>
+          <li>248+ Bewertungen</li>
           <li>Mo–Fr 10:00–20:00 · Sa 09:00–16:00</li>
         </ul>
       </div>
@@ -434,15 +433,15 @@ const structuredData = {
   }
   .lp-title {
     margin: 0;
-    letter-spacing: -0.03em;
-    font-family: var(--font-sans);
-    font-weight: 500;
+    letter-spacing: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
     color: var(--ink);
   }
   .lp-title em {
     font-style: normal;
-    font-weight: 500;
-    color: var(--gold);
+    font-weight: 400;
+    color: var(--accent-text);
   }
   .lp-subtitle {
     font-size: 1.15rem;
@@ -541,13 +540,13 @@ const structuredData = {
   .lp-section-title {
     font-size: clamp(2.2rem, 5vw, 56px);
     line-height: 1.08;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     margin-bottom: 1rem;
   }
   .lp-section-title em {
     font-style: normal;
     font-weight: 300;
-    color: var(--gold);
+    color: var(--accent-text);
   }
   .lp-section-lead {
     color: var(--text-secondary);
@@ -592,7 +591,7 @@ const structuredData = {
     display: block;
     margin-bottom: 0.4rem;
     color: var(--text-primary);
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
   .lp-problem-item p {
     color: var(--text-secondary);
@@ -667,13 +666,13 @@ const structuredData = {
     line-height: 1;
     color: rgba(185, 143, 71, 0.35);
     margin-bottom: 1rem;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
   }
   .lp-phase h3 {
     font-family: var(--font-serif);
     font-size: clamp(1.5rem, 2.2vw, 1.8rem);
     margin-bottom: 0.75rem;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
   .lp-phase p {
     color: var(--text-secondary);
@@ -722,7 +721,7 @@ const structuredData = {
     font-weight: 400;
     display: block;
     margin-bottom: 0.25rem;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
   .lp-benefit p {
     color: var(--text-secondary);
@@ -758,6 +757,7 @@ const structuredData = {
     border-radius: var(--radius-card);
     overflow: hidden;
     box-shadow: var(--shadow-medium);
+    background: var(--paper-2);
   }
   .lp-about-media img {
     width: 100%;
@@ -788,7 +788,7 @@ const structuredData = {
     color: var(--text-primary);
     margin: 0;
     max-width: none;
-    letter-spacing: -0.015em;
+    letter-spacing: 0;
   }
   .lp-about-content p {
     color: var(--text-secondary);
@@ -842,19 +842,19 @@ const structuredData = {
     margin: 0 auto;
   }
   .lp-final-eyebrow {
-    color: rgba(237, 235, 230, 0.55);
+    color: rgba(246, 241, 234, 0.68);
     margin-bottom: 1rem;
   }
   .lp-final-title {
     font-family: var(--font-serif);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     line-height: 1.05;
-    letter-spacing: -0.025em;
+    letter-spacing: 0;
     color: var(--text-inverse);
     margin-bottom: 1.25rem;
   }
   .lp-final-lead {
-    color: rgba(237, 235, 230, 0.7);
+    color: rgba(246, 241, 234, 0.78);
     font-size: 1.1rem;
     line-height: 1.65;
     margin: 0 auto 2rem;
@@ -868,7 +868,7 @@ const structuredData = {
     margin-bottom: 2.5rem;
   }
   .lp-final-address {
-    color: rgba(237, 235, 230, 0.45);
+    color: rgba(246, 241, 234, 0.62);
     font-size: var(--text-sm);
     font-family: var(--font-sans);
     letter-spacing: 0.02em;
@@ -917,6 +917,9 @@ const structuredData = {
   @media (max-width: 900px) {
     .lp-hero { padding-top: 9vh; padding-bottom: 4vh; }
     .lp-section { padding-block: 5rem; }
+    .lp-problem {
+      padding-bottom: calc(5rem + var(--lp-sticky-offer-height, 78px));
+    }
     .lp-section-head { margin-bottom: 2.5rem; }
 
     .lp-divider { padding: 1rem 0; }
@@ -958,7 +961,7 @@ const structuredData = {
 
     /* booking section — leave room so StickyOfferBar doesn't overlap CTA */
     #buchen.lp-section {
-      padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+      padding-bottom: calc(6.5rem + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
     }
 
     .lp-final-dark {
@@ -971,6 +974,9 @@ const structuredData = {
   @media (max-width: 600px) {
     .lp-hero { padding-top: 3vh; padding-bottom: 3.5rem; }
     .lp-section { padding-block: 4rem; }
+    .lp-problem {
+      padding-bottom: calc(4.5rem + var(--lp-sticky-offer-height, 78px));
+    }
     .lp-section-head { margin-bottom: 1.75rem; }
 
     .lp-hero-grid {

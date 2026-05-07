@@ -1,17 +1,15 @@
 ---
 import Base from '../../layouts/Base.astro';
-import {
-    AESTHETIKA_BOOKING_URL,
-    BOOKING_FORWARD_KEYS,
-} from '../../../shared/site';
+import { absoluteUrl, AESTHETIKA_BOOKING_URL,
+    BOOKING_FORWARD_KEYS, } from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
 
 const structuredData = {
     "@context": "https://schema.org",
-    "@type": "HealthAndBeautyBusiness",
+    "@type": "BeautySalon",
     "name": "Beauty Face Lift",
-    "url": "https://beautyfacelift.ch",
+    "url": absoluteUrl('/'),
     "telephone": "+41792143462",
     "address": {
         "@type": "PostalAddress",

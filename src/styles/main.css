@@ -63,7 +63,7 @@
   --accent:        var(--gold);
   --accent-light:  var(--gold-soft);
   --accent-dark:   var(--gold-deep);
-  --accent-text:   var(--gold);
+  --accent-text:   var(--gold-deep);
   --gold-gradient: var(--gold); /* was linear-gradient — now solid */
   --gold-glow:     none;        /* "paper, not glass" */
 
@@ -83,9 +83,9 @@
   --text-base: 19px;
   --text-md: 21px;
   --text-lg: 24px;
-  --tracking-caps: 2.2px;
-  --tracking-nav: 1.8px;
-  --tracking-tight: -0.03em;
+  --tracking-caps: 1.35px;
+  --tracking-nav: 1.1px;
+  --tracking-tight: 0;
 
   /* Spacing Scale (unchanged) */
   --space-xs: 8px;
@@ -146,8 +146,8 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.65;
-  font-weight: 300;
+  line-height: 1.7;
+  font-weight: 350;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -168,7 +168,7 @@ em, i { font-style: normal; }
 
 /* Accent word — gold Cormorant 300 roman, replaces italic emphasis */
 .accent-word {
-  color: var(--gold);
+  color: var(--accent-text);
   font-weight: 300;
   font-style: normal;
 }
@@ -176,7 +176,7 @@ em, i { font-style: normal; }
 /* Massive display text — 72px at 1440 desktop, scales down on mobile */
 .display-text {
   font-size: clamp(2.5rem, 5.5vw, 72px);
-  letter-spacing: -2px;
+  letter-spacing: 0;
   text-transform: none;
   line-height: 1.05;
 }
@@ -192,8 +192,8 @@ em, i { font-style: normal; }
 
 p {
   font-size: var(--text-base);
-  font-weight: 300;
-  line-height: 1.65;
+  font-weight: 350;
+  line-height: 1.7;
   color: var(--text-secondary);
   max-width: 64ch;
 }
@@ -297,17 +297,17 @@ body {
 }
 
 .pill-btn-outline {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border: 1px solid var(--text-primary);
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
   box-shadow: none;
 }
 
 .pill-btn-outline:hover {
-  background: transparent;
-  color: var(--text-primary);
-  border-color: var(--border-medium);
-  box-shadow: none;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+  box-shadow: var(--shadow-1);
   transform: translateY(-1px);
 }
 
@@ -449,7 +449,7 @@ img {
 }
 
 img[loading="lazy"] {
-  opacity: 0;
+  opacity: 1;
 }
 
 img[loading="lazy"].loaded,

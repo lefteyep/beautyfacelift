@@ -1,5 +1,7 @@
 # PRD Execution Log - 2026-05-05
 
+Post-launch note as of 2026-05-07: workers.dev references in this execution log are historical. Production is now `https://beautyfacelift-zuerich.ch`, `www` redirects to the apex, and `workers_dev=false` is active.
+
 ## Scope Executed
 
 Executed the safe, high-impact slice from `PRD.md` for the Beauty Face Lift Astro site:
@@ -127,4 +129,5 @@ After: Submenu dots align closer to labels, footer treatment links breathe bette
 - Branch: `codex/prd-live-ux-fixes`
 - Build status before release: passed locally.
 - Draft PR: https://github.com/lefteyep/beautyfacelift/pull/1
-- Live URL: https://beautyfacelift.mediapaulo.workers.dev/
+- Historical live URL at the time: https://beautyfacelift.mediapaulo.workers.dev/
+- Current production URL: https://beautyfacelift-zuerich.ch/

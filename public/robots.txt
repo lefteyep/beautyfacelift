@@ -1,12 +1,12 @@
-# Beauty Face Lift — Premium Medical Spa Zürich
-# https://beautyfacelift.ch
+# Beauty Face Lift — Premium Kosmetikinstitut Zürich
+# https://beautyfacelift-zuerich.ch
 
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /buchung-bestaetigt/
 
-# AI Crawlers — explicitly allowed for AI Overview / AIO inclusion
+# AI crawlers — public content may be crawled. This is not a ranking or citation guarantee.
 User-agent: GPTBot
 Allow: /
 
@@ -44,4 +44,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://beautyfacelift.ch/sitemap-index.xml
+Sitemap: https://beautyfacelift-zuerich.ch/sitemap.xml

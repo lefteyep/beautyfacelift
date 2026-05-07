@@ -1,6 +1,9 @@
 # Copy to .dev.vars for local `wrangler dev`.
 # .dev.vars is gitignored — never commit real secrets.
-# Pull current values from: Cloudflare dashboard → Workers & Pages → beautyfacelift (Pages) → Settings → Environment Variables.
+# Pull current values from: Cloudflare dashboard → Workers & Pages → beautyfacelift → Settings → Variables.
+
+# Canonical production origin used in examples and verification.
+SITE_URL=https://beautyfacelift-zuerich.ch
 
 PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...

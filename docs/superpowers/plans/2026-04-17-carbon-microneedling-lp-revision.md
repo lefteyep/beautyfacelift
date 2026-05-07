@@ -1,5 +1,7 @@
 # Carbon Microneedling LP — Design/Conversion/UX Revision Plan
 
+Status as of 2026-05-07: historical landing-page implementation plan. workers.dev URLs in this document are historical preview references; production is `https://beautyfacelift-zuerich.ch` and `workers_dev=false` is active.
+
 > **Status:** Implemented 2026-04-17. Build verified (25 static pages). Awaiting live visual spot-check.
 
 ## Context
@@ -13,7 +15,7 @@ The Meta-campaign landing page at `astro-v2/src/pages/lp/carbon-microneedling/` 
 - **Conversion scaffolding is thin**: no in-hero trust strip (rating, review count, address, years of practice), no value-breakdown of what's in the CHF 160, no risk-reversal messaging, no mobile sticky offer bar. Testimonials are buried mid-page.
 - **Emoji icons (💧✨🌿🧬🎯🚀)** undermine the premium/medical brand feel and render inconsistently across OS/browsers.
 
-**Intended outcome:** a visually coherent, conversion-dense LP that matches the editorial craft of the rest of beautyfacelift.ch, works well on mobile first-scroll, and preserves the existing BookingWidget + Meta Pixel/CAPI tracking.
+**Intended outcome:** a visually coherent, conversion-dense LP that matches the editorial craft of the rest of beautyfacelift-zuerich.ch, works well on mobile first-scroll, and preserves the existing BookingWidget + Meta Pixel/CAPI tracking.
 
 ---
 

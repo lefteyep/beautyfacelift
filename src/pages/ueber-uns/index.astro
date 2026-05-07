@@ -1,4 +1,5 @@
 ---
+import { absoluteUrl } from '../../../shared/site';
 
 import Base from '../../layouts/Base.astro';
 import Marquee from '../../components/Marquee.astro';
@@ -16,13 +17,9 @@ const aboutTeresaPreload = await getImage({
 
 const structuredData = {
     "@context": "https://schema.org",
-    "@type": "HealthAndBeautyBusiness",
-    "name": "Beauty Face Lift",
-    "image": "https://beautyfacelift.ch/assets/teresa_portrait.jpg",
-    "@id": "https://beautyfacelift.ch",
-    "url": "https://beautyfacelift.ch",
-    "telephone": "+41792143462",
-    "email": "info@beautyfacelift.ch",
+    "@type": "BeautySalon",
+    "name": "Beauty Face Lift Zürich",
+    "url": absoluteUrl('/'),
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "Bahnhofstrasse 94",
@@ -30,39 +27,28 @@ const structuredData = {
         "postalCode": "8001",
         "addressCountry": "CH"
     },
-    "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 47.3753,
-        "longitude": 8.5385
-    },
+    "areaServed": [
+        "Zürich",
+        "Switzerland"
+    ],
     "founder": {
         "@type": "Person",
         "name": "Teresa Stimac",
-        "image": "https://beautyfacelift.ch/assets/teresa_portrait.jpg",
+        "image": absoluteUrl('/assets/teresa_portrait.jpg'),
         "jobTitle": "Gründerin & Kosmetikerin",
         "description": "Selbstständige Kosmetikerin mit über 20 Jahren Erfahrung in Zürich",
         "knowsAbout": ["Hydrafacial", "Microneedling", "Fruchtsäure Peeling", "ColdPlasma", "Hautpflege", "Anti-Aging"],
         "worksFor": {
-            "@type": "HealthAndBeautyBusiness",
-            "name": "Beauty Face Lift"
+            "@type": "BeautySalon",
+            "name": "Beauty Face Lift Zürich"
         }
     },
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "240",
-        "bestRating": "5"
-    },
-    "priceRange": "$$$$",
-    "sameAs": [
-        "https://www.instagram.com/beautyfacelift.zh/"
-    ]
 };
 ---
 
 <Base
     title="Über uns | Beauty Face Lift — Teresa Stimac, Kosmetikerin Zürich"
-    description="Lernen Sie Teresa Stimac kennen — seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 4.8 Sterne bei 240+ Bewertungen. Ihr Premium Medical Spa an der Bahnhofstrasse 94."
+    description="Lernen Sie Teresa Stimac kennen — seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 4.8 Sterne bei 248+ Bewertungen. Ihr Premium Kosmetikinstitut an der Bahnhofstrasse 94."
     preloadImage={{
         href: aboutTeresaPreload.src,
         imagesrcset: aboutTeresaPreload.srcSet.attribute,
@@ -70,7 +56,7 @@ const structuredData = {
         type: 'image/webp',
         fetchpriority: 'high',
     }}
-    ogImage="https://beautyfacelift.ch/assets/teresa_portrait.jpg"
+    ogImage={absoluteUrl('/assets/teresa_portrait.jpg')}
     structuredData={structuredData}
 >
     <!-- Page Header -->
@@ -159,7 +145,7 @@ const structuredData = {
             <div class="about-text scroll-anim">
                 <div class="sub-display margin-bottom-md">Das Studio</div>
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Bahnhofstrasse 94,<br>Zürich</h2>
-                <p class="margin-bottom-md">Im Herzen von Zürich, an einer der exklusivsten Adressen der Welt, erwartet Sie unser Premium Medical Spa. Ein Ort der Ruhe und Transformation — ausgestattet mit den neuesten Technologien und einer Atmosphäre, die Sie den Alltag vergessen lässt.</p>
+                <p class="margin-bottom-md">Im Herzen von Zürich, an einer der exklusivsten Adressen der Welt, erwartet Sie unser Premium Kosmetikinstitut. Ein Ort der Ruhe und Transformation — ausgestattet mit den neuesten Technologien und einer Atmosphäre, die Sie den Alltag vergessen lässt.</p>
                 <p class="margin-bottom-lg">Ob Hydrafacial, Microneedling, Fruchtsäure Peeling oder ColdPlasma — jede Behandlung wird individuell auf Ihren Hauttyp und Ihre Wünsche abgestimmt. Diskret gelegen, leicht erreichbar und mit einem Ambiente, das den Besuch bei Beauty Face Lift zu einem Erlebnis macht.</p>
                 <a href="/behandlungen/vergleich/" class="pill-btn pill-btn-outline">Behandlungen vergleichen</a>
             </div>
@@ -180,7 +166,7 @@ const structuredData = {
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">02</div>
                 <h4>Persönliche Behandlung</h4>
-                <p>Jede einzelne Behandlung wird von Teresa persönlich durchgeführt. Keine Assistenten, keine Delegation — volle Aufmerksamkeit für Ihre Haut. Sie kennt die Geschichte jeder Kundin und kann so optimal auf Veränderungen und Bedürfnisse eingehen.</p>
+                <p>Jede einzelne Behandlung wird von Teresa persönlich durchgeführt. Keine Assistenten, keine Delegation — volle Aufmerksamkeit für Ihre Haut. Sie kennt die Geschichte jeder Kundin und kann so sorgfältig auf Veränderungen und Bedürfnisse eingehen.</p>
             </div>
             <div class="highlight-item scroll-anim">
                 <div class="highlight-number">03</div>
@@ -214,7 +200,7 @@ const structuredData = {
             </div>
         </div>
         <p style="text-align: center; margin-top: 2.5rem; font-size: 1.0625rem; color: var(--text-secondary);">
-            <strong style="color: var(--accent); font-size: 1.25rem;">4.8 von 5 Sternen</strong> aus 240+ verifizierten Bewertungen
+            <strong style="color: var(--accent); font-size: 1.25rem;">4.8 von 5 Sternen</strong> aus 248+ verifizierten Bewertungen
         </p>
     </section>
 

@@ -67,8 +67,8 @@ const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Of
   }
   .offer-chip-badge {
     display: inline-block;
-    background: var(--accent);
-    color: #fff;
+    background: var(--gold-deep);
+    color: var(--paper);
     padding: 0.35rem 0.7rem;
     border-radius: var(--r-sm, 4px);
     font-family: var(--font-sans);
@@ -101,7 +101,7 @@ const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Of
     font-size: clamp(2.2rem, 4vw, 2.75rem);
     font-weight: 700;
     color: var(--text-primary);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     line-height: 1;
   }
   .offer-chip-urgency {

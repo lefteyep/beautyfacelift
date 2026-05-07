@@ -1,13 +1,13 @@
-# Architecture — beautyfacelift.ch
+# Architecture — beautyfacelift-zuerich.ch
 
 ## Overview
 
 ```
 [Browser] → [Cloudflare CDN] → Static HTML/CSS/JS (16 pre-rendered pages)
-                              → /api/* → Cloudflare Pages Functions → Supabase (Postgres)
+                              → /api/* → Cloudflare Worker routes → Supabase (Postgres)
 ```
 
-All pages are static HTML served from Cloudflare's edge CDN (330+ locations). API routes run as Cloudflare Pages Functions (V8 isolates, 0ms cold start). Database is Supabase Postgres in EU Frankfurt.
+All pages are static HTML served by Cloudflare Workers Static Assets. API routes run in the same Cloudflare Worker (`worker/index.ts`) through `itty-router`. Database is Supabase Postgres in EU Frankfurt.
 
 ## Why This Architecture
 
@@ -27,10 +27,10 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 ### Booking Flow
 ```
 1. Browser loads /termin/ (static HTML + React island)
-2. BookingWidget mounts → fetches /api/services (Cloudflare Function → Supabase)
+2. BookingWidget mounts → fetches /api/services (Cloudflare Worker route → Supabase)
 3. User selects treatment → fetches /api/availability?month=...
 4. User selects date → fetches /api/slots?date=...&service_id=...
-5. User fills form → POST /api/bookings (Cloudflare Function → Supabase INSERT)
+5. User fills form → POST /api/bookings (Cloudflare Worker route → Supabase INSERT)
 6. Redirect to /buchung-bestaetigt/?id=... (fires conversion tracking)
 ```
 
@@ -79,7 +79,7 @@ RLS policies:
 - BookingWidget — 5-step booking flow (client:visible or client:load)
 - AdminDashboard — tab-based admin panel (client:load)
 
-### Cloudflare Pages Functions
+### Cloudflare Worker Routes
 - /api/services — read from Supabase services table
 - /api/availability — compute available dates from availability + blocked_dates
 - /api/slots — compute time slots considering existing bookings + buffer

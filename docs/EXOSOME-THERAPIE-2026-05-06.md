@@ -5,7 +5,7 @@ Date: 2026-05-06
 ## URL
 
 - Local route: `/behandlungen/exosome-therapie-zuerich/`
-- Canonical: `https://beautyfacelift.ch/behandlungen/exosome-therapie-zuerich/`
+- Canonical: `https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/`
 
 ## Scope
 

@@ -1,7 +1,9 @@
 ---
+import { absoluteUrl } from '../../../shared/site';
 import Base from '../../layouts/Base.astro';
 import TreatmentLinkCard from '../../components/TreatmentLinkCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AiSummary from '../../components/AiSummary.astro';
 import { Image } from 'astro:assets';
 import {
     coldplasmaCard,
@@ -18,6 +20,13 @@ const breadcrumbs = [
     { label: 'Behandlungen' }
 ];
 
+const summaryFacts = [
+    { label: 'Ort', value: 'Bahnhofstrasse 94, 8001 Zürich' },
+    { label: 'Behandlungen', value: 'Hydra4Face, Microneedling, Fruchtsäure Peeling, ColdPlasma, Exosome Therapie' },
+    { label: 'Preise', value: 'ab CHF 150; Exosome Therapie nach Beratung' },
+    { label: 'Durchführung', value: 'persönlich durch Teresa Stimac' },
+];
+
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -29,8 +38,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Hydrafacial Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/",
-                "description": "Hydra4Face Tiefenreinigung, Peeling und Hydrierung der Haut in drei Schritten. Sofort sichtbarer Glow ohne Ausfallzeit. Ab CHF 180, Dauer 60–90 Minuten."
+                "url": absoluteUrl('/behandlungen/hydrafacial-zuerich/'),
+                "description": "Hydra4Face Tiefenreinigung, Peeling und Hydrierung der Haut in drei Schritten. Frischeres Hautbild, meist ohne Ausfallzeit. Ab CHF 180, Dauer 60–90 Minuten."
             }
         },
         {
@@ -39,8 +48,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Microneedling Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/microneedling-zuerich/",
-                "description": "Kollagenstimulation durch kontrollierte Mikroverletzungen der Haut. Das natürliche Facelift ohne Operation für straffere Haut und reduzierte Narben. Ab CHF 210, Dauer 90 Minuten."
+                "url": absoluteUrl('/behandlungen/microneedling-zuerich/'),
+                "description": "Kollagenstimulation durch kontrollierte Mikroverletzungen der Haut. Kosmetische Hautbildverbesserung ohne Operation für ein verfeinertes Hautbild und reduzierte Narben. Ab CHF 210, Dauer 90 Minuten."
             }
         },
         {
@@ -49,8 +58,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Fruchtsäure Peeling Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/",
-                "description": "Medizinisches AHA-Peeling zur Hauterneuerung. Entfernt verhornte Zellen, verfeinert Poren und reduziert Akne-Narben und Hyperpigmentierung. CHF 150, Dauer 45–60 Minuten."
+                "url": absoluteUrl('/behandlungen/fruchtsaeure-peeling-zuerich/'),
+                "description": "Professionelles AHA-Peeling zur Hauterneuerung. Entfernt verhornte Zellen, verfeinert Poren und reduziert Akne-Narben und Hyperpigmentierung. CHF 150, Dauer 45–60 Minuten."
             }
         },
         {
@@ -59,8 +68,8 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "ColdPlasma Behandlung Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/",
-                "description": "Ionisiertes Gas bei niedriger Temperatur stimuliert Zellerneuerung, wirkt antimikrobiell und verbessert die Wirkstoffaufnahme um bis zu 300%. Ab CHF 180, Dauer 90 Minuten."
+                "url": absoluteUrl('/behandlungen/coldplasma-zuerich/'),
+                "description": "Kosmetische Plasma-Behandlung zur unterstützenden Pflege bei unreiner Haut, Hautbarriere und professioneller Wirkstoffpflege. Ab CHF 180, Dauer 90 Minuten."
             }
         },
         {
@@ -69,7 +78,7 @@ const structuredData = {
             "item": {
                 "@type": "Service",
                 "name": "Exosome Therapie Zürich",
-                "url": "https://beautyfacelift.ch/behandlungen/exosome-therapie-zuerich/",
+                "url": absoluteUrl('/behandlungen/exosome-therapie-zuerich/'),
                 "description": "Kosmetisch-ästhetische Exosome Gesichtsbehandlung mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie, Hyaluronsäure und persönlicher Hautanalyse."
             }
         }
@@ -83,11 +92,11 @@ const pageFaqs = [
     },
     {
         question: 'Welche Behandlung ist die beste für Anfänger?',
-        answer: 'Für Einsteigerinnen empfehlen wir das <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> — es ist vollkommen schmerzfrei, erfordert keine Ausfallzeit und liefert sofort sichtbare Ergebnisse. Die patentierte Vortex-Technologie kombiniert Tiefenreinigung, sanftes Peeling und intensive Hydrierung in einer einzigen Sitzung. Bereits nach der ersten Behandlung strahlt Ihre Haut sichtbar. Bei einem persönlichen Beratungsgespräch stimmt Teresa die Behandlung individuell auf Ihren Hauttyp ab. <a href="/termin/">Buchen Sie Ihren ersten Termin</a> bequem online.'
+        answer: 'Für Einsteigerinnen empfehlen wir das <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> — es ist in der Regel angenehm, erfordert meist keine Ausfallzeit und liefert ein sichtbar frischeres Hautbild. Die patentierte Vortex-Technologie kombiniert Tiefenreinigung, sanftes Peeling und intensive Hydrierung in einer einzigen Sitzung. Viele Kundinnen bemerken direkt nach der Behandlung ein frischeres, hydratisiertes Hautgefühl. Bei einem persönlichen Beratungsgespräch stimmt Teresa die Behandlung individuell auf Ihren Hauttyp ab. <a href="/termin/">Buchen Sie Ihren ersten Termin</a> bequem online.'
     },
     {
         question: 'Kann ich Behandlungen kombinieren?',
-        answer: 'Ja, viele unserer Behandlungen lassen sich hervorragend kombinieren, um optimale Ergebnisse zu erzielen. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> — das Hydrafacial bereitet die Haut ideal vor und verstärkt die Wirkung des Needlings erheblich. Auch ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> gefolgt von einer <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Behandlung</a> zeigt synergistische Effekte. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der verschiedene Verfahren optimal aufeinander abstimmt.'
+        answer: 'Ja, viele unserer Behandlungen lassen sich hervorragend kombinieren, um möglichst gute Ergebnisse zu erzielen. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> — das Hydrafacial bereitet die Haut ideal vor und verstärkt die Wirkung des Needlings erheblich. Auch ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> gefolgt von einer <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Behandlung</a> zeigt synergistische Effekte. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der verschiedene Verfahren sorgfältig aufeinander abstimmt.'
     },
     {
         question: 'Wie buche ich einen Termin?',
@@ -123,9 +132,15 @@ const faqStructuredData = {
     <section class="container" style="padding-top: 16px; padding-bottom: 48px;">
         <span class="sub-display" style="display: block; margin-bottom: 16px;">Unsere Expertise</span>
         <h1 style="font-size: 52px; margin-bottom: 16px;">Behandlungen</h1>
-        <p style="max-width: 700px;">Hochwirksame, schonende Verfahren für ein strahlendes, jugendliches Hautbild. Jede Behandlung wird individuell auf Ihren Hauttyp abgestimmt — in unserem Premium Medical Spa an der Bahnhofstrasse Zürich.</p>
-        <p style="max-width: 700px; margin-top: 1.25rem;">Unser Behandlungsspektrum umfasst fünf Kernbereiche: Tiefenreinigung und sofortigen Glow mit dem Hydrafacial, natürliches Anti-Aging durch Microneedling, intensive Hauterneuerung mit medizinischen Fruchtsäure Peelings, innovative Wirkstoffpflege durch ColdPlasma-Technologie sowie regenerative Kosmetik mit Exosome Therapie. Alle Verfahren werden individuell geplant und von Teresa Stimac persönlich durchgeführt.</p>
+        <p style="max-width: 700px;">Professionelle, schonende Verfahren für ein frisches, gepflegtes Hautbild. Jede Behandlung wird individuell auf Ihren Hauttyp abgestimmt — in unserem Premium Kosmetikinstitut an der Bahnhofstrasse Zürich.</p>
+        <p style="max-width: 700px; margin-top: 1.25rem;">Unser Behandlungsspektrum umfasst fünf Kernbereiche: Tiefenreinigung und Glow mit Hydra4Face, kosmetische Hautbildverbesserung durch Microneedling, intensive Hauterneuerung mit professionellen Fruchtsäure Peelings, Wirkstoffpflege durch ColdPlasma-Technologie sowie Exosome Therapie mit vorsichtiger kosmetischer Einordnung. Alle Verfahren werden individuell geplant und von Teresa Stimac persönlich durchgeführt.</p>
     </section>
+
+    <AiSummary
+        title="Gesichtsbehandlungen Zürich"
+        intro="Beauty Face Lift bietet professionelle Gesichtsbehandlungen an der Bahnhofstrasse 94 in Zürich. Die Auswahl richtet sich nach Hautziel, Hautzustand, Verträglichkeit und gewünschter Downtime; eine persönliche Beratung hilft bei der passenden Entscheidung."
+        facts={summaryFacts}
+    />
 
     <!-- Treatment Grid -->
     <section class="container" style="padding-bottom: 88px;">
@@ -145,7 +160,7 @@ const faqStructuredData = {
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Hydra Facial</h3>
-                    <p>Tiefenreinigung, Vitalisierung und Glow. Die ultimative Pflege für ein strahlendes Selfie-Hautbild mit patentierter Vortex-Technologie.</p>
+                    <p>Tiefenreinigung, Vitalisierung und Glow. Professionelle Pflege für ein strahlendes Selfie-Hautbild mit patentierter Vortex-Technologie.</p>
                     <span class="card-arrow">Details erfahren &rarr;</span>
                 </div>
             </a>
@@ -165,7 +180,7 @@ const faqStructuredData = {
                 </div>
                 <div class="treatment-overview-content">
                     <h3>Micro Needling</h3>
-                    <p>Das natürliche Face-Lift ohne OP. Stimulation der körpereigenen Kollagenproduktion für ein sichtbar verfeinertes, straffes Hautbild.</p>
+                    <p>Kosmetische Hautbildverbesserung ohne OP. Microneedling kann die körpereigene Kollagenbildung unterstützen und Poren, Textur und feine Linien verfeinern.</p>
                     <span class="card-arrow">Details erfahren &rarr;</span>
                 </div>
             </a>
@@ -205,7 +220,7 @@ const faqStructuredData = {
                 </div>
                 <div class="treatment-overview-content">
                     <h3>ColdPlasma</h3>
-                    <p>Innovative Plasma-Technologie zur Hautverjüngung. Stimuliert die Zellerneuerung und fördert die Aufnahme hochwirksamer Wirkstoffe.</p>
+                    <p>Kosmetische Plasma-Technologie zur unterstützenden Pflege bei unreiner Haut, Hautbarriere und professionellen Wirkstoffen.</p>
                     <span class="card-arrow">Details erfahren &rarr;</span>
                 </div>
             </a>
@@ -244,13 +259,13 @@ const faqStructuredData = {
             <a href="/behandlungen/hydrafacial-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
                 <div class="highlight-number">01</div>
                 <h4>Sofortiger Glow</h4>
-                <p>Fahle, müde Haut? Das Hydrafacial schenkt Ihnen in nur 60 Minuten sichtbar strahlende, hydratisierte Haut — ohne Ausfallzeit.</p>
+                <p>Fahle, müde Haut? Hydra4Face kann in 60 Minuten ein frischeres, hydratisiertes Hautgefühl unterstützen — meist ohne Ausfallzeit.</p>
             </a>
 
             <a href="/behandlungen/microneedling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
                 <div class="highlight-number">02</div>
                 <h4>Anti-Aging & Straffung</h4>
-                <p>Feine Linien und Elastizitätsverlust? Microneedling stimuliert Ihre natürliche Kollagenproduktion für sichtbar straffere Haut.</p>
+                <p>Feine Linien und Elastizitätsverlust? Microneedling stimuliert Ihre natürliche Kollagenproduktion für ein sichtbar verfeinertes Hautbild.</p>
             </a>
 
             <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
@@ -262,7 +277,7 @@ const faqStructuredData = {
             <a href="/behandlungen/coldplasma-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
                 <div class="highlight-number">04</div>
                 <h4>Innovation & Regeneration</h4>
-                <p>Maximale Wirkstoffaufnahme und Zellregeneration? ColdPlasma-Technologie steigert die Aufnahme um bis zu 300 %.</p>
+                <p>Unreine oder empfindliche Haut? ColdPlasma kann die professionelle Wirkstoffpflege je nach Hautzustand sinnvoll ergänzen.</p>
             </a>
 
             <a href="/behandlungen/exosome-therapie-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">

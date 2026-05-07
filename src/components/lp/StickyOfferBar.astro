@@ -25,8 +25,13 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
   </div>
   <a href={href} class="pill-btn sticky-offer-cta">{ctaText}</a>
 </div>
+<div class="sticky-offer-safe-space" aria-hidden="true"></div>
 
 <style>
+  :global(body) {
+    --lp-sticky-offer-height: 78px;
+  }
+
   .sticky-offer-bar {
     display: none;
     position: fixed;
@@ -34,12 +39,14 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     right: 0;
     bottom: 0;
     z-index: 39;
-    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
-    background: rgba(237, 235, 230, 0.96);
+    min-height: var(--lp-sticky-offer-height);
+    padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(28, 26, 23, 0.96);
+    color: var(--paper);
     backdrop-filter: blur(14px) saturate(1.2);
     -webkit-backdrop-filter: blur(14px) saturate(1.2);
-    border-top: 1px solid var(--border-medium);
-    box-shadow: 0 -8px 30px rgba(18, 18, 18, 0.08);
+    border-top: 1px solid rgba(246, 241, 234, 0.16);
+    box-shadow: 0 -10px 32px rgba(18, 18, 18, 0.18);
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
@@ -55,15 +62,15 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
   .sticky-offer-old {
     font-family: var(--font-sans);
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: rgba(246, 241, 234, 0.58);
     text-decoration: line-through;
   }
   .sticky-offer-new {
     font-family: var(--font-serif);
     font-size: 1.45rem;
     font-weight: 500;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
+    color: var(--paper);
+    letter-spacing: 0;
   }
 
   .sticky-offer-cta {
@@ -72,9 +79,22 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     flex-shrink: 0;
   }
 
+  .sticky-offer-safe-space {
+    display: none;
+  }
+
   @media (max-width: 900px) {
+    :global(body) {
+      padding-bottom: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+    }
+
     .sticky-offer-bar {
       display: flex;
+    }
+
+    .sticky-offer-safe-space {
+      display: block;
+      height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
     }
   }
 
