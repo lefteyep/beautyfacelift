@@ -132,7 +132,7 @@ Cloudflare result:
 
 ```text
 Worker: beautyfacelift
-Version ID: 185b07eb-c2b5-4891-82f7-6bfe9a288ae2
+Version ID: 564dba2f-2c24-4f1e-b98f-625ed007fa92
 Routes:
 - beautyfacelift-zuerich.ch
 - www.beautyfacelift-zuerich.ch

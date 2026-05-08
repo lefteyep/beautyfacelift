@@ -33,4 +33,4 @@ Removed the weak "Beratung zuerst" treatment intro pattern and replaced it with 
 
 This note documents the treatment CTA subset of the broader 2026-05-08 live release. The full release scope, including homepage hero copy and layout refinements, is documented in `docs/DELIVERY-2026-05-08.md` and `docs/RELEASE-2026-05-08-live-update.md`.
 
-The CTA changes were deployed to `https://beautyfacelift-zuerich.ch` as part of Cloudflare Worker version `185b07eb-c2b5-4891-82f7-6bfe9a288ae2`.
+The CTA changes were deployed to `https://beautyfacelift-zuerich.ch` as part of Cloudflare Worker version `564dba2f-2c24-4f1e-b98f-625ed007fa92`.

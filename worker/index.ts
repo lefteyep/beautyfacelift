@@ -67,11 +67,13 @@ async function fetchStaticAsset(request: Request, env: Env): Promise<Response> {
 
   const assetRequest = new Request(request, { method: 'GET' });
   const response = await env.ASSETS.fetch(assetRequest);
+  const headers = new Headers(response.headers);
+  headers.delete('Content-Length');
 
   return new Response(null, {
     status: response.status,
     statusText: response.statusText,
-    headers: response.headers,
+    headers,
   });
 }
 
