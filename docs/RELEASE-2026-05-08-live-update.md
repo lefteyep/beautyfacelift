@@ -128,17 +128,17 @@ Deployment used the project script:
 npm run cf:deploy
 ```
 
-An additional explicit asset deploy was run after the branch push because a later Worker version served the Exosome static route as `404`. The final live deployment was restored with:
+An additional deploy was run after the branch push because an older cached Worker Asset response served the Exosome static route as `404`. The final live deployment uses an internal HTML asset release key plus immediate old-asset expiry:
 
 ```powershell
-npx wrangler deploy --assets=./dist --keep-vars --message "Restore May 8 static assets after branch push"
+npm run cf:deploy
 ```
 
 Final Cloudflare result:
 
 ```text
 Worker: beautyfacelift
-Version ID: 98766b81-429d-4b96-9efd-0798809d20b8
+Version ID: dac9d2f7-18e2-48ff-95f2-4d8272556e93
 Routes:
 - beautyfacelift-zuerich.ch
 - www.beautyfacelift-zuerich.ch
