@@ -3,9 +3,17 @@
 
 > AI-readable summary for answer engines. This file mirrors visible site content and is not an official Google ranking factor. Full version: https://beautyfacelift-zuerich.ch/llms-full.txt
 
-> Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Geleitet von Teresa Stimac, einer selbstständigen Kosmetikerin mit über 20 Jahren Erfahrung in Zürich. Spezialisiert auf nicht-invasive Gesichtsbehandlungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie.
+> Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Geleitet von Teresa Stimac, einer selbstständigen Kosmetikerin mit über 20 Jahren Erfahrung in Zürich. Der fachliche Schwerpunkt liegt auf Gesicht & Haut: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Ergänzend bietet das Studio Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage.
 
 ## Behandlungen
+
+### Behandlungsbereiche
+- Gesicht & Haut: https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/
+- Laser-Haarentfernung: https://beautyfacelift-zuerich.ch/behandlungen/laser-haarentfernung-zuerich/
+- Waxing: https://beautyfacelift-zuerich.ch/behandlungen/waxing-zuerich/
+- Wimpern & Brauen: https://beautyfacelift-zuerich.ch/behandlungen/wimpern-brauen-zuerich/
+- Make-up: https://beautyfacelift-zuerich.ch/behandlungen/make-up-zuerich/
+- Massage: https://beautyfacelift-zuerich.ch/behandlungen/massage-zuerich-bahnhofstrasse/
 
 ### Hydrafacial Zürich
 - URL: https://beautyfacelift-zuerich.ch/behandlungen/hydrafacial-zuerich/

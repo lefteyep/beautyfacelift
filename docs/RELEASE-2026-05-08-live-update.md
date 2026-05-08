@@ -153,3 +153,13 @@ Post-deploy smoke checks:
 - `HEAD https://beautyfacelift-zuerich.ch/favicon-32x32.png` returned `200`.
 - `HEAD https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/` returned `200` after the asset restore deploy.
 - `https://beautyfacelift-zuerich.ch/api/services` returned `200 application/json`.
+
+## SEO Service Hub Addendum
+
+The later May 8 SEO/copy release is documented separately in:
+
+```text
+docs/SEO-SERVICE-HUBS-2026-05-08.md
+```
+
+It adds six service hub landing pages, updates the visible service architecture across navigation, footer, homepage, overview, `llms.txt`, and sitemap output, and softens high-risk cosmetic/medical copy claims across treatment and blog content.

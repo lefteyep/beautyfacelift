@@ -6,8 +6,8 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_WHATSAPP_URL,
   FULL_ADDRESS,
+  SERVICE_GROUPS,
   TREATWELL_URL,
-  TREATMENTS,
 } from '../../shared/site';
 ---
 
@@ -43,8 +43,8 @@ import {
     <div class="footer-links-grid">
         <div>
             <h4>Behandlungen</h4>
-            {TREATMENTS.map((treatment) => (
-                <a href={treatment.href}>{treatment.label}</a>
+            {SERVICE_GROUPS.map((group) => (
+                <a href={group.href}>{group.label}</a>
             ))}
             <a href="/behandlungen/vergleich/">Behandlungsvergleich</a>
         </div>

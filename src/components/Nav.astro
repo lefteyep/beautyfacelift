@@ -4,7 +4,7 @@ import {
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
   FULL_ADDRESS,
-  TREATMENTS,
+  SERVICE_GROUPS,
 } from '../../shared/site';
 
 interface Props {
@@ -34,9 +34,16 @@ const isTreatment = variant === 'treatment';
                     <span class="sr-only">Untermenü Behandlungen öffnen</span>
                 </button>
             </div>
-            <ul class="nav-submenu" id="nav-submenu-desktop" aria-label="Behandlungen">
-                {TREATMENTS.map((treatment) => (
-                    <li><a href={treatment.href}>{treatment.label}</a></li>
+            <ul class="nav-submenu nav-submenu-grouped" id="nav-submenu-desktop" aria-label="Behandlungen">
+                {SERVICE_GROUPS.map((group) => (
+                    <li class="nav-submenu-group">
+                        <a href={group.href} class="nav-submenu-group-label">{group.label}</a>
+                        <ul class="nav-submenu-group-list">
+                            {group.services.map((service) => (
+                                <li><a href={service.href}>{service.label}</a></li>
+                            ))}
+                        </ul>
+                    </li>
                 ))}
             </ul>
         </li>
@@ -85,8 +92,15 @@ const isTreatment = variant === 'treatment';
                     </button>
                 </div>
                 <ul class="nav-mobile-submenu" id="nav-mobile-treatments" hidden>
-                    {TREATMENTS.map((treatment) => (
-                        <li class="nav-mobile-sub"><a href={treatment.href}>{treatment.label}</a></li>
+                    {SERVICE_GROUPS.map((group) => (
+                        <li class="nav-mobile-sub nav-mobile-sub-group">
+                            <a href={group.href} class="nav-mobile-sub-heading">{group.label}</a>
+                            <ul>
+                                {group.services.map((service) => (
+                                    <li><a href={service.href}>{service.label}</a></li>
+                                ))}
+                            </ul>
+                        </li>
                     ))}
                 </ul>
             </li>

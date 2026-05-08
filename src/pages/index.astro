@@ -1,5 +1,5 @@
 ---
-import { absoluteUrl } from '../../shared/site';
+import { absoluteUrl, SERVICE_GROUPS } from '../../shared/site';
 import Base from '../layouts/Base.astro';
 import Marquee from '../components/Marquee.astro';
 import { Image, getImage } from 'astro:assets';
@@ -46,14 +46,17 @@ const businessStructuredData = {
     ],
     "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Gesichtsbehandlungen",
-        "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hydrafacial", "url": absoluteUrl('/behandlungen/hydrafacial-zuerich/') } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Microneedling", "url": absoluteUrl('/behandlungen/microneedling-zuerich/') } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fruchtsäure Peeling", "url": absoluteUrl('/behandlungen/fruchtsaeure-peeling-zuerich/') } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ColdPlasma", "url": absoluteUrl('/behandlungen/coldplasma-zuerich/') } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exosome Therapie", "url": absoluteUrl('/behandlungen/exosome-therapie-zuerich/') } }
-        ]
+        "name": "Kosmetische Behandlungen",
+        "itemListElement": SERVICE_GROUPS.flatMap((group) => group.services.map((service) => ({
+            "@type": "Offer",
+            "category": group.label,
+            "itemOffered": {
+                "@type": "Service",
+                "name": service.label,
+                "url": absoluteUrl(service.href),
+                "description": service.description
+            }
+        })))
     },
 };
 
@@ -124,7 +127,7 @@ const faqData = {
 
 <Base
     title="Beauty Face Lift Zürich | Kosmetikstudio an der Bahnhofstrasse"
-    description="Kosmetikstudio in Zürich an der Bahnhofstrasse 94 für Gesichtsbehandlungen, Hydra Facial, Microneedling, Fruchtsäurepeeling, Laser Haarentfernung, Waxing, Massage und Make-up."
+    description="Kosmetikstudio Zürich Bahnhofstrasse: Beauty Face Lift bietet Gesichtsbehandlung, Hydrafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage."
     preloadImage={{
         href: homepageHeroPreload.src,
         imagesrcset: homepageHeroPreload.srcSet.attribute,
@@ -204,6 +207,22 @@ const faqData = {
     <!-- Marquee -->
     <Marquee items={["Hydrafacial", "Microneedling", "ColdPlasma", "Fruchtsäure Peeling", "Exosome Therapie"]} />
 
+    <section class="container" style="padding-top: 56px; padding-bottom: 72px;">
+        <span class="sub-display">Kosmetikstudio Zürich Bahnhofstrasse</span>
+        <h2 style="font-size: clamp(2rem, 4vw, 3.6rem); margin: 1rem 0; text-transform: none;">Kosmetik in Zürich für Haut, Schönheit und gepflegte Details</h2>
+        <p style="max-width: 760px;">Beauty Face Lift ist auf hochwertige Gesichtsbehandlung Zürich spezialisiert und bietet darüber hinaus belegte Beauty-Leistungen wie Laser-Haarentfernung Zürich, Waxing Zürich, {'Wimpern & Brauen Zürich'}, Make-up Zürich und Massage Zürich Bahnhofstrasse. Hautbehandlungen bleiben der fachliche Schwerpunkt; ergänzende Leistungen werden diskret, sorgfältig und persönlich durch Teresa Stimac geplant.</p>
+
+        <div class="highlights-grid highlights-grid--4col" style="margin-top: 2.5rem;">
+            {SERVICE_GROUPS.map((group, index) => (
+                <a href={group.href} class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                    <div class="highlight-number">{String(index + 1).padStart(2, '0')}</div>
+                    <h4>{group.label}</h4>
+                    <p>{group.description}</p>
+                </a>
+            ))}
+        </div>
+    </section>
+
     <!-- Services -->
     <section id="expertise" class="services-section">
         <div class="services-wrapper">
@@ -251,7 +270,7 @@ const faqData = {
                             loading="lazy"
                         />
                     </div>
-                    <p>Kosmetische Anti-Aging-Pflege für anspruchsvolle Haut. Microneedling stimuliert die körpereigene Kollagenproduktion und kann die Hauterneuerung unterstützen — für ein sichtbar verfeinertes Hautbild, verfeinerte Poren und feinere Linien.</p>
+                    <p>Kosmetische Anti-Aging-Pflege für anspruchsvolle Haut. Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen — für ein sichtbar verfeinertes Hautbild, verfeinerte Poren und feinere Linien.</p>
                     <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Microneedling entdecken</a>
                 </div>
 

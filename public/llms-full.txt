@@ -3,7 +3,7 @@
 
 > AI-readable summary for answer engines. This file mirrors visible site content and is not an official Google ranking factor.
 
-> Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Gründerin und Inhaberin Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. Das Studio ist spezialisiert auf nicht-chirurgische Gesichtsbehandlungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Bewertung: 4.8/5 Sterne auf Treatwell (248+ Bewertungen). Alle Behandlungen werden persönlich von Teresa durchgeführt — keine Angestellten, keine Kompromisse bei der Qualität.
+> Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Gründerin und Inhaberin Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. Der fachliche Schwerpunkt liegt auf Gesicht & Haut: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Ergänzend bietet das Studio Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage. Bewertung: 4.8/5 Sterne auf Treatwell (248+ Bewertungen). Die Behandlungen werden persönlich von Teresa durchgeführt.
 
 ---
 
@@ -52,11 +52,19 @@ Teresa Stimac ist seit über 20 Jahren als selbstständige Kosmetikerin in Züri
 
 Teresa verfügt über eine grosse, langjährige Stammkundschaft — einige Kunden begleitet sie bereits seit 2008. Sie verwendet ausschliesslich Produkte, deren Eigenschaften und Rezepturen sie persönlich kennt und selbst anwendet. Jede Behandlung wird von Teresa persönlich durchgeführt — keine Assistenten, keine Delegation. Ihr Motto: Für meine Kunden ist nur das Beste gut genug.
 
-Spezialisierungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma, Exosome Therapie, Anti-Aging, Hautpflege, ästhetische Kosmetik.
+Spezialisierungen: Gesicht & Haut, Gesichtsbehandlung, Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma, Exosome Therapie, Anti-Aging, Hautpflege, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up, Massage und ästhetische Kosmetik.
 
 ---
 
 ## Behandlungen im Detail
+
+### Behandlungsbereiche
+- **Gesicht & Haut:** https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/ — persönliche Gesichtsbehandlung, Hautanalyse und moderne kosmetische Hautpflege.
+- **Laser-Haarentfernung:** https://beautyfacelift-zuerich.ch/behandlungen/laser-haarentfernung-zuerich/ — dauerhafte Haarentfernung für Gesicht, Körper und Herren-Zonen.
+- **Waxing:** https://beautyfacelift-zuerich.ch/behandlungen/waxing-zuerich/ — Waxing für Beine, Bikini, Achseln, Gesicht und Herren-Rücken.
+- **Wimpern & Brauen:** https://beautyfacelift-zuerich.ch/behandlungen/wimpern-brauen-zuerich/ — Färben, Formen, Brauenlifting und Wimpernlifting.
+- **Make-up:** https://beautyfacelift-zuerich.ch/behandlungen/make-up-zuerich/ — Tages-Make-up, Gala-Make-up und Hochzeits-Make-up.
+- **Massage:** https://beautyfacelift-zuerich.ch/behandlungen/massage-zuerich-bahnhofstrasse/ — Nacken-, Rücken- und Ganzkörpermassage nach Buchungsumfang.
 
 ### 1. Hydrafacial Zürich
 
@@ -217,7 +225,7 @@ Eine kurze Hautanalyse ist Teil jeder Erstbehandlung. Teresa analysiert Ihren Ha
 ### Behandlungen
 
 **7. Welche Behandlungen bieten Sie an?**
-Fünf Kernbehandlungen: Hydrafacial (Tiefenreinigung und direkter Glow), Microneedling (natürliches Anti-Aging und Kollagenaufbau), Fruchtsäure Peeling (intensive Hauterneuerung und Klärung), ColdPlasma (innovative Wirkstoffpflege) und Exosome Therapie (kosmetisch-regenerative Wirkstoffpflege mit Exosomen Serum beziehungsweise exosomenähnlicher Technologie). Eine vollständige Übersicht finden Sie unter https://beautyfacelift-zuerich.ch/behandlungen/
+Beauty Face Lift bietet Gesicht & Haut, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage. Der Hautfokus umfasst Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Eine vollständige Übersicht finden Sie unter https://beautyfacelift-zuerich.ch/behandlungen/
 
 **8. Welche Behandlung passt zu meinem Hauttyp?**
 Hydrafacial eignet sich für alle Hauttypen, besonders bei fahler, dehydrierter Haut. Microneedling ist eine Option bei feinen Linien, Narben und Pigmentflecken. Fruchtsäure Peeling wirkt bei Unreinheiten, Akne und Hyperpigmentierung. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie gerne persönlich.
@@ -280,7 +288,7 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 
 ### Hauptseiten
 - **Startseite:** https://beautyfacelift-zuerich.ch/ — Premium Kosmetikinstitut Zürich an der Bahnhofstrasse 94. Übersicht aller Leistungen, Bewertungen und Buchungsmöglichkeiten.
-- **Behandlungen:** https://beautyfacelift-zuerich.ch/behandlungen/ — Übersicht aller fünf Gesichtsbehandlungen mit Beschreibungen, Bildern und direkten Links zu Detailseiten.
+- **Behandlungen:** https://beautyfacelift-zuerich.ch/behandlungen/ — Übersicht aller Behandlungsbereiche mit Gesicht & Haut, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage.
 - **Über uns:** https://beautyfacelift-zuerich.ch/ueber-uns/ — Vorstellung von Teresa Stimac, 20+ Jahre Erfahrung als Kosmetikerin in Zürich. Studio-Einblicke und Philosophie.
 - **Termin buchen:** https://beautyfacelift-zuerich.ch/termin/ — Online-Terminbuchung mit Behandlungsauswahl, Kalender und Uhrzeitwahl. Buchung in wenigen Klicks möglich.
 - **Häufige Fragen:** https://beautyfacelift-zuerich.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
@@ -292,6 +300,12 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 - **ColdPlasma Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 180), FAQ. Mit integrierter Terminbuchung.
 - **Exosome Therapie Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/ — Detailseite zur Exosome Gesichtsbehandlung: Exosomen Serum, regenerative Hautpflege, Microneedling mit Exosomen, Sicherheit, realistische Erwartungen und FAQ.
 - **Behandlungsvergleich:** https://beautyfacelift-zuerich.ch/behandlungen/vergleich/ — Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
+- **Gesichtsbehandlung Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/ — Einstieg für klassische Gesichtsbehandlung, Hautanalyse und passende Empfehlung.
+- **Laser-Haarentfernung Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/laser-haarentfernung-zuerich/ — dauerhafte Haarentfernung für viele Zonen.
+- **Waxing Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/waxing-zuerich/ — professionelle Haarentfernung mit Waxing.
+- **Wimpern & Brauen Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/wimpern-brauen-zuerich/ — Augenbrauen und Wimpern färben, formen und liften.
+- **Make-up Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/make-up-zuerich/ — Make-up für Tag, Gala und Hochzeit.
+- **Massage Zürich Bahnhofstrasse:** https://beautyfacelift-zuerich.ch/behandlungen/massage-zuerich-bahnhofstrasse/ — Massageleistungen an der Bahnhofstrasse 94.
 
 ### Blog & Informationen
 - **Blog:** https://beautyfacelift-zuerich.ch/blog/ — Hautpflegetipps, Behandlungsinformationen, saisonale Empfehlungen und Neuigkeiten aus dem Studio.

@@ -72,6 +72,117 @@ export const TREATMENTS = [
   { href: '/behandlungen/exosome-therapie-zuerich/', label: 'Exosome Therapie' },
 ] as const;
 
+export const SERVICE_GROUPS = [
+  {
+    label: 'Gesicht & Haut',
+    href: '/behandlungen/gesichtsbehandlung-zuerich/',
+    description: 'Gesichtsbehandlungen, Hautanalyse und moderne kosmetisch-ästhetische Pflege.',
+    services: [
+      {
+        href: '/behandlungen/gesichtsbehandlung-zuerich/',
+        label: 'Gesichtsbehandlung Zürich',
+        description: 'Individuelle Gesichtsbehandlung und Hautpflege als Einstieg in die persönliche Beratung.',
+        bookingService: 'Gesichtsbehandlungen',
+      },
+      {
+        href: '/behandlungen/hydrafacial-zuerich/',
+        label: 'Hydrafacial',
+        description: 'Hydra4Face Tiefenreinigung, sanftes Peeling und Feuchtigkeitspflege.',
+        bookingService: 'Hydrafacial',
+      },
+      {
+        href: '/behandlungen/microneedling-zuerich/',
+        label: 'Microneedling',
+        description: 'Kosmetisches Needling für Hautstruktur, Poren und ein verfeinertes Hautbild.',
+        bookingService: 'Microneedling',
+      },
+      {
+        href: '/behandlungen/fruchtsaeure-peeling-zuerich/',
+        label: 'Fruchtsäure Peeling',
+        description: 'AHA-Peeling zur kosmetischen Hauterneuerung und Klärung des Hautbilds.',
+        bookingService: 'Peeling',
+      },
+      {
+        href: '/behandlungen/coldplasma-zuerich/',
+        label: 'ColdPlasma',
+        description: 'Kosmetische Plasma-Technologie als unterstützende Wirkstoffpflege.',
+        bookingService: 'ColdPlasma',
+      },
+      {
+        href: '/behandlungen/exosome-therapie-zuerich/',
+        label: 'Exosome Therapie',
+        description: 'Kosmetisch-regenerative Wirkstoffpflege mit vorsichtiger Einordnung.',
+        bookingService: 'Exosome Therapie',
+      },
+    ],
+  },
+  {
+    label: 'Laser-Haarentfernung',
+    href: '/behandlungen/laser-haarentfernung-zuerich/',
+    description: 'Professionelle dauerhafte Haarentfernung für viele Zonen, diskret in Zürich.',
+    services: [
+      {
+        href: '/behandlungen/laser-haarentfernung-zuerich/',
+        label: 'Laser-Haarentfernung Zürich',
+        description: 'Dauerhafte Haarentfernung für Gesicht, Beine, Bikini, Achseln, Rücken und weitere Zonen.',
+        bookingService: 'Dauerhafte Haarentfernung',
+      },
+    ],
+  },
+  {
+    label: 'Waxing',
+    href: '/behandlungen/waxing-zuerich/',
+    description: 'Sorgfältige Haarentfernung mit Waxing für Damen und Herren.',
+    services: [
+      {
+        href: '/behandlungen/waxing-zuerich/',
+        label: 'Waxing Zürich',
+        description: 'Waxing für Beine, Bikini, Achseln, Gesicht und Herren-Rücken.',
+        bookingService: 'Waxing',
+      },
+    ],
+  },
+  {
+    label: 'Wimpern & Brauen',
+    href: '/behandlungen/wimpern-brauen-zuerich/',
+    description: 'Färben, Formen und Lifting für einen gepflegten Ausdruck.',
+    services: [
+      {
+        href: '/behandlungen/wimpern-brauen-zuerich/',
+        label: 'Wimpern & Brauen Zürich',
+        description: 'Augenbrauenkorrektur, Färben, Brauenlifting und Wimpernlifting.',
+        bookingService: 'Augenbrauen & Wimpern',
+      },
+    ],
+  },
+  {
+    label: 'Make-up',
+    href: '/behandlungen/make-up-zuerich/',
+    description: 'Make-up für Tageslook, Gala und Hochzeit.',
+    services: [
+      {
+        href: '/behandlungen/make-up-zuerich/',
+        label: 'Make-up Zürich',
+        description: 'Tages-Make-up, Gala-Make-up und Hochzeits-Make-up mit Probe.',
+        bookingService: 'Make-Up',
+      },
+    ],
+  },
+  {
+    label: 'Massage',
+    href: '/behandlungen/massage-zuerich-bahnhofstrasse/',
+    description: 'Massagen in ruhiger Atmosphäre an der Bahnhofstrasse.',
+    services: [
+      {
+        href: '/behandlungen/massage-zuerich-bahnhofstrasse/',
+        label: 'Massage Zürich Bahnhofstrasse',
+        description: 'Nacken- und Rückenmassage sowie klassische Ganzkörpermassage nach Buchungsumfang.',
+        bookingService: 'Massagen',
+      },
+    ],
+  },
+] as const;
+
 export const CONTACT_TOPICS = [
   'Erstberatung',
   'Behandlungsempfehlung',

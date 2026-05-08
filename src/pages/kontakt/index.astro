@@ -294,16 +294,12 @@ const structuredData = {
                         <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" />
                     </div>
 
-                    <div class="kontakt-turnstile">
-                        {turnstileSiteKey ? (
-                            <>
-                                <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
-                                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-                            </>
-                        ) : (
-                            <p class="kontakt-form-note">Turnstile ist lokal noch nicht konfiguriert. Für Produktion bitte <code>PUBLIC_TURNSTILE_SITE_KEY</code> und <code>TURNSTILE_SECRET_KEY</code> setzen.</p>
-                        )}
-                    </div>
+                    {turnstileSiteKey && (
+                        <div class="kontakt-turnstile">
+                            <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
+                            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                        </div>
+                    )}
 
                     <label class="kontakt-checkbox" for="contact-privacy">
                         <input id="contact-privacy" name="privacyConsent" type="checkbox" required />

@@ -1,5 +1,5 @@
 ---
-import { absoluteUrl } from '../../../shared/site';
+import { absoluteUrl, SERVICE_GROUPS } from '../../../shared/site';
 import Base from '../../layouts/Base.astro';
 import TreatmentLinkCard from '../../components/TreatmentLinkCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -22,81 +22,41 @@ const breadcrumbs = [
 
 const summaryFacts = [
     { label: 'Ort', value: 'Bahnhofstrasse 94, 8001 Zürich' },
-    { label: 'Behandlungen', value: 'Hydra4Face, Microneedling, Fruchtsäure Peeling, ColdPlasma, Exosome Therapie' },
-    { label: 'Preise', value: 'ab CHF 150; Exosome Therapie nach Beratung' },
+    { label: 'Bereiche', value: 'Gesicht & Haut, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up, Massage' },
+    { label: 'Preise', value: 'ab CHF 20; Gesichtsbehandlungen ab CHF 150' },
     { label: 'Durchführung', value: 'persönlich durch Teresa Stimac' },
 ];
+
+const serviceListItems = SERVICE_GROUPS.flatMap((group) => group.services).map((service, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+        "@type": "Service",
+        "name": service.label,
+        "url": absoluteUrl(service.href),
+        "description": service.description
+    }
+}));
 
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "Behandlungen bei Beauty Face Lift Zürich",
-    "itemListElement": [
-        {
-            "@type": "ListItem",
-            "position": 1,
-            "item": {
-                "@type": "Service",
-                "name": "Hydrafacial Zürich",
-                "url": absoluteUrl('/behandlungen/hydrafacial-zuerich/'),
-                "description": "Hydra4Face Tiefenreinigung, Peeling und Hydrierung der Haut in drei Schritten. Frischeres Hautbild, meist ohne Ausfallzeit. Ab CHF 180, Dauer 60–90 Minuten."
-            }
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "item": {
-                "@type": "Service",
-                "name": "Microneedling Zürich",
-                "url": absoluteUrl('/behandlungen/microneedling-zuerich/'),
-                "description": "Kollagenstimulation durch kontrollierte Mikroverletzungen der Haut. Kosmetische Hautbildverbesserung ohne Operation für ein verfeinertes Hautbild und reduzierte Narben. Ab CHF 210, Dauer 90 Minuten."
-            }
-        },
-        {
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-                "@type": "Service",
-                "name": "Fruchtsäure Peeling Zürich",
-                "url": absoluteUrl('/behandlungen/fruchtsaeure-peeling-zuerich/'),
-                "description": "Professionelles AHA-Peeling zur Hauterneuerung. Entfernt verhornte Zellen, verfeinert Poren und reduziert Akne-Narben und Hyperpigmentierung. CHF 150, Dauer 45–60 Minuten."
-            }
-        },
-        {
-            "@type": "ListItem",
-            "position": 4,
-            "item": {
-                "@type": "Service",
-                "name": "ColdPlasma Behandlung Zürich",
-                "url": absoluteUrl('/behandlungen/coldplasma-zuerich/'),
-                "description": "Kosmetische Plasma-Behandlung zur unterstützenden Pflege bei unreiner Haut, Hautbarriere und professioneller Wirkstoffpflege. Ab CHF 180, Dauer 90 Minuten."
-            }
-        },
-        {
-            "@type": "ListItem",
-            "position": 5,
-            "item": {
-                "@type": "Service",
-                "name": "Exosome Therapie Zürich",
-                "url": absoluteUrl('/behandlungen/exosome-therapie-zuerich/'),
-                "description": "Kosmetisch-ästhetische Exosome Gesichtsbehandlung mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie, Hyaluronsäure und persönlicher Hautanalyse."
-            }
-        }
-    ]
+    "itemListElement": serviceListItems
 };
 
 const pageFaqs = [
     {
         question: 'Was kostet eine Gesichtsbehandlung in Zürich?',
-        answer: 'Die Preise für professionelle Gesichtsbehandlungen bei Beauty Face Lift variieren je nach Behandlungsart und Dauer. Ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> kostet aktuell CHF 150, <a href="/behandlungen/hydrafacial-zuerich/">Hydra4Face</a> beginnt bei CHF 180, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> beginnt bei CHF 210 und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> beginnt bei CHF 180. Umfang und Preis der <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> klärt Teresa in der persönlichen Beratung, da Produktwahl und Kombination vom Hautziel abhängen. Alle Preise verstehen sich inklusive Mehrwertsteuer und einer individuellen Hautanalyse durch Teresa Stimac.'
+        answer: 'Die Preise variieren je nach Behandlungsart und Dauer. Gesichtsbehandlungen beginnen bei CHF 150, Hydra4Face bei CHF 180, Microneedling bei CHF 210, ColdPlasma bei CHF 180. Waxing beginnt bei CHF 35, Laser-Haarentfernung bei CHF 85, Wimpern- und Brauenleistungen bei CHF 20, Make-up bei CHF 100 und Massagen bei CHF 65 beziehungsweise nach Buchungsumfang. Alle veröffentlichten Preise sollten vor dem Termin anhand der aktuellen Buchungsseite geprüft werden.'
     },
     {
-        question: 'Welche Behandlung ist die beste für Anfänger?',
-        answer: 'Für Einsteigerinnen empfehlen wir das <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> — es ist in der Regel angenehm, erfordert meist keine Ausfallzeit und liefert ein sichtbar frischeres Hautbild. Die patentierte Vortex-Technologie kombiniert Tiefenreinigung, sanftes Peeling und intensive Hydrierung in einer einzigen Sitzung. Viele Kundinnen bemerken direkt nach der Behandlung ein frischeres, hydratisiertes Hautgefühl. Bei einem persönlichen Beratungsgespräch stimmt Teresa die Behandlung individuell auf Ihren Hauttyp ab. <a href="/termin/">Buchen Sie Ihren ersten Termin</a> bequem online.'
+        question: 'Welche Behandlung passt für den Einstieg?',
+        answer: 'Für viele neue Kundinnen ist eine klassische <a href="/behandlungen/gesichtsbehandlung-zuerich/">Gesichtsbehandlung</a> oder Hydra4Face ein sinnvoller Einstieg, weil Teresa dabei Hautzustand, Verträglichkeit und Pflegeziel einschätzen kann. Wer bereits weiss, dass Haarentfernung, Wimpern und Brauen, Make-up oder Massage gefragt sind, kann diese Leistungen direkt über die Buchung wählen.'
     },
     {
         question: 'Kann ich Behandlungen kombinieren?',
-        answer: 'Ja, viele unserer Behandlungen lassen sich hervorragend kombinieren, um möglichst gute Ergebnisse zu erzielen. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> — das Hydrafacial bereitet die Haut ideal vor und verstärkt die Wirkung des Needlings erheblich. Auch ein <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> gefolgt von einer <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Behandlung</a> zeigt synergistische Effekte. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der verschiedene Verfahren sorgfältig aufeinander abstimmt.'
+        answer: 'Ja, viele Leistungen können sinnvoll kombiniert werden, etwa Gesichtsbehandlung mit Wimpern und Brauen oder abgestimmte Hautbehandlungen wie Hydra4Face, Microneedling, Peeling und ColdPlasma. Reihenfolge und Abstand legt Teresa nach Hautzustand, Verträglichkeit und Ziel fest.'
     },
     {
         question: 'Wie buche ich einen Termin?',
@@ -119,8 +79,8 @@ const faqStructuredData = {
 ---
 
 <Base
-    title="Behandlungen | Beauty Face Lift Zürich — Gesichtsbehandlungen an der Bahnhofstrasse"
-    description="Entdecken Sie Premium Gesichtsbehandlungen in Zürich: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie."
+    title="Kosmetische Behandlungen Zürich | Beauty Face Lift Bahnhofstrasse"
+    description="Kosmetische Behandlungen in Zürich an der Bahnhofstrasse: Gesichtsbehandlung, Hydrafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage."
     structuredData={structuredData}
 >
     <!-- Breadcrumbs -->
@@ -131,16 +91,31 @@ const faqStructuredData = {
     <!-- Page Header — design: 100px 58px 60px -->
     <section class="container" style="padding-top: 16px; padding-bottom: 48px;">
         <span class="sub-display" style="display: block; margin-bottom: 16px;">Unsere Expertise</span>
-        <h1 style="font-size: 52px; margin-bottom: 16px;">Behandlungen</h1>
-        <p style="max-width: 700px;">Professionelle, schonende Verfahren für ein frisches, gepflegtes Hautbild. Jede Behandlung wird individuell auf Ihren Hauttyp abgestimmt — in unserem Premium Kosmetikinstitut an der Bahnhofstrasse Zürich.</p>
-        <p style="max-width: 700px; margin-top: 1.25rem;">Unser Behandlungsspektrum umfasst fünf Kernbereiche: Tiefenreinigung und Glow mit Hydra4Face, kosmetische Hautbildverbesserung durch Microneedling, intensive Hauterneuerung mit professionellen Fruchtsäure Peelings, Wirkstoffpflege durch ColdPlasma-Technologie sowie Exosome Therapie mit vorsichtiger kosmetischer Einordnung. Alle Verfahren werden individuell geplant und von Teresa Stimac persönlich durchgeführt.</p>
+        <h1 style="font-size: 52px; margin-bottom: 16px;">Kosmetische Behandlungen in Zürich</h1>
+        <p style="max-width: 700px;">Professionelle Kosmetik an der Bahnhofstrasse 94: von individueller Gesichtsbehandlung über moderne Hautpflege bis zu Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage.</p>
+        <p style="max-width: 700px; margin-top: 1.25rem;">Teresa Stimac stimmt jede Leistung auf Hautzustand, Ziel, Verträglichkeit und Anlass ab. Hautbehandlungen bleiben der fachliche Schwerpunkt; ergänzende Beauty-Leistungen machen Beauty Face Lift zur persönlichen Adresse für gepflegte Ausstrahlung im Herzen von Zürich.</p>
     </section>
 
     <AiSummary
-        title="Gesichtsbehandlungen Zürich"
-        intro="Beauty Face Lift bietet professionelle Gesichtsbehandlungen an der Bahnhofstrasse 94 in Zürich. Die Auswahl richtet sich nach Hautziel, Hautzustand, Verträglichkeit und gewünschter Downtime; eine persönliche Beratung hilft bei der passenden Entscheidung."
+        title="Behandlungen an der Bahnhofstrasse Zürich"
+        intro="Beauty Face Lift bietet Gesichtsbehandlungen, Haarentfernung und ergänzende Beauty-Leistungen an der Bahnhofstrasse 94 in Zürich. Die Auswahl richtet sich nach Ziel, Hautzustand, Anlass und gewünschter Behandlungsdauer."
         facts={summaryFacts}
     />
+
+    <section class="container" style="padding-bottom: 88px;">
+        <div class="sub-display margin-bottom-md">Behandlungsbereiche</div>
+        <h2 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 1rem; text-transform: none;">Von Hautpflege bis Haarentfernung</h2>
+        <p style="max-width: 720px; margin-bottom: 2.25rem;">Die Übersicht ist nach natürlicher Suchintention aufgebaut: zuerst Haut und Gesicht, danach kaufnahe Leistungen wie Laser-Haarentfernung Zürich, Waxing Zürich und präzise Beauty-Details.</p>
+        <div class="highlights-grid highlights-grid--4col">
+            {SERVICE_GROUPS.map((group, index) => (
+                <a href={group.href} class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+                    <div class="highlight-number">{String(index + 1).padStart(2, '0')}</div>
+                    <h4>{group.label}</h4>
+                    <p>{group.description}</p>
+                </a>
+            ))}
+        </div>
+    </section>
 
     <!-- Treatment Grid -->
     <section class="container" style="padding-bottom: 88px;">
@@ -265,7 +240,7 @@ const faqStructuredData = {
             <a href="/behandlungen/microneedling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
                 <div class="highlight-number">02</div>
                 <h4>Anti-Aging & Straffung</h4>
-                <p>Feine Linien und Elastizitätsverlust? Microneedling stimuliert Ihre natürliche Kollagenproduktion für ein sichtbar verfeinertes Hautbild.</p>
+                <p>Feine Linien und Elastizitätsverlust? Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen und das Hautbild sichtbar verfeinern.</p>
             </a>
 
             <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">

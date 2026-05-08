@@ -1,10 +1,10 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** May 8, 2026 (release documentation)
+**Last updated:** May 8, 2026 (SEO service hub release)
 
 Current production launch record and verification commands are in [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md). Do not configure or redirect `beautyfacelift.ch` from this project.
 
-Latest release note: [RELEASE-2026-05-08-live-update.md](RELEASE-2026-05-08-live-update.md). Delivery details are in [DELIVERY-2026-05-08.md](DELIVERY-2026-05-08.md).
+Latest release notes: [RELEASE-2026-05-08-live-update.md](RELEASE-2026-05-08-live-update.md) and [SEO-SERVICE-HUBS-2026-05-08.md](SEO-SERVICE-HUBS-2026-05-08.md). Delivery details are in [DELIVERY-2026-05-08.md](DELIVERY-2026-05-08.md).
 
 ## Deployment
 
@@ -20,23 +20,30 @@ Production Worker launch details:
 
 - Worker: `beautyfacelift`
 - Worker version: `f376e963-48cf-4708-9130-650ed6e48b4b`
+- Latest SEO service hub deployment: `e1df2f1a-197f-4b8d-934b-86b5b2bf00c6`
 - Nameservers: `ezra.ns.cloudflare.com`, `ryleigh.ns.cloudflare.com`
 - Apex live check: `200 OK`
 - `www` live check: `301 Moved Permanently` to `https://beautyfacelift-zuerich.ch/`
 - Old domain: untouched and not treated as a migration source
 
-## Site Map (24 pages)
+## Current Key Routes
 
 ### Main Pages
 | Page | URL | Status |
 |------|-----|--------|
 | Homepage | / | Done — testimonials, 6 FAQs, 4 services, enriched schema |
 | Treatment overview | /behandlungen/ | Done — breadcrumbs, guidance grid, 4 FAQs, comparison link |
+| Gesichtsbehandlung Zürich | /behandlungen/gesichtsbehandlung-zuerich/ | Done — general skin-treatment entry hub, pricing signals, Service schema |
 | Hydrafacial | /behandlungen/hydrafacial-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
 | Microneedling | /behandlungen/microneedling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
 | Fruchtsaeure Peeling | /behandlungen/fruchtsaeure-peeling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
 | ColdPlasma | /behandlungen/coldplasma-zuerich/ | Done — 3000+ words, pricing, 7 FAQs, process, testimonials |
 | Treatment comparison | /behandlungen/vergleich/ | Done — side-by-side comparison, 5 FAQs |
+| Laser-Haarentfernung Zürich | /behandlungen/laser-haarentfernung-zuerich/ | Done — high-intent hair-removal hub, realistic expectations, Service schema |
+| Waxing Zürich | /behandlungen/waxing-zuerich/ | Done — high-intent waxing hub, visible price/duration signals, Service schema |
+| Wimpern & Brauen Zürich | /behandlungen/wimpern-brauen-zuerich/ | Done — brow and lash hub, local CTA, Service schema |
+| Make-up Zürich | /behandlungen/make-up-zuerich/ | Done — occasion make-up hub, consultation copy, Service schema |
+| Massage Zürich Bahnhofstrasse | /behandlungen/massage-zuerich-bahnhofstrasse/ | Done — local massage hub, suitability copy, Service schema |
 | About | /ueber-uns/ | Done — E-E-A-T bio, credentials, testimonials, Person schema |
 | Booking | /termin/ | Done — H1, address, booking widget |
 | Booking confirmation | /buchung-bestaetigt/ | Done — conversion tracking |
@@ -76,15 +83,39 @@ Production Worker launch details:
 | Schema.org (ItemList) | Done | Treatment overview |
 | Sitemap | Done | Priority-weighted, admin/LP/confirmation filtered |
 | robots.txt | Done | Sitemap directive uses production domain; Cloudflare Managed Content Signals are prepended live and should be reviewed if AI crawler access is intended |
-| llms.txt | Done | Concise business summary for AI platforms |
-| llms-full.txt | Done | Detailed version with treatments, pricing, 24 FAQs |
+| llms.txt | Done | Concise business summary for AI platforms, including six service groups |
+| llms-full.txt | Done | Detailed version with treatments, service hubs, pricing, and FAQs |
 | Geo meta tags | Done | CH-ZH, lat/long, ICBM |
 | max-image-preview:large | Done | All indexed pages |
 | OG image dimensions | Done | 1200x630 |
 | Article OG tags | Done | published_time, author, section |
 | Canonical URLs | Done | Resolves to beautyfacelift-zuerich.ch |
 | Image width/height | Done | All img tags have dimensions (CLS prevention) |
-| Internal linking | Done | Cross-links between all treatment, blog, FAQ pages |
+| Internal linking | Done | Cross-links between treatment hubs, treatment detail pages, blog, and FAQ pages |
+
+## SEO Service Hub Release (2026-05-08)
+
+The site now uses a grouped service architecture from `SERVICE_GROUPS` in `shared/site.ts`.
+
+Implemented groups:
+
+- Gesicht & Haut
+- Laser-Haarentfernung
+- Waxing
+- Wimpern & Brauen
+- Make-up
+- Massage
+
+Visible architecture updated in:
+
+- homepage service section
+- desktop and mobile treatment navigation
+- footer treatment links
+- treatment overview
+- `llms.txt` and `llms-full.txt`
+- sitemap output
+
+Copy-risk review completed across treatment pages, comparison pages, blog posts, homepage, about page, and one ad landing page. High-risk phrasing such as `eingeschleust`, `Narbenreduktion`, `stimuliert`, `PRP`, and `medizinisch formulierte Peelings` was removed or softened.
 
 ## Design Implementation (March 19, 2026)
 
