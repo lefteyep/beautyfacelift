@@ -34,42 +34,39 @@ const openingHoursSpecification = [
     },
 ];
 
-const intentCards = [
+const contactLinks = [
     {
-        title: 'Ich möchte einen Termin buchen',
-        copy: 'Für Kundinnen, die bereits wissen, welche Behandlung sie buchen möchten.',
-        cta: 'Termin buchen',
-        href: '/termin/',
-        id: 'contact-intent-booking',
-        event: 'click_booking',
-        buttonLocation: 'contact_intent_booking',
-    },
-    {
-        title: 'Ich bin unsicher, welche Behandlung passt',
-        copy: 'Teresa empfiehlt Ihnen den passenden nächsten Schritt für Ihr Hautziel.',
-        cta: 'Behandlungsempfehlung anfragen',
-        href: '#kontakt-form',
-        id: 'contact-intent-recommendation',
-        event: 'click_form_intent',
-        buttonLocation: 'contact_intent_recommendation',
-    },
-    {
-        title: 'Ich habe eine Frage vor meinem ersten Termin',
-        copy: 'Ideal bei sensibler Haut, Unsicherheit oder speziellen Anliegen vor der Behandlung.',
-        cta: 'Frage stellen',
-        href: '#kontakt-form',
-        id: 'contact-intent-question',
-        event: 'click_form_intent',
-        buttonLocation: 'contact_intent_question',
-    },
-    {
-        title: 'Ich möchte einen Termin verschieben',
-        copy: 'Für kurzfristige Änderungen bitte direkt per WhatsApp schreiben oder anrufen.',
-        cta: 'WhatsApp öffnen',
+        id: 'contact-card-whatsapp',
+        label: 'WhatsApp',
+        value: 'Per WhatsApp schreiben',
         href: CONTACT_WHATSAPP_URL,
-        id: 'contact-intent-reschedule',
         event: 'click_whatsapp',
-        buttonLocation: 'contact_intent_reschedule',
+        buttonLocation: 'contact_card_whatsapp',
+        external: true,
+    },
+    {
+        id: 'contact-card-phone',
+        label: 'Telefon',
+        value: CONTACT_PHONE_DISPLAY,
+        href: `tel:${CONTACT_PHONE}`,
+        event: 'click_phone',
+        buttonLocation: 'contact_card_phone',
+    },
+    {
+        id: 'contact-card-email',
+        label: 'E-Mail',
+        value: CONTACT_EMAIL,
+        href: `mailto:${CONTACT_EMAIL}`,
+        event: 'click_email',
+        buttonLocation: 'contact_card_email',
+    },
+    {
+        id: 'contact-card-route',
+        label: 'Route',
+        value: 'Bahnhofstrasse 94',
+        href: routeUrl,
+        event: 'click_route',
+        buttonLocation: 'contact_card_route',
         external: true,
     },
 ];
@@ -103,8 +100,8 @@ const structuredData = {
                 availableLanguage: ['de-CH', 'de'],
             },
         ],
-        "openingHoursSpecification": openingHoursSpecification,
-        "sameAs": [instagramUrl, TREATWELL_URL],
+        openingHoursSpecification,
+        sameAs: [instagramUrl, TREATWELL_URL],
         areaServed: ['Zürich', 'Switzerland'],
     },
 };
@@ -115,339 +112,106 @@ const structuredData = {
     description="Kontaktieren Sie Beauty Face Lift Zürich an der Bahnhofstrasse 94. Termin online buchen, per WhatsApp schreiben oder persönliche Beratung bei Teresa anfragen."
     structuredData={structuredData}
 >
-    <section class="kontakt" aria-labelledby="kontakt-heading">
-        <header class="kontakt-hero">
-            <div class="kontakt-hero-inner">
-                <div class="kontakt-hero-copy">
-                    <h1 id="kontakt-heading" class="kontakt-display">Kontakt &amp; Termin buchen bei Beauty Face Lift Zürich</h1>
-                    <p class="kontakt-hero-subheadline">
-                        Sie möchten einen Termin vereinbaren oder sind unsicher, welche Behandlung zu Ihrem Hautbild passt? Teresa berät Sie persönlich — per WhatsApp, Telefon, E-Mail oder direkt im Studio an der Bahnhofstrasse 94 in Zürich.
-                    </p>
-                    <p class="kontakt-hero-micro">Bahnhofstrasse 94 · 8001 Zürich · wenige Minuten vom Paradeplatz</p>
-                    <div class="kontakt-hero-actions">
-                        <a
-                            id="contact-hero-booking"
-                            class="pill-btn kontakt-primary-cta"
-                            href="/termin/"
-                            data-event="click_booking"
-                            data-button-location="contact_hero_booking"
-                        >
-                            Jetzt Termin buchen
-                        </a>
-                        <a
-                            id="contact-hero-whatsapp"
-                            class="pill-btn pill-btn-outline kontakt-secondary-cta"
-                            href={CONTACT_WHATSAPP_URL}
-                            target="_blank"
-                            rel="noopener"
-                            data-event="click_whatsapp"
-                            data-button-location="contact_hero_whatsapp"
-                            data-source="contact_hero"
-                        >
-                            Per WhatsApp schreiben
-                        </a>
-                    </div>
+    <section class="kontakt kontakt-clean" aria-labelledby="kontakt-heading">
+        <header class="kontakt-clean-hero">
+            <div class="kontakt-clean-copy">
+                <p class="kontakt-clean-kicker">Beauty Face Lift Zürich</p>
+                <h1 id="kontakt-heading">Kontakt &amp; Termin buchen bei Beauty Face Lift Zürich</h1>
+                <p class="kontakt-clean-lead">
+                    Sie möchten einen Termin vereinbaren oder sind unsicher, welche Behandlung zu Ihrem Hautbild passt? Teresa berät Sie persönlich per WhatsApp, Telefon, E-Mail oder direkt im Studio an der Bahnhofstrasse 94 in Zürich.
+                </p>
+                <p class="kontakt-clean-location">Bahnhofstrasse 94 · 8001 Zürich · wenige Minuten vom Paradeplatz</p>
+
+                <div class="kontakt-clean-actions" aria-label="Wichtigste Kontaktoptionen">
                     <a
-                        id="contact-hero-phone"
-                        class="kontakt-hero-phone"
-                        href={`tel:${CONTACT_PHONE}`}
-                        data-event="click_phone"
-                        data-button-location="contact_hero_phone"
+                        id="contact-hero-booking"
+                        class="pill-btn kontakt-clean-primary"
+                        href="/termin/"
+                        data-event="click_booking"
+                        data-button-location="contact_hero_booking"
                     >
-                        Anrufen: {CONTACT_PHONE_DISPLAY}
+                        Jetzt Termin buchen
+                    </a>
+                    <a
+                        id="contact-hero-whatsapp"
+                        class="pill-btn pill-btn-outline kontakt-clean-secondary"
+                        href={CONTACT_WHATSAPP_URL}
+                        target="_blank"
+                        rel="noopener"
+                        data-event="click_whatsapp"
+                        data-button-location="contact_hero_whatsapp"
+                        data-source="contact_hero"
+                    >
+                        Per WhatsApp schreiben
                     </a>
                 </div>
 
-                <aside class="kontakt-concierge-card" aria-label="Beauty Face Lift Zürich Kontaktkarte">
-                    <div class="kontakt-card-header">
-                        <p class="kontakt-card-kicker">Premium Beauty Concierge</p>
-                        <h2>Beauty Face Lift Zürich</h2>
-                        <address>
-                            Bahnhofstrasse 94<br />
-                            8001 Zürich<br />
-                            <span>Wenige Minuten vom Paradeplatz</span>
-                        </address>
-                    </div>
-
-                    <div class="kontakt-card-rows" aria-label="Direkte Kontaktmöglichkeiten">
-                        <a
-                            id="contact-card-whatsapp"
-                            href={CONTACT_WHATSAPP_URL}
-                            target="_blank"
-                            rel="noopener"
-                            data-event="click_whatsapp"
-                            data-button-location="contact_card_whatsapp"
-                            data-source="contact_card"
-                        >
-                            <span>WhatsApp</span>
-                            <strong>Direkt schreiben</strong>
-                        </a>
-                        <a
-                            id="contact-card-phone"
-                            href={`tel:${CONTACT_PHONE}`}
-                            data-event="click_phone"
-                            data-button-location="contact_card_phone"
-                        >
-                            <span>Telefon</span>
-                            <strong>{CONTACT_PHONE_DISPLAY}</strong>
-                        </a>
-                        <a
-                            id="contact-card-email"
-                            href={`mailto:${CONTACT_EMAIL}`}
-                            data-event="click_email"
-                            data-button-location="contact_card_email"
-                        >
-                            <span>E-Mail</span>
-                            <strong>{CONTACT_EMAIL}</strong>
-                        </a>
-                        <a
-                            id="contact-card-route"
-                            href={routeUrl}
-                            target="_blank"
-                            rel="noopener"
-                            data-event="click_route"
-                            data-button-location="contact_card_route"
-                        >
-                            <span>Route planen</span>
-                            <strong>Google Maps öffnen</strong>
-                        </a>
-                    </div>
-
-                    <div class="kontakt-card-actions">
-                        <a
-                            id="contact-card-booking"
-                            class="pill-btn"
-                            href="/termin/"
-                            data-event="click_booking"
-                            data-button-location="contact_card_booking"
-                        >
-                            Termin buchen
-                        </a>
-                        <a
-                            class="pill-btn pill-btn-outline"
-                            href={routeUrl}
-                            target="_blank"
-                            rel="noopener"
-                            data-event="click_route"
-                            data-button-location="contact_card_route_button"
-                        >
-                            Route planen
-                        </a>
-                    </div>
-                </aside>
-            </div>
-        </header>
-
-        <section class="kontakt-actions-section" aria-labelledby="kontakt-actions-heading">
-            <div class="kontakt-section-heading">
-                <h2 id="kontakt-actions-heading">Direkt erreichbar</h2>
-                <p>Wählen Sie den schnellsten Weg zu Teresa. Online-Buchung und WhatsApp sind für die meisten Anliegen am effizientesten.</p>
+                <a
+                    id="contact-hero-phone"
+                    class="kontakt-clean-phone"
+                    href={`tel:${CONTACT_PHONE}`}
+                    data-event="click_phone"
+                    data-button-location="contact_hero_phone"
+                >
+                    Anrufen: {CONTACT_PHONE_DISPLAY}
+                </a>
             </div>
 
-            <div class="kontakt-action-layout">
-                <article class="kontakt-action-card kontakt-action-primary">
-                    <div>
-                        <span class="kontakt-action-index">01</span>
-                        <h3>Termin online buchen</h3>
-                        <p>Wenn Sie bereits wissen, welche Behandlung Sie möchten, können Sie Ihren Termin bequem online auswählen.</p>
-                    </div>
+            <aside class="kontakt-clean-panel" aria-labelledby="kontakt-direct-heading">
+                <div>
+                    <p class="kontakt-clean-kicker">Direkt erreichbar</p>
+                    <h2 id="kontakt-direct-heading">Der schnellste Weg zu Teresa</h2>
+                    <p>Online buchen, kurz per WhatsApp schreiben oder direkt anrufen.</p>
+                </div>
+
+                <div class="kontakt-clean-link-list">
+                    {contactLinks.map((link) => (
+                        <a
+                            id={link.id}
+                            href={link.href}
+                            {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
+                            data-event={link.event}
+                            data-button-location={link.buttonLocation}
+                            data-source="contact_direct"
+                        >
+                            <span>{link.label}</span>
+                            <strong>{link.value}</strong>
+                        </a>
+                    ))}
+                </div>
+
+                <div class="kontakt-clean-panel-actions">
                     <a
+                        id="contact-card-booking"
                         class="pill-btn"
                         href="/termin/"
                         data-event="click_booking"
-                        data-button-location="contact_action_booking"
+                        data-button-location="contact_card_booking"
                     >
                         Termin buchen
                     </a>
-                </article>
-
-                <div class="kontakt-action-secondary-grid">
-                    <article class="kontakt-action-card">
-                        <span class="kontakt-action-index">02</span>
-                        <h3>WhatsApp schreiben</h3>
-                        <p>Ideal für kurze Fragen, Terminwünsche oder Rückfragen vor Ihrer Behandlung.</p>
-                        <a
-                            href={CONTACT_WHATSAPP_URL}
-                            target="_blank"
-                            rel="noopener"
-                            data-event="click_whatsapp"
-                            data-button-location="contact_action_whatsapp"
-                            data-source="contact_action"
-                        >
-                            Chat öffnen
-                        </a>
-                    </article>
-                    <article class="kontakt-action-card">
-                        <span class="kontakt-action-index">03</span>
-                        <h3>Anrufen</h3>
-                        <p>Für kurzfristige Terminänderungen, persönliche Rückfragen oder eine schnelle Abstimmung.</p>
-                        <a
-                            href={`tel:${CONTACT_PHONE}`}
-                            data-event="click_phone"
-                            data-button-location="contact_action_phone"
-                        >
-                            Jetzt anrufen
-                        </a>
-                    </article>
-                    <article class="kontakt-action-card">
-                        <span class="kontakt-action-index">04</span>
-                        <h3>E-Mail senden</h3>
-                        <p>Für ausführlichere Anliegen, Unterlagen oder Rückrufwünsche.</p>
-                        <a
-                            href={`mailto:${CONTACT_EMAIL}`}
-                            data-event="click_email"
-                            data-button-location="contact_action_email"
-                        >
-                            E-Mail schreiben
-                        </a>
-                    </article>
-                    <article class="kontakt-action-card kontakt-action-card--form">
-                        <span class="kontakt-action-index">05</span>
-                        <h3>Kontaktformular nutzen</h3>
-                        <p>Für eine persönliche Anfrage an Teresa mit Hautziel, bevorzugtem Kontaktweg und Rückrufwunsch.</p>
-                        <a
-                            id="contact-card-form"
-                            href="#kontakt-form"
-                            data-event="click_form_intent"
-                            data-button-location="contact_action_form"
-                        >
-                            Nachricht senden
-                        </a>
-                    </article>
+                    <a
+                        class="pill-btn pill-btn-outline"
+                        href="#kontakt-form"
+                        id="contact-card-form"
+                        data-event="click_form_intent"
+                        data-button-location="contact_card_form"
+                    >
+                        Nachricht senden
+                    </a>
                 </div>
-            </div>
-        </section>
+            </aside>
+        </header>
 
-        <section class="kontakt-intent-section" aria-labelledby="kontakt-intent-heading">
-            <div class="kontakt-section-heading">
-                <h2 id="kontakt-intent-heading">Wie dürfen wir Ihnen helfen?</h2>
-                <p>Wählen Sie den Weg, der am besten zu Ihrem Anliegen passt.</p>
-            </div>
-            <div class="kontakt-intent-grid">
-                {intentCards.map((card, index) => (
-                    <article class="kontakt-intent-card">
-                        <span>{String(index + 1).padStart(2, '0')}</span>
-                        <h3>{card.title}</h3>
-                        <p>{card.copy}</p>
-                        <a
-                            id={card.id}
-                            href={card.href}
-                            {...(card.external ? { target: '_blank', rel: 'noopener' } : {})}
-                            data-event={card.event}
-                            data-button-location={card.buttonLocation}
-                            data-source="contact_intent"
-                        >
-                            {card.cta}
-                        </a>
-                    </article>
-                ))}
-            </div>
-        </section>
-
-        <section class="kontakt-consultation" aria-labelledby="kontakt-consultation-heading">
-            <div class="kontakt-consultation-copy">
-                <p class="kontakt-card-kicker">Persönliche Beratung</p>
-                <h2 id="kontakt-consultation-heading">Nicht sicher, welche Behandlung passt?</h2>
-                <p>
-                    Viele Kundinnen wissen vor dem ersten Termin nicht genau, ob Hydrafacial, Microneedling, Peeling, ColdPlasma oder eine andere Behandlung die richtige Wahl ist. Teresa nimmt sich Zeit für Ihr Anliegen und empfiehlt Ihnen den passenden nächsten Schritt für Ihr Hautziel.
-                </p>
-                <p class="kontakt-consultation-micro">Persönlich · ehrlich · passend zu Ihrem Hautbild</p>
-                <a
-                    class="pill-btn"
-                    href="#kontakt-form"
-                    data-event="click_form_intent"
-                    data-button-location="contact_consultation_recommendation"
-                >
-                    Behandlungsempfehlung anfragen
-                </a>
-            </div>
-            <div class="kontakt-consultation-media">
-                <Image
-                    src={consultationTrust}
-                    widths={[480, 720, 960]}
-                    sizes="(min-width: 901px) 42vw, 100vw"
-                    format="webp"
-                    quality="high"
-                    loading="lazy"
-                    alt="Persönliche Hautberatung bei Beauty Face Lift Zürich"
-                />
-            </div>
-        </section>
-
-        <section class="kontakt-studio" aria-labelledby="kontakt-studio-heading">
-            <div class="kontakt-section-heading kontakt-section-heading--split">
-                <div>
-                    <h2 id="kontakt-studio-heading">Studio &amp; Anfahrt</h2>
-                    <p>Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94 in Zürich — nur wenige Minuten vom Paradeplatz entfernt.</p>
-                </div>
-                <a
-                    id="contact-route"
-                    class="pill-btn pill-btn-outline"
-                    href={routeUrl}
-                    target="_blank"
-                    rel="noopener"
-                    data-event="click_route"
-                    data-button-location="contact_studio_route"
-                >
-                    Route planen
-                </a>
-            </div>
-
-            <div class="kontakt-studio-layout">
-                <div class="kontakt-studio-grid">
-                    <article class="kontakt-info-card">
-                        <span>Adresse</span>
-                        <address>
-                            Beauty Face Lift Zürich<br />
-                            Bahnhofstrasse 94<br />
-                            8001 Zürich
-                        </address>
-                    </article>
-                    <article class="kontakt-info-card">
-                        <span>Öffnungszeiten</span>
-                        <div class="kontakt-hours">
-                            {OPENING_HOURS.map((row) => (
-                                <p>
-                                    <strong>{row.label}</strong>
-                                    <em>{row.value}</em>
-                                </p>
-                            ))}
-                        </div>
-                    </article>
-                    <article class="kontakt-info-card">
-                        <span>Mit dem ÖV</span>
-                        <p>Paradeplatz und Börsenstrasse sind in wenigen Minuten zu Fuss erreichbar.</p>
-                    </article>
-                    <article class="kontakt-info-card">
-                        <span>Mit dem Auto / Parkhäuser</span>
-                        <p>Mehrere Innenstadt-Parkhäuser rund um Paradeplatz und Bleicherweg liegen nur wenige Gehminuten entfernt.</p>
-                    </article>
-                </div>
-
-                <a
-                    class="kontakt-map-card"
-                    href={routeUrl}
-                    target="_blank"
-                    rel="noopener"
-                    data-event="click_route"
-                    data-button-location="contact_map_card"
-                    aria-label="Route zu Beauty Face Lift Zürich auf Google Maps planen"
-                >
-                    <span class="kontakt-map-pin" aria-hidden="true"></span>
-                    <span class="kontakt-map-title">Bahnhofstrasse 94</span>
-                    <span class="kontakt-map-copy">Zürich · nahe Paradeplatz</span>
-                    <strong>Route planen</strong>
-                </a>
-            </div>
-        </section>
-
-        <section class="kontakt-form-section" aria-labelledby="kontakt-form-heading">
-            <div class="kontakt-form-copy">
+        <section class="kontakt-clean-form-section" aria-labelledby="kontakt-form-heading">
+            <div class="kontakt-clean-form-intro">
+                <p class="kontakt-clean-kicker">Persönliche Anfrage</p>
                 <h2 id="kontakt-form-heading">Eine Nachricht an Teresa</h2>
                 <p>Beschreiben Sie kurz Ihr Anliegen oder Ihr Hautziel. Wir melden uns persönlich bei Ihnen zurück.</p>
+                <p class="kontakt-clean-note">Für dringende Terminänderungen bitte direkt per WhatsApp schreiben oder anrufen.</p>
             </div>
 
-            <form id="kontakt-form" class="kontakt-form" action="/api/contact" method="post">
+            <form id="kontakt-form" class="kontakt-form kontakt-clean-form" action="/api/contact" method="post">
                 <div class="kontakt-field-grid">
                     <div class="kontakt-field kontakt-field--full">
                         <label for="contact-name">Name <span class="kontakt-required" aria-hidden="true">*</span></label>
@@ -533,9 +297,86 @@ const structuredData = {
                     >
                         Anfrage an Teresa senden
                     </button>
-                    <p class="kontakt-form-note">Für dringende Terminänderungen bitte direkt per WhatsApp schreiben oder anrufen.</p>
                 </div>
             </form>
+        </section>
+
+        <section class="kontakt-clean-support" aria-labelledby="kontakt-support-heading">
+            <div class="kontakt-clean-support-copy">
+                <p class="kontakt-clean-kicker">Behandlungsempfehlung</p>
+                <h2 id="kontakt-support-heading">Nicht sicher, welche Behandlung passt?</h2>
+                <p>Viele Kundinnen wissen vor dem ersten Termin nicht genau, ob Hydrafacial, Microneedling, Peeling, ColdPlasma oder eine andere Behandlung die richtige Wahl ist. Teresa empfiehlt Ihnen den passenden nächsten Schritt für Ihr Hautziel.</p>
+                <a
+                    class="pill-btn pill-btn-outline"
+                    href="#kontakt-form"
+                    data-event="click_form_intent"
+                    data-button-location="contact_support_recommendation"
+                >
+                    Behandlungsempfehlung anfragen
+                </a>
+            </div>
+            <div class="kontakt-clean-support-image">
+                <Image
+                    src={consultationTrust}
+                    widths={[420, 640, 840]}
+                    sizes="(min-width: 901px) 38vw, 100vw"
+                    format="webp"
+                    quality="high"
+                    loading="lazy"
+                    alt="Persönliche Hautberatung bei Beauty Face Lift Zürich"
+                />
+            </div>
+        </section>
+
+        <section class="kontakt-clean-studio" aria-labelledby="kontakt-studio-heading">
+            <div class="kontakt-clean-studio-heading">
+                <p class="kontakt-clean-kicker">Studio &amp; Anfahrt</p>
+                <h2 id="kontakt-studio-heading">Bahnhofstrasse 94 in Zürich</h2>
+                <p>Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94 in Zürich, wenige Minuten vom Paradeplatz und der Börsenstrasse entfernt.</p>
+            </div>
+
+            <div class="kontakt-clean-studio-grid">
+                <article>
+                    <span>Adresse</span>
+                    <address>
+                        Beauty Face Lift Zürich<br />
+                        Bahnhofstrasse 94<br />
+                        8001 Zürich
+                    </address>
+                </article>
+                <article>
+                    <span>Öffnungszeiten</span>
+                    <div class="kontakt-hours">
+                        {OPENING_HOURS.map((row) => (
+                            <p>
+                                <strong>{row.label}</strong>
+                                <em>{row.value}</em>
+                            </p>
+                        ))}
+                    </div>
+                </article>
+                <article>
+                    <span>ÖV</span>
+                    <p>Paradeplatz und Börsenstrasse sind in wenigen Minuten zu Fuss erreichbar.</p>
+                </article>
+                <article>
+                    <span>Auto</span>
+                    <p>Mehrere Innenstadt-Parkhäuser rund um Paradeplatz und Bleicherweg liegen nur wenige Gehminuten entfernt.</p>
+                </article>
+            </div>
+
+            <a
+                id="contact-route"
+                class="kontakt-clean-route"
+                href={routeUrl}
+                target="_blank"
+                rel="noopener"
+                data-event="click_route"
+                data-button-location="contact_studio_route"
+            >
+                <span>Google Maps</span>
+                <strong>Route planen</strong>
+            </a>
         </section>
 
         <nav class="kontakt-mobile-cta" aria-label="Schnelle Kontaktoptionen">
@@ -569,18 +410,19 @@ const structuredData = {
     <script is:inline>
         (() => {
             const stickyCta = document.querySelector('.kontakt-mobile-cta');
-            const formSection = document.querySelector('.kontakt-form-section');
+            const formSection = document.querySelector('.kontakt-clean-form-section');
 
-            if (!stickyCta || !formSection || !('IntersectionObserver' in window)) return;
+            if (!stickyCta || !formSection) return;
 
-            const observer = new IntersectionObserver((entries) => {
-                stickyCta.classList.toggle('is-hidden', entries.some((entry) => entry.isIntersecting));
-            }, {
-                rootMargin: '0px 0px -35% 0px',
-                threshold: 0.01,
-            });
+            const syncSticky = () => {
+                const formRect = formSection.getBoundingClientRect();
+                const formNearViewport = formRect.top < window.innerHeight - 80 && formRect.bottom > 120;
+                stickyCta.classList.toggle('is-visible', window.scrollY > 520 && !formNearViewport);
+            };
 
-            observer.observe(formSection);
+            window.addEventListener('scroll', syncSticky, { passive: true });
+            window.addEventListener('resize', syncSticky);
+            syncSticky();
         })();
     </script>
 </Base>

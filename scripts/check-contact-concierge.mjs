@@ -17,16 +17,16 @@ const pageRequirements = [
   'id="contact-hero-whatsapp"',
   'id="contact-hero-phone"',
   'id="contact-card-booking"',
-  'id="contact-card-whatsapp"',
-  'id="contact-card-phone"',
-  'id="contact-card-email"',
+  "id: 'contact-card-whatsapp'",
+  "id: 'contact-card-phone'",
+  "id: 'contact-card-email'",
   'id="contact-card-form"',
   'id="contact-route"',
   'id="contact-form-submit"',
   'data-event="click_booking"',
   'data-event="click_whatsapp"',
   'data-event="click_phone"',
-  'data-event="click_email"',
+  "event: 'click_email'",
   'data-event="click_route"',
   'data-event="form_submit"',
   'name="preferredContactMethod"',
@@ -34,8 +34,8 @@ const pageRequirements = [
   'kontakt-mobile-cta',
   'https://www.google.com/maps/dir/?api=1',
   'consultationTrust',
-  '"openingHoursSpecification"',
-  '"sameAs"',
+  'openingHoursSpecification',
+  'sameAs',
 ];
 
 for (const requirement of pageRequirements) {
@@ -43,14 +43,14 @@ for (const requirement of pageRequirements) {
 }
 
 const styleRequirements = [
-  '.kontakt-hero',
-  '.kontakt-concierge-card',
-  '.kontakt-action-primary',
-  '.kontakt-action-card--form',
-  '.kontakt-intent-grid',
-  '.kontakt-consultation',
-  '.kontakt-map-card',
+  '.kontakt-clean',
+  '.kontakt-clean-hero',
+  '.kontakt-clean-panel',
+  '.kontakt-clean-form-section',
+  '.kontakt-clean-support',
+  '.kontakt-clean-studio',
   '.kontakt-mobile-cta',
+  '.kontakt-mobile-cta.is-visible',
   'env(safe-area-inset-bottom)',
 ];
 
