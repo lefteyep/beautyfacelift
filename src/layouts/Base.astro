@@ -1,6 +1,7 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import HeadIcons from '../components/HeadIcons.astro';
 import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
@@ -186,9 +187,7 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
     )}
 
     <!-- Favicon & Manifest -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.ico" sizes="32x32">
-    <link rel="manifest" href="/manifest.json">
+    <HeadIcons />
 
     {preloadImageLink && (
       <link

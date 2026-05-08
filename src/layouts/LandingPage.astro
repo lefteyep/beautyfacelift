@@ -2,6 +2,7 @@
 import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
+import HeadIcons from '../components/HeadIcons.astro';
 
 interface Props {
   title: string;
@@ -31,7 +32,7 @@ const pixelNoscriptHtml = pixelId
     <meta name="robots" content="noindex, nofollow">
     <title>{title}</title>
     <meta name="theme-color" content="#B98F47">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <HeadIcons />
     {preloadImage && (
         <link
             rel="preload"
