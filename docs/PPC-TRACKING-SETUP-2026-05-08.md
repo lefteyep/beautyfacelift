@@ -60,14 +60,17 @@ npx wrangler secret put GA4_MEASUREMENT_ID
 npx wrangler secret put GA4_API_SECRET
 ```
 
-Add public build variables in `wrangler.jsonc` or via the deployment environment:
+Set public IDs in the shell or CI environment that runs `astro build`. Astro embeds `PUBLIC_*` values at build time, so putting these only in `wrangler.jsonc` is not enough for the static HTML:
 
-```jsonc
-"PUBLIC_META_PIXEL_ID": "123456789012345",
-"PUBLIC_GTM_ID": "GTM-XXXXXXX"
+```powershell
+$env:PUBLIC_META_PIXEL_ID = "123456789012345"
+$env:PUBLIC_GTM_ID = "GTM-XXXXXXX"
+npm run cf:deploy
 ```
 
-Then rebuild and redeploy:
+If the GitHub `master` deploy workflow is used later, add these as GitHub repository variables/secrets and pass them into the `npm run build` step as environment variables.
+
+After private Worker secrets and public build variables are set, rebuild and redeploy:
 
 ```powershell
 npm run cf:deploy
