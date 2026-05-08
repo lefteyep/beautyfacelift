@@ -1,8 +1,10 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** May 7, 2026 (post-launch documentation)
+**Last updated:** May 8, 2026 (release documentation)
 
 Current production launch record and verification commands are in [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+
+Latest release note: [RELEASE-2026-05-08-live-update.md](RELEASE-2026-05-08-live-update.md). Delivery details are in [DELIVERY-2026-05-08.md](DELIVERY-2026-05-08.md).
 
 ## Deployment
 

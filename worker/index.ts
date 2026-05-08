@@ -60,6 +60,21 @@ function withSecurityHeaders(response: Response, request: Request): Response {
   });
 }
 
+async function fetchStaticAsset(request: Request, env: Env): Promise<Response> {
+  if (request.method !== 'HEAD') {
+    return env.ASSETS.fetch(request);
+  }
+
+  const assetRequest = new Request(request, { method: 'GET' });
+  const response = await env.ASSETS.fetch(assetRequest);
+
+  return new Response(null, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const redirect = canonicalHostRedirect(request);
@@ -76,7 +91,7 @@ export default {
       }), request);
     }
 
-    const response = await env.ASSETS.fetch(request);
+    const response = await fetchStaticAsset(request, env);
     return withSecurityHeaders(response, request);
   },
 };

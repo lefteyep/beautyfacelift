@@ -1,4 +1,6 @@
 ---
+import { CONTACT_WHATSAPP_URL } from '../../shared/site';
+
 interface Props {
     treatment: string;
     href?: string;
@@ -12,11 +14,11 @@ const {
 
 <section class="treatment-action-bar container" aria-label={`${treatment} Termin und Beratung`}>
     <div class="treatment-action-copy">
-        <span class="sub-display">Direkt buchen</span>
-        <p>{treatment} an der Bahnhofstrasse 94. Persönliche Behandlung durch Teresa Stimac, transparente Preise und kurze Rückfrage per WhatsApp möglich.</p>
+        <span class="sub-display">Behandlung planen</span>
+        <p>{treatment} an der Bahnhofstrasse 94 in Zürich. Wir stimmen Hautzustand, Ziel und Ablauf persönlich ab, damit die Behandlung zur Haut passt.</p>
     </div>
     <div class="treatment-action-buttons">
         <a href={href} class="pill-btn">Termin buchen</a>
-        <a href="https://wa.me/41792143462" class="pill-btn pill-btn-outline">Beratung fragen</a>
+        <a href={CONTACT_WHATSAPP_URL} class="pill-btn pill-btn-outline" target="_blank" rel="noopener">Frage per WhatsApp</a>
     </div>
 </section>

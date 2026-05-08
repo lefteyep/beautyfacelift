@@ -1,6 +1,7 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import HeadIcons from '../components/HeadIcons.astro';
 import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
@@ -119,6 +120,9 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
         @media (max-width: 900px) {
             .nav-minimal { padding: 16px 24px; }
             .hero-editorial { padding: 80px 24px 48px; }
+            .hero-sub-display { display: none; }
+            .hero-display .display-text { font-size: clamp(2.25rem, 8.8vw, 2.5rem); line-height: 1.08; }
+            .hero-media { width: min(100%, 340px); max-width: 340px; margin-left: auto; margin-right: auto; }
             .services-section,
             .about-editorial,
             .testimonials-section,
@@ -187,9 +191,7 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
     )}
 
     <!-- Favicon & Manifest -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.ico" sizes="32x32">
-    <link rel="manifest" href="/manifest.json">
+    <HeadIcons />
 
     {preloadImageLink && (
       <link

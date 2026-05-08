@@ -1,5 +1,5 @@
 ---
-import { absoluteUrl } from '../../../../shared/site';
+import { CONTACT_WHATSAPP_URL, absoluteUrl } from '../../../../shared/site';
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingCta from '../../../components/BookingCta.astro';
@@ -222,14 +222,14 @@ const faqData = {
         ]} />
     </div>
 
-    <section class="treatment-action-bar container exosome-action-bar" aria-label="Exosome Therapie Beratung und Termin">
+    <section class="treatment-action-bar container exosome-action-bar" aria-label="Exosome Therapie Termin und Kontakt">
         <div class="treatment-action-copy">
-            <span class="sub-display">Beratung zuerst</span>
-            <p>Exosome Therapie an der Bahnhofstrasse 94 in Zürich. Teresa prüft Hautzustand, Produktwahl und Ablauf vor jeder Behandlung persönlich.</p>
+            <span class="sub-display">Behandlung planen</span>
+            <p>Teresa stimmt Hautzustand, Produktwahl und Ablauf persönlich ab, damit die Exosome Therapie zur Haut passt.</p>
         </div>
         <div class="treatment-action-buttons">
-            <a href={bookingHref} class="pill-btn">Beratung buchen</a>
-            <a href="https://wa.me/41792143462" class="pill-btn pill-btn-outline">Rückfrage stellen</a>
+            <a href={bookingHref} class="pill-btn">Termin buchen</a>
+            <a href={CONTACT_WHATSAPP_URL} class="pill-btn pill-btn-outline" target="_blank" rel="noopener">Frage per WhatsApp</a>
         </div>
     </section>
 
@@ -435,10 +435,10 @@ const faqData = {
     </section>
 
     <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Erwartungen</div>
-        <div class="scroll-anim" style="max-width: 820px; margin: 0 auto; text-align: center;">
+        <div class="scroll-anim treatment-copy-block">
+            <div class="sub-display">Erwartungen</div>
             <h2 style="font-size: clamp(1.8rem, 3vw, 2.8rem); text-transform: none; margin-bottom: 1.5rem;">Wann sieht man Ergebnisse?</h2>
-            <p style="margin-bottom: 1rem;">Direkt nach der Exosome Gesichtsbehandlung kann die Haut frischer, hydratisierter und ruhiger wirken. Veränderungen an Textur, Elastizität und Ebenmässigkeit bauen sich, wenn sie auftreten, meist über mehrere Wochen und mehrere Sitzungen auf.</p>
+            <p>Direkt nach der Exosome Gesichtsbehandlung kann die Haut frischer, hydratisierter und ruhiger wirken. Veränderungen an Textur, Elastizität und Ebenmässigkeit bauen sich, wenn sie auftreten, meist über mehrere Wochen und mehrere Sitzungen auf.</p>
             <p>Die wissenschaftliche Forschung zu Exosomen Haut Anwendungen entwickelt sich dynamisch. Viele Ergebnisse sind vielversprechend, aber nicht jeder Effekt lässt sich bereits eindeutig auf Exosomen allein zurückführen, besonders wenn die Behandlung mit Microneedling, Laser, Hyaluronsäure oder anderen Wirkstoffen kombiniert wird. Deshalb beraten wir ehrlich und planen Schritt für Schritt.</p>
         </div>
     </section>
@@ -462,7 +462,7 @@ const faqData = {
         <BookingCta
             treatment="Exosome Therapie"
             href={bookingHref}
-            eyebrow="Beratung buchen"
+            eyebrow="Termin planen"
             title="Exosome Therapie in Zürich besprechen"
             text="Teresa analysiert Ihre Haut persönlich und klärt, ob Exosome Therapie, Microneedling mit Exosomen oder eine andere Behandlung zu Ihrem Hautziel passt."
         />

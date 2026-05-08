@@ -1,9 +1,10 @@
 # Relaunch Status
 
-Last updated: 2026-04-21
+Last updated: 2026-05-08
 
 ## Done
 
+- 2026-05-08 homepage/treatment polish is documented in `docs/DELIVERY-2026-05-08.md`: mobile homepage hero cleanup, revised homepage H1/subheadline, shared treatment CTA wording, Exosome/vergleich callout refinements, responsive process-card layout updates, shared favicon/app-icon handling, and Cloudflare deploy hardening.
 - Moved the main homepage and treatment marketing images into Astro's image pipeline and replaced the large raw-image paths where they were hurting LCP and bandwidth.
 - Corrected image priority behavior:
   - homepage now preloads the real hero LCP image
