@@ -9,6 +9,7 @@ import { contactRoute } from './routes/contact';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
+const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-08-live-update';
 
 router.get('/api/services', (req: Request, env: Env) => servicesRoute(req, env));
 router.get('/api/availability', (req: Request, env: Env) => availabilityRoute(req, env));
@@ -61,11 +62,12 @@ function withSecurityHeaders(response: Response, request: Request): Response {
 }
 
 async function fetchStaticAsset(request: Request, env: Env): Promise<Response> {
+  const assetRequest = createStaticAssetRequest(request, request.method === 'HEAD' ? 'GET' : request.method);
+
   if (request.method !== 'HEAD') {
-    return env.ASSETS.fetch(request);
+    return env.ASSETS.fetch(assetRequest);
   }
 
-  const assetRequest = new Request(request, { method: 'GET' });
   const response = await env.ASSETS.fetch(assetRequest);
   const headers = new Headers(response.headers);
   headers.delete('Content-Length');
@@ -75,6 +77,28 @@ async function fetchStaticAsset(request: Request, env: Env): Promise<Response> {
     statusText: response.statusText,
     headers,
   });
+}
+
+function createStaticAssetRequest(request: Request, method: string): Request {
+  const url = new URL(request.url);
+
+  if (shouldUseDocumentAssetReleaseKey(request)) {
+    url.searchParams.set('__bfl_asset_release', DOCUMENT_ASSET_RELEASE_KEY);
+  }
+
+  return new Request(url.toString(), {
+    method,
+    headers: request.headers,
+  });
+}
+
+function shouldUseDocumentAssetReleaseKey(request: Request): boolean {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return false;
+  }
+
+  const { pathname } = new URL(request.url);
+  return pathname === '/' || pathname.endsWith('/') || pathname.endsWith('.html');
 }
 
 export default {

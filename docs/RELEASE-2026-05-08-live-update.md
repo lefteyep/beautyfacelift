@@ -49,7 +49,7 @@ The current working-tree update covers:
 - Treatment process grid layout refinements for desktop and mobile.
 - Shared head icon markup for the main layout and landing-page layout.
 - PNG favicon, Apple touch icon, Android Chrome app icons, and manifest icon updates.
-- Worker static asset deploy hardening with explicit `--assets=./dist` and HEAD request handling.
+- Worker static asset deploy hardening with explicit `--assets=./dist`, immediate old-asset expiry, HEAD request handling, and an internal HTML release key to avoid stale cached document responses.
 
 The important visual decision from this session:
 
@@ -128,11 +128,17 @@ Deployment used the project script:
 npm run cf:deploy
 ```
 
-Cloudflare result:
+An additional explicit asset deploy was run after the branch push because a later Worker version served the Exosome static route as `404`. The final live deployment was restored with:
+
+```powershell
+npx wrangler deploy --assets=./dist --keep-vars --message "Restore May 8 static assets after branch push"
+```
+
+Final Cloudflare result:
 
 ```text
 Worker: beautyfacelift
-Version ID: 564dba2f-2c24-4f1e-b98f-625ed007fa92
+Version ID: 98766b81-429d-4b96-9efd-0798809d20b8
 Routes:
 - beautyfacelift-zuerich.ch
 - www.beautyfacelift-zuerich.ch
@@ -144,3 +150,6 @@ Post-deploy smoke checks:
 - `https://beautyfacelift-zuerich.ch/termin/` returned `200` and contains the Aesthetika booking copy.
 - `https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/` returned `200` and contains `Behandlung planen` plus `Frage per WhatsApp`.
 - `https://www.beautyfacelift-zuerich.ch/` returned `200` and contains the new homepage headline.
+- `HEAD https://beautyfacelift-zuerich.ch/favicon-32x32.png` returned `200`.
+- `HEAD https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/` returned `200` after the asset restore deploy.
+- `https://beautyfacelift-zuerich.ch/api/services` returned `200 application/json`.
