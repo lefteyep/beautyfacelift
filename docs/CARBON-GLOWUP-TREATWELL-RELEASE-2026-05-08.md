@@ -279,7 +279,41 @@ Expected:
 
 ## Deployment Record
 
-Status: pending live deploy.
+Status: deployed.
+
+Runtime deploy commit:
+
+```text
+772933d Document Carbon Glow-Up Treatwell release
+```
+
+Deploy command:
+
+```powershell
+npm run cf:deploy
+```
+
+Cloudflare Version ID:
+
+```text
+4237d1da-3a2c-4b2c-8a99-f5082b366434
+```
+
+Wrangler version:
+
+```text
+4.83.0
+```
+
+Deploy summary:
+
+```text
+Worker Startup Time: 17 ms
+Uploaded beautyfacelift
+Routes deployed:
+- beautyfacelift-zuerich.ch
+- www.beautyfacelift-zuerich.ch
+```
 
 Cloudflare Worker:
 
@@ -292,6 +326,57 @@ Routes:
 ```text
 beautyfacelift-zuerich.ch
 www.beautyfacelift-zuerich.ch
+```
+
+## Production Smoke Check Results
+
+Completed after live deploy:
+
+```text
+https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/
+```
+
+Result:
+
+```text
+Status: 200
+Title: Glow-Up Aktion Zürich - CHF 169 statt CHF 220 | Beauty Face Lift
+Contains Glow-Up Aktion: yes
+Contains CHF 169: yes
+Contains CHF 220: yes
+Contains Termin für CHF 169 sichern: yes
+Contains Treatwell: yes
+Contains CHF 250: no
+Contains Aesthetika: no
+```
+
+Booking bridge:
+
+```text
+https://beautyfacelift-zuerich.ch/termin/?service=Carbon+Microneedling&offer=glow-up-aktion&price=169
+```
+
+Result:
+
+```text
+Status: 200
+Contains Treatwell: yes
+Contains Aesthetika: no
+Contains booking-forward-offer: yes
+Contains glow-up-aktion: yes
+Contains Treatwell final booking URL: yes
+```
+
+Browser redirect result:
+
+```text
+https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Carbon+Microneedling&offer=glow-up-aktion&price=169
+```
+
+Treatwell page title:
+
+```text
+Beauty Face Lift | Kosmetikstudio in Kreis 1, Zürich - Treatwell
 ```
 
 ## Rollback
