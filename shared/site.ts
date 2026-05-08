@@ -1,9 +1,18 @@
 export const SITE_NAME = 'Beauty Face Lift';
+export const SITE_URL = 'https://beautyfacelift-zuerich.ch';
+
+export function absoluteUrl(path = '/'): string {
+  if (/^https?:\/\//i.test(path)) return path;
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return new URL(normalizedPath, SITE_URL).href;
+}
 
 export const CONTACT_PHONE = '+41792143462';
 export const CONTACT_PHONE_DISPLAY = '+41 79 214 34 62';
 export const CONTACT_EMAIL = 'info@beautyfacelift.ch';
 export const CONTACT_TO_EMAIL_FALLBACK = 'info@beautyfacelift.ch';
+export const TREATWELL_URL = 'https://www.treatwell.ch/ort/beauty-face-lift/';
 
 const whatsappMessage = encodeURIComponent('Guten Tag, ich habe eine Frage zu einer Behandlung bei Beauty Face Lift.');
 export const CONTACT_WHATSAPP_URL = `https://wa.me/41792143462?text=${whatsappMessage}`;
@@ -31,11 +40,11 @@ export const TREATMENTS = [
 ] as const;
 
 export const CONTACT_TOPICS = [
-  'Erstberatung',
-  'Behandlungsempfehlung',
-  'Terminverschiebung oder Absage',
-  'Preise und Behandlungsdauer',
-  'Anfahrt und Studio',
+  'Ich möchte einen Termin buchen',
+  'Ich möchte eine Behandlungsempfehlung',
+  'Frage zu Preisen',
+  'Termin verschieben oder absagen',
+  'Anfahrt & Studio',
   'Allgemeine Frage',
 ] as const;
 

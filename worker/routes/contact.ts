@@ -17,6 +17,7 @@ type ContactSubmission = {
   name: string;
   email: string;
   phone: string;
+  preferredContactMethod: string;
   preferredCallbackTime: string;
   topic: string;
   message: string;
@@ -24,6 +25,8 @@ type ContactSubmission = {
   company: string;
   turnstileToken: string;
 };
+
+const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -123,6 +126,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         name: getString(payload.name),
         email: getString(payload.email),
         phone: getString(payload.phone),
+        preferredContactMethod: getString(payload.preferredContactMethod),
         preferredCallbackTime: getString(payload.preferredCallbackTime),
         topic: getString(payload.topic),
         message: getString(payload.message),
@@ -141,6 +145,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       name: getString(formData.get('name')),
       email: getString(formData.get('email')),
       phone: getString(formData.get('phone')),
+      preferredContactMethod: getString(formData.get('preferredContactMethod')),
       preferredCallbackTime: getString(formData.get('preferredCallbackTime')),
       topic: getString(formData.get('topic')),
       message: getString(formData.get('message')),
@@ -170,12 +175,17 @@ function isAllowedTopic(topic: string): boolean {
   return CONTACT_TOPICS.includes(topic as (typeof CONTACT_TOPICS)[number]);
 }
 
+function isAllowedPreferredContactMethod(method: string): boolean {
+  return PREFERRED_CONTACT_METHODS.includes(method as (typeof PREFERRED_CONTACT_METHODS)[number]);
+}
+
 function validateSubmission(data: ContactSubmission): string | null {
   if (!data.name) return 'Bitte geben Sie Ihren Namen an.';
   if (data.name.length > 120) return 'Der Name ist zu lang.';
   if (!data.email && !data.phone) return 'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.';
   if (data.email && !isValidEmail(data.email)) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
   if (data.phone && !isValidPhone(data.phone)) return 'Bitte geben Sie eine gültige Telefonnummer an.';
+  if (data.preferredContactMethod && !isAllowedPreferredContactMethod(data.preferredContactMethod)) return 'Bitte wählen Sie einen gültigen Kontaktweg aus.';
   if (data.preferredCallbackTime.length > 160) return 'Der gewünschte Rückrufzeitpunkt ist zu lang.';
   if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie ein gültiges Thema aus.';
   if (!data.message) return 'Bitte schreiben Sie eine Nachricht.';
@@ -243,6 +253,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     `Name: ${data.name}`,
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
+    `Bevorzugter Kontaktweg: ${data.preferredContactMethod || 'Nicht angegeben'}`,
     `Bevorzugter Rückrufzeitpunkt: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
     `Thema: ${data.topic}`,
     '',
@@ -262,6 +273,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <tr><td style="padding: 8px 0; font-weight: 600;">Name</td><td style="padding: 8px 0;">${escapeHtml(data.name)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Rückrufzeit</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>
