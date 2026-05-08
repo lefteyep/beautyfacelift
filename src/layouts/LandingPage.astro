@@ -58,6 +58,15 @@ const pixelNoscriptHtml = pixelId
         </script>
     )}
     {pixelId && <noscript set:html={pixelNoscriptHtml}></noscript>}
+    {import.meta.env.PUBLIC_GTM_ID && (
+        <script type="text/partytown" set:html={`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${import.meta.env.PUBLIC_GTM_ID}');
+        `} />
+    )}
 </head>
 <body>
     <!-- Minimal Nav: Logo only — static in document flow (scrolls with page) -->
@@ -106,7 +115,7 @@ const pixelNoscriptHtml = pixelId
     <script is:inline>
         (function() {
             var params = new URLSearchParams(window.location.search);
-            var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'];
+            var utmKeys = ['utm_id','utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_source_platform','gclid','gbraid','wbraid','fbclid','matchtype','network','device'];
             var utm = {};
             var hasUtm = false;
             utmKeys.forEach(function(k) {
@@ -117,6 +126,11 @@ const pixelNoscriptHtml = pixelId
                 try { sessionStorage.setItem('bfl_utm', JSON.stringify(utm)); } catch(e) {}
             }
         })();
+    </script>
+
+    <script>
+        import { initPpcTracking } from '../lib/track';
+        initPpcTracking();
     </script>
 </body>
 </html>

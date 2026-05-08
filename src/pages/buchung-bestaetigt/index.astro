@@ -11,7 +11,7 @@ import Base from '../../layouts/Base.astro';
     <section class="container confirmation-page">
         <div class="confirmation-icon">✓</div>
         <h1>Buchungshinweis</h1>
-        <p class="confirmation-subtitle">Die Online-Buchung läuft jetzt zentral über Aesthetika.</p>
+        <p class="confirmation-subtitle">Die Online-Buchung läuft vorübergehend über Treatwell.</p>
 
         <div id="booking-details" class="booking-summary" style="max-width: 500px; margin: 2rem auto;">
             <p class="booking-loading" id="details-loading">Buchungsdetails werden geladen...</p>
@@ -23,7 +23,7 @@ import Base from '../../layouts/Base.astro';
         </div>
 
         <div class="confirmation-actions">
-            <a href="/termin/" class="pill-btn">Zur neuen Buchung</a>
+            <a href="/termin/" class="pill-btn" data-button-location="legacy_confirmation_booking">Zur neuen Buchung</a>
             <a href="/" class="pill-btn pill-btn-outline">Zur Startseite</a>
             <a href="/behandlungen/" class="pill-btn pill-btn-outline">Weitere Behandlungen</a>
         </div>

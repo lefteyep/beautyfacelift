@@ -14,20 +14,28 @@ export function absoluteUrl(path = '/'): string {
   return new URL(normalizedPath, SITE_URL).href;
 }
 
-export const AESTHETIKA_BOOKING_URL = 'https://booking.beautyfacelift.ch/buchen';
+export const TREATWELL_BOOKING_URL = 'https://buchung.treatwell.ch/ort/beauty-face-lift/';
+export const AESTHETIKA_BOOKING_URL = TREATWELL_BOOKING_URL;
 export const TREATWELL_URL = 'https://www.treatwell.ch/ort/beauty-face-lift/';
 
 export const BOOKING_ATTRIBUTION_KEYS = [
+  'utm_id',
   'utm_source',
   'utm_medium',
   'utm_campaign',
   'utm_content',
   'utm_term',
+  'utm_source_platform',
   'gclid',
+  'gbraid',
+  'wbraid',
   'fbclid',
+  'matchtype',
+  'network',
+  'device',
 ] as const;
 
-export const BOOKING_INTENT_KEYS = ['service'] as const;
+export const BOOKING_INTENT_KEYS = ['service', 'offer', 'price'] as const;
 
 export const BOOKING_FORWARD_KEYS = [
   ...BOOKING_ATTRIBUTION_KEYS,
@@ -184,11 +192,11 @@ export const SERVICE_GROUPS = [
 ] as const;
 
 export const CONTACT_TOPICS = [
-  'Erstberatung',
-  'Behandlungsempfehlung',
-  'Terminverschiebung oder Absage',
-  'Preise und Behandlungsdauer',
-  'Anfahrt und Studio',
+  'Ich möchte einen Termin buchen',
+  'Ich möchte eine Behandlungsempfehlung',
+  'Frage zu Preisen',
+  'Termin verschieben oder absagen',
+  'Anfahrt & Studio',
   'Allgemeine Frage',
 ] as const;
 

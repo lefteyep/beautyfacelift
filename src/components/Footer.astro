@@ -28,15 +28,15 @@ import {
         </div>
         <div class="footer-col">
             <h4>Kontakt</h4>
-            <a href={`tel:${CONTACT_PHONE}`}>{CONTACT_PHONE_DISPLAY}</a>
+            <a href={`tel:${CONTACT_PHONE}`} data-button-location="footer_phone">{CONTACT_PHONE_DISPLAY}</a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-            <a href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
+            <a href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener" data-button-location="footer_whatsapp" data-source="footer">WhatsApp</a>
             <a href="/kontakt/">Alle Kontaktmöglichkeiten</a>
         </div>
         <div class="footer-col">
             <h4>Buchung</h4>
             <p>Erstberatung, Rückfragen oder Terminänderungen direkt über unsere Kontaktseite.</p>
-            <a href="/termin/" class="pill-btn pill-btn-dark">Termin buchen</a>
+            <a href="/termin/" class="pill-btn pill-btn-dark" data-button-location="footer_booking_column">Termin buchen</a>
         </div>
     </div>
 
@@ -57,7 +57,7 @@ import {
         <div>
             <h4>Studio</h4>
             <a href="/kontakt/">Kontakt</a>
-            <a href="/termin/">Termin buchen</a>
+            <a href="/termin/" data-button-location="footer_studio_links">Termin buchen</a>
             <a href="https://www.instagram.com/beautyfacelift.zh/" target="_blank" rel="noopener">Instagram</a>
             <a href={TREATWELL_URL} target="_blank" rel="noopener">Treatwell Bewertungen</a>
         </div>

@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { absoluteUrl, AESTHETIKA_BOOKING_URL,
+import { absoluteUrl, TREATWELL_BOOKING_URL,
     BOOKING_FORWARD_KEYS, } from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
@@ -22,7 +22,7 @@ const structuredData = {
         "@type": "ReserveAction",
         "target": {
             "@type": "EntryPoint",
-            "urlTemplate": AESTHETIKA_BOOKING_URL
+            "urlTemplate": TREATWELL_BOOKING_URL
         },
         "result": {
             "@type": "Reservation",
@@ -34,7 +34,7 @@ const structuredData = {
 
 <Base
     title="Termin buchen | Beauty Face Lift Zürich"
-    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft zentral über Aesthetika."
+    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft vorübergehend über Treatwell."
     structuredData={structuredData}
     noindex={true}
 >
@@ -42,14 +42,15 @@ const structuredData = {
         <span class="sub-display">Online Buchen</span>
         <h1>Wir leiten Sie zur Buchung weiter.</h1>
         <p>
-            Beauty Face Lift nutzt Aesthetika für die Online-Terminbuchung.
+            Beauty Face Lift nutzt vorübergehend Treatwell für die Online-Terminbuchung.
             Ihre Kampagnen- und Behandlungsangaben werden automatisch übernommen.
         </p>
+        <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
 
         <div class="booking-forward-actions">
             <a
-                id="aesthetika-booking-link"
-                href={AESTHETIKA_BOOKING_URL}
+                id="treatwell-booking-link"
+                href={TREATWELL_BOOKING_URL}
                 class="pill-btn"
                 rel="noopener"
             >
@@ -64,12 +65,14 @@ const structuredData = {
     </section>
 </Base>
 
-<script is:inline define:vars={{ bookingTargetUrl: AESTHETIKA_BOOKING_URL, bookingForwardKeys }}>
+<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys }}>
     (function() {
-        var fallbackLink = document.getElementById('aesthetika-booking-link');
+        var fallbackLink = document.getElementById('treatwell-booking-link');
         var status = document.getElementById('booking-forward-status');
+        var offerNote = document.getElementById('booking-forward-offer');
         var currentParams = new URLSearchParams(window.location.search);
         var storedParams = {};
+        var trackedOutbound = false;
 
         try {
             storedParams = JSON.parse(sessionStorage.getItem('bfl_utm') || '{}') || {};
@@ -92,11 +95,132 @@ const structuredData = {
         if (fallbackLink) {
             fallbackLink.setAttribute('href', href);
         }
+        var offer = currentParams.get('offer') || storedParams.offer || '';
+        var price = currentParams.get('price') || storedParams.price || '';
+        if (offerNote && offer === 'glow-up-aktion' && price === '169') {
+            offerNote.hidden = false;
+            offerNote.textContent = 'Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220 wird an Treatwell übergeben.';
+        }
         if (status) {
-            status.textContent = 'Weiterleitung zu Aesthetika wird vorbereitet...';
+            status.textContent = 'Weiterleitung zu Treatwell wird vorbereitet...';
+        }
+
+        function randomId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+            return String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+        }
+
+        function readCookie(name) {
+            var encodedName = encodeURIComponent(name) + '=';
+            var cookie = document.cookie.split('; ').find(function(part) {
+                return part.indexOf(encodedName) === 0;
+            });
+            return cookie ? decodeURIComponent(cookie.slice(encodedName.length)) : '';
+        }
+
+        function clean(payload) {
+            var output = {};
+            Object.keys(payload).forEach(function(key) {
+                var value = payload[key];
+                if (value !== undefined && value !== null && value !== '') output[key] = value;
+            });
+            return output;
+        }
+
+        function campaignParams() {
+            var output = {};
+            bookingForwardKeys.forEach(function(key) {
+                var value = currentParams.get(key);
+                if (!value && typeof storedParams[key] === 'string') value = storedParams[key];
+                if (value) output[key] = value;
+            });
+            return output;
+        }
+
+        function postCapi(eventId, eventData) {
+            if (window.location.protocol !== 'https:') return;
+            try {
+                var userData = {};
+                var fbp = readCookie('_fbp');
+                var fbc = readCookie('_fbc');
+                if (fbp) userData.fbp = fbp;
+                if (fbc) userData.fbc = fbc;
+
+                fetch('/api/track', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
+                    body: JSON.stringify({
+                        event_name: 'TreatwellOutboundClick',
+                        event_id: eventId,
+                        event_source_url: window.location.href,
+                        event_data: eventData,
+                        user_data: userData
+                    })
+                }).catch(function() {});
+            } catch(e) {}
+        }
+
+        function trackOutbound() {
+            if (trackedOutbound) return;
+            trackedOutbound = true;
+
+            var service = currentParams.get('service') || storedParams.service || 'not_set';
+            var eventId = randomId();
+            var eventData = clean({
+                event_id: eventId,
+                treatment_name: service,
+                service: service,
+                button_location: 'booking_forward_auto_redirect',
+                page_path: window.location.pathname,
+                page_type: 'booking_forward',
+                destination_url: href,
+                link_domain: target.hostname,
+                value: 10,
+                currency: 'CHF'
+            });
+            var dataLayerPayload = clean(Object.assign({}, campaignParams(), eventData, {
+                event: 'treatwell_outbound_click'
+            }));
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(dataLayerPayload);
+
+            if (typeof window.fbq === 'function') {
+                window.fbq('trackCustom', 'TreatwellOutboundClick', eventData, { eventID: eventId });
+            }
+
+            postCapi(eventId, {
+                treatment_name: eventData.treatment_name,
+                service: eventData.service,
+                button_location: eventData.button_location,
+                page_path: eventData.page_path,
+                page_type: eventData.page_type,
+                destination_url: eventData.destination_url,
+                link_domain: eventData.link_domain,
+                value: eventData.value,
+                currency: eventData.currency
+            });
+        }
+
+        function safeTrackOutbound() {
+            try {
+                trackOutbound();
+            } catch(e) {}
+        }
+
+        if (fallbackLink) {
+            fallbackLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                safeTrackOutbound();
+                window.setTimeout(function() {
+                    window.location.assign(href);
+                }, 250);
+            }, { capture: true });
         }
 
         window.setTimeout(function() {
+            safeTrackOutbound();
             window.location.replace(href);
         }, 650);
     })();
@@ -137,5 +261,12 @@ const structuredData = {
 
     .booking-forward-note {
         font-size: 0.9rem;
+    }
+
+    .booking-forward-offer {
+        margin-top: 1rem !important;
+        color: var(--accent-text) !important;
+        font-size: 0.95rem;
+        font-weight: 600;
     }
 </style>

@@ -7,6 +7,7 @@ interface Props {
   eyebrow?: string;
   title?: string;
   text?: string;
+  ctaText?: string;
 }
 
 const {
@@ -14,7 +15,8 @@ const {
   href,
   eyebrow = 'Online buchen',
   title = treatment ? `${treatment} Termin buchen` : 'Termin buchen',
-  text = 'Die Online-Buchung läuft jetzt über Aesthetika. Ihre Auswahl öffnet sich in einem neuen, zentralen Buchungsfluss.',
+  text = 'Die Online-Buchung läuft vorübergehend über Treatwell. Ihre Auswahl wird mit Kampagnen- und Behandlungsangaben übergeben.',
+  ctaText = 'Termin buchen',
 } = Astro.props;
 
 const bookingHref = href || bookingLinkForService(treatment);
@@ -25,12 +27,22 @@ const bookingHref = href || bookingLinkForService(treatment);
   <h2>{title}</h2>
   <p>{text}</p>
   <div class="booking-cta-actions">
-    <a href={bookingHref} class="pill-btn">Termin buchen</a>
+    <a
+      href={bookingHref}
+      class="pill-btn"
+      data-treatment={treatment}
+      data-button-location="booking_cta"
+    >
+      {ctaText}
+    </a>
     <a
       href="https://wa.me/41792143462?text=Guten%20Tag%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Behandlung%20bei%20Beauty%20Face%20Lift."
       class="pill-btn pill-btn-outline"
       target="_blank"
       rel="noopener"
+      data-treatment={treatment}
+      data-button-location="booking_cta_whatsapp"
+      data-source="booking_cta"
     >
       Frage per WhatsApp
     </a>

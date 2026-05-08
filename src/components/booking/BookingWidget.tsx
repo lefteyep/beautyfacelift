@@ -25,7 +25,7 @@ interface Props {
 }
 
 // Deprecated rollback-only component. Public pages route booking intent to
-// Aesthetika via /termin/ while ENABLE_LEGACY_BOOKING is false.
+// Treatwell via /termin/ while ENABLE_LEGACY_BOOKING is false.
 const STEP_LABELS = ['Behandlung', 'Datum', 'Uhrzeit', 'Buchen'];
 const SERVICE_LOAD_TIMEOUT_MS = 9000;
 const SERVICE_SLOW_NOTICE_MS = 3500;

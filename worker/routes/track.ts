@@ -1,9 +1,38 @@
 import type { Env } from '../env';
-import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../../shared/site';
+import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, TREATWELL_BOOKING_URL, WWW_HOST } from '../../shared/site';
 
 const TRACK_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const TRACK_RATE_LIMIT_MAX_REQUESTS = 120;
-const ALLOWED_EVENTS = new Set(['PageView', 'Lead', 'Contact']);
+const ALLOWED_EVENTS = new Set([
+  'PageView',
+  'Lead',
+  'Contact',
+  'ViewContent',
+  'LandingPageView',
+  'TreatmentView',
+  'BookingButtonClick',
+  'TreatwellOutboundClick',
+  'Scroll50',
+  'Scroll90',
+  'TimeOnPage30s',
+  'HighIntentVisit',
+]);
+const ALLOWED_EVENT_DATA_KEYS = new Set([
+  'value',
+  'currency',
+  'method',
+  'source',
+  'content_name',
+  'treatment_name',
+  'button_location',
+  'page_path',
+  'destination_url',
+  'link_domain',
+  'page_type',
+  'service',
+  'intent_rule',
+  'percent_scrolled',
+]);
 const ALLOWED_SOURCE_HOSTS = new Set([
   TEMP_WORKERS_DEV_HOST,
   CANONICAL_HOST,
@@ -11,6 +40,7 @@ const ALLOWED_SOURCE_HOSTS = new Set([
 ]);
 const SHA256_HEX_RE = /^[a-f0-9]{64}$/i;
 const META_COOKIE_RE = /^[A-Za-z0-9._:-]{1,200}$/;
+const URL_LIKE_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
 const trackRateLimit = new Map<string, number[]>();
 
 type TrackingBody = {
@@ -87,6 +117,31 @@ function validateEventId(value: unknown): string | undefined {
   return eventId;
 }
 
+function validateDestinationUrl(value: unknown, eventSourceUrl: string, eventName: string): string | null {
+  const destinationUrl = getString(value);
+  if (!destinationUrl || destinationUrl.length > 2048) return null;
+
+  if (/^\s*javascript:/i.test(destinationUrl)) return null;
+
+  try {
+    const parsed = URL_LIKE_RE.test(destinationUrl)
+      ? new URL(destinationUrl)
+      : new URL(destinationUrl, eventSourceUrl);
+    if (parsed.protocol !== 'https:') return null;
+
+    if (eventName === 'TreatwellOutboundClick') {
+      const treatwellTarget = new URL(TREATWELL_BOOKING_URL);
+      if (parsed.hostname !== treatwellTarget.hostname || !parsed.pathname.startsWith(treatwellTarget.pathname)) {
+        return null;
+      }
+    }
+
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 function sanitizeUserData(value: unknown): Record<string, string> | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
 
@@ -112,14 +167,14 @@ function sanitizeUserData(value: unknown): Record<string, string> | null {
   return output;
 }
 
-function sanitizeEventData(value: unknown): Record<string, unknown> | null {
+function sanitizeEventData(value: unknown, eventSourceUrl: string, eventName: string): Record<string, unknown> | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
 
   const input = value as Record<string, unknown>;
   const output: Record<string, unknown> = {};
 
   for (const [key, rawValue] of Object.entries(input)) {
-    if (!['value', 'currency', 'method', 'source', 'content_name'].includes(key)) return null;
+    if (!ALLOWED_EVENT_DATA_KEYS.has(key)) return null;
     if (rawValue === null || rawValue === undefined || rawValue === '') continue;
 
     if (key === 'value') {
@@ -140,8 +195,21 @@ function sanitizeEventData(value: unknown): Record<string, unknown> | null {
       continue;
     }
 
+    if (key === 'percent_scrolled') {
+      if (typeof rawValue !== 'number' || !Number.isFinite(rawValue) || rawValue < 0 || rawValue > 100) return null;
+      output.percent_scrolled = rawValue;
+      continue;
+    }
+
+    if (key === 'destination_url') {
+      const destinationUrl = validateDestinationUrl(rawValue, eventSourceUrl, eventName);
+      if (!destinationUrl) return null;
+      output.destination_url = destinationUrl;
+      continue;
+    }
+
     const stringValue = String(rawValue).trim();
-    if (stringValue.length > 120) return null;
+    if (stringValue.length > 512) return null;
     output[key] = stringValue;
   }
 
@@ -149,9 +217,34 @@ function sanitizeEventData(value: unknown): Record<string, unknown> | null {
 }
 
 function ga4EventName(eventName: string): string {
-  if (eventName === 'PageView') return 'page_view';
-  if (eventName === 'Lead') return 'generate_lead';
-  return 'contact';
+  switch (eventName) {
+    case 'PageView':
+      return 'page_view';
+    case 'Lead':
+      return 'generate_lead';
+    case 'Contact':
+      return 'contact';
+    case 'ViewContent':
+      return 'view_item';
+    case 'LandingPageView':
+      return 'landing_page_view';
+    case 'TreatmentView':
+      return 'treatment_view';
+    case 'BookingButtonClick':
+      return 'booking_button_click';
+    case 'TreatwellOutboundClick':
+      return 'treatwell_outbound_click';
+    case 'Scroll50':
+      return 'scroll_50';
+    case 'Scroll90':
+      return 'scroll_90';
+    case 'TimeOnPage30s':
+      return 'time_on_page_30s';
+    case 'HighIntentVisit':
+      return 'high_intent_visit';
+    default:
+      return 'contact';
+  }
 }
 
 export async function trackRoute(request: Request, env: Env): Promise<Response> {
@@ -187,7 +280,7 @@ export async function trackRoute(request: Request, env: Env): Promise<Response> 
     return jsonResponse({ error: 'Invalid user_data' }, 400);
   }
 
-  const eventData = sanitizeEventData(body.event_data);
+  const eventData = sanitizeEventData(body.event_data, eventSourceUrl, eventName);
   if (!eventData) {
     return jsonResponse({ error: 'Invalid event_data' }, 400);
   }

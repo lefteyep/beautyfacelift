@@ -14,6 +14,7 @@
     "cf:build": "astro build",
     "cf:deploy": "astro build && wrangler deploy --assets=./dist --old-asset-ttl=0 --keep-vars",
     "cf:tail": "wrangler tail",
+    "qa:carbon-lp": "node scripts/check-carbon-lp-offer.mjs",
     "qa:worker": "node scripts/check-worker-api.mjs",
     "launch:check": "node scripts/check-domain-launch.mjs"
   },

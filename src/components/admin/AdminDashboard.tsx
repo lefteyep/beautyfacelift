@@ -21,7 +21,7 @@ function BookingMigrationNotice() {
       <span>Online-Buchung migriert</span>
       <p>
         Neue Termine werden nicht mehr im Beauty-Face-Lift-System erfasst.
-        Aesthetika ist jetzt die Quelle für Buchungen; die bisherigen
+        Treatwell ist vorübergehend die Quelle für Buchungen; die bisherigen
         Buchungskomponenten bleiben nur für einen möglichen Rollback erhalten.
       </p>
     </div>

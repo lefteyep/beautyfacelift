@@ -54,13 +54,13 @@ try {
   console.log(`Checking Worker-backed API at ${baseUrl.origin}`);
 
   const bookingPage = await fetchText('/termin/?utm_source=meta&fbclid=test');
-  if (!bookingPage.includes('https://booking.beautyfacelift.ch/buchen')) {
-    throw new Error('/termin/ did not include the Aesthetika booking target');
+  if (!bookingPage.includes('https://buchung.treatwell.ch/ort/beauty-face-lift/')) {
+    throw new Error('/termin/ did not include the Treatwell booking target');
   }
   if (!bookingPage.includes('utm_source') || !bookingPage.includes('fbclid') || !bookingPage.includes('bfl_utm')) {
     throw new Error('/termin/ did not include attribution forwarding logic');
   }
-  console.log('[ok] /termin/ includes Aesthetika forwarding and attribution handling');
+  console.log('[ok] /termin/ includes Treatwell forwarding and attribution handling');
 
   const disabledBookingResponse = await fetchRaw('/api/bookings', {
     method: 'POST',

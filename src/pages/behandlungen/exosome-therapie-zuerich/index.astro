@@ -1,5 +1,5 @@
 ---
-import { CONTACT_WHATSAPP_URL, absoluteUrl } from '../../../../shared/site';
+import { CONTACT_WHATSAPP_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingCta from '../../../components/BookingCta.astro';
@@ -16,7 +16,7 @@ import {
 
 const treatmentHeroSizes = '100vw';
 const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
-const bookingHref = '/termin/';
+const bookingHref = bookingLinkForService('Exosome Therapie');
 
 const exosomeHeroPreload = await getImage({
     src: spaProducts,
@@ -228,8 +228,18 @@ const faqData = {
             <p>Teresa stimmt Hautzustand, Produktwahl und Ablauf persönlich ab, damit die Exosome Therapie zur Haut passt.</p>
         </div>
         <div class="treatment-action-buttons">
-            <a href={bookingHref} class="pill-btn">Termin buchen</a>
-            <a href={CONTACT_WHATSAPP_URL} class="pill-btn pill-btn-outline" target="_blank" rel="noopener">Frage per WhatsApp</a>
+            <a href={bookingHref} class="pill-btn" data-treatment="Exosome Therapie" data-button-location="exosome_action_bar">Termin buchen</a>
+            <a
+                href={CONTACT_WHATSAPP_URL}
+                class="pill-btn pill-btn-outline"
+                target="_blank"
+                rel="noopener"
+                data-treatment="Exosome Therapie"
+                data-button-location="exosome_action_bar_whatsapp"
+                data-source="exosome_action_bar"
+            >
+                Frage per WhatsApp
+            </a>
         </div>
     </section>
 
@@ -240,7 +250,7 @@ const faqData = {
                 <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Moderne Wirkstoffpflege.<br>Realistische Erwartungen."</h2>
                 <p class="margin-bottom-md"><strong>Die Exosome Therapie bei Beauty Face Lift ist eine kosmetisch-ästhetische Gesichtsbehandlung, bei der ein Exosomen Serum beziehungsweise exosomenähnliche Wirkstofftechnologie auf die professionell vorbereitete Haut aufgetragen wird.</strong> Ziel ist ein hydratisierter, ruhiger und ebenmässiger wirkendes Hautbild. Je nach Hautziel kann die Behandlung als eigenständiges Facial oder in Kombination mit Microneedling geplant werden.</p>
                 <p class="margin-bottom-md">Wichtig: Exosomen sind ein spannendes Feld der regenerativen Hautpflege, aber kein Wundermittel. Erste klinische Anwendungen und Studien deuten auf Potenzial bei Hautstruktur, Feuchtigkeit, Elastizität und sichtbarer Hautqualität hin. Gleichzeitig ist die Studienlage noch nicht so robust wie bei etablierten Verfahren. Deshalb formulieren wir bewusst vorsichtig: Die Behandlung kann die Hautpflege unterstützen, die individuelle Wirkung kann variieren.</p>
-                <a href={bookingHref} class="pill-btn pill-btn-outline">Persönliche Hautanalyse buchen</a>
+                <a href={bookingHref} class="pill-btn pill-btn-outline" data-treatment="Exosome Therapie" data-button-location="exosome_skin_analysis">Persönliche Hautanalyse buchen</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">

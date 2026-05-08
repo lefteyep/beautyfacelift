@@ -204,7 +204,7 @@ function validateRequestBody(body: BookingRequestBody): {
 export async function bookingsRoute(request: Request, env: Env): Promise<Response> {
   if (env.ENABLE_LEGACY_BOOKING !== 'true') {
     return jsonResponse({
-      error: 'Die integrierte Online-Buchung wurde deaktiviert. Bitte buchen Sie über Aesthetika.',
+      error: 'Die integrierte Online-Buchung wurde deaktiviert. Bitte buchen Sie vorübergehend über Treatwell.',
       booking_url: AESTHETIKA_BOOKING_URL,
     }, 410);
   }

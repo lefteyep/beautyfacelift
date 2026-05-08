@@ -25,7 +25,7 @@ const {
 
 const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
 const computedPercent = hasDiscount ? Math.round((((oldPrice as number) - newPrice) / (oldPrice as number)) * 100) : 0;
-const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Offizieller Preis');
+const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Behandlungspreis');
 ---
 
 {variant === 'chip' ? (
@@ -47,7 +47,7 @@ const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Of
     <div class="offer-badge">{badge}</div>
     {urgency && <p class="offer-urgency">{urgency}</p>}
     {ctaText && ctaHref && (
-      <a href={ctaHref} class="pill-btn offer-cta">{ctaText}</a>
+      <a href={ctaHref} class="pill-btn offer-cta" data-button-location="offer_box">{ctaText}</a>
     )}
   </div>
 )}
@@ -109,10 +109,12 @@ const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Of
     font-size: 11px;
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
-    white-space: nowrap;
+    white-space: normal;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
+    line-height: 1.35;
+    max-width: min(100%, 420px);
   }
   .offer-chip-urgency::before {
     content: '';

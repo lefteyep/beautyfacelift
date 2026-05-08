@@ -46,6 +46,10 @@ const canonicalUrl = canonical || absoluteUrl(Astro.url.pathname);
 const ogImageUrl = ogImage || absoluteUrl('/assets/hero_editorial_portrait.png');
 const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+const pixelNoscriptHtml = pixelId
+    ? `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${pixelId}&amp;ev=PageView&amp;noscript=1" />`
+    : '';
 ---
 
 <!DOCTYPE html>
@@ -190,6 +194,19 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
       `} />
     )}
 
+    <!-- Meta Pixel bootstrap. Events are fired from src/lib/track.ts with event IDs for CAPI dedupe. -->
+    {pixelId && (
+      <script is:inline define:vars={{ pixelId }}>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', pixelId);
+      </script>
+    )}
+    {pixelId && <noscript set:html={pixelNoscriptHtml}></noscript>}
+
     <!-- Favicon & Manifest -->
     <HeadIcons />
 
@@ -219,7 +236,7 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
     <script is:inline>
         (function() {
             var params = new URLSearchParams(window.location.search);
-            var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'];
+            var utmKeys = ['utm_id','utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_source_platform','gclid','gbraid','wbraid','fbclid','matchtype','network','device'];
             var utm = {};
             var hasUtm = false;
             utmKeys.forEach(function(k) {
@@ -230,6 +247,11 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
                 try { sessionStorage.setItem('bfl_utm', JSON.stringify(utm)); } catch(e) {}
             }
         })();
+    </script>
+
+    <script>
+        import { initPpcTracking } from '../lib/track';
+        initPpcTracking();
     </script>
 
     <!-- Lazy image reveal -->

@@ -49,18 +49,6 @@ const dataSource = source;
   </a>
 )}
 
-<script>
-  document.querySelectorAll<HTMLAnchorElement>('[data-track-contact="whatsapp"]').forEach((el) => {
-    el.addEventListener('click', async () => {
-      const source = el.dataset.source || 'lp';
-      try {
-        const { trackContact } = await import('../../lib/track');
-        trackContact({ method: 'whatsapp', source });
-      } catch { /* tracking is non-critical */ }
-    });
-  });
-</script>
-
 <style>
   .wa-sticky {
     position: fixed;
