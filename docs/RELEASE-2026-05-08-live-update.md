@@ -163,3 +163,13 @@ docs/SEO-SERVICE-HUBS-2026-05-08.md
 ```
 
 It adds six service hub landing pages, updates the visible service architecture across navigation, footer, homepage, overview, `llms.txt`, and sitemap output, and softens high-risk cosmetic/medical copy claims across treatment and blog content.
+
+## CTA/Nav Style Hotfix Addendum
+
+A later May 8 visual hotfix updates the primary CTA and desktop navigation styles:
+
+- Global gold `.pill-btn` labels now use `#ffffff` so main CTA text renders white instead of black.
+- `.pill-btn:hover` also keeps `#ffffff` for a stable hover color.
+- Desktop `.nav-links` now use `font-weight: 600`.
+
+Validation for this hotfix included a source CSS contract check, `npm run build`, and in-app browser checks against the local preview at `http://127.0.0.1:4321/` on desktop and mobile. The homepage loaded without relevant console warnings or errors, and the hero CTA navigated to `/termin/`.

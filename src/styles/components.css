@@ -87,7 +87,7 @@
   list-style: none;
   font-family: var(--font-sans);
   font-size: var(--text-xs);
-  font-weight: 400;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--tracking-nav);
 }
