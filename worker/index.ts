@@ -9,7 +9,7 @@ import { contactRoute } from './routes/contact';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
-const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-08-live-update';
+const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-10-carbon-glowup-169';
 
 router.get('/api/services', (req: Request, env: Env) => servicesRoute(req, env));
 router.get('/api/availability', (req: Request, env: Env) => availabilityRoute(req, env));
@@ -48,6 +48,10 @@ function withSecurityHeaders(response: Response, request: Request): Response {
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   headers.set('X-Frame-Options', 'DENY');
+
+  if (isDocumentAssetRequest(request)) {
+    headers.set('Cache-Control', 'no-store');
+  }
 
   if (url.pathname.startsWith('/admin/')) {
     headers.set('Cache-Control', 'no-store');
@@ -93,11 +97,19 @@ function createStaticAssetRequest(request: Request, method: string): Request {
 }
 
 function shouldUseDocumentAssetReleaseKey(request: Request): boolean {
+  return isDocumentAssetRequest(request);
+}
+
+function isDocumentAssetRequest(request: Request): boolean {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     return false;
   }
 
   const { pathname } = new URL(request.url);
+  return isDocumentPath(pathname);
+}
+
+function isDocumentPath(pathname: string): boolean {
   return pathname === '/' || pathname.endsWith('/') || pathname.endsWith('.html');
 }
 

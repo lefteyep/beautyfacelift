@@ -379,6 +379,76 @@ Treatwell page title:
 Beauty Face Lift | Kosmetikstudio in Kreis 1, Zürich - Treatwell
 ```
 
+## 2026-05-10 Production Correction
+
+On 2026-05-10, the production URL still served an older cached HTML document for:
+
+```text
+https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/
+```
+
+Observed stale production response:
+
+```text
+Title: Carbon Microneedling Zürich - CHF 250 | Beauty Face Lift
+Contains CHF 169: no
+Contains CHF 220: no
+Contains CHF 250: yes
+Contains Offizieller Preis: yes
+```
+
+Local source and local `dist/lp/carbon-microneedling/index.html` were correct at the same time:
+
+```text
+Title: Glow-Up Aktion Zürich - CHF 169 statt CHF 220 | Beauty Face Lift
+Contains CHF 169: yes
+Contains CHF 220: yes
+Contains CHF 250: no
+Contains Termin für CHF 169 sichern: yes
+```
+
+Root cause:
+
+```text
+Cloudflare Workers Assets served a stale HTML document for the LP route despite the corrected source/build output.
+```
+
+Correction:
+
+```text
+worker/index.ts
+```
+
+Changes:
+
+- Bumped `DOCUMENT_ASSET_RELEASE_KEY` to `2026-05-10-carbon-glowup-169`.
+- Added `Cache-Control: no-store` for document routes (`/`, trailing-slash routes, and `.html`) so offer pages do not keep serving stale campaign pricing.
+
+Required verification after this correction:
+
+```powershell
+npm run qa:carbon-lp
+npm run build
+npm run cf:deploy
+```
+
+Required production check:
+
+```powershell
+Invoke-WebRequest -Uri "https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?cachebust=<timestamp>" -UseBasicParsing
+```
+
+Expected corrected production response:
+
+```text
+Status: 200
+Title: Glow-Up Aktion Zürich - CHF 169 statt CHF 220 | Beauty Face Lift
+Contains CHF 169: yes
+Contains CHF 220: yes
+Contains CHF 250: no
+Contains Offizieller Preis: no
+```
+
 ## Rollback
 
 If the live release needs to be reverted:
