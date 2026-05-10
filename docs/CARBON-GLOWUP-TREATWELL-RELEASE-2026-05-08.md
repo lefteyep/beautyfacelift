@@ -449,6 +449,39 @@ Contains CHF 250: no
 Contains Offizieller Preis: no
 ```
 
+Deployed production correction:
+
+```text
+Date: 2026-05-10
+Cloudflare Worker Version ID: 22282b15-c600-48dc-aaf2-ae641b20b6cf
+Branch: codex/project-safety-rules
+Commit: 1634a7a Fix Carbon LP stale document caching
+```
+
+Verified production response after deploy:
+
+```text
+URL: https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?cachebust=1778412816
+Status: 200
+Title: Glow-Up Aktion Zürich - CHF 169 statt CHF 220 | Beauty Face Lift
+Cache-Control: no-store
+Contains CHF 169: yes
+Contains CHF 220: yes
+Contains CHF 250: no
+Contains Offizieller Preis: no
+Contains Termin fuer CHF 169 sichern: yes
+Contains Treatwell: yes
+Contains Glow-Up Aktion: yes
+```
+
+Verified browser forwarding to Treatwell:
+
+```text
+Start URL: https://beautyfacelift-zuerich.ch/termin/?service=Carbon+Microneedling&offer=glow-up-aktion&price=169
+Final URL: https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Carbon+Microneedling&offer=glow-up-aktion&price=169
+Final title: Beauty Face Lift | Kosmetikstudio in Kreis 1, Zuerich - Treatwell
+```
+
 ## Rollback
 
 If the live release needs to be reverted:
