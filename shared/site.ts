@@ -17,6 +17,12 @@ export const TREATWELL_URL = 'https://www.treatwell.ch/ort/beauty-face-lift/';
 const whatsappMessage = encodeURIComponent('Guten Tag, ich habe eine Frage zu einer Behandlung bei Beauty Face Lift.');
 export const CONTACT_WHATSAPP_URL = `https://wa.me/41792143462?text=${whatsappMessage}`;
 
+export const TURNSTILE_ALLOWED_HOSTS = [
+  'beautyfacelift.ch',
+  'www.beautyfacelift.ch',
+  'beautyfacelift.mediapaulo.workers.dev',
+] as const;
+
 export const ADDRESS = {
   street: 'Bahnhofstrasse 94',
   postalCode: '8001',

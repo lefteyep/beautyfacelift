@@ -26,3 +26,4 @@ OWNER_EMAIL=
 
 # Contact form security (required in production, optional locally)
 TURNSTILE_SECRET_KEY=
+TURNSTILE_ALLOWED_HOSTS=beautyfacelift.ch,www.beautyfacelift.ch,beautyfacelift.mediapaulo.workers.dev

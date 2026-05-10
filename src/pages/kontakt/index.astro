@@ -13,6 +13,7 @@ import {
     FULL_ADDRESS,
     OPENING_HOURS,
     TREATWELL_URL,
+    TURNSTILE_ALLOWED_HOSTS,
 } from '../../../shared/site';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
@@ -347,10 +348,40 @@ const structuredData = {
                 </div>
 
                 {turnstileSiteKey && (
-                    <div class="kontakt-turnstile">
-                        <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
-                        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-                    </div>
+                    <>
+                        <div
+                            class="kontakt-turnstile"
+                            data-turnstile-hosts={TURNSTILE_ALLOWED_HOSTS.join(',')}
+                            data-turnstile-sitekey={turnstileSiteKey}
+                        ></div>
+                        <script is:inline>
+                            (() => {
+                                const mount = document.querySelector('.kontakt-turnstile[data-turnstile-hosts]');
+                                if (!mount) return;
+
+                                const hosts = (mount.dataset.turnstileHosts || '')
+                                    .split(',')
+                                    .map((host) => host.trim().toLowerCase())
+                                    .filter(Boolean);
+
+                                if (!hosts.includes(window.location.hostname.toLowerCase())) {
+                                    mount.remove();
+                                    return;
+                                }
+
+                                const widget = document.createElement('div');
+                                widget.className = 'cf-turnstile';
+                                widget.dataset.sitekey = mount.dataset.turnstileSitekey || '';
+                                mount.append(widget);
+
+                                const script = document.createElement('script');
+                                script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+                                script.async = true;
+                                script.defer = true;
+                                document.head.append(script);
+                            })();
+                        </script>
+                    </>
                 )}
 
                 <label class="kontakt-checkbox" for="contact-privacy">

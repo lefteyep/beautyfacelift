@@ -35,6 +35,8 @@ const pageRequirements = [
   'kontakt-mobile-cta',
   'https://www.google.com/maps/dir/?api=1',
   'teresaPortrait',
+  'TURNSTILE_ALLOWED_HOSTS',
+  'data-turnstile-hosts',
   'openingHoursSpecification',
   'sameAs',
 ];
@@ -78,6 +80,8 @@ const workerRequirements = [
   "preferredContactMethod: getString(payload.preferredContactMethod)",
   "preferredContactMethod: getString(formData.get('preferredContactMethod'))",
   'Bevorzugter Kontaktweg',
+  'isTurnstileRequired',
+  'TURNSTILE_ALLOWED_HOSTS',
 ];
 
 for (const requirement of workerRequirements) {
