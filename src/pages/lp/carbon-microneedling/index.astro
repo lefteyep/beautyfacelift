@@ -1,6 +1,5 @@
 ---
 import LandingPage from '../../../layouts/LandingPage.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
 import OfferBox from '../../../components/lp/OfferBox.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
@@ -153,7 +152,7 @@ const structuredData = {
         </div>
 
         <div class="lp-hero-ctas">
-          <a href="#buchen" class="pill-btn lp-hero-primary">Termin buchen</a>
+          <a href="https://buchung.treatwell.ch/ort/beauty-face-lift/" class="pill-btn lp-hero-primary">Termin buchen</a>
           <WhatsAppButton variant="inline" message={whatsappMessage} source="hero" label="WhatsApp" />
         </div>
 
@@ -290,7 +289,7 @@ const structuredData = {
       discountLabel="Treatwell-Katalog"
       urgency="90 Minuten · Carbon Laser Peeling + Microneedling"
       ctaText="Jetzt Platz sichern"
-      ctaHref="#buchen"
+      ctaHref="https://buchung.treatwell.ch/ort/beauty-face-lift/"
     />
     <p class="lp-offer-footnote">
       Offizieller Preis laut Treatwell-Katalog: CHF {OFFICIAL_PRICE}.- für Carbon Laser Peeling + Microneedling.
@@ -362,13 +361,13 @@ const structuredData = {
   </section>
 
   <!-- BOOKING -->
-  <section class="container lp-section" id="buchen">
+  <section class="container lp-section lp-booking-cta">
     <div class="lp-section-head">
       <div class="sub-display">Termin buchen</div>
       <h2 class="lp-section-title">Sichere dir deine Glow-Up-Sitzung</h2>
-      <p class="lp-section-lead">Wähle Datum & Uhrzeit — wir bestätigen deinen Termin per E-Mail.</p>
+      <p class="lp-section-lead">Die Online-Buchung läuft aktuell über Treatwell. Dort wählst du Datum und Uhrzeit direkt aus.</p>
     </div>
-    <BookingWidget client:load preselectedCategory="Carbon Microneedling" />
+    <a href="https://buchung.treatwell.ch/ort/beauty-face-lift/" class="pill-btn">Jetzt über Treatwell buchen</a>
   </section>
 
   <!-- FINAL CTA (full-bleed dark) -->
@@ -394,15 +393,6 @@ const structuredData = {
   <WhatsAppButton variant="sticky" message={whatsappMessage} source="sticky" />
   <StickyOfferBar newPrice={OFFICIAL_PRICE} />
 </LandingPage>
-
-<script>
-  import { trackPageView, trackLead } from '../../../lib/track';
-
-  trackPageView();
-
-  // Surface trackLead for BookingWidget to call after a successful booking.
-  (window as any).__bflTrackLead = trackLead;
-</script>
 
 <style>
   /* ═══════════════════════════════════════════════════════════════
@@ -962,8 +952,9 @@ const structuredData = {
     }
 
     /* booking section — leave room so StickyOfferBar doesn't overlap CTA */
-    #buchen.lp-section {
+    .lp-booking-cta {
       padding-bottom: calc(6.5rem + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
+      text-align: center;
     }
 
     .lp-final-dark {

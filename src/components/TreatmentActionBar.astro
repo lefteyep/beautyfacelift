@@ -1,4 +1,6 @@
 ---
+import { TREATWELL_BOOKING_URL } from '../../shared/site';
+
 interface Props {
     treatment: string;
     href?: string;
@@ -6,7 +8,7 @@ interface Props {
 
 const {
     treatment,
-    href = '#buchen',
+    href = TREATWELL_BOOKING_URL,
 } = Astro.props;
 ---
 

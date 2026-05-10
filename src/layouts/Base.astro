@@ -228,6 +228,13 @@ const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage
         })();
     </script>
 
+    <!-- Meta ads: outbound Treatwell booking-click lead signal. -->
+    <script>
+        import { installTreatwellBookingClickTracking } from '../lib/track';
+
+        installTreatwellBookingClickTracking();
+    </script>
+
     <!-- Lazy image reveal -->
     <script is:inline>
         document.addEventListener('DOMContentLoaded', function() {

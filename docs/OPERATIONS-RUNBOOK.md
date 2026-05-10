@@ -1,6 +1,6 @@
 # Operations Runbook
 
-Last updated: 2026-05-05
+Last updated: 2026-05-10
 
 ## Deployment rules
 
@@ -60,5 +60,5 @@ The GitHub Actions `Security smoke` workflow receives those Supabase values from
 ## Known deferred work
 
 - Stripe deposits are intentionally disabled.
-- GA4 and Meta CAPI are ready in code but inactive until secrets are configured.
+- GA4 and Meta CAPI are ready in code but inactive until secrets are configured. While bookings stay on Treatwell, Meta ads should optimize against the website `Lead` event for Treatwell booking clicks, not confirmed booking completion.
 - The stale Claude homepage V2 worktree is design exploration only; do not merge it into security or ops PRs.

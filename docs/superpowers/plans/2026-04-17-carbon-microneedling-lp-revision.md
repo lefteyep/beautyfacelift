@@ -1,6 +1,6 @@
 # Carbon Microneedling LP — Design/Conversion/UX Revision Plan
 
-> **Status:** Implemented 2026-04-17. Build verified (25 static pages). Awaiting live visual spot-check.
+> **Status:** Implemented 2026-04-17. Superseded for booking/tracking on 2026-05-10: public booking now goes to Treatwell, and Meta ads track ad-LP PageView plus Treatwell booking-click Lead events. Do not follow the older BookingWidget or `#buchen` instructions below as current requirements.
 
 ## Context
 
@@ -13,7 +13,7 @@ The Meta-campaign landing page at `astro-v2/src/pages/lp/carbon-microneedling/` 
 - **Conversion scaffolding is thin**: no in-hero trust strip (rating, review count, address, years of practice), no value-breakdown of what's in the CHF 160, no risk-reversal messaging, no mobile sticky offer bar. Testimonials are buried mid-page.
 - **Emoji icons (💧✨🌿🧬🎯🚀)** undermine the premium/medical brand feel and render inconsistently across OS/browsers.
 
-**Intended outcome:** a visually coherent, conversion-dense LP that matches the editorial craft of the rest of beautyfacelift.ch, works well on mobile first-scroll, and preserves the existing BookingWidget + Meta Pixel/CAPI tracking.
+**Intended outcome:** a visually coherent, conversion-dense LP that matches the editorial craft of the rest of beautyfacelift.ch and works well on mobile first-scroll. Current tracking is handled by the shared landing-page layout: PageView on ad LP load and Lead when a Treatwell booking CTA is clicked.
 
 ---
 
@@ -29,7 +29,7 @@ The Meta-campaign landing page at `astro-v2/src/pages/lp/carbon-microneedling/` 
 
 **No fake scarcity.** Static "3 Plätze diese Woche" text on a premium medical-adjacent brand reads as theatre. Keep the soft "Einführungsangebot · nur für Neukundinnen" framing; do not invent live inventory.
 
-**Preserve tracking & BookingWidget.** Keep the `#buchen` anchor, the `preselectedCategory="Carbon Microneedling"` prop on `<BookingWidget client:load />`, and the `window.__bflTrackLead` hook. Any regression here silently breaks Meta CAPI lead events.
+**Current booking/tracking rule.** Keep CTAs pointing to `https://buchung.treatwell.ch/ort/beauty-face-lift/`. Do not restore an embedded BookingWidget or `#buchen` anchor as the public booking path while Treatwell is active. The shared layouts emit Meta PageView and Treatwell booking-click Lead events.
 
 ---
 
@@ -67,7 +67,7 @@ The plan is split into three executable phases so the user can ship incrementall
 
 13. **Mobile sticky offer bar**. Create `astro-v2/src/components/lp/StickyOfferBar.astro` — a bottom-fixed bar, only shown under 900px, layered above the sticky WhatsApp button:
     - Left side: `CHF 160.-` in serif 1.4rem, strikethrough `CHF 220` in muted 0.8rem above or beside it.
-    - Right side: a gold `pill-btn` with text `Jetzt buchen` linking to `#buchen`.
+    - Right side: a gold `pill-btn` with text `Jetzt buchen` linking to Treatwell.
     - `position: fixed; bottom: 0; left: 0; right: 0; z-index: 39` (below WhatsApp sticky at z-index 40). Adjust WhatsApp sticky `bottom` to `5rem` on mobile so both coexist.
     - Hide on desktop via `@media (min-width: 901px) { display: none }`.
     - Add `safe-area-inset-bottom` padding for iOS.
@@ -83,7 +83,7 @@ The plan is split into three executable phases so the user can ship incrementall
 
     Layout: 2-column on desktop (3 items each), single column on mobile. Use `✓` gold checkmark bullets matching `.lp-about-list li::before`. Heading: `Was im Preis enthalten ist`. Adds transparency and anchors the CHF 160 against perceived value. File: insert between `index.astro:151` and `:153`.
 
-15. **Risk-reversal trust strip before booking**. Directly above the `#buchen` section, add a `.trust-strip`-style row with four micro-promises: `Keine Ausfallzeit` · `Persönliche Betreuung` · `Transparente Preise` · `Unverbindliche Anfrage`. Reduces pre-submit friction. Can reuse the same `TrustStrip.astro` component with a `variant="promises"` mode, or be a one-off inline. File: insert before `index.astro:264`.
+15. **Risk-reversal trust strip before booking**. Directly above the Treatwell booking CTA section, add a `.trust-strip`-style row with four micro-promises: `Keine Ausfallzeit` · `Persönliche Betreuung` · `Transparente Preise` · `Unverbindliche Anfrage`. Reduces pre-submit friction. Can reuse the same `TrustStrip.astro` component with a `variant="promises"` mode, or be a one-off inline. File: insert before `index.astro:264`.
 
 16. **Testimonials — prepare for 5, ship 3**. Keep the 3 existing real quotes live (Laura M., Sandra B., Marina K.). Add 2 commented placeholder slots in the `testimonials` array in `index.astro:24-40` with clear TODO markers (`// TODO: real testimonial — Teresa to supply name, quote, location`) — do not render fabricated content. Update `TestimonialStrip.astro` to use `repeat(auto-fit, minmax(260px, 1fr))` so 3 cards flow cleanly now and 5 will flow 3-2 on wide desktops after Teresa supplies the two missing quotes. File: `index.astro:24`, `TestimonialStrip.astro:66-70`.
 
@@ -122,11 +122,11 @@ The plan is split into three executable phases so the user can ship incrementall
 - `astro-v2/src/components/lp/StickyOfferBar.astro` — mobile-only sticky bottom bar
 
 **Do not touch:**
-- `astro-v2/src/components/booking/**` — any regression breaks Meta CAPI lead tracking
-- `astro-v2/src/lib/track.ts` — same reason
-- `astro-v2/src/layouts/LandingPage.astro` — UTM/Pixel bootstrap is already correct
+- `astro-v2/src/components/booking/**` — legacy first-party booking code, not the public Treatwell path
+- `astro-v2/src/lib/track.ts` — owns PageView, Treatwell booking-click Lead, and contact tracking
+- `astro-v2/src/layouts/LandingPage.astro` — owns UTM, Pixel bootstrap, ad-LP PageView, and Treatwell booking-click tracking
 - The `structuredData` JSON-LD (schema is accurate)
-- The `#buchen` anchor id
+- Treatwell CTA hrefs
 
 ---
 
@@ -161,9 +161,9 @@ npm run dev
 
 ### Regression / tracking sanity
 - [x] `npm run build` succeeds and produces the 25-page static dist
-- [ ] `#buchen` anchor still scrolls to BookingWidget from hero CTA
-- [ ] BookingWidget auto-advances past treatment selection (`preselectedCategory="Carbon Microneedling"` still passed)
-- [ ] `window.__bflTrackLead` still exposed on page — `trackPageView()` and `trackLead` wiring untouched
+- [ ] Booking CTAs point to Treatwell
+- [ ] Meta Test Events shows PageView on LP load
+- [ ] Meta Test Events shows Lead with `content_name = Treatwell booking click` after clicking a Treatwell CTA
 - [ ] WhatsApp deep-link contains the prefilled German message
 - [ ] View-source: `noindex, nofollow` meta still present
 - [ ] No console errors on load
@@ -204,14 +204,14 @@ After the initial phase 1–3 pass shipped, the user flagged three visual bugs v
 
 ### Round 2 — comprehensive mobile polish
 
-The full-page mobile screenshot revealed inconsistent section padding, some oversized headings, tight list-item line-height, and most critically a sticky-offer-bar overlap with the BookingWidget submit button. Rewrote both the `@media (max-width: 900px)` and `@media (max-width: 600px)` blocks of the LP's scoped styles.
+The full-page mobile screenshot revealed inconsistent section padding, some oversized headings, tight list-item line-height, and at that time a sticky-offer-bar overlap with the embedded booking section. Rewrote both the `@media (max-width: 900px)` and `@media (max-width: 600px)` blocks of the LP's scoped styles.
 
 **Section rhythm (all at ≤900px):**
 - `.lp-section { padding: 5rem 0 }` (was `6vh 0` — viewport units felt arbitrary on short phone screens)
 - `.lp-section-head { margin-bottom: 2.5rem }` (tightens the title-to-content gap)
 - `.lp-divider { padding: 1rem 0 }` added — the decorative gold rule between sections was floating in too much space
 - `.lp-final-dark { padding: 8vh 24px calc(10vh + env(safe-area-inset-bottom)); margin-top: 3vh }` — the dark final CTA band gets proper safe-area bottom inset so the home-indicator doesn't clip it
-- **Critical: `#buchen.lp-section { padding-bottom: calc(5rem + env(safe-area-inset-bottom)) }`** — without this the `StickyOfferBar` (fixed, z-index 39) was overlapping the BookingWidget submit button on phones, a silent conversion killer.
+- **Historical critical fix:** extra mobile bottom padding was needed so the `StickyOfferBar` (fixed, z-index 39) did not overlap the embedded booking section on phones.
 
 **At ≤600px (phone-specific):**
 - Hero: `padding-top: 7vh; padding-bottom: 2vh` (was `9vh/4vh`); image capped `max-height: 420px` with `object-position: center 18%` so Teresa's face/product stays visible when cropped.
@@ -229,7 +229,7 @@ The full-page mobile screenshot revealed inconsistent section padding, some over
 - `TestimonialStrip.astro`: ≤600px — rating row `margin-bottom: 2rem; gap: 0.5rem`, `strong 1.25rem`, `span 0.9rem`, card padding-left `1.25rem`, blockquote 1.1rem.
 
 **What was explicitly preserved:**
-- `#buchen` anchor, `preselectedCategory="Carbon Microneedling"` on `<BookingWidget client:load />`, `window.__bflTrackLead`, `noindex, nofollow` meta, GSAP bundling, WhatsApp deep-link prefilled message, UTM persistence, structured data JSON-LD.
+- Treatwell booking CTA, `noindex, nofollow` meta, GSAP bundling, WhatsApp deep-link prefilled message, UTM persistence, structured data JSON-LD.
 - 25 pages still build in ~3.2s. Zero console errors.
 
 ### Files touched in round 1 + round 2

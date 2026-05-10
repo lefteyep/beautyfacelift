@@ -4,9 +4,9 @@
 
 - **Client:** Beauty Face Lift — Premium Medical Spa, Bahnhofstrasse 94, 8001 Zurich, Switzerland
 - **Owner:** Teresa Stimac
-- **Domain:** beautyfacelift.ch (not yet connected — currently live at beautyfacelift.pages.dev)
+- **Domain:** beautyfacelift.ch (not yet connected — currently live at the Workers URL)
 - **GitHub:** https://github.com/lefteyep/beautyfacelift (private)
-- **Live URL:** https://beautyfacelift.pages.dev
+- **Live URL:** https://beautyfacelift.mediapaulo.workers.dev
 - **Supabase:** https://izekwngqjllaqibrwotp.supabase.co (EU West / Frankfurt)
 
 ## Tech Stack
@@ -21,7 +21,7 @@
 | CSS | Vanilla CSS with custom properties | No Tailwind |
 | Animations | GSAP + ScrollTrigger | 3.14.2 (npm bundled) |
 | Fonts | @fontsource (Cormorant Garamond display + Inter body + JetBrains Mono labels) | Latin-only subsets |
-| Tracking | GTM via Partytown + server-side Meta CAPI + GA4 | Not yet configured |
+| Tracking | GTM via Partytown + direct ad-LP Meta Pixel + server-side Meta CAPI + GA4 | Not yet configured |
 | Emails | Resend (via Supabase Edge Function) | Not yet configured |
 
 ## Architecture Decisions
@@ -29,7 +29,7 @@
 - **Static output mode** (`output: 'static'`) — all 24 pages are pre-rendered HTML served from the Workers `ASSETS` binding. No Astro adapter is used.
 - **Unified Worker at `worker/index.ts`** — uses `itty-router` to dispatch 5 `/api/*` routes, falls through to `ASSETS` for everything else. `run_worker_first: ["/api/*"]` in `wrangler.jsonc` ensures static paths skip the Worker entirely.
 - **Deployment via Wrangler + GitHub Actions** — `wrangler deploy` runs on push to `master` via `.github/workflows/deploy.yml`. No more Pages git-integration. See `docs/MIGRATION.md` for full migration details.
-- **React islands only where interactivity is needed** — BookingWidget (`client:visible` on treatment pages, `client:load` on /termin/), AdminDashboard (`client:load`). All other pages ship zero JavaScript (except GSAP animations).
+- **React islands only where interactivity is needed** — AdminDashboard (`client:load`) and legacy BookingWidget code retained for first-party booking work. Public booking CTAs currently go to Treatwell.
 - **No Tailwind** — the client's existing vanilla CSS design system with custom properties is maintained.
 - **GSAP bundled via npm** (not CDN) — eliminates render-blocking external scripts.
 - **Fonts via @fontsource** (latin-only) — eliminates Google Fonts external request.
@@ -58,7 +58,7 @@ astro-v2/
 │   │   ├── Marquee.astro       # Infinite scroll marquee
 │   │   ├── TreatmentLinkCard.astro  # Cross-navigation card
 │   │   ├── Breadcrumbs.astro   # Breadcrumbs + BreadcrumbList schema
-│   │   ├── booking/            # React booking widget (9 components)
+│   │   ├── booking/            # Legacy React booking widget (retained, not public while Treatwell is active)
 │   │   │   ├── BookingWidget.tsx     # 5-step orchestrator
 │   │   │   ├── steps/               # TreatmentSelect, DateSelect, TimeSelect, CustomerForm, DepositStep
 │   │   │   └── ui/                  # Calendar, StepIndicator, ErrorBoundary
@@ -93,8 +93,8 @@ astro-v2/
 │   │   ├── blog/anti-aging-behandlungen-zuerich/    # Blog article (2000+ words)
 │   │   ├── haeufige-fragen/                         # FAQ hub (20 FAQs, 4 categories)
 │   │   ├── ueber-uns/                               # About Teresa (E-E-A-T, credentials)
-│   │   ├── termin/                                  # Full booking page
-│   │   ├── buchung-bestaetigt/                      # Confirmation + tracking
+│   │   ├── termin/                                  # Noindex Treatwell forwarding fallback
+│   │   ├── buchung-bestaetigt/                      # Legacy confirmation + tracking page
 │   │   ├── admin/                                   # Admin dashboard (noindex)
 │   │   ├── impressum/                               # Legal
 │   │   ├── datenschutz/                             # Privacy
@@ -187,12 +187,13 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 - AI discoverability: llms.txt + llms-full.txt + robots.txt (10 AI crawlers allowed)
 - Sitemap: priority-weighted, admin/LP/confirmation filtered
 - Geo meta tags (CH-ZH), max-image-preview:large, OG dimensions
-- Booking flow: treatment → date → time → details → submit (writes to Supabase)
+- Public booking flow: any booking CTA → Treatwell booking page
+- Legacy first-party booking flow still exists in code: treatment → date → time → details → submit (writes to Supabase)
 - **Email notifications (Resend)** — Supabase Edge Function `notify-booking` fires on booking INSERT/UPDATE via Database Webhook. Sends owner notification + customer confirmation. Currently in **sandbox mode** (`EMAIL_FROM=onboarding@resend.dev` default); customer emails only deliver when sender domain is verified in Resend. To switch to real sending: verify `beautyfacelift.ch` in Resend DNS + set `EMAIL_FROM=noreply@beautyfacelift.ch` in Supabase Edge Function secrets.
 - Admin dashboard: login, bookings, services, availability, blocked dates, CSV export
 - Mobile hamburger menu with full-screen overlay
 - GSAP animations with prefers-reduced-motion support
-- UTM parameter persistence, server-side tracking, conversion tracking
+- UTM parameter persistence, server-side tracking, and Meta ads booking-click Lead tracking
 
 ### Not Yet Configured (needs accounts/env vars)
 - Custom domain beautyfacelift.ch (Cloudflare DNS) — HIGHEST PRIORITY
@@ -202,11 +203,11 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 - Email in production mode: verify `beautyfacelift.ch` sender domain in Resend (currently sandbox — see "Working" section)
 - GTM (needs PUBLIC_GTM_ID)
 - GA4 (needs GA4_MEASUREMENT_ID, GA4_API_SECRET)
-- Meta Pixel (needs META_PIXEL_ID, META_ACCESS_TOKEN)
+- Meta Pixel (needs PUBLIC_META_PIXEL_ID, META_PIXEL_ID, META_ACCESS_TOKEN)
 
 ### Known Issues
 - Admin test credentials are weak (info@pauloferreira.de / test123) — change before production
-- Stripe deposit step in BookingWidget exists but isn't wired into the main flow yet
+- Stripe deposit step in the legacy BookingWidget exists but is not active while public booking stays on Treatwell
 - Placeholder images need to be replaced with real Teresa/studio photos
 
 ## Commands

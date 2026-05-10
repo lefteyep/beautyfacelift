@@ -8,7 +8,7 @@ Implement the relaunch fixes for `beautyfacelift.ch` without changing the establ
 2. Better mobile readability and type consistency.
 3. More robust navigation, especially the `Behandlungen` dropdown.
 4. A first-party contact flow with a dedicated `/kontakt/` page and Worker-backed form handling.
-5. Removal of treatment-page regressions and Treatwell as a primary identity/action path.
+5. Removal of treatment-page regressions while preserving the current Treatwell booking path.
 
 ## Implementation Scope
 
@@ -64,10 +64,10 @@ Implement the relaunch fixes for `beautyfacelift.ch` without changing the establ
 - Keep only the intended dark gradient on treatment hero images.
 - Clean up breadcrumb spacing below treatment heroes.
 
-### 6. Treatwell cleanup
+### 6. Treatwell booking path
 
-- Remove Treatwell from schema `sameAs` usage and from primary linked action paths.
-- Keep only lightweight social-proof copy where still useful during the transition.
+- Current decision: keep all public booking CTAs on `https://buchung.treatwell.ch/ort/beauty-face-lift/` until the alternative booking system is working.
+- Keep Treatwell social proof and booking links consistent; do not reintroduce internal `/termin/` CTAs as primary booking links.
 
 ## Environment Variables
 

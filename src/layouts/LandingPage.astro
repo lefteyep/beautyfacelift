@@ -115,5 +115,13 @@ const pixelNoscriptHtml = pixelId
             }
         })();
     </script>
+
+    <!-- Meta ads: ad LP PageView + outbound Treatwell booking-click lead signal. -->
+    <script>
+        import { installTreatwellBookingClickTracking, trackPageView } from '../lib/track';
+
+        trackPageView();
+        installTreatwellBookingClickTracking();
+    </script>
 </body>
 </html>

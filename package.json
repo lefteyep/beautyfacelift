@@ -10,6 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check:booking-links": "node scripts/check-booking-links.mjs",
+    "check:meta-tracking": "node scripts/check-meta-tracking.mjs",
     "smoke:security": "node scripts/security-smoke.mjs",
     "cf:dev": "wrangler dev",
     "cf:build": "astro build",

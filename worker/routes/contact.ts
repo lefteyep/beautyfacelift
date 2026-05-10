@@ -5,6 +5,7 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_TOPICS,
   CONTACT_TO_EMAIL_FALLBACK,
+  TREATWELL_BOOKING_URL,
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
 
@@ -100,7 +101,7 @@ function htmlErrorResponse(message: string, status = 400): Response {
         <p class="muted">Wenn Ihr Anliegen dringend ist, erreichen Sie uns direkt unter <a href="tel:${CONTACT_PHONE}">${CONTACT_PHONE_DISPLAY}</a> oder per E-Mail an <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
         <div class="actions">
           <a class="pill" href="/kontakt/">Zurück zum Formular</a>
-          <a href="/termin/">Termin buchen</a>
+          <a href="${TREATWELL_BOOKING_URL}">Termin buchen</a>
         </div>
       </div>
     </main>

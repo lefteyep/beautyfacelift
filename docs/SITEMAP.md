@@ -19,7 +19,6 @@ Public indexable routes for `https://beautyfacelift.ch`:
 - `/haeufige-fragen/`
 - `/impressum/`
 - `/kontakt/`
-- `/termin/`
 - `/ueber-uns/`
 
 Excluded or internal routes:
@@ -28,5 +27,6 @@ Excluded or internal routes:
 - `/lp/*`
 - `/buchung-bestaetigt/`
 - `/kontakt/danke/`
+- Treatwell fallback page: `/termin/` is noindex and excluded from the sitemap.
 
 `/kontakt/danke/` is intentionally excluded from the public sitemap because it is `noindex`.

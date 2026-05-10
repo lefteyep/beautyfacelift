@@ -1,7 +1,6 @@
 ---
 
 import LandingPage from '../../../layouts/LandingPage.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
 ---
 
 <LandingPage
@@ -34,8 +33,11 @@ import BookingWidget from '../../../components/booking/BookingWidget';
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 10vh;">
-        <BookingWidget client:load preselectedCategory="Peeling" />
+    <section class="container lp-booking-cta">
+        <div class="sub-display margin-bottom-md">Termin buchen</div>
+        <h2>Fruchtsäure Peeling über Treatwell buchen</h2>
+        <p>Die Online-Buchung läuft aktuell über Treatwell. Dort wählen Sie Behandlung, Datum und Uhrzeit direkt aus.</p>
+        <a href="https://buchung.treatwell.ch/ort/beauty-face-lift/" class="pill-btn">Jetzt Termin buchen</a>
     </section>
 </LandingPage>
 
@@ -45,4 +47,7 @@ import BookingWidget from '../../../components/booking/BookingWidget';
     .lp-title em { font-style: normal; font-weight: 300; color: var(--gold); }
     .lp-subtitle { font-size: 1.15rem; max-width: 550px; margin: 0 auto; }
     .lp-benefits { padding-bottom: 6vh; }
+    .lp-booking-cta { padding-bottom: 10vh; text-align: center; }
+    .lp-booking-cta h2 { font-size: clamp(2rem, 4vw, 3.5rem); text-transform: none; margin-bottom: 1rem; }
+    .lp-booking-cta p { max-width: 560px; margin: 0 auto 2rem; }
 </style>

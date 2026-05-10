@@ -27,7 +27,7 @@
 - Sonntag: Geschlossen
 - Feiertage: Geschlossen (nach Vereinbarung möglich)
 
-Termine werden ausschliesslich nach Vereinbarung vergeben. Online-Buchung ist rund um die Uhr möglich unter https://beautyfacelift.ch/termin/
+Termine werden ausschliesslich nach Vereinbarung vergeben. Online-Buchung ist rund um die Uhr möglich unter https://buchung.treatwell.ch/ort/beauty-face-lift/
 
 ### Erreichbarkeit
 - Tram-Haltestelle Paradeplatz/Börsenstrasse (2 Min. Fussweg)
@@ -225,7 +225,7 @@ Fruchtsäure Peeling ab CHF 150, Hydrafacial ab CHF 190, ColdPlasma ab CHF 200, 
 Ja, wir bieten Kurpakete mit bis zu 10 % Rabatt. Die 5er-Kur Hydrafacial ist ab CHF 850 erhältlich. Auch für Microneedling und andere Behandlungen gibt es Mehrfachpakete. Teresa berät, welches Paket für Ihre Hautziele sinnvoll ist.
 
 **17. Wie buche ich einen Termin?**
-Am einfachsten über die Online-Terminbuchung unter https://beautyfacelift.ch/termin/. Wählen Sie Behandlung, Datum und Uhrzeit — die Bestätigung erhalten Sie sofort per E-Mail. Alternativ telefonisch unter +41 79 214 34 62 oder per E-Mail an info@beautyfacelift.ch.
+Am einfachsten über die Online-Terminbuchung unter https://buchung.treatwell.ch/ort/beauty-face-lift/. Wählen Sie Behandlung, Datum und Uhrzeit — die Bestätigung erhalten Sie sofort per E-Mail. Alternativ telefonisch unter +41 79 214 34 62 oder per E-Mail an info@beautyfacelift.ch.
 
 **18. Welche Zahlungsmethoden werden akzeptiert?**
 Barzahlung, EC-Karte (Debitkarte) sowie alle gängigen Kreditkarten (Visa, Mastercard). Die Zahlung erfolgt nach der Behandlung vor Ort. Bei Kurpaketen ist Vorauszahlung möglich.
@@ -258,14 +258,14 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 - **Startseite:** https://beautyfacelift.ch/ — Premium Medical Spa Zürich an der Bahnhofstrasse 94. Übersicht aller Leistungen, Bewertungen und Buchungsmöglichkeiten.
 - **Behandlungen:** https://beautyfacelift.ch/behandlungen/ — Übersicht aller vier Gesichtsbehandlungen mit Beschreibungen, Bildern und direkten Links zu Detailseiten.
 - **Über uns:** https://beautyfacelift.ch/ueber-uns/ — Vorstellung von Teresa Stimac, 20+ Jahre Erfahrung als Kosmetikerin in Zürich. Studio-Einblicke und Philosophie.
-- **Termin buchen:** https://beautyfacelift.ch/termin/ — Online-Terminbuchung mit Behandlungsauswahl, Kalender und Uhrzeitwahl. Buchung in wenigen Klicks möglich.
+- **Termin buchen:** https://buchung.treatwell.ch/ort/beauty-face-lift/ — Online-Terminbuchung mit Behandlungsauswahl, Kalender und Uhrzeitwahl. Buchung in wenigen Klicks möglich.
 - **Häufige Fragen:** https://beautyfacelift.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
 
-### Behandlungsseiten (mit Online-Buchung)
-- **Hydrafacial Zürich:** https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/ — Detailseite zur Hydrafacial-Behandlung: Vortex-Technologie, Ablauf, Preise (ab CHF 190), FAQ, Bewertungen. Mit integrierter Terminbuchung.
-- **Microneedling Zürich:** https://beautyfacelift.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Kollagenaufbau, Ablauf, Preise (ab CHF 250), FAQ, Ergebnisse. Mit integrierter Terminbuchung.
-- **Fruchtsäure Peeling Zürich:** https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Mit integrierter Terminbuchung.
-- **ColdPlasma Zürich:** https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 200), FAQ. Mit integrierter Terminbuchung.
+### Behandlungsseiten (mit Treatwell-Buchungslink)
+- **Hydrafacial Zürich:** https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/ — Detailseite zur Hydrafacial-Behandlung: Vortex-Technologie, Ablauf, Preise (ab CHF 190), FAQ, Bewertungen. Buchung über Treatwell.
+- **Microneedling Zürich:** https://beautyfacelift.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Kollagenaufbau, Ablauf, Preise (ab CHF 250), FAQ, Ergebnisse. Buchung über Treatwell.
+- **Fruchtsäure Peeling Zürich:** https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Buchung über Treatwell.
+- **ColdPlasma Zürich:** https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 200), FAQ. Buchung über Treatwell.
 - **Behandlungsvergleich:** https://beautyfacelift.ch/behandlungen/vergleich/ — Alle vier Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
 
 ### Blog & Informationen
@@ -280,8 +280,8 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 - **Microneedling LP:** https://beautyfacelift.ch/lp/microneedling/ — Werbe-Landingpage für Microneedling-Kampagnen.
 - **Peeling LP:** https://beautyfacelift.ch/lp/peeling/ — Werbe-Landingpage für Fruchtsäure-Peeling-Kampagnen.
 
-### Systempseiten
-- **Buchung bestätigt:** https://beautyfacelift.ch/buchung-bestaetigt/ — Bestätigungsseite nach erfolgreicher Online-Buchung.
+### Systemseiten
+- **Kontakt-Danke:** https://beautyfacelift.ch/kontakt/danke/ — Dankeseite nach Kontaktformular-Anfrage (nicht indexiert).
 - **Admin:** https://beautyfacelift.ch/admin/ — Admin-Dashboard (nicht öffentlich zugänglich).
 
 ### Für KI-Systeme
@@ -299,4 +299,4 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 
 ---
 
-*Stand: März 2026. Alle Angaben ohne Gewähr. Aktuelle Preise und Verfügbarkeit finden Sie auf unserer Website unter https://beautyfacelift.ch*
+*Stand: Mai 2026. Alle Angaben ohne Gewähr. Aktuelle Preise und Verfügbarkeit finden Sie auf Treatwell unter https://buchung.treatwell.ch/ort/beauty-face-lift/*

@@ -1,7 +1,7 @@
 ---
 
 import Base from '../../layouts/Base.astro';
-import BookingWidget from '../../components/booking/BookingWidget';
+import { TREATWELL_BOOKING_URL } from '../../../shared/site';
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -20,7 +20,7 @@ const structuredData = {
         "@type": "ReserveAction",
         "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://beautyfacelift.ch/termin/"
+            "urlTemplate": TREATWELL_BOOKING_URL
         },
         "result": {
             "@type": "Reservation",
@@ -34,23 +34,20 @@ const structuredData = {
     title="Termin buchen | Beauty Face Lift Zürich — Online Buchung"
     description="Termin buchen bei Beauty Face Lift Zürich ★ 4.8/5 — Hydra4Face ab CHF 180, Microneedling, Peeling & ColdPlasma. Online Buchung in 3 Klicks. Bahnhofstrasse 94."
     structuredData={structuredData}
+    noindex
 >
-    <!-- Booking Header — design: centered, 80px 58px 40px -->
     <section style="padding: 80px 58px 40px; text-align: center;">
-        <span class="sub-display" style="display: block; margin-bottom: 16px;">Online Buchen</span>
-        <h1 style="font-size: 42px; margin-bottom: 16px; text-transform: none;">Termin vereinbaren</h1>
-        <p style="max-width: 600px; margin: 0 auto;">Wählen Sie Ihre Behandlung und finden Sie Ihren Wunschtermin — unkompliziert und schnell.</p>
+        <span class="sub-display" style="display: block; margin-bottom: 16px;">Online buchen</span>
+        <h1 style="font-size: 42px; margin-bottom: 16px; text-transform: none;">Weiterleitung zur Buchung</h1>
+        <p style="max-width: 600px; margin: 0 auto 24px;">Die Online-Buchung läuft aktuell über Treatwell.</p>
+        <a href={TREATWELL_BOOKING_URL} class="pill-btn">Jetzt über Treatwell buchen</a>
     </section>
-
-    <div class="section-divider"></div>
-
-    <section style="padding: 0 var(--content-px) 80px;">
-        <BookingWidget client:load />
-    </section>
-
-    <div class="section-divider"></div>
 
     <section style="padding: 0 58px 80px; text-align: center;">
         <p style="font-size: 13px; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Bahnhofstrasse 94 · Samstag Sonderöffnung · Persönliche Betreuung</p>
     </section>
+
+    <script define:vars={{ bookingUrl: TREATWELL_BOOKING_URL }}>
+        window.location.replace(bookingUrl);
+    </script>
 </Base>

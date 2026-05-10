@@ -1,6 +1,6 @@
 # Relaunch Status
 
-Last updated: 2026-04-21
+Last updated: 2026-05-10
 
 ## Done
 
@@ -18,7 +18,7 @@ Last updated: 2026-04-21
 - Updated env examples and policy copy so the new contact flow is documented in the repo.
 - Removed the treatment-page marquee from all four treatment detail pages and fixed the shared treatment hero overlay/first-paint behavior in layout and CSS instead of page-level hacks.
 - Added a shared treatment-page body hook and verified treatment-page hero contrast and breadcrumb spacing in the shared templates.
-- Removed Treatwell as a first-party booking / identity destination and reduced remaining references to lightweight social-proof copy only.
+- Superseded previous Treatwell cleanup: public booking is intentionally back on Treatwell until the alternative booking system is ready.
 
 ## Verified
 

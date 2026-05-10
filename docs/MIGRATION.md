@@ -63,7 +63,8 @@ The variable names stay identical — only the delivery mechanism changes.
 | `PUBLIC_SUPABASE_URL` | Pages env var | `wrangler.jsonc` → `vars` block (public, non-secret) | |
 | `PUBLIC_SUPABASE_ANON_KEY` | Pages env var | `wrangler secret put` | |
 | `SUPABASE_SERVICE_ROLE_KEY` | Pages env var | `wrangler secret put` | Optional — bypasses RLS |
-| `META_PIXEL_ID` | Pages env var | `wrangler secret put` | Optional |
+| `PUBLIC_META_PIXEL_ID` | Pages env var | Worker/GitHub variable | Optional browser Pixel ID for ad LPs |
+| `META_PIXEL_ID` | Pages env var | `wrangler secret put` | Optional CAPI Pixel ID; keep same as `PUBLIC_META_PIXEL_ID` |
 | `META_ACCESS_TOKEN` | Pages env var | `wrangler secret put` | Optional |
 | `GA4_MEASUREMENT_ID` | Pages env var | `wrangler secret put` | Optional |
 | `GA4_API_SECRET` | Pages env var | `wrangler secret put` | Optional |

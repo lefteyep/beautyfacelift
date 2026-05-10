@@ -4,14 +4,14 @@
 
 ```
 [Browser] → [Cloudflare CDN] → Static HTML/CSS/JS (16 pre-rendered pages)
-                              → /api/* → Cloudflare Pages Functions → Supabase (Postgres)
+                              → /api/* → Cloudflare Worker → Supabase (Postgres)
 ```
 
-All pages are static HTML served from Cloudflare's edge CDN (330+ locations). API routes run as Cloudflare Pages Functions (V8 isolates, 0ms cold start). Database is Supabase Postgres in EU Frankfurt.
+All public pages are static HTML served from Cloudflare's edge CDN. API routes run in the unified Cloudflare Worker. Database is Supabase Postgres in EU Frankfurt.
 
 ## Why This Architecture
 
-- **Astro static** over SSR: Pages ship zero JS by default. Only booking widget and admin load React. Treatment pages = pure HTML. Faster LCP = lower Google Ads CPC.
+- **Astro static** over SSR: Pages ship zero JS by default. Public treatment pages are pure HTML aside from shared enhancement scripts.
 - **Cloudflare** over Vercel: Unlimited bandwidth (no surprise bills from ad traffic), 100K requests/day free, 330+ edge cities, 0ms cold starts.
 - **Supabase** over custom backend: Free Postgres, built-in auth, real-time, edge functions. 500MB = tens of thousands of bookings.
 - **React islands** over full SPA: JavaScript only loads where interaction is needed.
@@ -24,15 +24,14 @@ All pages are static HTML served from Cloudflare's edge CDN (330+ locations). AP
 Browser → Cloudflare CDN (cached HTML) → served directly
 ```
 
-### Booking Flow
+### Public Booking Flow
 ```
-1. Browser loads /termin/ (static HTML + React island)
-2. BookingWidget mounts → fetches /api/services (Cloudflare Function → Supabase)
-3. User selects treatment → fetches /api/availability?month=...
-4. User selects date → fetches /api/slots?date=...&service_id=...
-5. User fills form → POST /api/bookings (Cloudflare Function → Supabase INSERT)
-6. Redirect to /buchung-bestaetigt/?id=... (fires conversion tracking)
+1. User clicks any public booking CTA.
+2. Shared click tracking emits a Meta/GA4 Lead event labelled "Treatwell booking click".
+3. Browser navigates to https://buchung.treatwell.ch/ort/beauty-face-lift/
 ```
+
+`/termin/` is retained only as a noindex fallback page that forwards users to Treatwell. It is excluded from the sitemap.
 
 ### Admin Dashboard
 ```
@@ -44,11 +43,16 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 
 ### Conversion Tracking
 ```
-Booking complete → /buchung-bestaetigt/
-  ├─ Client-side: dataLayer.push({ event: 'booking_complete', event_id }) → GTM → GA4 + Ads + Pixel
-  └─ Server-side: POST /api/track { event_id } → Meta CAPI + GA4 Measurement Protocol
-Both use same event_id for deduplication.
+Ad LP page load
+  ├─ Client-side: fbq PageView when PUBLIC_META_PIXEL_ID is configured
+  └─ Server-side: POST /api/track PageView → Meta CAPI + GA4 Measurement Protocol
+
+Treatwell booking click
+  ├─ Client-side: fbq Lead with content_name "Treatwell booking click"
+  └─ Server-side: POST /api/track Lead with the same event_id for deduplication
 ```
+
+Important Meta ads constraint: because the appointment is completed on Treatwell, this site currently measures booking intent, not confirmed Treatwell appointment completion. Confirmed appointment conversion tracking requires a Treatwell-supported pixel/callback flow or a later offline/CRM conversion import.
 
 ## Database Schema
 
@@ -76,7 +80,7 @@ RLS policies:
 - TreatmentLinkCard.astro — cross-navigation card
 
 ### React Islands (JS loaded on demand)
-- BookingWidget — 5-step booking flow (client:visible or client:load)
+- BookingWidget — legacy first-party booking flow retained in code but not embedded on public booking pages while Treatwell is the active booking destination
 - AdminDashboard — tab-based admin panel (client:load)
 
 ### Cloudflare Pages Functions

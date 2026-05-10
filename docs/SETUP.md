@@ -78,7 +78,7 @@ Auto-deploys on `git push` to `master`.
 ### Google Tag Manager
 1. Create container at tagmanager.google.com
 2. Add `PUBLIC_GTM_ID` (GTM-XXXXXXX) to Cloudflare env vars
-3. Configure tags in GTM: GA4, Google Ads, Meta Pixel
+3. Configure tags in GTM: GA4 and Google Ads. Meta Pixel is also installed directly on ad landing pages when `PUBLIC_META_PIXEL_ID` is set.
 
 ### Google Analytics 4
 1. Create property at analytics.google.com
@@ -88,4 +88,11 @@ Auto-deploys on `git push` to `master`.
 ### Meta Pixel
 1. Create Pixel in Meta Business Suite → Events Manager
 2. Get Pixel ID and generate access token (Events Manager → Settings → Conversions API)
-3. Add `META_PIXEL_ID` and `META_ACCESS_TOKEN` to Cloudflare env vars
+3. Add `PUBLIC_META_PIXEL_ID` as a build/runtime public variable for browser Pixel on ad landing pages.
+4. Add `META_PIXEL_ID` and `META_ACCESS_TOKEN` as Worker secrets for Conversions API.
+5. Keep `PUBLIC_META_PIXEL_ID` and `META_PIXEL_ID` on the same Pixel ID so browser Pixel and CAPI events deduplicate by `event_id`.
+6. In Meta Test Events, verify:
+   - `PageView` on `/lp/*` pages.
+   - `Lead` with `content_name = Treatwell booking click` when clicking a Treatwell booking CTA.
+
+Current limitation: confirmed appointments happen on Treatwell, so the website cannot claim a completed booking conversion unless Treatwell later sends that event back or appointments are imported as offline/CRM conversions.

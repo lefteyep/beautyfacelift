@@ -1,7 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
 import { Image, getImage } from 'astro:assets';
@@ -177,7 +176,7 @@ const faqData = {
                 <p class="margin-bottom-md">Hydrafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet und weltweit zu den beliebtesten Medical-Spa-Behandlungen zählt. Bei Beauty Face Lift an der Bahnhofstrasse in Zürich erleben Sie diese revolutionäre Technologie in einem exklusiven Ambiente, das Luxus und persönliche Betreuung vereint. Jede Behandlung wird von Inhaberin Teresa Stimac persönlich durchgeführt und individuell auf Ihren Hauttyp abgestimmt.</p>
                 <p class="margin-bottom-md">Die hochmoderne Vortex-Technologie unterscheidet sich grundlegend von herkömmlichen Gesichtsbehandlungen: Statt die Haut mechanisch zu belasten, erzeugt das patentierte Verfahren einen spiralförmigen Sog, der Unreinheiten und abgestorbene Hautzellen sanft aus den Poren löst. Gleichzeitig werden hochwirksame Antioxidantien, Hyaluronsäure und Peptide tief in die Haut eingeschleust — für eine Tiefenwirkung, die mit klassischen Facials nicht erreichbar ist.</p>
                 <p class="margin-bottom-md">Das Resultat: Sofort sichtbar strahlende, hydratisierte Haut mit verfeinerten Poren und einem ebenmässigen Teint — direkt nach der ersten Sitzung und ohne jede Ausfallzeit. Perfekt für das pulsierende Leben in Zürich, ob vor einem wichtigen Business-Meeting, einem besonderen Anlass oder einfach als regelmässige Hautpflege-Routine.</p>
-                <a href="#buchen" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
+                <a href="https://buchung.treatwell.ch/ort/beauty-face-lift/" class="pill-btn pill-btn-outline">Termin vereinbaren</a>
             </div>
             <div class="about-image scroll-anim">
                 <div class="service-image-mask" style="padding-bottom: 120%;">
@@ -371,9 +370,12 @@ const faqData = {
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 
-    <!-- Booking Widget -->
-    <section class="container pad-y" id="buchen">
-        <BookingWidget client:visible preselectedCategory="Hydrafacial" />
+    <!-- Treatwell Booking CTA -->
+    <section class="container pad-y" style="text-align: center;">
+        <div class="sub-display margin-bottom-md">Termin buchen</div>
+        <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 1rem;">Hydrafacial über Treatwell buchen</h2>
+        <p style="max-width: 560px; margin: 0 auto 2rem;">Die Online-Buchung läuft aktuell über Treatwell. Dort wählen Sie Behandlung, Datum und Uhrzeit direkt aus.</p>
+        <a href="https://buchung.treatwell.ch/ort/beauty-face-lift/" class="pill-btn">Jetzt Termin buchen</a>
     </section>
 
     <!-- Treatment Combinations -->

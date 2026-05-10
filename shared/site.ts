@@ -12,6 +12,7 @@ export const CONTACT_PHONE = '+41792143462';
 export const CONTACT_PHONE_DISPLAY = '+41 79 214 34 62';
 export const CONTACT_EMAIL = 'info@beautyfacelift.ch';
 export const CONTACT_TO_EMAIL_FALLBACK = 'info@beautyfacelift.ch';
+export const TREATWELL_BOOKING_URL = 'https://buchung.treatwell.ch/ort/beauty-face-lift/';
 export const TREATWELL_URL = 'https://www.treatwell.ch/ort/beauty-face-lift/';
 
 const whatsappMessage = encodeURIComponent('Guten Tag, ich habe eine Frage zu einer Behandlung bei Beauty Face Lift.');

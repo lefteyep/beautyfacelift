@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary
 
-The live site already has a strong premium direction: editorial imagery, refined typography, calm spacing, and a first-party booking funnel. The highest-impact work is not a full redesign. The right next move is a focused conversion and trust pass:
+The live site already has a strong premium direction: editorial imagery, refined typography, calm spacing, and a booking path. Current operational decision as of 2026-05-10: public booking stays on Treatwell at `https://buchung.treatwell.ch/ort/beauty-face-lift/` until the alternative booking system is ready. The older first-party booking funnel references in this PRD are historical implementation context, not the current public booking destination. The highest-impact work is not a full redesign. The right next move is a focused conversion and trust pass:
 
 1. Make prices consistent across treatment pages, structured data, homepage copy, and booking data.
 2. Move booking intent earlier on mobile.

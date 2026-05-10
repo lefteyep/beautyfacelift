@@ -1,6 +1,6 @@
 # Workers Cutover Runbook
 
-**Purpose:** Step-by-step commands to execute Tasks 10, 11, and 13 of the migration plan. Follow in order. Each step has a verify check.
+**Purpose:** Historical step-by-step commands to execute Tasks 10, 11, and 13 of the migration plan. Follow current project docs for booking behavior; public booking now goes to Treatwell.
 
 **Branch:** `cf-workers-migration` (currently at `bae6947`, 11 commits ahead of `master`)
 
@@ -45,6 +45,7 @@ For each variable below that is SET on Pages, copy its value into a scratch file
 |---|---|---|
 | `PUBLIC_SUPABASE_ANON_KEY` | yes (required) | `eyJ...` |
 | `SUPABASE_SERVICE_ROLE_KEY` | yes (required for bookings) | `eyJ...` |
+| `PUBLIC_META_PIXEL_ID` | ? | |
 | `META_PIXEL_ID` | ? | |
 | `META_ACCESS_TOKEN` | ? | |
 | `GA4_MEASUREMENT_ID` | ? | |
@@ -107,7 +108,7 @@ Open `WORKERS_URL` in a browser. Verify:
 
 - [ ] Homepage loads — hero visible, gold accent color, Cormorant Garamond headline
 - [ ] `/behandlungen/hydrafacial-zuerich/` — 3000+ word treatment page renders
-- [ ] `/termin/` — booking widget loads (React island mounts, no console errors)
+- [ ] `/termin/` — noindex fallback forwards to Treatwell
 - [ ] `/admin/` — login form renders
 - [ ] `/does-not-exist` — serves custom 404 page (not a generic Workers error)
 

@@ -1,6 +1,6 @@
 # TODO — beautyfacelift.ch
 
-**Last updated:** March 19, 2026
+**Last updated:** May 10, 2026
 
 ## ✅ Completed (March 19, 2026 — Pixel-Perfect Design Implementation)
 - [x] Implement pixel-perfect design from .pen design file across all 24 pages
@@ -37,13 +37,14 @@
 - [ ] Claim/verify Google Business Profile (Bahnhofstrasse 94, 8001 Zürich)
 - [ ] Replace weak/test admin password with a strong unique password
 - [ ] Replace placeholder images with real Teresa/studio photos
-- [ ] Get real treatment prices from Teresa and update pages + Supabase
+- [x] Align public prices with the official Treatwell catalog
 
 ## Priority 2: Tracking & Analytics (before running ads)
 - [ ] Create GTM container + set PUBLIC_GTM_ID in Cloudflare
 - [ ] Create GA4 property + set GA4_MEASUREMENT_ID and GA4_API_SECRET
-- [ ] Create Meta Pixel + set META_PIXEL_ID and META_ACCESS_TOKEN
-- [ ] Verify conversion tracking (GA4 DebugView + Meta Test Events)
+- [ ] Create Meta Pixel + set PUBLIC_META_PIXEL_ID, META_PIXEL_ID, and META_ACCESS_TOKEN
+- [ ] Verify Meta Test Events: PageView on ad LPs and Lead on Treatwell booking clicks
+- [ ] Decide whether confirmed Treatwell bookings can be imported later via Treatwell export, CRM import, or offline conversions
 - [ ] Submit sitemap to Bing Webmaster Tools
 
 ## Priority 3: Email & Notifications
@@ -53,7 +54,7 @@
 
 ## Priority 4: Stripe Deposits
 - [ ] Set up Stripe account + configure env vars (STRIPE_SECRET_KEY, etc.)
-- [ ] Wire DepositStep into BookingWidget flow (component exists, not integrated)
+- [ ] Keep Stripe deposit work paused while public booking stays on Treatwell
 - [ ] Set up Stripe webhook endpoint
 - [ ] Test deposit payment flow in Stripe test mode
 

@@ -1,8 +1,8 @@
 # Pending Work
 
-Last updated: 2026-05-05 (security hardening live; CSP report-only added)
+Last updated: 2026-05-10 (Treatwell booking links restored; Meta ads docs corrected)
 
-Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`, booking/contact/tracking hardening is live, and Supabase migration history is repaired.
+Current live state: https://beautyfacelift.mediapaulo.workers.dev — Workers deploy, official Treatwell catalog returns 65 services via `/api/services`, public booking CTAs point to Treatwell, contact/tracking hardening is live, and Supabase migration history is repaired.
 
 Important operational note: Supabase migration bookkeeping matches local migrations. Before future production DB migrations, run `supabase db push --linked --dry-run` and take a logical backup with Docker Desktop or native `pg_dump`. See [SUPABASE-MIGRATION-STATUS.md](SUPABASE-MIGRATION-STATUS.md).
 
@@ -14,6 +14,7 @@ Important operational note: Supabase migration bookkeeping matches local migrati
 - **Contact runtime configured** — Cloudflare Turnstile and Resend secrets are present on the Worker. Current sender configuration is suitable for development only until the real domain is verified.
 - **Repeatable smoke checks** — `npm run smoke:security` verifies live API and header behavior against the `.workers.dev` deployment.
 - **Treatwell catalog live** — `/api/services` returns the official 65-service catalog.
+- **Treatwell booking destination restored** — public booking links point to `https://buchung.treatwell.ch/ort/beauty-face-lift/`; `/termin/` is noindex and forwards to Treatwell.
 - **Supabase migration bookkeeping repaired** — local migration records align with production history.
 
 ---
@@ -88,8 +89,10 @@ Blocked until the real domain is connected:
 - Google Search Console
 - Google Business Profile
 - GA4 server-side measurement secrets
-- Meta Pixel/CAPI secrets
+- Meta Pixel/CAPI secrets plus `PUBLIC_META_PIXEL_ID`
 - Optional GTM container
+
+Meta ads note: until Treatwell can report completed appointments back to Meta, optimize for the website `Lead` event emitted on Treatwell booking clicks. Do not report this as a confirmed booking conversion.
 
 ---
 

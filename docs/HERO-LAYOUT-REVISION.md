@@ -18,7 +18,7 @@ The homepage hero was restructured from a vertical "content on top + full-width 
 
 - Grid 2-column layout on desktop (`grid-template-columns: 1fr 1fr`, gap 4rem).
 - **Left column** (`.hero-content`): eyebrow, display headline, body, and **two CTAs**.
-  - Primary: `Jetzt Termin buchen` → `/termin/`.
+  - Primary: `Jetzt Termin buchen` → `https://buchung.treatwell.ch/ort/beauty-face-lift/`.
   - Secondary: `Behandlungen entdecken` → `/behandlungen/` (uses new `.pill-btn-ghost` variant — transparent with ink border).
 - **Right column** (`.hero-media`, 1:1 aspect, max-width 640px):
   - `.hero-media-main` — tall 3:4 portrait image (62% width) anchored to the left and offset down 8%.

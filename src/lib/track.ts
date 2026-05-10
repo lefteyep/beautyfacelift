@@ -1,8 +1,11 @@
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    __bflTreatwellBookingClickTracking?: boolean;
   }
 }
+
+const TREATWELL_BOOKING_URL = 'https://buchung.treatwell.ch/ort/beauty-face-lift/';
 
 interface LeadPayload {
   email?: string;
@@ -10,6 +13,7 @@ interface LeadPayload {
   value?: number;
   currency?: string;
   source?: string;
+  content_name?: string;
 }
 
 interface ContactPayload {
@@ -56,19 +60,24 @@ export function trackPageView(): void {
 export async function trackLead(payload: LeadPayload = {}): Promise<void> {
   if (typeof window === 'undefined') return;
   const event_id = randomId();
-  const { email, phone, value, currency = 'CHF', source } = payload;
+  const { email, phone, value, currency = 'CHF', source, content_name } = payload;
 
   const customData: Record<string, unknown> = {};
   if (typeof value === 'number') { customData.value = value; customData.currency = currency; }
   if (source) customData.source = source;
+  if (content_name) customData.content_name = content_name;
 
   window.fbq?.('track', 'Lead', customData, { eventID: event_id });
 
   const user_data: Record<string, string> = {};
-  const em = await sha256(email || '');
-  const ph = await sha256((phone || '').replace(/\D/g, ''));
-  if (em) user_data.em = em;
-  if (ph) user_data.ph = ph;
+  if (email) {
+    const em = await sha256(email);
+    if (em) user_data.em = em;
+  }
+  if (phone) {
+    const ph = await sha256(phone.replace(/\D/g, ''));
+    if (ph) user_data.ph = ph;
+  }
 
   postCapi({
     event_name: 'Lead',
@@ -77,6 +86,43 @@ export async function trackLead(payload: LeadPayload = {}): Promise<void> {
     event_data: customData,
     user_data,
   });
+}
+
+function sameTreatwellBookingTarget(rawHref: string): boolean {
+  try {
+    const expected = new URL(TREATWELL_BOOKING_URL);
+    const actual = new URL(rawHref);
+    return actual.origin === expected.origin
+      && actual.pathname.replace(/\/+$/, '') === expected.pathname.replace(/\/+$/, '');
+  } catch {
+    return false;
+  }
+}
+
+export function trackTreatwellBookingClick(source = 'treatwell_booking_click'): void {
+  void trackLead({
+    source,
+    content_name: 'Treatwell booking click',
+  });
+}
+
+export function installTreatwellBookingClickTracking(): void {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  if (window.__bflTreatwellBookingClickTracking) return;
+  window.__bflTreatwellBookingClickTracking = true;
+
+  document.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target.closest('a[href]') : null;
+    if (!(target instanceof HTMLAnchorElement)) return;
+    if (!sameTreatwellBookingTarget(target.href)) return;
+
+    trackTreatwellBookingClick(
+      target.dataset.bookingSource
+      || target.dataset.buttonLocation
+      || target.id
+      || 'treatwell_booking_click',
+    );
+  }, { capture: true });
 }
 
 export function trackContact(payload: ContactPayload): void {

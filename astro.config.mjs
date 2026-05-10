@@ -12,6 +12,7 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/admin') &&
         !page.includes('/lp/') &&
+        !page.includes('/termin/') &&
         !page.includes('/buchung-bestaetigt') &&
         !page.includes('/kontakt/danke'),
       changefreq: 'weekly',
@@ -25,9 +26,6 @@ export default defineConfig({
           item.priority = 0.9;
           item.changefreq = 'weekly';
         } else if (item.url.includes('/blog/')) {
-          item.priority = 0.8;
-          item.changefreq = 'monthly';
-        } else if (item.url.includes('/termin/')) {
           item.priority = 0.8;
           item.changefreq = 'monthly';
         }

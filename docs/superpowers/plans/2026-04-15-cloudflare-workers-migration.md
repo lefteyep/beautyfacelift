@@ -515,7 +515,7 @@ Published beautyfacelift (X.XX sec)
 Open the workers.dev URL and verify:
 - [ ] Homepage loads with correct CSS + fonts
 - [ ] `/behandlungen/hydrafacial-zuerich/` loads
-- [ ] `/termin/` loads booking widget
+- [ ] `/termin/` noindex fallback forwards to Treatwell
 - [ ] `curl <url>/api/services` returns service list (200)
 - [ ] `curl <url>/api/availability?month=2026-05` returns available dates
 - [ ] Submit a test booking via the UI → row appears in Supabase `bookings` table

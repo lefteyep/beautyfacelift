@@ -74,7 +74,7 @@ export const POST: APIRoute = async ({ request }) => {
       };
 
       const metaRes = await fetch(
-        `https://graph.facebook.com/v19.0/${metaPixelId}/events?access_token=${metaAccessToken}`,
+        `https://graph.facebook.com/v25.0/${metaPixelId}/events?access_token=${metaAccessToken}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
