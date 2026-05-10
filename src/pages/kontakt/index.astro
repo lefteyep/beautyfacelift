@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import { consultationTrust } from '../../lib/site-images';
+import { teresaPortrait } from '../../lib/site-images';
 import {
     absoluteUrl,
     ADDRESS,
@@ -34,39 +34,91 @@ const openingHoursSpecification = [
     },
 ];
 
-const contactLinks = [
+const primaryPaths = [
+    {
+        id: 'contact-card-booking',
+        eyebrow: 'Direkt buchen',
+        title: 'Termin online buchen',
+        copy: 'Wenn Sie bereits wissen, was Sie möchten, wählen Sie Ihren Termin direkt online aus.',
+        cta: 'Jetzt Termin buchen',
+        href: '/termin/',
+        event: 'click_booking',
+        buttonLocation: 'contact_card_booking',
+        variant: 'primary',
+    },
     {
         id: 'contact-card-whatsapp',
-        label: 'WhatsApp',
-        value: 'Per WhatsApp schreiben',
+        eyebrow: 'Kurze Frage',
+        title: 'Per WhatsApp schreiben',
+        copy: 'Ideal für Terminwünsche, Rückfragen oder eine erste Einschätzung vor der Behandlung.',
+        cta: 'Per WhatsApp schreiben',
         href: CONTACT_WHATSAPP_URL,
         event: 'click_whatsapp',
         buttonLocation: 'contact_card_whatsapp',
         external: true,
+        variant: 'secondary',
     },
     {
         id: 'contact-card-phone',
-        label: 'Telefon',
-        value: CONTACT_PHONE_DISPLAY,
+        eyebrow: 'Telefon',
+        title: CONTACT_PHONE_DISPLAY,
+        copy: 'Für kurzfristige Änderungen oder wenn Sie direkt persönlich sprechen möchten.',
+        cta: 'Anrufen',
         href: `tel:${CONTACT_PHONE}`,
         event: 'click_phone',
         buttonLocation: 'contact_card_phone',
+        variant: 'quiet',
     },
     {
         id: 'contact-card-email',
-        label: 'E-Mail',
-        value: CONTACT_EMAIL,
+        eyebrow: 'E-Mail',
+        title: CONTACT_EMAIL,
+        copy: 'Für ausführlichere Anliegen, Unterlagen oder Rückrufwünsche.',
+        cta: 'E-Mail schreiben',
         href: `mailto:${CONTACT_EMAIL}`,
         event: 'click_email',
         buttonLocation: 'contact_card_email',
+        variant: 'quiet',
+    },
+];
+
+const intentCards = [
+    {
+        id: 'contact-intent-booking',
+        title: 'Ich möchte buchen',
+        copy: 'Für Kundinnen, die bereits wissen, welche Behandlung sie möchten.',
+        cta: 'Jetzt Termin buchen',
+        href: '/termin/',
+        event: 'click_booking',
+        buttonLocation: 'contact_intent_booking',
     },
     {
-        id: 'contact-card-route',
-        label: 'Route',
-        value: 'Bahnhofstrasse 94',
+        id: 'contact-intent-recommendation',
+        title: 'Ich bin unsicher',
+        copy: 'Teresa empfiehlt Ihnen den passenden nächsten Schritt für Ihr Hautziel.',
+        cta: 'Anfrage senden',
+        href: '#kontakt-form',
+        event: 'click_form_intent',
+        buttonLocation: 'contact_intent_recommendation',
+    },
+    {
+        id: 'contact-intent-reschedule',
+        title: 'Termin ändern',
+        copy: 'Für kurzfristige Änderungen bitte direkt per WhatsApp schreiben oder anrufen.',
+        cta: 'Per WhatsApp schreiben',
+        href: CONTACT_WHATSAPP_URL,
+        event: 'click_whatsapp',
+        buttonLocation: 'contact_intent_reschedule',
+        external: true,
+    },
+    {
+        id: 'contact-intent-route',
+        title: 'Anfahrt planen',
+        copy: 'Bahnhofstrasse 94, wenige Minuten vom Paradeplatz und der Börsenstrasse.',
+        cta: 'Route planen',
         href: routeUrl,
         event: 'click_route',
-        buttonLocation: 'contact_card_route',
+        buttonLocation: 'contact_intent_route',
         external: true,
     },
 ];
@@ -112,20 +164,21 @@ const structuredData = {
     description="Kontaktieren Sie Beauty Face Lift Zürich an der Bahnhofstrasse 94. Termin online buchen, per WhatsApp schreiben oder persönliche Beratung bei Teresa anfragen."
     structuredData={structuredData}
 >
-    <section class="kontakt kontakt-clean" aria-labelledby="kontakt-heading">
-        <header class="kontakt-clean-hero">
-            <div class="kontakt-clean-copy">
-                <p class="kontakt-clean-kicker">Beauty Face Lift Zürich</p>
+    <main class="kontakt kontakt-desk" aria-labelledby="kontakt-heading">
+        <section class="kontakt-desk-hero">
+            <div class="kontakt-desk-hero-copy">
+                <p class="kontakt-desk-kicker">Beauty Face Lift Zürich · Bahnhofstrasse</p>
                 <h1 id="kontakt-heading">Kontakt &amp; Termin buchen bei Beauty Face Lift Zürich</h1>
-                <p class="kontakt-clean-lead">
-                    Sie möchten einen Termin vereinbaren oder sind unsicher, welche Behandlung zu Ihrem Hautbild passt? Teresa berät Sie persönlich per WhatsApp, Telefon, E-Mail oder direkt im Studio an der Bahnhofstrasse 94 in Zürich.
+                <p class="kontakt-desk-lead">
+                    Sie möchten einen Termin vereinbaren oder sind unsicher, welche Behandlung zu Ihrem Hautbild passt?
+                    Teresa berät Sie persönlich per WhatsApp, Telefon, E-Mail oder direkt im Studio an der Bahnhofstrasse 94.
                 </p>
-                <p class="kontakt-clean-location">Bahnhofstrasse 94 · 8001 Zürich · wenige Minuten vom Paradeplatz</p>
+                <p class="kontakt-desk-location">Bahnhofstrasse 94 · 8001 Zürich · wenige Minuten vom Paradeplatz</p>
 
-                <div class="kontakt-clean-actions" aria-label="Wichtigste Kontaktoptionen">
+                <div class="kontakt-desk-hero-actions" aria-label="Wichtigste Kontaktoptionen">
                     <a
                         id="contact-hero-booking"
-                        class="pill-btn kontakt-clean-primary"
+                        class="pill-btn kontakt-desk-primary"
                         href="/termin/"
                         data-event="click_booking"
                         data-button-location="contact_hero_booking"
@@ -134,7 +187,7 @@ const structuredData = {
                     </a>
                     <a
                         id="contact-hero-whatsapp"
-                        class="pill-btn pill-btn-outline kontakt-clean-secondary"
+                        class="pill-btn pill-btn-outline kontakt-desk-secondary"
                         href={CONTACT_WHATSAPP_URL}
                         target="_blank"
                         rel="noopener"
@@ -146,72 +199,90 @@ const structuredData = {
                     </a>
                 </div>
 
-                <a
-                    id="contact-hero-phone"
-                    class="kontakt-clean-phone"
-                    href={`tel:${CONTACT_PHONE}`}
-                    data-event="click_phone"
-                    data-button-location="contact_hero_phone"
-                >
-                    Anrufen: {CONTACT_PHONE_DISPLAY}
-                </a>
+                <div class="kontakt-desk-quick-links" aria-label="Schnellkontakte">
+                    <a
+                        id="contact-hero-phone"
+                        href={`tel:${CONTACT_PHONE}`}
+                        data-event="click_phone"
+                        data-button-location="contact_hero_phone"
+                    >
+                        Anrufen: {CONTACT_PHONE_DISPLAY}
+                    </a>
+                    <a
+                        href={`mailto:${CONTACT_EMAIL}`}
+                        data-event="click_email"
+                        data-button-location="contact_hero_email"
+                    >
+                        {CONTACT_EMAIL}
+                    </a>
+                </div>
             </div>
 
-            <aside class="kontakt-clean-panel" aria-labelledby="kontakt-direct-heading">
-                <div>
-                    <p class="kontakt-clean-kicker">Direkt erreichbar</p>
-                    <h2 id="kontakt-direct-heading">Der schnellste Weg zu Teresa</h2>
-                    <p>Online buchen, kurz per WhatsApp schreiben oder direkt anrufen.</p>
+            <aside class="kontakt-desk-card" aria-labelledby="kontakt-direct-heading">
+                <div class="kontakt-desk-card-header">
+                    <p class="kontakt-desk-kicker">Direkt erreichbar</p>
+                    <h2 id="kontakt-direct-heading">Wählen Sie den schnellsten Weg.</h2>
+                    <p>Online buchen und WhatsApp sind die besten Wege für eine schnelle Terminabstimmung.</p>
                 </div>
 
-                <div class="kontakt-clean-link-list">
-                    {contactLinks.map((link) => (
+                <div class="kontakt-desk-paths">
+                    {primaryPaths.map((path) => (
                         <a
-                            id={link.id}
-                            href={link.href}
-                            {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
-                            data-event={link.event}
-                            data-button-location={link.buttonLocation}
+                            id={path.id}
+                            class={`kontakt-desk-path kontakt-desk-path--${path.variant}`}
+                            href={path.href}
+                            {...(path.external ? { target: '_blank', rel: 'noopener' } : {})}
+                            data-event={path.event}
+                            data-button-location={path.buttonLocation}
                             data-source="contact_direct"
                         >
-                            <span>{link.label}</span>
-                            <strong>{link.value}</strong>
+                            <span>{path.eyebrow}</span>
+                            <strong>{path.title}</strong>
+                            <em>{path.copy}</em>
+                            <b>{path.cta}</b>
                         </a>
                     ))}
                 </div>
-
-                <div class="kontakt-clean-panel-actions">
-                    <a
-                        id="contact-card-booking"
-                        class="pill-btn"
-                        href="/termin/"
-                        data-event="click_booking"
-                        data-button-location="contact_card_booking"
-                    >
-                        Termin buchen
-                    </a>
-                    <a
-                        class="pill-btn pill-btn-outline"
-                        href="#kontakt-form"
-                        id="contact-card-form"
-                        data-event="click_form_intent"
-                        data-button-location="contact_card_form"
-                    >
-                        Nachricht senden
-                    </a>
-                </div>
             </aside>
-        </header>
+        </section>
 
-        <section class="kontakt-clean-form-section" aria-labelledby="kontakt-form-heading">
-            <div class="kontakt-clean-form-intro">
-                <p class="kontakt-clean-kicker">Persönliche Anfrage</p>
-                <h2 id="kontakt-form-heading">Eine Nachricht an Teresa</h2>
-                <p>Beschreiben Sie kurz Ihr Anliegen oder Ihr Hautziel. Wir melden uns persönlich bei Ihnen zurück.</p>
-                <p class="kontakt-clean-note">Für dringende Terminänderungen bitte direkt per WhatsApp schreiben oder anrufen.</p>
+        <section class="kontakt-desk-intents" aria-labelledby="kontakt-intent-heading">
+            <div class="kontakt-desk-section-head">
+                <p class="kontakt-desk-kicker">Wie dürfen wir Ihnen helfen?</p>
+                <h2 id="kontakt-intent-heading">Der richtige Einstieg ohne Umwege.</h2>
             </div>
 
-            <form id="kontakt-form" class="kontakt-form kontakt-clean-form" action="/api/contact" method="post">
+            <div class="kontakt-desk-intent-grid">
+                {intentCards.map((intent) => (
+                    <a
+                        id={intent.id}
+                        class="kontakt-desk-intent"
+                        href={intent.href}
+                        {...(intent.external ? { target: '_blank', rel: 'noopener' } : {})}
+                        data-event={intent.event}
+                        data-button-location={intent.buttonLocation}
+                    >
+                        <strong>{intent.title}</strong>
+                        <span>{intent.copy}</span>
+                        <em>{intent.cta}</em>
+                    </a>
+                ))}
+            </div>
+        </section>
+
+        <section class="kontakt-desk-form-shell" aria-labelledby="kontakt-form-heading">
+            <div class="kontakt-desk-form-copy">
+                <p class="kontakt-desk-kicker">Persönliche Anfrage</p>
+                <h2 id="kontakt-form-heading">Eine Nachricht an Teresa</h2>
+                <p>
+                    Beschreiben Sie kurz Ihr Anliegen oder Ihr Hautziel. Wir melden uns persönlich bei Ihnen zurück.
+                </p>
+                <p class="kontakt-desk-note">
+                    Für dringende Terminänderungen bitte direkt per WhatsApp schreiben oder anrufen.
+                </p>
+            </div>
+
+            <form id="kontakt-form" class="kontakt-form kontakt-desk-form" action="/api/contact" method="post">
                 <div class="kontakt-field-grid">
                     <div class="kontakt-field kontakt-field--full">
                         <label for="contact-name">Name <span class="kontakt-required" aria-hidden="true">*</span></label>
@@ -233,20 +304,25 @@ const structuredData = {
                         </div>
                     </div>
 
-                    <div class="kontakt-field">
-                        <label for="contact-preferred-method">Bevorzugter Kontaktweg <span class="kontakt-required" aria-hidden="true">*</span></label>
-                        <div class="kontakt-select">
-                            <select id="contact-preferred-method" name="preferredContactMethod" required>
-                                <option value="">Bitte auswählen</option>
-                                <option value="WhatsApp">WhatsApp</option>
-                                <option value="Telefon">Telefon</option>
-                                <option value="E-Mail">E-Mail</option>
-                            </select>
-                            <svg class="kontakt-select-caret" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1 L6 6 L11 1" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="square" /></svg>
+                    <fieldset class="kontakt-field kontakt-choice-field kontakt-field--full">
+                        <legend>Bevorzugter Kontaktweg <span class="kontakt-required" aria-hidden="true">*</span></legend>
+                        <div class="kontakt-choice-grid">
+                            <label>
+                                <input type="radio" name="preferredContactMethod" value="WhatsApp" required />
+                                <span>WhatsApp</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="preferredContactMethod" value="Telefon" />
+                                <span>Telefon</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="preferredContactMethod" value="E-Mail" />
+                                <span>E-Mail</span>
+                            </label>
                         </div>
-                    </div>
+                    </fieldset>
 
-                    <div class="kontakt-field">
+                    <div class="kontakt-field kontakt-field--full">
                         <label for="contact-topic">Worum geht es? <span class="kontakt-required" aria-hidden="true">*</span></label>
                         <div class="kontakt-select">
                             <select id="contact-topic" name="topic" required>
@@ -257,11 +333,6 @@ const structuredData = {
                             </select>
                             <svg class="kontakt-select-caret" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1 L6 6 L11 1" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="square" /></svg>
                         </div>
-                    </div>
-
-                    <div class="kontakt-field kontakt-field--full">
-                        <label for="contact-callback">Bevorzugter Rückrufzeitpunkt</label>
-                        <input id="contact-callback" name="preferredCallbackTime" type="text" placeholder="z. B. werktags zwischen 12:00 und 14:00 Uhr" />
                     </div>
 
                     <div class="kontakt-field kontakt-field--full">
@@ -299,43 +370,54 @@ const structuredData = {
                     </button>
                 </div>
             </form>
+
+            <aside class="kontakt-desk-sidebar" aria-label="Studio und direkte Kontaktdaten">
+                <div class="kontakt-desk-person">
+                    <Image
+                        src={teresaPortrait}
+                        widths={[240, 360, 520]}
+                        sizes="(min-width: 901px) 320px, 100vw"
+                        format="webp"
+                        quality="high"
+                        loading="lazy"
+                        alt="Teresa von Beauty Face Lift Zürich"
+                    />
+                    <div>
+                        <p class="kontakt-desk-kicker">Persönlich</p>
+                        <h3>Nicht sicher, welche Behandlung passt?</h3>
+                        <p>Teresa empfiehlt Ihnen den passenden nächsten Schritt für Ihr Hautziel.</p>
+                    </div>
+                </div>
+
+                <div class="kontakt-desk-sidebar-card">
+                    <h3>Beauty Face Lift Zürich</h3>
+                    <address>
+                        Bahnhofstrasse 94<br />
+                        8001 Zürich<br />
+                        Wenige Minuten vom Paradeplatz
+                    </address>
+                    <a
+                        id="contact-card-route"
+                        href={routeUrl}
+                        target="_blank"
+                        rel="noopener"
+                        data-event="click_route"
+                        data-button-location="contact_card_route"
+                    >
+                        Route planen
+                    </a>
+                </div>
+            </aside>
         </section>
 
-        <section class="kontakt-clean-support" aria-labelledby="kontakt-support-heading">
-            <div class="kontakt-clean-support-copy">
-                <p class="kontakt-clean-kicker">Behandlungsempfehlung</p>
-                <h2 id="kontakt-support-heading">Nicht sicher, welche Behandlung passt?</h2>
-                <p>Viele Kundinnen wissen vor dem ersten Termin nicht genau, ob Hydrafacial, Microneedling, Peeling, ColdPlasma oder eine andere Behandlung die richtige Wahl ist. Teresa empfiehlt Ihnen den passenden nächsten Schritt für Ihr Hautziel.</p>
-                <a
-                    class="pill-btn pill-btn-outline"
-                    href="#kontakt-form"
-                    data-event="click_form_intent"
-                    data-button-location="contact_support_recommendation"
-                >
-                    Behandlungsempfehlung anfragen
-                </a>
-            </div>
-            <div class="kontakt-clean-support-image">
-                <Image
-                    src={consultationTrust}
-                    widths={[420, 640, 840]}
-                    sizes="(min-width: 901px) 38vw, 100vw"
-                    format="webp"
-                    quality="high"
-                    loading="lazy"
-                    alt="Persönliche Hautberatung bei Beauty Face Lift Zürich"
-                />
-            </div>
-        </section>
-
-        <section class="kontakt-clean-studio" aria-labelledby="kontakt-studio-heading">
-            <div class="kontakt-clean-studio-heading">
-                <p class="kontakt-clean-kicker">Studio &amp; Anfahrt</p>
-                <h2 id="kontakt-studio-heading">Bahnhofstrasse 94 in Zürich</h2>
-                <p>Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94 in Zürich, wenige Minuten vom Paradeplatz und der Börsenstrasse entfernt.</p>
+        <section class="kontakt-desk-studio" aria-labelledby="kontakt-studio-heading">
+            <div class="kontakt-desk-section-head">
+                <p class="kontakt-desk-kicker">Studio &amp; Anfahrt</p>
+                <h2 id="kontakt-studio-heading">Zentral an der Bahnhofstrasse 94.</h2>
+                <p>Beauty Face Lift befindet sich zentral in Zürich, nur wenige Minuten vom Paradeplatz und der Börsenstrasse entfernt.</p>
             </div>
 
-            <div class="kontakt-clean-studio-grid">
+            <div class="kontakt-desk-studio-grid">
                 <article>
                     <span>Adresse</span>
                     <address>
@@ -367,7 +449,7 @@ const structuredData = {
 
             <a
                 id="contact-route"
-                class="kontakt-clean-route"
+                class="kontakt-desk-route"
                 href={routeUrl}
                 target="_blank"
                 rel="noopener"
@@ -405,19 +487,20 @@ const structuredData = {
                 Anrufen
             </a>
         </nav>
-    </section>
+    </main>
 
     <script is:inline>
         (() => {
             const stickyCta = document.querySelector('.kontakt-mobile-cta');
-            const formSection = document.querySelector('.kontakt-clean-form-section');
+            const formShell = document.querySelector('.kontakt-desk-form-shell');
 
-            if (!stickyCta || !formSection) return;
+            if (!stickyCta || !formShell) return;
 
             const syncSticky = () => {
-                const formRect = formSection.getBoundingClientRect();
-                const formNearViewport = formRect.top < window.innerHeight - 80 && formRect.bottom > 120;
-                stickyCta.classList.toggle('is-visible', window.scrollY > 520 && !formNearViewport);
+                const formRect = formShell.getBoundingClientRect();
+                const isMobile = window.matchMedia('(max-width: 900px)').matches;
+                const formNearViewport = formRect.top < window.innerHeight - 70 && formRect.bottom > 130;
+                stickyCta.classList.toggle('is-visible', isMobile && window.scrollY > 440 && !formNearViewport);
             };
 
             window.addEventListener('scroll', syncSticky, { passive: true });
