@@ -482,6 +482,50 @@ Final URL: https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Carbon+Mic
 Final title: Beauty Face Lift | Kosmetikstudio in Kreis 1, Zuerich - Treatwell
 ```
 
+### 2026-05-10 Clean URL Cache Follow-Up
+
+The cache-busted verification above was not sufficient. The exact clean URL still served the old campaign page from Cloudflare cache:
+
+```text
+URL: https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/
+Status: 200
+Title: Carbon Microneedling Zürich - CHF 250 | Beauty Face Lift
+Cache-Control: public, must-revalidate, max-age=0
+CF-Cache-Status: HIT
+Contains CHF 169: no
+Contains CHF 220: no
+Contains CHF 250: yes
+```
+
+Attempted Cloudflare API file purge for the apex and www LP URLs, but the Wrangler OAuth token only had deploy/zone-read scope and Cloudflare rejected the cache purge with authentication error code `10000`.
+
+Operational correction:
+
+```text
+Temporary Worker version deployed: 8438d04e-5ef4-4774-b4ab-6fc66c97213b
+Purpose: force the Workers custom-domain deployment to refresh the stale clean URL edge object.
+Temporary purge route result: route executed, Cache API delete returned false, but the exact LP URL refreshed to the corrected document after the deploy.
+Final Worker version deployed: 7474cfe8-c0a3-4aee-b059-f49330492482
+Purpose: redeploy the normal Worker with no temporary ops endpoint.
+```
+
+Final exact clean URL verification:
+
+```text
+URL: https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/
+Status: 200
+Title: Glow-Up Aktion Zürich - CHF 169 statt CHF 220 | Beauty Face Lift
+Cache-Control: no-store
+CF-Cache-Status: HIT
+Contains CHF 169: yes
+Contains CHF 220: yes
+Contains CHF 250: no
+Contains Termin fuer CHF 169 sichern: yes
+Contains Treatwell: yes
+Temporary purge endpoint: 404 after final redeploy
+Browser check on exact clean URL: corrected title, CHF 169/220 present, CHF 250 absent, Offizieller Preis absent
+```
+
 ## Rollback
 
 If the live release needs to be reverted:
