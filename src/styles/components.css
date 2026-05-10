@@ -2851,3 +2851,1211 @@ body.page-treatment main {
   .display-text { font-size: clamp(2.5rem, 14vw, 4rem); }
   .process-grid { grid-template-columns: 1fr; }
 }
+
+/* Kontakt desk redesign — task-first, premium, calmer than the concierge stack */
+.kontakt-desk {
+  --kontakt-desk-bg: #f8f3ec;
+  --kontakt-desk-card: #fffdf9;
+  --kontakt-desk-card-soft: rgba(255, 253, 249, 0.72);
+  --kontakt-desk-line: rgba(35, 31, 27, 0.1);
+  --kontakt-desk-muted: rgba(35, 31, 27, 0.66);
+  --kontakt-desk-shadow: 0 24px 72px rgba(35, 31, 27, 0.08);
+  padding: clamp(104px, 9vw, 138px) var(--content-px) clamp(74px, 8vw, 112px);
+  background:
+    radial-gradient(circle at 78% 8%, rgba(232, 217, 181, 0.34), transparent 28%),
+    linear-gradient(180deg, #fffaf3 0%, var(--kontakt-desk-bg) 48%, #f6efe5 100%);
+  color: var(--ink);
+}
+
+.kontakt-desk h1,
+.kontakt-desk h2,
+.kontakt-desk h3 {
+  margin: 0;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.kontakt-desk h1 {
+  max-width: 14ch;
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 5.8vw, 5.9rem);
+  font-weight: 300;
+  line-height: 0.96;
+}
+
+.kontakt-desk h2 {
+  max-width: 14ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3vw, 3.55rem);
+  font-weight: 300;
+  line-height: 1.03;
+}
+
+.kontakt-desk h3 {
+  font-size: clamp(1.25rem, 1.4vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.kontakt-desk p {
+  margin: 0;
+}
+
+.kontakt-desk-hero,
+.kontakt-desk-intents,
+.kontakt-desk-form-shell,
+.kontakt-desk-studio {
+  width: min(1160px, 100%);
+  margin-inline: auto;
+}
+
+.kontakt-desk-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(340px, 0.64fr);
+  gap: clamp(30px, 5vw, 64px);
+  align-items: start;
+  padding-bottom: clamp(34px, 5vw, 56px);
+}
+
+.kontakt-desk-hero-copy,
+.kontakt-desk-card,
+.kontakt-desk-card-header,
+.kontakt-desk-section-head,
+.kontakt-desk-form-copy,
+.kontakt-desk-sidebar,
+.kontakt-desk-sidebar-card,
+.kontakt-desk-studio,
+.kontakt-desk-person > div {
+  display: grid;
+  gap: 16px;
+}
+
+.kontakt-desk-kicker,
+.kontakt-choice-field legend,
+.kontakt-desk-path span,
+.kontakt-desk-studio-grid span,
+.kontakt-desk-route span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.kontakt-desk-kicker {
+  margin: 0;
+}
+
+.kontakt-desk-lead,
+.kontakt-desk-card-header p,
+.kontakt-desk-section-head p,
+.kontakt-desk-form-copy p,
+.kontakt-desk-person p,
+.kontakt-desk-sidebar-card address,
+.kontakt-desk-studio-grid p {
+  color: var(--kontakt-desk-muted);
+  font-size: 16px;
+  line-height: 1.68;
+}
+
+.kontakt-desk-lead {
+  max-width: 58ch;
+  font-size: 18px;
+}
+
+.kontakt-desk-location,
+.kontakt-desk-note {
+  color: var(--kontakt-desk-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.kontakt-desk-location {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kontakt-desk-hero-actions,
+.kontakt-desk-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.kontakt-desk-hero-actions {
+  padding-top: 10px;
+}
+
+.kontakt-desk-hero-actions .pill-btn {
+  min-height: 52px;
+  justify-content: center;
+  padding-inline: 28px;
+}
+
+.kontakt-desk-quick-links a,
+.kontakt-desk-sidebar-card a {
+  width: max-content;
+  color: var(--ink);
+  font-weight: 650;
+  line-height: 1.35;
+  border-bottom: 1px solid var(--gold);
+}
+
+.kontakt-desk-card,
+.kontakt-desk-form,
+.kontakt-desk-sidebar-card,
+.kontakt-desk-person,
+.kontakt-desk-studio {
+  background: var(--kontakt-desk-card);
+  border: 1px solid var(--kontakt-desk-line);
+  border-radius: 22px;
+  box-shadow: var(--kontakt-desk-shadow);
+}
+
+.kontakt-desk-card {
+  padding: clamp(22px, 3vw, 32px);
+}
+
+.kontakt-desk-card h2 {
+  max-width: 16ch;
+  font-size: clamp(1.75rem, 2.2vw, 2.45rem);
+}
+
+.kontakt-desk-paths {
+  display: grid;
+  gap: 10px;
+}
+
+.kontakt-desk-path {
+  display: grid !important;
+  gap: 7px;
+  padding: 17px;
+  color: var(--ink);
+  border: 1px solid var(--kontakt-desk-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  transition: transform 0.18s var(--ease-expo), border-color 0.18s var(--ease-expo), box-shadow 0.18s var(--ease-expo);
+}
+
+.kontakt-desk-path:hover,
+.kontakt-desk-path:focus-visible,
+.kontakt-desk-intent:hover,
+.kontakt-desk-intent:focus-visible,
+.kontakt-desk-route:hover,
+.kontakt-desk-route:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(185, 143, 71, 0.42);
+  box-shadow: 0 16px 34px rgba(35, 31, 27, 0.09);
+}
+
+.kontakt-desk-path strong {
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+}
+
+.kontakt-desk-path em {
+  color: var(--kontakt-desk-muted);
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.kontakt-desk-path b {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.kontakt-desk-path--primary {
+  color: var(--paper);
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+.kontakt-desk-path--primary span,
+.kontakt-desk-path--primary strong,
+.kontakt-desk-path--primary b {
+  color: var(--paper);
+}
+
+.kontakt-desk-path--primary em {
+  color: rgba(246, 241, 234, 0.76);
+}
+
+.kontakt-desk-path--secondary {
+  border-color: rgba(185, 143, 71, 0.32);
+  background: rgba(232, 217, 181, 0.22);
+}
+
+.kontakt-desk-intents {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.28fr) minmax(0, 0.72fr);
+  gap: clamp(24px, 4vw, 42px);
+  align-items: start;
+  padding: clamp(24px, 4vw, 36px);
+  border: 1px solid var(--kontakt-desk-line);
+  border-radius: 24px;
+  background: rgba(255, 253, 249, 0.58);
+}
+
+.kontakt-desk-section-head h2 {
+  font-size: clamp(1.9rem, 2.8vw, 3.1rem);
+}
+
+.kontakt-desk-section-head p:last-child {
+  max-width: 60ch;
+}
+
+.kontakt-desk-intent-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kontakt-desk-intent {
+  display: grid !important;
+  align-content: start;
+  min-height: 164px;
+  gap: 10px;
+  padding: 18px;
+  color: var(--ink);
+  border: 1px solid var(--kontakt-desk-line);
+  border-radius: 18px;
+  background: var(--kontakt-desk-card);
+  transition: transform 0.18s var(--ease-expo), border-color 0.18s var(--ease-expo), box-shadow 0.18s var(--ease-expo);
+}
+
+.kontakt-desk-intent strong {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.24;
+}
+
+.kontakt-desk-intent span {
+  color: var(--kontakt-desk-muted);
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.kontakt-desk-intent em {
+  align-self: end;
+  color: var(--gold-deep);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.kontakt-desk-form-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.26fr) minmax(420px, 0.5fr) minmax(240px, 0.24fr);
+  gap: clamp(20px, 3vw, 34px);
+  align-items: start;
+  padding-top: clamp(34px, 5vw, 58px);
+}
+
+.kontakt-desk-form-copy {
+  position: sticky;
+  top: 112px;
+}
+
+.kontakt-desk-form-copy h2 {
+  max-width: 10ch;
+}
+
+.kontakt-desk-form {
+  display: grid;
+  gap: 22px;
+  padding: clamp(22px, 3vw, 34px);
+  scroll-margin-top: 112px;
+}
+
+.kontakt-desk-form .kontakt-field-grid,
+.kontakt-desk-form .kontakt-contact-field-grid {
+  gap: 16px;
+}
+
+.kontakt-desk-form .kontakt-field input,
+.kontakt-desk-form .kontakt-field select,
+.kontakt-desk-form .kontakt-field textarea,
+.kontakt-desk-form .kontakt-contact-field-grid input {
+  min-height: 50px;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.kontakt-desk-form .kontakt-field textarea {
+  min-height: 142px;
+}
+
+.kontakt-desk-form .kontakt-contact-fields,
+.kontakt-desk-form .kontakt-checkbox {
+  background: rgba(247, 241, 232, 0.64);
+  border-color: var(--kontakt-desk-line);
+}
+
+.kontakt-choice-field {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.kontakt-choice-field legend {
+  margin: 0 0 10px;
+}
+
+.kontakt-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kontakt-choice-grid label {
+  position: relative;
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  margin: 0;
+  padding: 0 12px;
+  cursor: pointer;
+  border: 1px solid var(--kontakt-desk-line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.kontakt-choice-grid input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.kontakt-choice-grid label:has(input:checked) {
+  border-color: rgba(185, 143, 71, 0.72);
+  background: rgba(232, 217, 181, 0.22);
+}
+
+.kontakt-choice-grid label:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.kontakt-desk-form .kontakt-form-actions {
+  justify-content: flex-start;
+}
+
+.kontakt-desk-form .kontakt-submit {
+  min-height: 54px;
+}
+
+.kontakt-desk-sidebar {
+  gap: 14px;
+}
+
+.kontakt-desk-person {
+  overflow: hidden;
+  gap: 0;
+}
+
+.kontakt-desk-person img {
+  width: 100%;
+  aspect-ratio: 1 / 1.06;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.kontakt-desk-person > div {
+  padding: 18px;
+}
+
+.kontakt-desk-sidebar-card {
+  padding: 20px;
+  box-shadow: 0 16px 42px rgba(35, 31, 27, 0.06);
+}
+
+.kontakt-desk-sidebar-card address {
+  font-style: normal;
+}
+
+.kontakt-desk-studio {
+  margin-top: clamp(34px, 5vw, 58px);
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.kontakt-desk-studio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kontakt-desk-studio-grid article {
+  display: grid;
+  align-content: start;
+  min-height: 162px;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--kontakt-desk-line);
+  border-radius: 18px;
+  background: var(--kontakt-desk-card-soft);
+}
+
+.kontakt-desk-studio-grid address {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-style: normal;
+  line-height: 1.55;
+}
+
+.kontakt-desk-studio .kontakt-hours {
+  display: grid;
+  gap: 7px;
+}
+
+.kontakt-desk-studio .kontakt-hours p {
+  display: grid;
+  gap: 2px;
+}
+
+.kontakt-desk-studio .kontakt-hours strong,
+.kontakt-desk-studio .kontakt-hours em {
+  font-size: 13px;
+}
+
+.kontakt-desk-studio .kontakt-hours em {
+  color: var(--kontakt-desk-muted);
+  font-style: normal;
+}
+
+.kontakt-desk-route {
+  display: grid !important;
+  gap: 6px;
+  min-height: 108px;
+  align-content: center;
+  padding: 24px;
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 18px;
+  background: var(--ink);
+  transition: transform 0.18s var(--ease-expo), box-shadow 0.18s var(--ease-expo);
+}
+
+.kontakt-desk-route span,
+.kontakt-desk-route strong {
+  color: var(--paper);
+}
+
+.kontakt-desk-route strong {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.kontakt-desk .kontakt-mobile-cta {
+  display: none;
+}
+
+@media (max-width: 1120px) {
+  .kontakt-desk-form-shell {
+    grid-template-columns: minmax(220px, 0.35fr) minmax(0, 0.65fr);
+  }
+
+  .kontakt-desk-sidebar {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(220px, 0.42fr) minmax(0, 0.58fr);
+  }
+
+  .kontakt-desk-person,
+  .kontakt-desk-sidebar-card {
+    min-height: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .kontakt-desk {
+    padding: 88px 20px calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .kontakt-desk-hero,
+  .kontakt-desk-intents,
+  .kontakt-desk-form-shell,
+  .kontakt-desk-sidebar,
+  .kontakt-desk-studio {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-desk-hero {
+    gap: 22px;
+    padding-bottom: 24px;
+  }
+
+  .kontakt-desk h1 {
+    max-width: 100%;
+    font-size: clamp(2.45rem, 10.5vw, 3.35rem);
+    line-height: 1;
+  }
+
+  .kontakt-desk h2 {
+    max-width: 100%;
+    font-size: clamp(1.85rem, 7.8vw, 2.55rem);
+  }
+
+  .kontakt-desk-lead {
+    font-size: 16px;
+    line-height: 1.58;
+  }
+
+  .kontakt-desk-location {
+    font-size: 10px;
+  }
+
+  .kontakt-desk-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .kontakt-desk-hero-actions .pill-btn,
+  .kontakt-desk-form .kontakt-submit {
+    width: 100%;
+  }
+
+  .kontakt-desk-quick-links {
+    display: grid;
+    gap: 8px;
+  }
+
+  .kontakt-desk-card,
+  .kontakt-desk-form,
+  .kontakt-desk-sidebar-card,
+  .kontakt-desk-person,
+  .kontakt-desk-studio,
+  .kontakt-desk-intents {
+    border-radius: 20px;
+  }
+
+  .kontakt-desk-card,
+  .kontakt-desk-intents,
+  .kontakt-desk-studio {
+    padding: 20px;
+  }
+
+  .kontakt-desk-intents {
+    gap: 18px;
+  }
+
+  .kontakt-desk-intent-grid,
+  .kontakt-desk-studio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-desk-intent {
+    min-height: auto;
+  }
+
+  .kontakt-desk-form-shell {
+    gap: 20px;
+    padding-top: 28px;
+  }
+
+  .kontakt-desk-form-copy {
+    position: static;
+  }
+
+  .kontakt-desk-form {
+    padding: 20px;
+  }
+
+  .kontakt-desk-form .kontakt-field-grid,
+  .kontakt-desk-form .kontakt-contact-field-grid,
+  .kontakt-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-desk-person {
+    grid-template-columns: 96px 1fr;
+    align-items: stretch;
+  }
+
+  .kontakt-desk-person img {
+    height: 100%;
+    min-height: 156px;
+    aspect-ratio: auto;
+  }
+
+  .kontakt-desk-studio-grid article {
+    min-height: auto;
+    padding: 17px;
+  }
+
+  .kontakt-desk .kontakt-mobile-cta {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 95;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 7px;
+    border: 1px solid rgba(35, 31, 27, 0.1);
+    border-radius: 20px;
+    background: rgba(255, 253, 249, 0.96);
+    box-shadow: 0 12px 30px rgba(35, 31, 27, 0.14);
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
+    transition: opacity 0.22s var(--ease-expo), transform 0.22s var(--ease-expo);
+  }
+
+  .kontakt-desk .kontakt-mobile-cta.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .kontakt-desk .kontakt-mobile-cta a {
+    display: inline-flex !important;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .kontakt-desk .kontakt-mobile-cta a:first-child {
+    background: var(--gold);
+    color: #fff;
+  }
+}
+
+@media (max-width: 560px) {
+  .kontakt-desk {
+    padding-inline: 16px;
+  }
+
+  .kontakt-desk-card {
+    display: none;
+  }
+
+  .kontakt-desk-person {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-desk-person img {
+    min-height: 220px;
+  }
+}
+
+/* Kontakt cleanup — concise premium concierge layout */
+.kontakt-clean {
+  --kontakt-bg: #f7f1e8;
+  --kontakt-card: rgba(255, 253, 249, 0.92);
+  --kontakt-line: rgba(35, 31, 27, 0.1);
+  --kontakt-muted: rgba(35, 31, 27, 0.66);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.92), rgba(247, 241, 232, 0.98) 38%, #f8f3ec 100%);
+  padding: clamp(118px, 10vw, 150px) var(--content-px) clamp(84px, 8vw, 120px);
+  color: var(--ink);
+}
+
+.kontakt-clean h1,
+.kontakt-clean h2,
+.kontakt-clean h3 {
+  letter-spacing: 0;
+}
+
+.kontakt-clean-hero,
+.kontakt-clean-form-section,
+.kontakt-clean-support,
+.kontakt-clean-studio {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.kontakt-clean-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.72fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: end;
+  padding-bottom: clamp(48px, 7vw, 82px);
+}
+
+.kontakt-clean-copy,
+.kontakt-clean-panel,
+.kontakt-clean-form-intro,
+.kontakt-clean-support-copy,
+.kontakt-clean-studio-heading {
+  display: grid;
+  gap: 18px;
+}
+
+.kontakt-clean-kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.kontakt-clean h1 {
+  max-width: 13ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(3.8rem, 7vw, 6.7rem);
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--ink);
+}
+
+.kontakt-clean h2 {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 3.5vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.02;
+}
+
+.kontakt-clean-lead,
+.kontakt-clean-panel p,
+.kontakt-clean-form-intro p,
+.kontakt-clean-support-copy p,
+.kontakt-clean-studio-heading p,
+.kontakt-clean-studio-grid p {
+  margin: 0;
+  color: var(--kontakt-muted);
+  font-size: 17px;
+  line-height: 1.68;
+}
+
+.kontakt-clean-lead {
+  max-width: 58ch;
+}
+
+.kontakt-clean-location,
+.kontakt-clean-note {
+  margin: 0;
+  color: var(--kontakt-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.kontakt-clean-location {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kontakt-clean-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.kontakt-clean-actions .pill-btn,
+.kontakt-clean-panel-actions .pill-btn {
+  min-height: 52px;
+  justify-content: center;
+  padding-inline: 28px;
+}
+
+.kontakt-clean-phone {
+  width: max-content;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 4px;
+}
+
+.kontakt-clean-panel,
+.kontakt-clean-form,
+.kontakt-clean-studio,
+.kontakt-clean-support {
+  background: var(--kontakt-card);
+  border: 1px solid var(--kontakt-line);
+  border-radius: 26px;
+  box-shadow: 0 22px 70px rgba(35, 31, 27, 0.08);
+}
+
+.kontakt-clean-panel {
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.kontakt-clean-panel h2 {
+  max-width: 11ch;
+  font-size: clamp(2rem, 3vw, 3.1rem);
+}
+
+.kontakt-clean-link-list {
+  display: grid;
+  gap: 0;
+  margin-top: 4px;
+  border-top: 1px solid var(--kontakt-line);
+}
+
+.kontakt-clean-link-list a {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 15px 0;
+  color: var(--ink);
+  border-bottom: 1px solid var(--kontakt-line);
+}
+
+.kontakt-clean-link-list span,
+.kontakt-clean-studio-grid span,
+.kontakt-clean-route span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kontakt-muted);
+}
+
+.kontakt-clean-link-list strong {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.kontakt-clean-panel-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.kontakt-clean-form-section {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.38fr) minmax(0, 0.62fr);
+  gap: clamp(28px, 5vw, 56px);
+  align-items: start;
+  padding: clamp(46px, 6vw, 72px) 0;
+}
+
+.kontakt-clean-form-intro {
+  position: sticky;
+  top: 118px;
+}
+
+.kontakt-clean-form {
+  padding: clamp(24px, 3vw, 36px);
+  gap: 22px;
+  box-shadow: 0 18px 58px rgba(35, 31, 27, 0.09);
+}
+
+.kontakt-clean-form .kontakt-field-grid {
+  gap: 18px;
+}
+
+.kontakt-clean-form .kontakt-field input,
+.kontakt-clean-form .kontakt-field select,
+.kontakt-clean-form .kontakt-field textarea,
+.kontakt-clean-form .kontakt-contact-field-grid input {
+  border-radius: 14px;
+  background: #fff;
+}
+
+.kontakt-clean-form .kontakt-contact-fields,
+.kontakt-clean-form .kontakt-checkbox {
+  background: rgba(247, 241, 232, 0.72);
+  border-color: var(--kontakt-line);
+}
+
+.kontakt-clean-form .kontakt-form-actions {
+  justify-content: flex-start;
+}
+
+.kontakt-clean-form .kontakt-submit {
+  min-height: 54px;
+}
+
+.kontakt-clean-support {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.52fr);
+  gap: clamp(28px, 5vw, 56px);
+  align-items: center;
+  padding: clamp(26px, 4vw, 40px);
+  margin-top: clamp(16px, 4vw, 28px);
+}
+
+.kontakt-clean-support-copy .pill-btn {
+  width: max-content;
+}
+
+.kontakt-clean-support-image {
+  overflow: hidden;
+  border-radius: 22px;
+  aspect-ratio: 4 / 3.2;
+  background: var(--paper-2);
+}
+
+.kontakt-clean-support-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kontakt-clean-studio {
+  display: grid;
+  gap: 28px;
+  padding: clamp(26px, 4vw, 40px);
+  margin-top: clamp(28px, 5vw, 56px);
+}
+
+.kontakt-clean-studio-heading {
+  max-width: 720px;
+}
+
+.kontakt-clean-studio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kontakt-clean-studio-grid article {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-height: 170px;
+  padding: 20px;
+  border: 1px solid var(--kontakt-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.kontakt-clean-studio-grid address {
+  margin: 0;
+  color: var(--ink);
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1.55;
+}
+
+.kontakt-clean-studio .kontakt-hours p {
+  gap: 10px;
+}
+
+.kontakt-clean-studio .kontakt-hours strong,
+.kontakt-clean-studio .kontakt-hours em {
+  font-size: 13px;
+}
+
+.kontakt-clean-route {
+  display: grid;
+  gap: 6px;
+  min-height: 118px;
+  align-content: center;
+  padding: 24px;
+  border-radius: 20px;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.kontakt-clean-route strong {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.kontakt-clean .kontakt-mobile-cta {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .kontakt-clean {
+    padding: 92px 24px calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .kontakt-clean-hero,
+  .kontakt-clean-form-section,
+  .kontakt-clean-support,
+  .kontakt-clean-studio {
+    width: 100%;
+  }
+
+  .kontakt-clean-hero,
+  .kontakt-clean-form-section,
+  .kontakt-clean-support {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-clean-hero {
+    gap: 24px;
+    padding-bottom: 30px;
+  }
+
+  .kontakt-clean-copy {
+    gap: 14px;
+  }
+
+  .kontakt-clean h1 {
+    max-width: 100%;
+    font-size: clamp(2.45rem, 10.5vw, 3.6rem);
+    line-height: 1;
+  }
+
+  .kontakt-clean h2 {
+    max-width: 100%;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .kontakt-clean-lead {
+    font-size: 16px;
+    line-height: 1.62;
+  }
+
+  .kontakt-clean-location {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .kontakt-clean-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .kontakt-clean-actions .pill-btn,
+  .kontakt-clean-panel-actions .pill-btn,
+  .kontakt-clean-support-copy .pill-btn,
+  .kontakt-clean-form .kontakt-submit {
+    width: 100%;
+  }
+
+  .kontakt-clean-phone {
+    width: fit-content;
+    font-size: 14px;
+  }
+
+  .kontakt-clean-panel,
+  .kontakt-clean-form,
+  .kontakt-clean-studio,
+  .kontakt-clean-support {
+    border-radius: 22px;
+  }
+
+  .kontakt-clean-panel {
+    padding: 22px;
+  }
+
+  .kontakt-clean-link-list a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 13px 0;
+  }
+
+  .kontakt-clean-form-section {
+    gap: 20px;
+    padding: 30px 0 34px;
+  }
+
+  .kontakt-clean-form-intro {
+    position: static;
+  }
+
+  .kontakt-clean-form {
+    padding: 20px;
+  }
+
+  .kontakt-clean-form .kontakt-field-grid,
+  .kontakt-clean-form .kontakt-contact-field-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .kontakt-clean-form .kontakt-field textarea {
+    min-height: 132px;
+  }
+
+  .kontakt-clean-support {
+    padding: 22px;
+  }
+
+  .kontakt-clean-support-image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .kontakt-clean-studio {
+    padding: 22px;
+    margin-top: 28px;
+  }
+
+  .kontakt-clean-studio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-clean-studio-grid article {
+    min-height: auto;
+    padding: 18px;
+  }
+
+  .kontakt-clean .kontakt-mobile-cta {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 95;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 7px;
+    border: 1px solid rgba(35, 31, 27, 0.08);
+    border-radius: 20px;
+    background: rgba(255, 253, 249, 0.96);
+    box-shadow: 0 12px 30px rgba(35, 31, 27, 0.14);
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
+    transition: opacity 0.22s var(--ease-expo), transform 0.22s var(--ease-expo);
+  }
+
+  .kontakt-clean .kontakt-mobile-cta.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .kontakt-clean .kontakt-mobile-cta a {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .kontakt-clean .kontakt-mobile-cta a:first-child {
+    background: var(--gold);
+    color: #fff;
+  }
+}
