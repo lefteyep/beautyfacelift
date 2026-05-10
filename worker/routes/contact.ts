@@ -5,6 +5,7 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_TOPICS,
   CONTACT_TO_EMAIL_FALLBACK,
+  TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
@@ -162,13 +163,18 @@ function getClientIp(request: Request): string {
     || 'unknown';
 }
 
-function isProductionRequest(request: Request, env: Env): boolean {
-  if (env.ENVIRONMENT === 'production') return true;
+function getTurnstileAllowedHosts(env: Env): string[] {
+  const configuredHosts = env.TURNSTILE_ALLOWED_HOSTS
+    ?.split(',')
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean) ?? [];
 
+  return [...TURNSTILE_ALLOWED_HOSTS, ...configuredHosts];
+}
+
+function isTurnstileRequired(request: Request, env: Env): boolean {
   const hostname = new URL(request.url).hostname.toLowerCase();
-  return hostname === 'beautyfacelift.mediapaulo.workers.dev'
-    || hostname === 'beautyfacelift.ch'
-    || hostname === 'www.beautyfacelift.ch';
+  return getTurnstileAllowedHosts(env).includes(hostname);
 }
 
 function isAllowedTopic(topic: string): boolean {
@@ -335,12 +341,12 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  const turnstileRequired = isProductionRequest(request, env);
+  const turnstileRequired = isTurnstileRequired(request, env);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
     return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
   }
 
-  if (turnstileRequired || env.TURNSTILE_SECRET_KEY) {
+  if (turnstileRequired) {
     if (!data.turnstileToken) {
       return respondError('Bitte bestätigen Sie die Sicherheitsprüfung.', 400, expectsHtml);
     }
