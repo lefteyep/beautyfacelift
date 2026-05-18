@@ -45,8 +45,8 @@ Production Worker launch details:
 | Make-up Zürich | /behandlungen/make-up-zuerich/ | Done — occasion make-up hub, consultation copy, Service schema |
 | Massage Zürich Bahnhofstrasse | /behandlungen/massage-zuerich-bahnhofstrasse/ | Done — local massage hub, suitability copy, Service schema |
 | About | /ueber-uns/ | Done — E-E-A-T bio, credentials, testimonials, Person schema |
-| Booking | /termin/ | Done — H1, address, booking widget |
-| Booking confirmation | /buchung-bestaetigt/ | Done — conversion tracking |
+| Booking | /termin/ | Done — noindex Treatwell forwarding bridge with attribution handoff |
+| Booking confirmation | /buchung-bestaetigt/ | Legacy first-party booking confirmation; not the active Treatwell conversion source |
 | FAQ hub | /haeufige-fragen/ | Done — 20 FAQs in 4 categories |
 | Impressum | /impressum/ | Done |
 | Datenschutz | /datenschutz/ | Done |

@@ -1,6 +1,6 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** May 7, 2026
+**Last updated:** May 18, 2026
 
 ## Completed (May 7, 2026 — Custom-domain launch)
 - [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS
@@ -51,8 +51,9 @@
 ## Priority 2: Tracking & Analytics (before running ads)
 - [ ] Create GTM container + set PUBLIC_GTM_ID in Cloudflare
 - [ ] Create GA4 property + set GA4_MEASUREMENT_ID and GA4_API_SECRET
-- [ ] Create Meta Pixel + set META_PIXEL_ID and META_ACCESS_TOKEN
+- [ ] Create Meta Pixel + set PUBLIC_META_PIXEL_ID, META_PIXEL_ID, and META_ACCESS_TOKEN
 - [ ] Verify conversion tracking (GA4 DebugView + Meta Test Events)
+- [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools
 
 ## Priority 3: Email & Notifications
