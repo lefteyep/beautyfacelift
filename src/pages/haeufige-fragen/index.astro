@@ -1,11 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AiSummary from '../../components/AiSummary.astro';
 
 const faqs = [
     {
         question: 'Was ist Beauty Face Lift?',
-        answer: 'Beauty Face Lift ist Ihr Premium Medical Spa an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir hochwirksame, schonende Gesichtsbehandlungen für ein strahlendes und jugendliches Hautbild. Unser Fokus liegt auf modernsten Verfahren wie <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a>, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> — individuell abgestimmt auf Ihren Hauttyp.'
+        answer: 'Beauty Face Lift ist Ihr Premium Kosmetikinstitut an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir professionelle, schonende Gesichtsbehandlungen für ein gepflegtes, strahlendes Hautbild. Unser Fokus liegt auf modernen Verfahren wie <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a>, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a>, <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> und <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> — individuell abgestimmt auf Ihren Hauttyp.'
     },
     {
         question: 'Wo befindet sich das Studio?',
@@ -17,7 +18,7 @@ const faqs = [
     },
     {
         question: 'Brauche ich einen Termin?',
-        answer: 'Ja, wir arbeiten ausschliesslich nach Terminvereinbarung. So garantieren wir Ihnen eine ungestörte, persönliche Behandlung ohne Wartezeiten. Jeder Termin wird individuell für Sie reserviert. Sie können Ihren Wunschtermin bequem über unsere <a href="/termin/">Online-Buchung</a> reservieren oder uns telefonisch kontaktieren.'
+        answer: 'Ja, wir arbeiten ausschliesslich nach Terminvereinbarung. So können wir ausreichend Zeit für eine persönliche Behandlung einplanen. Jeder Termin wird individuell für Sie reserviert. Sie können Ihren Wunschtermin bequem über unsere <a href="/termin/">Online-Buchung</a> reservieren oder uns telefonisch kontaktieren.'
     },
     {
         question: 'Wie buche ich einen Termin?',
@@ -29,19 +30,19 @@ const faqs = [
     },
     {
         question: 'Welche Behandlungen bieten Sie an?',
-        answer: 'Unser Behandlungsspektrum umfasst vier Kernbereiche: <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> für Tiefenreinigung und sofortigen Glow, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> zur Stimulation der natürlichen Kollagenproduktion, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> für intensive Hauterneuerung und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> als innovative Plasma-Technologie zur Hautverjüngung. Eine vollständige Übersicht finden Sie auf unserer <a href="/behandlungen/">Behandlungsseite</a>.'
+        answer: 'Unser Behandlungsspektrum umfasst fünf Kernbereiche: <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> für Tiefenreinigung und frischen Glow, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> zur Stimulation der natürlichen Kollagenproduktion, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> für intensive Hauterneuerung, <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> als innovative Plasma-Technologie und <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> als regenerative Wirkstoffpflege. Eine vollständige Übersicht finden Sie auf unserer <a href="/behandlungen/">Behandlungsseite</a>.'
     },
     {
         question: 'Welche Behandlung passt zu meinem Hauttyp?',
-        answer: 'Die optimale Behandlung hängt von Ihrem individuellen Hautbild und Ihren Zielen ab. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> eignet sich hervorragend für alle Hauttypen und ist besonders bei fahler, dehydrierter Haut wirksam. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ist ideal bei feinen Linien, Narben und Pigmentflecken. Teresa berät Sie gerne im persönlichen Gespräch, welche Behandlung oder Kombination für Sie am besten geeignet ist.'
+        answer: 'Die passende Behandlung hängt von Ihrem individuellen Hautbild und Ihren Zielen ab. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> eignet sich hervorragend für alle Hauttypen und ist besonders bei fahler, dehydrierter Haut wirksam. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> kann bei feinen Linien, Narben und Pigmentflecken sinnvoll sein. <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> kann als moderne Wirkstoffpflege bei fahler, trockener oder gestresster Haut eingesetzt werden. Teresa berät Sie gerne im persönlichen Gespräch, welche Behandlung oder Kombination für Sie am besten geeignet ist.'
     },
     {
         question: 'Kann ich mehrere Behandlungen kombinieren?',
-        answer: 'Ja, viele unserer Behandlungen lassen sich sinnvoll kombinieren. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> — das Hydrafacial bereitet die Haut optimal vor und verstärkt die Wirkung des Needlings. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der mehrere Verfahren optimal aufeinander abstimmt.'
+        answer: 'Ja, viele unserer Behandlungen lassen sich sinnvoll kombinieren. Besonders beliebt ist die Kombination aus <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>. Auch <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> kann nach Hautanalyse als pflegende Wirkstoffanwendung eingeplant werden, zum Beispiel im Umfeld von Microneedling. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der mehrere Verfahren sorgfältig aufeinander abstimmt.'
     },
     {
         question: 'Sind die Behandlungen schmerzhaft?',
-        answer: 'Unsere Behandlungen sind so konzipiert, dass sie möglichst angenehm sind. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> ist vollkommen schmerzfrei und wird als entspannend empfunden. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> wird vorab eine betäubende Creme aufgetragen, sodass Sie nur ein leichtes Kribbeln spüren. Auch <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peelings</a> und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> sind gut verträglich. Ihr Wohlbefinden steht bei uns immer an erster Stelle.'
+        answer: 'Unsere Behandlungen sind so konzipiert, dass sie möglichst angenehm sind. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> ist in der Regel angenehm und wird als entspannend empfunden. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> wird vorab eine betäubende Creme aufgetragen, sodass Sie nur ein leichtes Kribbeln spüren. Auch <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peelings</a> und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> sind gut verträglich. Eine reine <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Serumbehandlung</a> ist in der Regel angenehm; bei Kombination mit Microneedling gelten die Needling-Hinweise. Ihr Wohlbefinden steht bei uns immer an erster Stelle.'
     },
     {
         question: 'Gibt es Gegenanzeigen (Kontraindikationen)?',
@@ -53,7 +54,7 @@ const faqs = [
     },
     {
         question: 'Was kosten die Behandlungen?',
-        answer: 'Unsere Preise richten sich nach Art und Dauer der Behandlung. Hydra4Face beginnt bei CHF 180 (60 Min.), die Anti-Aging Variante liegt bei CHF 250 (90 Min.) und erweiterte Hydra4Face Varianten kosten CHF 280. Microneedling beginnt bei CHF 210, Fruchtsäure Peeling kostet CHF 150 und ColdPlasma beginnt bei CHF 180. Detaillierte Preisinformationen finden Sie auf den jeweiligen <a href="/behandlungen/">Behandlungsseiten</a>. Alle Preise verstehen sich inklusive MwSt.'
+        answer: 'Unsere Preise richten sich nach Art und Dauer der Behandlung. Hydra4Face beginnt bei CHF 180 (60 Min.), die Anti-Aging Variante liegt bei CHF 250 (90 Min.) und erweiterte Hydra4Face Varianten kosten CHF 280. Microneedling beginnt bei CHF 210, Fruchtsäure Peeling kostet CHF 150 und ColdPlasma beginnt bei CHF 180. Umfang und Preis der Exosome Therapie werden in der Beratung geklärt, da Produktwahl und Kombination variieren können. Detaillierte Preisinformationen finden Sie auf den jeweiligen <a href="/behandlungen/">Behandlungsseiten</a>. Alle Preise verstehen sich inklusive MwSt.'
     },
     {
         question: 'Gibt es Paketangebote oder Kuren?',
@@ -69,19 +70,19 @@ const faqs = [
     },
     {
         question: 'Wie pflege ich meine Haut nach einer Behandlung?',
-        answer: 'Die richtige Nachsorge ist entscheidend für optimale Ergebnisse. Generell empfehlen wir: Verwenden Sie in den ersten 24-48 Stunden milde, parfümfreie Pflegeprodukte und einen hohen Sonnenschutz (mindestens SPF 30). Verzichten Sie auf aggressive Peelings, Retinol und stark parfümierte Produkte. Teresa gibt Ihnen nach jeder Behandlung individuelle Pflegetipps für Ihren Hauttyp mit.'
+        answer: 'Die richtige Nachsorge ist entscheidend für möglichst gute Ergebnisse. Generell empfehlen wir: Verwenden Sie in den ersten 24-48 Stunden milde, parfümfreie Pflegeprodukte und einen hohen Sonnenschutz (mindestens SPF 30). Verzichten Sie auf aggressive Peelings, Retinol und stark parfümierte Produkte. Teresa gibt Ihnen nach jeder Behandlung individuelle Pflegetipps für Ihren Hauttyp mit.'
     },
     {
         question: 'Darf ich nach der Behandlung Sport machen?',
-        answer: 'Nach einem <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> können Sie sofort wieder sportlich aktiv werden — es gibt keinerlei Einschränkungen. Nach <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> und intensiven <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Peelings</a> empfehlen wir, 24 Stunden auf schweisstreiben Sport, Sauna und Schwimmbad zu verzichten, um Reizungen zu vermeiden. Leichte Bewegung wie Spaziergänge sind jederzeit möglich.'
+        answer: 'Nach einem <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> können Sie sofort wieder sportlich aktiv werden — es gibt meist keine Einschränkungen. Nach <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> und intensiven <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Peelings</a> empfehlen wir, 24 Stunden auf schweisstreiben Sport, Sauna und Schwimmbad zu verzichten, um Reizungen zu vermeiden. Leichte Bewegung wie Spaziergänge sind jederzeit möglich.'
     },
     {
         question: 'Wann sehe ich die ersten Ergebnisse?',
-        answer: 'Bei <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> sehen Sie sofort nach der ersten Behandlung einen sichtbaren Glow und spürbar glattere Haut. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> zeigen sich die vollen Ergebnisse nach 4-6 Wochen, da die Kollagenbildung Zeit braucht. Fruchtsäure Peelings zeigen nach 2-3 Sitzungen deutliche Verbesserungen. Für langfristige Ergebnisse empfehlen wir eine regelmässige Behandlungsserie.'
+        answer: 'Bei <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> bemerken viele Kundinnen direkt nach der Behandlung ein frischeres Hautgefühl. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> entwickeln sich Veränderungen meist über 4-6 Wochen, da die Kollagenbildung Zeit braucht. Fruchtsäure Peelings können nach mehreren Sitzungen ein klareres Hautbild unterstützen. Die Ergebnisse sind individuell unterschiedlich.'
     },
     {
         question: 'Wie oft sollte ich Behandlungen wiederholen?',
-        answer: 'Die ideale Häufigkeit hängt von der Behandlungsart und Ihren Hautzielen ab. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> empfehlen wir alle 4-6 Wochen für dauerhaft strahlende Haut. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>-Kuren bestehen typischerweise aus 3-5 Sitzungen im Abstand von 4-6 Wochen. Teresa erstellt Ihnen gerne einen persönlichen Behandlungsplan. <a href="/termin/">Buchen Sie Ihren Beratungstermin</a> für eine individuelle Empfehlung.'
+        answer: 'Die ideale Häufigkeit hängt von der Behandlungsart und Ihren Hautzielen ab. <a href="/behandlungen/hydrafacial-zuerich/">Hydrafacial</a> wird häufig alle 4-6 Wochen geplant. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>-Serien bestehen typischerweise aus 3-5 Sitzungen im Abstand von 4-6 Wochen. Teresa erstellt Ihnen gerne einen persönlichen Behandlungsplan. <a href="/termin/">Buchen Sie Ihren Beratungstermin</a> für eine individuelle Empfehlung.'
     }
 ];
 
@@ -109,11 +110,18 @@ const categories = [
     { label: '03 / Preise & Buchung', start: 12, count: 4 },
     { label: '04 / Nachsorge', start: 16, count: 4 }
 ];
+
+const summaryFacts = [
+    { label: 'Studio', value: 'Beauty Face Lift, Bahnhofstrasse 94, Zürich' },
+    { label: 'Häufig gefragt', value: 'Preise, Eignung, Downtime, Nachpflege und Terminbuchung' },
+    { label: 'Beratung', value: 'bei Unsicherheit vor der ersten Behandlung empfohlen' },
+    { label: 'Sicherheit', value: 'Gegenanzeigen werden vor intensiven Behandlungen abgeklärt' },
+];
 ---
 
 <Base
     title="Häufige Fragen | Beauty Face Lift Zürich — FAQ"
-    description="Antworten auf die häufigsten Fragen zu Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Ihr Medical Spa FAQ aus Zürich."
+    description="Antworten zu Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Kosmetikinstitut FAQ aus Zürich."
     structuredData={structuredData}
 >
     <!-- Breadcrumbs -->
@@ -127,6 +135,12 @@ const categories = [
         <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Häufige Fragen</h1>
         <p style="max-width: 700px;">Hier finden Sie Antworten auf die häufigsten Fragen rund um unsere Behandlungen, Preise, Buchung und Nachsorge. Sollte Ihre Frage nicht dabei sein, kontaktieren Sie uns gerne — wir beraten Sie persönlich.</p>
     </section>
+
+    <AiSummary
+        title="FAQ Beauty Face Lift Zürich"
+        intro="Diese FAQ beantwortet die wichtigsten Fragen zu Gesichtsbehandlungen, Preisen, Buchung, Nachpflege und Eignung bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Medizinische oder hautbezogene Unsicherheiten werden vor Ort persönlich abgeklärt."
+        facts={summaryFacts}
+    />
 
     <!-- FAQ Categories -->
     {categories.map((category) => (

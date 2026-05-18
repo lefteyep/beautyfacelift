@@ -1,5 +1,7 @@
 # Workers Cutover Runbook
 
+Status as of 2026-05-07: historical Pages-to-Workers runbook. Do not use this document for the completed `beautyfacelift-zuerich.ch` production domain launch. Use [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md) instead, and do not configure `beautyfacelift.ch`.
+
 **Purpose:** Step-by-step commands to execute Tasks 10, 11, and 13 of the migration plan. Follow in order. Each step has a verify check.
 
 **Branch:** `cf-workers-migration` (currently at `bae6947`, 11 commits ahead of `master`)
@@ -92,7 +94,7 @@ Expect: a JSON array listing every name you pushed.
 npm run cf:deploy
 ```
 
-This runs `astro build && wrangler deploy`. Watch the output — it ends with:
+This runs `astro build && wrangler deploy --keep-vars`. Watch the output — it ends with:
 
 ```
 Deployed beautyfacelift triggers (X.XX sec)
@@ -190,24 +192,24 @@ You should see a new run of "Deploy to Cloudflare Workers" kick off. Expect gree
 
 ### C5. Point the custom domain to the Worker
 
-(Only do this step if `beautyfacelift.ch` is already in Cloudflare DNS. If not, this is blocked on the separate "connect domain" task flagged in `CLAUDE.md`.)
+(Only do this step if `beautyfacelift-zuerich.ch` is already in Cloudflare DNS. If not, this is blocked on the separate "connect domain" task flagged in `CLAUDE.md`.)
 
 Option 1 — via dashboard:
-**dash.cloudflare.com → Workers & Pages → beautyfacelift (Worker) → Settings → Domains & Routes → Add → Custom Domain → `beautyfacelift.ch`** (and `www.beautyfacelift.ch`).
+**dash.cloudflare.com → Workers & Pages → beautyfacelift (Worker) → Settings → Domains & Routes → Add → Custom Domain → `beautyfacelift-zuerich.ch`** (and `www.beautyfacelift-zuerich.ch`).
 
 Option 2 — via wrangler.jsonc routes (commit + redeploy):
 Add to `wrangler.jsonc`:
 ```jsonc
 "routes": [
-  { "pattern": "beautyfacelift.ch/*", "zone_name": "beautyfacelift.ch" },
-  { "pattern": "www.beautyfacelift.ch/*", "zone_name": "beautyfacelift.ch" }
+  { "pattern": "beautyfacelift-zuerich.ch/*", "zone_name": "beautyfacelift-zuerich.ch" },
+  { "pattern": "www.beautyfacelift-zuerich.ch/*", "zone_name": "beautyfacelift-zuerich.ch" }
 ]
 ```
 Then: `git commit -am "feat(cf): bind custom domain to Worker" && git push origin master`.
 
 ### C6. Production smoke test
 
-Run the same checklist as B2, but against the production URL (`https://beautyfacelift.ch`).
+Run the same checklist as B2, but against the production URL (`https://beautyfacelift-zuerich.ch`).
 
 ### C7. Tag the release
 
@@ -234,9 +236,9 @@ Calendar reminder for 2026-05-15 (+ 30 days):
 
 ## Rollback Procedure (if production breaks)
 
-1. **Workers dashboard → beautyfacelift (Worker) → Settings → Domains & Routes** → remove `beautyfacelift.ch/*` routes.
+1. **Workers dashboard → beautyfacelift (Worker) → Settings → Domains & Routes** → remove `beautyfacelift-zuerich.ch/*` routes.
 2. **Pages dashboard → beautyfacelift (Pages) → Settings → Builds & deployments** → re-enable auto-deploy on `master` → trigger a retry.
-3. **Pages dashboard → Custom Domains** → re-add `beautyfacelift.ch`.
+3. **Pages dashboard → Custom Domains** → re-add `beautyfacelift-zuerich.ch`.
 
 Pages deploy takes ~90 seconds to go live. DNS propagation on Cloudflare is near-instant because both hosts are on Cloudflare's network.
 
@@ -260,7 +262,7 @@ Phase C — Cutover:
 - [ ] C2 Disable Pages auto-deploy
 - [ ] C3 Merge `cf-workers-migration` → `master`, push
 - [ ] C4 Watch Actions green
-- [ ] C5 Bind custom domain (if beautyfacelift.ch is DNS-ready)
+- [ ] C5 Bind custom domain (if beautyfacelift-zuerich.ch is DNS-ready)
 - [ ] C6 Production smoke test
 - [ ] C7 Tag `v2.0.0-workers`
 

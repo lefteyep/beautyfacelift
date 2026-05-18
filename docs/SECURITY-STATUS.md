@@ -1,41 +1,42 @@
 # Security Status
 
-Last updated: 2026-05-05
+Last updated: 2026-05-07
 
-Production URL reviewed: https://beautyfacelift.mediapaulo.workers.dev/
+Production URL: https://beautyfacelift-zuerich.ch/
 
-## Implemented and verified
+The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical and returned 404 in post-launch verification because `workers_dev=false` is active.
 
-- Booking API validates service UUIDs, active services, date/time format, 90-day window, blocked dates, working hours, 30-minute slot alignment, overlap conflicts, duplicate submissions, and per-IP rate limits.
-- Supabase production has `admin_users`, private admin helper enforcement, restricted admin RLS policies, no public booking inserts, booking length/status/time checks, and an overlap exclusion constraint for active bookings.
-- Slot API rejects malformed date/service parameters and only returns slots for active services inside the booking window.
-- Contact page builds with Turnstile enabled; the production contact API fails closed without a valid Turnstile token and uses controlled error responses.
-- Worker secrets are configured for Supabase, Turnstile, Resend, and contact routing.
-- Tracking API allowlists events and source hosts, requires hashed email/phone values, restricts Meta cookie fields, rate-limits requests, and keeps IP/user-agent server-controlled.
-- Supabase `notify-booking` edge function is deployed with escaped booking fields in HTML emails.
-- Customer CSV export quotes cells safely and prevents spreadsheet formula injection.
-- Worker responses include baseline security headers, including HSTS and CSP report-only, and `/admin/` receives `no-store` plus `X-Robots-Tag: noindex, nofollow`.
-- `npm audit --audit-level=moderate` is part of deployment CI and currently passes.
+## Implemented in repo
 
-## Repeatable verification
+- Booking API now validates service UUID, active service, date/time format, 90-day window, blocked dates, working hours, 30-minute slot alignment, overlap conflicts, duplicate submissions, and per-IP rate limits.
+- Slot API now rejects malformed date/service parameters and only returns slots for active services inside the booking window.
+- Contact API now fails closed for Turnstile on production hosts, returns controlled `503` responses for missing Resend configuration, preserves honeypot/rate limiting, and limits callback text length.
+- Tracking API now allowlists events and source hosts, requires hashed email/phone user data, restricts Meta cookie fields, rate-limits requests, and keeps IP/user-agent server-controlled.
+- Supabase migration `003_security_hardening.sql` adds `admin_users`, `is_admin()`, admin-only RLS policies, removes public booking inserts, and adds booking integrity/overlap constraints.
+- Booking notification emails now escape booking fields before rendering HTML.
+- Customer CSV export now quotes cells safely and prevents spreadsheet formula injection.
+- Worker responses now include baseline security headers.
 
-Run the live security smoke checks after deploys or secret/config changes:
+## Manual production actions still required
 
-```powershell
-npm run smoke:security -- --base-url https://beautyfacelift.mediapaulo.workers.dev
-```
-
-The smoke script verifies booking-adjacent APIs, contact Turnstile enforcement, tracking validation, admin noindex behavior, baseline security headers, CSP report-only, and `HEAD /api/services` monitoring behavior. If `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` are available, it also checks that the anon key cannot enumerate bookings.
-
-Content Security Policy is intentionally report-only. Move it to enforcement only after observing the real custom-domain launch with Astro inline scripts, Partytown/GTM, Cloudflare Turnstile, and optional Meta pixel scripts enabled.
-
-## Still required before real launch
-
-1. Revoke and recreate any credentials pasted into chat or logs, including temporary Cloudflare and Resend tokens.
-2. Rotate the Supabase `service_role` key again before collecting real customer data, then update Cloudflare with the new secret.
-3. Replace the current Supabase Auth admin password with a strong unique password and enable MFA where available.
-4. Fix Supabase Auth site URL and redirect URLs so password recovery points to `https://beautyfacelift.mediapaulo.workers.dev` or the future custom domain instead of localhost.
-5. Disable public Supabase Auth signups if not already disabled.
-6. Enable Supabase leaked-password protection.
-7. Connect `beautyfacelift.ch` to Cloudflare DNS, verify the domain in Resend, and switch sender addresses away from `onboarding@resend.dev`.
-8. Keep Stripe deposits disabled until checkout creation, webhook verification, booking state transitions, and refund handling are complete.
+1. Rotate the Supabase `service_role` key, then update Cloudflare:
+   ```powershell
+   npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --name beautyfacelift
+   ```
+2. Replace weak/test Supabase Auth admin credentials with a strong unique password and enable MFA where available.
+3. Apply `supabase/migrations/003_security_hardening.sql` to production, then seed the owner account:
+   ```sql
+   INSERT INTO public.admin_users (user_id, note)
+   VALUES ('<owner auth.users.id>', 'Teresa / owner')
+   ON CONFLICT (user_id) DO UPDATE SET note = EXCLUDED.note;
+   ```
+4. Disable public Supabase Auth signups in the Supabase dashboard.
+5. Configure production contact secrets in Cloudflare:
+   ```powershell
+   npx wrangler secret put TURNSTILE_SECRET_KEY --name beautyfacelift
+   npx wrangler secret put RESEND_API_KEY --name beautyfacelift
+   npx wrangler secret put CONTACT_FROM_EMAIL --name beautyfacelift
+   npx wrangler secret put CONTACT_TO_EMAIL --name beautyfacelift
+   ```
+6. Add `PUBLIC_TURNSTILE_SITE_KEY` as a GitHub Actions repository variable before the next production build.
+7. Keep Stripe deposits disabled until booking, webhook, and refund paths are fully implemented and tested.

@@ -15,6 +15,7 @@ pnpm-debug.log*
 .audit-dev*.log
 .audit-dev.pid
 .tmp-qa/
+.playwright-cli/
 
 # browser/audit artifacts
 .playwright-cli/

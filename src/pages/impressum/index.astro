@@ -1,11 +1,12 @@
 ---
+import { absoluteUrl } from '../../../shared/site';
 
 import Base from '../../layouts/Base.astro';
 ---
 
 <Base
     title="Impressum | Beauty Face Lift Zürich"
-    description="Impressum und rechtliche Angaben von Beauty Face Lift — Premium Medical Spa an der Bahnhofstrasse 94, 8001 Zürich."
+    description="Impressum und rechtliche Angaben von Beauty Face Lift — Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich."
 >
     <section class="container legal-page">
         <h1>Impressum</h1>
@@ -27,7 +28,7 @@ import Base from '../../layouts/Base.astro';
         <p>
             Telefon: <a href="tel:+41792143462">+41 79 214 34 62</a><br>
             E-Mail: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a><br>
-            Website: <a href="https://beautyfacelift.ch">beautyfacelift.ch</a>
+            Website: <a href={absoluteUrl('/')}>beautyfacelift-zuerich.ch</a>
         </p>
 
         <h3>Verantwortlich für den Inhalt</h3>

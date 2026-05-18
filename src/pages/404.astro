@@ -1,11 +1,14 @@
 ---
 
 import Base from '../layouts/Base.astro';
+import { absoluteUrl } from '../../shared/site';
 ---
 
 <Base
     title="Seite nicht gefunden | Beauty Face Lift Zürich"
     description="Die angeforderte Seite konnte nicht gefunden werden."
+    canonical={absoluteUrl('/404')}
+    noindex
 >
     <section class="container error-page">
         <div class="error-content">

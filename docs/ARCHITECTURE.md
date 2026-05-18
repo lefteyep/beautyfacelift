@@ -1,13 +1,13 @@
-# Architecture — beautyfacelift.ch
+# Architecture — beautyfacelift-zuerich.ch
 
 ## Overview
 
 ```
-[Browser] → [Cloudflare CDN] → Static HTML/CSS/JS (16 pre-rendered pages)
-                              → /api/* → Cloudflare Pages Functions → Supabase (Postgres)
+[Browser] → [Cloudflare CDN] → Static HTML/CSS/JS (pre-rendered pages)
+                              → /api/* → Cloudflare Worker routes → Supabase (Postgres)
 ```
 
-All pages are static HTML served from Cloudflare's edge CDN (330+ locations). API routes run as Cloudflare Pages Functions (V8 isolates, 0ms cold start). Database is Supabase Postgres in EU Frankfurt.
+All pages are static HTML served by Cloudflare Workers Static Assets. API routes run in the same Cloudflare Worker (`worker/index.ts`) through `itty-router`. Database is Supabase Postgres in EU Frankfurt.
 
 ## Why This Architecture
 
@@ -24,14 +24,13 @@ All pages are static HTML served from Cloudflare's edge CDN (330+ locations). AP
 Browser → Cloudflare CDN (cached HTML) → served directly
 ```
 
-### Booking Flow
+### Booking And Ads Flow
 ```
-1. Browser loads /termin/ (static HTML + React island)
-2. BookingWidget mounts → fetches /api/services (Cloudflare Function → Supabase)
-3. User selects treatment → fetches /api/availability?month=...
-4. User selects date → fetches /api/slots?date=...&service_id=...
-5. User fills form → POST /api/bookings (Cloudflare Function → Supabase INSERT)
-6. Redirect to /buchung-bestaetigt/?id=... (fires conversion tracking)
+1. User lands on homepage, treatment page, or noindex ad landing page.
+2. Shared layout initializes PPC tracking, persists UTMs/click IDs, and emits page/view events.
+3. Booking CTAs go to /termin/?service=... so attribution and treatment intent stay on the owned domain.
+4. /termin/ emits TreatwellOutboundClick and forwards to https://buchung.treatwell.ch/ort/beauty-face-lift/.
+5. Confirmed appointment completion happens on Treatwell, so the site measures booking intent, not confirmed bookings.
 ```
 
 ### Admin Dashboard
@@ -44,10 +43,12 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 
 ### Conversion Tracking
 ```
-Booking complete → /buchung-bestaetigt/
-  ├─ Client-side: dataLayer.push({ event: 'booking_complete', event_id }) → GTM → GA4 + Ads + Pixel
-  └─ Server-side: POST /api/track { event_id } → Meta CAPI + GA4 Measurement Protocol
-Both use same event_id for deduplication.
+Page/view/contact/booking intent events
+  ├─ Client-side: dataLayer + optional Meta Pixel when PUBLIC_META_PIXEL_ID is configured
+  └─ Server-side: POST /api/track → Meta CAPI + GA4 Measurement Protocol when secrets are configured
+
+Primary launch proxy conversion:
+  /termin/ redirect or direct Treatwell CTA → TreatwellOutboundClick / treatwell_outbound_click
 ```
 
 ## Database Schema
@@ -76,12 +77,12 @@ RLS policies:
 - TreatmentLinkCard.astro — cross-navigation card
 
 ### React Islands (JS loaded on demand)
-- BookingWidget — 5-step booking flow (client:visible or client:load)
+- BookingWidget — legacy first-party booking flow retained but not used as the public booking path while Treatwell is active
 - AdminDashboard — tab-based admin panel (client:load)
 
-### Cloudflare Pages Functions
+### Cloudflare Worker Routes
 - /api/services — read from Supabase services table
 - /api/availability — compute available dates from availability + blocked_dates
 - /api/slots — compute time slots considering existing bookings + buffer
-- /api/bookings — create booking with conflict detection
+- /api/bookings — legacy first-party booking endpoint, disabled by default while Treatwell is active
 - /api/track — forward events to Meta CAPI + GA4 Measurement Protocol

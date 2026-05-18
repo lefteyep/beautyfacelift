@@ -1,4 +1,5 @@
 ---
+import { absoluteUrl } from '../../../shared/site';
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import '../../styles/blog.css';
@@ -10,13 +11,13 @@ const blogPosts = [
         href: '/blog/hydrafacial-vs-microneedling/'
     },
     {
-        title: 'Die perfekte Hautpflege-Routine: Tipps von Ihrer Kosmetikerin',
+        title: 'Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin',
         description: 'Teresa Stimac verrät die wichtigsten Schritte für eine wirksame tägliche Hautpflege — abgestimmt auf das Zürcher Klima.',
         href: '/blog/hautpflege-routine-zuerich/'
     },
     {
         title: 'Was ist Hydrafacial? Alles was Sie wissen müssen',
-        description: 'Von der patentierten Vortex-Technologie bis zum sofortigen Glow-Effekt — alles Wissenswerte über die beliebteste Gesichtsbehandlung.',
+        description: 'Von der patentierten Vortex-Technologie bis zum Glow-Effekt — alles Wissenswerte über die beliebteste Gesichtsbehandlung.',
         href: '/blog/was-ist-hydrafacial/'
     },
     {
@@ -36,11 +37,11 @@ const structuredData = {
     "@type": "CollectionPage",
     "name": "Blog — Beauty Face Lift Zürich",
     "description": "Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac.",
-    "url": "https://beautyfacelift.ch/blog/",
+    "url": absoluteUrl('/blog/'),
     "publisher": {
         "@type": "Organization",
         "name": "Beauty Face Lift",
-        "url": "https://beautyfacelift.ch"
+        "url": absoluteUrl('/')
     }
 };
 
@@ -52,7 +53,7 @@ const breadcrumbs = [
 
 <Base
     title="Blog | Hautpflege Tipps & Wissen — Beauty Face Lift Zürich"
-    description="Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac. Ihr Medical Spa Blog aus Zürich."
+    description="Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac. Ihr Kosmetikinstitut Blog aus Zürich."
     structuredData={structuredData}
 >
     <!-- Breadcrumbs -->
@@ -64,7 +65,7 @@ const breadcrumbs = [
     <section class="container" style="padding-bottom: 5vh;">
         <div class="sub-display margin-bottom-md">Hautpflege Wissen</div>
         <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Blog</h1>
-        <p style="max-width: 700px;">Aktuelle Beiträge rund um professionelle Hautpflege, Gesichtsbehandlungen und bewährte Beauty-Tipps. Teresa Stimac teilt ihr Expertenwissen aus der täglichen Praxis in unserem Medical Spa an der Bahnhofstrasse Zürich.</p>
+        <p style="max-width: 700px;">Aktuelle Beiträge rund um professionelle Hautpflege, Gesichtsbehandlungen und bewährte Beauty-Tipps. Teresa Stimac teilt ihr Expertenwissen aus der täglichen Praxis in unserem Kosmetikinstitut an der Bahnhofstrasse Zürich.</p>
     </section>
 
     <div class="section-divider"></div>

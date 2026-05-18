@@ -1,43 +1,58 @@
 # Beauty Face Lift
-## Premium Medical Spa Zürich — Bahnhofstrasse 94
+## Premium Kosmetikinstitut Zürich — Bahnhofstrasse 94
 
-> For the full detailed version, see: https://beautyfacelift.ch/llms-full.txt
+> AI-readable summary for answer engines. This file mirrors visible site content and is not an official Google ranking factor. Full version: https://beautyfacelift-zuerich.ch/llms-full.txt
 
-> Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Geleitet von Teresa Stimac, einer selbstständigen Kosmetikerin mit über 20 Jahren Erfahrung in Zürich. Spezialisiert auf nicht-invasive Gesichtsbehandlungen: Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma.
+> Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Geleitet von Teresa Stimac, einer selbstständigen Kosmetikerin mit über 20 Jahren Erfahrung in Zürich. Der fachliche Schwerpunkt liegt auf Gesicht & Haut: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Ergänzend bietet das Studio Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage.
 
 ## Behandlungen
 
+### Behandlungsbereiche
+- Gesicht & Haut: https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/
+- Laser-Haarentfernung: https://beautyfacelift-zuerich.ch/behandlungen/laser-haarentfernung-zuerich/
+- Waxing: https://beautyfacelift-zuerich.ch/behandlungen/waxing-zuerich/
+- Wimpern & Brauen: https://beautyfacelift-zuerich.ch/behandlungen/wimpern-brauen-zuerich/
+- Make-up: https://beautyfacelift-zuerich.ch/behandlungen/make-up-zuerich/
+- Massage: https://beautyfacelift-zuerich.ch/behandlungen/massage-zuerich-bahnhofstrasse/
+
 ### Hydrafacial Zürich
-- URL: https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/
-- Beschreibung: Patentierte Vortex-Technologie zur Tiefenreinigung, Peeling und Hydrierung der Haut in drei Schritten. Sofort sichtbarer Glow ohne Ausfallzeit.
-- Dauer: 60 Minuten (Signature) / 90 Minuten (Platinum)
-- Preis: ab CHF 190
+- URL: https://beautyfacelift-zuerich.ch/behandlungen/hydrafacial-zuerich/
+- Beschreibung: Patentierte Vortex-Technologie zur Tiefenreinigung, Peeling und Hydrierung der Haut in drei Schritten. Frischeres Hautbild, meist ohne Ausfallzeit.
+- Dauer: 60 Minuten (Basic Intensiv) / 90 Minuten (erweiterte Varianten)
+- Preis: ab CHF 180
 - Frequenz: Alle 4-6 Wochen empfohlen
 - Geeignet für: Alle Hauttypen
 
 ### Microneedling Zürich
-- URL: https://beautyfacelift.ch/behandlungen/microneedling-zuerich/
-- Beschreibung: Kollagenstimulation durch kontrollierte Mikroverletzungen der Haut. Das natürliche Facelift ohne Operation für straffere Haut und reduzierte Narben.
-- Dauer: 60-90 Minuten
-- Preis: ab CHF 250
+- URL: https://beautyfacelift-zuerich.ch/behandlungen/microneedling-zuerich/
+- Beschreibung: Kollagenstimulation durch kontrollierte Mikroverletzungen der Haut. Kosmetische Hautbildverbesserung ohne Operation für ein verfeinertes Hautbild und reduzierte Narben.
+- Dauer: 90 Minuten
+- Preis: ab CHF 210
 - Frequenz: 3-5 Sitzungen im Abstand von 4-6 Wochen
 - Downtime: 24-48 Stunden leichte Rötung
 - Geeignet für: Anti-Aging, Akne-Narben, grosse Poren
 
 ### Fruchtsäure Peeling Zürich
-- URL: https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/
-- Beschreibung: Medizinisches AHA-Peeling (Alpha-Hydroxysäure) zur Hauterneuerung. Entfernt verhornte Zellen, verfeinert Poren und reduziert Akne-Narben und Hyperpigmentierung.
+- URL: https://beautyfacelift-zuerich.ch/behandlungen/fruchtsaeure-peeling-zuerich/
+- Beschreibung: Professionelles AHA-Peeling (Alpha-Hydroxysäure) zur Hauterneuerung. Entfernt verhornte Zellen, verfeinert Poren und reduziert Akne-Narben und Hyperpigmentierung.
 - Dauer: 45-60 Minuten
-- Preis: ab CHF 150
+- Preis: CHF 150
 - Frequenz: 4-6 Behandlungen alle 2-4 Wochen
 - Geeignet für: Unreinheiten, Akne, Hyperpigmentierung, Grauschleier
 
 ### ColdPlasma Zürich
-- URL: https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/
-- Beschreibung: Ionisiertes Gas bei niedriger Temperatur stimuliert Zellerneuerung, wirkt antimikrobiell und verbessert die Wirkstoffaufnahme um bis zu 300%. Komplett schmerzfrei und non-invasiv.
-- Dauer: 45-60 Minuten
-- Preis: ab CHF 200
-- Geeignet für: Hautalterung, Unreinheiten, Akne, Hautverjüngung
+- URL: https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/
+- Beschreibung: Ionisiertes Gas bei niedriger Temperatur kann die Hauterneuerung kosmetisch unterstützen, wird in der Kosmetik wegen antimikrobieller Eigenschaften eingesetzt und verbessert die Wirkstoffaufnahme je nach Hautzustand. In der Regel angenehm und non-invasiv.
+- Dauer: 90 Minuten
+- Preis: ab CHF 180
+- Geeignet für: Hautalterung, Unreinheiten, Akne, Hautbildpflege
+
+### Exosome Therapie Zürich
+- URL: https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/
+- Beschreibung: Kosmetisch-ästhetische Gesichtsbehandlung mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie, Hyaluronsäure und persönlicher Hautanalyse. Ziel ist ein frischer, hydratisierter und ruhiger wirkendes Hautbild.
+- Hinweis: Keine Stammzell-Injektion, keine Krankheitsbehandlung und keine garantierte Regeneration. Die Evidenz zu Exosomen in der Hautpflege ist vielversprechend, aber noch begrenzt.
+- Preis: Nach Beratung, abhängig von Produktwahl und Kombination
+- Geeignet für: Fahle, trockene, gestresste oder unebenmässige Haut, Glow, Hautbarriere, regenerative Hautpflege
 
 ## Über die Inhaberin
 
@@ -45,7 +60,7 @@ Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 
 
 ## Bewertungen
 
-- Treatwell: 4.8 von 5 Sternen (240+ Bewertungen)
+- Treatwell: 4.8 von 5 Sternen (248+ Bewertungen)
 - Stammkunden seit 2008
 
 ## Kontakt
@@ -53,7 +68,7 @@ Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 
 - Adresse: Bahnhofstrasse 94, 8001 Zürich, Schweiz
 - Telefon: +41 79 214 34 62
 - E-Mail: info@beautyfacelift.ch
-- Website: https://beautyfacelift.ch
+- Website: https://beautyfacelift-zuerich.ch
 - Instagram: @beautyfacelift.zh
 
 ## Öffnungszeiten
@@ -64,10 +79,10 @@ Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 
 
 ## Online-Terminbuchung
 
-Termine können online gebucht werden unter: https://beautyfacelift.ch/termin/
+Termine können online gebucht werden unter: https://beautyfacelift-zuerich.ch/termin/
 
 ## Weitere Informationen
 
-- Behandlungsvergleich: https://beautyfacelift.ch/behandlungen/vergleich/
-- Häufige Fragen: https://beautyfacelift.ch/haeufige-fragen/
-- Blog & Tipps: https://beautyfacelift.ch/blog/
+- Behandlungsvergleich: https://beautyfacelift-zuerich.ch/behandlungen/vergleich/
+- Häufige Fragen: https://beautyfacelift-zuerich.ch/haeufige-fragen/
+- Blog & Tipps: https://beautyfacelift-zuerich.ch/blog/

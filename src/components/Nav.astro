@@ -4,7 +4,7 @@ import {
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
   FULL_ADDRESS,
-  TREATMENTS,
+  SERVICE_GROUPS,
 } from '../../shared/site';
 
 interface Props {
@@ -34,9 +34,16 @@ const isTreatment = variant === 'treatment';
                     <span class="sr-only">Untermenü Behandlungen öffnen</span>
                 </button>
             </div>
-            <ul class="nav-submenu" id="nav-submenu-desktop" aria-label="Behandlungen">
-                {TREATMENTS.map((treatment) => (
-                    <li><a href={treatment.href}>{treatment.label}</a></li>
+            <ul class="nav-submenu nav-submenu-grouped" id="nav-submenu-desktop" aria-label="Behandlungen">
+                {SERVICE_GROUPS.map((group) => (
+                    <li class="nav-submenu-group">
+                        <a href={group.href} class="nav-submenu-group-label">{group.label}</a>
+                        <ul class="nav-submenu-group-list">
+                            {group.services.map((service) => (
+                                <li><a href={service.href}>{service.label}</a></li>
+                            ))}
+                        </ul>
+                    </li>
                 ))}
             </ul>
         </li>
@@ -45,7 +52,7 @@ const isTreatment = variant === 'treatment';
         <li><a href="/kontakt/">Kontakt</a></li>
     </ul>
 
-    <a href="/termin/" class="pill-btn nav-cta">Termin buchen</a>
+    <a href="/termin/" class="pill-btn nav-cta" data-button-location="nav_desktop">Termin buchen</a>
 
     <button
         class="nav-hamburger"
@@ -85,8 +92,15 @@ const isTreatment = variant === 'treatment';
                     </button>
                 </div>
                 <ul class="nav-mobile-submenu" id="nav-mobile-treatments" hidden>
-                    {TREATMENTS.map((treatment) => (
-                        <li class="nav-mobile-sub"><a href={treatment.href}>{treatment.label}</a></li>
+                    {SERVICE_GROUPS.map((group) => (
+                        <li class="nav-mobile-sub nav-mobile-sub-group">
+                            <a href={group.href} class="nav-mobile-sub-heading">{group.label}</a>
+                            <ul>
+                                {group.services.map((service) => (
+                                    <li><a href={service.href}>{service.label}</a></li>
+                                ))}
+                            </ul>
+                        </li>
                     ))}
                 </ul>
             </li>
@@ -95,9 +109,9 @@ const isTreatment = variant === 'treatment';
             <li><a href="/haeufige-fragen/">Häufige Fragen</a></li>
             <li><a href="/kontakt/">Kontakt</a></li>
         </ul>
-        <a href="/termin/" class="pill-btn pill-btn-lg nav-mobile-cta">Jetzt Termin buchen</a>
+        <a href="/termin/" class="pill-btn pill-btn-lg nav-mobile-cta" data-button-location="nav_mobile">Jetzt Termin buchen</a>
         <div class="nav-mobile-contact">
-            <a href={`tel:${CONTACT_PHONE}`}>{CONTACT_PHONE_DISPLAY}</a>
+            <a href={`tel:${CONTACT_PHONE}`} data-button-location="nav_mobile_phone">{CONTACT_PHONE_DISPLAY}</a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             <span>{FULL_ADDRESS}</span>
         </div>

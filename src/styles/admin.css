@@ -153,6 +153,32 @@
   margin-bottom: 1.5rem;
 }
 
+.admin-migration-note {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-card);
+  background: var(--bg-secondary);
+}
+
+.admin-migration-note span {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.admin-migration-note p {
+  max-width: none;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
 .admin-filter-btn {
   background: none;
   border: 1px solid rgba(18, 18, 18, 0.15);

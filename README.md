@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# Beauty Face Lift Zürich
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Astro static site served by a Cloudflare Worker with Static Assets and API routes.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+Canonical production origin:
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+https://beautyfacelift-zuerich.ch
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The temporary `beautyfacelift.mediapaulo.workers.dev` host must not be used as a public canonical URL. The old `beautyfacelift.ch` domain is separate and must not be configured, redirected, or treated as a migration source for this launch.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Stack
 
-Any static assets, like images, can be placed in the `public/` directory.
+- npm
+- Astro static build
+- Cloudflare Workers Static Assets
+- Worker entrypoint: `worker/index.ts`
+- API router: `itty-router`
+- Cloudflare config: `wrangler.jsonc`
+- Shared URL constants: `shared/site.ts`
 
-## 🧞 Commands
+## Commands
 
-All commands are run from the root of the project, from a terminal:
+```bash
+npm install
+npm run dev
+npm run build
+npm run cf:dev
+npm run qa:worker
+npm run launch:check
+npx wrangler deploy --dry-run
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+`npm run cf:deploy` builds and deploys to Cloudflare with `wrangler deploy --keep-vars`. Do not run a production deploy unless the current branch and release process are approved.
 
-## 👀 Want to learn more?
+## Domain Launch
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Production Workers custom domains are configured in `wrangler.jsonc`:
+
+- `beautyfacelift-zuerich.ch`
+- `www.beautyfacelift-zuerich.ch`
+
+`www.beautyfacelift-zuerich.ch` redirects to `https://beautyfacelift-zuerich.ch` in the Worker before API or asset handling. `workers_dev` is disabled for production; if the temporary workers.dev host still reaches the Worker, it also redirects to the canonical apex.
+
+The custom-domain launch was completed on 2026-05-07. The deployed Worker version recorded for that launch is `f376e963-48cf-4708-9130-650ed6e48b4b`.
+
+The full DNS, all-inkl, Cloudflare, Search Console, and verification record lives in `docs/domain-launch-beautyfacelift-zuerich.md`.
+
+## SEO Outputs
+
+- Canonicals and Open Graph URLs use `https://beautyfacelift-zuerich.ch`.
+- `robots.txt` points to `https://beautyfacelift-zuerich.ch/sitemap.xml`.
+- Astro still generates `sitemap-index.xml` and `sitemap-0.xml`; the build also copies `sitemap-0.xml` to `sitemap.xml` as the public sitemap entry point.
+- JSON-LD avoids unverified ratings, reviews, opening hours, and price-range claims.

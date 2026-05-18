@@ -1,5 +1,7 @@
 # Cloudflare Pages → Workers Migration Plan
 
+Status as of 2026-05-07: historical migration plan only. Do not use this file for the `beautyfacelift-zuerich.ch` production domain launch; the launch is documented in `docs/domain-launch-beautyfacelift-zuerich.md`. Do not configure, redirect, or migrate `beautyfacelift.ch` from this project.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Migrate the Beauty Face Lift Astro site from Cloudflare Pages (static + Pages Functions) to Cloudflare Workers with Workers Static Assets, unifying assets and API routes under a single Worker deployed via Wrangler + GitHub Actions.
@@ -602,14 +604,14 @@ git commit -m "docs(cf): document Pages→Workers migration in MIGRATION.md and 
 In `wrangler.jsonc`, add (if/when the custom domain is connected):
 ```jsonc
 "routes": [
-  { "pattern": "beautyfacelift.ch/*", "zone_name": "beautyfacelift.ch" },
-  { "pattern": "www.beautyfacelift.ch/*", "zone_name": "beautyfacelift.ch" }
+  { "pattern": "beautyfacelift-zuerich.ch/*", "zone_name": "beautyfacelift-zuerich.ch" },
+  { "pattern": "www.beautyfacelift-zuerich.ch/*", "zone_name": "beautyfacelift-zuerich.ch" }
 ]
 ```
 
 Re-deploy: `npm run cf:deploy`.
 
-Note: this step is blocked until the custom domain beautyfacelift.ch is actually added to Cloudflare DNS — which is a separate piece of work flagged in `CLAUDE.md` as "HIGHEST PRIORITY". If the domain is already connected, do it now; otherwise defer.
+Post-launch note: this historical step was completed on 2026-05-07 using Wrangler custom-domain routes in `wrangler.jsonc` with `custom_domain: true`, plus `workers_dev=false`. See `docs/domain-launch-beautyfacelift-zuerich.md` for the actual deployed configuration and verification results.
 
 - [ ] **Step 2: Disable auto-deploy on the Pages project**
 

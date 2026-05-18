@@ -1,11 +1,12 @@
 ---
+import { absoluteUrl } from '../../../../shared/site';
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
 import { teresaPortrait } from '../../../lib/site-images';
 import '../../../styles/blog.css';
 
-const title = 'Die perfekte Hautpflege-Routine: Tipps von Ihrer Kosmetikerin';
+const title = 'Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin';
 const description = 'Erfahren Sie die ideale Hautpflege Routine Zürich — Morgen- & Abendpflege, Wirkstoffe und Profi-Tipps von Kosmetikerin Teresa Stimac bei Beauty Face Lift.';
 const publishDate = '2026-03-10';
 const author = 'Teresa Stimac';
@@ -33,9 +34,9 @@ const articleSchema = {
         "name": author,
         "jobTitle": "Kosmetikerin",
         "worksFor": {
-            "@type": "HealthAndBeautyBusiness",
+            "@type": "BeautySalon",
             "name": "Beauty Face Lift",
-            "url": "https://beautyfacelift.ch",
+            "url": absoluteUrl('/'),
             "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Bahnhofstrasse 94",
@@ -48,12 +49,12 @@ const articleSchema = {
     "publisher": {
         "@type": "Organization",
         "name": "Beauty Face Lift",
-        "url": "https://beautyfacelift.ch"
+        "url": absoluteUrl('/')
     },
     "datePublished": publishDate,
     "dateModified": publishDate,
-    "mainEntityOfPage": "https://beautyfacelift.ch/blog/hautpflege-routine-zuerich/",
-    "image": "https://beautyfacelift.ch/assets/spa_interior.png"
+    "mainEntityOfPage": absoluteUrl('/blog/hautpflege-routine-zuerich/'),
+    "image": absoluteUrl('/assets/spa_interior.png')
 };
 
 const faqSchema = {
@@ -73,7 +74,7 @@ const faqSchema = {
             "name": "Welche Reihenfolge ist bei der Hautpflege richtig?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Die goldene Regel lautet: von der dünnsten zur dicksten Konsistenz. Morgens bedeutet das: Reinigung, Toner, Serum, Augencreme, Feuchtigkeitscreme und Sonnenschutz. Abends folgt auf die Doppelreinigung ein Wirkstoffserum (z. B. Retinol oder AHA/BHA), gefolgt von Augenpflege und einer reichhaltigeren Nachtcreme. Durch diese Reihenfolge kann jedes Produkt optimal in die Haut einziehen und seine volle Wirkung entfalten."
+                "text": "Die goldene Regel lautet: von der dünnsten zur dicksten Konsistenz. Morgens bedeutet das: Reinigung, Toner, Serum, Augencreme, Feuchtigkeitscreme und Sonnenschutz. Abends folgt auf die Doppelreinigung ein Wirkstoffserum (z. B. Retinol oder AHA/BHA), gefolgt von Augenpflege und einer reichhaltigeren Nachtcreme. Durch diese Reihenfolge kann jedes Produkt passend in die Pflege eingebunden werden."
             }
         },
         {
@@ -107,7 +108,7 @@ const structuredData = [articleSchema, faqSchema];
 ---
 
 <Base
-    title="Die perfekte Hautpflege-Routine: Tipps von Ihrer Kosmetikerin | Beauty Face Lift Zürich"
+    title="Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin | Beauty Face Lift Zürich"
     description={description}
     structuredData={structuredData}
 >
@@ -174,7 +175,7 @@ const structuredData = [articleSchema, faqSchema];
             <h3>Schritt 2: Toner oder Gesichtswasser</h3>
 
             <p>
-                Der Toner ist ein oft unterschätzter, aber wichtiger Schritt. Er gleicht den pH-Wert der Haut nach der Reinigung aus, entfernt letzte Reinigungsrückstände und bereitet die Haut optimal auf die nachfolgenden Pflegeprodukte vor. Moderne Toner sind keine aggressiven Gesichtswasser mehr — sie enthalten hydratisierende Inhaltsstoffe wie Hyaluronsäure, beruhigendes Panthenol oder klärende Niacinamide.
+                Der Toner ist ein oft unterschätzter, aber wichtiger Schritt. Er gleicht den pH-Wert der Haut nach der Reinigung aus, entfernt letzte Reinigungsrückstände und bereitet die Haut sorgfältig auf die nachfolgenden Pflegeprodukte vor. Moderne Toner sind keine aggressiven Gesichtswasser mehr — sie enthalten hydratisierende Inhaltsstoffe wie Hyaluronsäure, beruhigendes Panthenol oder klärende Niacinamide.
             </p>
 
             <p>
@@ -184,7 +185,7 @@ const structuredData = [articleSchema, faqSchema];
             <h3>Schritt 3: Serum — der Wirkstoff-Booster</h3>
 
             <p>
-                Seren sind hochkonzentrierte Wirkstoffpräparate, die tief in die Haut eindringen und gezielt bestimmte Hautprobleme adressieren. Am Morgen empfehle ich ein Serum mit Vitamin C (L-Ascorbinsäure). Vitamin C ist ein starkes Antioxidans, das freie Radikale neutralisiert, die Kollagenproduktion unterstützt, Pigmentflecken aufhellt und der Haut einen natürlichen Glow verleiht.
+                Seren sind hochkonzentrierte Wirkstoffpräparate, die die Hautpflege gezielt ergänzen. Am Morgen empfehle ich ein Serum mit Vitamin C (L-Ascorbinsäure). Vitamin C ist ein starkes Antioxidans, das freie Radikale neutralisiert, die Kollagenbildung unterstützen kann, Pigmentflecken optisch mildern und der Haut einen natürlichen Glow verleihen kann.
             </p>
 
             <p>
@@ -214,7 +215,7 @@ const structuredData = [articleSchema, faqSchema];
             <h2>Die Abendroutine: Regeneration und Reparatur</h2>
 
             <p>
-                Die Abendroutine ist der wichtigere Teil Ihrer täglichen Hautpflege, denn nachts laufen die Reparatur- und Regenerationsprozesse der Haut auf Hochtouren. Die Zellteilung ist zwischen 23 Uhr und 4 Uhr morgens am aktivsten. Mit der richtigen Abendpflege unterstützen Sie diese natürlichen Prozesse und maximieren die Wirkung Ihrer Pflegeprodukte.
+                Die Abendroutine ist der wichtigere Teil Ihrer täglichen Hautpflege, denn nachts laufen die Reparatur- und Regenerationsprozesse der Haut auf Hochtouren. Die Zellteilung ist zwischen 23 Uhr und 4 Uhr morgens am aktivsten. Mit der richtigen Abendpflege unterstützen Sie diese natürlichen Prozesse und unterstützen die Wirkung Ihrer Pflegeprodukte.
             </p>
 
             <h3>Schritt 1: Double Cleansing — die gründliche Doppelreinigung</h3>
@@ -224,17 +225,17 @@ const structuredData = [articleSchema, faqSchema];
             </p>
 
             <p>
-                Im zweiten Schritt folgt ein wasserbasiertes Reinigungsprodukt (Reinigungsschaum oder -gel), das verbliebenen Schmutz, Schweiss und Reinigungsrückstände entfernt. Durch diese zweistufige Methode ist Ihre Haut porentief rein und gleichzeitig optimal vorbereitet, um die nachfolgenden Wirkstoffe aufzunehmen.
+                Im zweiten Schritt folgt ein wasserbasiertes Reinigungsprodukt (Reinigungsschaum oder -gel), das verbliebenen Schmutz, Schweiss und Reinigungsrückstände entfernt. Durch diese zweistufige Methode ist Ihre Haut porentief rein und gleichzeitig sorgfältig vorbereitet, um die nachfolgenden Wirkstoffe aufzunehmen.
             </p>
 
             <h3>Schritt 2: Wirkstoffpflege — gezielte Behandlung</h3>
 
             <p>
-                Der Abend ist die ideale Zeit für potente Wirkstoffe, da viele von ihnen die Haut lichtempfindlicher machen und deshalb nicht unter Sonneneinstrahlung verwendet werden sollten. Zu den wirksamsten Abendwirkstoffen gehören:
+                Der Abend ist eine gute Zeit für aktive Wirkstoffe, da viele von ihnen die Haut lichtempfindlicher machen und deshalb nicht unter Sonneneinstrahlung verwendet werden sollten. Häufig eingesetzte Abendwirkstoffe sind:
             </p>
 
             <ul>
-                <li><strong>Retinol (Vitamin A):</strong> Der Goldstandard unter den Anti-Aging-Wirkstoffen. Retinol beschleunigt die Zellerneuerung, stimuliert die Kollagenproduktion, verfeinert die Poren und mildert Pigmentflecken. Beginnen Sie mit einer niedrigen Konzentration (0,3 %) und steigern Sie langsam.</li>
+                <li><strong>Retinol (Vitamin A):</strong> Ein etablierter Anti-Aging-Wirkstoff. Retinol kann die Zellerneuerung und Kollagenbildung unterstützen, die Poren optisch verfeinern und Pigmentflecken mildern. Beginnen Sie mit einer niedrigen Konzentration (0,3 %) und steigern Sie langsam.</li>
                 <li><strong>AHA-Säuren (Glykolsäure, Milchsäure):</strong> Chemische Peelings, die abgestorbene Hautzellen lösen, den Teint ebenmässiger machen und die Aufnahme anderer Wirkstoffe verbessern. Bei empfindlicher Haut eignet sich Milchsäure besonders gut.</li>
                 <li><strong>BHA-Säuren (Salicylsäure):</strong> Ideal bei öliger Haut und Unreinheiten. BHA dringt in die Poren ein, löst Talg und wirkt entzündungshemmend.</li>
                 <li><strong>Peptide:</strong> Signalmoleküle, die die Kollagenproduktion anregen und die Hautfestigkeit verbessern. Besonders geeignet für empfindliche Haut, die Retinol nicht verträgt.</li>
@@ -319,25 +320,25 @@ const structuredData = [articleSchema, faqSchema];
             </p>
 
             <p>
-                Ich empfehle meinen Kundinnen, ein Hydrafacial alle vier bis sechs Wochen in ihre Pflegeroutine zu integrieren. Es eignet sich für jeden Hauttyp und hat keinerlei Ausfallzeit — Sie können direkt im Anschluss zu Ihrem nächsten Termin an der Bahnhofstrasse weiter.
+                Ich empfehle meinen Kundinnen, ein Hydrafacial alle vier bis sechs Wochen in ihre Pflegeroutine zu integrieren. Es eignet sich für jeden Hauttyp und hat meist keine längere Ausfallzeit; bei leichter Rötung sollte die Haut zunächst beruhigt werden.
             </p>
 
             <h3>Fruchtsäure-Peeling: Zellerneuerung und ebenmässiger Teint</h3>
 
             <p>
-                Ein professionelles <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> arbeitet mit höheren Konzentrationen als Heimprodukte und erzielt dadurch deutlich intensivere Ergebnisse. Es löst abgestorbene Hautzellen, stimuliert die Zellerneuerung, mildert Pigmentflecken und verfeinert die Hauttextur. Besonders nach dem Sommer ist ein professionelles Peeling empfehlenswert, um sonnenbedingte Schäden zu behandeln und die Haut für die kühlere Jahreszeit vorzubereiten.
+                Ein professionelles <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> arbeitet mit höheren Konzentrationen als Heimprodukte und wird kontrolliert auf Hautzustand und Ziel abgestimmt. Es löst abgestorbene Hautzellen, kann die kosmetische Hauterneuerung unterstützen, Pigmentflecken optisch mildern und die Hauttextur verfeinern. Besonders nach dem Sommer kann ein professionelles Peeling sinnvoll sein, um Sonnenspuren kosmetisch anzugehen und die Haut für die kühlere Jahreszeit vorzubereiten.
             </p>
 
             <h3>Microneedling: Kollagen-Boost von innen</h3>
 
             <p>
-                <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ist eine minimalinvasive Behandlung, bei der feinste Nadeln mikroskopisch kleine Kanäle in die Haut erzeugen. Dieser kontrollierte Heilungsprozess regt die körpereigene Kollagen- und Elastinproduktion massiv an. Das Ergebnis: straffere Haut, verfeinerte Poren, gemilderte Narben und ein insgesamt verjüngtes Hautbild. In Kombination mit Ihrer täglichen Pflegeroutine und den richtigen Wirkstoffen können die Ergebnisse des Microneedlings langfristig erhalten und sogar verstärkt werden.
+                <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ist eine minimalinvasive Behandlung, bei der feinste Nadeln mikroskopisch kleine Kanäle in die Haut erzeugen. Dieser kontrollierte Heilungsprozess regt die körpereigene Kollagen- und Elastinproduktion an. Das Ergebnis: ein verfeinertes Hautbild, verfeinerte Poren, gemilderte Narben und ein insgesamt verjüngtes Hautbild. In Kombination mit Ihrer täglichen Pflegeroutine und den richtigen Wirkstoffen können die Ergebnisse des Microneedlings langfristig erhalten und sogar verstärkt werden.
             </p>
 
             <h3>Coldplasma: Innovation für anspruchsvolle Haut</h3>
 
             <p>
-                Die <a href="/behandlungen/coldplasma-zuerich/">Coldplasma-Behandlung</a> ist eine der neuesten Technologien in der ästhetischen Hautpflege. Kaltes Plasma fördert die Zellerneuerung, wirkt antibakteriell und stimuliert die Durchblutung, ohne die Haut zu verletzen. Diese Behandlung eignet sich besonders für Kundinnen mit empfindlicher Haut oder entzündlichen Hautproblemen, bei denen andere Verfahren zu intensiv wären.
+                Die <a href="/behandlungen/coldplasma-zuerich/">Coldplasma-Behandlung</a> ist eine moderne Technologie in der ästhetischen Hautpflege. Kaltes Plasma kann die kosmetische Hautpflege unterstützen und wird wegen antimikrobieller Eigenschaften eingesetzt, ohne die Haut mechanisch zu verletzen. Diese Behandlung kann für Kundinnen mit empfindlicher oder unreiner Haut eine sanfte Ergänzung sein.
             </p>
 
             <h2>Häufige Fehler bei der Hautpflege — und wie Sie sie vermeiden</h2>
@@ -367,7 +368,7 @@ const structuredData = [articleSchema, faqSchema];
             <h3>Fehler 4: Unrealistische Erwartungen an Produkte</h3>
 
             <p>
-                Kein Produkt kann über Nacht Wunder bewirken. Wirkstoffe wie Retinol benötigen mindestens sechs bis acht Wochen regelmässiger Anwendung, bevor sichtbare Ergebnisse eintreten. Geduld und Konsequenz sind der Schlüssel. Wer alle zwei Wochen die Produkte wechselt, gibt keinem Wirkstoff die Chance, seine volle Wirkung zu entfalten.
+                Kein Produkt verändert die Haut über Nacht. Wirkstoffe wie Retinol benötigen mindestens sechs bis acht Wochen regelmässiger Anwendung, bevor sichtbare Veränderungen eintreten. Geduld und Konsequenz sind der Schlüssel. Wer alle zwei Wochen die Produkte wechselt, gibt keinem Wirkstoff ausreichend Zeit, seine Wirkung zu zeigen.
             </p>
 
             <h3>Fehler 5: Die Halspartie und das Dekolleté vergessen</h3>
@@ -411,7 +412,7 @@ const structuredData = [articleSchema, faqSchema];
 
                 <details class="faq-item">
                     <summary>Welche Reihenfolge ist bei der Hautpflege richtig?</summary>
-                    <p>Die goldene Regel lautet: von der dünnsten zur dicksten Konsistenz. Morgens bedeutet das: Reinigung, Toner, Serum, Augencreme, Feuchtigkeitscreme und Sonnenschutz. Abends folgt auf die Doppelreinigung ein Wirkstoffserum (z. B. Retinol oder AHA/BHA), gefolgt von Augenpflege und einer reichhaltigeren Nachtcreme. Durch diese Reihenfolge kann jedes Produkt optimal in die Haut einziehen und seine volle Wirkung entfalten.</p>
+                    <p>Die goldene Regel lautet: von der dünnsten zur dicksten Konsistenz. Morgens bedeutet das: Reinigung, Toner, Serum, Augencreme, Feuchtigkeitscreme und Sonnenschutz. Abends folgt auf die Doppelreinigung ein Wirkstoffserum (z. B. Retinol oder AHA/BHA), gefolgt von Augenpflege und einer reichhaltigeren Nachtcreme. Durch diese Reihenfolge kann jedes Produkt passend in die Pflege eingebunden werden.</p>
                 </details>
 
                 <details class="faq-item">
@@ -476,7 +477,7 @@ const structuredData = [articleSchema, faqSchema];
     <!-- CTA Section -->
     <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
         <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks. Teresa Stimac berät Sie persönlich zu Ihrer optimalen Pflegeroutine.</p>
+        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks. Teresa Stimac berät Sie persönlich zu Ihrer passenden Pflegeroutine.</p>
         <a href="/termin/" class="pill-btn">Termin buchen</a>
     </section>
 </Base>

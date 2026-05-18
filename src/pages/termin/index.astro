@@ -1,13 +1,15 @@
 ---
-
 import Base from '../../layouts/Base.astro';
-import BookingWidget from '../../components/booking/BookingWidget';
+import { absoluteUrl, TREATWELL_BOOKING_URL,
+    BOOKING_FORWARD_KEYS, } from '../../../shared/site';
+
+const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
 
 const structuredData = {
     "@context": "https://schema.org",
-    "@type": "HealthAndBeautyBusiness",
+    "@type": "BeautySalon",
     "name": "Beauty Face Lift",
-    "url": "https://beautyfacelift.ch",
+    "url": absoluteUrl('/'),
     "telephone": "+41792143462",
     "address": {
         "@type": "PostalAddress",
@@ -20,7 +22,7 @@ const structuredData = {
         "@type": "ReserveAction",
         "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://beautyfacelift.ch/termin/"
+            "urlTemplate": TREATWELL_BOOKING_URL
         },
         "result": {
             "@type": "Reservation",
@@ -31,26 +33,240 @@ const structuredData = {
 ---
 
 <Base
-    title="Termin buchen | Beauty Face Lift Zürich — Online Buchung"
-    description="Termin buchen bei Beauty Face Lift Zürich ★ 4.8/5 — Hydra4Face ab CHF 180, Microneedling, Peeling & ColdPlasma. Online Buchung in 3 Klicks. Bahnhofstrasse 94."
+    title="Termin buchen | Beauty Face Lift Zürich"
+    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft vorübergehend über Treatwell."
     structuredData={structuredData}
+    noindex={true}
 >
-    <!-- Booking Header — design: centered, 80px 58px 40px -->
-    <section style="padding: 80px 58px 40px; text-align: center;">
-        <span class="sub-display" style="display: block; margin-bottom: 16px;">Online Buchen</span>
-        <h1 style="font-size: 42px; margin-bottom: 16px; text-transform: none;">Termin vereinbaren</h1>
-        <p style="max-width: 600px; margin: 0 auto;">Wählen Sie Ihre Behandlung und finden Sie Ihren Wunschtermin — unkompliziert und schnell.</p>
-    </section>
+    <section class="booking-forward-page">
+        <span class="sub-display">Online Buchen</span>
+        <h1>Wir leiten Sie zur Buchung weiter.</h1>
+        <p>
+            Beauty Face Lift nutzt vorübergehend Treatwell für die Online-Terminbuchung.
+            Ihre Kampagnen- und Behandlungsangaben werden automatisch übernommen.
+        </p>
+        <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
 
-    <div class="section-divider"></div>
+        <div class="booking-forward-actions">
+            <a
+                id="treatwell-booking-link"
+                href={TREATWELL_BOOKING_URL}
+                class="pill-btn"
+                rel="noopener"
+            >
+                Buchung öffnen
+            </a>
+            <a href="/kontakt/" class="pill-btn pill-btn-outline">Kontakt aufnehmen</a>
+        </div>
 
-    <section style="padding: 0 var(--content-px) 80px;">
-        <BookingWidget client:load />
-    </section>
-
-    <div class="section-divider"></div>
-
-    <section style="padding: 0 58px 80px; text-align: center;">
-        <p style="font-size: 13px; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Bahnhofstrasse 94 · Samstag Sonderöffnung · Persönliche Betreuung</p>
+        <p id="booking-forward-status" class="booking-forward-note" aria-live="polite">
+            Falls die Weiterleitung nicht automatisch startet, nutzen Sie den Buchungsbutton.
+        </p>
     </section>
 </Base>
+
+<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys }}>
+    (function() {
+        var fallbackLink = document.getElementById('treatwell-booking-link');
+        var status = document.getElementById('booking-forward-status');
+        var offerNote = document.getElementById('booking-forward-offer');
+        var currentParams = new URLSearchParams(window.location.search);
+        var storedParams = {};
+        var trackedOutbound = false;
+
+        try {
+            storedParams = JSON.parse(sessionStorage.getItem('bfl_utm') || '{}') || {};
+        } catch(e) {
+            storedParams = {};
+        }
+
+        var target = new URL(bookingTargetUrl);
+        bookingForwardKeys.forEach(function(key) {
+            var value = currentParams.get(key);
+            if (!value && typeof storedParams[key] === 'string') {
+                value = storedParams[key];
+            }
+            if (value) {
+                target.searchParams.set(key, value);
+            }
+        });
+
+        var href = target.toString();
+        if (fallbackLink) {
+            fallbackLink.setAttribute('href', href);
+        }
+        var offer = currentParams.get('offer') || storedParams.offer || '';
+        var price = currentParams.get('price') || storedParams.price || '';
+        if (offerNote && offer === 'glow-up-aktion' && price === '169') {
+            offerNote.hidden = false;
+            offerNote.textContent = 'Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220 wird an Treatwell übergeben.';
+        }
+        if (status) {
+            status.textContent = 'Weiterleitung zu Treatwell wird vorbereitet...';
+        }
+
+        function randomId() {
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+            return String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+        }
+
+        function readCookie(name) {
+            var encodedName = encodeURIComponent(name) + '=';
+            var cookie = document.cookie.split('; ').find(function(part) {
+                return part.indexOf(encodedName) === 0;
+            });
+            return cookie ? decodeURIComponent(cookie.slice(encodedName.length)) : '';
+        }
+
+        function clean(payload) {
+            var output = {};
+            Object.keys(payload).forEach(function(key) {
+                var value = payload[key];
+                if (value !== undefined && value !== null && value !== '') output[key] = value;
+            });
+            return output;
+        }
+
+        function campaignParams() {
+            var output = {};
+            bookingForwardKeys.forEach(function(key) {
+                var value = currentParams.get(key);
+                if (!value && typeof storedParams[key] === 'string') value = storedParams[key];
+                if (value) output[key] = value;
+            });
+            return output;
+        }
+
+        function postCapi(eventId, eventData) {
+            if (window.location.protocol !== 'https:') return;
+            try {
+                var userData = {};
+                var fbp = readCookie('_fbp');
+                var fbc = readCookie('_fbc');
+                if (fbp) userData.fbp = fbp;
+                if (fbc) userData.fbc = fbc;
+
+                fetch('/api/track', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
+                    body: JSON.stringify({
+                        event_name: 'TreatwellOutboundClick',
+                        event_id: eventId,
+                        event_source_url: window.location.href,
+                        event_data: eventData,
+                        user_data: userData
+                    })
+                }).catch(function() {});
+            } catch(e) {}
+        }
+
+        function trackOutbound() {
+            if (trackedOutbound) return;
+            trackedOutbound = true;
+
+            var service = currentParams.get('service') || storedParams.service || 'not_set';
+            var eventId = randomId();
+            var eventData = clean({
+                event_id: eventId,
+                treatment_name: service,
+                service: service,
+                button_location: 'booking_forward_auto_redirect',
+                page_path: window.location.pathname,
+                page_type: 'booking_forward',
+                destination_url: href,
+                link_domain: target.hostname,
+                value: 10,
+                currency: 'CHF'
+            });
+            var dataLayerPayload = clean(Object.assign({}, campaignParams(), eventData, {
+                event: 'treatwell_outbound_click'
+            }));
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(dataLayerPayload);
+
+            if (typeof window.fbq === 'function') {
+                window.fbq('trackCustom', 'TreatwellOutboundClick', eventData, { eventID: eventId });
+            }
+
+            postCapi(eventId, {
+                treatment_name: eventData.treatment_name,
+                service: eventData.service,
+                button_location: eventData.button_location,
+                page_path: eventData.page_path,
+                page_type: eventData.page_type,
+                destination_url: eventData.destination_url,
+                link_domain: eventData.link_domain,
+                value: eventData.value,
+                currency: eventData.currency
+            });
+        }
+
+        function safeTrackOutbound() {
+            try {
+                trackOutbound();
+            } catch(e) {}
+        }
+
+        if (fallbackLink) {
+            fallbackLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                safeTrackOutbound();
+                window.setTimeout(function() {
+                    window.location.assign(href);
+                }, 250);
+            }, { capture: true });
+        }
+
+        window.setTimeout(function() {
+            safeTrackOutbound();
+            window.location.replace(href);
+        }, 650);
+    })();
+</script>
+
+<style>
+    .booking-forward-page {
+        min-height: 68vh;
+        padding: 18vh var(--content-px) 12vh;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .booking-forward-page h1 {
+        max-width: 760px;
+        margin: 1rem auto;
+        font-size: clamp(2.3rem, 6vw, 4.8rem);
+        line-height: 1.02;
+        text-transform: none;
+    }
+
+    .booking-forward-page p {
+        max-width: 620px;
+        margin: 0 auto;
+        color: var(--text-secondary);
+    }
+
+    .booking-forward-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        margin: 2rem 0 1rem;
+    }
+
+    .booking-forward-note {
+        font-size: 0.9rem;
+    }
+
+    .booking-forward-offer {
+        margin-top: 1rem !important;
+        color: var(--accent-text) !important;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+</style>

@@ -1,6 +1,6 @@
 ---
 import LandingPage from '../../../layouts/LandingPage.astro';
-import BookingWidget from '../../../components/booking/BookingWidget';
+import BookingCta from '../../../components/BookingCta.astro';
 import OfferBox from '../../../components/lp/OfferBox.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
@@ -10,8 +10,12 @@ import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { carbonTreatmentTeresa, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
+import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
-const OFFICIAL_PRICE = 250;
+const PROMO_PRICE = 169;
+const REGULAR_PRICE = 220;
+const SAVINGS_LABEL = 'Sie sparen CHF 51.-';
+const bookingHref = `${bookingLinkForService('Carbon Microneedling')}&offer=glow-up-aktion&price=${PROMO_PRICE}`;
 const lpHeroMainSizes = '(min-width: 1101px) 32vw, (min-width: 601px) 340px, 62vw';
 const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 48vw';
 const lpAboutSizes = '(min-width: 1101px) 48vw, (min-width: 601px) 520px, 100vw';
@@ -23,29 +27,55 @@ const lpHeroPreload = await getImage({
   quality: 'high',
 });
 
-const whatsappMessage = `Hallo Teresa, ich interessiere mich für Carbon Laser Peeling + Microneedling (CHF ${OFFICIAL_PRICE}).`;
+const whatsappMessage = 'Hallo Teresa, ich interessiere mich für die Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220.';
+
+const heroBullets = [
+  'Poren wirken feiner',
+  'Frischer Glow statt müder Teint',
+  '90 Minuten inkl. Hautanalyse, Carbon Peeling, Microneedling & Hyaluron-Finish',
+  '20+ Jahre Erfahrung · 4.8/5 aus 248+ Bewertungen',
+];
 
 const benefits = [
-  { icon: 'droplet' as const, title: 'Intensive Hydration', text: 'Hyaluron & Vitamine ziehen bis in die tieferen Hautschichten ein.' },
-  { icon: 'sun' as const, title: 'Sofortiger Glow', text: 'Sichtbarer Frische-Effekt bereits nach der ersten Behandlung.' },
-  { icon: 'leaf' as const, title: 'Anti-Aging', text: 'Feine Linien und erste Fältchen werden sichtbar reduziert.' },
-  { icon: 'activity' as const, title: 'Kollagen-Boost', text: 'Mikrokanäle aktivieren die körpereigene Kollagenbildung.' },
-  { icon: 'target' as const, title: 'Verfeinerte Poren', text: 'Carbon-Peeling säubert und strafft vergrösserte Poren.' },
-  { icon: 'trending-up' as const, title: 'Bessere Wirkstoff-Aufnahme', text: 'Deutlich erhöhte Absorption hochwertiger Seren.' },
+  { icon: 'droplet' as const, title: 'Hydratisiertes Hautgefühl', text: 'Hyaluron & Vitamine pflegen die Haut intensiv nach der Behandlung.' },
+  { icon: 'sun' as const, title: 'Frischer Glow', text: 'Die Haut kann direkt frischer, klarer und gepflegter wirken.' },
+  { icon: 'leaf' as const, title: 'Weichere Linien', text: 'Feine Linien können optisch sanfter erscheinen, ohne unrealistische Versprechen.' },
+  { icon: 'activity' as const, title: 'Regenerations-Impuls', text: 'Microneedling unterstützt die natürliche Hauterneuerung und Struktur.' },
+  { icon: 'target' as const, title: 'Feiner wirkende Poren', text: 'Carbon Peeling hilft, die Haut optisch zu klären und Poren feiner wirken zu lassen.' },
+  { icon: 'trending-up' as const, title: 'Bessere Pflegeaufnahme', text: 'Die vorbereitete Haut nimmt hochwertige Wirkstoffe besonders gut auf.' },
 ];
 
 const includedItems = [
   'Reinigung & Hautanalyse',
   'Carbon-Aktivkohle-Peeling',
-  'Microneedling mit medizinischem Pen',
+  'Microneedling mit professionellem Pen',
   'Hyaluron- & Vitamin-Infusion',
   'Beruhigende Abschlussmaske',
   'Persönliche After-Care-Beratung',
 ];
 
+const comparisonItems = [
+  { title: 'Klären', text: 'Carbon Peeling bereitet die Haut vor und entfernt überschüssigen Talg sowie Hautschüppchen.' },
+  { title: 'Struktur unterstützen', text: 'Microneedling kann die natürliche Regeneration und ein glatter wirkendes Hautbild unterstützen.' },
+  { title: 'Beruhigen & pflegen', text: 'Hyaluron, Vitamine und Abschlussmaske sorgen für ein gepflegtes Finish.' },
+];
+
+const expectationItems = [
+  { title: 'Direkt danach', text: 'Die Haut kann frischer wirken und leicht gerötet sein.' },
+  { title: '24-48 Stunden', text: 'Rötungen beruhigen sich meist; die Haut fühlt sich gepflegter an.' },
+  { title: 'Danach', text: 'Die Hautstruktur kann glatter und der Teint ebenmässiger erscheinen.' },
+];
+
+const processSteps = [
+  { title: 'Termin über Treatwell wählen', text: 'Sie gelangen über unsere Tracking-Brücke direkt zur finalen Treatwell-Buchung.' },
+  { title: 'Studio an der Bahnhofstrasse besuchen', text: 'Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94 in Zürich.' },
+  { title: '90 Minuten Glow-Up Behandlung', text: 'Teresa führt Hautanalyse, Carbon Peeling, Microneedling und Finish persönlich durch.' },
+  { title: 'After-Care mitnehmen', text: 'Sie erhalten klare Hinweise, wie Sie Ihre Haut nach der Behandlung pflegen.' },
+];
+
 const testimonials = [
   {
-    text: 'Nach nur einer Sitzung hatte ich wirklich diesen sofortigen Glow. Teresa nimmt sich Zeit und erklärt jeden Schritt.',
+    text: 'Nach nur einer Sitzung hatte ich wirklich diesen frischen Glow. Teresa nimmt sich Zeit und erklärt jeden Schritt.',
     name: 'Laura M.',
     role: 'Zürich',
   },
@@ -55,7 +85,7 @@ const testimonials = [
     role: 'Zollikon',
   },
   {
-    text: 'Professionell, sauber, keine Ausfallzeit. Ich war am Abend wieder gesellschaftsfähig — mit besserer Haut.',
+    text: 'Professionell, sauber, meist keine Ausfallzeit. Ich war am Abend wieder gesellschaftsfähig — mit besserer Haut.',
     name: 'Marina K.',
     role: 'Zürich',
   },
@@ -66,15 +96,15 @@ const testimonials = [
 const faqs = [
   {
     q: 'Ist die Behandlung schmerzhaft?',
-    a: 'Nein. Vor dem Microneedling trage ich eine betäubende Creme auf. Die meisten Kundinnen spüren nur ein leichtes Kribbeln.',
+    a: 'Vor dem Microneedling wird eine betäubende Creme aufgetragen. Die meisten Kundinnen spüren nur ein leichtes Kribbeln oder Druckgefühl.',
   },
   {
-    q: 'Wie lange dauert die Ausfallzeit?',
-    a: 'Kaum eine. Die Haut kann kurz gerötet wirken, das legt sich meist innert Stunden. Am nächsten Tag sind Sie wieder voll einsatzbereit.',
+    q: 'Wie lange ist die Haut gerötet?',
+    a: 'Die Haut kann direkt nach der Behandlung gerötet sein. Das beruhigt sich meist innert Stunden, je nach Hauttyp auch innerhalb von 24-48 Stunden.',
   },
   {
     q: 'Wie viele Sitzungen brauche ich?',
-    a: 'Schon eine Sitzung bringt sichtbare Ergebnisse. Für nachhaltige Effekte empfehlen wir 3 Behandlungen im Abstand von je 4 Wochen.',
+    a: 'Eine Sitzung kann bereits frischer wirken lassen. Für längerfristige Hautziele empfiehlt Teresa je nach Hautbild eine Serie mehrerer Behandlungen.',
   },
   {
     q: 'Für wen ist Carbon Microneedling geeignet?',
@@ -82,7 +112,11 @@ const faqs = [
   },
   {
     q: 'Was ist im Preis inbegriffen?',
-    a: 'Die komplette 90-Minuten-Behandlung: Reinigung, Carbon-Peeling, Microneedling, Hyaluron-Infusion und beruhigende Abschlussmaske. Ohne versteckte Kosten.',
+    a: `Die komplette 90-Minuten-Behandlung: Reinigung, Hautanalyse, Carbon Peeling, Microneedling, Hyaluron-Finish, beruhigende Abschlussmaske und After-Care-Beratung. Die Glow-Up Aktion kostet CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`,
+  },
+  {
+    q: 'Wo buche ich den Termin?',
+    a: 'Die finale Terminbuchung läuft über Treatwell. Ihre Behandlungsangabe wird über unsere Buchungsseite übernommen.',
   },
 ];
 
@@ -91,19 +125,19 @@ const structuredData = {
   '@graph': [
     {
       '@type': 'Product',
-      '@id': 'https://beautyfacelift.ch/lp/carbon-microneedling/#product',
+      '@id': absoluteUrl('/lp/carbon-microneedling/#product'),
       name: 'Carbon Microneedling — Glow-Up-Methode',
-      description: 'Premium Carbon Microneedling an der Bahnhofstrasse Zürich. Carbon-Peeling + Microneedling + Hyaluron-Finish in einer 90-minütigen Sitzung.',
-      image: 'https://beautyfacelift.ch/assets/microneedling_treatment_editorial.png',
+      description: `Glow-Up Aktion in Zürich: Carbon Peeling + Microneedling + Hyaluron-Finish für CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`,
+      image: absoluteUrl('/assets/microneedling_treatment_editorial.png'),
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
         '@type': 'Offer',
         priceCurrency: 'CHF',
-        price: OFFICIAL_PRICE.toFixed(2),
+        price: PROMO_PRICE.toFixed(2),
         availability: 'https://schema.org/InStock',
-        url: 'https://beautyfacelift.ch/lp/carbon-microneedling/',
+        url: absoluteUrl('/lp/carbon-microneedling/'),
+        priceValidUntil: '2026-12-31',
       },
-      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', reviewCount: '230' },
     },
     {
       '@type': 'FAQPage',
@@ -118,8 +152,8 @@ const structuredData = {
 ---
 
 <LandingPage
-  title="Carbon Microneedling Zürich — CHF 250 | Beauty Face Lift"
-  description="Carbon Laser Peeling + Microneedling an der Bahnhofstrasse Zürich. Glow-Up-Methode für straffe, porenreine Haut. Offizieller Preis CHF 250."
+  title="Glow-Up Aktion Zürich — CHF 169 statt CHF 220 | Beauty Face Lift"
+  description="Carbon Peeling + Microneedling an der Bahnhofstrasse Zürich. Glow-Up Aktion für feinere Poren, frischen Glow und glatter wirkende Haut: CHF 169 statt CHF 220."
   preloadImage={{
     href: lpHeroPreload.src,
     imagesrcset: lpHeroPreload.srcSet.attribute,
@@ -136,30 +170,38 @@ const structuredData = {
       <div class="lp-hero-content">
         <div class="sub-display lp-eyebrow">
           <span class="deco-line" aria-hidden="true"></span>
-          Die Glow-Up-Methode · Zürich
+          Glow-Up Aktion · Bahnhofstrasse Zürich
         </div>
-        <h1 class="lp-title display-text">Endlich porenreine,<br><em>straffe Haut</em></h1>
+        <h1 class="lp-title display-text">Carbon Peeling + Microneedling für sichtbar frischere, feinere Haut</h1>
         <p class="lp-subtitle">
-          Die Kombination aus Carbon-Peeling und Microneedling — für sichtbar festere, strahlendere Haut.
-          Ohne Ausfallzeit. An der Bahnhofstrasse.
+          Die 2-in-1 Premium-Gesichtsbehandlung für verfeinerte Poren, glatter wirkende
+          Hauttextur und einen frischen Glow. Persönlich bei Teresa Stimac in Zürich.
         </p>
 
         <div class="lp-hero-offer">
           <OfferBox
             variant="chip"
-            newPrice={OFFICIAL_PRICE}
-            discountLabel="Offizieller Preis"
+            oldPrice={REGULAR_PRICE}
+            newPrice={PROMO_PRICE}
+            discountLabel="Glow-Up Aktion"
+            urgency={`statt CHF ${REGULAR_PRICE}.- · ${SAVINGS_LABEL} · Buchung über Treatwell`}
           />
         </div>
 
         <div class="lp-hero-ctas">
-          <a href="#buchen" class="pill-btn lp-hero-primary">Termin buchen</a>
-          <WhatsAppButton variant="inline" message={whatsappMessage} source="hero" label="WhatsApp" />
+          <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Carbon Microneedling" data-button-location="lp_hero">Termin für CHF 169 sichern</a>
+          <WhatsAppButton variant="inline" message={whatsappMessage} source="hero" label="Frage per WhatsApp" />
         </div>
 
         <div class="lp-hero-trust">
           <TrustStrip variant="rating" align="left" />
         </div>
+
+        <ul class="lp-hero-bullets">
+          {heroBullets.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
       </div>
 
       <div class="lp-hero-media">
@@ -171,7 +213,7 @@ const structuredData = {
             format="webp"
             quality="high"
             priority
-            alt="Microneedling Behandlung mit medizinischem Pen bei Beauty Face Lift Zürich"
+            alt="Microneedling Behandlung mit professionellem Pen bei Beauty Face Lift Zürich"
           />
         </div>
         <div class="lp-hero-media-overlap">
@@ -191,23 +233,23 @@ const structuredData = {
 
   <!-- PROBLEM -->
   <section class="container lp-section lp-problem">
-    <h2 class="lp-section-title">Kennst du das?</h2>
+    <h2 class="lp-section-title">Kommt Ihnen das bekannt vor?</h2>
     <div class="lp-problem-grid">
       <div class="lp-problem-item">
         <strong>Vergrösserte Poren</strong>
-        <p>Kein Make-up deckt sie wirklich ab.</p>
+        <p>Die Haut wirkt unruhig, obwohl Sie gut pflegen.</p>
       </div>
       <div class="lp-problem-item">
-        <strong>Feine Linien</strong>
-        <p>Erste Fältchen, die sich einfach nicht wegcremen lassen.</p>
+        <strong>Unebene Textur</strong>
+        <p>Make-up sitzt nicht mehr so glatt und ebenmässig.</p>
       </div>
       <div class="lp-problem-item">
         <strong>Stumpfer Teint</strong>
-        <p>Die Haut wirkt müde, obwohl du gut schläfst.</p>
+        <p>Die Haut wirkt müde, obwohl Sie genug schlafen.</p>
       </div>
       <div class="lp-problem-item">
-        <strong>Teure Seren</strong>
-        <p>Produkte, die angeblich wirken sollen — aber nicht einziehen.</p>
+        <strong>Pflege ohne Effekt</strong>
+        <p>Seren fühlen sich hochwertig an, bringen aber nicht den gewünschten Glow.</p>
       </div>
     </div>
   </section>
@@ -218,9 +260,10 @@ const structuredData = {
   <section class="container lp-section lp-included">
     <div class="lp-section-head">
       <div class="sub-display">Enthalten im Preis</div>
-      <h2 class="lp-section-title">Was du bei jeder Sitzung bekommst</h2>
+      <h2 class="lp-section-title">Was Sie bei jeder Sitzung erhalten</h2>
       <p class="lp-section-lead">
-        90 Minuten. Sechs Schritte. Ein offizieller Preis — ohne Überraschungen auf der Rechnung.
+        90 Minuten. Sechs Schritte. Eine klare Glow-Up Aktion für CHF {PROMO_PRICE}.–
+        statt CHF {REGULAR_PRICE}.–.
       </p>
     </div>
     <ul class="lp-included-list">
@@ -234,29 +277,52 @@ const structuredData = {
   <section class="container lp-section lp-solution">
     <div class="lp-section-head">
       <div class="sub-display">Die Glow-Up-Methode</div>
-      <h2 class="lp-section-title">3 Phasen. 90 Minuten. Ein sichtbares Ergebnis.</h2>
+      <h2 class="lp-section-title">3 Phasen. 90 Minuten. Ein gepflegter Glow.</h2>
       <p class="lp-section-lead">
-        Carbon Microneedling kombiniert zwei Goldstandard-Behandlungen in einer einzigen Sitzung.
-        Das Ergebnis: Haut, die du spürst.
+        Carbon Peeling klärt die Haut optisch, Microneedling unterstützt die Hautstruktur,
+        und das Hyaluron-Finish beruhigt und pflegt.
       </p>
     </div>
 
     <div class="lp-phases">
       <div class="lp-phase">
         <div class="lp-phase-no">01</div>
-        <h3>Carbon Cleaning</h3>
-        <p>Eine Aktivkohle-Maske zieht tief in die Poren. Unreinheiten, Talg und abgestorbene Zellen werden sanft entfernt — die Haut atmet auf.</p>
+        <h3>Carbon Peeling</h3>
+        <p>Die Haut wird gründlich vorbereitet. Überschüssiger Talg und abgestorbene Hautschüppchen werden sanft gelöst.</p>
       </div>
       <div class="lp-phase">
         <div class="lp-phase-no">02</div>
-        <h3>Deep Repair</h3>
-        <p>Der Microneedling-Pen setzt tausende mikrofeine Kanäle — sie aktivieren die körpereigene Kollagen- und Elastinbildung.</p>
+        <h3>Microneedling</h3>
+        <p>Der professionelle Pen setzt mikrofeine Impulse und kann die natürliche Regeneration sowie eine glatter wirkende Textur unterstützen.</p>
       </div>
       <div class="lp-phase">
         <div class="lp-phase-no">03</div>
         <h3>Hyaluron Finish</h3>
-        <p>Hochkonzentrierte Hyaluronsäure und Vitamine werden eingeschleust, eine beruhigende Maske besiegelt den Glow.</p>
+        <p>Hyaluron, Vitamine und eine beruhigende Maske runden die Behandlung mit einem gepflegten Hautgefühl ab.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- WHY 2-IN-1 -->
+  <section class="container lp-section lp-combo">
+    <div class="lp-section-head">
+      <div class="sub-display">Warum die 2-in-1 Kombi</div>
+      <h2 class="lp-section-title">Erst klären. Dann stimulieren. Dann pflegen.</h2>
+      <p class="lp-section-lead">
+        Die Kombination ist ideal, wenn Sie nicht nur einen kurzen Frischemoment möchten,
+        sondern eine intensivere Behandlung für Teint, Poren und Hautstruktur.
+      </p>
+    </div>
+    <div class="lp-combo-grid">
+      {comparisonItems.map((item) => (
+        <div class="lp-combo-card">
+          <strong>{item.title}</strong>
+          <p>{item.text}</p>
+        </div>
+      ))}
+    </div>
+    <div class="lp-section-cta">
+      <a href={bookingHref} class="pill-btn" data-treatment="Carbon Microneedling" data-button-location="combo_section">2-in-1 Behandlung buchen</a>
     </div>
   </section>
 
@@ -265,8 +331,12 @@ const structuredData = {
   <!-- BENEFITS -->
   <section class="container lp-section lp-benefits-section">
     <div class="lp-section-head">
-      <div class="sub-display">Was du bekommst</div>
-      <h2 class="lp-section-title">6 Gründe für Carbon Microneedling</h2>
+      <div class="sub-display">Ihr Glow-Up</div>
+      <h2 class="lp-section-title">6 Gründe für Carbon Peeling + Microneedling</h2>
+      <p class="lp-section-lead">
+        Das Ziel: ein frischerer, glatter wirkender Teint, feiner erscheinende Poren
+        und ein gepflegtes Hautgefühl.
+      </p>
     </div>
     <div class="lp-benefits-grid">
       {benefits.map((b) => (
@@ -285,15 +355,17 @@ const structuredData = {
   <section class="container lp-section lp-offer">
     <OfferBox
       variant="box"
-      eyebrow="Offizieller Preis"
-      newPrice={OFFICIAL_PRICE}
-      discountLabel="Treatwell-Katalog"
-      urgency="90 Minuten · Carbon Laser Peeling + Microneedling"
-      ctaText="Jetzt Platz sichern"
-      ctaHref="#buchen"
+      eyebrow="Glow-Up Aktion Zürich"
+      oldPrice={REGULAR_PRICE}
+      newPrice={PROMO_PRICE}
+      discountLabel={SAVINGS_LABEL}
+      urgency={`statt CHF ${REGULAR_PRICE}.- · 90 Minuten · Buchung über Treatwell`}
+      ctaText="Termin für CHF 169 sichern"
+      ctaHref={bookingHref}
     />
     <p class="lp-offer-footnote">
-      Offizieller Preis laut Treatwell-Katalog: CHF {OFFICIAL_PRICE}.- für Carbon Laser Peeling + Microneedling.
+      Carbon Peeling + Microneedling für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–.
+      Die Terminbuchung läuft über Treatwell. Ihre Behandlungsangabe wird übernommen.
     </p>
   </section>
 
@@ -306,6 +378,26 @@ const structuredData = {
       <h2 class="lp-section-title">Das sagen unsere Kundinnen</h2>
     </div>
     <TestimonialStrip testimonials={testimonials} />
+  </section>
+
+  <!-- RESULT EXPECTATION -->
+  <section class="container lp-section lp-expectation">
+    <div class="lp-section-head">
+      <div class="sub-display">Realistische Erwartung</div>
+      <h2 class="lp-section-title">Was nach der Behandlung sichtbar sein kann</h2>
+      <p class="lp-section-lead">
+        Die Haut kann frischer wirken und sich glatter anfühlen. Leichte Rötungen sind möglich
+        und beruhigen sich meist innerhalb von 24-48 Stunden.
+      </p>
+    </div>
+    <div class="lp-expectation-grid">
+      {expectationItems.map((item) => (
+        <div class="lp-expectation-card">
+          <strong>{item.title}</strong>
+          <p>{item.text}</p>
+        </div>
+      ))}
+    </div>
   </section>
 
   <!-- ABOUT / TRUST -->
@@ -323,22 +415,22 @@ const structuredData = {
         />
       </div>
       <div class="lp-about-content">
-        <div class="sub-display margin-bottom-md">Deine Expertin</div>
+        <div class="sub-display margin-bottom-md">Ihre Expertin</div>
         <h2 class="lp-section-title">Teresa Stimac — <em>20+ Jahre Erfahrung</em></h2>
 
         <blockquote class="lp-about-quote">
-          <p>„Ich behandle jede Kundin wie eine Freundin. Diskretion, Präzision und ein Ergebnis, das du selbst siehst."</p>
+          <p>„Ich nehme mir Zeit für jede Kundin. Diskretion, Präzision und ein Ergebnis, das natürlich gepflegt wirkt."</p>
         </blockquote>
 
         <p>
           Seit über 20 Jahren widmet sich Teresa der modernen Ästhetik. In ihrem Studio an der
-          Bahnhofstrasse 94 verbindet sie medizinische Präzision mit einer persönlichen,
+          Bahnhofstrasse 94 verbindet sie professionelle Präzision mit einer persönlichen,
           diskreten Betreuung.
         </p>
         <ul class="lp-about-list">
           <li>Bahnhofstrasse 94 · 8001 Zürich</li>
           <li>Ausgebildete Kosmetikerin mit Spezialisierung auf Microneedling</li>
-          <li>230+ fünf-Sterne-Bewertungen</li>
+          <li>248+ Bewertungen</li>
           <li>Mo–Fr 10:00–20:00 · Sa 09:00–16:00</li>
         </ul>
       </div>
@@ -347,11 +439,35 @@ const structuredData = {
 
   <div class="lp-divider" aria-hidden="true"><span class="deco-line"></span></div>
 
+  <!-- PROCESS -->
+  <section class="container lp-section lp-process">
+    <div class="lp-section-head">
+      <div class="sub-display">Ablauf</div>
+      <h2 class="lp-section-title">So funktioniert Ihre Buchung</h2>
+      <p class="lp-section-lead">
+        Der schnellste Weg zur Glow-Up Aktion führt über Treatwell. Unsere Seite übergibt
+        die Behandlungsangabe und Ihre Kampagnenparameter an die finale Buchung.
+      </p>
+    </div>
+    <div class="lp-process-grid">
+      {processSteps.map((step, index) => (
+        <div class="lp-process-step">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{step.title}</strong>
+          <p>{step.text}</p>
+        </div>
+      ))}
+    </div>
+    <div class="lp-section-cta">
+      <a href={bookingHref} class="pill-btn" data-treatment="Carbon Microneedling" data-button-location="process_section">Freien Termin wählen</a>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="container lp-section lp-faq">
     <div class="lp-section-head">
       <div class="sub-display">Häufige Fragen</div>
-      <h2 class="lp-section-title">Alles, was du wissen musst</h2>
+      <h2 class="lp-section-title">Alles, was Sie wissen sollten</h2>
     </div>
     <FAQAccordion items={faqs} />
   </section>
@@ -365,24 +481,32 @@ const structuredData = {
   <section class="container lp-section" id="buchen">
     <div class="lp-section-head">
       <div class="sub-display">Termin buchen</div>
-      <h2 class="lp-section-title">Sichere dir deine Glow-Up-Sitzung</h2>
-      <p class="lp-section-lead">Wähle Datum & Uhrzeit — wir bestätigen deinen Termin per E-Mail.</p>
+      <h2 class="lp-section-title">Sichern Sie sich Ihre Glow-Up-Sitzung</h2>
+      <p class="lp-section-lead">Die Terminbuchung läuft über Treatwell. Ihre Behandlungsangabe wird übernommen.</p>
     </div>
-    <BookingWidget client:load preselectedCategory="Carbon Microneedling" />
+    <BookingCta
+      treatment="Carbon Microneedling"
+      href={bookingHref}
+      title="Carbon Peeling + Microneedling Termin buchen"
+      text="Die Terminbuchung läuft über Treatwell. Ihre Behandlungsangabe wird übernommen."
+      ctaText="Termin für CHF 169 sichern"
+    />
   </section>
 
   <!-- FINAL CTA (full-bleed dark) -->
   <section class="lp-final-dark">
     <div class="lp-final-inner">
-      <div class="sub-display lp-final-eyebrow">Noch Fragen?</div>
-      <h2 class="lp-final-title">Schreib uns direkt.</h2>
+      <div class="sub-display lp-final-eyebrow">Glow-Up Aktion</div>
+      <h2 class="lp-final-title">Sichern Sie sich Ihre Behandlung.</h2>
       <p class="lp-final-lead">
-        Kein passender Termin? Unsicher, ob die Behandlung zu dir passt? Melde dich bei Teresa —
-        sie nimmt sich die Zeit und findet eine Lösung.
+        Sichern Sie sich Ihre Glow-Up Aktion in Zürich: Carbon Peeling + Microneedling
+        für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–. Persönlich behandelt
+        bei Beauty Face Lift an der Bahnhofstrasse.
       </p>
       <div class="lp-final-ctas">
-        <WhatsAppButton variant="inline" message={whatsappMessage} source="final" />
-        <a href="tel:+41792143462" class="pill-btn pill-btn-dark">+41 79 214 34 62</a>
+        <a href={bookingHref} class="pill-btn" data-treatment="Carbon Microneedling" data-button-location="lp_final_booking">Termin für CHF 169 sichern</a>
+        <WhatsAppButton variant="inline" message={whatsappMessage} source="final" label="Frage per WhatsApp" />
+        <a href="tel:+41792143462" class="pill-btn pill-btn-dark" data-button-location="lp_final_phone">+41 79 214 34 62</a>
       </div>
       <p class="lp-final-address">
         Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich<br>
@@ -392,25 +516,16 @@ const structuredData = {
   </section>
 
   <WhatsAppButton variant="sticky" message={whatsappMessage} source="sticky" />
-  <StickyOfferBar newPrice={OFFICIAL_PRICE} />
+  <StickyOfferBar oldPrice={REGULAR_PRICE} newPrice={PROMO_PRICE} href={bookingHref} ctaText="Termin sichern" />
 </LandingPage>
-
-<script>
-  import { trackPageView, trackLead } from '../../../lib/track';
-
-  trackPageView();
-
-  // Surface trackLead for BookingWidget to call after a successful booking.
-  (window as any).__bflTrackLead = trackLead;
-</script>
 
 <style>
   /* ═══════════════════════════════════════════════════════════════
      HERO
      ═══════════════════════════════════════════════════════════════ */
   .lp-hero {
-    padding-top: 12vh;
-    padding-bottom: 8vh;
+    padding-top: 4vh;
+    padding-bottom: 5vh;
   }
   .lp-hero-grid {
     display: grid;
@@ -419,10 +534,10 @@ const structuredData = {
     align-items: center;
   }
   .lp-hero-content {
-    max-width: 580px;
+    max-width: 660px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.85rem;
   }
   .lp-eyebrow {
     display: inline-flex;
@@ -439,6 +554,8 @@ const structuredData = {
     font-family: var(--font-serif);
     font-weight: 400;
     color: var(--ink);
+    font-size: clamp(2.75rem, 4vw, 4.05rem);
+    line-height: 1.02;
   }
   .lp-title em {
     font-style: normal;
@@ -446,16 +563,40 @@ const structuredData = {
     color: var(--accent-text);
   }
   .lp-subtitle {
-    font-size: 1.15rem;
+    font-size: 1.04rem;
     color: var(--text-secondary);
     max-width: 520px;
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.5;
+  }
+  .lp-hero-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem 1rem;
+    color: var(--text-primary);
+    max-width: 620px;
+  }
+  .lp-hero-bullets li {
+    position: relative;
+    padding-left: 1.35rem;
+    font-size: 0.94rem;
+    line-height: 1.45;
+  }
+  .lp-hero-bullets li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent);
+    font-weight: 700;
   }
   .lp-hero-offer {
     position: relative;
-    padding: 1.1rem 0 1.1rem 1.25rem;
-    margin: 0.25rem 0;
+    padding: 0.65rem 0 0.65rem 1.25rem;
+    margin: 0;
     border-left: 1px solid var(--accent);
   }
   .lp-hero-ctas {
@@ -556,6 +697,11 @@ const structuredData = {
     line-height: 1.65;
     max-width: 620px;
     margin: 0 auto;
+  }
+  .lp-section-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
   }
 
   /* Decorative divider between sections */
@@ -682,6 +828,58 @@ const structuredData = {
     font-size: 1rem;
     max-width: none;
     margin: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     2-IN-1 COMBO
+     ═══════════════════════════════════════════════════════════════ */
+  .lp-combo-grid,
+  .lp-expectation-grid,
+  .lp-process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .lp-combo-card,
+  .lp-expectation-card,
+  .lp-process-step {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--bg-secondary);
+    padding: 2rem 1.75rem;
+    text-align: left;
+  }
+  .lp-combo-card strong,
+  .lp-expectation-card strong,
+  .lp-process-step strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0;
+  }
+  .lp-combo-card p,
+  .lp-expectation-card p,
+  .lp-process-step p {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: none;
+  }
+
+  .lp-process-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .lp-process-step span {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2.6rem;
+    line-height: 1;
+    color: rgba(185, 143, 71, 0.32);
+    margin-bottom: 1rem;
   }
 
   /* ═══════════════════════════════════════════════════════════════
@@ -942,6 +1140,13 @@ const structuredData = {
       gap: 1rem;
     }
 
+    .lp-combo-grid,
+    .lp-expectation-grid,
+    .lp-process-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
     .lp-benefits-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
@@ -987,6 +1192,10 @@ const structuredData = {
     .lp-hero-content {
       gap: 1.25rem;
     }
+    .lp-hero-bullets {
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+    }
     .lp-title {
       font-size: clamp(3rem, 12vw, 3.45rem);
       line-height: 1.04;
@@ -994,9 +1203,6 @@ const structuredData = {
     .lp-hero-media {
       order: 0;
       max-width: 360px;
-    }
-    .lp-hero-offer {
-      display: none;
     }
     .lp-hero-ctas {
       display: grid;
@@ -1024,6 +1230,9 @@ const structuredData = {
     .lp-subtitle {
       font-size: 1rem;
       line-height: 1.55;
+    }
+    .lp-hero-bullets li {
+      font-size: 0.92rem;
     }
 
     .lp-section-title {

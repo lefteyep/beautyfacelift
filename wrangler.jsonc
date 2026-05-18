@@ -4,6 +4,17 @@
   "main": "./worker/index.ts",
   "compatibility_date": "2026-04-15",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "beautyfacelift-zuerich.ch",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.beautyfacelift-zuerich.ch",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist",
@@ -15,6 +26,7 @@
   },
   "vars": {
     "PUBLIC_SUPABASE_URL": "https://izekwngqjllaqibrwotp.supabase.co",
+    "ENABLE_LEGACY_BOOKING": "false",
     "ENVIRONMENT": "production"
   }
 }

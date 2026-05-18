@@ -5,7 +5,6 @@ import { TreatmentSelect } from './steps/TreatmentSelect';
 import { DateSelect } from './steps/DateSelect';
 import { TimeSelect } from './steps/TimeSelect';
 import { CustomerForm } from './steps/CustomerForm';
-import { trackLead } from '../../lib/track';
 
 interface Service {
   id: string;
@@ -25,17 +24,44 @@ interface Props {
   preselectedCategory?: string;
 }
 
+// Deprecated rollback-only component. Public pages route booking intent to
+// Treatwell via /termin/ while ENABLE_LEGACY_BOOKING is false.
 const STEP_LABELS = ['Behandlung', 'Datum', 'Uhrzeit', 'Buchen'];
+const SERVICE_LOAD_TIMEOUT_MS = 9000;
+const SERVICE_SLOW_NOTICE_MS = 3500;
 
-function BookingRecovery({ title, message }: { title: string; message: string }) {
+function BookingRecovery({
+  title,
+  message,
+  onRetry,
+  retrying = false,
+}: {
+  title: string;
+  message: string;
+  onRetry?: () => void;
+  retrying?: boolean;
+}) {
   return (
     <div className="booking-state" role="alert">
+      <span className="booking-state-kicker">Terminbuchung</span>
       <h3>{title}</h3>
       <p>{message}</p>
       <div className="booking-state-actions">
+        {onRetry && (
+          <button type="button" className="pill-btn" onClick={onRetry} disabled={retrying}>
+            {retrying ? 'Wird erneut geladen...' : 'Erneut versuchen'}
+          </button>
+        )}
         <a href="/kontakt/" className="pill-btn pill-btn-outline">Kontakt aufnehmen</a>
         <a href="tel:+41792143462" className="booking-text-link">+41 79 214 34 62</a>
-        <a href="https://wa.me/41792143462" className="booking-text-link">WhatsApp schreiben</a>
+        <a
+          href="https://wa.me/41792143462?text=Hallo%20Teresa%2C%20die%20Online-Buchung%20ist%20gerade%20nicht%20verf%C3%BCgbar.%20Ich%20m%C3%B6chte%20einen%20Termin%20anfragen."
+          className="booking-text-link"
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp schreiben
+        </a>
       </div>
     </div>
   );
@@ -57,24 +83,63 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
   const [servicesError, setServicesError] = useState<string | null>(null);
   const [datesError, setDatesError] = useState<string | null>(null);
   const [slotsError, setSlotsError] = useState<string | null>(null);
+  const [servicesSlow, setServicesSlow] = useState(false);
+  const [serviceLoadAttempt, setServiceLoadAttempt] = useState(0);
 
   // Load services on mount
   useEffect(() => {
-    fetch('/api/services')
-      .then(r => {
+    let active = true;
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), SERVICE_LOAD_TIMEOUT_MS);
+    const slowNoticeId = window.setTimeout(() => {
+      if (active) setServicesSlow(true);
+    }, SERVICE_SLOW_NOTICE_MS);
+
+    async function loadServices() {
+      setLoadingServices(true);
+      setServicesError(null);
+      setServicesSlow(false);
+
+      try {
+        const r = await fetch('/api/services', {
+          signal: controller.signal,
+          headers: { Accept: 'application/json' },
+        });
         if (!r.ok) throw new Error('services failed');
-        return r.json();
-      })
-      .then(data => {
-        setServices(data.services || []);
+        const data = await r.json();
+        const nextServices = Array.isArray(data.services) ? data.services : [];
+        if (nextServices.length === 0) throw new Error('services empty');
+        if (!active) return;
+
+        setServices(nextServices);
         setServicesError(null);
         setLoadingServices(false);
-      })
-      .catch(() => {
-        setServicesError('Die Behandlungen konnten nicht geladen werden.');
+      } catch (error) {
+        if (!active) return;
+
+        const timedOut = (error as { name?: string }).name === 'AbortError';
+        setServices([]);
+        setServicesError(
+          timedOut
+            ? 'Die Online-Buchung antwortet gerade zu langsam.'
+            : 'Die Behandlungen konnten nicht geladen werden.'
+        );
         setLoadingServices(false);
-      });
-  }, []);
+      } finally {
+        window.clearTimeout(timeoutId);
+        window.clearTimeout(slowNoticeId);
+      }
+    }
+
+    loadServices();
+
+    return () => {
+      active = false;
+      controller.abort();
+      window.clearTimeout(timeoutId);
+      window.clearTimeout(slowNoticeId);
+    };
+  }, [serviceLoadAttempt]);
 
   // Auto-advance if only 1 service in preselected category
   useEffect(() => {
@@ -199,15 +264,6 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
         return;
       }
 
-      // Fire Meta Lead event (client Pixel + server CAPI, deduped via event_id)
-      await trackLead({
-        email: data.email,
-        phone: data.phone,
-        value: selectedService.price_min_chf ?? selectedService.price_chf,
-        currency: 'CHF',
-        source: preselectedCategory || 'booking',
-      });
-
       // Redirect to confirmation
       window.location.href = result.redirect;
     } catch {
@@ -221,14 +277,26 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
   }
 
   if (loadingServices) {
-    return <div className="booking-loading" role="status" aria-live="polite">Behandlungen werden geladen...</div>;
+    return (
+      <div className="booking-loading" role="status" aria-live="polite">
+        <span className="booking-loader" aria-hidden="true" />
+        <span className="booking-loading-title">Behandlungen werden geladen...</span>
+        {servicesSlow && (
+          <span className="booking-loading-note">
+            Die Verbindung dauert gerade etwas länger. Wir versuchen es noch einen Moment.
+          </span>
+        )}
+      </div>
+    );
   }
 
   if (servicesError) {
     return (
       <BookingRecovery
         title="Online-Buchung kurz nicht verfügbar"
-        message="Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt. Wir finden Ihren Termin persönlich."
+        message={`${servicesError} Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt. Wir finden Ihren Termin persönlich.`}
+        onRetry={() => setServiceLoadAttempt(attempt => attempt + 1)}
+        retrying={loadingServices}
       />
     );
   }

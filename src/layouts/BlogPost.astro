@@ -1,4 +1,5 @@
 ---
+import { absoluteUrl } from '../../shared/site';
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
@@ -31,12 +32,12 @@ const articleData = {
         "@type": "Person",
         "name": author,
         "jobTitle": "Kosmetikerin",
-        "worksFor": { "@type": "HealthAndBeautyBusiness", "name": "Beauty Face Lift" }
+        "worksFor": { "@type": "BeautySalon", "name": "Beauty Face Lift" }
     },
     "publisher": {
         "@type": "Organization",
         "name": "Beauty Face Lift",
-        "url": "https://beautyfacelift.ch"
+        "url": absoluteUrl('/')
     },
     "datePublished": publishDate,
     "dateModified": publishDate,

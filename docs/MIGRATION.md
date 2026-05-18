@@ -1,5 +1,7 @@
 # Cloudflare Pages → Workers Migration
 
+Status as of 2026-05-07: historical runtime migration notes only. This is not the launch runbook for `beautyfacelift-zuerich.ch`; use [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+
 **Date:** 2026-04-15
 **Branch:** `cf-workers-migration`
 **Plan:** [docs/superpowers/plans/2026-04-15-cloudflare-workers-migration.md](superpowers/plans/2026-04-15-cloudflare-workers-migration.md)
@@ -119,8 +121,8 @@ Use **Option A** for UI iteration — hot reload is instant. Use **Option B** wh
 
 | Environment | URL | Status |
 |---|---|---|
-| Workers deploy | https://beautyfacelift.mediapaulo.workers.dev | Live (CI-deployed on push to master) |
-| Production custom domain | https://beautyfacelift.ch | Not yet connected in Cloudflare DNS — flagged as "HIGHEST PRIORITY" in `CLAUDE.md` |
+| Workers deploy | https://beautyfacelift.mediapaulo.workers.dev | Historical temporary URL; not canonical and disabled for production via `workers_dev=false` |
+| Production custom domain | https://beautyfacelift-zuerich.ch | Live on Cloudflare Workers custom domain as of 2026-05-07 |
 
 The old Pages project (`beautyfacelift.pages.dev`) was deleted on 2026-04-15 as part of cutover.
 
@@ -156,4 +158,4 @@ The Pages project was deleted at cutover, so the "flip DNS back to Pages" path n
 ## Post-Migration TODOs
 
 1. **Rotate Supabase service_role key** — the current value was pasted into a chat during cutover. Rotate in Supabase dashboard → Settings → API Keys, then `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` with the new value.
-2. **Connect custom domain `beautyfacelift.ch`** — DNS zone needs to be added to Cloudflare, then bind the domain to the Worker (dashboard → Workers → beautyfacelift → Settings → Domains & Routes → Add Custom Domain).
+2. **Connect custom domain `beautyfacelift-zuerich.ch`** — done 2026-05-07. See [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md) for DNS, Worker version, and verification results.

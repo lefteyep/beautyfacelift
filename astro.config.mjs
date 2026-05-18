@@ -1,24 +1,45 @@
 // @ts-check
+import { copyFile } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import partytown from '@astrojs/partytown';
 
+const SITE_URL = 'https://beautyfacelift-zuerich.ch';
+
+const NOINDEX_PATHS = [
+  '/admin/',
+  '/lp/',
+  '/buchung-bestaetigt/',
+  '/kontakt/danke/',
+  '/termin/',
+];
+
+function sitemapXmlAlias() {
+  return {
+    name: 'sitemap-xml-alias',
+    hooks: {
+      'astro:build:done': async ({ dir }) => {
+        await copyFile(new URL('sitemap-0.xml', dir), new URL('sitemap.xml', dir));
+      },
+    },
+  };
+}
+
 export default defineConfig({
-  site: 'https://beautyfacelift.ch',
+  site: SITE_URL,
   output: 'static',
   integrations: [
     sitemap({
-      filter: (page) =>
-        !page.includes('/admin') &&
-        !page.includes('/lp/') &&
-        !page.includes('/buchung-bestaetigt') &&
-        !page.includes('/kontakt/danke'),
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return !NOINDEX_PATHS.some((path) => pathname.startsWith(path));
+      },
       changefreq: 'weekly',
       priority: 0.7,
       serialize(item) {
         // Boost homepage and key pages
-        if (item.url === 'https://beautyfacelift.ch/') {
+        if (item.url === `${SITE_URL}/`) {
           item.priority = 1.0;
           item.changefreq = 'weekly';
         } else if (item.url.includes('/behandlungen/') && !item.url.includes('/vergleich')) {
@@ -27,13 +48,11 @@ export default defineConfig({
         } else if (item.url.includes('/blog/')) {
           item.priority = 0.8;
           item.changefreq = 'monthly';
-        } else if (item.url.includes('/termin/')) {
-          item.priority = 0.8;
-          item.changefreq = 'monthly';
         }
         return item;
       },
     }),
+    sitemapXmlAlias(),
     react(),
     partytown({
       config: {

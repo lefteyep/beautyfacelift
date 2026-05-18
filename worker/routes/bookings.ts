@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Env } from '../env';
+import { AESTHETIKA_BOOKING_URL } from '../../shared/site';
 
 const BOOKING_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const BOOKING_RATE_LIMIT_MAX_REQUESTS = 8;
@@ -201,6 +202,13 @@ function validateRequestBody(body: BookingRequestBody): {
 }
 
 export async function bookingsRoute(request: Request, env: Env): Promise<Response> {
+  if (env.ENABLE_LEGACY_BOOKING !== 'true') {
+    return jsonResponse({
+      error: 'Die integrierte Online-Buchung wurde deaktiviert. Bitte buchen Sie vorübergehend über Treatwell.',
+      booking_url: AESTHETIKA_BOOKING_URL,
+    }, 410);
+  }
+
   if (!env.SUPABASE_SERVICE_ROLE_KEY) {
     return jsonResponse({ error: 'Buchungen sind gerade nicht verfügbar.' }, 503);
   }

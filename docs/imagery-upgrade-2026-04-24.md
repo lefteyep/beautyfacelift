@@ -1,8 +1,10 @@
 # Beauty Face Lift Imagery Upgrade
 
 Date: 2026-04-24
-Site: https://beautyfacelift.mediapaulo.workers.dev/
-Design system: https://beautyfacelift.mediapaulo.workers.dev/admin/design-system/
+Post-launch note as of 2026-05-07: workers.dev references in this historical imagery note are no longer production URLs. Current production site: https://beautyfacelift-zuerich.ch/
+
+Historical site: https://beautyfacelift.mediapaulo.workers.dev/
+Historical design system: https://beautyfacelift.mediapaulo.workers.dev/admin/design-system/
 
 ## Objective
 

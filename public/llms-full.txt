@@ -1,7 +1,9 @@
-# Beauty Face Lift — Premium Medical Spa Zürich
-## Vollständige Information für AI-Systeme
+# Beauty Face Lift — Premium Kosmetikinstitut Zürich
+## Vollständige AI-lesbare Information
 
-> Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Gründerin und Inhaberin Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. Das Studio ist spezialisiert auf nicht-invasive Gesichtsbehandlungen: Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma. Bewertung: 4.8/5 Sterne auf Treatwell (240+ Bewertungen). Alle Behandlungen werden persönlich von Teresa durchgeführt — keine Angestellten, keine Kompromisse bei der Qualität.
+> AI-readable summary for answer engines. This file mirrors visible site content and is not an official Google ranking factor.
+
+> Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich, Schweiz. Gründerin und Inhaberin Teresa Stimac ist seit über 20 Jahren selbstständige Kosmetikerin in Zürich. Der fachliche Schwerpunkt liegt auf Gesicht & Haut: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Ergänzend bietet das Studio Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage. Bewertung: 4.8/5 Sterne auf Treatwell (248+ Bewertungen). Die Behandlungen werden persönlich von Teresa durchgeführt.
 
 ---
 
@@ -12,7 +14,7 @@
 - **Adresse:** Bahnhofstrasse 94, 8001 Zürich, Schweiz
 - **Telefon:** +41 79 214 34 62
 - **E-Mail:** info@beautyfacelift.ch
-- **Website:** https://beautyfacelift.ch
+- **Website:** https://beautyfacelift-zuerich.ch
 - **Instagram:** @beautyfacelift.zh
 - **Treatwell:** https://www.treatwell.ch/ort/beauty-face-lift/
 - **Koordinaten:** 47.3753, 8.5385
@@ -27,7 +29,7 @@
 - Sonntag: Geschlossen
 - Feiertage: Geschlossen (nach Vereinbarung möglich)
 
-Termine werden ausschliesslich nach Vereinbarung vergeben. Online-Buchung ist rund um die Uhr möglich unter https://beautyfacelift.ch/termin/
+Termine werden ausschliesslich nach Vereinbarung vergeben. Online-Buchung ist rund um die Uhr möglich unter https://beautyfacelift-zuerich.ch/termin/
 
 ### Erreichbarkeit
 - Tram-Haltestelle Paradeplatz/Börsenstrasse (2 Min. Fussweg)
@@ -50,46 +52,54 @@ Teresa Stimac ist seit über 20 Jahren als selbstständige Kosmetikerin in Züri
 
 Teresa verfügt über eine grosse, langjährige Stammkundschaft — einige Kunden begleitet sie bereits seit 2008. Sie verwendet ausschliesslich Produkte, deren Eigenschaften und Rezepturen sie persönlich kennt und selbst anwendet. Jede Behandlung wird von Teresa persönlich durchgeführt — keine Assistenten, keine Delegation. Ihr Motto: Für meine Kunden ist nur das Beste gut genug.
 
-Spezialisierungen: Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma, Anti-Aging, Hautpflege, ästhetische Kosmetik.
+Spezialisierungen: Gesicht & Haut, Gesichtsbehandlung, Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma, Exosome Therapie, Anti-Aging, Hautpflege, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up, Massage und ästhetische Kosmetik.
 
 ---
 
 ## Behandlungen im Detail
 
+### Behandlungsbereiche
+- **Gesicht & Haut:** https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/ — persönliche Gesichtsbehandlung, Hautanalyse und moderne kosmetische Hautpflege.
+- **Laser-Haarentfernung:** https://beautyfacelift-zuerich.ch/behandlungen/laser-haarentfernung-zuerich/ — dauerhafte Haarentfernung für Gesicht, Körper und Herren-Zonen.
+- **Waxing:** https://beautyfacelift-zuerich.ch/behandlungen/waxing-zuerich/ — Waxing für Beine, Bikini, Achseln, Gesicht und Herren-Rücken.
+- **Wimpern & Brauen:** https://beautyfacelift-zuerich.ch/behandlungen/wimpern-brauen-zuerich/ — Färben, Formen, Brauenlifting und Wimpernlifting.
+- **Make-up:** https://beautyfacelift-zuerich.ch/behandlungen/make-up-zuerich/ — Tages-Make-up, Gala-Make-up und Hochzeits-Make-up.
+- **Massage:** https://beautyfacelift-zuerich.ch/behandlungen/massage-zuerich-bahnhofstrasse/ — Nacken-, Rücken- und Ganzkörpermassage nach Buchungsumfang.
+
 ### 1. Hydrafacial Zürich
 
 **Was ist Hydrafacial?**
-Hydrafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet und weltweit zu den beliebtesten Medical-Spa-Behandlungen zählt. Die Vortex-Technologie entfernt Unreinheiten aus den Poren und schleust gleichzeitig hochkonzentrierte Seren mit Hyaluronsäure, Antioxidantien und Peptiden tief in die Haut ein.
+Hydrafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet und weltweit zu den beliebtesten Kosmetikinstitut-Behandlungen zählt. Die Vortex-Technologie entfernt Unreinheiten aus den Poren und schleust gleichzeitig professionelle Seren mit Hyaluronsäure, Antioxidantien und Peptiden tief in die Haut ein.
 
-- **URL:** https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/
-- **Dauer:** 30 Min (Express), 60 Min (Signature), 90 Min (Platinum)
-- **Preise:** CHF 190 (Express), CHF 280 (Signature), CHF 350 (Platinum)
-- **5er-Kur:** Ab CHF 850 (10 % Rabatt)
-- **Schmerz:** Schmerzfrei — wird als angenehm und entspannend empfunden
-- **Downtime:** Keine — sofort gesellschaftsfähig
-- **Frequenz:** Alle 4–6 Wochen empfohlen für dauerhaft strahlende Haut
+- **URL:** https://beautyfacelift-zuerich.ch/behandlungen/hydrafacial-zuerich/
+- **Dauer:** 60 Min (Basic Intensiv), 90 Min (erweiterte Varianten)
+- **Preise:** ab CHF 180; Anti Aging CHF 250; erweiterte Hydra4Face Varianten CHF 280
+- **Pakete:** auf Anfrage, abhängig von Hautziel und Behandlungsplan
+- **Gefühl:** meist angenehm und entspannend
+- **Downtime:** meist keine; leichte Rötung ist möglich
+- **Frequenz:** Alle 4–6 Wochen häufig empfohlen, abhängig von Hautzustand
 - **Geeignet für:** Alle Hauttypen, besonders bei fahlem Teint, Unreinheiten, Feuchtigkeitsmangel, ersten Zeichen der Hautalterung
-- **Ergebnis:** Sofort sichtbarer Glow nach der ersten Sitzung
+- **Ergebnis:** Frischeres Hautbild nach der ersten Sitzung
 - **Besonders geeignet für Einsteigerinnen:** Ja — die ideale erste professionelle Gesichtsbehandlung
 
 **Ablauf:**
 1. Reinigung & Peeling: Vortex-Technologie öffnet Poren, entfernt abgestorbene Zellen
 2. Extraktion & Hydration: Unreinheiten werden schmerzlos extrahiert, Seren eingeschleust
-3. Schutz & Glow: Peptide und Wachstumsfaktoren schützen und maximieren den Glow-Effekt
+3. Schutz & Glow: Peptide und pflegende Wirkstoffe schützen und unterstützen den Glow-Effekt
 
 ### 2. Microneedling Zürich
 
 **Was ist Microneedling?**
-Microneedling (auch Kollagen-Induktionstherapie genannt) ist ein minimal-invasives dermatologisches Verfahren, bei dem feinste sterile Nadeln kontrollierte Mikroverletzungen in der Haut erzeugen, um die körpereigene Kollagen- und Elastinproduktion anzuregen. Es gilt als natürliches Facelift ohne Operation.
+Microneedling (auch Kollagen-Induktionstherapie genannt) ist ein minimal-invasives kosmetisch-ästhetisches Verfahren, bei dem feinste sterile Nadeln kontrollierte Mikroverletzungen in der Haut erzeugen, um die körpereigene Kollagen- und Elastinproduktion anzuregen. Es gilt als kosmetische Hautbildverbesserung ohne Operation.
 
-- **URL:** https://beautyfacelift.ch/behandlungen/microneedling-zuerich/
-- **Dauer:** 45 Min (Basic), 60 Min (Premium), 90 Min (Intensiv)
-- **Preise:** CHF 250 (Basic), CHF 350 (Premium), CHF 450 (Intensiv)
+- **URL:** https://beautyfacelift-zuerich.ch/behandlungen/microneedling-zuerich/
+- **Dauer:** 90 Minuten
+- **Preise:** ab CHF 210; Anti Aging mit coldPLASMA CHF 220; Carbon Laser + Microneedling CHF 250
 - **Schmerz:** Leichtes Piksen, gut tolerierbar — betäubende Creme wird vorab aufgetragen
 - **Downtime:** 24–48 Stunden leichte Rötung, kein Makeup am Behandlungstag
-- **Frequenz:** 3–5 Sitzungen im Abstand von 4–6 Wochen für optimale Ergebnisse
+- **Frequenz:** 3–5 Sitzungen im Abstand von 4–6 Wochen für möglichst gute Ergebnisse
 - **Geeignet für:** Anti-Aging, feine Linien und Fältchen, Akne-Narben, grosse Poren, Dehnungsstreifen, Hyperpigmentierung, Elastizitätsverlust
-- **Ergebnis:** Sichtbare Verbesserung nach der ersten Sitzung, optimale Ergebnisse nach 3–5 Sitzungen (Kollagenaufbau benötigt 4–6 Wochen)
+- **Ergebnis:** Sichtbare Verbesserung nach der ersten Sitzung, möglichst gute Ergebnisse nach 3–5 Sitzungen (Kollagenaufbau benötigt 4–6 Wochen)
 - **Kontraindikationen:** Aktive Akne, offene Wunden, Schwangerschaft, Blutverdünnungsmittel
 
 **Ablauf:**
@@ -101,11 +111,11 @@ Microneedling (auch Kollagen-Induktionstherapie genannt) ist ein minimal-invasiv
 ### 3. Fruchtsäure Peeling Zürich
 
 **Was ist ein Fruchtsäure Peeling?**
-Ein Fruchtsäure Peeling (auch AHA-Peeling oder Chemical Peel genannt) ist eine dermatologische Behandlung, bei der Alpha-Hydroxysäuren wie Glykolsäure, Milchsäure oder Mandelsäure in kontrollierter Konzentration auf die Haut aufgetragen werden, um die oberste Hautschicht abzulösen und die Zellerneuerung zu beschleunigen.
+Ein Fruchtsäure Peeling (auch AHA-Peeling oder Chemical Peel genannt) ist eine professionelle kosmetische Behandlung, bei der Alpha-Hydroxysäuren wie Glykolsäure, Milchsäure oder Mandelsäure in kontrollierter Konzentration auf die Haut aufgetragen werden, um die oberste Hautschicht abzulösen und die Hauterneuerung kosmetisch zu unterstützen.
 
-- **URL:** https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/
+- **URL:** https://beautyfacelift-zuerich.ch/behandlungen/fruchtsaeure-peeling-zuerich/
 - **Dauer:** 30 Min (Mild), 45 Min (Classic), 60 Min (Intensiv)
-- **Preise:** CHF 150 (Mild), CHF 220 (Classic), CHF 280 (Intensiv)
+- **Preise:** CHF 150
 - **Schmerz:** Leichtes Brennen/Kribbeln (Wirksamkeitszeichen)
 - **Downtime:** Leichte Schuppung für 2–3 Tage, konsequenter Sonnenschutz (SPF 50+) erforderlich
 - **Frequenz:** 4–6 Behandlungen alle 2–4 Wochen für eine komplette Kur, danach Erhaltung alle 6–8 Wochen
@@ -121,16 +131,16 @@ Ein Fruchtsäure Peeling (auch AHA-Peeling oder Chemical Peel genannt) ist eine 
 ### 4. ColdPlasma Zürich
 
 **Was ist ColdPlasma?**
-ColdPlasma (auch kaltes Atmosphärenplasma oder Non-Thermal Plasma genannt) ist eine innovative Technologie aus der medizinischen Forschung, bei der Gas bei niedriger Temperatur ionisiert wird und auf die Hautoberfläche einwirkt. Das ionisierte Gas stimuliert die Zellerneuerung auf molekularer Ebene, wirkt antimikrobiell und öffnet die Hautbarriere temporär für eine bis zu 300% verbesserte Wirkstoffaufnahme.
+ColdPlasma ist eine kosmetisch-ästhetische Behandlung mit ionisiertem Gas bei niedriger Temperatur. Sie kann die professionelle Wirkstoffpflege bei unreiner, fahler oder empfindlicher Haut unterstützen und wird individuell dosiert.
 
-- **URL:** https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/
-- **Dauer:** 30 Min (Express), 45 Min (Signature), 60 Min (Premium)
-- **Preise:** CHF 200 (Express), CHF 300 (Signature), CHF 380 (Premium)
-- **Schmerz:** Komplett schmerzfrei (leichtes Kribbeln/Wärmegefühl)
+- **URL:** https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/
+- **Dauer:** 90 Minuten
+- **Preise:** ab CHF 180; Anti Aging/Stabilisierung CHF 220; Hydra4Face + coldPLASMA CHF 280
+- **Schmerz:** In der Regel angenehm (leichtes Kribbeln/Wärmegefühl)
 - **Downtime:** Keine
 - **Frequenz:** Nach Bedarf, oft in Kombination mit anderen Behandlungen
-- **Geeignet für:** Hautalterung, Unreinheiten, Akne, müde Haut, Hautverjüngung, als Ergänzung zu anderen Behandlungen
-- **Besonderheit:** Verbessert die Wirkstoffaufnahme um bis zu 300%
+- **Geeignet für:** Hautalterung, Unreinheiten, Akne, müde Haut, Hautbildpflege, als Ergänzung zu anderen Behandlungen
+- **Besonderheit:** Verbessert die Wirkstoffaufnahme je nach Hautzustand
 
 **Ablauf:**
 1. Hautanalyse & Vorbereitung
@@ -138,31 +148,53 @@ ColdPlasma (auch kaltes Atmosphärenplasma oder Non-Thermal Plasma genannt) ist 
 3. Serum-Infusion (Premium-Wirkstoffe dringen tief ein)
 4. Abschluss & Pflege
 
+### 5. Exosome Therapie Zürich
+
+**Was ist Exosome Therapie?**
+Exosome Therapie ist bei Beauty Face Lift eine kosmetisch-ästhetische Gesichtsbehandlung mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie. Die Behandlung wird nach persönlicher Hautanalyse geplant und kann mit Hyaluronsäure, beruhigenden Wirkstoffen, Microneedling oder einer vorbereitenden Facial-Behandlung kombiniert werden. Ziel ist ein frischer, hydratisierter und ruhiger wirkendes Hautbild.
+
+- **URL:** https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/
+- **Dauer:** Nach Behandlungsplan und Kombination
+- **Preis:** Nach Beratung, abhängig von Produktwahl und Kombination
+- **Schmerz:** Als Serum-Facial in der Regel angenehm; bei Kombination mit Microneedling gelten die Microneedling-Hinweise
+- **Downtime:** Als reine Serumbehandlung gering; bei Microneedling mögliche Rötung und Empfindlichkeit
+- **Frequenz:** Individuell, häufig als Serie mit Erhaltungsterminen geplant
+- **Geeignet für:** Fahle, trockene, gestresste oder unebenmässige Haut, Glow, Hautbarriere, regenerative Hautpflege
+- **Wichtiger Hinweis:** Keine Stammzell-Injektion, keine Krankheitsbehandlung und keine garantierte Regeneration. Die Evidenz zu Exosomen und extrazellulären Vesikeln in der Hautpflege ist vielversprechend, aber noch begrenzt. Beauty Face Lift verwendet vorsichtige kosmetische Wirkversprechen.
+- **Kontraindikationen:** Offene Wunden, aktive Infektionen, akuter Herpes, stark entzündete Haut, ungeklärte Hautreaktionen, bekannte Allergien gegen Inhaltsstoffe; bei relevanten Erkrankungen oder Medikamenten ärztlich abklären.
+
+**Ablauf:**
+1. Hautanalyse und Beratung
+2. Reinigung und Vorbereitung
+3. Anwendung des Exosomen Serums beziehungsweise exosomenähnlichen Wirkstoffserums
+4. Beruhigende Pflege, Nachsorge und Sonnenschutz
+
 ---
 
 ## Behandlungsvergleich
 
-| Eigenschaft | Hydrafacial | Microneedling | Fruchtsäure Peeling | ColdPlasma |
-|---|---|---|---|---|
-| Hauptziel | Glow & Hydration | Anti-Aging & Straffung | Hauterneuerung & Klärung | Zellerneuerung & Wirkstoff-Boost |
-| Dauer | 30–90 Min | 45–90 Min | 30–60 Min | 30–60 Min |
-| Schmerz | Schmerzfrei | Leichtes Piksen | Leichtes Brennen | Schmerzfrei |
-| Downtime | Keine | 24–48h Rötung | Leichte Schuppung | Keine |
-| Preis ab | CHF 190 | CHF 250 | CHF 150 | CHF 200 |
-| Sitzungen | Monatlich | 3–5 Sitzungen | 4–6 Sitzungen | Nach Bedarf |
-| Für Anfänger | Ideal | Mittel | Mittel | Ideal |
+| Eigenschaft | Hydrafacial | Microneedling | Fruchtsäure Peeling | ColdPlasma | Exosome Therapie |
+|---|---|---|---|---|---|
+| Hauptziel | Glow & Hydration | Anti-Aging & Straffung | Hauterneuerung & Klärung | Wirkstoffpflege & Hautbarriere | Regenerative Wirkstoffpflege |
+| Dauer | 60–90 Min | 90 Min | 45–60 Min | 90 Min | Nach Plan |
+| Gefühl | meist angenehm | Leichtes Piksen | Leichtes Brennen/Kribbeln | meist angenehm | Serum angenehm; mit Microneedling leichtes Piksen |
+| Downtime | meist keine | 24–48h Rötung | Leichte Schuppung | meist keine | Gering; bei Microneedling abhängig von Intensität |
+| Preis ab | CHF 180 | CHF 210 | CHF 150 | CHF 180 | Nach Beratung |
+| Sitzungen | Monatlich | 3–5 Sitzungen | 4–6 Sitzungen | Nach Bedarf | Individuell |
+| Für Anfänger | Ideal | Mittel | Mittel | Ideal | Beratung empfohlen |
 
 ### Beliebte Kombinationen
-- **Hydrafacial + ColdPlasma:** Maximale Wirkstoffaufnahme und sofortiger Glow
+- **Hydrafacial + ColdPlasma:** Gezielte Wirkstoffpflege und direkter Glow
 - **Hydrafacial + Microneedling:** Hydrafacial bereitet vor, Microneedling stimuliert Kollagen
 - **Fruchtsäure Peeling + ColdPlasma:** Hauterneuerung plus verbesserte Wirkstoffaufnahme
 - **Fruchtsäure Peeling + Hydrafacial:** Tiefenreinigung kombiniert mit Regeneration
+- **Microneedling + Exosome Therapie:** Exosomen Serum kann nach Microneedling als pflegende Wirkstoffanwendung eingeplant werden, wenn Hautzustand und Produktwahl passen.
 
 ---
 
 ## Kundenbewertungen
 
-**Treatwell: 4.8 von 5 Sternen (240+ Bewertungen)**
+**Treatwell: 4.8 von 5 Sternen (248+ Bewertungen)**
 
 Stammkunden seit 2008. Eines der bestbewerteten Kosmetikstudios in Zürich.
 
@@ -173,10 +205,10 @@ Stammkunden seit 2008. Eines der bestbewerteten Kosmetikstudios in Zürich.
 ### Allgemeine Fragen
 
 **1. Was ist Beauty Face Lift?**
-Beauty Face Lift ist ein Premium Medical Spa an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir hochwirksame, schonende Gesichtsbehandlungen für ein strahlendes und jugendliches Hautbild. Der Fokus liegt auf modernsten Verfahren wie Hydrafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma.
+Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir professionelle, schonende Gesichtsbehandlungen für ein strahlendes und gepflegtes Hautbild. Der Fokus liegt auf modernsten Verfahren wie Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie.
 
-**2. Was ist ein Medical Spa?**
-Ein Medical Spa verbindet medizinische ästhetische Behandlungen mit Wellness und Entspannung. Beauty Face Lift in Zürich bietet nicht-invasive Gesichtsbehandlungen auf höchstem Niveau in einer stilvollen Atmosphäre an der Bahnhofstrasse.
+**2. Was ist ein Kosmetikinstitut?**
+Ein Kosmetikinstitut verbindet kosmetisch-ästhetische Behandlungen mit Wellness und Entspannung. Beauty Face Lift in Zürich bietet nicht-chirurgische Gesichtsbehandlungen auf hohem kosmetischem Niveau in einer stilvollen Atmosphäre an der Bahnhofstrasse.
 
 **3. Wo befindet sich das Studio?**
 Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt. Der Hauptbahnhof ist nur 5 Gehminuten entfernt, die Tram-Haltestelle Paradeplatz 2 Minuten. Das Studio ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar.
@@ -185,27 +217,27 @@ Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt. Der Hauptbahnhof ist nu
 Alle Behandlungen werden persönlich von Teresa Stimac durchgeführt — Inhaberin und erfahrene Kosmetikerin mit über 20 Jahren Expertise in der ästhetischen Hautpflege. Teresa nimmt sich für jede Kundin ausreichend Zeit und erstellt einen individuellen Behandlungsplan.
 
 **5. Brauche ich einen Termin?**
-Ja, wir arbeiten ausschliesslich nach Terminvereinbarung, um eine ungestörte, persönliche Behandlung ohne Wartezeiten zu garantieren. Termine können rund um die Uhr online gebucht werden.
+Ja, wir arbeiten ausschliesslich nach Terminvereinbarung, um ausreichend Zeit für eine persönliche Behandlung einzuplanen. Termine können rund um die Uhr online gebucht werden.
 
 **6. Brauche ich eine Beratung vor der ersten Behandlung?**
-Eine kurze Hautanalyse ist Teil jeder Erstbehandlung. Teresa analysiert Ihren Hauttyp und empfiehlt die optimale Behandlung. Für eine ausführliche Beratung können Sie einen separaten Beratungstermin buchen.
+Eine kurze Hautanalyse ist Teil jeder Erstbehandlung. Teresa analysiert Ihren Hauttyp und empfiehlt die passende Behandlung. Für eine ausführliche Beratung können Sie einen separaten Beratungstermin buchen.
 
 ### Behandlungen
 
 **7. Welche Behandlungen bieten Sie an?**
-Vier Kernbehandlungen: Hydrafacial (Tiefenreinigung und sofortiger Glow), Microneedling (natürliches Anti-Aging und Kollagenaufbau), Fruchtsäure Peeling (intensive Hauterneuerung und Klärung) und ColdPlasma (innovative Zellregeneration und Wirkstoff-Boost). Eine vollständige Übersicht finden Sie unter https://beautyfacelift.ch/behandlungen/
+Beauty Face Lift bietet Gesicht & Haut, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage. Der Hautfokus umfasst Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Eine vollständige Übersicht finden Sie unter https://beautyfacelift-zuerich.ch/behandlungen/
 
 **8. Welche Behandlung passt zu meinem Hauttyp?**
-Hydrafacial eignet sich für alle Hauttypen, besonders bei fahler, dehydrierter Haut. Microneedling ist ideal bei feinen Linien, Narben und Pigmentflecken. Fruchtsäure Peeling wirkt bei Unreinheiten, Akne und Hyperpigmentierung. ColdPlasma ist ideal als Ergänzung zu jeder Behandlung. Teresa berät Sie gerne persönlich.
+Hydrafacial eignet sich für alle Hauttypen, besonders bei fahler, dehydrierter Haut. Microneedling ist eine Option bei feinen Linien, Narben und Pigmentflecken. Fruchtsäure Peeling wirkt bei Unreinheiten, Akne und Hyperpigmentierung. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie gerne persönlich.
 
 **9. Welche Behandlung ist die beste für Anfänger?**
-Das Hydrafacial ist die ideale Einsteigerbehandlung. Es ist schmerzfrei, erfordert keine Ausfallzeit und liefert sofort sichtbare Ergebnisse. Bereits nach der ersten Sitzung strahlt Ihre Haut sichtbar.
+Hydrafacial ist eine passende Einsteigerbehandlung. Es wird meist als angenehm empfunden, erfordert in der Regel keine längere Ausfallzeit und kann das Hautbild direkt frischer wirken lassen. Die Ergebnisse variieren je nach Hautzustand.
 
 **10. Kann ich mehrere Behandlungen kombinieren?**
-Ja, besonders die Kombination aus Hydrafacial und Microneedling ist beliebt — das Hydrafacial bereitet die Haut optimal vor und verstärkt die Wirkung des Needlings. Auch Fruchtsäure Peeling gefolgt von ColdPlasma zeigt synergistische Effekte. Teresa erstellt individuelle Behandlungspläne.
+Ja, besonders die Kombination aus Hydrafacial und Microneedling ist beliebt — das Hydrafacial bereitet die Haut sorgfältig vor und kann die Pflege nach dem Needling sinnvoll ergänzen. Auch Fruchtsäure Peeling, ColdPlasma und Exosome Therapie können in abgestimmten Behandlungsplänen kombiniert werden. Teresa entscheidet Reihenfolge und Abstand nach Hautzustand.
 
 **11. Sind die Behandlungen schmerzhaft?**
-Hydrafacial und ColdPlasma sind vollkommen schmerzfrei. Bei Microneedling wird eine betäubende Creme aufgetragen, sodass nur ein leichtes Kribbeln zu spüren ist. Fruchtsäure Peelings verursachen ein leichtes Wärmegefühl oder Kribbeln. Ihr Wohlbefinden steht immer an erster Stelle.
+Hydrafacial und ColdPlasma sind sehr sanft. Eine reine Exosome Serumbehandlung ist in der Regel angenehm; bei Kombination mit Microneedling gilt das übliche Needling-Gefühl. Bei Microneedling kann eine betäubende Creme aufgetragen werden. Fruchtsäure Peelings verursachen ein leichtes Wärmegefühl oder Kribbeln. Ihr Wohlbefinden steht immer an erster Stelle.
 
 **12. Gibt es Gegenanzeigen (Kontraindikationen)?**
 Ja — bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden oder blutverdünnenden Medikamenten können einzelne Behandlungen nicht durchgeführt werden. Auch bei Akne im akuten Stadium ist Vorsicht geboten. Teresa bespricht dies im Vorgespräch.
@@ -214,18 +246,18 @@ Ja — bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden od
 Von Microneedling und Fruchtsäure Peelings raten wir während Schwangerschaft und Stillzeit ab, da die Haut empfindlicher reagieren kann. Ein sanftes Hydrafacial ist in vielen Fällen möglich — bitte informieren Sie Teresa vorab.
 
 **14. Für wen sind die Behandlungen geeignet?**
-Alle Behandlungen sind individuell anpassbar und grundsätzlich für alle Hauttypen geeignet. Besonders Hydrafacial und ColdPlasma sind sehr sanft und auch für empfindliche Haut ideal. Das Mindestalter beträgt 18 Jahre.
+Alle Behandlungen sind individuell anpassbar. Besonders Hydrafacial, ColdPlasma und eine passende Exosome Serumbehandlung können auch für empfindlichere Haut interessant sein, wenn keine Gegenanzeigen vorliegen. Das Mindestalter beträgt 18 Jahre.
 
 ### Preise & Buchung
 
 **15. Was kosten die Behandlungen?**
-Fruchtsäure Peeling ab CHF 150, Hydrafacial ab CHF 190, ColdPlasma ab CHF 200, Microneedling ab CHF 250. Alle Preise inklusive MwSt. Detailpreise finden Sie auf den jeweiligen Behandlungsseiten.
+Fruchtsäure Peeling ab CHF 150, Hydrafacial ab CHF 180, ColdPlasma ab CHF 180, Microneedling ab CHF 210. Preis und Umfang der Exosome Therapie werden nach Beratung festgelegt, da Produktwahl und Kombination variieren können. Alle Preise inklusive MwSt. Detailpreise finden Sie auf den jeweiligen Behandlungsseiten.
 
 **16. Gibt es Paketangebote oder Kuren?**
-Ja, wir bieten Kurpakete mit bis zu 10 % Rabatt. Die 5er-Kur Hydrafacial ist ab CHF 850 erhältlich. Auch für Microneedling und andere Behandlungen gibt es Mehrfachpakete. Teresa berät, welches Paket für Ihre Hautziele sinnvoll ist.
+Behandlungsserien und Pakete können je nach Hautziel sinnvoll sein. Teresa berät individuell; verbindliche Paketpreise sollten vor Veröffentlichung ownerseitig bestätigt werden.
 
 **17. Wie buche ich einen Termin?**
-Am einfachsten über die Online-Terminbuchung unter https://beautyfacelift.ch/termin/. Wählen Sie Behandlung, Datum und Uhrzeit — die Bestätigung erhalten Sie sofort per E-Mail. Alternativ telefonisch unter +41 79 214 34 62 oder per E-Mail an info@beautyfacelift.ch.
+Am einfachsten über die Online-Terminbuchung unter https://beautyfacelift-zuerich.ch/termin/. Wählen Sie Behandlung, Datum und Uhrzeit — die Bestätigung erhalten Sie sofort per E-Mail. Alternativ telefonisch unter +41 79 214 34 62 oder per E-Mail an info@beautyfacelift.ch.
 
 **18. Welche Zahlungsmethoden werden akzeptiert?**
 Barzahlung, EC-Karte (Debitkarte) sowie alle gängigen Kreditkarten (Visa, Mastercard). Die Zahlung erfolgt nach der Behandlung vor Ort. Bei Kurpaketen ist Vorauszahlung möglich.
@@ -248,45 +280,52 @@ Nach Hydrafacial und ColdPlasma sofort. Nach Microneedling und intensiven Peelin
 Hydrafacial: sofort nach der ersten Behandlung. Microneedling: volle Ergebnisse nach 4–6 Wochen (Kollagenaufbau). Fruchtsäure Peeling: deutliche Verbesserung nach 2–3 Sitzungen. Für langfristige Ergebnisse empfehlen wir regelmässige Behandlungsserien.
 
 **24. Wie oft sollte ich Behandlungen wiederholen?**
-Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4–6 Wochen. Fruchtsäure Peeling: 4–6 Behandlungen alle 2–4 Wochen. ColdPlasma: nach Bedarf, oft als Ergänzung. Teresa erstellt Ihnen einen persönlichen Behandlungsplan.
+Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4–6 Wochen. Fruchtsäure Peeling: 4–6 Behandlungen alle 2–4 Wochen. ColdPlasma: nach Bedarf, oft als Ergänzung. Exosome Therapie: individuell, häufig als Serie oder ergänzende Wirkstoffpflege. Teresa erstellt Ihnen einen persönlichen Behandlungsplan.
 
 ---
 
 ## Alle Seiten (Sitemap)
 
 ### Hauptseiten
-- **Startseite:** https://beautyfacelift.ch/ — Premium Medical Spa Zürich an der Bahnhofstrasse 94. Übersicht aller Leistungen, Bewertungen und Buchungsmöglichkeiten.
-- **Behandlungen:** https://beautyfacelift.ch/behandlungen/ — Übersicht aller vier Gesichtsbehandlungen mit Beschreibungen, Bildern und direkten Links zu Detailseiten.
-- **Über uns:** https://beautyfacelift.ch/ueber-uns/ — Vorstellung von Teresa Stimac, 20+ Jahre Erfahrung als Kosmetikerin in Zürich. Studio-Einblicke und Philosophie.
-- **Termin buchen:** https://beautyfacelift.ch/termin/ — Online-Terminbuchung mit Behandlungsauswahl, Kalender und Uhrzeitwahl. Buchung in wenigen Klicks möglich.
-- **Häufige Fragen:** https://beautyfacelift.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
+- **Startseite:** https://beautyfacelift-zuerich.ch/ — Premium Kosmetikinstitut Zürich an der Bahnhofstrasse 94. Übersicht aller Leistungen, Bewertungen und Buchungsmöglichkeiten.
+- **Behandlungen:** https://beautyfacelift-zuerich.ch/behandlungen/ — Übersicht aller Behandlungsbereiche mit Gesicht & Haut, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up und Massage.
+- **Über uns:** https://beautyfacelift-zuerich.ch/ueber-uns/ — Vorstellung von Teresa Stimac, 20+ Jahre Erfahrung als Kosmetikerin in Zürich. Studio-Einblicke und Philosophie.
+- **Termin buchen:** https://beautyfacelift-zuerich.ch/termin/ — Online-Terminbuchung mit Behandlungsauswahl, Kalender und Uhrzeitwahl. Buchung in wenigen Klicks möglich.
+- **Häufige Fragen:** https://beautyfacelift-zuerich.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
 
 ### Behandlungsseiten (mit Online-Buchung)
-- **Hydrafacial Zürich:** https://beautyfacelift.ch/behandlungen/hydrafacial-zuerich/ — Detailseite zur Hydrafacial-Behandlung: Vortex-Technologie, Ablauf, Preise (ab CHF 190), FAQ, Bewertungen. Mit integrierter Terminbuchung.
-- **Microneedling Zürich:** https://beautyfacelift.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Kollagenaufbau, Ablauf, Preise (ab CHF 250), FAQ, Ergebnisse. Mit integrierter Terminbuchung.
-- **Fruchtsäure Peeling Zürich:** https://beautyfacelift.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Mit integrierter Terminbuchung.
-- **ColdPlasma Zürich:** https://beautyfacelift.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 200), FAQ. Mit integrierter Terminbuchung.
-- **Behandlungsvergleich:** https://beautyfacelift.ch/behandlungen/vergleich/ — Alle vier Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
+- **Hydrafacial Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/hydrafacial-zuerich/ — Detailseite zur Hydrafacial-Behandlung: Vortex-Technologie, Ablauf, Preise (ab CHF 180), FAQ, Bewertungen. Mit integrierter Terminbuchung.
+- **Microneedling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Kollagenaufbau, Ablauf, Preise (ab CHF 210), FAQ, Ergebnisse. Mit integrierter Terminbuchung.
+- **Fruchtsäure Peeling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Mit integrierter Terminbuchung.
+- **ColdPlasma Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 180), FAQ. Mit integrierter Terminbuchung.
+- **Exosome Therapie Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/ — Detailseite zur Exosome Gesichtsbehandlung: Exosomen Serum, regenerative Hautpflege, Microneedling mit Exosomen, Sicherheit, realistische Erwartungen und FAQ.
+- **Behandlungsvergleich:** https://beautyfacelift-zuerich.ch/behandlungen/vergleich/ — Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
+- **Gesichtsbehandlung Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/ — Einstieg für klassische Gesichtsbehandlung, Hautanalyse und passende Empfehlung.
+- **Laser-Haarentfernung Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/laser-haarentfernung-zuerich/ — dauerhafte Haarentfernung für viele Zonen.
+- **Waxing Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/waxing-zuerich/ — professionelle Haarentfernung mit Waxing.
+- **Wimpern & Brauen Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/wimpern-brauen-zuerich/ — Augenbrauen und Wimpern färben, formen und liften.
+- **Make-up Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/make-up-zuerich/ — Make-up für Tag, Gala und Hochzeit.
+- **Massage Zürich Bahnhofstrasse:** https://beautyfacelift-zuerich.ch/behandlungen/massage-zuerich-bahnhofstrasse/ — Massageleistungen an der Bahnhofstrasse 94.
 
 ### Blog & Informationen
-- **Blog:** https://beautyfacelift.ch/blog/ — Hautpflegetipps, Behandlungsinformationen, saisonale Empfehlungen und Neuigkeiten aus dem Studio.
+- **Blog:** https://beautyfacelift-zuerich.ch/blog/ — Hautpflegetipps, Behandlungsinformationen, saisonale Empfehlungen und Neuigkeiten aus dem Studio.
 
 ### Rechtliches
-- **Impressum:** https://beautyfacelift.ch/impressum/ — Rechtliche Angaben gemäss Schweizer Recht.
-- **Datenschutz:** https://beautyfacelift.ch/datenschutz/ — Datenschutzerklärung gemäss DSG und DSGVO.
+- **Impressum:** https://beautyfacelift-zuerich.ch/impressum/ — Rechtliche Angaben gemäss Schweizer Recht.
+- **Datenschutz:** https://beautyfacelift-zuerich.ch/datenschutz/ — Datenschutzerklärung gemäss DSG und DSGVO.
 
 ### Landing Pages (Werbekampagnen)
-- **Hydrafacial LP:** https://beautyfacelift.ch/lp/hydrafacial/ — Werbe-Landingpage für Hydrafacial-Kampagnen.
-- **Microneedling LP:** https://beautyfacelift.ch/lp/microneedling/ — Werbe-Landingpage für Microneedling-Kampagnen.
-- **Peeling LP:** https://beautyfacelift.ch/lp/peeling/ — Werbe-Landingpage für Fruchtsäure-Peeling-Kampagnen.
+- **Hydrafacial LP:** https://beautyfacelift-zuerich.ch/lp/hydrafacial/ — Werbe-Landingpage für Hydrafacial-Kampagnen.
+- **Microneedling LP:** https://beautyfacelift-zuerich.ch/lp/microneedling/ — Werbe-Landingpage für Microneedling-Kampagnen.
+- **Peeling LP:** https://beautyfacelift-zuerich.ch/lp/peeling/ — Werbe-Landingpage für Fruchtsäure-Peeling-Kampagnen.
 
 ### Systempseiten
-- **Buchung bestätigt:** https://beautyfacelift.ch/buchung-bestaetigt/ — Bestätigungsseite nach erfolgreicher Online-Buchung.
-- **Admin:** https://beautyfacelift.ch/admin/ — Admin-Dashboard (nicht öffentlich zugänglich).
+- **Buchung bestätigt:** https://beautyfacelift-zuerich.ch/buchung-bestaetigt/ — Bestätigungsseite nach erfolgreicher Online-Buchung.
+- **Admin:** https://beautyfacelift-zuerich.ch/admin/ — Admin-Dashboard (nicht öffentlich zugänglich).
 
 ### Für KI-Systeme
-- **llms.txt:** https://beautyfacelift.ch/llms.txt — Kurzversion für KI-Systeme
-- **llms-full.txt:** https://beautyfacelift.ch/llms-full.txt — Vollständige Version (diese Datei)
+- **llms.txt:** https://beautyfacelift-zuerich.ch/llms.txt — Kurzversion für KI-Systeme
+- **llms-full.txt:** https://beautyfacelift-zuerich.ch/llms-full.txt — Vollständige Version (diese Datei)
 
 ---
 
@@ -299,4 +338,4 @@ Hydrafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 
 ---
 
-*Stand: März 2026. Alle Angaben ohne Gewähr. Aktuelle Preise und Verfügbarkeit finden Sie auf unserer Website unter https://beautyfacelift.ch*
+*Stand: März 2026. Alle Angaben ohne Gewähr. Aktuelle Preise und Verfügbarkeit finden Sie auf unserer Website unter https://beautyfacelift-zuerich.ch*

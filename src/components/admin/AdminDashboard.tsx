@@ -1,21 +1,32 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { LoginForm } from './LoginForm';
-import { BookingsList } from './BookingsList';
 import { ServiceManager } from './ServiceManager';
 import { AvailabilityEditor } from './AvailabilityEditor';
 import { BlockedDatesManager } from './BlockedDatesManager';
 import { CustomerExport } from './CustomerExport';
 
-type Tab = 'bookings' | 'services' | 'availability' | 'blocked' | 'customers';
+type Tab = 'services' | 'availability' | 'blocked' | 'customers';
 
 const TABS: { key: Tab; label: string }[] = [
-  { key: 'bookings', label: 'Buchungen' },
   { key: 'services', label: 'Behandlungen' },
   { key: 'availability', label: 'Öffnungszeiten' },
   { key: 'blocked', label: 'Blockierte Tage' },
   { key: 'customers', label: 'Kunden' },
 ];
+
+function BookingMigrationNotice() {
+  return (
+    <div className="admin-migration-note" role="status">
+      <span>Online-Buchung migriert</span>
+      <p>
+        Neue Termine werden nicht mehr im Beauty-Face-Lift-System erfasst.
+        Treatwell ist vorübergehend die Quelle für Buchungen; die bisherigen
+        Buchungskomponenten bleiben nur für einen möglichen Rollback erhalten.
+      </p>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -23,7 +34,7 @@ export default function AdminDashboard() {
   const [authError, setAuthError] = useState('');
   const [activeTab, setActiveTab] = useState<Tab>(() => {
     const hash = typeof window !== 'undefined' ? window.location.hash.slice(1) : '';
-    return (TABS.find(t => t.key === hash)?.key || 'bookings') as Tab;
+    return (TABS.find(t => t.key === hash)?.key || 'services') as Tab;
   });
 
   useEffect(() => {
@@ -104,7 +115,7 @@ export default function AdminDashboard() {
       </nav>
 
       <div className="admin-content">
-        {activeTab === 'bookings' && <BookingsList />}
+        <BookingMigrationNotice />
         {activeTab === 'services' && <ServiceManager />}
         {activeTab === 'availability' && <AvailabilityEditor />}
         {activeTab === 'blocked' && <BlockedDatesManager />}

@@ -2,6 +2,7 @@
 // Atelier Design System — reference page
 // Self-contained (no shared layouts/tokens) so it stays pinned to Atelier spec
 // even if site tokens drift. noindex'd via meta + unadvertised /admin/* path.
+import { absoluteUrl } from '../../../shared/site';
 ---
 <!DOCTYPE html>
 <html lang="de">
@@ -11,6 +12,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#B98F47">
     <title>Atelier Design System — Beauty Face Lift</title>
+    <link rel="canonical" href={absoluteUrl('/admin/design-system/')}>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -526,7 +528,7 @@
         <header class="ds-masthead">
             <div class="ds-eyebrow">Design System · v1 · Atelier</div>
             <h1 class="ds-title">Beauty Face Lift <span class="ds-title-accent">Atelier</span></h1>
-            <p class="ds-lead">Editorial system for beautyfacelift.ch. Warm paper neutrals, a single dark gold accent, Cormorant Garamond for display, Inter for body, JetBrains Mono for labels. No italics, no gradients, no ambient glows — emphasis through weight, colour and type.</p>
+            <p class="ds-lead">Editorial system for beautyfacelift-zuerich.ch. Warm paper neutrals, a single dark gold accent, Cormorant Garamond for display, Inter for body, JetBrains Mono for labels. No italics, no gradients, no ambient glows — emphasis through weight, colour and type.</p>
         </header>
 
         <!-- 01 Typography -->
@@ -689,7 +691,7 @@
                         <div class="ds-mono-label" style="margin-bottom: 8px;">Rating</div>
                         <div class="ds-rating">
                             <span class="ds-rating-stars">★★★★★</span>
-            <span class="ds-rating-meta">4.8 · 240+ verifizierte Bewertungen</span>
+            <span class="ds-rating-meta">4.8 · 248+ verifizierte Bewertungen</span>
                         </div>
                     </div>
                 </div>
@@ -746,7 +748,7 @@
                         </div>
                         <div class="ds-faq-item">
                             <div class="ds-faq-q">Kann ich direkt nach der Behandlung wieder arbeiten?</div>
-                            <div class="ds-faq-a">Ja — Hydrafacial hat praktisch keine Ausfallzeit. Du verlässt das Studio mit sichtbar frischer Haut, leichter Rötung in den ersten ein bis zwei Stunden.</div>
+                            <div class="ds-faq-a">Ja — Hydrafacial hat praktisch meist keine Ausfallzeit. Du verlässt das Studio mit sichtbar frischer Haut, leichter Rötung in den ersten ein bis zwei Stunden.</div>
                         </div>
                         <div class="ds-faq-item">
                             <div class="ds-faq-q">Wie oft sollte ich die Behandlung machen?</div>

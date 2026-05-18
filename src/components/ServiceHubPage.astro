@@ -1,0 +1,173 @@
+---
+import { bookingLinkForService, absoluteUrl } from '../../shared/site';
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import AiSummary from './AiSummary.astro';
+import BookingCta from './BookingCta.astro';
+import TreatmentLinkCard from './TreatmentLinkCard.astro';
+
+interface Fact {
+  label: string;
+  value: string;
+}
+
+interface PriceItem {
+  label: string;
+  price: string;
+  duration: string;
+  note: string;
+}
+
+interface RelatedLink {
+  href: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  h1: string;
+  intro: string[];
+  summaryTitle: string;
+  summaryIntro: string;
+  facts: Fact[];
+  serviceType: string;
+  bookingService: string;
+  priceItems: PriceItem[];
+  suitedFor: string[];
+  process: string[];
+  expectations: string;
+  contraindications: string;
+  related: RelatedLink[];
+}
+
+const {
+  title,
+  description,
+  eyebrow,
+  h1,
+  intro,
+  summaryTitle,
+  summaryIntro,
+  facts,
+  serviceType,
+  bookingService,
+  priceItems,
+  suitedFor,
+  process,
+  expectations,
+  contraindications,
+  related,
+} = Astro.props;
+
+const bookingHref = bookingLinkForService(bookingService);
+const currentPath = Astro.url.pathname;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: h1,
+  serviceType,
+  category: 'Kosmetische Behandlung',
+  url: absoluteUrl(currentPath),
+  areaServed: 'Zürich',
+  provider: {
+    '@type': 'BeautySalon',
+    name: 'Beauty Face Lift Zürich',
+    url: absoluteUrl('/'),
+    telephone: '+41792143462',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Bahnhofstrasse 94',
+      addressLocality: 'Zürich',
+      postalCode: '8001',
+      addressCountry: 'CH',
+    },
+  },
+  description,
+};
+---
+
+<Base title={title} description={description} structuredData={structuredData}>
+  <section class="container" style="padding-top: 108px; padding-bottom: 0;">
+    <Breadcrumbs items={[
+      { label: 'Home', href: '/' },
+      { label: 'Behandlungen', href: '/behandlungen/' },
+      { label: h1 },
+    ]} />
+  </section>
+
+  <section class="container" style="padding-top: 28px; padding-bottom: 64px;">
+    <span class="sub-display">{eyebrow}</span>
+    <h1 style="font-size: clamp(2.4rem, 6vw, 5rem); max-width: 980px; margin: 1rem 0; text-transform: none;">{h1}</h1>
+    <div style="display: grid; gap: 1rem; max-width: 760px;">
+      {intro.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
+      <a href={bookingHref} class="pill-btn">Termin buchen</a>
+      <a href="/kontakt/" class="pill-btn pill-btn-outline">Beratung anfragen</a>
+    </div>
+  </section>
+
+  <AiSummary title={summaryTitle} intro={summaryIntro} facts={facts} />
+
+  <section class="container" style="padding-top: 72px; padding-bottom: 88px;">
+    <div class="sub-display margin-bottom-md">Preise & Dauer</div>
+    <div class="pricing-grid">
+      {priceItems.map((item, index) => (
+        <div class:list={['pricing-card', index === 0 && 'pricing-card-accent']}>
+          <div class="pricing-label">{item.label}</div>
+          <div class="pricing-price">{item.price}</div>
+          <div class="pricing-duration">{item.duration}</div>
+          <p style="max-width: none; text-align: center;">{item.note}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container" style="padding-bottom: 88px;">
+    <div class="highlights-grid">
+      <div class="highlight-item scroll-anim">
+        <div class="highlight-number">01</div>
+        <h4>Geeignet für</h4>
+        <p>{suitedFor.join(', ')}.</p>
+      </div>
+      <div class="highlight-item scroll-anim">
+        <div class="highlight-number">02</div>
+        <h4>Ablauf</h4>
+        <p>{process.join(' ')}</p>
+      </div>
+      <div class="highlight-item scroll-anim">
+        <div class="highlight-number">03</div>
+        <h4>Realistische Erwartungen</h4>
+        <p>{expectations}</p>
+      </div>
+      <div class="highlight-item scroll-anim">
+        <div class="highlight-number">04</div>
+        <h4>Wichtig vor dem Termin</h4>
+        <p>{contraindications}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container pad-y" id="buchen">
+    <BookingCta
+      treatment={bookingService}
+      href={bookingHref}
+      title={`${serviceType} Termin buchen`}
+      text="Die Buchung läuft vorübergehend über Treatwell. Ihre Behandlungsangabe wird an die Buchung übergeben; Teresa klärt Details und Eignung bei Bedarf persönlich."
+    />
+  </section>
+
+  <section class="container" style="padding-bottom: 15vh;">
+    <div class="more-treatments">
+      <div class="sub-display margin-bottom-lg">Passende nächste Seiten</div>
+      <div class="more-treatments-grid">
+        {related.map((link) => (
+          <TreatmentLinkCard href={link.href} title={link.title} description={link.description} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

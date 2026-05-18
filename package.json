@@ -13,8 +13,12 @@
     "smoke:security": "node scripts/security-smoke.mjs",
     "cf:dev": "wrangler dev",
     "cf:build": "astro build",
-    "cf:deploy": "astro build && wrangler deploy",
-    "cf:tail": "wrangler tail"
+    "cf:deploy": "astro build && wrangler deploy --assets=./dist --old-asset-ttl=0 --keep-vars",
+    "cf:tail": "wrangler tail",
+    "qa:carbon-lp": "node scripts/check-carbon-lp-offer.mjs",
+    "qa:marketing": "node scripts/check-marketing-ads.mjs",
+    "qa:worker": "node scripts/check-worker-api.mjs",
+    "launch:check": "node scripts/check-domain-launch.mjs"
   },
   "dependencies": {
     "@astrojs/partytown": "^2.1.5",

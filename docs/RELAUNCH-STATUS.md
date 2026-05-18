@@ -1,9 +1,10 @@
 # Relaunch Status
 
-Last updated: 2026-04-21
+Last updated: 2026-05-08
 
 ## Done
 
+- 2026-05-08 homepage/treatment polish is documented in `docs/DELIVERY-2026-05-08.md`: mobile homepage hero cleanup, revised homepage H1/subheadline, shared treatment CTA wording, Exosome/vergleich callout refinements, responsive process-card layout updates, shared favicon/app-icon handling, and Cloudflare deploy hardening.
 - Moved the main homepage and treatment marketing images into Astro's image pipeline and replaced the large raw-image paths where they were hurting LCP and bandwidth.
 - Corrected image priority behavior:
   - homepage now preloads the real hero LCP image
@@ -18,7 +19,7 @@ Last updated: 2026-04-21
 - Updated env examples and policy copy so the new contact flow is documented in the repo.
 - Removed the treatment-page marquee from all four treatment detail pages and fixed the shared treatment hero overlay/first-paint behavior in layout and CSS instead of page-level hacks.
 - Added a shared treatment-page body hook and verified treatment-page hero contrast and breadcrumb spacing in the shared templates.
-- Removed Treatwell as a first-party booking / identity destination and reduced remaining references to lightweight social-proof copy only.
+- Restored Treatwell as the temporary public booking destination through the owned `/termin/` attribution bridge, so ad click IDs and treatment intent are tracked before forwarding.
 
 ## Verified
 
@@ -39,3 +40,4 @@ Last updated: 2026-04-21
 - Replace any interim treatment/editorial imagery with stronger final source photography from the `docs/IMAGES.md` brief where better originals become available.
 - Upgrade the rate limit from in-memory per Worker instance to a shared store if abuse becomes a practical issue.
 - Do a short post-deploy visual pass on real mobile devices for the updated nav overlay, treatment heroes, and contact funnel.
+- Configure Meta/GA4/GTM account IDs, redeploy with the public Pixel/GTM values, and verify PageView plus Treatwell outbound events before starting paid spend.

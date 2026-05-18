@@ -1,6 +1,16 @@
-# TODO — beautyfacelift.ch
+# TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** March 19, 2026
+**Last updated:** May 18, 2026
+
+## Completed (May 7, 2026 — Custom-domain launch)
+- [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS
+- [x] Switch all-inkl nameservers to Cloudflare (`ezra.ns.cloudflare.com`, `ryleigh.ns.cloudflare.com`)
+- [x] Preserve all-inkl MX/SPF/DKIM/DMARC records in Cloudflare
+- [x] Remove new-domain all-inkl website records from Cloudflare DNS
+- [x] Deploy Worker custom domains for apex and `www`
+- [x] Confirm `www.beautyfacelift-zuerich.ch` redirects to the apex with path/query preserved
+- [x] Confirm `workers_dev=false`; temporary workers.dev host returned 404
+- [x] Confirm sitemap and robots use `https://beautyfacelift-zuerich.ch`
 
 ## ✅ Completed (March 19, 2026 — Pixel-Perfect Design Implementation)
 - [x] Implement pixel-perfect design from .pen design file across all 24 pages
@@ -23,16 +33,15 @@
 - [x] Expand about page with E-E-A-T credentials
 - [x] Expand treatment overview with breadcrumbs, guidance, FAQ
 - [x] Add llms.txt + llms-full.txt for AI platform discoverability
-- [x] Add robots.txt with 10 AI crawler allowances
+- [x] Add robots.txt with AI crawler rules; Cloudflare Managed Content Signals should be reviewed separately if AI crawler access is intended
 - [x] Improve sitemap (priority-weighted, filtered)
 - [x] Add geo meta tags, max-image-preview, OG image dimensions
 - [x] Add image width/height to all img tags
-- [x] Rich Schema.org: AggregateRating, AggregateOffer, reviews, Article, Person
-- [x] Fix canonical URLs to resolve against beautyfacelift.ch
+- [x] Schema.org coverage for BeautySalon, WebSite, Service, FAQPage, Article, Person, BreadcrumbList, and ItemList; unverified rating/review/price-rich-result claims removed from production SEO metadata
+- [x] Fix canonical URLs to resolve against beautyfacelift-zuerich.ch
 - [x] Add blog CSS and infrastructure
 
 ## Priority 1: Go Live (blocking everything else)
-- [ ] Connect custom domain `beautyfacelift.ch` in Cloudflare DNS
 - [ ] Verify domain in Google Search Console + submit sitemap
 - [ ] Claim/verify Google Business Profile (Bahnhofstrasse 94, 8001 Zürich)
 - [ ] Replace weak/test admin password with a strong unique password
@@ -42,13 +51,14 @@
 ## Priority 2: Tracking & Analytics (before running ads)
 - [ ] Create GTM container + set PUBLIC_GTM_ID in Cloudflare
 - [ ] Create GA4 property + set GA4_MEASUREMENT_ID and GA4_API_SECRET
-- [ ] Create Meta Pixel + set META_PIXEL_ID and META_ACCESS_TOKEN
+- [ ] Create Meta Pixel + set PUBLIC_META_PIXEL_ID, META_PIXEL_ID, and META_ACCESS_TOKEN
 - [ ] Verify conversion tracking (GA4 DebugView + Meta Test Events)
+- [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools
 
 ## Priority 3: Email & Notifications
 - [ ] Set up Resend account + RESEND_API_KEY
-- [ ] Deploy Supabase Edge Function: `supabase functions deploy notify-booking`
+- [ ] Deploy or verify Supabase Edge Function: `supabase functions deploy notify-booking`
 - [ ] Test full booking flow with real email notification
 
 ## Priority 4: Stripe Deposits
@@ -59,7 +69,7 @@
 
 ## Priority 5: Backlinks & Off-Page SEO
 - [ ] Submit to local.ch, search.ch, Swiss Yellow Pages
-- [ ] Ensure Treatwell profile links to beautyfacelift.ch
+- [ ] Ensure Treatwell profile links to beautyfacelift-zuerich.ch
 - [ ] Submit to Zürich business directories
 - [ ] Google Merchant Center — add services with pricing
 - [ ] Request backlinks from beauty/wellness bloggers
@@ -68,10 +78,10 @@
 - [ ] Write 2 blog articles per month targeting long-tail keywords:
   - "Gesichtsbehandlung Zürich Erfahrung"
   - "Hydrafacial Kosten Schweiz"
-  - "Microneedling Aknenarben vorher nachher"
-  - "Beste Kosmetikerin Zürich"
+  - "Microneedling Aknenarben Zürich"
+  - "Kosmetikerin Zürich Bahnhofstrasse"
   - "ColdPlasma Behandlung Erfahrung"
-- [ ] Add Google reviews widget / more testimonials
+- [ ] Add verified reviews/testimonials only when permission and source are available
 - [ ] Run Lighthouse audit and fix any issues below 95
 
 ## Priority 7: Future Features

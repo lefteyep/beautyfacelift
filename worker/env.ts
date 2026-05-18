@@ -15,5 +15,6 @@ export interface Env {
   CONTACT_TO_EMAIL?: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_ALLOWED_HOSTS?: string;
+  ENABLE_LEGACY_BOOKING?: string;
   ENVIRONMENT?: string;
 }

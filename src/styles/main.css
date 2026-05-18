@@ -274,7 +274,7 @@ body {
   letter-spacing: var(--tracking-nav);
   border-radius: var(--radius-pill);
   background: var(--gold);
-  color: var(--ink);
+  color: #ffffff;
   border: none;
   cursor: pointer;
   transition: background 0.3s var(--ease-expo), transform 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo);
@@ -288,7 +288,7 @@ body {
   background: var(--gold-deep);
   transform: translateY(-1px);
   box-shadow: var(--shadow-2);
-  color: #fff;
+  color: #ffffff;
 }
 
 .pill-btn-lg {
