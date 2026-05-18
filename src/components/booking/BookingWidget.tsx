@@ -148,7 +148,7 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
       if (filtered.length === 1) {
         setSelectedService(filtered[0]);
         setStep(2);
-        loadAvailability(getCurrentMonth());
+        loadAvailability(getCurrentMonth(), filtered[0].id);
       }
     }
   }, [loadingServices, preselectedCategory, services]);
@@ -158,10 +158,13 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   }
 
-  const loadAvailability = useCallback((month: string) => {
+  const loadAvailability = useCallback((month: string, serviceId?: string) => {
     setLoadingDates(true);
     setDatesError(null);
-    fetch(`/api/availability?month=${month}`)
+    const params = new URLSearchParams({ month });
+    if (serviceId) params.set('service_id', serviceId);
+
+    fetch(`/api/availability?${params.toString()}`)
       .then(r => {
         if (!r.ok) throw new Error('availability failed');
         return r.json();
@@ -198,8 +201,11 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
 
   function handleServiceSelect(service: Service) {
     setSelectedService(service);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setSlots([]);
     setStep(2);
-    loadAvailability(getCurrentMonth());
+    loadAvailability(getCurrentMonth(), service.id);
   }
 
   function handleDateSelect(date: string) {
@@ -323,7 +329,7 @@ function BookingWidgetInner({ preselectedCategory }: Props) {
             availableDates={availableDates}
             selectedDate={selectedDate}
             onSelect={handleDateSelect}
-            onMonthChange={loadAvailability}
+            onMonthChange={(month) => loadAvailability(month, selectedService?.id)}
             loading={loadingDates}
             error={datesError}
           />

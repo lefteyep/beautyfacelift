@@ -10,8 +10,29 @@ import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site'
 
 const router = Router();
 const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-10-carbon-glowup-169';
+const CSP_REPORT_ONLY = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data:",
+  "style-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
+  "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.facebook.com https://graph.facebook.com",
+  "frame-src 'self' https://challenges.cloudflare.com",
+].join('; ');
 
 router.get('/api/services', (req: Request, env: Env) => servicesRoute(req, env));
+router.head('/api/services', async (req: Request, env: Env) => {
+  const response = await servicesRoute(req, env);
+  return new Response(null, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+});
 router.get('/api/availability', (req: Request, env: Env) => availabilityRoute(req, env));
 router.get('/api/slots', (req: Request, env: Env) => slotsRoute(req, env));
 router.post('/api/bookings', (req: Request, env: Env) => bookingsRoute(req, env));
@@ -48,6 +69,8 @@ function withSecurityHeaders(response: Response, request: Request): Response {
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   headers.set('X-Frame-Options', 'DENY');
+  headers.set('Strict-Transport-Security', 'max-age=31536000');
+  headers.set('Content-Security-Policy-Report-Only', CSP_REPORT_ONLY);
 
   if (isDocumentAssetRequest(request)) {
     headers.set('Cache-Control', 'no-store');

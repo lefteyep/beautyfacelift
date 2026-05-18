@@ -332,8 +332,8 @@ git commit -m "feat(cf): add wrangler config with ASSETS binding and run_worker_
 Create `.dev.vars.example`:
 ```
 # Copy to .dev.vars for local `wrangler dev`
-PUBLIC_SUPABASE_ANON_KEY=eyJ...
-SUPABASE_SERVICE_ROLE_KEY=eyJ...
+PUBLIC_SUPABASE_ANON_KEY=<anon-jwt>
+SUPABASE_SERVICE_ROLE_KEY=<service-role-jwt>
 META_PIXEL_ID=
 META_ACCESS_TOKEN=
 GA4_MEASUREMENT_ID=

@@ -5,9 +5,7 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_TOPICS,
   CONTACT_TO_EMAIL_FALLBACK,
-  CANONICAL_HOST,
-  TEMP_WORKERS_DEV_HOST,
-  WWW_HOST,
+  TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
@@ -20,6 +18,7 @@ type ContactSubmission = {
   name: string;
   email: string;
   phone: string;
+  preferredContactMethod: string;
   preferredCallbackTime: string;
   topic: string;
   message: string;
@@ -27,6 +26,8 @@ type ContactSubmission = {
   company: string;
   turnstileToken: string;
 };
+
+const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -126,6 +127,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         name: getString(payload.name),
         email: getString(payload.email),
         phone: getString(payload.phone),
+        preferredContactMethod: getString(payload.preferredContactMethod),
         preferredCallbackTime: getString(payload.preferredCallbackTime),
         topic: getString(payload.topic),
         message: getString(payload.message),
@@ -144,6 +146,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       name: getString(formData.get('name')),
       email: getString(formData.get('email')),
       phone: getString(formData.get('phone')),
+      preferredContactMethod: getString(formData.get('preferredContactMethod')),
       preferredCallbackTime: getString(formData.get('preferredCallbackTime')),
       topic: getString(formData.get('topic')),
       message: getString(formData.get('message')),
@@ -160,17 +163,26 @@ function getClientIp(request: Request): string {
     || 'unknown';
 }
 
-function isProductionRequest(request: Request, env: Env): boolean {
-  if (env.ENVIRONMENT === 'production') return true;
+function getTurnstileAllowedHosts(env: Env): string[] {
+  const configuredHosts = env.TURNSTILE_ALLOWED_HOSTS
+    ?.split(',')
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean) ?? [];
 
+  return [...TURNSTILE_ALLOWED_HOSTS, ...configuredHosts];
+}
+
+function isTurnstileRequired(request: Request, env: Env): boolean {
   const hostname = new URL(request.url).hostname.toLowerCase();
-  return hostname === TEMP_WORKERS_DEV_HOST
-    || hostname === CANONICAL_HOST
-    || hostname === WWW_HOST;
+  return getTurnstileAllowedHosts(env).includes(hostname);
 }
 
 function isAllowedTopic(topic: string): boolean {
   return CONTACT_TOPICS.includes(topic as (typeof CONTACT_TOPICS)[number]);
+}
+
+function isAllowedPreferredContactMethod(method: string): boolean {
+  return PREFERRED_CONTACT_METHODS.includes(method as (typeof PREFERRED_CONTACT_METHODS)[number]);
 }
 
 function validateSubmission(data: ContactSubmission): string | null {
@@ -179,6 +191,7 @@ function validateSubmission(data: ContactSubmission): string | null {
   if (!data.email && !data.phone) return 'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.';
   if (data.email && !isValidEmail(data.email)) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
   if (data.phone && !isValidPhone(data.phone)) return 'Bitte geben Sie eine gültige Telefonnummer an.';
+  if (data.preferredContactMethod && !isAllowedPreferredContactMethod(data.preferredContactMethod)) return 'Bitte wählen Sie einen gültigen Kontaktweg aus.';
   if (data.preferredCallbackTime.length > 160) return 'Der gewünschte Rückrufzeitpunkt ist zu lang.';
   if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie ein gültiges Thema aus.';
   if (!data.message) return 'Bitte schreiben Sie eine Nachricht.';
@@ -246,6 +259,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     `Name: ${data.name}`,
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
+    `Bevorzugter Kontaktweg: ${data.preferredContactMethod || 'Nicht angegeben'}`,
     `Bevorzugter Rückrufzeitpunkt: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
     `Thema: ${data.topic}`,
     '',
@@ -265,6 +279,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <tr><td style="padding: 8px 0; font-weight: 600;">Name</td><td style="padding: 8px 0;">${escapeHtml(data.name)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Rückrufzeit</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>
@@ -326,12 +341,12 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  const turnstileRequired = isProductionRequest(request, env);
+  const turnstileRequired = isTurnstileRequired(request, env);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
     return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
   }
 
-  if (turnstileRequired || env.TURNSTILE_SECRET_KEY) {
+  if (turnstileRequired) {
     if (!data.turnstileToken) {
       return respondError('Bitte bestätigen Sie die Sicherheitsprüfung.', 400, expectsHtml);
     }

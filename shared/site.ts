@@ -57,6 +57,12 @@ export const CONTACT_TO_EMAIL_FALLBACK = 'info@beautyfacelift.ch';
 const whatsappMessage = encodeURIComponent('Guten Tag, ich habe eine Frage zu einer Behandlung bei Beauty Face Lift.');
 export const CONTACT_WHATSAPP_URL = `https://wa.me/41792143462?text=${whatsappMessage}`;
 
+export const TURNSTILE_ALLOWED_HOSTS = [
+  CANONICAL_HOST,
+  WWW_HOST,
+  TEMP_WORKERS_DEV_HOST,
+] as const;
+
 export const ADDRESS = {
   street: 'Bahnhofstrasse 94',
   postalCode: '8001',
