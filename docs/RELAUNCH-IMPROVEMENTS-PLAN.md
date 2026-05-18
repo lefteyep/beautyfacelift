@@ -8,7 +8,7 @@ Implement the relaunch fixes for `beautyfacelift-zuerich.ch` without changing th
 2. Better mobile readability and type consistency.
 3. More robust navigation, especially the `Behandlungen` dropdown.
 4. A first-party contact flow with a dedicated `/kontakt/` page and Worker-backed form handling.
-5. Removal of treatment-page regressions and Treatwell as a primary identity/action path.
+5. Removal of treatment-page regressions while preserving the current `/termin/` to Treatwell booking bridge.
 
 ## Implementation Scope
 
@@ -64,10 +64,11 @@ Implement the relaunch fixes for `beautyfacelift-zuerich.ch` without changing th
 - Keep only the intended dark gradient on treatment hero images.
 - Clean up breadcrumb spacing below treatment heroes.
 
-### 6. Treatwell cleanup
+### 6. Treatwell booking bridge
 
-- Remove Treatwell from schema `sameAs` usage and from primary linked action paths.
-- Keep only lightweight social-proof copy where still useful during the transition.
+- Keep public booking CTAs on `/termin/?service=...` or shared booking helpers so UTMs and click IDs can be preserved.
+- Keep `/termin/` noindex and use it as the owned tracking layer before forwarding to Treatwell.
+- Keep Treatwell social proof and booking language accurate while the external booking system is active.
 
 ## Environment Variables
 

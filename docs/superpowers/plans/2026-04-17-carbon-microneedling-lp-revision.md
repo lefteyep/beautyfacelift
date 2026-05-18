@@ -15,7 +15,7 @@ The Meta-campaign landing page at `astro-v2/src/pages/lp/carbon-microneedling/` 
 - **Conversion scaffolding is thin**: no in-hero trust strip (rating, review count, address, years of practice), no value-breakdown of what's in the CHF 160, no risk-reversal messaging, no mobile sticky offer bar. Testimonials are buried mid-page.
 - **Emoji icons (💧✨🌿🧬🎯🚀)** undermine the premium/medical brand feel and render inconsistently across OS/browsers.
 
-**Intended outcome:** a visually coherent, conversion-dense LP that matches the editorial craft of the rest of beautyfacelift-zuerich.ch, works well on mobile first-scroll, and preserves the existing BookingWidget + Meta Pixel/CAPI tracking.
+**Intended outcome:** a visually coherent, conversion-dense LP that matches the editorial craft of the rest of beautyfacelift-zuerich.ch, works well on mobile first-scroll, and preserves the current Meta Pixel/CAPI tracking plus `/termin/` to Treatwell forwarding bridge.
 
 ---
 
@@ -31,7 +31,7 @@ The Meta-campaign landing page at `astro-v2/src/pages/lp/carbon-microneedling/` 
 
 **No fake scarcity.** Static "3 Plätze diese Woche" text on a premium medical-adjacent brand reads as theatre. Keep the soft "Einführungsangebot · nur für Neukundinnen" framing; do not invent live inventory.
 
-**Preserve tracking & BookingWidget.** Keep the `#buchen` anchor, the `preselectedCategory="Carbon Microneedling"` prop on `<BookingWidget client:load />`, and the `window.__bflTrackLead` hook. Any regression here silently breaks Meta CAPI lead events.
+**Preserve tracking and the Treatwell bridge.** Keep booking CTAs on `/termin/?service=...&offer=...&price=...`, keep the `#buchen` anchor as the LP booking section, and keep shared `initPpcTracking()` active through `LandingPage.astro`. Any regression here silently breaks Meta/CAPI proxy conversion events.
 
 ---
 
@@ -124,9 +124,9 @@ The plan is split into three executable phases so the user can ship incrementall
 - `astro-v2/src/components/lp/StickyOfferBar.astro` — mobile-only sticky bottom bar
 
 **Do not touch:**
-- `astro-v2/src/components/booking/**` — any regression breaks Meta CAPI lead tracking
-- `astro-v2/src/lib/track.ts` — same reason
-- `astro-v2/src/layouts/LandingPage.astro` — UTM/Pixel bootstrap is already correct
+- `astro-v2/src/components/booking/**` — legacy first-party booking code, not the active public Treatwell path
+- `astro-v2/src/lib/track.ts` — owns PageView, Treatwell outbound, contact, and high-intent tracking
+- `astro-v2/src/layouts/LandingPage.astro` — UTM/Pixel/GTM bootstrap and PPC tracking initialization
 - The `structuredData` JSON-LD (schema is accurate)
 - The `#buchen` anchor id
 
@@ -163,9 +163,9 @@ npm run dev
 
 ### Regression / tracking sanity
 - [x] `npm run build` succeeds and produces the 25-page static dist
-- [ ] `#buchen` anchor still scrolls to BookingWidget from hero CTA
-- [ ] BookingWidget auto-advances past treatment selection (`preselectedCategory="Carbon Microneedling"` still passed)
-- [ ] `window.__bflTrackLead` still exposed on page — `trackPageView()` and `trackLead` wiring untouched
+- [ ] `#buchen` anchor still scrolls to the Treatwell booking CTA section from hero CTA
+- [ ] Booking CTA href preserves `service=Carbon+Microneedling`, `offer=glow-up-aktion`, and `price=169`
+- [ ] `LandingPage.astro` still initializes `initPpcTracking()`
 - [ ] WhatsApp deep-link contains the prefilled German message
 - [ ] View-source: `noindex, nofollow` meta still present
 - [ ] No console errors on load

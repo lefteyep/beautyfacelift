@@ -30,11 +30,11 @@ The current release branch is larger than a single layout hotfix. It includes th
 
 The branch contains these unpublished commits relative to `origin/master`:
 
-- `Route booking flow to Aesthetika`
+- `Route booking flow through /termin/ to Treatwell`
 - `Add Exosome Therapie treatment page`
 - `Launch beautyfacelift-zuerich custom domain`
 
-Those commits cover the Aesthetika booking direction, the Exosome treatment page, canonical production-domain configuration, Workers routing, SEO/AIO metadata, and launch documentation.
+Those commits cover the temporary Treatwell booking bridge, the Exosome treatment page, canonical production-domain configuration, Workers routing, SEO/AIO metadata, and launch documentation.
 
 ### May 8 Page And Layout Updates
 
@@ -147,7 +147,7 @@ Routes:
 Post-deploy smoke checks:
 
 - `https://beautyfacelift-zuerich.ch/` returned `200` and contains the new homepage headline and subheadline.
-- `https://beautyfacelift-zuerich.ch/termin/` returned `200` and contains the Aesthetika booking copy.
+- `https://beautyfacelift-zuerich.ch/termin/` returned `200` and contains the Treatwell forwarding copy.
 - `https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/` returned `200` and contains `Behandlung planen` plus `Frage per WhatsApp`.
 - `https://www.beautyfacelift-zuerich.ch/` returned `200` and contains the new homepage headline.
 - `HEAD https://beautyfacelift-zuerich.ch/favicon-32x32.png` returned `200`.
