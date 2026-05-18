@@ -1,10 +1,10 @@
 # Cloudflare Pages → Workers Migration
 
-Status as of 2026-05-07: historical runtime migration notes only. This is not the launch runbook for `beautyfacelift-zuerich.ch`; use [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+Status as of 2026-05-07: historical runtime migration notes only. This is not the launch runbook for `beautyfacelift-zuerich.ch`; use [DOMAIN-LAUNCH.md](../../current/DOMAIN-LAUNCH.md). Do not configure or redirect `beautyfacelift.ch` from this project.
 
 **Date:** 2026-04-15
 **Branch:** `cf-workers-migration`
-**Plan:** [docs/superpowers/plans/2026-04-15-cloudflare-workers-migration.md](superpowers/plans/2026-04-15-cloudflare-workers-migration.md)
+**Plan:** [2026-04-15-cloudflare-workers-migration.md](../plans/2026-04-15-cloudflare-workers-migration.md)
 **Cutover runbook (step-by-step commands):** [docs/CUTOVER-RUNBOOK.md](CUTOVER-RUNBOOK.md)
 
 ---
@@ -158,4 +158,4 @@ The Pages project was deleted at cutover, so the "flip DNS back to Pages" path n
 ## Post-Migration TODOs
 
 1. **Rotate Supabase service_role key** — the current value was pasted into a chat during cutover. Rotate in Supabase dashboard → Settings → API Keys, then `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` with the new value.
-2. **Connect custom domain `beautyfacelift-zuerich.ch`** — done 2026-05-07. See [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md) for DNS, Worker version, and verification results.
+2. **Connect custom domain `beautyfacelift-zuerich.ch`** — done 2026-05-07. See [DOMAIN-LAUNCH.md](../../current/DOMAIN-LAUNCH.md) for DNS, Worker version, and verification results.

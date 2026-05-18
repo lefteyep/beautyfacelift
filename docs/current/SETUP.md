@@ -89,4 +89,4 @@ Optional integrations:
 
 ## Manual Launch
 
-Use `docs/domain-launch-beautyfacelift-zuerich.md` for the completed all-inkl nameserver setup, Cloudflare Custom Domain setup, Search Console, Google Business Profile, analytics, and curl verification record.
+Use `docs/current/DOMAIN-LAUNCH.md` for the completed all-inkl nameserver setup, Cloudflare Custom Domain setup, Search Console, Google Business Profile, analytics, and curl verification record.

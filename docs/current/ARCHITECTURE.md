@@ -78,6 +78,7 @@ RLS policies:
 
 ### React Islands (JS loaded on demand)
 - BookingWidget — legacy first-party booking flow retained but not used as the public booking path while Treatwell is active
+- `src/components/booking/**` is legacy first-party booking UI. It remains in the repo for a possible future direct-booking return, but it is not the active public conversion path while Treatwell is active.
 - AdminDashboard — tab-based admin panel (client:load)
 
 ### Cloudflare Worker Routes

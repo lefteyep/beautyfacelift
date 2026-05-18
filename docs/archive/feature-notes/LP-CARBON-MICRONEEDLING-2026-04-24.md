@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-24
 **Scope:** `/lp/carbon-microneedling/` only — other LPs (hydrafacial, microneedling, peeling) untouched.
-**Related:** [HERO-THIRD-CARD-2026-04-24.md](HERO-THIRD-CARD-2026-04-24.md) — parallel homepage hero update using the same Teresa Carbon image.
+**Related:** [HERO-THIRD-CARD-2026-04-24.md](../design-notes/HERO-THIRD-CARD-2026-04-24.md) — parallel homepage hero update using the same Teresa Carbon image.
 
 ## What changed
 

@@ -182,8 +182,8 @@ scripts/check-carbon-lp-offer.mjs
 Related tracking documentation:
 
 ```text
-docs/PPC-TRACKING-SETUP-2026-05-08.md
-docs/superpowers/plans/2026-05-08-ppc-treatwell-tracking.md
+docs/current/PPC-TRACKING.md
+docs/archive/plans/2026-05-08-ppc-treatwell-tracking.md
 ```
 
 ## Regression Check

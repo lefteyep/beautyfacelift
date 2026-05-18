@@ -1,6 +1,6 @@
 # Cloudflare Pages → Workers Migration Plan
 
-Status as of 2026-05-07: historical migration plan only. Do not use this file for the `beautyfacelift-zuerich.ch` production domain launch; the launch is documented in `docs/domain-launch-beautyfacelift-zuerich.md`. Do not configure, redirect, or migrate `beautyfacelift.ch` from this project.
+Status as of 2026-05-07: historical migration plan only. Do not use this file for the `beautyfacelift-zuerich.ch` production domain launch; the launch is documented in `docs/current/DOMAIN-LAUNCH.md`. Do not configure, redirect, or migrate `beautyfacelift.ch` from this project.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -611,7 +611,7 @@ In `wrangler.jsonc`, add (if/when the custom domain is connected):
 
 Re-deploy: `npm run cf:deploy`.
 
-Post-launch note: this historical step was completed on 2026-05-07 using Wrangler custom-domain routes in `wrangler.jsonc` with `custom_domain: true`, plus `workers_dev=false`. See `docs/domain-launch-beautyfacelift-zuerich.md` for the actual deployed configuration and verification results.
+Post-launch note: this historical step was completed on 2026-05-07 using Wrangler custom-domain routes in `wrangler.jsonc` with `custom_domain: true`, plus `workers_dev=false`. See `docs/current/DOMAIN-LAUNCH.md` for the actual deployed configuration and verification results.
 
 - [ ] **Step 2: Disable auto-deploy on the Pages project**
 

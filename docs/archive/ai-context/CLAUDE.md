@@ -160,12 +160,12 @@ Single responsive breakpoint: `@media (max-width: 900px)`
 ## Current Status (April 15, 2026 — migrated to Cloudflare Workers)
 
 ### Session references
-- **[docs/PENDING-WORK.md](docs/PENDING-WORK.md)** — canonical list of what's left, blockers, and priorities.
-- **[docs/LAYOUT-SYSTEM.md](docs/LAYOUT-SYSTEM.md)** — sitewide 1920 full-bleed / 1240 content-cap layout + hero typography refinement (2026-04-20).
-- **[docs/HERO-LAYOUT-REVISION.md](docs/HERO-LAYOUT-REVISION.md)** — earlier two-column hero rework (2026-04-20).
-- **[docs/IMAGES.md](docs/IMAGES.md)** — image brief with AI generation prompts for each placeholder image.
-- **[docs/MIGRATION.md](docs/MIGRATION.md)** — Cloudflare Pages → Workers migration context.
-- **[docs/CUTOVER-RUNBOOK.md](docs/CUTOVER-RUNBOOK.md)** — historical cutover runbook (executed 2026-04-15).
+- **[PENDING-WORK.md](../feature-notes/PENDING-WORK.md)** — historical list of post-launch blockers and priorities.
+- **[LAYOUT-SYSTEM.md](../design-notes/LAYOUT-SYSTEM.md)** — sitewide 1920 full-bleed / 1240 content-cap layout + hero typography refinement (2026-04-20).
+- **[HERO-LAYOUT-REVISION.md](../design-notes/HERO-LAYOUT-REVISION.md)** — earlier two-column hero rework (2026-04-20).
+- **[IMAGES.md](../design-notes/IMAGES.md)** — image brief with AI generation prompts for each placeholder image.
+- **[MIGRATION.md](../migration/MIGRATION.md)** — Cloudflare Pages → Workers migration context.
+- **[CUTOVER-RUNBOOK.md](../migration/CUTOVER-RUNBOOK.md)** — historical cutover runbook (executed 2026-04-15).
 
 ### Migrated 2026-04-15 — Cloudflare Pages → Workers (tag: `v2.0.0-workers`)
 - Live at https://beautyfacelift.mediapaulo.workers.dev (CI auto-deploys on push to master).

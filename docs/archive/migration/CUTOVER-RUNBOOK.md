@@ -1,6 +1,6 @@
 # Workers Cutover Runbook
 
-Status as of 2026-05-07: historical Pages-to-Workers runbook. Do not use this document for the completed `beautyfacelift-zuerich.ch` production domain launch. Use [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md) instead, and do not configure `beautyfacelift.ch`.
+Status as of 2026-05-07: historical Pages-to-Workers runbook. Do not use this document for the completed `beautyfacelift-zuerich.ch` production domain launch. Use [DOMAIN-LAUNCH.md](../../current/DOMAIN-LAUNCH.md) instead, and do not configure `beautyfacelift.ch`.
 
 **Purpose:** Step-by-step commands to execute Tasks 10, 11, and 13 of the migration plan. Follow in order. Each step has a verify check.
 

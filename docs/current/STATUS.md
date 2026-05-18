@@ -1,10 +1,12 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** May 8, 2026 (SEO service hub release)
+**Last updated:** May 18, 2026
 
-Current production launch record and verification commands are in [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
-Latest release notes: [RELEASE-2026-05-08-live-update.md](RELEASE-2026-05-08-live-update.md) and [SEO-SERVICE-HUBS-2026-05-08.md](SEO-SERVICE-HUBS-2026-05-08.md). Delivery details are in [DELIVERY-2026-05-08.md](DELIVERY-2026-05-08.md).
+Current production launch record and verification commands are in [DOMAIN-LAUNCH.md](DOMAIN-LAUNCH.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+
+Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RELEASE-2026-05-08-live-update.md) and [SEO-SERVICE-HUBS-2026-05-08.md](../archive/releases/SEO-SERVICE-HUBS-2026-05-08.md). Delivery details are in [DELIVERY-2026-05-08.md](../archive/releases/DELIVERY-2026-05-08.md).
 
 ## Deployment
 
