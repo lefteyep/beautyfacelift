@@ -34,6 +34,10 @@ npx wrangler deploy --dry-run
 
 `npm run cf:deploy` builds and deploys to Cloudflare with `wrangler deploy --keep-vars`. Do not run a production deploy unless the current branch and release process are approved.
 
+## Documentation
+
+Start with [docs/README.md](docs/README.md). Current operating docs live in `docs/current/`; historical release notes and old implementation records live in `docs/archive/`.
+
 ## Domain Launch
 
 Production Workers custom domains are configured in `wrangler.jsonc`:
@@ -45,7 +49,7 @@ Production Workers custom domains are configured in `wrangler.jsonc`:
 
 The custom-domain launch was completed on 2026-05-07. The deployed Worker version recorded for that launch is `f376e963-48cf-4708-9130-650ed6e48b4b`.
 
-The full DNS, all-inkl, Cloudflare, Search Console, and verification record lives in `docs/domain-launch-beautyfacelift-zuerich.md`.
+The full DNS, all-inkl, Cloudflare, Search Console, and verification record lives in `docs/current/DOMAIN-LAUNCH.md`.
 
 ## SEO Outputs
 

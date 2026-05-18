@@ -5,7 +5,8 @@
 - `master` is the live deploy branch. Pushing to `master` triggers Cloudflare deployment through `.github/workflows/deploy.yml`.
 - Do not edit directly on `master`.
 - Do not run `npm run cf:deploy`, `wrangler deploy`, or push to `master` without explicit user approval.
-- The live Worker URL is `https://beautyfacelift.mediapaulo.workers.dev/`.
+- The live production URL is `https://beautyfacelift-zuerich.ch`.
+- The temporary workers.dev hostname is not canonical and should remain disabled or redirected by production config.
 - The GitHub remote must be `https://github.com/lefteyep/beautyfacelift.git`.
 
 ## Required Start Check

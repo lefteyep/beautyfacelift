@@ -12,12 +12,12 @@ Do not configure, redirect, or migrate `beautyfacelift.ch`; it remains separate.
 
 - **Real Teresa portrait sitewide** — replaced the `consultationTrust` stock placeholder with the real `teresa_portrait.jpg` on the homepage about-section, `ueber-uns` hero/og-image/schema.org founder image, and the Carbon Microneedling LP "Deine Expertin" block. Source PNG (1.7MB) compressed to ~100KB JPEG for both the Astro Image pipeline (`src/assets/marketing/`) and the direct og:image (`public/assets/`). Astro emits WebP variants at build.
 - **Author avatar on blog posts** — added a 96px circular Teresa avatar to the author bio on all five blog articles and the `BlogPost.astro` layout. `.blog-author-bio` switched from flex to CSS grid so the avatar spans the bio rows cleanly without wrapping markup.
-- **Reusable optimisation script** — [`scripts/optimize-teresa.mjs`](../scripts/optimize-teresa.mjs) regenerates both JPEGs from the source PNG via sharp.
+- **Reusable optimisation script** — [`scripts/optimize-teresa.mjs`](../../../scripts/optimize-teresa.mjs) regenerates both JPEGs from the source PNG via sharp.
 
 ## Recently completed (2026-04-20)
 
-- **Sitewide width regression fixed** — removed the leftover `.container` double-wrap from 15 `.about-editorial` + 1 `.faq-section` sections across 7 pages. Every editorial section now centres correctly at 1920px viewport (computed `padding-left: 340px`, was 58px). See [LAYOUT-SYSTEM.md § Follow-up: sitewide container cleanup](LAYOUT-SYSTEM.md#follow-up-sitewide-container-cleanup-2026-04-20).
-- **Behandlungen nav dropdown added** — desktop hover/keyboard reveals 4 treatment links; mobile overlay shows flat indented sub-items. See [LAYOUT-SYSTEM.md § Follow-up: Behandlungen nav dropdown](LAYOUT-SYSTEM.md#follow-up-behandlungen-nav-dropdown-2026-04-20).
+- **Sitewide width regression fixed** — removed the leftover `.container` double-wrap from 15 `.about-editorial` + 1 `.faq-section` sections across 7 pages. Every editorial section now centres correctly at 1920px viewport (computed `padding-left: 340px`, was 58px). See [LAYOUT-SYSTEM.md § Follow-up: sitewide container cleanup](../design-notes/LAYOUT-SYSTEM.md#follow-up-sitewide-container-cleanup-2026-04-20).
+- **Behandlungen nav dropdown added** — desktop hover/keyboard reveals 4 treatment links; mobile overlay shows flat indented sub-items. See [LAYOUT-SYSTEM.md § Follow-up: Behandlungen nav dropdown](../design-notes/LAYOUT-SYSTEM.md#follow-up-behandlungen-nav-dropdown-2026-04-20).
 
 ---
 
@@ -30,7 +30,7 @@ Do not configure, redirect, or migrate `beautyfacelift.ch`; it remains separate.
 - all-inkl mail records were preserved in Cloudflare DNS; all-inkl website records for the new domain were removed from Cloudflare DNS so the Worker owns website traffic.
 - Deployed Worker version recorded in the launch log: `f376e963-48cf-4708-9130-650ed6e48b4b`.
 
-Full launch log and verification commands: [domain-launch-beautyfacelift-zuerich.md](domain-launch-beautyfacelift-zuerich.md).
+Full launch log and verification commands: [DOMAIN-LAUNCH.md](../../current/DOMAIN-LAUNCH.md).
 
 ## Critical production hardening still required
 
@@ -66,7 +66,7 @@ Estimated effort: 2-3 hours of implementation once keys are in hand.
 
 **Status:** Teresa's portrait is now the real photo sitewide (2026-04-24). Studio interior and treatment cards remain generic stock with misleading alt text.
 
-See [docs/IMAGES.md](IMAGES.md) for the full image brief — exact paths, dimensions, alt text context, and AI generation prompts for each.
+See [IMAGES.md](../design-notes/IMAGES.md) for the full image brief — exact paths, dimensions, alt text context, and AI generation prompts for each.
 
 **Important:** Teresa's portrait (`teresa_portrait.jpg`) must be a real photo — never AI-generate a founder headshot. Everything else can be AI-generated as a stopgap.
 

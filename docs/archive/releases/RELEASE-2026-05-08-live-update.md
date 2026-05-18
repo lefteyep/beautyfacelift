@@ -60,11 +60,11 @@ The important visual decision from this session:
 ## Files In The May 8 Working Tree Delta
 
 ```text
-docs/DELIVERY-2026-05-08.md
-docs/RELAUNCH-STATUS.md
-docs/RELEASE-2026-05-08-live-update.md
-docs/STATUS.md
-docs/TREATMENT-CTA-UPDATE-2026-05-08.md
+docs/archive/releases/DELIVERY-2026-05-08.md
+docs/archive/feature-notes/RELAUNCH-STATUS.md
+docs/archive/releases/RELEASE-2026-05-08-live-update.md
+docs/current/STATUS.md
+docs/archive/feature-notes/TREATMENT-CTA-UPDATE-2026-05-08.md
 public/android-chrome-192x192.png
 public/android-chrome-512x512.png
 public/apple-touch-icon.png

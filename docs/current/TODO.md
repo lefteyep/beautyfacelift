@@ -44,7 +44,9 @@
 ## Priority 1: Go Live (blocking everything else)
 - [ ] Verify domain in Google Search Console + submit sitemap
 - [ ] Claim/verify Google Business Profile (Bahnhofstrasse 94, 8001 Zürich)
-- [ ] Replace weak/test admin password with a strong unique password
+- [ ] Rotate the Supabase `service_role` key if any previous chat, local file, or deployment log exposed it.
+- [ ] Replace weak/test admin credentials before exposing production customer data.
+- [ ] Verify `/api/services` on production returns 200 or intentionally document why it may return 500 while Treatwell is active.
 - [ ] Replace placeholder images with real Teresa/studio photos
 - [ ] Get real treatment prices from Teresa and update pages + Supabase
 
@@ -89,4 +91,6 @@
 - [ ] Customer reminder emails (24h before appointment)
 - [ ] Multi-language support (English version)
 - [ ] Booking calendar widget on homepage
+- [ ] Decide whether to delete `src/api_backup/**` after confirming git history is sufficient as the archive.
+- [ ] Decide whether to keep, remove, or revive the legacy first-party BookingWidget after Treatwell/confirmed-booking tracking is settled.
 - [x] ~~Design elevation: Phases 2-7~~ — Replaced by pixel-perfect .pen design implementation (March 19, 2026)

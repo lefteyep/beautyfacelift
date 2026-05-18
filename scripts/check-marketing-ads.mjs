@@ -130,12 +130,12 @@ expectIncludes(
 );
 
 const docsToCheck = [
-  'docs/ARCHITECTURE.md',
-  'docs/RELAUNCH-IMPROVEMENTS-PLAN.md',
-  'docs/RELAUNCH-STATUS.md',
-  'docs/RELEASE-2026-05-08-live-update.md',
-  'docs/STATUS.md',
-  'docs/superpowers/plans/2026-04-17-carbon-microneedling-lp-revision.md',
+  'docs/current/ARCHITECTURE.md',
+  'docs/archive/feature-notes/RELAUNCH-IMPROVEMENTS-PLAN.md',
+  'docs/archive/feature-notes/RELAUNCH-STATUS.md',
+  'docs/archive/releases/RELEASE-2026-05-08-live-update.md',
+  'docs/current/STATUS.md',
+  'docs/archive/plans/2026-04-17-carbon-microneedling-lp-revision.md',
 ];
 
 const staleClaims = [
@@ -160,7 +160,7 @@ for (const doc of docsToCheck) {
 }
 
 expectIncludes(
-  'docs/PPC-TRACKING-SETUP-2026-05-08.md',
+  'docs/current/PPC-TRACKING.md',
   'optimize for `BFL - Treatwell Outbound Click`',
   'PPC docs must keep the proxy-conversion optimization guidance.',
 );
