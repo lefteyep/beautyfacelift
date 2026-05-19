@@ -79,11 +79,11 @@ For sections that intentionally span full viewport width from inside a capped co
 
 | File | Change |
 |------|--------|
-| [src/styles/main.css](../src/styles/main.css) | Added `--content-px` token. Removed `body { max-width: 1920px }` (was clipping content on ultra-wide). Updated `.full-bleed` to use viewport-based formula. Removed default `transform: translateY(110%)` on `.text-reveal` (was leaving text stuck hidden when GSAP ticker stalled). |
-| [src/styles/components.css](../src/styles/components.css) | 9 section rules switched from `max(58px, calc((100% - 1240px) / 2))` to `var(--content-px)`: `.services-section`, `.treatment-hero`, `.about-editorial`, `.testimonials-section`, `.rating-line`, `.trust-strip`, `.footer-editorial`, `.faq-section`. Nav transition narrowed. |
-| [src/layouts/Base.astro](../src/layouts/Base.astro) | Inlined critical layout CSS in `<head>`. Replaced hero "slide-up reveal" GSAP with a simple fade-in using `.from()` + `immediateRender: false` (so text stays visible if ticker stalls). |
-| [src/pages/index.astro](../src/pages/index.astro) | Removed the obsolete `container` wrapper from `.about-editorial`. **Merged the two display-line divs into a single `<h1 class="hero-display">`** so the visible headline is the actual H1 element (was previously `sr-only`). |
-| [src/pages/termin/index.astro](../src/pages/termin/index.astro) | Replaced `padding: 0 200px 80px` with `padding: 0 var(--content-px) 80px`. |
+| [src/styles/main.css](../../../src/styles/main.css) | Added `--content-px` token. Removed `body { max-width: 1920px }` (was clipping content on ultra-wide). Updated `.full-bleed` to use viewport-based formula. Removed default `transform: translateY(110%)` on `.text-reveal` (was leaving text stuck hidden when GSAP ticker stalled). |
+| [src/styles/components.css](../../../src/styles/components.css) | 9 section rules switched from `max(58px, calc((100% - 1240px) / 2))` to `var(--content-px)`: `.services-section`, `.treatment-hero`, `.about-editorial`, `.testimonials-section`, `.rating-line`, `.trust-strip`, `.footer-editorial`, `.faq-section`. Nav transition narrowed. |
+| [src/layouts/Base.astro](../../../src/layouts/Base.astro) | Inlined critical layout CSS in `<head>`. Replaced hero "slide-up reveal" GSAP with a simple fade-in using `.from()` + `immediateRender: false` (so text stays visible if ticker stalls). |
+| [src/pages/index.astro](../../../src/pages/index.astro) | Removed the obsolete `container` wrapper from `.about-editorial`. **Merged the two display-line divs into a single `<h1 class="hero-display">`** so the visible headline is the actual H1 element (was previously `sr-only`). |
+| [src/pages/termin/index.astro](../../../src/pages/termin/index.astro) | Replaced `padding: 0 200px 80px` with `padding: 0 var(--content-px) 80px`. |
 | 6 treatment pages | Removed hardcoded inline `padding: 80px 320px` on FAQ sections; they inherit `var(--content-px)` from `.faq-section`. |
 
 ## Homepage hero: typography refinement

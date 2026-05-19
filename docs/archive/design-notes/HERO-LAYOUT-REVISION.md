@@ -29,9 +29,9 @@ The homepage hero was restructured from a vertical "content on top + full-width 
 
 | File | Change |
 |------|--------|
-| [src/pages/index.astro](../src/pages/index.astro) | Wrapped content in `.hero-content`, replaced old `.hero-media-container` + `.hero-floating-image` with new `.hero-media` → `.hero-media-main` + `.hero-media-overlap` structure. Added secondary CTA. |
-| [src/styles/components.css](../src/styles/components.css) | Replaced absolute-positioned hero rules with grid layout + overlapping-image CSS. Added `.pill-btn-ghost`. Simplified mobile breakpoint. |
-| [src/layouts/Base.astro](../src/layouts/Base.astro) | **Removed** the GSAP `scrollTrigger` on `#hero-media` (the old "expand to fullscreen on scroll" effect — incompatible with the new static 2-col media container). Float fade-in on `#hero-float-1` kept (still targets `.hero-media-overlap` via the preserved id). |
+| [src/pages/index.astro](../../../src/pages/index.astro) | Wrapped content in `.hero-content`, replaced old `.hero-media-container` + `.hero-floating-image` with new `.hero-media` → `.hero-media-main` + `.hero-media-overlap` structure. Added secondary CTA. |
+| [src/styles/components.css](../../../src/styles/components.css) | Replaced absolute-positioned hero rules with grid layout + overlapping-image CSS. Added `.pill-btn-ghost`. Simplified mobile breakpoint. |
+| [src/layouts/Base.astro](../../../src/layouts/Base.astro) | **Removed** the GSAP `scrollTrigger` on `#hero-media` (the old "expand to fullscreen on scroll" effect — incompatible with the new static 2-col media container). Float fade-in on `#hero-float-1` kept (still targets `.hero-media-overlap` via the preserved id). |
 
 ## Assets
 

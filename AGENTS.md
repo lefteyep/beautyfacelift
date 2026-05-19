@@ -30,18 +30,19 @@ If there are uncommitted changes you did not create, do not overwrite them. Work
 ## Parallel Chat / Agent Rules
 
 - Branches belong to folders, not chats. Two Codex chats using the same folder share the same files and the same current branch.
-- For simultaneous editing, use a separate Git worktree per agent/task.
+- For simultaneous editing, create a temporary sibling Git worktree per agent/task.
 - Each editing agent should have its own folder and its own branch, for example:
 
 ```text
-astro-v2                     -> master, reference only
-astro-v2-worktrees/homepage  -> codex/homepage-fixes
-astro-v2-worktrees/booking   -> codex/booking-fixes
+astro-v2                      -> master, reference only
+../astro-v2-worktrees/homepage -> codex/homepage-fixes
+../astro-v2-worktrees/booking  -> codex/booking-fixes
 ```
 
 - Do not let two agents edit the same files at the same time unless one agent is only reviewing.
 - Use clear ownership: one agent per page, component group, or feature area.
 - Before merging branches, run tests/builds and review the diff.
+- Remove temporary worktrees after their branches are merged or abandoned.
 
 ## Deployment Rule
 
