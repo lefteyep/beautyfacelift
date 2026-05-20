@@ -162,6 +162,16 @@ expectIncludes(
   'PUBLIC_META_PIXEL_ID',
   'GitHub deploy build must receive the public Meta Pixel ID.',
 );
+expectIncludes(
+  'src/layouts/Base.astro',
+  'facebook-domain-verification',
+  'main layout must expose the Meta domain verification tag.',
+);
+expectIncludes(
+  'src/layouts/LandingPage.astro',
+  'facebook-domain-verification',
+  'landing page layout must expose the Meta domain verification tag.',
+);
 
 for (const needle of [
   'booking_button_click',
