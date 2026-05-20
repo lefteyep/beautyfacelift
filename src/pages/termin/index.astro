@@ -118,6 +118,14 @@ const structuredData = {
             return cookie ? decodeURIComponent(cookie.slice(encodedName.length)) : '';
         }
 
+        function hasMarketingConsent() {
+            try {
+                return localStorage.getItem('bfl_marketing_consent') === 'granted';
+            } catch(e) {
+                return false;
+            }
+        }
+
         function clean(payload) {
             var output = {};
             Object.keys(payload).forEach(function(key) {
@@ -162,6 +170,7 @@ const structuredData = {
         }
 
         function trackOutbound() {
+            if (!hasMarketingConsent()) return;
             if (trackedOutbound) return;
             trackedOutbound = true;
 

@@ -1,13 +1,19 @@
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    _fbq?: unknown;
     dataLayer?: Record<string, unknown>[];
     bflTracking?: {
       trackTreatwellOutbound: typeof trackTreatwellOutbound;
       trackBookingButtonClick: typeof trackBookingButtonClick;
       trackContact: typeof trackContact;
     };
+    bflTrackingConfig?: {
+      metaPixelId?: string;
+      gtmId?: string;
+    };
     __bflPpcTrackingInitialized?: boolean;
+    __bflPpcTrackingStarted?: boolean;
   }
 }
 
@@ -112,6 +118,73 @@ const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
 };
 
 let pageViewTracked = false;
+let metaPixelLoaded = false;
+let gtmLoaded = false;
+
+const MARKETING_CONSENT_KEY = 'bfl_marketing_consent';
+
+function hasMarketingConsent(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.localStorage.getItem(MARKETING_CONSENT_KEY) === 'granted';
+  } catch {
+    return false;
+  }
+}
+
+function loadMetaPixel(): void {
+  if (typeof window === 'undefined') return;
+  if (metaPixelLoaded) return;
+  if (!hasMarketingConsent()) return;
+
+  const pixelId = window.bflTrackingConfig?.metaPixelId;
+  if (!pixelId) return;
+  metaPixelLoaded = true;
+
+  /* eslint-disable */
+  !function(f: Window, b: Document, e: string, v: string, n?: any, t?: HTMLScriptElement, s?: Element) {
+    if (f.fbq) return;
+    n = f.fbq = function() {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = true;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e) as HTMLScriptElement;
+    t.async = true;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode?.insertBefore(t, s);
+  }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  /* eslint-enable */
+
+  window.fbq?.('init', pixelId);
+}
+
+function loadGtm(): void {
+  if (typeof window === 'undefined') return;
+  if (gtmLoaded) return;
+  if (!hasMarketingConsent()) return;
+
+  const gtmId = window.bflTrackingConfig?.gtmId;
+  if (!gtmId) return;
+  gtmLoaded = true;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+  const firstScript = document.getElementsByTagName('script')[0];
+  const tag = document.createElement('script');
+  tag.async = true;
+  tag.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
+  firstScript.parentNode?.insertBefore(tag, firstScript);
+}
+
+function loadMarketingLibraries(): void {
+  loadMetaPixel();
+  loadGtm();
+}
 
 function randomId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID();
@@ -241,6 +314,7 @@ function capiEventData(payload: EventPayload): EventPayload {
 
 function pushDataLayer(event: string, payload: EventPayload = {}): void {
   if (typeof window === 'undefined') return;
+  if (!hasMarketingConsent()) return;
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(cleanPayload({ event, ...payload }));
 }
@@ -258,6 +332,7 @@ function sendMetaBrowserEvent(
 function postCapi(body: Record<string, unknown>): void {
   try {
     if (typeof window !== 'undefined' && window.location.protocol !== 'https:') return;
+    if (!hasMarketingConsent()) return;
     fetch('/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -277,6 +352,8 @@ function trackPpcEvent(options: {
   pushToDataLayer?: boolean;
 }): string {
   if (typeof window === 'undefined') return '';
+  if (!hasMarketingConsent()) return '';
+  loadMarketingLibraries();
   const event_id = randomId();
   const eventPayload = cleanPayload({
     ...currentEventContext(),
@@ -307,8 +384,10 @@ function trackPpcEvent(options: {
 
 export function trackPageView(): void {
   if (typeof window === 'undefined') return;
+  if (!hasMarketingConsent()) return;
   if (pageViewTracked) return;
   pageViewTracked = true;
+  loadMarketingLibraries();
   const event_id = randomId();
   pushDataLayer('page_view', { ...currentEventContext(), event_id });
   window.fbq?.('track', 'PageView', cleanPayload(currentEventContext()), { eventID: event_id });
@@ -323,6 +402,8 @@ export function trackPageView(): void {
 
 export async function trackLead(payload: LeadPayload = {}): Promise<void> {
   if (typeof window === 'undefined') return;
+  if (!hasMarketingConsent()) return;
+  loadMarketingLibraries();
   const event_id = randomId();
   const { email, phone, value, currency = 'CHF', source } = payload;
 
@@ -612,17 +693,22 @@ export function initPpcTracking(): void {
     trackContact,
   };
 
-  trackPageView();
-
-  const init = () => {
+  const start = () => {
+    if (!hasMarketingConsent()) return;
+    if (window.__bflPpcTrackingStarted) return;
+    window.__bflPpcTrackingStarted = true;
+    loadMarketingLibraries();
+    trackPageView();
     trackLandingOrTreatmentView();
     initClickTracking();
     initScrollAndTimerTracking();
   };
 
+  window.addEventListener('bfl:marketing-consent-granted', start);
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
+    document.addEventListener('DOMContentLoaded', start, { once: true });
   } else {
-    init();
+    start();
   }
 }

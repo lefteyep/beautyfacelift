@@ -3,6 +3,7 @@ import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
 import HeadIcons from '../components/HeadIcons.astro';
+import MarketingConsent from '../components/MarketingConsent.astro';
 import { absoluteUrl } from '../../shared/site';
 
 interface Props {
@@ -20,9 +21,7 @@ interface Props {
 const { title, description, preloadImage } = Astro.props;
 const canonicalUrl = absoluteUrl(Astro.url.pathname);
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
-const pixelNoscriptHtml = pixelId
-    ? `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${pixelId}&amp;ev=PageView&amp;noscript=1" />`
-    : '';
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
 ---
 
 <!DOCTYPE html>
@@ -47,26 +46,6 @@ const pixelNoscriptHtml = pixelId
             fetchpriority={preloadImage.fetchpriority}
         />
     )}
-    {pixelId && (
-        <script is:inline define:vars={{ pixelId }}>
-            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-            document,'script','https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', pixelId);
-        </script>
-    )}
-    {pixelId && <noscript set:html={pixelNoscriptHtml}></noscript>}
-    {import.meta.env.PUBLIC_GTM_ID && (
-        <script type="text/partytown" set:html={`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${import.meta.env.PUBLIC_GTM_ID}');
-        `} />
-    )}
 </head>
 <body>
     <!-- Minimal Nav: Logo only — static in document flow (scrolls with page) -->
@@ -77,6 +56,13 @@ const pixelNoscriptHtml = pixelId
     </nav>
 
     <slot />
+
+    <footer class="lp-legal-strip" aria-label="Rechtliches">
+        <a href="/impressum/">Impressum</a>
+        <a href="/datenschutz/">Datenschutz</a>
+        <a href="/kontakt/">Kontakt</a>
+    </footer>
+    <MarketingConsent />
 
     <style>
         .nav-minimal--lp {
@@ -100,6 +86,24 @@ const pixelNoscriptHtml = pixelId
             width: auto;
             display: block;
         }
+        .lp-legal-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem 2rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .lp-legal-strip a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .lp-legal-strip a:hover {
+            color: var(--accent-text);
+        }
         @media (max-width: 900px) {
             .nav-minimal--lp {
                 justify-content: center;
@@ -108,8 +112,18 @@ const pixelNoscriptHtml = pixelId
             .nav-minimal-brand img {
                 height: 36px;
             }
+            .lp-legal-strip {
+                padding-bottom: calc(1.5rem + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
+            }
         }
     </style>
+
+    <script is:inline define:vars={{ pixelId, gtmId }}>
+        window.bflTrackingConfig = {
+            metaPixelId: pixelId || '',
+            gtmId: gtmId || ''
+        };
+    </script>
 
     <!-- UTM Persistence -->
     <script is:inline>

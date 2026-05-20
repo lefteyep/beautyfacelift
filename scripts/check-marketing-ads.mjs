@@ -18,6 +18,14 @@ function expectNotIncludes(path, needle, message) {
   if (read(path).includes(needle)) failures.push(`${path}: ${message}`);
 }
 
+function expectFile(path, message) {
+  try {
+    read(path);
+  } catch {
+    failures.push(`${path}: ${message}`);
+  }
+}
+
 expectIncludes(
   'shared/site.ts',
   "CANONICAL_HOST = 'beautyfacelift-zuerich.ch'",
@@ -70,6 +78,35 @@ expectIncludes(
   "import { initPpcTracking } from '../lib/track';",
   'ad landing page layout must initialize PPC tracking.',
 );
+expectFile(
+  'src/components/MarketingConsent.astro',
+  'marketing consent component must exist before paid Meta traffic.',
+);
+expectIncludes(
+  'src/layouts/Base.astro',
+  "import MarketingConsent from '../components/MarketingConsent.astro';",
+  'main layout must render the marketing consent component.',
+);
+expectIncludes(
+  'src/layouts/LandingPage.astro',
+  "import MarketingConsent from '../components/MarketingConsent.astro';",
+  'ad landing page layout must render the marketing consent component.',
+);
+expectIncludes(
+  'src/layouts/LandingPage.astro',
+  '/impressum/',
+  'landing page layout must expose an Impressum link for paid traffic.',
+);
+expectIncludes(
+  'src/layouts/LandingPage.astro',
+  '/datenschutz/',
+  'landing page layout must expose a Datenschutz link for paid traffic.',
+);
+expectIncludes(
+  'src/layouts/LandingPage.astro',
+  '/kontakt/',
+  'landing page layout must expose a Kontakt link for paid traffic.',
+);
 expectIncludes(
   'src/layouts/Base.astro',
   'PUBLIC_META_PIXEL_ID',
@@ -79,6 +116,51 @@ expectIncludes(
   'src/layouts/Base.astro',
   'PUBLIC_GTM_ID',
   'main layout must support GTM when configured.',
+);
+expectNotIncludes(
+  'src/layouts/Base.astro',
+  'connect.facebook.net/en_US/fbevents.js',
+  'main layout must not load Meta Pixel before marketing consent.',
+);
+expectNotIncludes(
+  'src/layouts/LandingPage.astro',
+  'connect.facebook.net/en_US/fbevents.js',
+  'ad landing page layout must not load Meta Pixel before marketing consent.',
+);
+expectNotIncludes(
+  'src/layouts/Base.astro',
+  'googletagmanager.com/gtm.js',
+  'main layout must not load GTM before marketing consent.',
+);
+expectNotIncludes(
+  'src/layouts/LandingPage.astro',
+  'googletagmanager.com/gtm.js',
+  'ad landing page layout must not load GTM before marketing consent.',
+);
+expectIncludes(
+  'src/lib/track.ts',
+  'hasMarketingConsent',
+  'tracking helper must gate marketing events behind explicit consent.',
+);
+expectIncludes(
+  'src/lib/track.ts',
+  'bfl_marketing_consent',
+  'tracking helper must read the stored marketing consent decision.',
+);
+expectIncludes(
+  'src/lib/track.ts',
+  'bfl:marketing-consent-granted',
+  'tracking helper must start marketing events after consent is granted.',
+);
+expectIncludes(
+  'src/pages/termin/index.astro',
+  'hasMarketingConsent',
+  '/termin/ must gate TreatwellOutboundClick tracking behind marketing consent.',
+);
+expectIncludes(
+  '.github/workflows/deploy.yml',
+  'PUBLIC_META_PIXEL_ID',
+  'GitHub deploy build must receive the public Meta Pixel ID.',
 );
 
 for (const needle of [
@@ -95,6 +177,26 @@ expectIncludes(
   'src/lib/track.ts',
   "content_name: 'Carbon Microneedling Glow-Up Aktion'",
   'Carbon ad LP must keep named ViewContent tracking for campaign diagnostics.',
+);
+expectIncludes(
+  'src/pages/lp/carbon-microneedling/index.astro',
+  'Typische Behandlungsziele',
+  'Carbon ad LP must use neutral treatment-goal framing instead of personal-attribute framing.',
+);
+expectNotIncludes(
+  'src/pages/lp/carbon-microneedling/index.astro',
+  'Kommt Ihnen das bekannt vor?',
+  'Carbon ad LP must avoid direct personal-attribute problem framing.',
+);
+expectNotIncludes(
+  'src/pages/lp/carbon-microneedling/index.astro',
+  'Vergrösserte Poren',
+  'Carbon ad LP must avoid personal-attribute phrasing in problem cards.',
+);
+expectNotIncludes(
+  'src/pages/lp/carbon-microneedling/index.astro',
+  'Pflege ohne Effekt',
+  'Carbon ad LP must avoid negative self-perception phrasing in problem cards.',
 );
 
 expectIncludes(

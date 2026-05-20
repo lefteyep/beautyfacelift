@@ -1,0 +1,133 @@
+<div id="bfl-marketing-consent" class="marketing-consent" hidden>
+  <p>
+    Wir verwenden Marketing-Cookies nur mit Ihrer Einwilligung, um Kampagnen zu messen
+    und relevante Anzeigen auszuspielen.
+  </p>
+  <div class="marketing-consent-actions">
+    <button type="button" class="pill-btn" data-bfl-consent-accept>Marketing akzeptieren</button>
+    <button type="button" class="pill-btn pill-btn-outline" data-bfl-consent-deny>Ablehnen</button>
+    <a href="/datenschutz/">Datenschutz</a>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    var key = 'bfl_marketing_consent';
+    var banner = document.getElementById('bfl-marketing-consent');
+    if (!banner) return;
+
+    function choice() {
+      try { return localStorage.getItem(key) || ''; } catch(e) { return ''; }
+    }
+
+    function setChoice(value) {
+      try { localStorage.setItem(key, value); } catch(e) {}
+      banner.hidden = true;
+      window.dispatchEvent(new CustomEvent(
+        value === 'granted' ? 'bfl:marketing-consent-granted' : 'bfl:marketing-consent-denied'
+      ));
+    }
+
+    if (choice()) {
+      banner.hidden = true;
+      if (choice() === 'granted') {
+        window.setTimeout(function() {
+          window.dispatchEvent(new CustomEvent('bfl:marketing-consent-granted'));
+        }, 0);
+      }
+      return;
+    }
+
+    banner.hidden = false;
+    var accept = banner.querySelector('[data-bfl-consent-accept]');
+    var deny = banner.querySelector('[data-bfl-consent-deny]');
+    if (accept) accept.addEventListener('click', function() { setChoice('granted'); });
+    if (deny) deny.addEventListener('click', function() { setChoice('denied'); });
+  })();
+</script>
+
+<style>
+  .marketing-consent {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 80;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: rgba(246, 241, 234, 0.98);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-medium);
+    color: var(--text-primary);
+  }
+
+  .marketing-consent[hidden] {
+    display: none;
+  }
+
+  .marketing-consent p {
+    margin: 0;
+    max-width: none;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .marketing-consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+  }
+
+  .marketing-consent-actions .pill-btn {
+    min-height: 42px;
+    padding: 10px 18px;
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  .marketing-consent-actions a {
+    color: var(--accent-text);
+    font-size: 0.84rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .marketing-consent {
+      bottom: calc(1rem + var(--lp-sticky-offer-height, 0px) + env(safe-area-inset-bottom, 0px));
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+
+    .marketing-consent-actions {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .marketing-consent {
+      left: 0.75rem;
+      right: 0.75rem;
+      padding: 0.85rem;
+    }
+
+    .marketing-consent-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .marketing-consent-actions a {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

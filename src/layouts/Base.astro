@@ -2,6 +2,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import HeadIcons from '../components/HeadIcons.astro';
+import MarketingConsent from '../components/MarketingConsent.astro';
 import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
@@ -47,9 +48,7 @@ const ogImageUrl = ogImage || absoluteUrl('/assets/hero_editorial_portrait.png')
 const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
-const pixelNoscriptHtml = pixelId
-    ? `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${pixelId}&amp;ev=PageView&amp;noscript=1" />`
-    : '';
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
 ---
 
 <!DOCTYPE html>
@@ -183,30 +182,6 @@ const pixelNoscriptHtml = pixelId
         <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     )}
 
-    <!-- GTM via Partytown (runs in web worker, non-blocking) -->
-    {import.meta.env.PUBLIC_GTM_ID && (
-      <script type="text/partytown" set:html={`
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${import.meta.env.PUBLIC_GTM_ID}');
-      `} />
-    )}
-
-    <!-- Meta Pixel bootstrap. Events are fired from src/lib/track.ts with event IDs for CAPI dedupe. -->
-    {pixelId && (
-      <script is:inline define:vars={{ pixelId }}>
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-        document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', pixelId);
-      </script>
-    )}
-    {pixelId && <noscript set:html={pixelNoscriptHtml}></noscript>}
-
     <!-- Favicon & Manifest -->
     <HeadIcons />
 
@@ -231,6 +206,14 @@ const pixelNoscriptHtml = pixelId
     </main>
 
     <Footer />
+    <MarketingConsent />
+
+    <script is:inline define:vars={{ pixelId, gtmId }}>
+        window.bflTrackingConfig = {
+            metaPixelId: pixelId || '',
+            gtmId: gtmId || ''
+        };
+    </script>
 
     <!-- UTM Parameter Persistence -->
     <script is:inline>

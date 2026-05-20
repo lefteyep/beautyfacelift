@@ -36,6 +36,7 @@ Current deployment behavior:
 - Booking CTAs fire `booking_button_click` before navigation to `/termin/`.
 - `/termin/` fires `treatwell_outbound_click` before forwarding to Treatwell.
 - `/api/track` accepts Meta CAPI events and optional GA4 Measurement Protocol forwarding.
+- Marketing tags and server-side marketing events only fire after the visitor grants marketing consent.
 - If Meta, GTM, or GA4 variables are missing, tracking calls are skipped gracefully and users still reach Treatwell.
 
 Current Cloudflare environment check before launch showed these PPC variables are not configured yet:
@@ -49,7 +50,7 @@ Current Cloudflare environment check before launch showed these PPC variables ar
 | `GA4_MEASUREMENT_ID` | Worker secret | GA4 Measurement Protocol | Missing |
 | `GA4_API_SECRET` | Worker secret | GA4 Measurement Protocol | Missing |
 
-The site can be deployed before these values exist, but paid campaign optimization should not start until at least Meta Pixel browser events and `TreatwellOutboundClick` are visible in Meta Events Manager.
+The site can be deployed before these values exist, but paid campaign optimization should not start until at least consent-approved Meta Pixel browser events and `TreatwellOutboundClick` are visible in Meta Events Manager.
 
 Recommended Cloudflare setup after IDs are available:
 
@@ -68,7 +69,7 @@ $env:PUBLIC_GTM_ID = "GTM-XXXXXXX"
 npm run cf:deploy
 ```
 
-If the GitHub `master` deploy workflow is used later, add these as GitHub repository variables/secrets and pass them into the `npm run build` step as environment variables.
+If the GitHub `master` deploy workflow is used later, add `PUBLIC_META_PIXEL_ID` as a GitHub repository variable. The workflow already passes it into the `npm run build` step.
 
 After private Worker secrets and public build variables are set, rebuild and redeploy:
 
@@ -79,7 +80,7 @@ npm run cf:deploy
 ## Meta Ads
 
 1. Verify `PUBLIC_META_PIXEL_ID`, `META_PIXEL_ID`, and `META_ACCESS_TOKEN` are configured for the deployment environment.
-   The site initializes Meta Pixel directly when `PUBLIC_META_PIXEL_ID` is present, so do not also fire a second Meta Pixel base tag from GTM unless the direct site bootstrap is removed.
+   The site initializes Meta Pixel only after marketing consent when `PUBLIC_META_PIXEL_ID` is present, so do not also fire a second Meta Pixel base tag from GTM unless the direct site bootstrap is removed.
 2. In Events Manager, test these events:
    - `PageView`
    - `LandingPageView`
@@ -164,6 +165,8 @@ Recommended launch conversion actions:
 - Confirm `booking_button_click` fires before navigation to `/termin/`.
 - Confirm `/termin/` appends UTMs and `service` to the Treatwell URL.
 - Confirm `treatwell_outbound_click` fires once before redirect.
+- With consent denied, confirm no Meta Pixel, GTM, or `/api/track` marketing event fires.
+- With consent granted, confirm Meta Pixel browser events and CAPI events fire.
 - Confirm Meta Events Manager shows browser and server events deduplicated by `event_id`.
 - Confirm GA4 DebugView receives all dataLayer-backed events.
 - Confirm Tag Assistant shows the Google Ads conversion only on `treatwell_outbound_click`.
@@ -177,14 +180,14 @@ Use this order after the live deploy:
 1. Create or confirm the Meta Pixel for Beauty Face Lift.
 2. Generate a Meta Conversions API access token in Events Manager.
 3. Add `PUBLIC_META_PIXEL_ID`, `META_PIXEL_ID`, and `META_ACCESS_TOKEN` to Cloudflare.
-4. Redeploy so the browser Pixel ID is embedded in the static Astro output.
+4. Redeploy so the browser Pixel ID is embedded in the static Astro output and available after marketing consent.
 5. Open Meta Events Manager Test Events and visit a paid-style URL, for example:
 
    ```text
    https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_launch_carbon_202605&utm_content=test_ad&fbclid=test
    ```
 
-6. Click a booking CTA and confirm this sequence:
+6. Accept marketing consent, click a booking CTA, and confirm this sequence:
    - `PageView`
    - `LandingPageView`
    - `ViewContent`
