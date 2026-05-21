@@ -16,6 +16,7 @@
     "cf:deploy": "astro build && wrangler deploy --assets=./dist --old-asset-ttl=0 --keep-vars",
     "cf:tail": "wrangler tail",
     "qa:carbon-lp": "node scripts/check-carbon-lp-offer.mjs",
+    "qa:hydrafacial-lp": "node scripts/check-hydrafacial-lp-offer.mjs",
     "qa:docs": "node scripts/check-docs-current.mjs",
     "qa:marketing": "node scripts/check-marketing-ads.mjs",
     "qa:worker": "node scripts/check-worker-api.mjs",
