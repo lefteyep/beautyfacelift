@@ -61,6 +61,18 @@ function canonicalHostRedirect(request: Request): Response | null {
   return Response.redirect(url.toString(), 301);
 }
 
+function legacyPathRedirect(request: Request): Response | null {
+  const url = new URL(request.url);
+  const normalizedPath = url.pathname.endsWith('/') ? url.pathname.slice(0, -1) : url.pathname;
+
+  if (normalizedPath !== '/ueber-uns') {
+    return null;
+  }
+
+  url.pathname = '/ueber-mich/';
+  return Response.redirect(url.toString(), 301);
+}
+
 function withSecurityHeaders(response: Response, request: Request): Response {
   const url = new URL(request.url);
   const headers = new Headers(response.headers);
@@ -138,7 +150,7 @@ function isDocumentPath(pathname: string): boolean {
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const redirect = canonicalHostRedirect(request);
+    const redirect = canonicalHostRedirect(request) ?? legacyPathRedirect(request);
     if (redirect) return redirect;
 
     const url = new URL(request.url);

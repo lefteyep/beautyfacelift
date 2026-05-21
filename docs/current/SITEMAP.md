@@ -34,7 +34,7 @@ Astro generates `sitemap-index.xml` and `sitemap-0.xml`; the build copies `sitem
 - `/haeufige-fragen/`
 - `/impressum/`
 - `/kontakt/`
-- `/ueber-uns/`
+- `/ueber-mich/`
 
 ## Excluded Routes
 
