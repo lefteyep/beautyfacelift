@@ -59,8 +59,13 @@ expectIncludes(
 );
 expectIncludes(
   'src/pages/termin/index.astro',
-  "event_name: 'TreatwellOutboundClick'",
+  "postCapi('TreatwellOutboundClick'",
   '/termin/ must emit the Treatwell outbound proxy conversion before redirecting.',
+);
+expectIncludes(
+  'src/pages/termin/index.astro',
+  "window.fbq('track', 'Schedule'",
+  '/termin/ must also emit Meta Schedule for Ads Manager custom-conversion compatibility.',
 );
 expectIncludes(
   'src/pages/termin/index.astro',
@@ -228,6 +233,11 @@ expectIncludes(
   'worker/routes/track.ts',
   "'TreatwellOutboundClick'",
   'tracking endpoint must allow the Treatwell proxy conversion.',
+);
+expectIncludes(
+  'worker/routes/track.ts',
+  "'Schedule'",
+  'tracking endpoint must allow the standard Meta Schedule proxy event.',
 );
 
 expectIncludes(

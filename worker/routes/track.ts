@@ -5,6 +5,7 @@ const TRACK_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const TRACK_RATE_LIMIT_MAX_REQUESTS = 120;
 const ALLOWED_EVENTS = new Set([
   'PageView',
+  'Schedule',
   'Lead',
   'Contact',
   'ViewContent',
@@ -220,6 +221,8 @@ function ga4EventName(eventName: string): string {
   switch (eventName) {
     case 'PageView':
       return 'page_view';
+    case 'Schedule':
+      return 'schedule';
     case 'Lead':
       return 'generate_lead';
     case 'Contact':

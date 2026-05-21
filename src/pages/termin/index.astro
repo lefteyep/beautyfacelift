@@ -145,7 +145,7 @@ const structuredData = {
             return output;
         }
 
-        function postCapi(eventId, eventData) {
+        function postCapi(eventName, eventId, eventData) {
             if (window.location.protocol !== 'https:') return;
             try {
                 var userData = {};
@@ -159,7 +159,7 @@ const structuredData = {
                     headers: { 'Content-Type': 'application/json' },
                     keepalive: true,
                     body: JSON.stringify({
-                        event_name: 'TreatwellOutboundClick',
+                        event_name: eventName,
                         event_id: eventId,
                         event_source_url: window.location.href,
                         event_data: eventData,
@@ -176,6 +176,7 @@ const structuredData = {
 
             var service = currentParams.get('service') || storedParams.service || 'not_set';
             var eventId = randomId();
+            var scheduleEventId = eventId + '-schedule';
             var eventData = clean({
                 event_id: eventId,
                 treatment_name: service,
@@ -197,9 +198,23 @@ const structuredData = {
 
             if (typeof window.fbq === 'function') {
                 window.fbq('trackCustom', 'TreatwellOutboundClick', eventData, { eventID: eventId });
+                window.fbq('track', 'Schedule', clean(Object.assign({}, eventData, {
+                    event_id: scheduleEventId
+                })), { eventID: scheduleEventId });
             }
 
-            postCapi(eventId, {
+            postCapi('TreatwellOutboundClick', eventId, {
+                treatment_name: eventData.treatment_name,
+                service: eventData.service,
+                button_location: eventData.button_location,
+                page_path: eventData.page_path,
+                page_type: eventData.page_type,
+                destination_url: eventData.destination_url,
+                link_domain: eventData.link_domain,
+                value: eventData.value,
+                currency: eventData.currency
+            });
+            postCapi('Schedule', scheduleEventId, {
                 treatment_name: eventData.treatment_name,
                 service: eventData.service,
                 button_location: eventData.button_location,

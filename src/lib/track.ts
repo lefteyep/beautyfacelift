@@ -34,6 +34,7 @@ type PpcEventName =
   | 'high_intent_visit';
 type CapiEventName =
   | 'PageView'
+  | 'Schedule'
   | 'Lead'
   | 'Contact'
   | 'ViewContent'
