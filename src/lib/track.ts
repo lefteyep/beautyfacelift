@@ -123,6 +123,8 @@ let metaPixelLoaded = false;
 let gtmLoaded = false;
 
 const MARKETING_CONSENT_KEY = 'bfl_marketing_consent';
+const META_COOKIE_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
+const META_CLICK_ID_RE = /^[A-Za-z0-9._:-]{1,480}$/;
 
 function hasMarketingConsent(): boolean {
   if (typeof window === 'undefined') return false;
@@ -141,6 +143,8 @@ function loadMetaPixel(): void {
   const pixelId = window.bflTrackingConfig?.metaPixelId;
   if (!pixelId) return;
   metaPixelLoaded = true;
+  ensureMetaBrowserIdCookie();
+  ensureMetaClickIdCookie();
 
   /* eslint-disable */
   !function(f: Window, b: Document, e: string, v: string, n?: any, t?: HTMLScriptElement, s?: Element) {
@@ -207,8 +211,14 @@ function readCookie(name: string): string | undefined {
   return cookie ? decodeURIComponent(cookie.slice(encodedName.length)) : undefined;
 }
 
-function getStoredCampaignParams(): EventPayload {
-  if (typeof window === 'undefined') return {};
+function writeCookie(name: string, value: string, maxAgeSeconds: number): void {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return;
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Max-Age=${maxAgeSeconds}; Path=/; SameSite=Lax${secure}`;
+}
+
+function getStoredCampaignValue(key: (typeof CAMPAIGN_KEYS)[number]): string {
+  if (typeof window === 'undefined') return '';
 
   let stored: Record<string, unknown> = {};
   try {
@@ -218,18 +228,56 @@ function getStoredCampaignParams(): EventPayload {
   }
 
   const params = new URLSearchParams(window.location.search);
+  return params.get(key) || (typeof stored[key] === 'string' ? String(stored[key]) : '');
+}
+
+function getStoredCampaignParams(): EventPayload {
+  if (typeof window === 'undefined') return {};
+
   const output: EventPayload = {};
   CAMPAIGN_KEYS.forEach((key) => {
-    const value = params.get(key) || (typeof stored[key] === 'string' ? String(stored[key]) : '');
+    const value = getStoredCampaignValue(key);
     if (value) output[key] = value;
   });
   return output;
 }
 
+function metaRandomDigits(): string {
+  if (typeof crypto !== 'undefined' && 'getRandomValues' in crypto) {
+    const values = new Uint32Array(2);
+    crypto.getRandomValues(values);
+    return `${values[0]}${values[1]}`.slice(0, 16);
+  }
+  return Math.floor(Math.random() * 10000000000000000).toString();
+}
+
+function ensureMetaBrowserIdCookie(): string | undefined {
+  const existing = readCookie('_fbp');
+  if (existing) return existing;
+  if (!hasMarketingConsent()) return undefined;
+
+  const fbp = `fb.1.${Date.now()}.${metaRandomDigits()}`;
+  writeCookie('_fbp', fbp, META_COOKIE_MAX_AGE_SECONDS);
+  return fbp;
+}
+
+function ensureMetaClickIdCookie(): string | undefined {
+  const existing = readCookie('_fbc');
+  if (existing) return existing;
+  if (!hasMarketingConsent()) return undefined;
+
+  const fbclid = getStoredCampaignValue('fbclid').trim();
+  if (!META_CLICK_ID_RE.test(fbclid)) return undefined;
+
+  const fbc = `fb.1.${Date.now()}.${fbclid}`;
+  writeCookie('_fbc', fbc, META_COOKIE_MAX_AGE_SECONDS);
+  return fbc;
+}
+
 function getUserData(): Record<string, string> {
   const userData: Record<string, string> = {};
-  const fbp = readCookie('_fbp');
-  const fbc = readCookie('_fbc');
+  const fbp = ensureMetaBrowserIdCookie();
+  const fbc = ensureMetaClickIdCookie();
   if (fbp) userData.fbp = fbp;
   if (fbc) userData.fbc = fbc;
   return userData;

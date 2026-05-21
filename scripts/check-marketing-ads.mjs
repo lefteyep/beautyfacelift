@@ -158,9 +158,19 @@ expectIncludes(
   'tracking helper must start marketing events after consent is granted.',
 );
 expectIncludes(
+  'src/lib/track.ts',
+  'ensureMetaClickIdCookie',
+  'tracking helper must recover Meta fbc from fbclid after marketing consent.',
+);
+expectIncludes(
   'src/pages/termin/index.astro',
   'hasMarketingConsent',
   '/termin/ must gate TreatwellOutboundClick tracking behind marketing consent.',
+);
+expectIncludes(
+  'src/pages/termin/index.astro',
+  'ensureMetaClickIdCookie',
+  '/termin/ must recover Meta fbc from fbclid before sending booking-intent CAPI events.',
 );
 expectIncludes(
   '.github/workflows/deploy.yml',
@@ -238,6 +248,11 @@ expectIncludes(
   'worker/routes/track.ts',
   "'Schedule'",
   'tracking endpoint must allow the standard Meta Schedule proxy event.',
+);
+expectIncludes(
+  'worker/routes/track.ts',
+  '{1,512}',
+  'tracking endpoint must allow full-length Meta click/browser IDs in user_data.',
 );
 
 expectIncludes(

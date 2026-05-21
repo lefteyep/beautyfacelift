@@ -40,7 +40,7 @@ const ALLOWED_SOURCE_HOSTS = new Set([
   WWW_HOST,
 ]);
 const SHA256_HEX_RE = /^[a-f0-9]{64}$/i;
-const META_COOKIE_RE = /^[A-Za-z0-9._:-]{1,200}$/;
+const META_COOKIE_RE = /^[A-Za-z0-9._:-]{1,512}$/;
 const URL_LIKE_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
 const trackRateLimit = new Map<string, number[]>();
 

@@ -81,6 +81,8 @@ const structuredData = {
         }
 
         var target = new URL(bookingTargetUrl);
+        var metaCookieMaxAgeSeconds = 90 * 24 * 60 * 60;
+        var metaClickIdPattern = /^[A-Za-z0-9._:-]{1,480}$/;
         bookingForwardKeys.forEach(function(key) {
             var value = currentParams.get(key);
             if (!value && typeof storedParams[key] === 'string') {
@@ -118,12 +120,53 @@ const structuredData = {
             return cookie ? decodeURIComponent(cookie.slice(encodedName.length)) : '';
         }
 
+        function writeCookie(name, value, maxAgeSeconds) {
+            var secure = window.location.protocol === 'https:' ? '; Secure' : '';
+            document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value) + '; Max-Age=' + maxAgeSeconds + '; Path=/; SameSite=Lax' + secure;
+        }
+
         function hasMarketingConsent() {
             try {
                 return localStorage.getItem('bfl_marketing_consent') === 'granted';
             } catch(e) {
                 return false;
             }
+        }
+
+        function storedValue(key) {
+            return currentParams.get(key) || (typeof storedParams[key] === 'string' ? storedParams[key] : '');
+        }
+
+        function metaRandomDigits() {
+            if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+                var values = new Uint32Array(2);
+                window.crypto.getRandomValues(values);
+                return (String(values[0]) + String(values[1])).slice(0, 16);
+            }
+            return String(Math.floor(Math.random() * 10000000000000000));
+        }
+
+        function ensureMetaBrowserIdCookie() {
+            var existing = readCookie('_fbp');
+            if (existing) return existing;
+            if (!hasMarketingConsent()) return '';
+
+            var fbp = 'fb.1.' + Date.now() + '.' + metaRandomDigits();
+            writeCookie('_fbp', fbp, metaCookieMaxAgeSeconds);
+            return fbp;
+        }
+
+        function ensureMetaClickIdCookie() {
+            var existing = readCookie('_fbc');
+            if (existing) return existing;
+            if (!hasMarketingConsent()) return '';
+
+            var fbclid = String(storedValue('fbclid')).trim();
+            if (!metaClickIdPattern.test(fbclid)) return '';
+
+            var fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+            writeCookie('_fbc', fbc, metaCookieMaxAgeSeconds);
+            return fbc;
         }
 
         function clean(payload) {
@@ -138,8 +181,7 @@ const structuredData = {
         function campaignParams() {
             var output = {};
             bookingForwardKeys.forEach(function(key) {
-                var value = currentParams.get(key);
-                if (!value && typeof storedParams[key] === 'string') value = storedParams[key];
+                var value = storedValue(key);
                 if (value) output[key] = value;
             });
             return output;
@@ -149,8 +191,8 @@ const structuredData = {
             if (window.location.protocol !== 'https:') return;
             try {
                 var userData = {};
-                var fbp = readCookie('_fbp');
-                var fbc = readCookie('_fbc');
+                var fbp = ensureMetaBrowserIdCookie();
+                var fbc = ensureMetaClickIdCookie();
                 if (fbp) userData.fbp = fbp;
                 if (fbc) userData.fbc = fbc;
 

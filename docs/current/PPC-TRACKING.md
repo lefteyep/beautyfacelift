@@ -17,6 +17,7 @@ All booking links should stay pointed at `/termin/` or `bookingLinkForService(se
 | `treatment_view` | `ViewContent` | Retargeting |
 | `booking_button_click` | `BookingButtonClick` | Secondary conversion |
 | `treatwell_outbound_click` | `TreatwellOutboundClick` | Primary proxy conversion |
+| `/termin/` forward | `Schedule` | Standard Meta event for custom-conversion compatibility |
 | `phone_click` | `Contact` with `method=phone` | Secondary conversion |
 | `whatsapp_click` | `Contact` with `method=whatsapp` | Secondary conversion |
 | `scroll_50` | `Scroll50` | Observation |
@@ -25,6 +26,8 @@ All booking links should stay pointed at `/termin/` or `bookingLinkForService(se
 | `high_intent_visit` | `HighIntentVisit` | Retargeting/secondary |
 
 Core parameters include `event_id`, `page_path`, `page_type`, `treatment_name`, `button_location`, `destination_url`, `link_domain`, `value`, `currency`, and campaign parameters such as `utm_source`, `utm_campaign`, `gclid`, and `fbclid`.
+
+Meta CAPI matching data is consent-gated. After marketing consent, the site sends IP address and User Agent from the Worker request, `_fbp` from the browser cookie, and `_fbc` from the browser cookie. If `_fbc` is missing but a valid `fbclid` exists in the current URL or stored campaign parameters, the site creates `_fbc` in Meta's `fb.1.<timestamp>.<fbclid>` format before the browser Pixel and CAPI events fire. Do not send email, phone, name, ZIP, DOB, city, state, `fb_login_id`, or `external_id` for PageView events unless that data is actually collected with consent.
 
 ## Live Deployment Status
 
@@ -86,15 +89,16 @@ npm run cf:deploy
    - `LandingPageView`
    - `ViewContent`
    - `BookingButtonClick`
+   - `Schedule`
    - `TreatwellOutboundClick`
    - `Contact`
    - `HighIntentVisit`
 3. Create custom conversions:
-   - `BFL - Treatwell Outbound Click`: event `TreatwellOutboundClick`.
+   - `BFL - Treatwell Booking Intent`: standard event `Schedule`, category `Termin vereinbaren`, with rules `page_path contains /termin/` and `link_domain contains buchung.treatwell.ch`.
    - `BFL - Booking Button Click`: event `BookingButtonClick`.
    - `BFL - High Intent Visit`: event `HighIntentVisit`.
    - `BFL - Contact Click`: event `Contact`.
-4. Start campaigns with the Leads objective and optimize for `BFL - Treatwell Outbound Click` once event volume is stable.
+4. Start campaigns with the Leads objective and optimize for `BFL - Treatwell Booking Intent` once event volume is stable.
 5. Use Traffic/Landing Page Views only as a short ramp if the proxy conversion has too little volume.
 6. Do not create Purchase/Schedule optimization until real booking confirmation tracking exists.
 
@@ -162,9 +166,10 @@ Recommended launch conversion actions:
 ## QA
 
 - Open a landing page with UTMs and `fbclid`, then click a booking CTA.
+- After marketing consent, confirm server events include `_fbp` and `_fbc`; `_fbc` should be created from `fbclid` if the cookie was not already present.
 - Confirm `booking_button_click` fires before navigation to `/termin/`.
 - Confirm `/termin/` appends UTMs and `service` to the Treatwell URL.
-- Confirm `treatwell_outbound_click` fires once before redirect.
+- Confirm `treatwell_outbound_click` and `Schedule` fire once before redirect.
 - With consent denied, confirm no Meta Pixel, GTM, or `/api/track` marketing event fires.
 - With consent granted, confirm Meta Pixel browser events and CAPI events fire.
 - Confirm Meta Events Manager shows browser and server events deduplicated by `event_id`.
@@ -193,9 +198,10 @@ Use this order after the live deploy:
    - `ViewContent`
    - `BookingButtonClick`
    - `HighIntentVisit`
+   - `Schedule`
    - `TreatwellOutboundClick`
 7. Create Meta custom conversions:
-   - `BFL - Treatwell Outbound Click`: event `TreatwellOutboundClick`, primary launch optimization.
+   - `BFL - Treatwell Booking Intent`: event `Schedule`, rules `page_path contains /termin/` and `link_domain contains buchung.treatwell.ch`, primary launch optimization.
    - `BFL - Booking Button Click`: event `BookingButtonClick`, secondary.
    - `BFL - Contact Click`: event `Contact`, secondary.
    - `BFL - High Intent Visit`: event `HighIntentVisit`, retargeting/secondary.
