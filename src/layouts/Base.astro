@@ -431,6 +431,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
             // 11. FAQ items stagger
             const faqItems = gsap.utils.toArray('.faq-item');
             if (faqItems.length > 0) {
+                const faqTrigger = document.querySelector('.faq-list') ?? (faqItems[0] as Element).parentElement;
                 gsap.from(faqItems as Element[],
                     {
                         y: 18,
@@ -439,7 +440,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                         ease: "power3.out",
                         immediateRender: false,
                         scrollTrigger: {
-                            trigger: '.faq-list',
+                            trigger: faqTrigger,
                             start: 'top 85%',
                             once: true,
                         }
