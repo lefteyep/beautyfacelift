@@ -159,6 +159,21 @@ expectIncludes(
 );
 expectIncludes(
   'src/lib/track.ts',
+  "window.fbq?.('track', 'PageView'",
+  'PageView browser event must be explicitly sent with a deduplication eventID.',
+);
+expectIncludes(
+  'src/lib/track.ts',
+  "event_name: 'PageView'",
+  'PageView CAPI event must be sent for browser/CAPI event coverage.',
+);
+expectIncludes(
+  'src/lib/track.ts',
+  'test_event_code: getMetaTestEventCode()',
+  'tracking helper must pass Meta test_event_code to CAPI for Events Manager troubleshooting.',
+);
+expectIncludes(
+  'src/lib/track.ts',
   'ensureMetaClickIdCookie',
   'tracking helper must recover Meta fbc from fbclid after marketing consent.',
 );
@@ -171,6 +186,11 @@ expectIncludes(
   'src/pages/termin/index.astro',
   'ensureMetaClickIdCookie',
   '/termin/ must recover Meta fbc from fbclid before sending booking-intent CAPI events.',
+);
+expectIncludes(
+  'src/pages/termin/index.astro',
+  'test_event_code: getMetaTestEventCode()',
+  '/termin/ must pass Meta test_event_code to booking-intent CAPI events during Events Manager tests.',
 );
 expectIncludes(
   '.github/workflows/deploy.yml',
@@ -253,6 +273,16 @@ expectIncludes(
   'worker/routes/track.ts',
   '{1,512}',
   'tracking endpoint must allow full-length Meta click/browser IDs in user_data.',
+);
+expectIncludes(
+  'worker/routes/track.ts',
+  'validateTestEventCode',
+  'tracking endpoint must validate Meta test_event_code before forwarding to Graph.',
+);
+expectIncludes(
+  'worker/routes/track.ts',
+  'test_event_code: testEventCode',
+  'tracking endpoint must forward Meta test_event_code to the Conversions API payload.',
 );
 
 expectIncludes(

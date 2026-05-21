@@ -41,6 +41,7 @@ const ALLOWED_SOURCE_HOSTS = new Set([
 ]);
 const SHA256_HEX_RE = /^[a-f0-9]{64}$/i;
 const META_COOKIE_RE = /^[A-Za-z0-9._:-]{1,512}$/;
+const TEST_EVENT_CODE_RE = /^TEST[A-Za-z0-9_-]{3,64}$/;
 const URL_LIKE_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
 const trackRateLimit = new Map<string, number[]>();
 
@@ -50,6 +51,7 @@ type TrackingBody = {
   event_data?: unknown;
   user_data?: unknown;
   event_source_url?: unknown;
+  test_event_code?: unknown;
 };
 
 function jsonResponse(body: Record<string, unknown>, status = 200): Response {
@@ -116,6 +118,13 @@ function validateEventId(value: unknown): string | undefined {
   if (!eventId) return undefined;
   if (eventId.length > 128 || !/^[A-Za-z0-9._:-]+$/.test(eventId)) return undefined;
   return eventId;
+}
+
+function validateTestEventCode(value: unknown): string | null | undefined {
+  const testEventCode = getString(value);
+  if (!testEventCode) return undefined;
+  if (!TEST_EVENT_CODE_RE.test(testEventCode)) return null;
+  return testEventCode;
 }
 
 function validateDestinationUrl(value: unknown, eventSourceUrl: string, eventName: string): string | null {
@@ -278,6 +287,11 @@ export async function trackRoute(request: Request, env: Env): Promise<Response> 
     return jsonResponse({ error: 'Invalid event_id' }, 400);
   }
 
+  const testEventCode = validateTestEventCode(body.test_event_code);
+  if (body.test_event_code && !testEventCode) {
+    return jsonResponse({ error: 'Invalid test_event_code' }, 400);
+  }
+
   const userData = sanitizeUserData(body.user_data);
   if (!userData) {
     return jsonResponse({ error: 'Invalid user_data' }, 400);
@@ -312,6 +326,7 @@ export async function trackRoute(request: Request, env: Env): Promise<Response> 
               },
               ...(Object.keys(eventData).length > 0 ? { custom_data: eventData } : {}),
             }],
+            ...(testEventCode ? { test_event_code: testEventCode } : {}),
           }),
         },
       );

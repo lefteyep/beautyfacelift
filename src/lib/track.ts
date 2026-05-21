@@ -125,6 +125,8 @@ let gtmLoaded = false;
 const MARKETING_CONSENT_KEY = 'bfl_marketing_consent';
 const META_COOKIE_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
 const META_CLICK_ID_RE = /^[A-Za-z0-9._:-]{1,480}$/;
+const META_TEST_EVENT_CODE_KEY = 'bfl_meta_test_event_code';
+const META_TEST_EVENT_CODE_RE = /^TEST[A-Za-z0-9_-]{3,64}$/;
 
 function hasMarketingConsent(): boolean {
   if (typeof window === 'undefined') return false;
@@ -229,6 +231,30 @@ function getStoredCampaignValue(key: (typeof CAMPAIGN_KEYS)[number]): string {
 
   const params = new URLSearchParams(window.location.search);
   return params.get(key) || (typeof stored[key] === 'string' ? String(stored[key]) : '');
+}
+
+function normalizeMetaTestEventCode(value: string | null | undefined): string | undefined {
+  const code = (value || '').trim();
+  return META_TEST_EVENT_CODE_RE.test(code) ? code : undefined;
+}
+
+function getMetaTestEventCode(): string | undefined {
+  if (typeof window === 'undefined') return undefined;
+
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = normalizeMetaTestEventCode(params.get('test_event_code'));
+  if (fromUrl) {
+    try {
+      sessionStorage.setItem(META_TEST_EVENT_CODE_KEY, fromUrl);
+    } catch { /* session storage is non-critical */ }
+    return fromUrl;
+  }
+
+  try {
+    return normalizeMetaTestEventCode(sessionStorage.getItem(META_TEST_EVENT_CODE_KEY));
+  } catch {
+    return undefined;
+  }
 }
 
 function getStoredCampaignParams(): EventPayload {
@@ -385,7 +411,10 @@ function postCapi(body: Record<string, unknown>): void {
     fetch('/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        ...body,
+        test_event_code: getMetaTestEventCode(),
+      }),
       keepalive: true,
     }).catch(() => { /* non-critical */ });
   } catch { /* non-critical */ }

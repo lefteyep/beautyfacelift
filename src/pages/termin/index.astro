@@ -83,6 +83,8 @@ const structuredData = {
         var target = new URL(bookingTargetUrl);
         var metaCookieMaxAgeSeconds = 90 * 24 * 60 * 60;
         var metaClickIdPattern = /^[A-Za-z0-9._:-]{1,480}$/;
+        var metaTestEventCodeStorageKey = 'bfl_meta_test_event_code';
+        var metaTestEventCodePattern = /^TEST[A-Za-z0-9_-]{3,64}$/;
         bookingForwardKeys.forEach(function(key) {
             var value = currentParams.get(key);
             if (!value && typeof storedParams[key] === 'string') {
@@ -169,6 +171,27 @@ const structuredData = {
             return fbc;
         }
 
+        function normalizeMetaTestEventCode(value) {
+            var code = String(value || '').trim();
+            return metaTestEventCodePattern.test(code) ? code : '';
+        }
+
+        function getMetaTestEventCode() {
+            var fromUrl = normalizeMetaTestEventCode(currentParams.get('test_event_code'));
+            if (fromUrl) {
+                try {
+                    sessionStorage.setItem(metaTestEventCodeStorageKey, fromUrl);
+                } catch(e) {}
+                return fromUrl;
+            }
+
+            try {
+                return normalizeMetaTestEventCode(sessionStorage.getItem(metaTestEventCodeStorageKey));
+            } catch(e) {
+                return '';
+            }
+        }
+
         function clean(payload) {
             var output = {};
             Object.keys(payload).forEach(function(key) {
@@ -205,7 +228,8 @@ const structuredData = {
                         event_id: eventId,
                         event_source_url: window.location.href,
                         event_data: eventData,
-                        user_data: userData
+                        user_data: userData,
+                        test_event_code: getMetaTestEventCode()
                     })
                 }).catch(function() {});
             } catch(e) {}

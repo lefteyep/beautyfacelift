@@ -29,6 +29,8 @@ Core parameters include `event_id`, `page_path`, `page_type`, `treatment_name`, 
 
 Meta CAPI matching data is consent-gated. After marketing consent, the site sends IP address and User Agent from the Worker request, `_fbp` from the browser cookie, and `_fbc` from the browser cookie. If `_fbc` is missing but a valid `fbclid` exists in the current URL or stored campaign parameters, the site creates `_fbc` in Meta's `fb.1.<timestamp>.<fbclid>` format before the browser Pixel and CAPI events fire. Do not send email, phone, name, ZIP, DOB, city, state, `fb_login_id`, or `external_id` for PageView events unless that data is actually collected with consent.
 
+For Meta Events Manager troubleshooting, append `test_event_code=TEST...` to the test URL. The browser stores that code for the session and forwards it only to `/api/track`, where the Worker validates it and sends it as Meta's CAPI `test_event_code`. This lets Test Events show the server-side CAPI events alongside browser events.
+
 ## Live Deployment Status
 
 As of 2026-05-08, the site code is ready to deploy to Cloudflare Workers with Treatwell as the temporary booking destination.
@@ -189,7 +191,7 @@ Use this order after the live deploy:
 5. Open Meta Events Manager Test Events and visit a paid-style URL, for example:
 
    ```text
-   https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_launch_carbon_202605&utm_content=test_ad&fbclid=test
+   https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_launch_carbon_202605&utm_content=test_ad&fbclid=test&test_event_code=TEST12345
    ```
 
 6. Accept marketing consent, click a booking CTA, and confirm this sequence:
