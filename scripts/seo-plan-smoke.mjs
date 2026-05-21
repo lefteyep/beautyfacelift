@@ -83,7 +83,7 @@ assertNotIncludes('src/pages/kontakt/index.astro', 'Turnstile ist lokal noch nic
 
 for (const file of [
   'src/pages/index.astro',
-  'src/pages/ueber-uns/index.astro',
+  'src/pages/ueber-mich/index.astro',
   'src/pages/termin/index.astro',
 ]) {
   assertNotIncludes(file, 'aggregateRating');

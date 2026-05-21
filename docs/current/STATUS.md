@@ -46,7 +46,7 @@ Production Worker launch details:
 | Wimpern & Brauen Zürich | /behandlungen/wimpern-brauen-zuerich/ | Done — brow and lash hub, local CTA, Service schema |
 | Make-up Zürich | /behandlungen/make-up-zuerich/ | Done — occasion make-up hub, consultation copy, Service schema |
 | Massage Zürich Bahnhofstrasse | /behandlungen/massage-zuerich-bahnhofstrasse/ | Done — local massage hub, suitability copy, Service schema |
-| About | /ueber-uns/ | Done — E-E-A-T bio, credentials, testimonials, Person schema |
+| About | /ueber-mich/ | Done — E-E-A-T bio, credentials, testimonials, Person schema |
 | Booking | /termin/ | Done — noindex Treatwell forwarding bridge with attribution handoff |
 | Booking confirmation | /buchung-bestaetigt/ | Legacy first-party booking confirmation; not the active Treatwell conversion source |
 | FAQ hub | /haeufige-fragen/ | Done — 20 FAQs in 4 categories |
