@@ -4,11 +4,12 @@ import '../styles/components.css';
 import '../styles/booking.css';
 import HeadIcons from '../components/HeadIcons.astro';
 import MarketingConsent from '../components/MarketingConsent.astro';
-import { absoluteUrl } from '../../shared/site';
+import { absoluteUrl, SITE_NAME } from '../../shared/site';
 
 interface Props {
   title: string;
   description: string;
+  ogImage?: string;
   preloadImage?: {
     href: string;
     imagesrcset?: string;
@@ -18,8 +19,9 @@ interface Props {
   };
 }
 
-const { title, description, preloadImage } = Astro.props;
+const { title, description, ogImage, preloadImage } = Astro.props;
 const canonicalUrl = absoluteUrl(Astro.url.pathname);
+const ogImageUrl = ogImage ? absoluteUrl(ogImage) : absoluteUrl('/assets/hero_editorial_portrait.png');
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
 ---
@@ -35,6 +37,19 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <link rel="canonical" href={canonicalUrl}>
     <title>{title}</title>
     <meta name="theme-color" content="#B98F47">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:url" content={canonicalUrl}>
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="de_CH">
+    <meta property="og:image" content={ogImageUrl}>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content={SITE_NAME}>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={ogImageUrl}>
     <HeadIcons />
     {preloadImage && (
         <link
