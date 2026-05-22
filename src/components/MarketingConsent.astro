@@ -23,6 +23,8 @@
     function setChoice(value) {
       try { localStorage.setItem(key, value); } catch(e) {}
       banner.hidden = true;
+      document.body.classList.remove('bfl-consent-visible');
+      document.body.classList.add('bfl-consent-hidden');
       window.dispatchEvent(new CustomEvent(
         value === 'granted' ? 'bfl:marketing-consent-granted' : 'bfl:marketing-consent-denied'
       ));
@@ -30,6 +32,8 @@
 
     if (choice()) {
       banner.hidden = true;
+      document.body.classList.remove('bfl-consent-visible');
+      document.body.classList.add('bfl-consent-hidden');
       if (choice() === 'granted') {
         window.setTimeout(function() {
           window.dispatchEvent(new CustomEvent('bfl:marketing-consent-granted'));
@@ -39,6 +43,8 @@
     }
 
     banner.hidden = false;
+    document.body.classList.add('bfl-consent-visible');
+    document.body.classList.remove('bfl-consent-hidden');
     var accept = banner.querySelector('[data-bfl-consent-accept]');
     var deny = banner.querySelector('[data-bfl-consent-deny]');
     if (accept) accept.addEventListener('click', function() { setChoice('granted'); });

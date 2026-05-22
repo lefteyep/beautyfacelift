@@ -88,13 +88,25 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
       padding-bottom: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
     }
 
+    :global(body.bfl-consent-visible) {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
     .sticky-offer-bar {
       display: flex;
+    }
+
+    :global(body.bfl-consent-visible) .sticky-offer-bar {
+      display: none;
     }
 
     .sticky-offer-safe-space {
       display: block;
       height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+    }
+
+    :global(body.bfl-consent-visible) .sticky-offer-safe-space {
+      display: none;
     }
   }
 

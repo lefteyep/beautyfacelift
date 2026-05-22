@@ -1,0 +1,1773 @@
+---
+import LandingPage from '../../../layouts/LandingPage.astro';
+import BookingCta from '../../../components/BookingCta.astro';
+import OfferBox from '../../../components/lp/OfferBox.astro';
+import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
+import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
+import TrustStrip from '../../../components/lp/TrustStrip.astro';
+import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
+import { Image, getImage } from 'astro:assets';
+import { hydrafacialCard, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
+import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+
+const PROMO_PRICE = 170;
+const REGULAR_PRICE = 250;
+const DURATION_LABEL = '1 Std. 30 Min.';
+const OFFER_LABEL = 'HydraFacial + Microneedling Aktion';
+const OFFER_SLUG = 'hydrafacial-microneedling-aktion';
+const SAVINGS_LABEL = 'Sie sparen CHF 80.-';
+const BOOKING_SERVICE = 'Hydrafacial + Microneedling';
+const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
+const lpHeroMainSizes = '(min-width: 1101px) 34vw, (min-width: 601px) 380px, 74vw';
+const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 52vw';
+const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
+const lpHeroPreload = await getImage({
+  src: hydrafacialCard,
+  widths: [480, 720, 960, 1200, 1536],
+  sizes: lpHeroMainSizes,
+  format: 'webp',
+  quality: 'high',
+});
+
+const heroBullets = [
+  `${DURATION_LABEL} inklusive Hautanalyse, HydraFacial, Microneedling und Abschluss-Pflege`,
+  `Aktionspreis CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–`,
+  'Persönlich behandelt von Teresa Stimac an der Bahnhofstrasse 94',
+];
+
+const includedItems = [
+  'Kurze Hautanalyse und persönliche Abstimmung',
+  'HydraFacial Reinigung & Feuchtigkeitspflege',
+  'Sanfte Vorbereitung der Hautoberfläche',
+  'Microneedling mit professionellem Pen',
+  'Beruhigende Wirkstoff- und Abschluss-Pflege',
+  'After-Care-Hinweise für die nächsten 24-48 Stunden',
+];
+
+const desireItems = [
+  { title: 'Müder, fahler Teint', text: 'Wenn die Haut gepflegter, frischer und wacher wirken soll.' },
+  { title: 'Unruhige Hautstruktur', text: 'Wenn Poren, Trockenheit oder Unebenheiten optisch feiner erscheinen sollen.' },
+  { title: 'Wunsch nach Glow', text: 'Wenn Sie Reinigung, Feuchtigkeit und kosmetische Hautverfeinerung verbinden möchten.' },
+];
+
+const benefits = [
+  { icon: 'droplet' as const, title: 'Frischer Glow', text: 'HydraFacial reinigt und hydratisiert die Haut für ein gepflegtes, wacher wirkendes Hautbild.' },
+  { icon: 'activity' as const, title: 'Feiner wirkende Struktur', text: 'Microneedling kann die natürliche Hauterneuerung unterstützen und die Haut optisch glatter wirken lassen.' },
+  { icon: 'leaf' as const, title: 'Persönlich abgestimmt', text: 'Intensität, Pflege und After-Care richten sich nach Hautzustand, Empfindlichkeit und Ziel.' },
+  { icon: 'target' as const, title: 'Realistische Ergebnisse', text: 'Klare Einschätzung, ruhige Durchführung und keine übertriebenen Ergebnisversprechen.' },
+];
+
+const phases = [
+  { title: 'Reinigen & hydratisieren', text: 'Die Haut wird sanft vorbereitet, gereinigt und mit Feuchtigkeitspflege versorgt. So entsteht eine gepflegte Basis für den zweiten Schritt.' },
+  { title: 'Kontrolliert needlen', text: 'Der professionelle Pen setzt feine Mikroimpulse. Das kann die natürliche Regeneration unterstützen und die Hautstruktur optisch verfeinern.' },
+  { title: 'Beruhigen & schützen', text: 'Eine abgestimmte Wirkstoff- und Abschluss-Pflege beruhigt die Haut. Danach erhalten Sie klare Hinweise für die nächsten 24-48 Stunden.' },
+];
+
+const combinationReasons = [
+  { title: 'HydraFacial bereitet vor', text: 'Reinigung und Feuchtigkeitspflege helfen, die Hautoberfläche gepflegt und ruhig in die Behandlung zu führen.' },
+  { title: 'Microneedling ergänzt gezielt', text: 'Die kontrollierten Mikroimpulse sind auf optische Strukturverfeinerung und Hauterneuerung ausgerichtet.' },
+  { title: 'Pflege schliesst ab', text: 'Die Abschluss-Pflege beruhigt und unterstützt ein angenehmes Hautgefühl nach der Sitzung.' },
+];
+
+const proofItems = [
+  { value: '20+ Jahre', label: 'Kosmetische Erfahrung' },
+  { value: '4.8/5', label: 'Bewertungsschnitt aus 248+ Bewertungen' },
+  { value: '8001 Zürich', label: 'Bahnhofstrasse 94, zentral erreichbar' },
+];
+
+const expectationItems = [
+  { title: 'Direkt danach', text: 'Die Haut kann frisch und gut versorgt wirken. Leichte Rötungen nach dem Microneedling sind möglich.' },
+  { title: '24-48 Stunden', text: 'Die Haut beruhigt sich meist schrittweise. Sanfte Pflege und konsequenter Sonnenschutz sind in dieser Zeit besonders wichtig.' },
+  { title: 'Danach', text: 'Das Hautbild kann ruhiger, glatter und gepflegter erscheinen. Die Ausprägung hängt vom individuellen Hautzustand ab.' },
+];
+
+const processSteps = [
+  { title: 'Kombi-Termin sichern', text: 'Der Button führt zur Buchung. Service, Angebot und Preis sind bereits vorbereitet.' },
+  { title: 'Ankommen in Zürich', text: 'Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94, gut erreichbar in der Innenstadt.' },
+  { title: 'Persönliche Behandlung', text: 'Teresa führt HydraFacial, Microneedling und Abschluss-Pflege persönlich und kontrolliert durch.' },
+  { title: 'After-Care beachten', text: 'Sie erhalten klare Hinweise zu Pflege, Make-up, Sport, Sonne und möglichen Rötungen.' },
+];
+
+const faqs = [
+  {
+    q: 'Für wen ist HydraFacial + Microneedling geeignet?',
+    a: 'Die Behandlung kann für viele Hauttypen interessant sein, wenn das Ziel ein frischeres, gepflegteres und optisch verfeinertes Hautbild ist. Teresa prüft vor Ort, ob die Kombination zu Ihrem Hautzustand passt.',
+  },
+  {
+    q: 'Wie lange dauert die Behandlung?',
+    a: `Die Behandlung dauert ${DURATION_LABEL}. Darin enthalten sind eine kurze Hautanalyse, HydraFacial Reinigung, Microneedling, Abschluss-Pflege und persönliche After-Care-Hinweise.`,
+  },
+  {
+    q: 'Was kostet die Aktion?',
+    a: `Der Aktionspreis beträgt CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Die Buchung läuft über Treatwell; die Behandlungsangabe wird über unsere Buchungsseite vorbereitet.`,
+  },
+  {
+    q: 'Warum werden HydraFacial und Microneedling kombiniert?',
+    a: 'HydraFacial reinigt und hydratisiert zuerst. Microneedling setzt danach kontrollierte Mikroimpulse. Zusammen entsteht eine Behandlung, die Pflege, Glow und optische Strukturverfeinerung in einer Sitzung verbindet.',
+  },
+  {
+    q: 'Gibt es Ausfallzeit?',
+    a: 'Nach HydraFacial ist die Haut meist direkt alltagstauglich. Durch das Microneedling kann sie jedoch gerötet oder empfindlich sein. Das beruhigt sich je nach Hauttyp meist innerhalb von Stunden bis 24-48 Stunden.',
+  },
+  {
+    q: 'Ist Microneedling schmerzhaft?',
+    a: 'Viele Kundinnen beschreiben das Gefühl als leichtes Piksen oder Druckgefühl. Die Intensität wird kontrolliert und individuell angepasst.',
+  },
+  {
+    q: 'Wie viele Sitzungen sind sinnvoll?',
+    a: 'Das hängt von Hautzustand, Ziel und Reaktion der Haut ab. Für einen Frische-Effekt kann eine einzelne Sitzung interessant sein; bei Strukturthemen kann Teresa vor Ort eine sinnvolle Behandlungsserie einordnen.',
+  },
+  {
+    q: 'Was sollte ich nach der Behandlung beachten?',
+    a: 'Für 24-48 Stunden sind sanfte Pflege, konsequenter Sonnenschutz und der Verzicht auf Sauna, intensive Sonne, Peelings, Retinol und schweisstreibenden Sport empfehlenswert. Teresa gibt Ihnen konkrete Hinweise mit.',
+  },
+  {
+    q: 'Wann sollte ich die Behandlung verschieben?',
+    a: 'Bei akuten Entzündungen, stark gereizter Haut, frischem Sonnenbrand oder Unsicherheit zu Hautreaktionen sollte die Behandlung vorab besprochen oder verschoben werden. Vor Ort wird geprüft, was für Ihre Haut sinnvoll ist.',
+  },
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Product',
+      '@id': absoluteUrl('/lp/hydrafacial-microneedling/#product'),
+      name: 'Hydrafacial + Microneedling',
+      description: `Aktionsangebot in Zürich: Hydrafacial + Microneedling, ${DURATION_LABEL}, CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`,
+      image: absoluteUrl('/assets/hydrafacial_treatment.png'),
+      brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'CHF',
+        price: PROMO_PRICE.toFixed(2),
+        availability: 'https://schema.org/InStock',
+        url: absoluteUrl('/lp/hydrafacial-microneedling/'),
+        priceValidUntil: '2026-12-31',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<LandingPage
+  title={`Hydrafacial + Microneedling Zürich - CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE} | Beauty Face Lift`}
+  description={`Hydrafacial + Microneedling an der Bahnhofstrasse Zürich. ${DURATION_LABEL}, Aktionspreis CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Frischer Glow und verfeinert wirkendes Hautbild.`}
+  ogImage="/assets/hydrafacial_treatment.png"
+  preloadImage={{
+    href: lpHeroPreload.src,
+    imagesrcset: lpHeroPreload.srcSet.attribute,
+    imagesizes: lpHeroMainSizes,
+    type: 'image/webp',
+    fetchpriority: 'high',
+  }}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="lp-page">
+    <section class="container lp-hero">
+      <div class="lp-hero-grid">
+        <div class="lp-hero-content">
+          <h1 class="lp-title display-text">HydraFacial + Microneedling in Zürich für frischere, glatter wirkende Haut</h1>
+          <p class="lp-subtitle">
+            Eine 90-minütige Kombi-Behandlung an der Bahnhofstrasse: gründliche HydraFacial Pflege,
+            kontrolliertes Microneedling und beruhigende Abschluss-Pflege, persönlich abgestimmt von
+            Teresa Stimac.
+          </p>
+
+          <div class="lp-hero-offer-card" aria-label="Aktionsangebot">
+            <span>Aktionspreis</span>
+            <strong>CHF {PROMO_PRICE}.–</strong>
+            <s>statt CHF {REGULAR_PRICE}.–</s>
+            <em>{DURATION_LABEL} · {SAVINGS_LABEL} · Buchung über Treatwell</em>
+          </div>
+
+          <div class="lp-hero-ctas">
+            <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_hero">Kombi-Termin sichern</a>
+            <p class="lp-hero-note">CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– · Beauty Face Lift Zürich</p>
+          </div>
+
+          <div class="lp-hero-trust">
+            <TrustStrip variant="rating" align="left" />
+          </div>
+
+          <ul class="lp-hero-bullets">
+            {heroBullets.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="lp-hero-media" aria-label={OFFER_LABEL}>
+          <div class="lp-hero-media-main">
+            <Image
+              src={hydrafacialCard}
+              widths={[360, 540, 720, 960, 1122]}
+              sizes={lpHeroMainSizes}
+              format="webp"
+              quality="high"
+              priority
+              alt="HydraFacial Behandlung im Beauty Face Lift Studio Zürich"
+            />
+          </div>
+          <div class="lp-hero-media-overlap">
+            <Image
+              src={microneedlingCard}
+              widths={[320, 480, 640, 800]}
+              sizes={lpHeroOverlapSizes}
+              format="webp"
+              quality="high"
+              loading="eager"
+              alt="Microneedling Behandlung mit professionellem Pen bei Beauty Face Lift Zürich"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-desire" id="details">
+      <div class="lp-section-head">
+        <div class="sub-display">Behandlungsziel</div>
+        <h2 class="lp-section-title">Wenn die Haut müde, unruhig oder fahl wirkt</h2>
+        <p class="lp-section-lead">
+          Die Behandlung richtet sich an Kundinnen und Kunden in Zürich, die sich einen frischeren,
+          gepflegteren Teint wünschen und eine klare, persönliche Einschätzung möchten.
+        </p>
+      </div>
+      <div class="lp-desire-grid">
+        {desireItems.map((item) => (
+          <div class="lp-desire-item">
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="container lp-section lp-treatment-plan">
+      <div class="lp-section-head">
+        <div class="sub-display">Die Sitzung</div>
+        <h2 class="lp-section-title">Was passiert in 90 Minuten?</h2>
+        <p class="lp-section-lead">
+          Ein ruhiger Ablauf mit Hautanalyse, HydraFacial, Microneedling und klarer Nachpflege.
+          Der Fokus liegt auf einem sichtbar gepflegten Hautbild ohne übertriebene Versprechen.
+        </p>
+      </div>
+      <div class="lp-treatment-grid">
+        <div class="lp-phases">
+          {phases.map((phase, index) => (
+            <div class="lp-phase">
+              <div class="lp-phase-no">{String(index + 1).padStart(2, '0')}</div>
+              <h3>{phase.title}</h3>
+              <p>{phase.text}</p>
+            </div>
+          ))}
+        </div>
+        <div class="lp-included-panel">
+          <h3>Enthalten im Aktionspreis</h3>
+          <p>CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– für {DURATION_LABEL} Behandlung.</p>
+          <ul class="lp-included-list">
+            {includedItems.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-combination">
+      <div class="lp-combination-grid">
+        <div class="lp-combination-copy">
+          <div class="sub-display margin-bottom-md">Warum diese Kombination?</div>
+          <h2 class="lp-section-title">Reinigung, Feuchtigkeit und Mikroimpulse in einem Termin</h2>
+          <p>
+            HydraFacial und Microneedling sprechen unterschiedliche Bedürfnisse an. Erst wird die
+            Haut gepflegt vorbereitet, danach kann Microneedling die natürliche Hauterneuerung
+            kosmetisch unterstützen.
+          </p>
+          <div class="lp-reason-list">
+            {combinationReasons.map((item) => (
+              <div class="lp-reason-item">
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="lp-combination-media">
+          <Image
+            src={microneedlingCard}
+            widths={[360, 540, 720, 960, 1122]}
+            sizes={lpAboutSizes}
+            format="webp"
+            quality="high"
+            alt="Kosmetische Microneedling Behandlung bei Beauty Face Lift Zürich"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-benefits-section">
+      <div class="lp-section-head">
+        <div class="sub-display">Ihre Vorteile</div>
+        <h2 class="lp-section-title">Was die Kombi-Behandlung leisten soll</h2>
+        <p class="lp-section-lead">
+          Vier klare Gründe für alle, die Glow, Pflege und optische Hautverfeinerung
+          in einem strukturierten Termin verbinden möchten.
+        </p>
+      </div>
+      <div class="lp-benefits-grid">
+        {benefits.map((b) => (
+          <div class="lp-benefit">
+            <div class="lp-benefit-icon-wrap">
+              <BenefitIcon name={b.icon} size={26} />
+            </div>
+            <strong>{b.title}</strong>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="container lp-section lp-trust">
+      <div class="lp-trust-grid">
+        <div class="lp-trust-media">
+          <Image
+            src={teresaPortrait}
+            widths={[360, 540, 720, 960, 1023]}
+            sizes={lpAboutSizes}
+            format="webp"
+            quality="high"
+            alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
+            loading="lazy"
+          />
+        </div>
+        <div class="lp-trust-content">
+          <div class="sub-display margin-bottom-md">Qualität & Vertrauen</div>
+          <h2 class="lp-section-title">Vertrauen vor der Buchung</h2>
+          <blockquote class="lp-about-quote">
+            <p>„Ich nehme mir Zeit, erkläre jeden Schritt und stimme die Behandlung auf die Haut ab."</p>
+          </blockquote>
+          <p>
+            Beauty Face Lift ist ein Premium Kosmetikinstitut an der Bahnhofstrasse 94 in Zürich.
+            Teresa Stimac arbeitet seit über 20 Jahren in der Kosmetik und behandelt diese Kombi
+            persönlich.
+          </p>
+          <div class="lp-proof-grid" aria-label="Vertrauenssignale">
+            {proofItems.map((item) => (
+              <div class="lp-proof-item">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-offer">
+      <OfferBox
+        variant="box"
+        eyebrow="Aktionsangebot Zürich"
+        oldPrice={REGULAR_PRICE}
+        newPrice={PROMO_PRICE}
+        discountLabel="HydraFacial + Microneedling"
+        urgency={`${DURATION_LABEL} · ${SAVINGS_LABEL} · Buchung über Treatwell`}
+        ctaText="Kombi-Termin sichern"
+        ctaHref={bookingHref}
+      />
+      <p class="lp-offer-footnote">
+        HydraFacial + Microneedling für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–.
+        Die Terminbuchung läuft über Treatwell; Service und Angebot sind vorbereitet.
+      </p>
+    </section>
+
+    <section class="container lp-section lp-expectation">
+      <div class="lp-section-head">
+        <div class="sub-display">Realistische Erwartung</div>
+        <h2 class="lp-section-title">Realistische Ergebnisse statt übertriebener Versprechen</h2>
+        <p class="lp-section-lead">
+          Die Haut kann frischer, glatter und gepflegter wirken. Weil jeder Hautzustand
+          unterschiedlich reagiert, wird das Ergebnis vor Ort ehrlich eingeordnet.
+        </p>
+      </div>
+      <div class="lp-expectation-grid">
+        {expectationItems.map((item) => (
+          <div class="lp-expectation-card">
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="container lp-section lp-process">
+      <div class="lp-section-head">
+        <div class="sub-display">Buchung</div>
+        <h2 class="lp-section-title">So funktioniert Ihre Buchung</h2>
+        <p class="lp-section-lead">
+          Der Button führt zur vorbereiteten Treatwell-Buchung. Dort wählen Sie Ihren freien
+          Termin für die Kombi-Behandlung.
+        </p>
+      </div>
+      <div class="lp-process-grid">
+        {processSteps.map((step, index) => (
+          <div class="lp-process-step">
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{step.title}</strong>
+            <p>{step.text}</p>
+          </div>
+        ))}
+      </div>
+      <div class="lp-section-cta">
+        <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="process_section">Kombi-Termin sichern</a>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-faq">
+      <div class="lp-section-head">
+        <div class="sub-display">Häufige Fragen</div>
+        <h2 class="lp-section-title">Alles, was Sie vor der Behandlung wissen sollten</h2>
+      </div>
+      <FAQAccordion items={faqs} />
+    </section>
+
+    <section class="container lp-section lp-reassurance">
+      <TrustStrip variant="promises"
+        align="center"
+        promises={[
+          { text: 'Persönliche Hautanalyse' },
+          { text: 'Transparenter Aktionspreis' },
+          { text: 'Zentrale Lage in Zürich' },
+          { text: 'Realistische Beratung' },
+        ]}
+      />
+    </section>
+
+    <section class="container lp-section lp-booking" id="buchen">
+      <div class="lp-section-head">
+        <div class="sub-display">Termin buchen</div>
+        <h2 class="lp-section-title">Sichern Sie sich Ihre HydraFacial + Microneedling Aktion</h2>
+        <p class="lp-section-lead">Die Buchung läuft über Treatwell. Service, Angebot und Aktionspreis sind vorbereitet.</p>
+      </div>
+      <BookingCta
+        treatment="Hydrafacial + Microneedling"
+        href={bookingHref}
+        ctaText="Kombi-Termin sichern"
+        text={`Aktionspreis CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Behandlungsdauer ${DURATION_LABEL}.`}
+      />
+    </section>
+
+    <section class="lp-final-dark">
+      <div class="lp-final-inner">
+        <div class="sub-display lp-final-eyebrow">HydraFacial + Microneedling</div>
+        <h2 class="lp-final-title">Frischer Glow. Ruhige Beratung. Ein klarer Termin.</h2>
+        <p class="lp-final-lead">
+          Buchen Sie die Kombi-Behandlung für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–,
+          persönlich durchgeführt bei Beauty Face Lift an der Bahnhofstrasse.
+        </p>
+        <div class="lp-final-ctas">
+          <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_final_booking">Kombi-Termin sichern</a>
+          <a href="tel:+41792143462" class="pill-btn pill-btn-dark" data-button-location="lp_final_phone">+41 79 214 34 62</a>
+        </div>
+        <p class="lp-final-address">Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich</p>
+      </div>
+    </section>
+
+    <StickyOfferBar
+      oldPrice={REGULAR_PRICE}
+      newPrice={PROMO_PRICE}
+      href={bookingHref}
+      ctaText="Kombi-Termin sichern"
+    />
+  </main>
+</LandingPage>
+
+<style>
+  .lp-hero {
+    padding-top: 6vh;
+    padding-bottom: 6vh;
+  }
+  .lp-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
+    gap: 5rem;
+    align-items: center;
+  }
+  .lp-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.1rem;
+    max-width: 720px;
+  }
+  .lp-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--accent-text);
+  }
+  .lp-title {
+    margin: 0;
+    letter-spacing: 0;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    color: var(--ink);
+    font-size: clamp(2.55rem, 4vw, 3.95rem);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .lp-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.13rem;
+    line-height: 1.62;
+    max-width: 620px;
+    margin: 0;
+  }
+  .lp-hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  .lp-hero-ctas > :global(.pill-btn) {
+    min-height: 56px;
+    padding: 15px clamp(1.25rem, 2vw, 1.9rem);
+    font-size: 0.82rem;
+    line-height: 1;
+    letter-spacing: 0.09em;
+  }
+  .lp-hero-primary {
+    flex: 0 1 276px;
+    min-width: min(100%, 240px);
+    white-space: nowrap;
+  }
+  .lp-hero-secondary {
+    justify-content: center;
+  }
+  .lp-hero-trust {
+    padding-top: 0.35rem;
+  }
+  .lp-hero-bullets {
+    list-style: none;
+    padding: 1.25rem 0 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .lp-hero-bullets li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    line-height: 1.45;
+  }
+  .lp-hero-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.68em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .lp-hero-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 620px;
+    justify-self: end;
+  }
+  .lp-hero-media-main {
+    position: absolute;
+    left: 0;
+    top: 7%;
+    width: 64%;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+  }
+  .lp-hero-media-overlap {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    z-index: 2;
+    box-shadow: var(--shadow-2);
+    border: 3px solid var(--bg-primary);
+  }
+  .lp-hero-media-main img,
+  .lp-hero-media-overlap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lp-section { padding-block: 8vh; }
+  .lp-section-head {
+    max-width: 740px;
+    margin: 0 auto 3.5rem;
+    text-align: center;
+  }
+  .lp-section-title {
+    font-size: clamp(2.15rem, 5vw, 56px);
+    line-height: 1.08;
+    letter-spacing: 0;
+    margin-bottom: 1rem;
+  }
+  .lp-section-lead {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.65;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .lp-section-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+  .lp-divider {
+    display: flex;
+    justify-content: center;
+    padding: 2vh 0;
+  }
+  .lp-divider .deco-line {
+    width: 48px;
+  }
+
+  .lp-problem .lp-section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .lp-problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 3rem;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+  .lp-problem-item {
+    padding-top: 1rem;
+    border-top: 1px solid var(--accent);
+  }
+  .lp-problem-item strong {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+    letter-spacing: 0;
+  }
+  .lp-problem-item p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .lp-included-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 820px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem 3rem;
+  }
+  .lp-included-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+  .lp-included-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #fff;
+    background: var(--gold-gradient);
+    border-radius: 50%;
+    font-weight: 600;
+  }
+
+  .lp-phases,
+  .lp-benefits-grid,
+  .lp-expectation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .lp-phase,
+  .lp-benefit,
+  .lp-expectation-card,
+  .lp-process-step {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    padding: 2.25rem 1.75rem;
+    text-align: left;
+  }
+  .lp-phase-no,
+  .lp-process-step span {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 6vw, 4.8rem);
+    line-height: 1;
+    color: rgba(185, 143, 71, 0.35);
+    margin-bottom: 1rem;
+    letter-spacing: 0;
+  }
+  .lp-phase h3,
+  .lp-benefit strong,
+  .lp-expectation-card strong,
+  .lp-process-step strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0;
+  }
+  .lp-phase p,
+  .lp-benefit p,
+  .lp-expectation-card p,
+  .lp-process-step p {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: none;
+  }
+  .lp-benefit-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(185, 143, 71, 0.08);
+    margin-bottom: 0.75rem;
+  }
+  .lp-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .lp-process-step span {
+    font-size: 2.6rem;
+  }
+
+  .lp-offer { text-align: center; }
+  .lp-offer-footnote {
+    max-width: 560px;
+    margin: 1.25rem auto 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .lp-about-grid {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .lp-about-media {
+    width: 100%;
+    height: 620px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    background: var(--paper-2);
+  }
+  .lp-about-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .lp-about-content .lp-section-title {
+    text-align: left;
+    margin-bottom: 1.25rem;
+  }
+  .lp-about-quote {
+    margin: 0 0 1.5rem;
+    padding: 0.25rem 0 0.25rem 1.5rem;
+    border-left: 2px solid var(--accent);
+  }
+  .lp-about-quote p {
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 300;
+    line-height: 1.35;
+    color: var(--text-primary);
+    margin: 0;
+    max-width: none;
+    letter-spacing: 0;
+  }
+  .lp-about-content p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0 0 1.25rem;
+    max-width: none;
+  }
+  .lp-about-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .lp-about-list li {
+    padding-left: 1.75rem;
+    position: relative;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .lp-about-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .lp-reassurance {
+    padding: 3vh 0 5vh;
+  }
+  .lp-final-dark {
+    background: var(--bg-dark);
+    color: var(--text-inverse);
+    padding: 12vh 58px calc(14vh + env(safe-area-inset-bottom, 0px));
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    margin-top: 4vh;
+    text-align: center;
+  }
+  .lp-final-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .lp-final-eyebrow {
+    color: rgba(246, 241, 234, 0.68);
+    margin-bottom: 1rem;
+  }
+  .lp-final-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+    color: var(--text-inverse);
+    margin-bottom: 1.25rem;
+  }
+  .lp-final-lead {
+    color: rgba(246, 241, 234, 0.78);
+    font-size: 1.1rem;
+    line-height: 1.65;
+    margin: 0 auto 2rem;
+    max-width: 540px;
+  }
+  .lp-final-ctas {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .lp-final-address {
+    color: rgba(246, 241, 234, 0.62);
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 1100px) {
+    .lp-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .lp-hero-content {
+      max-width: 720px;
+    }
+    .lp-hero-media {
+      max-width: 560px;
+      margin: 0 auto;
+      justify-self: center;
+    }
+    .lp-about-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .lp-about-media {
+      height: auto;
+      max-height: 560px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .lp-about-content .lp-section-title {
+      text-align: center;
+    }
+    .lp-about-quote {
+      border-left: none;
+      border-top: 1px solid var(--accent);
+      padding: 1.25rem 0 0;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .lp-hero { padding-top: 9vh; padding-bottom: 4vh; }
+    .lp-section { padding-block: 5rem; }
+    .lp-problem {
+      padding-bottom: calc(5rem + var(--lp-sticky-offer-height, 78px));
+    }
+    .lp-section-head { margin-bottom: 2.5rem; }
+    .lp-divider { padding: 1rem 0; }
+    .lp-problem-grid,
+    .lp-phases,
+    .lp-benefits-grid,
+    .lp-expectation-grid,
+    .lp-process-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .lp-included-list {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      max-width: 440px;
+    }
+    #buchen.lp-section {
+      padding-bottom: calc(6.5rem + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
+    }
+    .lp-final-dark {
+      padding: 8vh 24px calc(10vh + env(safe-area-inset-bottom, 0px));
+      margin-top: 3vh;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .lp-hero { padding-top: 3vh; padding-bottom: 3.5rem; }
+    .lp-section { padding-block: 4rem; }
+    .lp-problem {
+      padding-bottom: calc(4.5rem + var(--lp-sticky-offer-height, 78px));
+    }
+    .lp-section-head { margin-bottom: 1.75rem; }
+    .lp-hero-grid { gap: 2rem; }
+    .lp-hero-content { gap: 1.25rem; }
+    .lp-title {
+      font-size: 2.62rem;
+      line-height: 1.04;
+    }
+    .lp-subtitle {
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+    .lp-hero-bullets {
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+    }
+    .lp-hero-bullets li {
+      font-size: 0.92rem;
+    }
+    .lp-hero-media {
+      max-width: 360px;
+    }
+    .lp-hero-ctas {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      align-items: stretch;
+      width: 100%;
+    }
+    .lp-hero-primary {
+      min-width: 0;
+    }
+    .lp-hero-ctas > :global(.pill-btn) {
+      min-height: 50px;
+      padding: 13px 18px;
+      width: 100%;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+    .lp-section-title {
+      font-size: clamp(1.9rem, 8vw, 2.3rem);
+    }
+    .lp-section-lead {
+      font-size: 1rem;
+    }
+    .lp-divider { padding: 0.5rem 0; }
+    .lp-divider .deco-line { width: 36px; }
+    .lp-phase,
+    .lp-benefit,
+    .lp-expectation-card,
+    .lp-process-step {
+      padding: 1.75rem 1.5rem;
+    }
+    .lp-about-grid { gap: 2rem; }
+    .lp-about-media {
+      max-height: 440px;
+      max-width: 420px;
+    }
+    .lp-about-content p { font-size: 1rem; }
+    .lp-about-quote p { font-size: 1.2rem; }
+    .lp-reassurance { padding: 1vh 0 2vh; }
+    .lp-final-dark {
+      padding: 6vh 20px calc(8vh + 5.5rem + env(safe-area-inset-bottom, 0px));
+    }
+    .lp-final-title {
+      font-size: clamp(2rem, 9vw, 2.8rem);
+    }
+    .lp-final-lead {
+      font-size: 1rem;
+    }
+    .lp-final-ctas {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.6rem;
+    }
+    .lp-final-ctas > :global(.pill-btn) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 374px) {
+    .lp-title { font-size: 2.38rem; }
+  }
+
+  @media (max-width: 340px) {
+    .lp-title { font-size: 2.22rem; }
+  }
+  /* Approved Hydrafacial/Microneedling conversion redesign overrides. */
+  :global(body) {
+    --paper: #faf8f4;
+    --bone: #ffffff;
+    --paper-2: #f5f2ed;
+    --paper-3: #e8e4df;
+    --ink: #2d2926;
+    --ink-2: #6b6660;
+    --ink-3: #6b6660;
+    --gold: #8e6a2e;
+    --gold-deep: #765725;
+    --gold-soft: #e8d9b5;
+    --bg-primary: var(--paper);
+    --bg-secondary: var(--bone);
+    --bg-warm: var(--paper-2);
+    --bg-dark: var(--ink);
+    --text-primary: var(--ink);
+    --text-secondary: var(--ink-2);
+    --text-muted: var(--ink-3);
+    --accent: var(--gold);
+    --accent-text: var(--gold-deep);
+    --border-subtle: #e8e4df;
+    --border-medium: #e8e4df;
+    --radius-card: 16px;
+    --radius-sm: 8px;
+    --shadow-1: 0 1px 0 rgba(45, 41, 38, 0.08);
+    --shadow-2: 0 16px 44px rgba(45, 41, 38, 0.12);
+  }
+
+  .lp-page {
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  .lp-page :global(.pill-btn) {
+    min-height: 44px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: var(--gold);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: none;
+    box-shadow: none;
+  }
+
+  .lp-page :global(.pill-btn:hover) {
+    background: var(--gold-deep);
+    box-shadow: none;
+  }
+
+  .lp-page :global(.pill-btn-outline),
+  .lp-page :global(.pill-btn-dark) {
+    background: transparent;
+    border: 1px solid currentColor;
+  }
+
+  .lp-page :global(.pill-btn-outline) {
+    color: var(--gold-deep);
+  }
+
+  .lp-page :global(.pill-btn-dark) {
+    color: var(--paper);
+  }
+
+  .lp-page :global(.pill-btn-dark:hover) {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: var(--ink);
+  }
+
+  .lp-hero {
+    padding-top: clamp(56px, 8vh, 96px);
+    padding-bottom: clamp(72px, 9vh, 120px);
+  }
+
+  .lp-hero-grid {
+    grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.9fr);
+    gap: clamp(48px, 6vw, 88px);
+  }
+
+  .lp-hero-content {
+    gap: 20px;
+    max-width: 700px;
+  }
+
+  .lp-title {
+    max-width: 760px;
+    font-weight: 400;
+    font-size: clamp(3rem, 5.1vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .lp-subtitle {
+    max-width: 620px;
+    color: var(--ink-2);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .lp-hero-offer-card {
+    display: grid;
+    gap: 6px;
+    width: min(100%, 420px);
+    margin-top: 4px;
+    padding: 16px 18px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--paper-2) 82%, #fff 18%);
+  }
+
+  .lp-hero-offer-card span {
+    color: var(--gold-deep);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .lp-hero-offer-card strong {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .lp-hero-offer-card s,
+  .lp-hero-offer-card em {
+    color: var(--ink-2);
+    font-size: 13px;
+    font-style: normal;
+    line-height: 1.45;
+  }
+
+  .lp-hero-ctas {
+    align-items: center;
+    gap: 14px 18px;
+  }
+
+  .lp-hero-ctas > :global(.pill-btn) {
+    min-height: 44px;
+    padding: 12px 20px;
+    font-size: 13px;
+    letter-spacing: 0;
+  }
+
+  .lp-hero-primary {
+    min-width: 190px;
+  }
+
+  .lp-hero-note {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .lp-hero-trust {
+    padding-top: 6px;
+  }
+
+  .lp-hero-bullets {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    max-width: 640px;
+    margin-top: 4px;
+    padding-top: 22px;
+    border-color: var(--border-subtle);
+  }
+
+  .lp-hero-bullets li {
+    padding-left: 18px;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .lp-hero-bullets li::before {
+    top: 0.72em;
+    border-radius: 999px;
+    background: var(--gold);
+  }
+
+  .lp-hero-media {
+    max-width: 620px;
+  }
+
+  .lp-hero-media-main,
+  .lp-hero-media-overlap,
+  .lp-combination-media,
+  .lp-trust-media {
+    overflow: hidden;
+    border-radius: 24px;
+    background: #e8ddd8;
+    box-shadow: 0 16px 44px rgba(45, 41, 38, 0.12);
+  }
+
+  .lp-hero-media-main {
+    top: 8%;
+    width: 66%;
+  }
+
+  .lp-hero-media-overlap {
+    width: 52%;
+    border: 4px solid var(--paper);
+  }
+
+  .lp-combination-media img,
+  .lp-trust-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lp-section {
+    padding-block: clamp(64px, 8vw, 112px);
+  }
+
+  .lp-section-head {
+    max-width: 740px;
+    margin-bottom: 48px;
+  }
+
+  .lp-section-title {
+    margin-bottom: 16px;
+    color: var(--ink);
+    font-size: clamp(2.25rem, 4.7vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .lp-section-lead,
+  .lp-combination-copy p,
+  .lp-trust-content p {
+    color: var(--ink-2);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .lp-section-lead {
+    max-width: 650px;
+  }
+
+  .lp-section-cta {
+    margin-top: 36px;
+  }
+
+  .lp-desire,
+  .lp-combination,
+  .lp-process {
+    background: var(--paper-2);
+  }
+
+  .lp-desire {
+    padding-top: clamp(56px, 7vw, 88px);
+  }
+
+  .lp-desire-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .lp-desire-item,
+  .lp-reason-item {
+    padding-top: 18px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .lp-desire-item {
+    border-top-color: var(--gold);
+  }
+
+  .lp-desire-item strong,
+  .lp-reason-item strong,
+  .lp-included-panel h3,
+  .lp-phase h3,
+  .lp-benefit strong,
+  .lp-expectation-card strong,
+  .lp-process-step strong {
+    display: block;
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .lp-desire-item p,
+  .lp-reason-item p,
+  .lp-included-panel p,
+  .lp-phase p,
+  .lp-benefit p,
+  .lp-expectation-card p,
+  .lp-process-step p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .lp-treatment-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .lp-phases,
+  .lp-benefits-grid,
+  .lp-expectation-grid,
+  .lp-process-grid,
+  .lp-proof-grid {
+    display: grid;
+    gap: 18px;
+  }
+
+  .lp-phases {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lp-phase,
+  .lp-benefit,
+  .lp-expectation-card,
+  .lp-process-step,
+  .lp-included-panel {
+    background: var(--bone);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: left;
+  }
+
+  .lp-phase-no,
+  .lp-process-step span {
+    margin-bottom: 18px;
+    color: rgba(142, 106, 46, 0.42);
+    font-size: clamp(2.6rem, 5vw, 4rem);
+  }
+
+  .lp-included-panel {
+    background: var(--paper-2);
+  }
+
+  .lp-included-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: none;
+    margin: 22px 0 0;
+    padding: 0;
+  }
+
+  .lp-included-list li {
+    padding-left: 26px;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .lp-included-list li::before {
+    top: 0.62em;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--gold);
+  }
+
+  .lp-combination-grid,
+  .lp-trust-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.86fr);
+    gap: clamp(44px, 6vw, 78px);
+    align-items: center;
+  }
+
+  .lp-combination-copy .lp-section-title,
+  .lp-trust-content .lp-section-title {
+    text-align: left;
+  }
+
+  .lp-reason-list {
+    display: grid;
+    gap: 18px;
+    margin-top: 32px;
+  }
+
+  .lp-combination-media {
+    min-height: 560px;
+  }
+
+  .lp-benefits-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .lp-benefit-icon-wrap {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 18px;
+    background: var(--gold-soft);
+    color: var(--gold-deep);
+  }
+
+  .lp-trust {
+    padding-top: clamp(56px, 7vw, 88px);
+  }
+
+  .lp-trust-grid {
+    grid-template-columns: minmax(330px, 0.82fr) minmax(0, 1.18fr);
+  }
+
+  .lp-trust-media {
+    height: 620px;
+  }
+
+  .lp-trust-media img {
+    object-position: center top;
+  }
+
+  .lp-about-quote {
+    margin: 0 0 24px;
+    padding: 4px 0 4px 22px;
+    border-left: 2px solid var(--gold);
+  }
+
+  .lp-about-quote p {
+    font-weight: 400;
+  }
+
+  .lp-proof-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 32px;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .lp-proof-item {
+    padding: 22px 18px 22px 0;
+    border-right: 1px solid var(--border-subtle);
+  }
+
+  .lp-proof-item:last-child {
+    border-right: none;
+  }
+
+  .lp-proof-item strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gold);
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .lp-proof-item span {
+    display: block;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .lp-offer {
+    padding-block: clamp(56px, 7vw, 88px);
+  }
+
+  .lp-offer-footnote {
+    max-width: 560px;
+    margin: 20px auto 0;
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .lp-expectation-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lp-process-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .lp-process-step span {
+    font-size: 36px;
+  }
+
+  .lp-faq {
+    padding-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .lp-reassurance {
+    padding: 24px 0 clamp(48px, 6vw, 72px);
+  }
+
+  .lp-booking {
+    padding-top: clamp(48px, 6vw, 80px);
+  }
+
+  .lp-final-dark {
+    margin-top: 24px;
+    padding: clamp(72px, 10vw, 128px) 58px calc(clamp(82px, 11vw, 148px) + env(safe-area-inset-bottom, 0px));
+    border-radius: 0;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .lp-final-inner {
+    max-width: 720px;
+  }
+
+  .lp-final-eyebrow {
+    margin-bottom: 16px;
+    color: rgba(250, 248, 244, 0.7);
+  }
+
+  .lp-final-title {
+    margin: 0 0 20px;
+    color: var(--paper);
+    font-size: clamp(2.4rem, 5.8vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+
+  .lp-final-lead {
+    max-width: 580px;
+    margin-bottom: 28px;
+    color: rgba(250, 248, 244, 0.78);
+    font-size: 17px;
+  }
+
+  .lp-final-ctas {
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .lp-final-address {
+    margin: 0;
+    color: rgba(250, 248, 244, 0.62);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1100px) {
+    .lp-hero-grid,
+    .lp-combination-grid,
+    .lp-trust-grid,
+    .lp-treatment-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lp-hero-content {
+      max-width: 760px;
+    }
+
+    .lp-hero-media {
+      justify-self: center;
+      max-width: 560px;
+    }
+
+    .lp-phases,
+    .lp-benefits-grid,
+    .lp-expectation-grid,
+    .lp-process-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lp-combination-media,
+    .lp-trust-media {
+      min-height: 0;
+      height: auto;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .lp-combination-copy,
+    .lp-trust-content,
+    .lp-combination-copy .lp-section-title,
+    .lp-trust-content .lp-section-title {
+      text-align: center;
+    }
+
+    .lp-about-quote {
+      padding: 18px 0 0;
+      border-left: none;
+      border-top: 1px solid var(--gold);
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .lp-hero {
+      padding-top: 28px;
+      padding-bottom: 54px;
+    }
+
+    .lp-section {
+      padding-block: 64px;
+    }
+
+    .lp-section-head {
+      margin-bottom: 32px;
+    }
+
+    .lp-title {
+      font-size: clamp(2.65rem, 12vw, 3.25rem);
+      line-height: 1.02;
+    }
+
+    .lp-subtitle,
+    .lp-section-lead,
+    .lp-combination-copy p,
+    .lp-trust-content p,
+    .lp-final-lead {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .lp-section-title {
+      font-size: clamp(2rem, 9vw, 2.6rem);
+    }
+
+    .lp-hero-ctas {
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .lp-hero-primary,
+    .lp-hero-ctas :global(.pill-btn) {
+      width: 100%;
+    }
+
+    .lp-hero-note {
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .lp-hero-bullets {
+      gap: 8px;
+      padding-top: 18px;
+    }
+
+    .lp-hero-bullets li {
+      font-size: 14px;
+    }
+
+    .lp-hero-media {
+      max-width: 360px;
+    }
+
+    .lp-desire-grid,
+    .lp-phases,
+    .lp-benefits-grid,
+    .lp-expectation-grid,
+    .lp-process-grid,
+    .lp-proof-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lp-desire-grid {
+      gap: 24px;
+    }
+
+    .lp-phase,
+    .lp-benefit,
+    .lp-expectation-card,
+    .lp-process-step,
+    .lp-included-panel {
+      padding: 24px 22px;
+    }
+
+    .lp-proof-grid {
+      border-bottom: none;
+    }
+
+    .lp-proof-item {
+      padding: 18px 0;
+      border-right: none;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .lp-final-dark {
+      padding: 64px 20px calc(96px + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .lp-final-ctas {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
