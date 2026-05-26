@@ -823,7 +823,7 @@ const structuredData = {
     const heroSection = document.querySelector('.lp-hero');
     const stickyQuery = window.matchMedia('(max-width: 900px)');
 
-    const setMobileStickyVisible = (visible) => {
+    const setMobileStickyVisible = (visible: boolean) => {
       document.body.classList.toggle('lp-sticky-visible', visible);
       mobileSticky?.setAttribute('aria-hidden', visible ? 'false' : 'true');
     };
