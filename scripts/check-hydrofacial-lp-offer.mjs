@@ -114,6 +114,8 @@ assert(lp.includes("absoluteUrl('/lp/hydrofacial-microneedling/')"), 'Structured
 
 assert(termin.includes('hydrofacial-microneedling-aktion'), 'Booking bridge must recognize the Hydrofacial campaign offer parameter');
 assert(termin.includes('Hydrofacial + Microneedling für CHF 170 statt CHF 250'), 'Booking bridge must expose Hydrofacial promo context to users');
+assert(termin.includes("'Hydrofacial + Microneedling': 'TR4124140'"), 'Booking bridge must map Hydrofacial + Microneedling to the Treatwell service detail id');
+assert(termin.includes("target.hash = 'serviceDetails=' + encodeURIComponent(serviceDetailsId)"), 'Booking bridge must open the matching Treatwell service detail panel');
 assert(!termin.includes('hydra4face-microneedling-aktion'), 'Booking bridge must not keep the old hydra4face offer parameter');
 
 assert(landingPage.includes('og:title'), 'Landing page layout must expose Open Graph title metadata');

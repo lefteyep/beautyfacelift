@@ -4,6 +4,9 @@ import { absoluteUrl, TREATWELL_BOOKING_URL,
     BOOKING_FORWARD_KEYS, } from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
+const treatwellServiceDetailsByService = {
+    'Hydrofacial + Microneedling': 'TR4124140',
+};
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -65,7 +68,7 @@ const structuredData = {
     </section>
 </Base>
 
-<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys }}>
+<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys, treatwellServiceDetailsByService }}>
     (function() {
         var fallbackLink = document.getElementById('treatwell-booking-link');
         var status = document.getElementById('booking-forward-status');
@@ -94,6 +97,12 @@ const structuredData = {
                 target.searchParams.set(key, value);
             }
         });
+
+        var currentService = currentParams.get('service') || (typeof storedParams.service === 'string' ? storedParams.service : '');
+        var serviceDetailsId = treatwellServiceDetailsByService[currentService];
+        if (serviceDetailsId) {
+            target.hash = 'serviceDetails=' + encodeURIComponent(serviceDetailsId);
+        }
 
         var href = target.toString();
         if (fallbackLink) {
