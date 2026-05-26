@@ -7,7 +7,14 @@ import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
 import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image } from 'astro:assets';
-import { microneedlingCard, teresaPortrait } from '../../../lib/site-images';
+import heroHydrofacialMicroneedlingImage from '../../../assets/lp/hydrofacial/hero-hydrofacial-microneedling-zuerich.webp';
+import heroHydrofacialMicroneedlingUrl from '../../../assets/lp/hydrofacial/hero-hydrofacial-microneedling-zuerich.webp?url';
+import hydrofacialCloseUpImage from '../../../assets/lp/hydrofacial/hydrofacial-close-up-zuerich.webp';
+import postTreatmentGlowImage from '../../../assets/lp/hydrofacial/post-treatment-glow-zuerich.webp';
+import hautanalyseBeratungImage from '../../../assets/lp/hydrofacial/hautanalyse-beratung-zuerich.webp';
+import abschlusspflegeAftercareImage from '../../../assets/lp/hydrofacial/abschlusspflege-aftercare-zuerich.webp';
+import microneedlingCloseUpImage from '../../../assets/lp/hydrofacial/microneedling-close-up-zuerich.webp';
+import personalTreatmentImage from '../../../assets/lp/hydrofacial/personal-treatment-zuerich.webp';
 import { ADDRESS, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, OPENING_HOURS, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
@@ -26,9 +33,10 @@ const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
 const whatsappMessage = 'Hallo Teresa, ich interessiere mich für Hydrofacial + Microneedling in Zürich. Ist die Kombi-Behandlung für mein Hautziel geeignet?';
-const lpHeroMainImage = '/assets/hydrofacial_treatment.png';
-const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 52vw';
+const lpHeroSizes = '(min-width: 1101px) 44vw, (min-width: 761px) 620px, 100vw';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
+const lpCombinationSizes = '(min-width: 1101px) 42vw, 100vw';
+const lpVisualSizes = '(min-width: 1101px) 30vw, (min-width: 761px) 48vw, 100vw';
 const studioAddress = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
 const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Beauty Face Lift ${studioAddress}`)}&output=embed`;
 const googleMapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(studioAddress)}`;
@@ -75,6 +83,27 @@ const combinationReasons = [
   { title: 'Reinigung und Feuchtigkeit', text: 'Hydrofacial pflegt die Hautoberfläche und sorgt für eine hydratisierte, angenehm vorbereitete Basis.' },
   { title: 'Kontrollierte Mikroimpulse', text: 'Microneedling ergänzt die Pflege gezielt, wenn Struktur, Poren oder ein fahler Teint kosmetisch verfeinert werden sollen.' },
   { title: 'Eine ruhige 90-Minuten-Sitzung', text: 'Analyse, Pflege, Needling, Abschlusspflege und After-Care sind in einem klaren Termin gebündelt.' },
+];
+
+const visualStoryItems = [
+  {
+    image: hydrofacialCloseUpImage,
+    alt: 'Hydrofacial Behandlung zur Reinigung und Feuchtigkeitspflege',
+    title: 'Hydrofacial Pflege',
+    text: 'Reinigung und Feuchtigkeit bereiten die Haut ruhig auf die weiteren Schritte vor.',
+  },
+  {
+    image: microneedlingCloseUpImage,
+    alt: 'Kosmetisches Microneedling mit professionellem Pen',
+    title: 'Kontrollierte Mikroimpulse',
+    text: 'Microneedling wird individuell dosiert und passend zum Hautzustand eingesetzt.',
+  },
+  {
+    image: abschlusspflegeAftercareImage,
+    alt: 'Beruhigende Abschlusspflege nach der Behandlung',
+    title: 'Beruhigende Abschlusspflege',
+    text: 'Zum Abschluss wird die Haut gepflegt und Sie erhalten klare After-Care-Hinweise.',
+  },
 ];
 
 const treatmentFocus = [
@@ -189,7 +218,7 @@ const structuredData = {
       '@id': absoluteUrl('/lp/hydrofacial-microneedling/#product'),
       name: 'Hydrofacial + Microneedling Zürich',
       description: `90 Minuten Hydrofacial + Microneedling in Zürich mit Hautanalyse, Abschlusspflege und After-Care-Hinweisen. Kombi-Angebot CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–.`,
-      image: absoluteUrl('/assets/hydrofacial_treatment.png'),
+      image: absoluteUrl(heroHydrofacialMicroneedlingUrl),
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
         '@type': 'Offer',
@@ -215,10 +244,10 @@ const structuredData = {
 <LandingPage
   title={`Hydrofacial + Microneedling Zürich | CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}`}
   description="90 Min. Hydrofacial + Microneedling in Zürich: Hautanalyse, Glow, Feuchtigkeit und optisch feinere Hautstruktur. Persönlich bei Beauty Face Lift an der Bahnhofstrasse."
-  ogImage="/assets/hydrofacial_treatment.png"
+  ogImage={heroHydrofacialMicroneedlingUrl}
   preloadImage={{
-    href: lpHeroMainImage,
-    type: 'image/png',
+    href: heroHydrofacialMicroneedlingUrl,
+    type: 'image/webp',
     fetchpriority: 'high',
   }}
 >
@@ -265,28 +294,17 @@ const structuredData = {
         </div>
 
         <div class="lp-hero-media" aria-label={OFFER_LABEL}>
-          <div class="lp-hero-media-main">
-            <img
-              src={lpHeroMainImage}
-              alt="Hydrofacial Behandlung im Beauty Face Lift Studio Zürich"
-              loading="eager"
-              decoding="sync"
-              fetchpriority="high"
-              width="1400"
-              height="933"
-            />
-          </div>
-          <div class="lp-hero-media-overlap">
-            <Image
-              src={microneedlingCard}
-              widths={[320, 480, 640, 800]}
-              sizes={lpHeroOverlapSizes}
-              format="webp"
-              quality="high"
-              loading="eager"
-              alt="Microneedling Behandlung mit professionellem Pen bei Beauty Face Lift Zürich"
-            />
-          </div>
+          <Image
+            src={heroHydrofacialMicroneedlingImage}
+            widths={[480, 720, 960, 1200, 1440, 1672]}
+            sizes={lpHeroSizes}
+            format="webp"
+            quality={86}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            alt="Hydrofacial und Microneedling Behandlung bei Beauty Face Lift Zürich"
+          />
         </div>
       </div>
     </section>
@@ -367,15 +385,47 @@ const structuredData = {
         </div>
         <div class="lp-combination-media">
           <Image
-            src={microneedlingCard}
+            src={hydrofacialCloseUpImage}
             widths={[360, 540, 720, 960, 1122]}
-            sizes={lpAboutSizes}
+            sizes={lpCombinationSizes}
             format="webp"
-            quality="high"
-            alt="Kosmetische Microneedling Behandlung bei Beauty Face Lift Zürich"
+            quality={82}
+            alt="Hydrofacial Behandlung zur Reinigung und Feuchtigkeitspflege"
             loading="lazy"
           />
         </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-visual-story" aria-label="Behandlung in Bildern">
+      <div class="lp-section-head">
+        <div class="sub-display">Behandlung in Bildern</div>
+        <h2 class="lp-section-title">Professionelle Pflege ohne übertriebene Versprechen</h2>
+        <p class="lp-section-lead">
+          Die Bilder zeigen die ruhige Studio-Atmosphäre und die einzelnen Behandlungsschritte -
+          von der Vorbereitung bis zur beruhigenden Abschlusspflege.
+        </p>
+      </div>
+      <div class="lp-visual-grid">
+        {visualStoryItems.map((item) => (
+          <article class="lp-visual-card">
+            <div class="lp-visual-card-media">
+              <Image
+                src={item.image}
+                widths={[360, 540, 720, 960, 1122]}
+                sizes={lpVisualSizes}
+                format="webp"
+                quality={82}
+                alt={item.alt}
+                loading="lazy"
+              />
+            </div>
+            <div class="lp-visual-card-body">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
 
@@ -430,12 +480,12 @@ const structuredData = {
       <div class="lp-trust-grid">
         <div class="lp-trust-media">
           <Image
-            src={teresaPortrait}
-            widths={[360, 540, 720, 960, 1023]}
+            src={hautanalyseBeratungImage}
+            widths={[360, 540, 720, 960, 1200, 1448]}
             sizes={lpAboutSizes}
             format="webp"
-            quality="high"
-            alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
+            quality={82}
+            alt="Persönliche Hautanalyse und Beratung in Zürich"
             loading="lazy"
           />
         </div>
@@ -501,6 +551,17 @@ const structuredData = {
           </div>
         ))}
       </div>
+      <div class="lp-expectation-visual">
+        <Image
+          src={postTreatmentGlowImage}
+          widths={[480, 720, 960, 1200, 1448]}
+          sizes="(min-width: 901px) 68vw, 100vw"
+          format="webp"
+          quality={82}
+          alt="Frisch gepflegte Haut nach kosmetischer Gesichtsbehandlung"
+          loading="lazy"
+        />
+      </div>
     </section>
 
     <section class="container lp-section lp-process">
@@ -545,6 +606,17 @@ const structuredData = {
           <div class="lp-lead-actions">
             <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrofacial_form" label={SECONDARY_CTA_LABEL} />
             <a href={bookingHref} data-treatment="Hydrofacial + Microneedling" data-button-location="lead_section_booking">{BOOKING_CTA_LABEL}</a>
+          </div>
+          <div class="lp-lead-visual">
+            <Image
+              src={personalTreatmentImage}
+              widths={[360, 540, 720, 960, 1122]}
+              sizes="(min-width: 1101px) 34vw, (min-width: 761px) 620px, 100vw"
+              format="webp"
+              quality={82}
+              alt="Persönliche Behandlung im Beauty Face Lift Studio Zürich"
+              loading="lazy"
+            />
           </div>
         </div>
 
@@ -814,7 +886,7 @@ const structuredData = {
     font-family: var(--font-serif);
     font-weight: 500;
     color: var(--ink);
-    font-size: 2.25rem;
+    font-size: clamp(2.25rem, 4.7vw, 3.5rem);
     line-height: 1.08;
     text-wrap: balance;
   }
@@ -878,38 +950,22 @@ const structuredData = {
   .lp-hero-media {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
     max-width: 620px;
     justify-self: end;
-  }
-  .lp-hero-media-main {
-    position: absolute;
-    left: 0;
-    top: 7%;
-    width: 64%;
-    aspect-ratio: 3 / 4;
     border-radius: var(--radius-card);
     overflow: hidden;
     box-shadow: var(--shadow-2);
   }
-  .lp-hero-media-overlap {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 50%;
-    aspect-ratio: 1 / 1;
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    z-index: 2;
-    box-shadow: var(--shadow-2);
-    border: 3px solid var(--bg-primary);
-  }
-  .lp-hero-media-main img,
-  .lp-hero-media-overlap img {
+  .lp-hero-media :global(picture),
+  .lp-hero-media img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     display: block;
+  }
+  .lp-hero-media img {
+    object-fit: cover;
+    object-position: center;
   }
 
   .lp-section { padding-block: 8vh; }
@@ -1278,7 +1334,7 @@ const structuredData = {
     .lp-hero-grid { gap: 2rem; }
     .lp-hero-content { gap: 1.25rem; }
     .lp-title {
-      font-size: 2.25rem;
+      font-size: clamp(2rem, 9vw, 2.6rem);
       line-height: 1.08;
     }
     .lp-subtitle {
@@ -1355,11 +1411,11 @@ const structuredData = {
   }
 
   @media (max-width: 374px) {
-    .lp-title { font-size: 2.25rem; }
+    .lp-title { font-size: clamp(2rem, 9vw, 2.6rem); }
   }
 
   @media (max-width: 340px) {
-    .lp-title { font-size: 2.25rem; }
+    .lp-title { font-size: clamp(2rem, 9vw, 2.6rem); }
   }
   /* Approved Hydrofacial/Microneedling conversion redesign overrides. */
   :global(body) {
@@ -1452,7 +1508,7 @@ const structuredData = {
   .lp-title {
     max-width: 760px;
     font-weight: 500;
-    font-size: 2.25rem;
+    font-size: clamp(2.25rem, 4.7vw, 3.5rem);
     line-height: 1.08;
     letter-spacing: 0;
   }
@@ -1553,32 +1609,43 @@ const structuredData = {
     max-width: 620px;
   }
 
-  .lp-hero-media-main,
-  .lp-hero-media-overlap,
+  .lp-hero-media,
   .lp-combination-media,
-  .lp-trust-media {
+  .lp-trust-media,
+  .lp-visual-card-media,
+  .lp-expectation-visual,
+  .lp-lead-visual {
     overflow: hidden;
     border-radius: 24px;
     background: #e8ddd8;
     box-shadow: 0 16px 44px rgba(45, 41, 38, 0.12);
   }
 
-  .lp-hero-media-main {
-    top: 8%;
-    width: 66%;
-  }
-
-  .lp-hero-media-overlap {
-    width: 52%;
-    border: 4px solid var(--paper);
-  }
-
+  .lp-hero-media :global(picture),
+  .lp-combination-media :global(picture),
+  .lp-trust-media :global(picture),
+  .lp-visual-card-media :global(picture),
+  .lp-expectation-visual :global(picture),
+  .lp-lead-visual :global(picture),
+  .lp-hero-media img,
   .lp-combination-media img,
-  .lp-trust-media img {
+  .lp-trust-media img,
+  .lp-visual-card-media img,
+  .lp-expectation-visual img,
+  .lp-lead-visual img {
     display: block;
     width: 100%;
     height: 100%;
+  }
+
+  .lp-hero-media img,
+  .lp-combination-media img,
+  .lp-trust-media img,
+  .lp-visual-card-media img,
+  .lp-expectation-visual img,
+  .lp-lead-visual img {
     object-fit: cover;
+    object-position: center;
   }
 
   .lp-section {
@@ -1617,6 +1684,7 @@ const structuredData = {
 
   .lp-desire,
   .lp-combination,
+  .lp-visual-story,
   .lp-process {
     background: var(--paper-2);
   }
@@ -1763,7 +1831,53 @@ const structuredData = {
   }
 
   .lp-combination-media {
-    min-height: 560px;
+    min-height: 0;
+    height: clamp(460px, 46vw, 620px);
+  }
+
+  .lp-visual-story {
+    padding-top: clamp(56px, 7vw, 88px);
+  }
+
+  .lp-visual-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .lp-visual-card {
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    background: var(--bone);
+    box-shadow: 0 12px 32px rgba(45, 41, 38, 0.08);
+  }
+
+  .lp-visual-card-media {
+    height: clamp(260px, 24vw, 340px);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .lp-visual-card-body {
+    padding: 24px;
+  }
+
+  .lp-visual-card h3 {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .lp-visual-card p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.6;
   }
 
   .lp-benefits-grid {
@@ -1852,6 +1966,12 @@ const structuredData = {
 
   .lp-expectation-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lp-expectation-visual {
+    width: min(100%, 980px);
+    height: clamp(320px, 38vw, 520px);
+    margin: 34px auto 0;
   }
 
   .lp-process-grid {
@@ -1943,12 +2063,25 @@ const structuredData = {
       grid-template-columns: repeat(2, 1fr);
     }
 
+    .lp-visual-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .lp-combination-media,
     .lp-trust-media {
       min-height: 0;
       height: auto;
+      aspect-ratio: 4 / 3;
       max-width: 620px;
       margin: 0 auto;
+    }
+
+    .lp-expectation-visual,
+    .lp-lead-visual {
+      height: auto;
+      aspect-ratio: 4 / 3;
+      max-width: 620px;
+      margin-inline: auto;
     }
 
     .lp-combination-copy,
@@ -1986,7 +2119,7 @@ const structuredData = {
     }
 
     .lp-title {
-      font-size: 2.25rem;
+      font-size: clamp(2rem, 9vw, 2.6rem);
       line-height: 1.08;
     }
 
@@ -2050,10 +2183,13 @@ const structuredData = {
     }
 
     .lp-hero-media {
-      max-width: 360px;
+      width: 100%;
+      max-width: none;
+      aspect-ratio: 4 / 3;
     }
 
     .lp-desire-grid,
+    .lp-visual-grid,
     .lp-phases,
     .lp-benefits-grid,
     .lp-expectation-grid,
@@ -2064,6 +2200,20 @@ const structuredData = {
 
     .lp-desire-grid {
       gap: 24px;
+    }
+
+    .lp-combination-media,
+    .lp-trust-media,
+    .lp-expectation-visual,
+    .lp-lead-visual {
+      width: 100%;
+      max-width: none;
+      border-radius: 24px;
+    }
+
+    .lp-visual-card-media {
+      height: auto;
+      aspect-ratio: 4 / 3;
     }
 
     .lp-phase,
@@ -2339,6 +2489,11 @@ const structuredData = {
     gap: 12px 18px;
     align-items: center;
     margin-top: 28px;
+  }
+
+  .lp-lead-visual {
+    height: clamp(300px, 36vw, 460px);
+    margin-top: 32px;
   }
 
   .lp-lead-form {

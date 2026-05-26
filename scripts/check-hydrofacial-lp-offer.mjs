@@ -63,10 +63,10 @@ assert(lp.includes('Kombi-Behandlung buchen'), 'Hydrofacial LP must keep a warm-
 assert(!lp.includes('Sie wissen bereits, dass die Kombi passt?'), 'Hydrofacial LP hero must not show the direct-booking prompt line');
 assert(!lp.includes('lp_hero_direct_booking'), 'Hydrofacial LP hero must not show a separate direct-booking CTA');
 assert(!lp.includes('Kombi-Termin sichern'), 'Hydrofacial LP must not keep the previous CTA copy');
-assert(lp.includes('font-size: 2.25rem'), 'Hydrofacial LP hero headline must be 2.25rem');
+assert(lp.includes('font-size: clamp(2.25rem, 4.7vw, 3.5rem)'), 'Hydrofacial LP hero headline must match the section headline scale on desktop');
+assert(lp.includes('font-size: clamp(2rem, 9vw, 2.6rem)'), 'Hydrofacial LP hero headline must match the section headline scale on mobile');
 assert(lp.includes('font-weight: 500'), 'Hydrofacial LP hero headline must use the requested 500 font weight');
 assert(!/\.lp-title\s*\{\s*max-width:\s*760px;\s*font-weight:\s*400;/m.test(lp), 'Hydrofacial LP hero headline override must not reset the title to 400 font weight');
-assert(!lp.includes('font-size: clamp(2.55rem') && !lp.includes('font-size: 2.62rem') && !lp.includes('font-size: 2.38rem') && !lp.includes('font-size: 2.22rem'), 'Hydrofacial LP hero headline must remain 2.25rem across desktop and mobile');
 assert(lp.includes('text-align: center'), 'Hydrofacial LP mobile hero text must be center aligned');
 assert(lp.includes('Aktion: Hydrofacial + Microneedling in Zürich'), 'Hydrofacial LP hero eyebrow must use the requested action-focused copy');
 assert(
@@ -77,6 +77,16 @@ assert(lp.includes('Wenn Ihre Haut mehr braucht als Pflege zu Hause'), 'Hydrofac
 assert(lp.includes('Warum Hydrofacial und Microneedling zusammen sinnvoll sein können'), 'Hydrofacial LP must explain why Hydrofacial and Microneedling are combined');
 assert(lp.includes('Hydrofacial: reinigen, hydratisieren, Glow aufbauen'), 'Hydrofacial LP must include a dedicated Hydrofacial explanation');
 assert(lp.includes('Microneedling: gezielte Mikroimpulse für feinere Hautstruktur'), 'Hydrofacial LP must include a dedicated Microneedling explanation');
+assert(lp.includes('hero-hydrofacial-microneedling-zuerich.webp'), 'Hydrofacial LP must use the optimized hero WebP image');
+assert(lp.includes('hydrofacial-close-up-zuerich.webp'), 'Hydrofacial LP must use the optimized Hydrofacial close-up image');
+assert(lp.includes('post-treatment-glow-zuerich.webp'), 'Hydrofacial LP must use the optimized post-treatment glow image');
+assert(lp.includes('hautanalyse-beratung-zuerich.webp'), 'Hydrofacial LP must use the optimized Hautanalyse image');
+assert(lp.includes('abschlusspflege-aftercare-zuerich.webp'), 'Hydrofacial LP must use the optimized aftercare image');
+assert(lp.includes('microneedling-close-up-zuerich.webp'), 'Hydrofacial LP must use the optimized Microneedling close-up image');
+assert(lp.includes('personal-treatment-zuerich.webp'), 'Hydrofacial LP must use the optimized personal treatment image');
+assert(lp.includes('Hydrofacial und Microneedling Behandlung bei Beauty Face Lift Zürich'), 'Hydrofacial LP hero image must use meaningful German alt text');
+assert(lp.includes('loading="eager"') && lp.includes('fetchpriority="high"'), 'Hydrofacial LP must prioritize only the hero image');
+assert(!lp.includes('loading="eager"') || (lp.match(/loading="eager"/g) || []).length === 1, 'Hydrofacial LP must not eagerly load non-hero images');
 assert(lp.includes('Persönliche Behandlung statt Standardprogramm'), 'Hydrofacial LP must include a stronger trust/proof section before the final booking area');
 assert(lp.includes('color: #178a45'), 'Hydrofacial LP included-item checks must render as green check marks');
 assert(lp.includes('Realistische Ergebnisse statt übertriebener Versprechen'), 'Hydrofacial LP must keep expectation-setting visible');
