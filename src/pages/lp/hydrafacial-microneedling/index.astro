@@ -15,6 +15,7 @@ const REGULAR_PRICE = 250;
 const DURATION_LABEL = '1 Std. 30 Min.';
 const OFFER_LABEL = 'HydraFacial + Microneedling Aktion';
 const OFFER_SLUG = 'hydrafacial-microneedling-aktion';
+const CTA_LABEL = 'Jetzt Termin buchen';
 const SAVINGS_LABEL = 'Sie sparen CHF 80.-';
 const BOOKING_SERVICE = 'Hydrafacial + Microneedling';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
@@ -82,7 +83,7 @@ const expectationItems = [
 ];
 
 const processSteps = [
-  { title: 'Kombi-Termin sichern', text: 'Der Button führt zur Buchung. Service, Angebot und Preis sind bereits vorbereitet.' },
+  { title: CTA_LABEL, text: 'Der Button führt zur Buchung. Service, Angebot und Preis sind bereits vorbereitet.' },
   { title: 'Ankommen in Zürich', text: 'Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94, gut erreichbar in der Innenstadt.' },
   { title: 'Persönliche Behandlung', text: 'Teresa führt HydraFacial, Microneedling und Abschluss-Pflege persönlich und kontrolliert durch.' },
   { title: 'After-Care beachten', text: 'Sie erhalten klare Hinweise zu Pflege, Make-up, Sport, Sonne und möglichen Rötungen.' },
@@ -191,7 +192,7 @@ const structuredData = {
           </div>
 
           <div class="lp-hero-ctas">
-            <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_hero">Kombi-Termin sichern</a>
+            <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_hero">{CTA_LABEL}</a>
             <p class="lp-hero-note">CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– · Beauty Face Lift Zürich</p>
           </div>
 
@@ -382,7 +383,7 @@ const structuredData = {
         newPrice={PROMO_PRICE}
         discountLabel="HydraFacial + Microneedling"
         urgency={`${DURATION_LABEL} · ${SAVINGS_LABEL} · Buchung über Treatwell`}
-        ctaText="Kombi-Termin sichern"
+        ctaText={CTA_LABEL}
         ctaHref={bookingHref}
       />
       <p class="lp-offer-footnote">
@@ -429,7 +430,7 @@ const structuredData = {
         ))}
       </div>
       <div class="lp-section-cta">
-        <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="process_section">Kombi-Termin sichern</a>
+        <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="process_section">{CTA_LABEL}</a>
       </div>
     </section>
 
@@ -462,7 +463,7 @@ const structuredData = {
       <BookingCta
         treatment="Hydrafacial + Microneedling"
         href={bookingHref}
-        ctaText="Kombi-Termin sichern"
+        ctaText={CTA_LABEL}
         text={`Aktionspreis CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Behandlungsdauer ${DURATION_LABEL}.`}
       />
     </section>
@@ -476,7 +477,7 @@ const structuredData = {
           persönlich durchgeführt bei Beauty Face Lift an der Bahnhofstrasse.
         </p>
         <div class="lp-final-ctas">
-          <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_final_booking">Kombi-Termin sichern</a>
+          <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_final_booking">{CTA_LABEL}</a>
           <a href="tel:+41792143462" class="pill-btn pill-btn-dark" data-button-location="lp_final_phone">+41 79 214 34 62</a>
         </div>
         <p class="lp-final-address">Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich</p>
@@ -487,7 +488,7 @@ const structuredData = {
       oldPrice={REGULAR_PRICE}
       newPrice={PROMO_PRICE}
       href={bookingHref}
-      ctaText="Kombi-Termin sichern"
+      ctaText={CTA_LABEL}
     />
   </main>
 </LandingPage>
@@ -1671,6 +1672,11 @@ const structuredData = {
   }
 
   @media (max-width: 760px) {
+    .lp-hero-content {
+      align-items: center;
+      text-align: center;
+    }
+
     .lp-hero {
       padding-top: 28px;
       padding-bottom: 54px;
@@ -1685,8 +1691,13 @@ const structuredData = {
     }
 
     .lp-title {
-      font-size: clamp(2.65rem, 12vw, 3.25rem);
-      line-height: 1.02;
+      font-size: 2rem;
+      line-height: 1.08;
+    }
+
+    .lp-hero-offer-card {
+      align-self: stretch;
+      text-align: left;
     }
 
     .lp-subtitle,
@@ -1717,13 +1728,30 @@ const structuredData = {
       font-size: 13px;
     }
 
+    .lp-hero-trust {
+      width: 100%;
+    }
+
+    .lp-hero-trust :global(.trust-strip-lp),
+    .lp-hero-trust :global(.trust-rating-group) {
+      justify-content: center;
+      text-align: center;
+    }
+
     .lp-hero-bullets {
       gap: 8px;
       padding-top: 18px;
+      justify-items: center;
+      text-align: center;
     }
 
     .lp-hero-bullets li {
+      padding-left: 0;
       font-size: 14px;
+    }
+
+    .lp-hero-bullets li::before {
+      display: none;
     }
 
     .lp-hero-media {

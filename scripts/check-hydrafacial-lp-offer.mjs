@@ -39,8 +39,12 @@ assert(lp.includes('const DURATION_LABEL = \'1 Std. 30 Min.\''), 'Hydrafacial LP
 assert(lp.includes('Hydrafacial + Microneedling'), 'Hydrafacial LP must name the treatment clearly');
 assert(lp.includes('CHF {PROMO_PRICE}') || lp.includes('CHF ${PROMO_PRICE}'), 'Hydrafacial LP must render the promo price');
 assert(lp.includes('statt CHF {REGULAR_PRICE}') || lp.includes('statt CHF ${REGULAR_PRICE}'), 'Hydrafacial LP must render the original price anchor');
-assert(lp.includes('Kombi-Termin sichern'), 'Hydrafacial LP must use one consistent primary CTA');
+assert(lp.includes("const CTA_LABEL = 'Jetzt Termin buchen'"), 'Hydrafacial LP must define the approved primary CTA label');
+assert(lp.includes('Jetzt Termin buchen'), 'Hydrafacial LP must use the approved primary CTA copy');
+assert(!lp.includes('Kombi-Termin sichern'), 'Hydrafacial LP must not keep the previous CTA copy');
 assert(!lp.includes('Mehr erfahren'), 'Hydrafacial LP hero must not show a competing secondary CTA');
+assert(lp.includes('font-size: 2rem'), 'Hydrafacial LP mobile hero headline must be 2rem');
+assert(lp.includes('text-align: center'), 'Hydrafacial LP mobile hero text must be center aligned');
 assert(
   lp.includes('HydraFacial + Microneedling in Zürich für frischere, glatter wirkende Haut'),
   'Hydrafacial LP must use the approved outcome-led hero headline',
