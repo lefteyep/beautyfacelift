@@ -10,6 +10,7 @@ import { Image } from 'astro:assets';
 import heroHydrofacialMicroneedlingImage from '../../../assets/lp/hydrofacial/hero-hydrofacial-microneedling-zuerich.webp';
 import heroHydrofacialMicroneedlingUrl from '../../../assets/lp/hydrofacial/hero-hydrofacial-microneedling-zuerich.webp?url';
 import hydrofacialCloseUpImage from '../../../assets/lp/hydrofacial/hydrofacial-close-up-zuerich.webp';
+import hydrofacialMicroneedlingInfographicImage from '../../../assets/lp/hydrofacial/hydrofacial-microneedling-infografik-zuerich.webp';
 import postTreatmentGlowImage from '../../../assets/lp/hydrofacial/post-treatment-glow-zuerich.webp';
 import hautanalyseBeratungImage from '../../../assets/lp/hydrofacial/hautanalyse-beratung-zuerich.webp';
 import abschlusspflegeAftercareImage from '../../../assets/lp/hydrofacial/abschlusspflege-aftercare-zuerich.webp';
@@ -24,7 +25,7 @@ const OFFER_LABEL = 'Hydrofacial + Microneedling Kombi-Angebot';
 const OFFER_SLUG = 'hydrofacial-microneedling-aktion';
 const PRIMARY_CTA_LABEL = 'Jetzt Termin buchen';
 const LEAD_CTA_LABEL = 'Hautanalyse & Termin anfragen';
-const SECONDARY_CTA_LABEL = 'Frage per WhatsApp stellen';
+const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen';
 const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen';
 const FORM_CTA_LABEL = 'Terminwunsch senden';
 const BOOKING_SERVICE = 'Hydrofacial + Microneedling';
@@ -258,7 +259,7 @@ const structuredData = {
       <div class="lp-hero-grid">
         <div class="lp-hero-content">
           <div class="lp-eyebrow">Aktion: Hydrofacial + Microneedling in Zürich</div>
-          <h1 class="lp-title display-text">Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild</h1>
+          <h1 class="lp-title display-text">Ganzheitliche Kombi-Behandlung für sichtbar strahlende, straffere und regenerierte Haut.</h1>
           <p class="lp-subtitle">
             Die Kombi-Behandlung verbindet gründliche Hydrofacial Pflege, intensive Feuchtigkeit
             und kontrolliertes Microneedling. Ideal, wenn Ihre Haut müde, fahl oder unruhig wirkt –
@@ -383,14 +384,14 @@ const structuredData = {
             ))}
           </div>
         </div>
-        <div class="lp-combination-media">
+        <div class="lp-combination-media lp-combination-infographic">
           <Image
-            src={hydrofacialCloseUpImage}
+            src={hydrofacialMicroneedlingInfographicImage}
             widths={[360, 540, 720, 960, 1122]}
             sizes={lpCombinationSizes}
             format="webp"
             quality={82}
-            alt="Hydrofacial Behandlung zur Reinigung und Feuchtigkeitspflege"
+            alt="Infografik zur Wirkung von Hydrofacial und Microneedling"
             loading="lazy"
           />
         </div>
@@ -904,7 +905,8 @@ const structuredData = {
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
-    color: var(--accent-text);
+    color: #ff0000;
+    font-weight: 700;
   }
   .lp-title {
     margin: 0;
@@ -932,7 +934,7 @@ const structuredData = {
   .lp-hero-ctas > :global(.pill-btn) {
     min-height: 56px;
     padding: 15px clamp(1.25rem, 2vw, 1.9rem);
-    font-size: 0.82rem;
+    font-size: 1.15rem;
     line-height: 1;
     letter-spacing: 0.09em;
   }
@@ -1391,7 +1393,7 @@ const structuredData = {
       min-height: 50px;
       padding: 13px 18px;
       width: 100%;
-      font-size: 0.72rem;
+      font-size: 1.15rem;
       letter-spacing: 0.08em;
     }
     .lp-section-title {
@@ -1483,7 +1485,7 @@ const structuredData = {
     border-radius: 8px;
     background: var(--gold);
     color: #ffffff;
-    font-size: 13px;
+    font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 1.2;
@@ -1590,7 +1592,7 @@ const structuredData = {
   .lp-hero-ctas > :global(.pill-btn) {
     min-height: 44px;
     padding: 12px 20px;
-    font-size: 13px;
+    font-size: 1.15rem;
     letter-spacing: 0;
   }
 
@@ -1861,6 +1863,17 @@ const structuredData = {
     height: clamp(460px, 46vw, 620px);
   }
 
+  .lp-combination-infographic {
+    height: auto;
+    aspect-ratio: 1122 / 1402;
+    background: #ffffff;
+  }
+
+  .lp-combination-infographic img {
+    object-fit: contain;
+    object-position: center;
+  }
+
   .lp-visual-story {
     padding-top: clamp(56px, 7vw, 88px);
   }
@@ -2100,6 +2113,11 @@ const structuredData = {
       aspect-ratio: 4 / 3;
       max-width: 620px;
       margin: 0 auto;
+    }
+
+    .lp-combination-infographic {
+      aspect-ratio: 1122 / 1402;
+      max-width: 560px;
     }
 
     .lp-expectation-visual,

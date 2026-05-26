@@ -53,12 +53,13 @@ assert(lp.includes('CHF {PROMO_PRICE}') || lp.includes('CHF ${PROMO_PRICE}'), 'H
 assert(lp.includes('statt CHF {REGULAR_PRICE}') || lp.includes('statt CHF ${REGULAR_PRICE}'), 'Hydrofacial LP must render the original price anchor');
 assert(lp.includes("const PRIMARY_CTA_LABEL = 'Jetzt Termin buchen'"), 'Hydrofacial LP must define direct booking as the primary CTA label');
 assert(lp.includes("const LEAD_CTA_LABEL = 'Hautanalyse & Termin anfragen'"), 'Hydrofacial LP must keep a secondary lead-focused CTA label');
-assert(lp.includes("const SECONDARY_CTA_LABEL = 'Frage per WhatsApp stellen'"), 'Hydrofacial LP must define the WhatsApp secondary CTA label');
+assert(lp.includes("const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen'"), 'Hydrofacial LP must define the WhatsApp secondary CTA label');
 assert(lp.includes("const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen'"), 'Hydrofacial LP must preserve a direct booking CTA');
 assert(lp.includes("const FORM_CTA_LABEL = 'Terminwunsch senden'"), 'Hydrofacial LP must define the lead form submit CTA');
 assert(lp.includes('Jetzt Termin buchen'), 'Hydrofacial LP must use the requested direct-booking primary CTA copy');
 assert(lp.includes('Hautanalyse & Termin anfragen'), 'Hydrofacial LP must keep the lead-form CTA as a secondary path');
-assert(lp.includes('Frage per WhatsApp stellen'), 'Hydrofacial LP must use the brief WhatsApp CTA copy');
+assert(lp.includes('Per WhatsApp anfragen'), 'Hydrofacial LP must use the brief WhatsApp CTA copy');
+assert(!lp.includes('Frage per WhatsApp stellen'), 'Hydrofacial LP must not keep the previous WhatsApp CTA copy');
 assert(lp.includes('Kombi-Behandlung buchen'), 'Hydrofacial LP must keep a warm-traffic booking path');
 assert(!lp.includes('Sie wissen bereits, dass die Kombi passt?'), 'Hydrofacial LP hero must not show the direct-booking prompt line');
 assert(!lp.includes('lp_hero_direct_booking'), 'Hydrofacial LP hero must not show a separate direct-booking CTA');
@@ -70,8 +71,16 @@ assert(!/\.lp-title\s*\{\s*max-width:\s*760px;\s*font-weight:\s*400;/m.test(lp),
 assert(lp.includes('text-align: center'), 'Hydrofacial LP mobile hero text must be center aligned');
 assert(lp.includes('Aktion: Hydrofacial + Microneedling in Zürich'), 'Hydrofacial LP hero eyebrow must use the requested action-focused copy');
 assert(
-  lp.includes('Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild'),
+  lp.includes('Ganzheitliche Kombi-Behandlung für sichtbar strahlende, straffere und regenerierte Haut.'),
   'Hydrofacial LP must use the brief outcome-led hero headline',
+);
+assert(
+  /\.lp-eyebrow\s*\{(?=[\s\S]*?color:\s*#ff0000;)(?=[\s\S]*?font-weight:\s*700;)[\s\S]*?\}/m.test(lp),
+  'Hydrofacial LP hero eyebrow must use the requested bold red styling',
+);
+assert(
+  /\.lp-page\s+:global\(\.pill-btn\)\s*\{(?=[\s\S]*?font-size:\s*1\.15rem;)[\s\S]*?\}/m.test(lp),
+  'Hydrofacial LP CTA buttons must use 1.15rem text',
 );
 assert(lp.includes('Wenn Ihre Haut mehr braucht als Pflege zu Hause'), 'Hydrofacial LP must connect visitor desire to the offer');
 assert(lp.includes('Warum Hydrofacial und Microneedling zusammen sinnvoll sein können'), 'Hydrofacial LP must explain why Hydrofacial and Microneedling are combined');
@@ -79,6 +88,9 @@ assert(lp.includes('Hydrofacial: reinigen, hydratisieren, Glow aufbauen'), 'Hydr
 assert(lp.includes('Microneedling: gezielte Mikroimpulse für feinere Hautstruktur'), 'Hydrofacial LP must include a dedicated Microneedling explanation');
 assert(lp.includes('hero-hydrofacial-microneedling-zuerich.webp'), 'Hydrofacial LP must use the optimized hero WebP image');
 assert(lp.includes('hydrofacial-close-up-zuerich.webp'), 'Hydrofacial LP must use the optimized Hydrofacial close-up image');
+assert(lp.includes('hydrofacial-microneedling-infografik-zuerich.webp'), 'Hydrofacial LP must use the Hydrofacial and Microneedling infographic image');
+assert(lp.includes('Infografik zur Wirkung von Hydrofacial und Microneedling'), 'Hydrofacial LP infographic must use meaningful German alt text');
+assert(lp.includes('lp-combination-infographic'), 'Hydrofacial LP combination infographic must use non-cropping image styling');
 assert(lp.includes('post-treatment-glow-zuerich.webp'), 'Hydrofacial LP must use the optimized post-treatment glow image');
 assert(lp.includes('hautanalyse-beratung-zuerich.webp'), 'Hydrofacial LP must use the optimized Hautanalyse image');
 assert(lp.includes('abschlusspflege-aftercare-zuerich.webp'), 'Hydrofacial LP must use the optimized aftercare image');
