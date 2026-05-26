@@ -1,9 +1,11 @@
 import type { Env } from '../env';
 import {
   CONTACT_EMAIL,
+  CONTACT_PREFERRED_METHODS,
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
   CONTACT_TOPICS,
+  CONTACT_TREATMENT_INTERESTS,
   CONTACT_TO_EMAIL_FALLBACK,
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
@@ -18,8 +20,9 @@ type ContactSubmission = {
   name: string;
   email: string;
   phone: string;
+  treatmentInterest: string;
   preferredContactMethod: string;
-  preferredCallbackTime: string;
+  preferredTime: string;
   topic: string;
   message: string;
   source: string;
@@ -28,7 +31,6 @@ type ContactSubmission = {
   turnstileToken: string;
 };
 
-const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
 const TURNSTILE_OPTIONAL_SOURCES = new Set([
   'hydrofacial-microneedling-lp',
 ]);
@@ -131,12 +133,13 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         name: getString(payload.name),
         email: getString(payload.email),
         phone: getString(payload.phone),
-        preferredContactMethod: getString(payload.preferredContactMethod),
-        preferredCallbackTime: getString(payload.preferredCallbackTime),
+        treatmentInterest: getString(payload.treatment_interest || payload.treatmentInterest),
+        preferredContactMethod: getString(payload.preferred_contact || payload.preferredContactMethod),
+        preferredTime: getString(payload.preferred_time || payload.preferredCallbackTime),
         topic: getString(payload.topic),
         message: getString(payload.message),
         source: getString(payload.source),
-        privacyConsent: getString(payload.privacyConsent),
+        privacyConsent: getString(payload.privacy || payload.privacyConsent),
         company: getString(payload.company),
         turnstileToken: getString(payload.turnstileToken || payload['cf-turnstile-response']),
       },
@@ -151,12 +154,13 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       name: getString(formData.get('name')),
       email: getString(formData.get('email')),
       phone: getString(formData.get('phone')),
-      preferredContactMethod: getString(formData.get('preferredContactMethod')),
-      preferredCallbackTime: getString(formData.get('preferredCallbackTime')),
+      treatmentInterest: getString(formData.get('treatment_interest') || formData.get('treatmentInterest')),
+      preferredContactMethod: getString(formData.get('preferred_contact') || formData.get('preferredContactMethod')),
+      preferredTime: getString(formData.get('preferred_time') || formData.get('preferredCallbackTime')),
       topic: getString(formData.get('topic')),
       message: getString(formData.get('message')),
       source: getString(formData.get('source')),
-      privacyConsent: getString(formData.get('privacyConsent')),
+      privacyConsent: getString(formData.get('privacy') || formData.get('privacyConsent')),
       company: getString(formData.get('company')),
       turnstileToken: getString(formData.get('cf-turnstile-response')),
     },
@@ -193,21 +197,26 @@ function isAllowedTopic(topic: string): boolean {
 }
 
 function isAllowedPreferredContactMethod(method: string): boolean {
-  return PREFERRED_CONTACT_METHODS.includes(method as (typeof PREFERRED_CONTACT_METHODS)[number]);
+  return CONTACT_PREFERRED_METHODS.includes(method as (typeof CONTACT_PREFERRED_METHODS)[number]);
+}
+
+function isAllowedTreatmentInterest(interest: string): boolean {
+  return CONTACT_TREATMENT_INTERESTS.includes(interest as (typeof CONTACT_TREATMENT_INTERESTS)[number]);
 }
 
 function validateSubmission(data: ContactSubmission): string | null {
-  if (!data.name) return 'Bitte geben Sie Ihren Namen an.';
+  if (!data.name) return 'Bitte geben Sie Ihren Namen ein.';
   if (data.name.length > 120) return 'Der Name ist zu lang.';
-  if (!data.email && !data.phone) return 'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.';
-  if (data.email && !isValidEmail(data.email)) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
-  if (data.phone && !isValidPhone(data.phone)) return 'Bitte geben Sie eine gültige Telefonnummer an.';
+  if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie aus, worum es bei Ihrer Anfrage geht.';
+  if (data.treatmentInterest && !isAllowedTreatmentInterest(data.treatmentInterest)) return 'Bitte wählen Sie eine gültige Behandlung aus.';
+  if (!data.email && !data.phone) return 'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an, damit Teresa Ihnen antworten kann.';
+  if (data.email && !isValidEmail(data.email)) return 'Bitte prüfen Sie die E-Mail-Adresse. Beispiel: name@email.ch';
+  if (data.phone && !isValidPhone(data.phone)) return 'Bitte prüfen Sie die Telefonnummer. Beispiel: +41 79 000 00 00';
   if (data.preferredContactMethod && !isAllowedPreferredContactMethod(data.preferredContactMethod)) return 'Bitte wählen Sie einen gültigen Kontaktweg aus.';
-  if (data.preferredCallbackTime.length > 160) return 'Der gewünschte Rückrufzeitpunkt ist zu lang.';
-  if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie ein gültiges Thema aus.';
-  if (!data.message) return 'Bitte schreiben Sie eine Nachricht.';
+  if (data.preferredTime.length > 160) return 'Der gewünschte Zeitpunkt ist zu lang.';
+  if (!data.message) return 'Bitte beschreiben Sie kurz Ihr Anliegen oder Ihren Terminwunsch.';
   if (data.message.length > 4000) return 'Die Nachricht ist zu lang.';
-  if (!data.privacyConsent) return 'Bitte bestätigen Sie die Datenschutzerklärung.';
+  if (!data.privacyConsent) return 'Bitte bestätigen Sie die Datenschutzhinweise, damit wir Ihre Anfrage beantworten dürfen.';
   return null;
 }
 
@@ -270,8 +279,9 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     `Name: ${data.name}`,
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
+    `Welche Behandlung interessiert Sie: ${data.treatmentInterest || 'Nicht angegeben'}`,
     `Bevorzugter Kontaktweg: ${data.preferredContactMethod || 'Nicht angegeben'}`,
-    `Bevorzugter Rückrufzeitpunkt: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
+    `Wunschtermin oder bevorzugte Zeit: ${data.preferredTime || 'Nicht angegeben'}`,
     `Thema: ${data.topic}`,
     `Quelle: ${data.source || 'Nicht angegeben'}`,
     '',
@@ -291,8 +301,9 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <tr><td style="padding: 8px 0; font-weight: 600;">Name</td><td style="padding: 8px 0;">${escapeHtml(data.name)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Welche Behandlung interessiert Sie</td><td style="padding: 8px 0;">${escapeHtml(data.treatmentInterest || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Rückrufzeit</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Wunschtermin oder bevorzugte Zeit</td><td style="padding: 8px 0;">${escapeHtml(data.preferredTime || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Quelle</td><td style="padding: 8px 0;">${escapeHtml(data.source || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>

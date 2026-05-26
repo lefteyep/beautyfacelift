@@ -199,11 +199,39 @@ export const SERVICE_GROUPS = [
 
 export const CONTACT_TOPICS = [
   'Ich möchte einen Termin buchen',
-  'Ich möchte eine Behandlungsempfehlung',
-  'Frage zu Preisen',
+  'Ich wünsche eine Behandlungsempfehlung',
+  'Ich bin unsicher, welche Behandlung passt',
+  'Frage zu Preisen oder Dauer',
   'Termin verschieben oder absagen',
-  'Anfahrt & Studio',
+  'Frage zur Anfahrt',
   'Allgemeine Frage',
 ] as const;
 
 export type ContactTopic = (typeof CONTACT_TOPICS)[number];
+
+export const CONTACT_TREATMENT_INTERESTS = [
+  'Beratung / Empfehlung',
+  'Noch unsicher',
+  'Gesichtsbehandlung / Hautanalyse',
+  'Hydrofacial',
+  'Microneedling',
+  'Fruchtsäure Peeling',
+  'ColdPlasma',
+  'Exosome Therapie',
+  'Laser-Haarentfernung',
+  'Waxing',
+  'Wimpern & Brauen',
+  'Make-up',
+  'Massage',
+] as const;
+
+export type ContactTreatmentInterest = (typeof CONTACT_TREATMENT_INTERESTS)[number];
+
+export const CONTACT_PREFERRED_METHODS = [
+  'E-Mail',
+  'Telefon',
+  'WhatsApp',
+  'Egal, was am schnellsten ist',
+] as const;
+
+export type ContactPreferredMethod = (typeof CONTACT_PREFERRED_METHODS)[number];

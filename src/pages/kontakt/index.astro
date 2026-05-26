@@ -1,296 +1,433 @@
 ---
 import Base from '../../layouts/Base.astro';
-import AiSummary from '../../components/AiSummary.astro';
-import { absoluteUrl, ADDRESS,
+import { Image, getImage } from 'astro:assets';
+import { teresaPortrait, spaInterior } from '../../lib/site-images';
+import {
+    absoluteUrl,
+    ADDRESS,
     CONTACT_EMAIL,
     CONTACT_PHONE,
     CONTACT_PHONE_DISPLAY,
+    CONTACT_PREFERRED_METHODS,
     CONTACT_TOPICS,
+    CONTACT_TREATMENT_INTERESTS,
     CONTACT_WHATSAPP_URL,
     FULL_ADDRESS,
-    OPENING_HOURS, } from '../../../shared/site';
+    OPENING_HOURS,
+    TREATWELL_URL,
+} from '../../../shared/site';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
+const bookingHref = '/termin/';
+const instagramUrl = 'https://www.instagram.com/beautyfacelift.zh/';
+const addressLines = ['Beauty Face Lift', ADDRESS.street, `${ADDRESS.postalCode} ${ADDRESS.city}`];
+const routeDestination = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}, Schweiz`;
+const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(routeDestination)}`;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Beauty Face Lift ${routeDestination}`)}`;
+const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Beauty Face Lift ${routeDestination}`)}&output=embed`;
 
-const channels = [
+const heroImageSizes = '(min-width: 1200px) 460px, (min-width: 768px) 38vw, 92vw';
+const heroImage = await getImage({
+    src: teresaPortrait,
+    widths: [360, 520, 720, 960],
+    sizes: heroImageSizes,
+    format: 'webp',
+    quality: 'high',
+});
+
+const contactMethods = [
     {
-        index: '01',
-        label: 'Telefon',
-        value: CONTACT_PHONE_DISPLAY,
-        note: 'Für Rückfragen, Terminänderungen und kurze Anliegen.',
-        href: `tel:${CONTACT_PHONE}`,
-        action: 'Jetzt anrufen',
-        serifValue: true,
+        title: 'Beratung anfragen',
+        body: 'Sie sind unsicher, welche Behandlung zu Ihrer Haut passt? Beschreiben Sie kurz Ihr Hautziel — Teresa empfiehlt Ihnen den passenden nächsten Schritt.',
+        cta: 'Zum Formular',
+        href: '#kontaktformular',
+        priority: 'primary',
+        event: 'contact_form_view',
+        location: 'contact_method_cards',
+        icon: 'sparkle',
     },
     {
-        index: '02',
-        label: 'WhatsApp',
-        value: 'Schnell schreiben',
-        note: 'Ideal für kurze Rückfragen und Terminwünsche unterwegs.',
+        title: 'WhatsApp schreiben',
+        body: 'Ideal für kurze Rückfragen, Terminwünsche oder kleine Änderungen unterwegs.',
+        cta: 'Chat öffnen',
         href: CONTACT_WHATSAPP_URL,
-        action: 'Chat öffnen',
+        priority: 'secondary',
+        event: 'contact_whatsapp_click',
+        location: 'contact_method_cards',
+        method: 'whatsapp',
         external: true,
-        serifValue: false,
+        icon: 'message',
     },
     {
-        index: '03',
-        label: 'E-Mail',
-        value: CONTACT_EMAIL,
-        note: 'Für ausführlichere Fragen, Unterlagen oder Rückrufwünsche.',
-        href: `mailto:${CONTACT_EMAIL}`,
-        action: 'E-Mail schreiben',
-        serifValue: false,
+        title: 'Direkt online buchen',
+        body: 'Wenn Sie bereits wissen, welche Behandlung Sie möchten, können Sie Ihren Termin direkt online auswählen.',
+        cta: 'Termin buchen',
+        href: bookingHref,
+        priority: 'medium',
+        event: 'contact_booking_click',
+        location: 'contact_method_cards',
+        method: 'booking',
+        icon: 'calendar',
     },
     {
-        index: '04',
-        label: 'Termin',
-        value: 'Direkt online buchen',
-        note: 'Wenn Sie bereits wissen, welche Behandlung Sie möchten.',
-        href: '/termin/',
-        action: 'Zur Online-Buchung',
-        serifValue: false,
-    },
-];
-
-const studioFacts = [
-    {
-        index: '01',
-        label: 'Adresse',
-        lines: [ADDRESS.street, `${ADDRESS.postalCode} ${ADDRESS.city}`],
-    },
-    {
-        index: '02',
-        label: 'Öffnungszeiten',
-        rows: OPENING_HOURS,
-    },
-    {
-        index: '03',
-        label: 'Mit dem ÖV',
-        text: 'Paradeplatz und Börsenstrasse sind in wenigen Minuten zu Fuss erreichbar — aus allen Richtungen der Stadt unkompliziert.',
-    },
-    {
-        index: '04',
-        label: 'Mit dem Auto',
-        text: 'Mehrere Innenstadt-Parkhäuser rund um Paradeplatz und Bleicherweg liegen nur wenige Gehminuten entfernt.',
+        title: 'Anrufen',
+        body: 'Für dringende Terminänderungen oder kurzfristige Fragen erreichen Sie uns telefonisch am schnellsten.',
+        cta: 'Jetzt anrufen',
+        href: `tel:${CONTACT_PHONE}`,
+        priority: 'medium',
+        event: 'contact_phone_click',
+        location: 'contact_method_cards',
+        method: 'phone',
+        icon: 'phone',
     },
 ];
 
-const summaryFacts = [
-    { label: 'Adresse', value: FULL_ADDRESS },
-    { label: 'Telefon', value: CONTACT_PHONE_DISPLAY },
-    { label: 'E-Mail', value: CONTACT_EMAIL },
-    { label: 'Erreichbarkeit', value: 'Paradeplatz und Börsenstrasse in wenigen Minuten zu Fuss' },
+const treatmentIntents = [
+    {
+        title: 'Frischer Glow & Feuchtigkeit',
+        body: 'Für fahle, müde oder trockene Haut.',
+    },
+    {
+        title: 'Unreinheiten, Poren & Akne',
+        body: 'Für ein klareres, ruhigeres Hautbild.',
+    },
+    {
+        title: 'Anti-Aging & Hautstruktur',
+        body: 'Für feine Linien, Elastizität und ein verfeinertes Hautgefühl.',
+    },
+    {
+        title: 'Sensible Haut & Rötungen',
+        body: 'Für Kundinnen und Kunden, die besonders vorsichtig planen möchten.',
+    },
+    {
+        title: 'Laser-Haarentfernung',
+        body: 'Für Fragen zu Zonen, Ablauf, Preisen oder Eignung.',
+    },
+    {
+        title: 'Wimpern, Brauen, Waxing & Make-up',
+        body: 'Für klassische Beauty-Termine und kurzfristige Anliegen.',
+    },
 ];
 
-const guidance = [
+const trustCards = [
     {
-        index: '01',
-        title: 'Erstberatung',
-        body: 'Wenn Sie zwischen Hydrafacial, Microneedling, Peeling oder ColdPlasma schwanken, beschreiben Sie uns kurz Ihr Hautziel und Ihre Hauptanliegen.',
+        title: 'Über 20 Jahre Erfahrung',
+        body: 'Langjährige Expertise in professioneller Kosmetik und Hautpflege.',
     },
     {
-        index: '02',
-        title: 'Terminfragen',
-        body: 'Für Terminverschiebungen, Absagen oder einen bevorzugten Rückrufzeitpunkt bitten wir um eine Telefonnummer, unter der wir Sie zuverlässig erreichen.',
+        title: 'Persönlich durch Teresa',
+        body: 'Beratung und Behandlung erfolgen persönlich, aufmerksam und individuell.',
     },
     {
-        index: '03',
-        title: 'Vor dem ersten Termin',
-        body: 'Teilen Sie uns mit, ob es sensible Haut, bekannte Unverträglichkeiten, aktive Akne, Rosazea oder aktuelle Medikamente gibt. So können wir Sie sauber vorbereiten.',
+        title: 'Sehr gute Kundenbewertungen',
+        body: '4.8/5 auf Treatwell bei 249 Bewertungen.',
+    },
+    {
+        title: 'Zentral in Zürich',
+        body: 'Premium-Lage an der Bahnhofstrasse 94, wenige Minuten vom Paradeplatz.',
+    },
+    {
+        title: 'Hygienisch & professionell',
+        body: 'Sorgfältige Vorbereitung, saubere Behandlungsräume und professionelle Abläufe.',
+    },
+];
+
+const faqItems = [
+    {
+        question: 'Soll ich direkt buchen oder zuerst schreiben?',
+        answer: 'Wenn Sie bereits wissen, welche Behandlung Sie möchten, können Sie direkt online buchen. Wenn Sie unsicher sind, schreiben Sie uns kurz Ihr Hautziel — Teresa empfiehlt Ihnen den passenden nächsten Schritt.',
+    },
+    {
+        question: 'Welche Angaben helfen bei einer Behandlungsempfehlung?',
+        answer: 'Hilfreich sind Ihr Hautziel, aktuelle Hautthemen, bekannte Unverträglichkeiten, sensible Haut, aktive Akne, Rosazea, Medikamente oder kürzlich durchgeführte Behandlungen.',
+    },
+    {
+        question: 'Kann ich per WhatsApp einen Termin verschieben?',
+        answer: 'Ja. Für Terminverschiebungen, kurzfristige Fragen oder kleine Änderungen ist WhatsApp der schnellste Weg.',
+    },
+    {
+        question: 'Wie schnell erhalte ich eine Antwort?',
+        answer: 'Teresa meldet sich so rasch wie möglich persönlich bei Ihnen. Bei dringenden Terminänderungen rufen Sie bitte direkt an oder schreiben Sie per WhatsApp.',
+    },
+    {
+        question: 'Wo befindet sich Beauty Face Lift genau?',
+        answer: 'Beauty Face Lift befindet sich an der Bahnhofstrasse 94 in 8001 Zürich, wenige Minuten von Paradeplatz und Börsenstrasse entfernt.',
+    },
+    {
+        question: 'Muss ich schon wissen, welche Behandlung ich möchte?',
+        answer: 'Nein. Beschreiben Sie einfach, was Sie sich für Ihre Haut wünschen. Teresa berät Sie ehrlich und empfiehlt eine passende Behandlung oder Kombination.',
+    },
+];
+
+const openingHoursSpecification = [
+    {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00",
+    },
+    {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "10:00",
+        "closes": "16:00",
     },
 ];
 
 const structuredData = {
     "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "name": "Kontakt | Beauty Face Lift",
-    "url": absoluteUrl('/kontakt/'),
-    "mainEntity": {
-        "@type": "BeautySalon",
-        "name": "Beauty Face Lift Zürich",
-        "url": absoluteUrl('/'),
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": ADDRESS.street,
-            "addressLocality": ADDRESS.city,
-            "postalCode": ADDRESS.postalCode,
-            "addressCountry": ADDRESS.country,
+    "@graph": [
+        {
+            "@type": "ContactPage",
+            "@id": absoluteUrl('/kontakt/#contact-page'),
+            "name": "Kontakt & Beratung | Beauty Face Lift Zürich",
+            "url": absoluteUrl('/kontakt/'),
+            "description": "Kontaktieren Sie Beauty Face Lift in Zürich für persönliche Hautberatung, Terminwünsche und Behandlungsfragen. Teresa Stimac berät Sie direkt an der Bahnhofstrasse 94.",
+            "mainEntity": { "@id": absoluteUrl('/#beauty-salon') },
         },
-        "areaServed": [
-            "Zürich",
-            "Switzerland"
-        ]
-    }
+        {
+            "@type": "BeautySalon",
+            "@id": absoluteUrl('/#beauty-salon'),
+            "name": "Beauty Face Lift Zürich",
+            "url": absoluteUrl('/'),
+            "telephone": CONTACT_PHONE_DISPLAY,
+            "email": CONTACT_EMAIL,
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": ADDRESS.street,
+                "addressLocality": ADDRESS.city,
+                "postalCode": ADDRESS.postalCode,
+                "addressCountry": ADDRESS.country,
+            },
+            "areaServed": ["Zürich", "Switzerland"],
+            "openingHoursSpecification": openingHoursSpecification,
+            "sameAs": [instagramUrl, TREATWELL_URL],
+        },
+        {
+            "@type": "FAQPage",
+            "@id": absoluteUrl('/kontakt/#faq'),
+            "mainEntity": faqItems.map((item) => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.answer,
+                },
+            })),
+        },
+    ],
 };
 ---
 
 <Base
-    title="Kontakt | Beauty Face Lift Zürich"
-    description="Kontaktieren Sie Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Telefon, WhatsApp, E-Mail und Kontaktformular für Erstberatung, Terminfragen und Studioanfragen."
+    title="Kontakt & Beratung | Beauty Face Lift Zürich"
+    description="Kontaktieren Sie Beauty Face Lift in Zürich für persönliche Hautberatung, Terminwünsche und Behandlungsfragen. Teresa Stimac berät Sie direkt an der Bahnhofstrasse 94."
+    preloadImage={{
+        href: heroImage.src,
+        imagesrcset: heroImage.srcSet.attribute,
+        imagesizes: heroImageSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
+    ogImage={absoluteUrl('/assets/teresa_portrait.jpg')}
     structuredData={structuredData}
+    bodyClass="page-contact"
 >
-    <AiSummary
-        title="Beauty Face Lift Kontakt Zürich"
-        intro="Beauty Face Lift ist ein Kosmetikinstitut an der Bahnhofstrasse 94 in Zürich. Für Erstberatung, Terminfragen und Behandlungsabklärung erreichen Sie Teresa Stimac telefonisch, per WhatsApp, per E-Mail oder über das Kontaktformular."
-        facts={summaryFacts}
-    />
-
-    <section class="kontakt" aria-labelledby="kontakt-heading">
-
-        <!-- MASTHEAD -->
-        <div class="kontakt-masthead">
-            <div class="kontakt-masthead-inner">
-                <header class="kontakt-masthead-copy">
-                    <p class="kontakt-eyebrow"><span class="kontakt-eyebrow-rule" aria-hidden="true"></span>Kontakt &amp; Beratung</p>
-                    <h1 id="kontakt-heading" class="kontakt-display">
-                        Ein Gespräch. Ein <span class="accent-word">Termin.</span> Ein spürbar klareres Hautgefühl.
-                    </h1>
-                    <p class="kontakt-lede">
-                        Unsicher, welche Behandlung zu Ihrem Hautbild passt? Wir begleiten Sie persönlich — per Telefon, WhatsApp, E-Mail oder direkt im Studio an der Bahnhofstrasse 94. Für Erstberatungen und Rückfragen vor der Buchung ist diese Seite der schnellste Weg zu uns.
-                    </p>
-                    <p class="kontakt-lede kontakt-lede--muted">
-                        Für Terminverschiebungen oder kurzfristige Absagen genügt ein Anruf oder eine WhatsApp-Nachricht.
-                    </p>
-                </header>
-
-                <aside class="kontakt-channels" aria-labelledby="kontakt-channels-heading">
-                    <p class="kontakt-eyebrow kontakt-eyebrow--aside">
-                        <span id="kontakt-channels-heading">Direkt erreichbar</span>
-                    </p>
-                    <ul class="kontakt-channel-list">
-                        {channels.map((c) => (
-                            <li class="kontakt-channel">
-                                <a
-                                    class="kontakt-channel-link"
-                                    href={c.href}
-                                    {...(c.external ? { target: '_blank', rel: 'noopener' } : {})}
-                                    aria-label={`${c.label}: ${c.action}`}
-                                >
-                                    <span class="kontakt-channel-index" aria-hidden="true">{c.index}</span>
-                                    <span class="kontakt-channel-body">
-                                        <span class="kontakt-channel-label">{c.label}</span>
-                                        <span class={`kontakt-channel-value${c.serifValue ? ' kontakt-channel-value--serif' : ''}`}>{c.value}</span>
-                                        <span class="kontakt-channel-note">{c.note}</span>
-                                    </span>
-                                    <span class="kontakt-channel-cta" aria-hidden="true">
-                                        <span class="kontakt-channel-cta-label">{c.action}</span>
-                                        <svg class="kontakt-channel-arrow" width="28" height="10" viewBox="0 0 28 10" fill="none" aria-hidden="true">
-                                            <path d="M0 5 H26 M22 1 L26 5 L22 9" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="square" />
-                                        </svg>
-                                    </span>
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </aside>
-            </div>
-        </div>
-
-        <!-- STUDIO BAND (full-bleed paper-2) -->
-        <div class="kontakt-studio full-bleed">
-            <div class="kontakt-studio-inner">
-                <div class="kontakt-studio-heading">
-                    <p class="kontakt-eyebrow"><span class="kontakt-eyebrow-rule" aria-hidden="true"></span>Studio &amp; Anfahrt</p>
-                    <h2 class="kontakt-studio-title">
-                        Bahnhofstrasse 94 <span class="kontakt-dot" aria-hidden="true">·</span> <span class="accent-word">Zürich</span>
-                    </h2>
-                    <p class="kontakt-studio-sub">Mitten im Herzen der Stadt. Wenige Minuten vom Paradeplatz.</p>
-                </div>
-
-                <ul class="kontakt-studio-grid">
-                    {studioFacts.map((f) => (
-                        <li class="kontakt-studio-item">
-                            <span class="kontakt-studio-index" aria-hidden="true">{f.index}</span>
-                            <span class="kontakt-studio-label">{f.label}</span>
-                            {f.lines && (
-                                <address class="kontakt-studio-body">
-                                    {f.lines.map((line) => (<p>{line}</p>))}
-                                </address>
-                            )}
-                            {f.rows && (
-                                <div class="kontakt-studio-body kontakt-studio-hours">
-                                    {f.rows.map((row) => (
-                                        <p>
-                                            <span class="kontakt-hours-day">{row.label}</span>
-                                            <span class="kontakt-hours-value">{row.value}</span>
-                                        </p>
-                                    ))}
-                                </div>
-                            )}
-                            {f.text && (
-                                <p class="kontakt-studio-body">{f.text}</p>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-
-        <!-- DIALOG: guidance + form -->
-        <div class="kontakt-dialog">
-            <aside class="kontakt-guidance" aria-labelledby="kontakt-guidance-heading">
-                <p class="kontakt-eyebrow"><span class="kontakt-eyebrow-rule" aria-hidden="true"></span>Gut zu wissen</p>
-                <h2 id="kontakt-guidance-heading" class="kontakt-guidance-heading">Worüber Sie uns am besten <span class="accent-word">schreiben</span></h2>
-                <p class="kontakt-guidance-lede">Damit wir Ihnen rasch eine präzise Antwort geben können, hier die Themen, bei denen wir Ihnen besonders helfen können.</p>
-
-                <ol class="kontakt-guidance-list">
-                    {guidance.map((g) => (
-                        <li class="kontakt-guidance-item">
-                            <span class="kontakt-guidance-index" aria-hidden="true">{g.index}</span>
-                            <div class="kontakt-guidance-body">
-                                <h3 class="kontakt-guidance-title">{g.title}</h3>
-                                <p>{g.body}</p>
-                            </div>
-                        </li>
-                    ))}
-                </ol>
-            </aside>
-
-            <article class="kontakt-form-panel" aria-labelledby="kontakt-form-heading">
-                <p class="kontakt-eyebrow"><span class="kontakt-eyebrow-rule" aria-hidden="true"></span>Kontaktformular</p>
-                <h2 id="kontakt-form-heading" class="kontakt-form-heading">Eine Nachricht an <span class="accent-word">Teresa</span></h2>
-                <p class="kontakt-form-intro">
-                    Pflichtfelder sind mit <span class="kontakt-required">*</span> markiert. Sie können eine E-Mail-Adresse, eine Telefonnummer oder beides hinterlassen. Das Formular funktioniert auch ohne JavaScript.
+    <div class="kontakt-page" data-contact-page>
+        <!-- ContactHero -->
+        <section class="kontakt-hero" aria-labelledby="kontakt-heading">
+            <div class="kontakt-hero-copy">
+                <p class="kontakt-eyebrow"><span aria-hidden="true"></span>Kontakt &amp; Beratung</p>
+                <h1 id="kontakt-heading">Persönliche Hautberatung &amp; Termine in Zürich</h1>
+                <p class="kontakt-hero-lede">
+                    Sie möchten einen Termin buchen, eine Behandlung abklären oder sind unsicher, was zu Ihrer Haut passt? Schreiben Sie Teresa direkt — persönlich, diskret und unkompliziert an der Bahnhofstrasse 94 in Zürich.
                 </p>
 
-                <form class="kontakt-form" action="/api/contact" method="post" novalidate>
+                <div class="kontakt-hero-actions" aria-label="Wichtigste Kontaktoptionen">
+                    <a class="pill-btn kontakt-primary" href="#kontaktformular" data-contact-event="contact_form_view" data-cta-location="hero" data-cta-label="Beratung oder Termin anfragen">
+                        Beratung oder Termin anfragen
+                    </a>
+                    <a
+                        class="kontakt-secondary"
+                        href={CONTACT_WHATSAPP_URL}
+                        target="_blank"
+                        rel="noopener"
+                        data-contact-event="contact_whatsapp_click"
+                        data-contact-method="whatsapp"
+                        data-cta-location="hero"
+                        data-cta-label="Per WhatsApp schreiben"
+                        data-button-location="hero_whatsapp"
+                        data-source="kontakt_hero"
+                    >
+                        Per WhatsApp schreiben
+                    </a>
+                </div>
+
+                <a class="kontakt-text-link" href={bookingHref} data-contact-event="contact_booking_click" data-contact-method="booking" data-cta-location="hero" data-cta-label="Ich weiss schon, was ich möchte — direkt online buchen" data-button-location="hero_booking">
+                    Ich weiss schon, was ich möchte — direkt online buchen
+                </a>
+
+                <ul class="kontakt-trust-strip" aria-label="Vertrauenssignale">
+                    <li>4.8/5 Treatwell Bewertung</li>
+                    <li>249 Bewertungen</li>
+                    <li>Über 20 Jahre Erfahrung</li>
+                    <li>Bahnhofstrasse 94, Zürich</li>
+                </ul>
+            </div>
+
+            <figure class="kontakt-hero-media">
+                <Image
+                    src={teresaPortrait}
+                    widths={[360, 520, 720, 960]}
+                    sizes={heroImageSizes}
+                    format="webp"
+                    quality="high"
+                    alt="Teresa Stimac von Beauty Face Lift Zürich"
+                    loading="eager"
+                />
+                <figcaption>
+                    Persönliche Beratung durch Teresa Stimac an der Bahnhofstrasse 94.
+                </figcaption>
+            </figure>
+        </section>
+
+        <!-- ContactMethodCards -->
+        <section class="kontakt-section kontakt-methods" aria-labelledby="kontakt-methods-heading">
+            <div class="kontakt-section-heading">
+                <h2 id="kontakt-methods-heading">Wie möchten Sie uns erreichen?</h2>
+                <p>Wählen Sie den Weg, der am besten zu Ihrem Anliegen passt. Für kurze Fragen ist WhatsApp ideal, für eine persönliche Behandlungsempfehlung nutzen Sie am besten das Formular.</p>
+            </div>
+
+            <div class="kontakt-method-grid">
+                {contactMethods.map((method) => (
+                    <a
+                        class:list={['kontakt-method-card', `kontakt-method-card--${method.priority}`]}
+                        href={method.href}
+                        {...(method.external ? { target: '_blank', rel: 'noopener' } : {})}
+                        data-contact-event={method.event}
+                        data-contact-method={method.method}
+                        data-cta-location={method.location}
+                        data-cta-label={method.cta}
+                        data-button-location={`contact_method_${method.title.toLowerCase().replaceAll(' ', '_')}`}
+                    >
+                        <span class="kontakt-card-icon" aria-hidden="true">
+                            {method.icon === 'sparkle' && (
+                                <svg viewBox="0 0 24 24"><path d="M12 2l1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2Z" /><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z" /></svg>
+                            )}
+                            {method.icon === 'message' && (
+                                <svg viewBox="0 0 24 24"><path d="M5 5h14v10H8l-3 3V5Z" /></svg>
+                            )}
+                            {method.icon === 'calendar' && (
+                                <svg viewBox="0 0 24 24"><path d="M6 4v3M18 4v3M4 9h16M5 6h14v14H5V6Z" /></svg>
+                            )}
+                            {method.icon === 'phone' && (
+                                <svg viewBox="0 0 24 24"><path d="M7 4l3 4-2 2c1.4 2.9 3.1 4.6 6 6l2-2 4 3-2 3c-7.2-.4-13.6-6.8-14-14l3-2Z" /></svg>
+                            )}
+                        </span>
+                        <span class="kontakt-method-body">
+                            <span class="kontakt-method-title">{method.title}</span>
+                            <span class="kontakt-method-copy">{method.body}</span>
+                            <span class="kontakt-method-cta">{method.cta}</span>
+                        </span>
+                    </a>
+                ))}
+            </div>
+        </section>
+
+        <!-- AppointmentInquiryForm -->
+        <section id="kontaktformular" class="kontakt-section kontakt-form-section" aria-labelledby="kontakt-form-heading">
+            <div class="kontakt-form-intro-block">
+                <p class="kontakt-eyebrow"><span aria-hidden="true"></span>Anfrageformular</p>
+                <h2 id="kontakt-form-heading">Ihre Anfrage an Teresa</h2>
+                <p>Beschreiben Sie kurz Ihr Anliegen, Ihr Hautziel oder Ihren gewünschten Termin. Teresa prüft Ihre Anfrage persönlich und meldet sich mit einer passenden Empfehlung oder Terminoption.</p>
+                <p class="kontakt-urgent-note">Für dringende Terminänderungen bitte direkt anrufen oder per WhatsApp schreiben.</p>
+            </div>
+
+            <div class="kontakt-form-panel">
+                <div class="kontakt-form-status" data-contact-status role="status" aria-live="polite" hidden></div>
+                <div class="kontakt-form-success" data-contact-success tabindex="-1" hidden>
+                    <h3>Vielen Dank — Ihre Anfrage wurde gesendet.</h3>
+                    <p>Teresa meldet sich persönlich bei Ihnen. Bei dringenden Terminänderungen erreichen Sie uns schneller telefonisch oder per WhatsApp.</p>
+                    <div class="kontakt-success-actions">
+                        <a href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener" data-contact-event="contact_whatsapp_click" data-contact-method="whatsapp" data-cta-location="form" data-cta-label="WhatsApp schreiben" data-button-location="form_success_whatsapp">WhatsApp schreiben</a>
+                        <a href={bookingHref} data-contact-event="contact_booking_click" data-contact-method="booking" data-cta-location="form" data-cta-label="Direkt online buchen" data-button-location="form_success_booking">Direkt online buchen</a>
+                        <a href="#anfahrt" data-contact-event="contact_route_click" data-cta-location="form" data-cta-label="Anfahrt ansehen">Anfahrt ansehen</a>
+                    </div>
+                </div>
+
+                <form class="kontakt-form" action="/api/contact" method="post" novalidate data-contact-form>
+                    <input type="hidden" name="source" value="kontakt-page" />
                     <div class="kontakt-field-grid">
                         <div class="kontakt-field">
-                            <label for="contact-name">Name <span class="kontakt-required" aria-hidden="true">*</span></label>
-                            <input id="contact-name" name="name" type="text" autocomplete="name" required />
+                            <label for="contact-name">Ihr Name <span aria-hidden="true">*</span></label>
+                            <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required aria-describedby="contact-name-error" />
+                            <p id="contact-name-error" class="kontakt-field-error" data-field-error="name" hidden></p>
                         </div>
+
                         <div class="kontakt-field">
-                            <label for="contact-topic">Thema <span class="kontakt-required" aria-hidden="true">*</span></label>
+                            <label for="contact-topic">Worum geht es? <span aria-hidden="true">*</span></label>
                             <div class="kontakt-select">
-                                <select id="contact-topic" name="topic" required>
+                                <select id="contact-topic" name="topic" required aria-describedby="contact-topic-error">
                                     <option value="">Bitte auswählen</option>
                                     {CONTACT_TOPICS.map((topic) => (
                                         <option value={topic}>{topic}</option>
                                     ))}
                                 </select>
-                                <svg class="kontakt-select-caret" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1 L6 6 L11 1" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="square" /></svg>
+                            </div>
+                            <p id="contact-topic-error" class="kontakt-field-error" data-field-error="topic" hidden></p>
+                        </div>
+
+                        <div class="kontakt-field">
+                            <label for="contact-treatment-interest">Welche Behandlung interessiert Sie?</label>
+                            <div class="kontakt-select">
+                                <select id="contact-treatment-interest" name="treatment_interest">
+                                    <option value="">Optional auswählen</option>
+                                    {CONTACT_TREATMENT_INTERESTS.map((interest) => (
+                                        <option value={interest}>{interest}</option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
+
                         <div class="kontakt-field">
-                            <label for="contact-email">E-Mail</label>
-                            <input id="contact-email" name="email" type="email" autocomplete="email" />
+                            <label for="contact-email">E-Mail-Adresse</label>
+                            <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="name@email.ch" aria-describedby="contact-email-error contact-method-error" />
+                            <p id="contact-email-error" class="kontakt-field-error" data-field-error="email" hidden></p>
                         </div>
+
                         <div class="kontakt-field">
-                            <label for="contact-phone">Telefon</label>
-                            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" />
+                            <label for="contact-phone">Telefon oder WhatsApp</label>
+                            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="+41 79 000 00 00" aria-describedby="contact-phone-error contact-method-error" />
+                            <p id="contact-phone-error" class="kontakt-field-error" data-field-error="phone" hidden></p>
                         </div>
+
+                        <fieldset class="kontakt-field kontakt-field--full kontakt-radio-field">
+                            <legend>Wie dürfen wir Sie kontaktieren?</legend>
+                            <div class="kontakt-radio-options">
+                                {CONTACT_PREFERRED_METHODS.map((method) => (
+                                    <label>
+                                        <input type="radio" name="preferred_contact" value={method} />
+                                        <span>{method}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </fieldset>
+
                         <div class="kontakt-field kontakt-field--full">
-                            <label for="contact-callback">Bevorzugter Rückrufzeitpunkt</label>
-                            <input id="contact-callback" name="preferredCallbackTime" type="text" placeholder="z. B. werktags zwischen 12:00 und 14:00 Uhr" />
+                            <label for="contact-preferred-time">Wunschtermin oder bevorzugte Zeit</label>
+                            <input id="contact-preferred-time" name="preferred_time" type="text" placeholder="z. B. Dienstagabend, Freitagvormittag oder nächstmöglich" />
                         </div>
+
                         <div class="kontakt-field kontakt-field--full">
-                            <label for="contact-message">Ihre Nachricht <span class="kontakt-required" aria-hidden="true">*</span></label>
-                            <textarea id="contact-message" name="message" required placeholder="Beschreiben Sie kurz Ihr Anliegen, Ihre Hautziele oder Ihre Frage."></textarea>
+                            <label for="contact-message">Ihre Nachricht <span aria-hidden="true">*</span></label>
+                            <textarea id="contact-message" name="message" required placeholder="Beschreiben Sie kurz Ihr Anliegen, Ihr Hautziel oder Ihren gewünschten Termin." aria-describedby="contact-message-error"></textarea>
+                            <p id="contact-message-error" class="kontakt-field-error" data-field-error="message" hidden></p>
                         </div>
                     </div>
 
-                    <div class="kontakt-field kontakt-honeypot" aria-hidden="true">
-                        <label for="contact-company">Firma</label>
+                    <p id="contact-method-error" class="kontakt-field-error kontakt-field-error--wide" data-field-error="contact" hidden></p>
+
+                    <div class="kontakt-honeypot" aria-hidden="true">
                         <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" />
                     </div>
 
@@ -302,20 +439,1627 @@ const structuredData = {
                     )}
 
                     <label class="kontakt-checkbox" for="contact-privacy">
-                        <input id="contact-privacy" name="privacyConsent" type="checkbox" required />
-                        <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Beantwortung meiner Anfrage einverstanden. <span class="kontakt-required" aria-hidden="true">*</span></span>
+                        <input id="contact-privacy" name="privacy" type="checkbox" required aria-describedby="contact-privacy-error" />
+                        <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin einverstanden, dass meine Angaben zur Beantwortung meiner Anfrage verarbeitet werden. <span aria-hidden="true">*</span></span>
                     </label>
+                    <p id="contact-privacy-error" class="kontakt-field-error" data-field-error="privacy" hidden></p>
 
                     <div class="kontakt-form-actions">
-                        <button type="submit" class="pill-btn kontakt-submit">
-                            <span>Nachricht senden</span>
-                            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M0 5 H16 M12 1 L16 5 L12 9" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="square" /></svg>
+                        <button type="submit" class="pill-btn kontakt-submit" data-contact-submit>
+                            Anfrage an Teresa senden
                         </button>
-                        <p class="kontakt-form-note">Für dringende Terminänderungen bitte direkt anrufen oder per WhatsApp schreiben.</p>
+                        <p>Bitte geben Sie mindestens eine Kontaktmöglichkeit an — E-Mail, Telefon oder WhatsApp.</p>
                     </div>
                 </form>
-            </article>
-        </div>
+            </div>
+        </section>
 
-    </section>
+        <!-- TreatmentIntentGuide -->
+        <section class="kontakt-section kontakt-intents" aria-labelledby="kontakt-intents-heading">
+            <div class="kontakt-section-heading">
+                <h2 id="kontakt-intents-heading">Noch unsicher, welche Behandlung passt?</h2>
+                <p>Sie müssen die richtige Behandlung nicht selbst auswählen. Beschreiben Sie einfach Ihr Hautziel — Teresa berät Sie ehrlich und empfiehlt, was zu Ihrer Haut, Ihrem Alltag und Ihren Erwartungen passt.</p>
+            </div>
+
+            <div class="kontakt-intent-grid">
+                {treatmentIntents.map((intent) => (
+                    <article class="kontakt-intent-card">
+                        <h3>{intent.title}</h3>
+                        <p>{intent.body}</p>
+                    </article>
+                ))}
+            </div>
+
+            <a class="kontakt-section-link" href="#kontaktformular" data-contact-event="contact_form_view" data-cta-location="treatment_intent_guide" data-cta-label="Hautziel im Formular beschreiben">
+                Hautziel im Formular beschreiben
+            </a>
+        </section>
+
+        <!-- TrustSection -->
+        <section class="kontakt-section kontakt-trust" aria-labelledby="kontakt-trust-heading">
+            <div class="kontakt-trust-copy">
+                <p class="kontakt-eyebrow"><span aria-hidden="true"></span>Warum Kundinnen Teresa vertrauen</p>
+                <h2 id="kontakt-trust-heading">Persönliche Beratung statt anonymer Massenbehandlung</h2>
+                <p>Bei Beauty Face Lift werden Sie persönlich von Teresa Stimac betreut — mit über 20 Jahren Erfahrung, viel Feingefühl und einem klaren Blick dafür, welche Behandlung wirklich zu Ihrer Haut passt. Jede Anfrage wird sorgfältig gelesen, damit Ihr erster Schritt einfach, sicher und gut vorbereitet ist.</p>
+            </div>
+
+            <div class="kontakt-trust-content">
+                <figure class="kontakt-trust-image">
+                    <Image
+                        src={spaInterior}
+                        widths={[360, 540, 720, 960]}
+                        sizes="(min-width: 1000px) 420px, 92vw"
+                        format="webp"
+                        quality="high"
+                        alt="Behandlungsraum von Beauty Face Lift Zürich"
+                        loading="lazy"
+                    />
+                </figure>
+                <div class="kontakt-trust-grid">
+                    {trustCards.map((card) => (
+                        <article class="kontakt-trust-card">
+                            <h3>{card.title}</h3>
+                            <p>{card.body}</p>
+                        </article>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        <!-- LocationHoursMap -->
+        <section id="anfahrt" class="kontakt-section kontakt-location" aria-labelledby="kontakt-location-heading">
+            <div class="kontakt-section-heading">
+                <p class="kontakt-eyebrow"><span aria-hidden="true"></span>Studio &amp; Anfahrt</p>
+                <h2 id="kontakt-location-heading">Beauty Face Lift an der Bahnhofstrasse 94</h2>
+                <p>Sie finden Beauty Face Lift zentral in Zürich Kreis 1 — an der Bahnhofstrasse 94, 8001 Zürich. Paradeplatz und Börsenstrasse sind in wenigen Minuten zu Fuss erreichbar.</p>
+            </div>
+
+            <div class="kontakt-location-grid">
+                <article class="kontakt-location-card">
+                    <h3>Adresse</h3>
+                    <address>
+                        {addressLines.map((line) => (<span>{line}</span>))}
+                    </address>
+                    <a href={routeUrl} target="_blank" rel="noopener" data-contact-event="contact_route_click" data-cta-location="location_section" data-cta-label="Route planen">
+                        Route planen
+                    </a>
+                </article>
+
+                <article class="kontakt-location-card">
+                    <h3>Öffnungszeiten</h3>
+                    <dl class="kontakt-hours">
+                        {OPENING_HOURS.map((item) => (
+                            <>
+                                <dt>{item.label}</dt>
+                                <dd>{item.value}</dd>
+                            </>
+                        ))}
+                    </dl>
+                </article>
+
+                <article class="kontakt-location-card">
+                    <h3>Mit dem ÖV</h3>
+                    <p>Paradeplatz und Börsenstrasse sind nur wenige Gehminuten entfernt. Das Studio ist aus allen Richtungen der Stadt gut erreichbar.</p>
+                </article>
+
+                <article class="kontakt-location-card">
+                    <h3>Mit dem Auto</h3>
+                    <p>Rund um Paradeplatz und Bleicherweg befinden sich mehrere Innenstadt-Parkhäuser in Gehdistanz.</p>
+                </article>
+            </div>
+
+            <div class="kontakt-map">
+                <div class="kontakt-map-copy">
+                    <h3>Anfahrt auf der Karte</h3>
+                    <p>Die Route öffnet sich extern in Google Maps. Die Adresse bleibt zusätzlich direkt kopierbar.</p>
+                    <div class="kontakt-map-actions">
+                        <a class="pill-btn" href={mapsUrl} target="_blank" rel="noopener" data-contact-event="contact_route_click" data-cta-location="location_section" data-cta-label="Google Maps öffnen">Google Maps öffnen</a>
+                        <button type="button" data-copy-address={FULL_ADDRESS} data-contact-event="contact_address_copy" data-cta-location="location_section" data-cta-label="Adresse kopieren">Adresse kopieren</button>
+                        <a href={`mailto:${CONTACT_EMAIL}`} data-contact-event="contact_email_click" data-contact-method="email" data-cta-location="location_section" data-cta-label="E-Mail schreiben">E-Mail schreiben</a>
+                    </div>
+                </div>
+                <iframe
+                    title="Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich"
+                    src={mapEmbedUrl}
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </section>
+
+        <!-- ContactFAQ -->
+        <section class="kontakt-section kontakt-faq" aria-labelledby="kontakt-faq-heading">
+            <div class="kontakt-section-heading">
+                <h2 id="kontakt-faq-heading">Häufige Fragen vor der Kontaktaufnahme</h2>
+            </div>
+            <div class="kontakt-faq-list">
+                {faqItems.map((item) => (
+                    <details data-contact-faq>
+                        <summary>{item.question}</summary>
+                        <p>{item.answer}</p>
+                    </details>
+                ))}
+            </div>
+        </section>
+
+        <!-- FinalCTA -->
+        <section class="kontakt-final" aria-labelledby="kontakt-final-heading">
+            <h2 id="kontakt-final-heading">Bereit für Ihre persönliche Hautberatung?</h2>
+            <p>Ob Terminwunsch, Behandlungsfrage oder Unsicherheit vor dem ersten Besuch — schreiben Sie uns kurz. Teresa meldet sich persönlich und hilft Ihnen, den nächsten Schritt entspannt zu planen.</p>
+            <div class="kontakt-final-actions">
+                <a class="pill-btn" href="#kontaktformular" data-contact-event="contact_form_view" data-cta-location="final_cta" data-cta-label="Beratung anfragen">Beratung anfragen</a>
+                <a class="kontakt-secondary kontakt-secondary--light" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener" data-contact-event="contact_whatsapp_click" data-contact-method="whatsapp" data-cta-location="final_cta" data-cta-label="Per WhatsApp schreiben" data-button-location="final_cta_whatsapp">Per WhatsApp schreiben</a>
+                <a class="kontakt-text-link kontakt-text-link--light" href={bookingHref} data-contact-event="contact_booking_click" data-contact-method="booking" data-cta-location="final_cta" data-cta-label="Direkt online buchen" data-button-location="final_cta_booking">Direkt online buchen</a>
+            </div>
+        </section>
+
+        <!-- MobileStickyContactBar -->
+        <nav class="kontakt-mobile-bar" aria-label="Schnelle Kontaktoptionen">
+            <a href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener" aria-label="Beauty Face Lift per WhatsApp schreiben" data-contact-event="contact_whatsapp_click" data-contact-method="whatsapp" data-cta-location="mobile_sticky_bar" data-cta-label="WhatsApp" data-button-location="mobile_sticky_whatsapp">WhatsApp</a>
+            <a href={`tel:${CONTACT_PHONE}`} aria-label={`Beauty Face Lift unter ${CONTACT_PHONE_DISPLAY} anrufen`} data-contact-event="contact_phone_click" data-contact-method="phone" data-cta-location="mobile_sticky_bar" data-cta-label="Anrufen" data-button-location="mobile_sticky_phone">Anrufen</a>
+            <a href={bookingHref} aria-label="Direkt online buchen" data-contact-event="contact_booking_click" data-contact-method="booking" data-cta-location="mobile_sticky_bar" data-cta-label="Buchen" data-button-location="mobile_sticky_booking">Buchen</a>
+        </nav>
+        <div class="kontakt-mobile-safe-space" aria-hidden="true"></div>
+    </div>
+
+    <script is:inline>
+        (function() {
+            var form = document.querySelector('[data-contact-form]');
+            var successBox = document.querySelector('[data-contact-success]');
+            var statusBox = document.querySelector('[data-contact-status]');
+            var formViewed = false;
+            var formStarted = false;
+
+            var messages = {
+                name: 'Bitte geben Sie Ihren Namen ein.',
+                topic: 'Bitte wählen Sie aus, worum es bei Ihrer Anfrage geht.',
+                contact: 'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an, damit Teresa Ihnen antworten kann.',
+                email: 'Bitte prüfen Sie die E-Mail-Adresse. Beispiel: name@email.ch',
+                phone: 'Bitte prüfen Sie die Telefonnummer. Beispiel: +41 79 000 00 00',
+                message: 'Bitte beschreiben Sie kurz Ihr Anliegen oder Ihren Terminwunsch.',
+                privacy: 'Bitte bestätigen Sie die Datenschutzhinweise, damit wir Ihre Anfrage beantworten dürfen.'
+            };
+
+            function hasMarketingConsent() {
+                try {
+                    return window.localStorage.getItem('bfl_marketing_consent') === 'granted';
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            function deviceType() {
+                return window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop';
+            }
+
+            function formValue(name) {
+                if (!form) return '';
+                var control = form.elements[name];
+                if (!control) return '';
+                if (control instanceof RadioNodeList) return control.value || '';
+                return String(control.value || '').trim();
+            }
+
+            function pushContactEvent(eventName, props) {
+                if (!hasMarketingConsent()) return;
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push(Object.assign({
+                    event: eventName,
+                    page_path: window.location.pathname,
+                    device_type: deviceType()
+                }, props || {}));
+            }
+
+            function eventPropsFromElement(element) {
+                return {
+                    cta_location: element.dataset.ctaLocation || '',
+                    cta_label: element.dataset.ctaLabel || element.textContent.trim(),
+                    contact_method: element.dataset.contactMethod || '',
+                    form_topic: formValue('topic'),
+                    treatment_interest: formValue('treatment_interest')
+                };
+            }
+
+            function setFieldError(name, message) {
+                if (!form) return;
+                var error = form.querySelector('[data-field-error="' + name + '"]');
+                if (error) {
+                    error.textContent = message || '';
+                    error.hidden = !message;
+                }
+                var control = form.elements[name];
+                if (control && !(control instanceof RadioNodeList)) {
+                    if (message) control.setAttribute('aria-invalid', 'true');
+                    else control.removeAttribute('aria-invalid');
+                }
+            }
+
+            function setContactError(message) {
+                setFieldError('contact', message);
+                ['email', 'phone'].forEach(function(name) {
+                    var control = form && form.elements[name];
+                    if (!control) return;
+                    if (message) control.setAttribute('aria-invalid', 'true');
+                    else control.removeAttribute('aria-invalid');
+                });
+            }
+
+            function clearErrors() {
+                if (!form) return;
+                form.querySelectorAll('[data-field-error]').forEach(function(error) {
+                    error.textContent = '';
+                    error.hidden = true;
+                });
+                form.querySelectorAll('[aria-invalid]').forEach(function(control) {
+                    control.removeAttribute('aria-invalid');
+                });
+                if (statusBox) {
+                    statusBox.hidden = true;
+                    statusBox.textContent = '';
+                    statusBox.removeAttribute('data-state');
+                }
+            }
+
+            function validEmail(value) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+            }
+
+            function validPhone(value) {
+                var digits = value.replace(/\D/g, '');
+                return !value || (digits.length >= 8 && digits.length <= 15);
+            }
+
+            function validateForm() {
+                clearErrors();
+                if (!form) return false;
+
+                var valid = true;
+                var name = formValue('name');
+                var topic = formValue('topic');
+                var email = formValue('email');
+                var phone = formValue('phone');
+                var message = formValue('message');
+                var privacy = form.elements.privacy;
+
+                if (!name) {
+                    setFieldError('name', messages.name);
+                    valid = false;
+                }
+                if (!topic) {
+                    setFieldError('topic', messages.topic);
+                    valid = false;
+                }
+                if (!email && !phone) {
+                    setContactError(messages.contact);
+                    valid = false;
+                } else {
+                    setContactError('');
+                }
+                if (email && !validEmail(email)) {
+                    setFieldError('email', messages.email);
+                    valid = false;
+                }
+                if (phone && !validPhone(phone)) {
+                    setFieldError('phone', messages.phone);
+                    valid = false;
+                }
+                if (!message) {
+                    setFieldError('message', messages.message);
+                    valid = false;
+                }
+                if (!privacy || !privacy.checked) {
+                    setFieldError('privacy', messages.privacy);
+                    if (privacy) privacy.setAttribute('aria-invalid', 'true');
+                    valid = false;
+                }
+
+                return valid;
+            }
+
+            function showStatus(message, state) {
+                if (!statusBox) return;
+                statusBox.textContent = message;
+                statusBox.hidden = false;
+                statusBox.dataset.state = state || 'error';
+                statusBox.setAttribute('role', state === 'error' ? 'alert' : 'status');
+            }
+
+            function focusFirstInvalid() {
+                var firstInvalid = form && form.querySelector('[aria-invalid="true"]');
+                if (firstInvalid && typeof firstInvalid.focus === 'function') firstInvalid.focus();
+            }
+
+            if (form) {
+                form.addEventListener('input', function() {
+                    if (formStarted) return;
+                    formStarted = true;
+                    pushContactEvent('contact_form_start', {
+                        cta_location: 'form',
+                        form_topic: formValue('topic'),
+                        treatment_interest: formValue('treatment_interest')
+                    });
+                }, { once: true });
+
+                form.addEventListener('submit', function(event) {
+                    if (!validateForm()) {
+                        event.preventDefault();
+                        pushContactEvent('contact_form_submit_error', {
+                            cta_location: 'form',
+                            error_type: 'validation',
+                            form_topic: formValue('topic'),
+                            treatment_interest: formValue('treatment_interest')
+                        });
+                        focusFirstInvalid();
+                        return;
+                    }
+
+                    if (!window.fetch) return;
+
+                    event.preventDefault();
+                    var submitButton = form.querySelector('[data-contact-submit]');
+                    var originalText = submitButton ? submitButton.textContent : '';
+                    var formData = new FormData(form);
+                    var payload = {};
+                    formData.forEach(function(value, key) {
+                        payload[key] = String(value);
+                    });
+
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'Anfrage wird gesendet';
+                    }
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    }).then(function(response) {
+                        return response.text().then(function(text) {
+                            var data = {};
+                            try { data = text ? JSON.parse(text) : {}; } catch (error) {}
+                            if (!response.ok) {
+                                throw new Error(data.error || 'Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.');
+                            }
+                            return data;
+                        });
+                    }).then(function() {
+                        pushContactEvent('contact_form_submit_success', {
+                            cta_location: 'form',
+                            form_topic: formValue('topic'),
+                            treatment_interest: formValue('treatment_interest')
+                        });
+                        window.bflTracking?.trackLead?.({
+                            email: formValue('email'),
+                            phone: formValue('phone'),
+                            source: 'kontakt_form'
+                        });
+                        form.hidden = true;
+                        if (successBox) {
+                            successBox.hidden = false;
+                            successBox.focus();
+                        }
+                    }).catch(function(error) {
+                        showStatus(error.message || 'Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 'error');
+                        pushContactEvent('contact_form_submit_error', {
+                            cta_location: 'form',
+                            error_type: 'server',
+                            form_topic: formValue('topic'),
+                            treatment_interest: formValue('treatment_interest')
+                        });
+                    }).finally(function() {
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                            submitButton.textContent = originalText;
+                        }
+                    });
+                });
+
+                form.addEventListener('focusin', function(event) {
+                    if (event.target && event.target.matches('input, select, textarea')) {
+                        document.body.classList.add('kontakt-form-focused');
+                    }
+                });
+                form.addEventListener('focusout', function() {
+                    window.setTimeout(function() {
+                        if (!form.contains(document.activeElement)) {
+                            document.body.classList.remove('kontakt-form-focused');
+                        }
+                    }, 80);
+                });
+            }
+
+            var formSection = document.getElementById('kontaktformular');
+            function trackFormView() {
+                if (formViewed) return;
+                formViewed = true;
+                pushContactEvent('contact_form_view', { cta_location: 'form' });
+            }
+            if (formSection && 'IntersectionObserver' in window) {
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            trackFormView();
+                            observer.disconnect();
+                        }
+                    });
+                }, { threshold: 0.35 });
+                observer.observe(formSection);
+            } else {
+                trackFormView();
+            }
+
+            var heroSection = document.querySelector('.kontakt-hero');
+            function updateMobileStickyState() {
+                if (!heroSection) return;
+                var heroBottom = heroSection.getBoundingClientRect().bottom;
+                document.body.classList.toggle('kontakt-sticky-visible', heroBottom < window.innerHeight * 0.72);
+            }
+            function scheduleMobileStickyUpdate() {
+                window.requestAnimationFrame(function() {
+                    updateMobileStickyState();
+                });
+            }
+            if (heroSection) {
+                scheduleMobileStickyUpdate();
+                window.addEventListener('load', updateMobileStickyState);
+                window.addEventListener('scroll', updateMobileStickyState, { passive: true });
+                window.addEventListener('resize', scheduleMobileStickyUpdate);
+            }
+
+            document.querySelectorAll('[data-contact-event]').forEach(function(element) {
+                element.addEventListener('click', function() {
+                    pushContactEvent(element.dataset.contactEvent, eventPropsFromElement(element));
+                });
+            });
+
+            document.querySelectorAll('[data-contact-faq]').forEach(function(details) {
+                details.addEventListener('toggle', function() {
+                    if (!details.open) return;
+                    pushContactEvent('faq_open', {
+                        cta_location: 'faq',
+                        cta_label: details.querySelector('summary')?.textContent.trim() || ''
+                    });
+                });
+            });
+
+            document.querySelectorAll('[data-copy-address]').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var address = button.dataset.copyAddress || '';
+                    if (!navigator.clipboard || !address) return;
+                    navigator.clipboard.writeText(address).then(function() {
+                        button.textContent = 'Adresse kopiert';
+                        window.setTimeout(function() {
+                            button.textContent = 'Adresse kopieren';
+                        }, 2200);
+                    }).catch(function() {});
+                });
+            });
+        })();
+    </script>
+
+    <style>
+        :global(body.page-contact) {
+            --lp-sticky-offer-height: 74px;
+        }
+
+        .kontakt-page {
+            background: var(--paper);
+            color: var(--ink);
+            padding-top: 112px;
+        }
+
+        .kontakt-hero,
+        .kontakt-section,
+        .kontakt-final {
+            padding-left: var(--content-px);
+            padding-right: var(--content-px);
+        }
+
+        .kontakt-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
+            gap: 72px;
+            align-items: center;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-top: 64px;
+            padding-bottom: 92px;
+        }
+
+        .kontakt-hero-copy {
+            max-width: 720px;
+        }
+
+        .kontakt-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 0 0 24px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            line-height: 1.2;
+            text-transform: uppercase;
+            color: var(--ink-3);
+        }
+
+        .kontakt-eyebrow span {
+            width: 34px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .kontakt-hero h1,
+        .kontakt-section h2,
+        .kontakt-final h2 {
+            font-family: var(--font-serif);
+            font-weight: 300;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .kontakt-hero h1 {
+            max-width: 690px;
+            font-size: 5rem;
+            line-height: 0.98;
+        }
+
+        .kontakt-hero-lede {
+            margin: 28px 0 0;
+            max-width: 690px;
+            font-size: 18px;
+            line-height: 1.68;
+            font-weight: 350;
+            color: var(--ink-2);
+        }
+
+        .kontakt-hero-actions,
+        .kontakt-final-actions,
+        .kontakt-success-actions,
+        .kontakt-map-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .kontakt-hero-actions {
+            margin-top: 34px;
+        }
+
+        .kontakt-primary {
+            min-height: 52px;
+        }
+
+        .kontakt-secondary {
+            display: inline-flex !important;
+            min-height: 52px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(28, 26, 23, 0.2);
+            border-radius: var(--r-pill);
+            padding: 14px 24px;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: rgba(251, 248, 243, 0.58);
+            transition: border-color 0.25s var(--ease-expo), color 0.25s var(--ease-expo), background 0.25s var(--ease-expo);
+        }
+
+        .kontakt-secondary:hover,
+        .kontakt-secondary:focus-visible {
+            border-color: var(--gold);
+            color: var(--gold-deep);
+            background: var(--bone);
+        }
+
+        .kontakt-text-link {
+            display: inline-flex !important;
+            margin-top: 18px;
+            color: var(--ink-2);
+            font-size: 15px;
+            line-height: 1.45;
+            text-decoration: underline;
+            text-decoration-color: rgba(185, 143, 71, 0.58);
+            text-underline-offset: 5px;
+        }
+
+        .kontakt-text-link:hover,
+        .kontakt-text-link:focus-visible {
+            color: var(--gold-deep);
+        }
+
+        .kontakt-trust-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            margin: 34px 0 0;
+            padding: 20px 0 0;
+            border-top: 1px solid var(--border-medium);
+            list-style: none;
+            color: var(--ink-3);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .kontakt-trust-strip li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kontakt-trust-strip li:not(:last-child)::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--gold);
+            opacity: 0.7;
+        }
+
+        .kontakt-hero-media {
+            margin: 0;
+        }
+
+        .kontakt-hero-media :global(img) {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: var(--r-md);
+            border: 1px solid rgba(28, 26, 23, 0.08);
+            box-shadow: var(--shadow-1);
+        }
+
+        .kontakt-hero-media figcaption {
+            max-width: 32ch;
+            margin-top: 14px;
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--ink-3);
+        }
+
+        .kontakt-section {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-top: 86px;
+            padding-bottom: 86px;
+            border-top: 1px solid rgba(28, 26, 23, 0.08);
+        }
+
+        .kontakt-section-heading {
+            max-width: 720px;
+            margin-bottom: 42px;
+        }
+
+        .kontakt-section-heading h2,
+        .kontakt-form-intro-block h2,
+        .kontakt-trust-copy h2,
+        .kontakt-final h2 {
+            font-size: 3.4rem;
+            line-height: 1.05;
+        }
+
+        .kontakt-section-heading p,
+        .kontakt-form-intro-block p,
+        .kontakt-trust-copy p,
+        .kontakt-final p {
+            margin: 18px 0 0;
+            max-width: 700px;
+            font-size: 17px;
+            line-height: 1.68;
+            color: var(--ink-2);
+        }
+
+        .kontakt-method-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .kontakt-method-card {
+            display: flex !important;
+            min-height: 310px;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 26px;
+            padding: 28px;
+            border: 1px solid rgba(28, 26, 23, 0.1);
+            border-radius: var(--r-md);
+            background: var(--bone);
+            color: var(--ink);
+            transition: transform 0.25s var(--ease-expo), border-color 0.25s var(--ease-expo), background 0.25s var(--ease-expo);
+        }
+
+        .kontakt-method-card:hover,
+        .kontakt-method-card:focus-visible {
+            transform: translateY(-3px);
+            border-color: rgba(185, 143, 71, 0.55);
+            background: #fffaf2;
+        }
+
+        .kontakt-method-card--primary {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink);
+        }
+
+        .kontakt-method-card--primary:hover,
+        .kontakt-method-card--primary:focus-visible {
+            background: var(--ink-2);
+            color: var(--paper);
+        }
+
+        .kontakt-method-card--secondary {
+            border-color: rgba(185, 143, 71, 0.42);
+            background: #fbf4e8;
+        }
+
+        .kontakt-card-icon {
+            display: inline-flex;
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            color: var(--gold-deep);
+        }
+
+        .kontakt-method-card--primary .kontakt-card-icon {
+            color: var(--gold-soft);
+        }
+
+        .kontakt-card-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.35;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+        }
+
+        .kontakt-method-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .kontakt-method-title {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            line-height: 1.08;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .kontakt-method-copy {
+            font-size: 15px;
+            line-height: 1.62;
+            color: var(--ink-2);
+        }
+
+        .kontakt-method-card--primary .kontakt-method-copy {
+            color: rgba(246, 241, 234, 0.78);
+        }
+
+        .kontakt-method-cta {
+            margin-top: 12px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gold-deep);
+        }
+
+        .kontakt-method-card--primary .kontakt-method-cta {
+            color: var(--gold-soft);
+        }
+
+        .kontakt-form-section {
+            display: grid;
+            grid-template-columns: minmax(280px, 0.52fr) minmax(0, 1fr);
+            gap: 72px;
+            align-items: start;
+            scroll-margin-top: 110px;
+        }
+
+        .kontakt-form-intro-block {
+            position: sticky;
+            top: 116px;
+        }
+
+        .kontakt-urgent-note {
+            padding-top: 20px;
+            border-top: 1px solid var(--border-medium);
+            color: var(--ink-3) !important;
+            font-size: 15px !important;
+        }
+
+        .kontakt-form-panel {
+            padding: 36px;
+            border: 1px solid rgba(28, 26, 23, 0.1);
+            border-radius: var(--r-md);
+            background: var(--bone);
+        }
+
+        .kontakt-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .kontakt-field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px 24px;
+        }
+
+        .kontakt-field,
+        .kontakt-radio-field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            min-width: 0;
+            border: 0;
+        }
+
+        .kontakt-field--full {
+            grid-column: 1 / -1;
+        }
+
+        .kontakt-field label,
+        .kontakt-radio-field legend {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            line-height: 1.35;
+            text-transform: uppercase;
+            color: var(--ink-3);
+        }
+
+        .kontakt-field label span,
+        .kontakt-checkbox span span {
+            color: var(--gold-deep);
+        }
+
+        .kontakt-field input,
+        .kontakt-field select,
+        .kontakt-field textarea {
+            width: 100%;
+            min-height: 48px;
+            border: 1px solid rgba(28, 26, 23, 0.16);
+            border-radius: var(--r-md);
+            background: #fffaf2;
+            color: var(--ink);
+            font: inherit;
+            font-size: 16px;
+            line-height: 1.5;
+            padding: 12px 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .kontakt-field textarea {
+            min-height: 156px;
+            resize: vertical;
+        }
+
+        .kontakt-field input::placeholder,
+        .kontakt-field textarea::placeholder {
+            color: rgba(110, 102, 91, 0.62);
+        }
+
+        .kontakt-field input:focus,
+        .kontakt-field select:focus,
+        .kontakt-field textarea:focus,
+        .kontakt-checkbox input:focus-visible,
+        .kontakt-radio-options input:focus-visible + span {
+            outline: 2px solid rgba(185, 143, 71, 0.58);
+            outline-offset: 3px;
+            border-color: var(--gold);
+        }
+
+        .kontakt-field [aria-invalid="true"],
+        .kontakt-checkbox input[aria-invalid="true"] {
+            border-color: #9f3f36;
+            box-shadow: 0 0 0 1px rgba(159, 63, 54, 0.1);
+        }
+
+        .kontakt-select {
+            position: relative;
+        }
+
+        .kontakt-select::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            width: 9px;
+            height: 9px;
+            border-right: 1px solid currentColor;
+            border-bottom: 1px solid currentColor;
+            transform: translateY(-70%) rotate(45deg);
+            pointer-events: none;
+            color: var(--ink-3);
+        }
+
+        .kontakt-select select {
+            appearance: none;
+            padding-right: 40px;
+        }
+
+        .kontakt-radio-options {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .kontakt-radio-options label {
+            cursor: pointer;
+        }
+
+        .kontakt-radio-options input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .kontakt-radio-options span {
+            display: flex;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(28, 26, 23, 0.14);
+            border-radius: var(--r-md);
+            padding: 10px 12px;
+            color: var(--ink-2);
+            font-size: 13px;
+            line-height: 1.3;
+            text-align: center;
+            background: rgba(246, 241, 234, 0.62);
+        }
+
+        .kontakt-radio-options input:checked + span {
+            border-color: var(--gold);
+            background: var(--gold-soft);
+            color: var(--ink);
+        }
+
+        .kontakt-field-error {
+            margin: 0;
+            max-width: none;
+            color: #8c3029;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .kontakt-field-error--wide {
+            margin-top: -8px;
+        }
+
+        .kontakt-honeypot {
+            position: absolute;
+            left: -10000px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .kontakt-turnstile:has(> .cf-turnstile) {
+            min-height: 65px;
+        }
+
+        .kontakt-checkbox {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+            padding-top: 18px;
+            border-top: 1px solid rgba(28, 26, 23, 0.08);
+            color: var(--ink-2);
+            font-size: 14px;
+            line-height: 1.58;
+        }
+
+        .kontakt-checkbox input {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            accent-color: var(--gold);
+        }
+
+        .kontakt-checkbox a {
+            color: var(--ink);
+            text-decoration: underline;
+            text-decoration-color: rgba(185, 143, 71, 0.7);
+            text-underline-offset: 3px;
+        }
+
+        .kontakt-form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .kontakt-form-actions p {
+            max-width: 34ch;
+            margin: 0;
+            color: var(--ink-3);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .kontakt-submit {
+            min-height: 52px;
+        }
+
+        .kontakt-submit:disabled {
+            cursor: wait;
+            opacity: 0.72;
+        }
+
+        .kontakt-form-status,
+        .kontakt-form-success {
+            margin-bottom: 24px;
+            border: 1px solid rgba(28, 26, 23, 0.12);
+            border-left: 3px solid var(--gold);
+            border-radius: var(--r-md);
+            padding: 20px;
+            background: #fffaf2;
+            color: var(--ink);
+        }
+
+        .kontakt-form-status[data-state="error"] {
+            border-left-color: #8c3029;
+        }
+
+        .kontakt-form-success h3 {
+            margin: 0 0 10px;
+            font-size: 28px;
+            font-weight: 400;
+        }
+
+        .kontakt-form-success p {
+            margin: 0 0 18px;
+            font-size: 15px;
+            color: var(--ink-2);
+        }
+
+        .kontakt-success-actions a {
+            font-size: 14px;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .kontakt-intent-grid,
+        .kontakt-trust-grid,
+        .kontakt-location-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .kontakt-intent-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .kontakt-intent-card,
+        .kontakt-trust-card,
+        .kontakt-location-card,
+        .kontakt-faq-list details {
+            border: 1px solid rgba(28, 26, 23, 0.1);
+            border-radius: var(--r-md);
+            background: var(--bone);
+            padding: 24px;
+        }
+
+        .kontakt-intent-card h3,
+        .kontakt-trust-card h3,
+        .kontakt-location-card h3,
+        .kontakt-map-copy h3 {
+            margin: 0 0 10px;
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        .kontakt-intent-card p,
+        .kontakt-trust-card p,
+        .kontakt-location-card p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--ink-2);
+        }
+
+        .kontakt-section-link {
+            display: inline-flex;
+            margin-top: 28px;
+            color: var(--gold-deep);
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        .kontakt-trust {
+            background: var(--paper-2);
+            max-width: none;
+            padding-top: 92px;
+            padding-bottom: 92px;
+        }
+
+        .kontakt-trust > * {
+            max-width: 1240px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .kontakt-trust-content {
+            display: grid;
+            grid-template-columns: minmax(300px, 0.42fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: start;
+            margin-top: 44px;
+        }
+
+        .kontakt-trust-image {
+            margin: 0;
+        }
+
+        .kontakt-trust-image :global(img) {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: var(--r-md);
+        }
+
+        .kontakt-trust-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .kontakt-trust-card {
+            background: rgba(251, 248, 243, 0.72);
+        }
+
+        .kontakt-location-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .kontakt-location-card address {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin: 0 0 18px;
+            color: var(--ink-2);
+            font-style: normal;
+            line-height: 1.55;
+        }
+
+        .kontakt-location-card a,
+        .kontakt-map-actions a,
+        .kontakt-map-actions button {
+            color: var(--gold-deep);
+            font: inherit;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .kontakt-hours {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px 14px;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .kontakt-hours dt {
+            color: var(--ink-3);
+        }
+
+        .kontakt-hours dd {
+            margin: 0;
+            color: var(--ink);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kontakt-map {
+            display: grid;
+            grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+            gap: 28px;
+            margin-top: 28px;
+            padding: 24px;
+            border: 1px solid rgba(28, 26, 23, 0.1);
+            border-radius: var(--r-md);
+            background: var(--bone);
+        }
+
+        .kontakt-map-copy p {
+            margin: 0 0 22px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--ink-2);
+        }
+
+        .kontakt-map iframe {
+            width: 100%;
+            min-height: 330px;
+            border: 0;
+            border-radius: var(--r-md);
+            filter: saturate(0.82);
+        }
+
+        .kontakt-faq {
+            max-width: 960px;
+        }
+
+        .kontakt-faq-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .kontakt-faq-list details {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .kontakt-faq-list summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 22px 24px;
+            font-family: var(--font-serif);
+            font-size: 24px;
+            line-height: 1.2;
+            color: var(--ink);
+        }
+
+        .kontakt-faq-list summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .kontakt-faq-list summary::after {
+            content: '+';
+            float: right;
+            color: var(--gold-deep);
+            font-family: var(--font-sans);
+            font-size: 22px;
+        }
+
+        .kontakt-faq-list details[open] summary::after {
+            content: '-';
+        }
+
+        .kontakt-faq-list details p {
+            margin: 0;
+            padding: 0 24px 24px;
+            font-size: 16px;
+            line-height: 1.65;
+            color: var(--ink-2);
+        }
+
+        .kontakt-final {
+            max-width: 1240px;
+            margin: 0 auto 92px;
+            border-radius: var(--r-md);
+            background: var(--ink);
+            padding-top: 56px;
+            padding-bottom: 56px;
+        }
+
+        .kontakt-final h2,
+        .kontakt-final p {
+            color: var(--paper);
+        }
+
+        .kontakt-final p {
+            color: rgba(246, 241, 234, 0.74);
+        }
+
+        .kontakt-final-actions {
+            margin-top: 28px;
+        }
+
+        .kontakt-secondary--light {
+            color: var(--paper);
+            border-color: rgba(246, 241, 234, 0.32);
+            background: transparent;
+        }
+
+        .kontakt-secondary--light:hover,
+        .kontakt-secondary--light:focus-visible {
+            background: rgba(246, 241, 234, 0.08);
+            color: var(--gold-soft);
+        }
+
+        .kontakt-text-link--light {
+            margin-top: 0;
+            color: rgba(246, 241, 234, 0.82);
+        }
+
+        .kontakt-mobile-bar,
+        .kontakt-mobile-safe-space {
+            display: none;
+        }
+
+        .kontakt-mobile-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 70;
+            min-height: var(--lp-sticky-offer-height);
+            padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: var(--ink);
+            border-top: 1px solid rgba(246, 241, 234, 0.14);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(110%);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        :global(body.kontakt-sticky-visible) .kontakt-mobile-bar {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .kontakt-mobile-bar a {
+            display: inline-flex !important;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(246, 241, 234, 0.18);
+            border-radius: var(--r-md);
+            color: var(--paper);
+            background: rgba(246, 241, 234, 0.06);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            overflow: hidden;
+            padding: 0 8px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .kontakt-mobile-bar a:first-child {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--ink);
+        }
+
+        :global(body.kontakt-form-focused) .kontakt-mobile-bar {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(110%);
+        }
+
+        @media (max-width: 1100px) {
+            .kontakt-hero {
+                grid-template-columns: minmax(0, 1fr) 340px;
+                gap: 46px;
+            }
+
+            .kontakt-hero h1 {
+                font-size: 4.1rem;
+            }
+
+            .kontakt-method-grid,
+            .kontakt-location-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .kontakt-method-card {
+                min-height: 250px;
+            }
+
+            .kontakt-form-section,
+            .kontakt-trust-content,
+            .kontakt-map {
+                grid-template-columns: 1fr;
+            }
+
+            .kontakt-form-intro-block {
+                position: static;
+            }
+
+            .kontakt-trust-image {
+                max-width: 420px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            :global(body.page-contact) {
+                --lp-sticky-offer-height: 76px;
+            }
+
+            .kontakt-page {
+                padding-top: 76px;
+            }
+
+            .kontakt-hero,
+            .kontakt-section,
+            .kontakt-final {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .kontakt-hero {
+                grid-template-columns: 1fr;
+                gap: 34px;
+                padding-top: 24px;
+                padding-bottom: 58px;
+            }
+
+            .kontakt-hero h1 {
+                font-size: 2.75rem;
+                line-height: 1.04;
+            }
+
+            .kontakt-hero-lede {
+                font-size: 16px;
+                line-height: 1.62;
+            }
+
+            .kontakt-hero-actions,
+            .kontakt-final-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .kontakt-primary,
+            .kontakt-secondary,
+            .kontakt-final-actions .pill-btn {
+                width: 100%;
+            }
+
+            .kontakt-trust-strip {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 7px 12px;
+                margin-top: 18px;
+                padding-top: 14px;
+                font-size: 10px;
+            }
+
+            .kontakt-trust-strip li::after {
+                display: none;
+            }
+
+            .kontakt-hero-media figcaption {
+                font-size: 12px;
+            }
+
+            .kontakt-section {
+                padding-top: 58px;
+                padding-bottom: 58px;
+            }
+
+            .kontakt-section-heading {
+                margin-bottom: 28px;
+            }
+
+            .kontakt-section-heading h2,
+            .kontakt-form-intro-block h2,
+            .kontakt-trust-copy h2,
+            .kontakt-final h2 {
+                font-size: 2.35rem;
+                line-height: 1.08;
+            }
+
+            .kontakt-section-heading p,
+            .kontakt-form-intro-block p,
+            .kontakt-trust-copy p,
+            .kontakt-final p {
+                font-size: 16px;
+            }
+
+            .kontakt-method-grid,
+            .kontakt-intent-grid,
+            .kontakt-trust-grid,
+            .kontakt-location-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kontakt-method-card {
+                min-height: auto;
+                padding: 24px;
+            }
+
+            .kontakt-form-section {
+                gap: 30px;
+            }
+
+            .kontakt-form-panel {
+                padding: 22px;
+            }
+
+            .kontakt-field-grid,
+            .kontakt-radio-options {
+                grid-template-columns: 1fr;
+            }
+
+            .kontakt-form-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .kontakt-submit {
+                width: 100%;
+            }
+
+            .kontakt-trust {
+                padding-top: 62px;
+                padding-bottom: 62px;
+            }
+
+            .kontakt-map {
+                padding: 18px;
+            }
+
+            .kontakt-map iframe {
+                min-height: 260px;
+            }
+
+            .kontakt-faq-list summary {
+                padding: 20px;
+                font-size: 21px;
+            }
+
+            .kontakt-faq-list details p {
+                padding: 0 20px 20px;
+            }
+
+            .kontakt-final {
+                margin-bottom: 0;
+                border-radius: 0;
+                padding-top: 48px;
+                padding-bottom: 48px;
+            }
+
+            .kontakt-mobile-bar {
+                display: grid;
+            }
+
+            .kontakt-mobile-safe-space {
+                display: block;
+                height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .kontakt-method-card,
+            .kontakt-mobile-bar,
+            .kontakt-secondary,
+            .kontakt-field input,
+            .kontakt-field select,
+            .kontakt-field textarea {
+                transition: none;
+            }
+        }
+    </style>
 </Base>
