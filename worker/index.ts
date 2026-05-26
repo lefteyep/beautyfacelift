@@ -9,7 +9,7 @@ import { contactRoute } from './routes/contact';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
-const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-10-carbon-glowup-169';
+const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-26-contact-page-001';
 const CSP_REPORT_ONLY = [
   "default-src 'self'",
   "base-uri 'self'",
