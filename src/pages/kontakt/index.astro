@@ -964,7 +964,7 @@ const structuredData = {
             grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
             gap: 72px;
             align-items: center;
-            max-width: 1240px;
+            max-width: calc(1240px + (var(--content-px) * 2));
             margin: 0 auto;
             padding-top: 64px;
             padding-bottom: 92px;
@@ -1131,7 +1131,7 @@ const structuredData = {
         }
 
         .kontakt-section {
-            max-width: 1240px;
+            max-width: calc(1240px + (var(--content-px) * 2));
             margin: 0 auto;
             padding-top: 86px;
             padding-bottom: 86px;
@@ -1760,7 +1760,7 @@ const structuredData = {
         }
 
         .kontakt-final {
-            max-width: 1240px;
+            max-width: calc(1240px + (var(--content-px) * 2));
             margin: 0 auto 92px;
             border-radius: var(--r-md);
             background: var(--ink);
