@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
 const files = {
-  lp: new URL('../src/pages/lp/hydrafacial-microneedling/index.astro', import.meta.url),
+  lp: new URL('../src/pages/lp/hydrofacial-microneedling/index.astro', import.meta.url),
   termin: new URL('../src/pages/termin/index.astro', import.meta.url),
   landingPage: new URL('../src/layouts/LandingPage.astro', import.meta.url),
   marketingConsent: new URL('../src/components/MarketingConsent.astro', import.meta.url),
@@ -47,6 +47,7 @@ for (const spelling of previousTreatmentSpellings) {
 assert(lp.includes('const PROMO_PRICE = 170'), 'Hydrofacial LP must define CHF 170 promo price');
 assert(lp.includes('const REGULAR_PRICE = 250'), 'Hydrofacial LP must define CHF 250 regular price');
 assert(lp.includes('const DURATION_LABEL = \'1 Std. 30 Min.\''), 'Hydrofacial LP must show the requested duration label');
+assert(lp.includes("const OFFER_SLUG = 'hydrofacial-microneedling-aktion'"), 'Hydrofacial LP must use the Hydrofacial offer slug');
 assert(lp.includes('Hydrofacial + Microneedling'), 'Hydrofacial LP must name the treatment clearly');
 assert(lp.includes('CHF {PROMO_PRICE}') || lp.includes('CHF ${PROMO_PRICE}'), 'Hydrofacial LP must render the promo price');
 assert(lp.includes('statt CHF {REGULAR_PRICE}') || lp.includes('statt CHF ${REGULAR_PRICE}'), 'Hydrofacial LP must render the original price anchor');
@@ -98,8 +99,10 @@ assert(!lp.includes('keine Ausfallzeit'), 'Hydrofacial LP must avoid no-downtime
 assert(!lp.includes('Poren verschwinden'), 'Hydrofacial LP must avoid guaranteed pore claims');
 assert(!lp.includes('Falten weg'), 'Hydrofacial LP must avoid unsupported wrinkle claims');
 assert(!lp.includes('Hydra4Face') && !lp.includes('hydra4face'), 'Hydrofacial LP must not use the device-brand term');
+assert(lp.includes("absoluteUrl('/lp/hydrofacial-microneedling/#product')"), 'Structured product id must use the Hydrofacial LP slug');
+assert(lp.includes("absoluteUrl('/lp/hydrofacial-microneedling/')"), 'Structured product offer URL must use the Hydrofacial LP slug');
 
-assert(termin.includes('hydrafacial-microneedling-aktion'), 'Booking bridge must recognize the Hydrofacial campaign offer parameter');
+assert(termin.includes('hydrofacial-microneedling-aktion'), 'Booking bridge must recognize the Hydrofacial campaign offer parameter');
 assert(termin.includes('Hydrofacial + Microneedling für CHF 170 statt CHF 250'), 'Booking bridge must expose Hydrofacial promo context to users');
 assert(!termin.includes('hydra4face-microneedling-aktion'), 'Booking bridge must not keep the old hydra4face offer parameter');
 
@@ -110,7 +113,7 @@ assert(
   'Marketing consent must expose visible/hidden state so mobile sticky CTAs do not fight the banner',
 );
 
-assert(tracking.includes("'/lp/hydrafacial-microneedling/'"), 'Tracking must register the Hydrofacial campaign route');
+assert(tracking.includes("'/lp/hydrofacial-microneedling/'"), 'Tracking must register the Hydrofacial campaign route');
 assert(tracking.includes("content_name: 'Hydrofacial Microneedling Aktion'"), 'Tracking must name the Hydrofacial ViewContent event');
 assert(tracking.includes('value: 170'), 'Tracking must send CHF 170 as the ViewContent value');
 assert(tracking.includes('trackLead: typeof trackLead'), 'Tracking helper must expose trackLead for the LP form');
