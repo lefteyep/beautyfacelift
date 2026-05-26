@@ -39,28 +39,53 @@ assert(lp.includes('const DURATION_LABEL = \'1 Std. 30 Min.\''), 'Hydrafacial LP
 assert(lp.includes('Hydrafacial + Microneedling'), 'Hydrafacial LP must name the treatment clearly');
 assert(lp.includes('CHF {PROMO_PRICE}') || lp.includes('CHF ${PROMO_PRICE}'), 'Hydrafacial LP must render the promo price');
 assert(lp.includes('statt CHF {REGULAR_PRICE}') || lp.includes('statt CHF ${REGULAR_PRICE}'), 'Hydrafacial LP must render the original price anchor');
-assert(lp.includes("const CTA_LABEL = 'Jetzt Termin buchen'"), 'Hydrafacial LP must define the approved primary CTA label');
-assert(lp.includes('Jetzt Termin buchen'), 'Hydrafacial LP must use the approved primary CTA copy');
+assert(lp.includes("const PRIMARY_CTA_LABEL = 'Hautanalyse & Termin anfragen'"), 'Hydrafacial LP must define the lead-focused primary CTA label');
+assert(lp.includes("const SECONDARY_CTA_LABEL = 'Frage per WhatsApp stellen'"), 'Hydrafacial LP must define the WhatsApp secondary CTA label');
+assert(lp.includes("const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen'"), 'Hydrafacial LP must preserve a direct booking CTA');
+assert(lp.includes("const FORM_CTA_LABEL = 'Terminwunsch senden'"), 'Hydrafacial LP must define the lead form submit CTA');
+assert(lp.includes('Hautanalyse & Termin anfragen'), 'Hydrafacial LP must use the brief primary CTA copy');
+assert(lp.includes('Frage per WhatsApp stellen'), 'Hydrafacial LP must use the brief WhatsApp CTA copy');
+assert(lp.includes('Kombi-Behandlung buchen'), 'Hydrafacial LP must keep a warm-traffic booking path');
+assert(!lp.includes('Jetzt Termin buchen'), 'Hydrafacial LP must not keep the previous primary CTA copy');
 assert(!lp.includes('Kombi-Termin sichern'), 'Hydrafacial LP must not keep the previous CTA copy');
-assert(!lp.includes('Mehr erfahren'), 'Hydrafacial LP hero must not show a competing secondary CTA');
 assert(lp.includes('font-size: 2rem'), 'Hydrafacial LP mobile hero headline must be 2rem');
 assert(lp.includes('text-align: center'), 'Hydrafacial LP mobile hero text must be center aligned');
 assert(
-  lp.includes('HydraFacial + Microneedling in Zürich für frischere, glatter wirkende Haut'),
-  'Hydrafacial LP must use the approved outcome-led hero headline',
+  lp.includes('Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild'),
+  'Hydrafacial LP must use the brief outcome-led hero headline',
 );
-assert(lp.includes('Wenn die Haut müde, unruhig oder fahl wirkt'), 'Hydrafacial LP must connect visitor desire to the offer');
-assert(lp.includes('Warum diese Kombination?'), 'Hydrafacial LP must explain why Hydrafacial and Microneedling are combined');
-assert(lp.includes('Was passiert in 90 Minuten?'), 'Hydrafacial LP must combine included items and treatment steps into one clear section');
-assert(lp.includes('Vertrauen vor der Buchung'), 'Hydrafacial LP must include a stronger trust/proof section before the final booking area');
+assert(lp.includes('Wenn Ihre Haut mehr braucht als Pflege zu Hause'), 'Hydrafacial LP must connect visitor desire to the offer');
+assert(lp.includes('Warum HydraFacial und Microneedling zusammen sinnvoll sein können'), 'Hydrafacial LP must explain why Hydrafacial and Microneedling are combined');
+assert(lp.includes('HydraFacial: reinigen, hydratisieren, Glow aufbauen'), 'Hydrafacial LP must include a dedicated HydraFacial explanation');
+assert(lp.includes('Microneedling: gezielte Mikroimpulse für feinere Hautstruktur'), 'Hydrafacial LP must include a dedicated Microneedling explanation');
+assert(lp.includes('Persönliche Behandlung statt Standardprogramm'), 'Hydrafacial LP must include a stronger trust/proof section before the final booking area');
 assert(lp.includes('Realistische Ergebnisse statt übertriebener Versprechen'), 'Hydrafacial LP must keep expectation-setting visible');
+assert(lp.includes('id={LEAD_FORM_ID}'), 'Hydrafacial LP must include a lead form anchor');
+assert(lp.includes("const LEAD_FORM_TARGET_ID = 'anfrage-form'"), 'Hydrafacial LP must define a direct form anchor target');
+assert(lp.includes('href={`#${LEAD_FORM_TARGET_ID}`}'), 'Hydrafacial LP lead CTAs must scroll directly to the form');
+assert(lp.includes('id={LEAD_FORM_TARGET_ID}'), 'Hydrafacial LP form must expose the direct anchor id');
+assert(lp.includes('class="lp-lead-form" action="/api/contact" method="post"'), 'Hydrafacial LP must submit the lead form through the existing contact API');
+assert(lp.includes('name="skinGoal"'), 'Hydrafacial LP lead form must ask for the skin goal');
+assert(lp.includes('name="preferredCallbackTime"'), 'Hydrafacial LP lead form must ask for preferred timing');
+assert(lp.includes('name="phone"'), 'Hydrafacial LP lead form must ask for phone or WhatsApp');
+assert(lp.includes('name="email"'), 'Hydrafacial LP lead form must include email');
+assert(lp.includes('name="privacyConsent"'), 'Hydrafacial LP lead form must keep privacy consent');
+assert(lp.includes('lp-mobile-sticky'), 'Hydrafacial LP must include a mobile sticky CTA bar');
+assert(lp.includes('Termin anfragen') && lp.includes('WhatsApp'), 'Hydrafacial LP sticky CTA must expose lead and WhatsApp actions');
+assert(lp.includes('WhatsAppButton'), 'Hydrafacial LP must use the reusable WhatsApp CTA component');
 assert(lp.includes('Wie viele Sitzungen sind sinnvoll?'), 'Hydrafacial LP FAQ must address session expectations');
-assert(lp.includes('Wann sollte ich die Behandlung verschieben?'), 'Hydrafacial LP FAQ must address suitability and safety objections');
+assert(lp.includes('Muss ich schon wissen, ob HydraFacial oder Microneedling besser für mich ist?'), 'Hydrafacial LP FAQ must address treatment uncertainty');
+assert(lp.includes('Wann sollte ich den Termin verschieben?'), 'Hydrafacial LP FAQ must address suitability and safety objections');
 assert(lp.includes('FAQAccordion items={faqs}'), 'Hydrafacial LP must include the FAQ accordion');
 assert(lp.includes('TrustStrip variant="promises"'), 'Hydrafacial LP must include a trust/quality strip');
 assert(lp.includes("bookingLinkForService(BOOKING_SERVICE)"), 'Hydrafacial LP must route booking through the existing /termin/ bridge');
 assert(lp.includes("data-treatment=\"Hydrafacial + Microneedling\""), 'Hydrafacial LP CTAs must expose the treatment for tracking');
+assert(lp.includes('window.bflTracking?.trackLead'), 'Hydrafacial LP must track lead form submits when analytics consent allows it');
 assert(!lp.includes('garantiert'), 'Hydrafacial LP must avoid guaranteed-result claims');
+assert(!lp.includes('schmerzfrei'), 'Hydrafacial LP must avoid unsupported pain-free claims');
+assert(!lp.includes('keine Ausfallzeit'), 'Hydrafacial LP must avoid no-downtime claims');
+assert(!lp.includes('Poren verschwinden'), 'Hydrafacial LP must avoid guaranteed pore claims');
+assert(!lp.includes('Falten weg'), 'Hydrafacial LP must avoid unsupported wrinkle claims');
 assert(!lp.includes('Hydra4Face') && !lp.includes('hydra4face'), 'Hydrafacial LP must not use the device-brand term');
 
 assert(termin.includes('hydrafacial-microneedling-aktion'), 'Booking bridge must recognize the Hydrafacial campaign offer parameter');
@@ -77,6 +102,7 @@ assert(
 assert(tracking.includes("'/lp/hydrafacial-microneedling/'"), 'Tracking must register the Hydrafacial campaign route');
 assert(tracking.includes("content_name: 'Hydrafacial Microneedling Aktion'"), 'Tracking must name the Hydrafacial ViewContent event');
 assert(tracking.includes('value: 170'), 'Tracking must send CHF 170 as the ViewContent value');
+assert(tracking.includes('trackLead: typeof trackLead'), 'Tracking helper must expose trackLead for the LP form');
 assert(!tracking.includes("'/lp/hydra4face-microneedling/'"), 'Tracking must not keep the old hydra4face campaign route');
 
 console.log('[ok] Hydrafacial + Microneedling LP offer, metadata, bridge, and tracking are aligned.');

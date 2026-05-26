@@ -7,6 +7,7 @@ declare global {
       trackTreatwellOutbound: typeof trackTreatwellOutbound;
       trackBookingButtonClick: typeof trackBookingButtonClick;
       trackContact: typeof trackContact;
+      trackLead: typeof trackLead;
     };
     bflTrackingConfig?: {
       metaPixelId?: string;
@@ -776,6 +777,7 @@ export function initPpcTracking(): void {
     trackTreatwellOutbound,
     trackBookingButtonClick,
     trackContact,
+    trackLead,
   };
 
   const start = () => {
