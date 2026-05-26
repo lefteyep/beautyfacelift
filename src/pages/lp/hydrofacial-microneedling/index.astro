@@ -15,7 +15,8 @@ const REGULAR_PRICE = 250;
 const DURATION_LABEL = '1 Std. 30 Min.';
 const OFFER_LABEL = 'Hydrofacial + Microneedling Kombi-Angebot';
 const OFFER_SLUG = 'hydrofacial-microneedling-aktion';
-const PRIMARY_CTA_LABEL = 'Hautanalyse & Termin anfragen';
+const PRIMARY_CTA_LABEL = 'Jetzt Termin buchen';
+const LEAD_CTA_LABEL = 'Hautanalyse & Termin anfragen';
 const SECONDARY_CTA_LABEL = 'Frage per WhatsApp stellen';
 const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen';
 const FORM_CTA_LABEL = 'Terminwunsch senden';
@@ -23,7 +24,6 @@ const BOOKING_SERVICE = 'Hydrofacial + Microneedling';
 const CONTACT_TOPIC = 'Ich möchte eine Behandlungsempfehlung';
 const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
 const whatsappMessage = 'Hallo Teresa, ich interessiere mich für Hydrofacial + Microneedling in Zürich. Ist die Kombi-Behandlung für mein Hautziel geeignet?';
 const lpHeroMainImage = '/assets/hydrofacial_treatment.png';
@@ -223,12 +223,8 @@ const structuredData = {
           </div>
 
           <div class="lp-hero-ctas">
-            <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn lp-hero-primary" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_hero_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+            <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_hero_booking">{PRIMARY_CTA_LABEL}</a>
             <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrofacial_hero" label={SECONDARY_CTA_LABEL} />
-            <p class="lp-hero-note">
-              Sie wissen bereits, dass die Kombi passt?
-              <a href={bookingHref} data-treatment="Hydrofacial + Microneedling" data-button-location="lp_hero_direct_booking">{BOOKING_CTA_LABEL}</a>
-            </p>
           </div>
 
           <div class="lp-hero-trust" aria-label="Vertrauenssignale">
@@ -491,8 +487,8 @@ const structuredData = {
         <div class="sub-display">Ablauf</div>
         <h2 class="lp-section-title">So läuft Ihr Termin in Zürich ab</h2>
         <p class="lp-section-lead">
-          Sie können zuerst eine Hautanalyse und einen Terminwunsch anfragen oder die
-          Kombi-Behandlung direkt online buchen, wenn Sie bereits entschieden sind.
+          Buchen Sie die Kombi-Behandlung direkt online, wenn der Termin passt. Wenn Sie
+          vorher unsicher sind, können Sie zuerst per WhatsApp oder Formular nachfragen.
         </p>
       </div>
       <div class="lp-process-grid">
@@ -505,8 +501,8 @@ const structuredData = {
         ))}
       </div>
       <div class="lp-section-cta">
-        <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="process_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
-        <a href={bookingHref} class="pill-btn pill-btn-outline" data-treatment="Hydrofacial + Microneedling" data-button-location="process_section_booking">{BOOKING_CTA_LABEL}</a>
+        <a href={bookingHref} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="process_section_booking">{PRIMARY_CTA_LABEL}</a>
+        <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn pill-btn-outline" data-treatment="Hydrofacial + Microneedling" data-button-location="process_section_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
       </div>
     </section>
 
@@ -534,6 +530,7 @@ const structuredData = {
         <form id={LEAD_FORM_TARGET_ID} class="lp-lead-form" action="/api/contact" method="post" data-lead-form novalidate>
           <input type="hidden" name="topic" value={CONTACT_TOPIC} />
           <input type="hidden" name="message" value="Hydrofacial + Microneedling Terminwunsch" data-lead-message />
+          <input type="hidden" name="source" value="hydrofacial-microneedling-lp" />
 
           <div class="lp-field-grid">
             <div class="lp-field">
@@ -588,13 +585,6 @@ const structuredData = {
             <label for="hydro-lead-company">Firma</label>
             <input id="hydro-lead-company" name="company" type="text" tabindex="-1" autocomplete="off" />
           </div>
-
-          {turnstileSiteKey && (
-            <div class="lp-turnstile">
-              <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
-              <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-            </div>
-          )}
 
           <label class="lp-checkbox" for="hydro-lead-privacy">
             <input id="hydro-lead-privacy" name="privacyConsent" type="checkbox" required />
@@ -658,9 +648,9 @@ const structuredData = {
           CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– · 90 Minuten · Hautanalyse · Hydrofacial · Microneedling · Abschlusspflege · After-Care
         </p>
         <div class="lp-final-ctas">
-          <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+          <a href={bookingHref} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_final_booking">{PRIMARY_CTA_LABEL}</a>
           <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrofacial_final" label={SECONDARY_CTA_LABEL} />
-          <a href={bookingHref} class="pill-btn pill-btn-dark" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>
+          <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn pill-btn-dark" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
         </div>
         <p class="lp-final-address">Beauty Face Lift Zürich · {ADDRESS.street} · {ADDRESS.postalCode} {ADDRESS.city} · {CONTACT_PHONE_DISPLAY}</p>
       </div>
@@ -671,7 +661,7 @@ const structuredData = {
         <span>CHF {REGULAR_PRICE}.–</span>
         <strong>CHF {PROMO_PRICE}.–</strong>
       </div>
-      <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="sticky_lead" data-lead-cta>Termin anfragen</a>
+      <a href={bookingHref} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="sticky_booking">{PRIMARY_CTA_LABEL}</a>
       <a class="lp-sticky-whatsapp" href={`https://wa.me/${CONTACT_PHONE.replace('+', '')}?text=${encodeURIComponent(whatsappMessage)}`} target="_blank" rel="noopener" data-track-contact="whatsapp" data-source="hydrofacial_sticky" aria-label="WhatsApp schreiben">WhatsApp</a>
     </div>
     <div class="lp-mobile-sticky-space" aria-hidden="true"></div>
@@ -748,8 +738,8 @@ const structuredData = {
     font-family: var(--font-serif);
     font-weight: 500;
     color: var(--ink);
-    font-size: clamp(2.55rem, 4vw, 3.95rem);
-    line-height: 1.02;
+    font-size: 2rem;
+    line-height: 1.08;
     text-wrap: balance;
   }
   .lp-subtitle {
@@ -932,17 +922,17 @@ const structuredData = {
     content: '✓';
     position: absolute;
     left: 0;
-    top: 0;
-    width: 22px;
-    height: 22px;
+    top: 0.08em;
+    width: 18px;
+    height: 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    color: #fff;
-    background: var(--gold-gradient);
-    border-radius: 50%;
-    font-weight: 600;
+    font-size: 16px;
+    color: #178a45;
+    background: transparent;
+    border-radius: 0;
+    font-weight: 700;
   }
 
   .lp-phases,
@@ -1212,8 +1202,8 @@ const structuredData = {
     .lp-hero-grid { gap: 2rem; }
     .lp-hero-content { gap: 1.25rem; }
     .lp-title {
-      font-size: 2.62rem;
-      line-height: 1.04;
+      font-size: 2rem;
+      line-height: 1.08;
     }
     .lp-subtitle {
       font-size: 1rem;
@@ -1289,11 +1279,11 @@ const structuredData = {
   }
 
   @media (max-width: 374px) {
-    .lp-title { font-size: 2.38rem; }
+    .lp-title { font-size: 2rem; }
   }
 
   @media (max-width: 340px) {
-    .lp-title { font-size: 2.22rem; }
+    .lp-title { font-size: 2rem; }
   }
   /* Approved Hydrofacial/Microneedling conversion redesign overrides. */
   :global(body) {
@@ -1386,9 +1376,9 @@ const structuredData = {
   .lp-title {
     max-width: 760px;
     font-weight: 400;
-    font-size: clamp(3rem, 5.1vw, 5rem);
-    line-height: 1;
-    letter-spacing: -0.01em;
+    font-size: 2rem;
+    line-height: 1.08;
+    letter-spacing: 0;
   }
 
   .lp-subtitle {
@@ -1666,11 +1656,15 @@ const structuredData = {
   }
 
   .lp-included-list li::before {
-    top: 0.62em;
-    width: 7px;
-    height: 7px;
-    border-radius: 999px;
-    background: var(--gold);
+    content: '✓';
+    top: 0.08em;
+    width: 18px;
+    height: 18px;
+    color: #178a45;
+    background: transparent;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 700;
   }
 
   .lp-combination-grid,

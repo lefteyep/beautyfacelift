@@ -22,12 +22,16 @@ type ContactSubmission = {
   preferredCallbackTime: string;
   topic: string;
   message: string;
+  source: string;
   privacyConsent: string;
   company: string;
   turnstileToken: string;
 };
 
 const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
+const TURNSTILE_OPTIONAL_SOURCES = new Set([
+  'hydrofacial-microneedling-lp',
+]);
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -131,6 +135,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         preferredCallbackTime: getString(payload.preferredCallbackTime),
         topic: getString(payload.topic),
         message: getString(payload.message),
+        source: getString(payload.source),
         privacyConsent: getString(payload.privacyConsent),
         company: getString(payload.company),
         turnstileToken: getString(payload.turnstileToken || payload['cf-turnstile-response']),
@@ -150,6 +155,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       preferredCallbackTime: getString(formData.get('preferredCallbackTime')),
       topic: getString(formData.get('topic')),
       message: getString(formData.get('message')),
+      source: getString(formData.get('source')),
       privacyConsent: getString(formData.get('privacyConsent')),
       company: getString(formData.get('company')),
       turnstileToken: getString(formData.get('cf-turnstile-response')),
@@ -175,6 +181,11 @@ function getTurnstileAllowedHosts(env: Env): string[] {
 function isTurnstileRequired(request: Request, env: Env): boolean {
   const hostname = new URL(request.url).hostname.toLowerCase();
   return getTurnstileAllowedHosts(env).includes(hostname);
+}
+
+function shouldRequireTurnstile(request: Request, env: Env, data: ContactSubmission): boolean {
+  if (TURNSTILE_OPTIONAL_SOURCES.has(data.source)) return false;
+  return isTurnstileRequired(request, env);
 }
 
 function isAllowedTopic(topic: string): boolean {
@@ -262,6 +273,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     `Bevorzugter Kontaktweg: ${data.preferredContactMethod || 'Nicht angegeben'}`,
     `Bevorzugter Rückrufzeitpunkt: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
     `Thema: ${data.topic}`,
+    `Quelle: ${data.source || 'Nicht angegeben'}`,
     '',
     'Nachricht:',
     data.message,
@@ -281,6 +293,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Rückrufzeit</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Quelle</td><td style="padding: 8px 0;">${escapeHtml(data.source || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>
       </table>
@@ -341,7 +354,7 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  const turnstileRequired = isTurnstileRequired(request, env);
+  const turnstileRequired = shouldRequireTurnstile(request, env, data);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
     return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
   }
