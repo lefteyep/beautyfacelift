@@ -8,7 +8,7 @@ import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image } from 'astro:assets';
 import { microneedlingCard, teresaPortrait } from '../../../lib/site-images';
-import { ADDRESS, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { ADDRESS, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, OPENING_HOURS, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
 const REGULAR_PRICE = 250;
@@ -29,6 +29,9 @@ const whatsappMessage = 'Hallo Teresa, ich interessiere mich für Hydrofacial + 
 const lpHeroMainImage = '/assets/hydrofacial_treatment.png';
 const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 52vw';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
+const studioAddress = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
+const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Beauty Face Lift ${studioAddress}`)}&output=embed`;
+const googleMapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(studioAddress)}`;
 
 const heroBullets = [
   'Für frischer, gepflegter und wacher wirkende Haut',
@@ -111,6 +114,24 @@ const processSteps = [
   { title: 'Hautanalyse vor Ort', text: 'Vor der Behandlung werden Hautzustand, Empfindlichkeit, Ziel und mögliche Reaktionen kurz eingeschätzt.' },
   { title: 'Hydrofacial + Microneedling', text: 'Die Haut wird gereinigt, hydratisiert und danach mit kontrollierten Mikroimpulsen behandelt.' },
   { title: 'Abschlusspflege und After-Care', text: 'Zum Schluss wird die Haut beruhigt. Sie erhalten klare Hinweise zu Make-up, Sonne, Sport, Sauna und Pflegeprodukten.' },
+];
+
+const locationItems = [
+  {
+    number: '01',
+    title: 'Adresse',
+    text: `${ADDRESS.street}\n${ADDRESS.postalCode} ${ADDRESS.city}`,
+  },
+  {
+    number: '02',
+    title: 'Mit dem ÖV',
+    text: 'Das Studio liegt zentral an der Bahnhofstrasse. Paradeplatz und Börsenstrasse sind in wenigen Minuten zu Fuss erreichbar; vom Zürich HB fahren Tramverbindungen direkt in die Innenstadt.',
+  },
+  {
+    number: '03',
+    title: 'Mit dem Auto',
+    text: 'Innenstadt-Parkhäuser rund um Paradeplatz, Bleicherweg und Urania liegen in der Nähe. Planen Sie für die Anfahrt ins Zentrum etwas Puffer ein.',
+  },
 ];
 
 const faqs = [
@@ -207,7 +228,7 @@ const structuredData = {
     <section class="container lp-hero">
       <div class="lp-hero-grid">
         <div class="lp-hero-content">
-          <div class="lp-eyebrow">Hydrofacial + Microneedling in Zürich · 90 Min. · Bahnhofstrasse 94</div>
+          <div class="lp-eyebrow">Aktion: Hydrofacial + Microneedling in Zürich</div>
           <h1 class="lp-title display-text">Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild</h1>
           <p class="lp-subtitle">
             Die Kombi-Behandlung verbindet gründliche Hydrofacial Pflege, intensive Feuchtigkeit
@@ -605,6 +626,61 @@ const structuredData = {
         <h2 class="lp-section-title">Alles, was Sie vor der Behandlung wissen sollten</h2>
       </div>
       <FAQAccordion items={faqs} />
+    </section>
+
+    <section class="container lp-section lp-location" id="anfahrt">
+      <div class="lp-location-grid">
+        <div class="lp-location-copy">
+          <div class="sub-display">Studio & Anfahrt</div>
+          <h2 class="lp-section-title">Bahnhofstrasse 94 · Zürich</h2>
+          <p class="lp-section-lead">
+            Beauty Face Lift liegt zentral in Zürich, wenige Minuten vom Paradeplatz entfernt.
+            So finden Sie unkompliziert zur Hydrofacial + Microneedling Behandlung.
+          </p>
+          <a
+            href={googleMapsDirectionsUrl}
+            class="pill-btn pill-btn-outline lp-location-route"
+            target="_blank"
+            rel="noopener"
+            data-track-contact="maps"
+            data-source="hydrofacial_location"
+          >
+            Route in Google Maps öffnen
+          </a>
+        </div>
+
+        <div class="lp-location-info" aria-label="Adresse und Anfahrt">
+          {locationItems.map((item) => (
+            <div class="lp-location-item">
+              <span>{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          ))}
+          <div class="lp-location-item lp-location-hours">
+            <span>04</span>
+            <h3>Öffnungszeiten</h3>
+            <dl>
+              {OPENING_HOURS.map((item) => (
+                <>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp-map-panel" id="studio-map">
+        <iframe
+          title="Google Maps Karte zu Beauty Face Lift Zürich, Bahnhofstrasse 94"
+          src={googleMapsEmbedUrl}
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
     </section>
 
     <section class="container lp-section lp-reassurance">
@@ -1375,7 +1451,7 @@ const structuredData = {
 
   .lp-title {
     max-width: 760px;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 2.25rem;
     line-height: 1.08;
     letter-spacing: 0;
@@ -2062,6 +2138,110 @@ const structuredData = {
     line-height: 1.6;
   }
 
+  .lp-location {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .lp-location-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(44px, 7vw, 96px);
+    align-items: start;
+  }
+
+  .lp-location-copy .lp-section-title {
+    max-width: 560px;
+    margin: 18px 0;
+    text-align: left;
+  }
+
+  .lp-location-copy .lp-section-lead {
+    margin: 0;
+    text-align: left;
+  }
+
+  .lp-location-route {
+    margin-top: 28px;
+  }
+
+  .lp-location-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 38px clamp(32px, 4vw, 56px);
+  }
+
+  .lp-location-item {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .lp-location-item > span {
+    display: block;
+    margin-bottom: 22px;
+    color: var(--gold-deep);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.16em;
+  }
+
+  .lp-location-item h3 {
+    margin: 0 0 16px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 3vw, 2.45rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .lp-location-item p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.65;
+    white-space: pre-line;
+  }
+
+  .lp-location-hours dl {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0 18px;
+    margin: 0;
+  }
+
+  .lp-location-hours dt,
+  .lp-location-hours dd {
+    margin: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .lp-location-hours dd {
+    color: var(--ink);
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .lp-map-panel {
+    margin-top: clamp(34px, 5vw, 64px);
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background: var(--bone);
+  }
+
+  .lp-map-panel iframe {
+    display: block;
+    width: 100%;
+    height: clamp(320px, 42vw, 520px);
+    border: 0;
+    filter: saturate(0.9) contrast(0.96);
+  }
+
   .lp-focus-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2299,8 +2479,24 @@ const structuredData = {
 
   @media (max-width: 1100px) {
     .lp-focus-grid,
+    .lp-location-grid,
     .lp-lead-grid {
       grid-template-columns: 1fr;
+    }
+
+    .lp-location-copy,
+    .lp-location-copy .lp-section-title,
+    .lp-location-copy .lp-section-lead {
+      text-align: center;
+    }
+
+    .lp-location-copy .lp-section-title,
+    .lp-location-copy .lp-section-lead {
+      margin-inline: auto;
+    }
+
+    .lp-location-route {
+      margin-inline: auto;
     }
 
     .lp-lead-copy,
@@ -2416,6 +2612,30 @@ const structuredData = {
     .lp-section-note {
       padding: 16px 18px;
       text-align: left;
+    }
+
+    .lp-location-info {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .lp-location-hours dl {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .lp-location-hours dt {
+      padding-bottom: 2px;
+      border-bottom: none;
+    }
+
+    .lp-location-hours dd {
+      padding-top: 0;
+      text-align: left;
+    }
+
+    .lp-map-panel iframe {
+      height: 360px;
     }
 
     .lp-focus-card,

@@ -64,8 +64,11 @@ assert(!lp.includes('Sie wissen bereits, dass die Kombi passt?'), 'Hydrofacial L
 assert(!lp.includes('lp_hero_direct_booking'), 'Hydrofacial LP hero must not show a separate direct-booking CTA');
 assert(!lp.includes('Kombi-Termin sichern'), 'Hydrofacial LP must not keep the previous CTA copy');
 assert(lp.includes('font-size: 2.25rem'), 'Hydrofacial LP hero headline must be 2.25rem');
+assert(lp.includes('font-weight: 500'), 'Hydrofacial LP hero headline must use the requested 500 font weight');
+assert(!/\.lp-title\s*\{\s*max-width:\s*760px;\s*font-weight:\s*400;/m.test(lp), 'Hydrofacial LP hero headline override must not reset the title to 400 font weight');
 assert(!lp.includes('font-size: clamp(2.55rem') && !lp.includes('font-size: 2.62rem') && !lp.includes('font-size: 2.38rem') && !lp.includes('font-size: 2.22rem'), 'Hydrofacial LP hero headline must remain 2.25rem across desktop and mobile');
 assert(lp.includes('text-align: center'), 'Hydrofacial LP mobile hero text must be center aligned');
+assert(lp.includes('Aktion: Hydrofacial + Microneedling in Zürich'), 'Hydrofacial LP hero eyebrow must use the requested action-focused copy');
 assert(
   lp.includes('Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild'),
   'Hydrofacial LP must use the brief outcome-led hero headline',
@@ -99,6 +102,12 @@ assert(lp.includes('Wie viele Sitzungen sind sinnvoll?'), 'Hydrofacial LP FAQ mu
 assert(lp.includes('Muss ich schon wissen, ob Hydrofacial oder Microneedling besser für mich ist?'), 'Hydrofacial LP FAQ must address treatment uncertainty');
 assert(lp.includes('Wann sollte ich den Termin verschieben?'), 'Hydrofacial LP FAQ must address suitability and safety objections');
 assert(lp.includes('FAQAccordion items={faqs}'), 'Hydrofacial LP must include the FAQ accordion');
+assert(lp.includes('Studio & Anfahrt'), 'Hydrofacial LP must include a studio and directions section');
+assert(lp.includes('Bahnhofstrasse 94 · Zürich'), 'Hydrofacial LP location section must make the address scannable');
+assert(lp.includes('googleMapsEmbedUrl'), 'Hydrofacial LP must render a Google Maps embed for the studio location');
+assert(lp.includes('Route in Google Maps öffnen'), 'Hydrofacial LP location section must include a Google Maps route link');
+assert(lp.includes('id="studio-map"'), 'Hydrofacial LP Google Maps panel must expose a direct anchor');
+assert(lp.includes('OPENING_HOURS'), 'Hydrofacial LP location section must reuse shared opening hours');
 assert(lp.includes('TrustStrip variant="promises"'), 'Hydrofacial LP must include a trust/quality strip');
 assert(lp.includes("bookingLinkForService(BOOKING_SERVICE)"), 'Hydrofacial LP must route booking through the existing /termin/ bridge');
 assert(lp.includes("data-treatment=\"Hydrofacial + Microneedling\""), 'Hydrofacial LP CTAs must expose the treatment for tracking');
