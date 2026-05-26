@@ -6,36 +6,29 @@ import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
 import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
 import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
-import { Image, getImage } from 'astro:assets';
-import { hydrafacialCard, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
+import { Image } from 'astro:assets';
+import { microneedlingCard, teresaPortrait } from '../../../lib/site-images';
 import { ADDRESS, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
 const REGULAR_PRICE = 250;
 const DURATION_LABEL = '1 Std. 30 Min.';
-const OFFER_LABEL = 'HydraFacial + Microneedling Kombi-Angebot';
+const OFFER_LABEL = 'Hydrofacial + Microneedling Kombi-Angebot';
 const OFFER_SLUG = 'hydrafacial-microneedling-aktion';
 const PRIMARY_CTA_LABEL = 'Hautanalyse & Termin anfragen';
 const SECONDARY_CTA_LABEL = 'Frage per WhatsApp stellen';
 const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen';
 const FORM_CTA_LABEL = 'Terminwunsch senden';
-const BOOKING_SERVICE = 'Hydrafacial + Microneedling';
+const BOOKING_SERVICE = 'Hydrofacial + Microneedling';
 const CONTACT_TOPIC = 'Ich möchte eine Behandlungsempfehlung';
 const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
-const whatsappMessage = 'Hallo Teresa, ich interessiere mich für HydraFacial + Microneedling in Zürich. Ist die Kombi-Behandlung für mein Hautziel geeignet?';
-const lpHeroMainSizes = '(min-width: 1101px) 34vw, (min-width: 601px) 380px, 74vw';
+const whatsappMessage = 'Hallo Teresa, ich interessiere mich für Hydrofacial + Microneedling in Zürich. Ist die Kombi-Behandlung für mein Hautziel geeignet?';
+const lpHeroMainImage = '/assets/hydrofacial_treatment.png';
 const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 52vw';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
-const lpHeroPreload = await getImage({
-  src: hydrafacialCard,
-  widths: [480, 720, 960, 1200, 1536],
-  sizes: lpHeroMainSizes,
-  format: 'webp',
-  quality: 'high',
-});
 
 const heroBullets = [
   'Für frischer, gepflegter und wacher wirkende Haut',
@@ -46,7 +39,7 @@ const heroBullets = [
 
 const includedItems = [
   'Hautanalyse und persönliche Abstimmung',
-  'Gründliche HydraFacial Pflege',
+  'Gründliche Hydrofacial Pflege',
   'Intensive Feuchtigkeit für einen gepflegten Glow',
   'Kosmetisches Microneedling mit professionellem Pen',
   'Beruhigende Abschlusspflege',
@@ -58,38 +51,38 @@ const desireItems = [
   { title: 'Glatter wirkendes Hautbild', text: 'Wenn Unebenheiten und unruhige Struktur optisch feiner erscheinen sollen.' },
   { title: 'Optisch feinere Poren', text: 'Wenn Poren sichtbarer wirken und Sie eine professionelle Einschätzung möchten.' },
   { title: 'Mehr Feuchtigkeit', text: 'Wenn sich die Haut trocken anfühlt oder Make-up nicht mehr gleichmässig liegt.' },
-  { title: 'Keine Selbstdiagnose', text: 'Wenn Sie nicht sicher sind, ob HydraFacial, Microneedling oder beides sinnvoll ist.' },
+  { title: 'Keine Selbstdiagnose', text: 'Wenn Sie nicht sicher sind, ob Hydrofacial, Microneedling oder beides sinnvoll ist.' },
   { title: 'Ruhige Durchführung', text: 'Wenn Sie eine Behandlung wünschen, die individuell und ohne Druck durchgeführt wird.' },
 ];
 
 const benefits = [
   { icon: 'droplet' as const, title: 'Frischerer Teint', text: 'Die Haut kann nach der Behandlung gepflegter, wacher und besser mit Feuchtigkeit versorgt wirken.' },
   { icon: 'activity' as const, title: 'Glatter wirkende Struktur', text: 'Microneedling kann die natürliche Hauterneuerung kosmetisch unterstützen und die Haut optisch verfeinern.' },
-  { icon: 'leaf' as const, title: 'Glow ohne schwere Pflege', text: 'HydraFacial verbindet Reinigung und Feuchtigkeit in einem professionellen Behandlungsschritt.' },
+  { icon: 'leaf' as const, title: 'Glow ohne schwere Pflege', text: 'Hydrofacial verbindet Reinigung und Feuchtigkeit in einem professionellen Behandlungsschritt.' },
   { icon: 'target' as const, title: 'Persönliche Anpassung', text: 'Die Behandlung wird auf Hautzustand, Empfindlichkeit und Ziel abgestimmt - nicht nach starrem Standardprogramm.' },
 ];
 
 const phases = [
-  { title: 'HydraFacial bereitet vor', text: 'Die Haut wird sanft gereinigt, mit Feuchtigkeit versorgt und gepflegt. Das schafft eine frische, ruhige Basis vor dem zweiten Schritt.' },
+  { title: 'Hydrofacial bereitet vor', text: 'Die Haut wird sanft gereinigt, mit Feuchtigkeit versorgt und gepflegt. Das schafft eine frische, ruhige Basis vor dem zweiten Schritt.' },
   { title: 'Microneedling setzt Mikroimpulse', text: 'Der professionelle Pen arbeitet kontrolliert und individuell dosiert. Das kann die natürliche Hauterneuerung kosmetisch unterstützen.' },
   { title: 'Abschlusspflege beruhigt', text: 'Zum Schluss erhält die Haut eine abgestimmte Pflege. Sie bekommen klare Hinweise für die nächsten 24-48 Stunden.' },
 ];
 
 const combinationReasons = [
-  { title: 'Reinigung und Feuchtigkeit', text: 'HydraFacial pflegt die Hautoberfläche und sorgt für eine hydratisierte, angenehm vorbereitete Basis.' },
+  { title: 'Reinigung und Feuchtigkeit', text: 'Hydrofacial pflegt die Hautoberfläche und sorgt für eine hydratisierte, angenehm vorbereitete Basis.' },
   { title: 'Kontrollierte Mikroimpulse', text: 'Microneedling ergänzt die Pflege gezielt, wenn Struktur, Poren oder ein fahler Teint kosmetisch verfeinert werden sollen.' },
   { title: 'Eine ruhige 90-Minuten-Sitzung', text: 'Analyse, Pflege, Needling, Abschlusspflege und After-Care sind in einem klaren Termin gebündelt.' },
 ];
 
 const treatmentFocus = [
   {
-    title: 'HydraFacial: reinigen, hydratisieren, Glow aufbauen',
-    text: 'HydraFacial ist der pflegende Teil der Kombi-Behandlung. Die Haut wird gründlich gereinigt, mit Feuchtigkeit versorgt und auf die anschliessenden Schritte vorbereitet.',
+    title: 'Hydrofacial: reinigen, hydratisieren, Glow aufbauen',
+    text: 'Hydrofacial ist der pflegende Teil der Kombi-Behandlung. Die Haut wird gründlich gereinigt, mit Feuchtigkeit versorgt und auf die anschliessenden Schritte vorbereitet.',
     items: ['Müde oder fahl wirkende Haut', 'Trockene oder feuchtigkeitsarme Haut', 'Wunsch nach mehr Glow', 'Gepflegteres Hautgefühl', 'Sanfte Vorbereitung vor dem Microneedling'],
   },
   {
     title: 'Microneedling: gezielte Mikroimpulse für feinere Hautstruktur',
-    text: 'Microneedling ergänzt die HydraFacial Pflege mit kontrollierten Mikroimpulsen. Die Intensität wird individuell angepasst - besonders bei empfindlicher Haut oder der ersten Needling-Erfahrung.',
+    text: 'Microneedling ergänzt die Hydrofacial Pflege mit kontrollierten Mikroimpulsen. Die Intensität wird individuell angepasst - besonders bei empfindlicher Haut oder der ersten Needling-Erfahrung.',
     items: ['Unruhige Hautstruktur', 'Optisch vergrössert wirkende Poren', 'Unebenheiten', 'Erste Linien und müde wirkendes Hautbild', 'Gezielte kosmetische Hautverfeinerung'],
   },
 ];
@@ -116,22 +109,22 @@ const expectationItems = [
 const processSteps = [
   { title: 'Termin anfragen oder buchen', text: 'Sie senden Ihren Terminwunsch oder wählen direkt einen freien Termin für die Kombi-Behandlung.' },
   { title: 'Hautanalyse vor Ort', text: 'Vor der Behandlung werden Hautzustand, Empfindlichkeit, Ziel und mögliche Reaktionen kurz eingeschätzt.' },
-  { title: 'HydraFacial + Microneedling', text: 'Die Haut wird gereinigt, hydratisiert und danach mit kontrollierten Mikroimpulsen behandelt.' },
+  { title: 'Hydrofacial + Microneedling', text: 'Die Haut wird gereinigt, hydratisiert und danach mit kontrollierten Mikroimpulsen behandelt.' },
   { title: 'Abschlusspflege und After-Care', text: 'Zum Schluss wird die Haut beruhigt. Sie erhalten klare Hinweise zu Make-up, Sonne, Sport, Sauna und Pflegeprodukten.' },
 ];
 
 const faqs = [
   {
-    q: 'Muss ich schon wissen, ob HydraFacial oder Microneedling besser für mich ist?',
+    q: 'Muss ich schon wissen, ob Hydrofacial oder Microneedling besser für mich ist?',
     a: 'Nein. Genau dafür ist die persönliche Einschätzung da. Vor Ort wird angeschaut, was Ihre Haut aktuell braucht und wie intensiv die Behandlung sinnvoll ist.',
   },
   {
-    q: 'Für wen ist HydraFacial + Microneedling geeignet?',
+    q: 'Für wen ist Hydrofacial + Microneedling geeignet?',
     a: 'Die Kombination kann für viele Kundinnen und Kunden interessant sein, die sich mehr Glow, Feuchtigkeit und ein optisch feineres Hautbild wünschen. Ob sie zu Ihrem Hautzustand passt, wird vor der Behandlung geprüft.',
   },
   {
     q: 'Wie lange dauert die Behandlung?',
-    a: 'Die Kombi-Behandlung dauert ca. 90 Minuten. Enthalten sind Hautanalyse, HydraFacial, Microneedling, Abschlusspflege und After-Care-Hinweise.',
+    a: 'Die Kombi-Behandlung dauert ca. 90 Minuten. Enthalten sind Hautanalyse, Hydrofacial, Microneedling, Abschlusspflege und After-Care-Hinweise.',
   },
   {
     q: 'Was kostet die Behandlung?',
@@ -139,7 +132,7 @@ const faqs = [
   },
   {
     q: 'Gibt es Ausfallzeit?',
-    a: 'Nach HydraFacial ist die Haut oft schnell wieder alltagstauglich. Durch Microneedling können Rötungen oder Empfindlichkeit entstehen. Je nach Hauttyp beruhigt sich die Haut meist schrittweise innerhalb von Stunden bis 24-48 Stunden.',
+    a: 'Nach Hydrofacial ist die Haut oft schnell wieder alltagstauglich. Durch Microneedling können Rötungen oder Empfindlichkeit entstehen. Je nach Hauttyp beruhigt sich die Haut meist schrittweise innerhalb von Stunden bis 24-48 Stunden.',
   },
   {
     q: 'Ist Microneedling schmerzhaft?',
@@ -173,9 +166,9 @@ const structuredData = {
     {
       '@type': 'Product',
       '@id': absoluteUrl('/lp/hydrafacial-microneedling/#product'),
-      name: 'HydraFacial + Microneedling Zürich',
-      description: `90 Minuten HydraFacial + Microneedling in Zürich mit Hautanalyse, Abschlusspflege und After-Care-Hinweisen. Kombi-Angebot CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–.`,
-      image: absoluteUrl('/assets/hydrafacial_treatment.png'),
+      name: 'Hydrofacial + Microneedling Zürich',
+      description: `90 Minuten Hydrofacial + Microneedling in Zürich mit Hautanalyse, Abschlusspflege und After-Care-Hinweisen. Kombi-Angebot CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–.`,
+      image: absoluteUrl('/assets/hydrofacial_treatment.png'),
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
         '@type': 'Offer',
@@ -199,14 +192,12 @@ const structuredData = {
 ---
 
 <LandingPage
-  title={`HydraFacial + Microneedling Zürich | CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}`}
-  description="90 Min. HydraFacial + Microneedling in Zürich: Hautanalyse, Glow, Feuchtigkeit und optisch feinere Hautstruktur. Persönlich bei Beauty Face Lift an der Bahnhofstrasse."
-  ogImage="/assets/hydrafacial_treatment.png"
+  title={`Hydrofacial + Microneedling Zürich | CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}`}
+  description="90 Min. Hydrofacial + Microneedling in Zürich: Hautanalyse, Glow, Feuchtigkeit und optisch feinere Hautstruktur. Persönlich bei Beauty Face Lift an der Bahnhofstrasse."
+  ogImage="/assets/hydrofacial_treatment.png"
   preloadImage={{
-    href: lpHeroPreload.src,
-    imagesrcset: lpHeroPreload.srcSet.attribute,
-    imagesizes: lpHeroMainSizes,
-    type: 'image/webp',
+    href: lpHeroMainImage,
+    type: 'image/png',
     fetchpriority: 'high',
   }}
 >
@@ -216,10 +207,10 @@ const structuredData = {
     <section class="container lp-hero">
       <div class="lp-hero-grid">
         <div class="lp-hero-content">
-          <div class="lp-eyebrow">HydraFacial + Microneedling in Zürich · 90 Min. · Bahnhofstrasse 94</div>
+          <div class="lp-eyebrow">Hydrofacial + Microneedling in Zürich · 90 Min. · Bahnhofstrasse 94</div>
           <h1 class="lp-title display-text">Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild</h1>
           <p class="lp-subtitle">
-            Die Kombi-Behandlung verbindet gründliche HydraFacial Pflege, intensive Feuchtigkeit
+            Die Kombi-Behandlung verbindet gründliche Hydrofacial Pflege, intensive Feuchtigkeit
             und kontrolliertes Microneedling. Ideal, wenn Ihre Haut müde, fahl oder unruhig wirkt –
             und Sie sich eine ehrliche Einschätzung vor der Behandlung wünschen.
           </p>
@@ -228,15 +219,15 @@ const structuredData = {
             <span>Kombi-Angebot</span>
             <strong>CHF {PROMO_PRICE}.–</strong>
             <s>statt CHF {REGULAR_PRICE}.–</s>
-            <em>{DURATION_LABEL} inklusive Hautanalyse, HydraFacial, Microneedling, beruhigender Abschlusspflege und After-Care-Hinweisen.</em>
+            <em>{DURATION_LABEL} inklusive Hautanalyse, Hydrofacial, Microneedling, beruhigender Abschlusspflege und After-Care-Hinweisen.</em>
           </div>
 
           <div class="lp-hero-ctas">
-            <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn lp-hero-primary" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_hero_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
-            <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrafacial_hero" label={SECONDARY_CTA_LABEL} />
+            <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn lp-hero-primary" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_hero_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+            <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrofacial_hero" label={SECONDARY_CTA_LABEL} />
             <p class="lp-hero-note">
               Sie wissen bereits, dass die Kombi passt?
-              <a href={bookingHref} data-treatment="Hydrafacial + Microneedling" data-button-location="lp_hero_direct_booking">{BOOKING_CTA_LABEL}</a>
+              <a href={bookingHref} data-treatment="Hydrofacial + Microneedling" data-button-location="lp_hero_direct_booking">{BOOKING_CTA_LABEL}</a>
             </p>
           </div>
 
@@ -258,14 +249,14 @@ const structuredData = {
 
         <div class="lp-hero-media" aria-label={OFFER_LABEL}>
           <div class="lp-hero-media-main">
-            <Image
-              src={hydrafacialCard}
-              widths={[360, 540, 720, 960, 1122]}
-              sizes={lpHeroMainSizes}
-              format="webp"
-              quality="high"
-              priority
-              alt="HydraFacial Behandlung im Beauty Face Lift Studio Zürich"
+            <img
+              src={lpHeroMainImage}
+              alt="Hydrofacial Behandlung im Beauty Face Lift Studio Zürich"
+              loading="eager"
+              decoding="sync"
+              fetchpriority="high"
+              width="1400"
+              height="933"
             />
           </div>
           <div class="lp-hero-media-overlap">
@@ -290,7 +281,7 @@ const structuredData = {
         <p class="lp-section-lead">
           Manchmal wirkt die Haut trotz guter Routine müde, trocken oder unruhig. Make-up liegt
           nicht mehr so gleichmässig auf, Poren erscheinen sichtbarer und der Teint verliert an
-          Frische. Genau hier setzt die Kombination aus HydraFacial und Microneedling an.
+          Frische. Genau hier setzt die Kombination aus Hydrofacial und Microneedling an.
         </p>
       </div>
       <div class="lp-desire-grid">
@@ -302,7 +293,7 @@ const structuredData = {
         ))}
       </div>
       <p class="lp-section-note">
-        Wichtig: Sie müssen nicht vorab wissen, ob HydraFacial oder Microneedling besser zu Ihnen passt.
+        Wichtig: Sie müssen nicht vorab wissen, ob Hydrofacial oder Microneedling besser zu Ihnen passt.
         Die Haut wird vor Ort angeschaut und die Behandlung entsprechend abgestimmt.
       </p>
     </section>
@@ -310,9 +301,9 @@ const structuredData = {
     <section class="container lp-section lp-treatment-plan">
       <div class="lp-section-head">
         <div class="sub-display">Die Sitzung</div>
-        <h2 class="lp-section-title">Warum HydraFacial und Microneedling zusammen sinnvoll sein können</h2>
+        <h2 class="lp-section-title">Warum Hydrofacial und Microneedling zusammen sinnvoll sein können</h2>
         <p class="lp-section-lead">
-          HydraFacial und Microneedling haben unterschiedliche Aufgaben. In der Kombination entsteht
+          Hydrofacial und Microneedling haben unterschiedliche Aufgaben. In der Kombination entsteht
           ein strukturierter Termin für Reinigung, Feuchtigkeit, Glow und optische Hautverfeinerung.
         </p>
       </div>
@@ -344,7 +335,7 @@ const structuredData = {
           <div class="sub-display margin-bottom-md">Warum diese Kombination?</div>
           <h2 class="lp-section-title">Reinigung, Feuchtigkeit und Mikroimpulse in einem Termin</h2>
           <p>
-            HydraFacial und Microneedling sprechen unterschiedliche Bedürfnisse an. Erst wird die
+            Hydrofacial und Microneedling sprechen unterschiedliche Bedürfnisse an. Erst wird die
             Haut gepflegt vorbereitet, danach kann Microneedling die natürliche Hauterneuerung
             kosmetisch unterstützen.
           </p>
@@ -373,7 +364,7 @@ const structuredData = {
 
     <section class="container lp-section lp-treatment-focus">
       <div class="lp-section-head">
-        <div class="sub-display">HydraFacial + Microneedling</div>
+        <div class="sub-display">Hydrofacial + Microneedling</div>
         <h2 class="lp-section-title">Zwei Behandlungsschritte, ein klares Hautziel</h2>
         <p class="lp-section-lead">
           Die Kombination ist besonders hilfreich, wenn Sie Pflege, Feuchtigkeit und kosmetische
@@ -402,7 +393,7 @@ const structuredData = {
         <h2 class="lp-section-title">Was Sie realistisch erwarten dürfen</h2>
         <p class="lp-section-lead">
           Diese Behandlung ist keine schnelle Standardpflege, sondern ein strukturierter
-          90-Minuten-Termin mit Hautanalyse, HydraFacial, Microneedling und Abschlusspflege.
+          90-Minuten-Termin mit Hautanalyse, Hydrofacial, Microneedling und Abschlusspflege.
         </p>
       </div>
       <div class="lp-benefits-grid">
@@ -465,7 +456,7 @@ const structuredData = {
         eyebrow="Aktionsangebot Zürich"
         oldPrice={REGULAR_PRICE}
         newPrice={PROMO_PRICE}
-        discountLabel="HydraFacial + Microneedling"
+        discountLabel="Hydrofacial + Microneedling"
         urgency={`${DURATION_LABEL} · Hautanalyse · Abschlusspflege · After-Care`}
         ctaText={BOOKING_CTA_LABEL}
         ctaHref={bookingHref}
@@ -514,8 +505,8 @@ const structuredData = {
         ))}
       </div>
       <div class="lp-section-cta">
-        <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="process_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
-        <a href={bookingHref} class="pill-btn pill-btn-outline" data-treatment="Hydrafacial + Microneedling" data-button-location="process_section_booking">{BOOKING_CTA_LABEL}</a>
+        <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="process_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+        <a href={bookingHref} class="pill-btn pill-btn-outline" data-treatment="Hydrofacial + Microneedling" data-button-location="process_section_booking">{BOOKING_CTA_LABEL}</a>
       </div>
     </section>
 
@@ -525,7 +516,7 @@ const structuredData = {
           <div class="sub-display margin-bottom-md">Hautanalyse & Terminwunsch</div>
           <h2 class="lp-section-title">Unsicher, ob die Kombi-Behandlung zu Ihrer Haut passt?</h2>
           <p>
-            Sie müssen nicht selbst entscheiden, ob HydraFacial, Microneedling oder die Kombination
+            Sie müssen nicht selbst entscheiden, ob Hydrofacial, Microneedling oder die Kombination
             sinnvoll ist. Beschreiben Sie kurz Ihr Hautziel und senden Sie Ihren Terminwunsch.
             Teresa Stimac prüft vor Ort Ihren Hautzustand und stimmt die Behandlung entsprechend ab.
           </p>
@@ -535,39 +526,39 @@ const structuredData = {
             <li>Direkt buchbar oder zuerst per WhatsApp klärbar</li>
           </ul>
           <div class="lp-lead-actions">
-            <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrafacial_form" label={SECONDARY_CTA_LABEL} />
-            <a href={bookingHref} data-treatment="Hydrafacial + Microneedling" data-button-location="lead_section_booking">{BOOKING_CTA_LABEL}</a>
+            <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrofacial_form" label={SECONDARY_CTA_LABEL} />
+            <a href={bookingHref} data-treatment="Hydrofacial + Microneedling" data-button-location="lead_section_booking">{BOOKING_CTA_LABEL}</a>
           </div>
         </div>
 
         <form id={LEAD_FORM_TARGET_ID} class="lp-lead-form" action="/api/contact" method="post" data-lead-form novalidate>
           <input type="hidden" name="topic" value={CONTACT_TOPIC} />
-          <input type="hidden" name="message" value="HydraFacial + Microneedling Terminwunsch" data-lead-message />
+          <input type="hidden" name="message" value="Hydrofacial + Microneedling Terminwunsch" data-lead-message />
 
           <div class="lp-field-grid">
             <div class="lp-field">
-              <label for="hydra-lead-name">Name <span aria-hidden="true">*</span></label>
-              <input id="hydra-lead-name" name="name" type="text" autocomplete="name" required />
+              <label for="hydro-lead-name">Name <span aria-hidden="true">*</span></label>
+              <input id="hydro-lead-name" name="name" type="text" autocomplete="name" required />
             </div>
             <div class="lp-field">
-              <label for="hydra-lead-phone">Telefon / WhatsApp <span aria-hidden="true">*</span></label>
-              <input id="hydra-lead-phone" name="phone" type="tel" autocomplete="tel" required />
+              <label for="hydro-lead-phone">Telefon / WhatsApp <span aria-hidden="true">*</span></label>
+              <input id="hydro-lead-phone" name="phone" type="tel" autocomplete="tel" required />
             </div>
             <div class="lp-field">
-              <label for="hydra-lead-email">E-Mail</label>
-              <input id="hydra-lead-email" name="email" type="email" autocomplete="email" />
+              <label for="hydro-lead-email">E-Mail</label>
+              <input id="hydro-lead-email" name="email" type="email" autocomplete="email" />
             </div>
             <div class="lp-field">
-              <label for="hydra-lead-contact">Kontaktweg</label>
-              <select id="hydra-lead-contact" name="preferredContactMethod">
+              <label for="hydro-lead-contact">Kontaktweg</label>
+              <select id="hydro-lead-contact" name="preferredContactMethod">
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Telefon">Telefon</option>
                 <option value="E-Mail">E-Mail</option>
               </select>
             </div>
             <div class="lp-field lp-field--full">
-              <label for="hydra-lead-goal">Was möchten Sie verbessern? <span aria-hidden="true">*</span></label>
-              <select id="hydra-lead-goal" name="skinGoal" data-lead-goal required>
+              <label for="hydro-lead-goal">Was möchten Sie verbessern? <span aria-hidden="true">*</span></label>
+              <select id="hydro-lead-goal" name="skinGoal" data-lead-goal required>
                 <option value="">Bitte auswählen</option>
                 <option value="Glow">Glow</option>
                 <option value="Poren">Poren</option>
@@ -578,8 +569,8 @@ const structuredData = {
               </select>
             </div>
             <div class="lp-field lp-field--full">
-              <label for="hydra-lead-time">Wann passt Ihnen ein Termin? <span aria-hidden="true">*</span></label>
-              <select id="hydra-lead-time" name="preferredCallbackTime" data-lead-time required>
+              <label for="hydro-lead-time">Wann passt Ihnen ein Termin? <span aria-hidden="true">*</span></label>
+              <select id="hydro-lead-time" name="preferredCallbackTime" data-lead-time required>
                 <option value="">Bitte auswählen</option>
                 <option value="Möglichst bald">Möglichst bald</option>
                 <option value="Vormittag">Vormittag</option>
@@ -588,14 +579,14 @@ const structuredData = {
               </select>
             </div>
             <div class="lp-field lp-field--full">
-              <label for="hydra-lead-note">Kurze Nachricht, optional</label>
-              <textarea id="hydra-lead-note" name="leadNote" data-lead-note placeholder="z. B. empfindliche Haut, wichtige Termine, bisherige Erfahrungen"></textarea>
+              <label for="hydro-lead-note">Kurze Nachricht, optional</label>
+              <textarea id="hydro-lead-note" name="leadNote" data-lead-note placeholder="z. B. empfindliche Haut, wichtige Termine, bisherige Erfahrungen"></textarea>
             </div>
           </div>
 
           <div class="lp-field lp-honeypot" aria-hidden="true">
-            <label for="hydra-lead-company">Firma</label>
-            <input id="hydra-lead-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+            <label for="hydro-lead-company">Firma</label>
+            <input id="hydro-lead-company" name="company" type="text" tabindex="-1" autocomplete="off" />
           </div>
 
           {turnstileSiteKey && (
@@ -605,8 +596,8 @@ const structuredData = {
             </div>
           )}
 
-          <label class="lp-checkbox" for="hydra-lead-privacy">
-            <input id="hydra-lead-privacy" name="privacyConsent" type="checkbox" required />
+          <label class="lp-checkbox" for="hydro-lead-privacy">
+            <input id="hydro-lead-privacy" name="privacyConsent" type="checkbox" required />
             <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Beantwortung meiner Anfrage einverstanden. <span aria-hidden="true">*</span></span>
           </label>
 
@@ -648,7 +639,7 @@ const structuredData = {
         </p>
       </div>
       <BookingCta
-        treatment="Hydrafacial + Microneedling"
+        treatment="Hydrofacial + Microneedling"
         href={bookingHref}
         ctaText={BOOKING_CTA_LABEL}
         text={`Kombi-Angebot CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Behandlungsdauer: 90 Minuten.`}
@@ -657,19 +648,19 @@ const structuredData = {
 
     <section class="lp-final-dark">
       <div class="lp-final-inner">
-        <div class="sub-display lp-final-eyebrow">HydraFacial + Microneedling</div>
+        <div class="sub-display lp-final-eyebrow">Hydrofacial + Microneedling</div>
         <h2 class="lp-final-title">Bereit für frischer, gepflegter wirkende Haut?</h2>
         <p class="lp-final-lead">
-          Buchen Sie Ihre HydraFacial + Microneedling Kombi-Behandlung in Zürich oder senden Sie
+          Buchen Sie Ihre Hydrofacial + Microneedling Kombi-Behandlung in Zürich oder senden Sie
           zuerst Ihren Terminwunsch. Teresa Stimac stimmt die Behandlung persönlich auf Ihre Haut ab.
         </p>
         <p class="lp-final-offer">
-          CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– · 90 Minuten · Hautanalyse · HydraFacial · Microneedling · Abschlusspflege · After-Care
+          CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– · 90 Minuten · Hautanalyse · Hydrofacial · Microneedling · Abschlusspflege · After-Care
         </p>
         <div class="lp-final-ctas">
-          <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
-          <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrafacial_final" label={SECONDARY_CTA_LABEL} />
-          <a href={bookingHref} class="pill-btn pill-btn-dark" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>
+          <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+          <WhatsAppButton variant="inline" message={whatsappMessage} source="hydrofacial_final" label={SECONDARY_CTA_LABEL} />
+          <a href={bookingHref} class="pill-btn pill-btn-dark" data-treatment="Hydrofacial + Microneedling" data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>
         </div>
         <p class="lp-final-address">Beauty Face Lift Zürich · {ADDRESS.street} · {ADDRESS.postalCode} {ADDRESS.city} · {CONTACT_PHONE_DISPLAY}</p>
       </div>
@@ -680,8 +671,8 @@ const structuredData = {
         <span>CHF {REGULAR_PRICE}.–</span>
         <strong>CHF {PROMO_PRICE}.–</strong>
       </div>
-      <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="sticky_lead" data-lead-cta>Termin anfragen</a>
-      <a class="lp-sticky-whatsapp" href={`https://wa.me/${CONTACT_PHONE.replace('+', '')}?text=${encodeURIComponent(whatsappMessage)}`} target="_blank" rel="noopener" data-track-contact="whatsapp" data-source="hydrafacial_sticky" aria-label="WhatsApp schreiben">WhatsApp</a>
+      <a href={`#${LEAD_FORM_TARGET_ID}`} class="pill-btn" data-treatment="Hydrofacial + Microneedling" data-button-location="sticky_lead" data-lead-cta>Termin anfragen</a>
+      <a class="lp-sticky-whatsapp" href={`https://wa.me/${CONTACT_PHONE.replace('+', '')}?text=${encodeURIComponent(whatsappMessage)}`} target="_blank" rel="noopener" data-track-contact="whatsapp" data-source="hydrofacial_sticky" aria-label="WhatsApp schreiben">WhatsApp</a>
     </div>
     <div class="lp-mobile-sticky-space" aria-hidden="true"></div>
   </main>
@@ -695,8 +686,8 @@ const structuredData = {
       link.addEventListener('click', () => {
         window.dataLayer?.push({
           event: 'cta_click_lead_form',
-          button_location: link.getAttribute('data-button-location') || 'hydrafacial_lp',
-          treatment_name: 'Hydrafacial + Microneedling',
+          button_location: link.getAttribute('data-button-location') || 'hydrofacial_lp',
+          treatment_name: 'Hydrofacial + Microneedling',
         });
       });
     });
@@ -708,7 +699,7 @@ const structuredData = {
         const preferredTime = String(data.get('preferredCallbackTime') || '').trim();
         const note = String(data.get('leadNote') || '').trim();
         const parts = [
-          'HydraFacial + Microneedling Terminwunsch',
+          'Hydrofacial + Microneedling Terminwunsch',
           skinGoal ? `Hautziel: ${skinGoal}` : '',
           preferredTime ? `Terminpräferenz: ${preferredTime}` : '',
           note ? `Nachricht: ${note}` : '',
@@ -716,7 +707,7 @@ const structuredData = {
 
         messageInput.value = parts.join('\n');
         window.bflTracking?.trackLead?.({
-          source: 'hydrafacial_microneedling_lp_form',
+          source: 'hydrofacial_microneedling_lp_form',
           value: 170,
           currency: 'CHF',
           email: String(data.get('email') || ''),
@@ -1304,7 +1295,7 @@ const structuredData = {
   @media (max-width: 340px) {
     .lp-title { font-size: 2.22rem; }
   }
-  /* Approved Hydrafacial/Microneedling conversion redesign overrides. */
+  /* Approved Hydrofacial/Microneedling conversion redesign overrides. */
   :global(body) {
     --paper: #faf8f4;
     --bone: #ffffff;

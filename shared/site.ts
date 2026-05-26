@@ -79,7 +79,7 @@ export const OPENING_HOURS = [
 ] as const;
 
 export const TREATMENTS = [
-  { href: '/behandlungen/hydrafacial-zuerich/', label: 'Hydrafacial' },
+  { href: '/behandlungen/hydrafacial-zuerich/', label: 'Hydrofacial' },
   { href: '/behandlungen/microneedling-zuerich/', label: 'Microneedling' },
   { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', label: 'Fruchtsäure Peeling' },
   { href: '/behandlungen/coldplasma-zuerich/', label: 'ColdPlasma' },
@@ -100,9 +100,9 @@ export const SERVICE_GROUPS = [
       },
       {
         href: '/behandlungen/hydrafacial-zuerich/',
-        label: 'Hydrafacial',
-        description: 'Hydra4Face Tiefenreinigung, sanftes Peeling und Feuchtigkeitspflege.',
-        bookingService: 'Hydrafacial',
+        label: 'Hydrofacial',
+        description: 'Hydrofacial Tiefenreinigung, sanftes Peeling und Feuchtigkeitspflege.',
+        bookingService: 'Hydrofacial',
       },
       {
         href: '/behandlungen/microneedling-zuerich/',
