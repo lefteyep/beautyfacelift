@@ -9,7 +9,7 @@ import { contactRoute } from './routes/contact';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
-const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-26-contact-layout-002';
+const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-26-contact-layout-003';
 const CSP_REPORT_ONLY = [
   "default-src 'self'",
   "base-uri 'self'",
