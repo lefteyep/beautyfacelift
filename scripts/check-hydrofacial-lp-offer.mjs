@@ -63,8 +63,8 @@ assert(lp.includes('Kombi-Behandlung buchen'), 'Hydrofacial LP must keep a warm-
 assert(!lp.includes('Sie wissen bereits, dass die Kombi passt?'), 'Hydrofacial LP hero must not show the direct-booking prompt line');
 assert(!lp.includes('lp_hero_direct_booking'), 'Hydrofacial LP hero must not show a separate direct-booking CTA');
 assert(!lp.includes('Kombi-Termin sichern'), 'Hydrofacial LP must not keep the previous CTA copy');
-assert(lp.includes('font-size: 2rem'), 'Hydrofacial LP mobile hero headline must be 2rem');
-assert(!lp.includes('font-size: clamp(2.55rem') && !lp.includes('font-size: 2.62rem') && !lp.includes('font-size: 2.38rem') && !lp.includes('font-size: 2.22rem'), 'Hydrofacial LP hero headline must remain 2rem across desktop and mobile');
+assert(lp.includes('font-size: 2.25rem'), 'Hydrofacial LP hero headline must be 2.25rem');
+assert(!lp.includes('font-size: clamp(2.55rem') && !lp.includes('font-size: 2.62rem') && !lp.includes('font-size: 2.38rem') && !lp.includes('font-size: 2.22rem'), 'Hydrofacial LP hero headline must remain 2.25rem across desktop and mobile');
 assert(lp.includes('text-align: center'), 'Hydrofacial LP mobile hero text must be center aligned');
 assert(
   lp.includes('Frischer Glow und glatter wirkende Haut – professionell abgestimmt auf Ihr Hautbild'),
