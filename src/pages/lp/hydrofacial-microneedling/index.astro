@@ -804,7 +804,7 @@ const structuredData = {
       </div>
     </section>
 
-    <div class="lp-mobile-sticky" role="complementary" aria-label="Schnellanfrage">
+    <div class="lp-mobile-sticky" role="complementary" aria-label="Schnellanfrage" aria-hidden="true" data-mobile-sticky>
       <div class="lp-mobile-sticky-price">
         <span>CHF {REGULAR_PRICE}.–</span>
         <strong>CHF {PROMO_PRICE}.–</strong>
@@ -819,6 +819,32 @@ const structuredData = {
     const form = document.querySelector('[data-lead-form]');
     const messageInput = document.querySelector('[data-lead-message]');
     const leadCtas = document.querySelectorAll('[data-lead-cta]');
+    const mobileSticky = document.querySelector('[data-mobile-sticky]');
+    const heroSection = document.querySelector('.lp-hero');
+    const stickyQuery = window.matchMedia('(max-width: 900px)');
+
+    const setMobileStickyVisible = (visible) => {
+      document.body.classList.toggle('lp-sticky-visible', visible);
+      mobileSticky?.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    };
+
+    const updateMobileSticky = () => {
+      if (!heroSection || !stickyQuery.matches) {
+        setMobileStickyVisible(false);
+        return;
+      }
+
+      const heroRect = heroSection.getBoundingClientRect();
+      const heroBottomThreshold = window.innerHeight * 0.92;
+      setMobileStickyVisible(heroRect.bottom <= heroBottomThreshold);
+    };
+
+    if (mobileSticky && heroSection) {
+      updateMobileSticky();
+      window.addEventListener('scroll', updateMobileSticky, { passive: true });
+      window.addEventListener('resize', updateMobileSticky);
+      stickyQuery.addEventListener('change', updateMobileSticky);
+    }
 
     leadCtas.forEach((link) => {
       link.addEventListener('click', () => {
@@ -2673,6 +2699,9 @@ const structuredData = {
   @media (max-width: 900px) {
     :global(body) {
       --lp-sticky-offer-height: 86px;
+    }
+
+    :global(body.lp-sticky-visible:not(.bfl-consent-visible)) {
       padding-bottom: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
     }
 
@@ -2696,21 +2725,33 @@ const structuredData = {
       background: rgba(45, 41, 38, 0.96);
       color: var(--paper);
       box-shadow: 0 -10px 32px rgba(18, 18, 18, 0.18);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(calc(100% + 16px));
+      transition: transform 220ms ease, opacity 220ms ease;
       backdrop-filter: blur(14px) saturate(1.2);
       -webkit-backdrop-filter: blur(14px) saturate(1.2);
     }
 
+    :global(body.lp-sticky-visible) .lp-mobile-sticky {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
     :global(body.bfl-consent-visible) .lp-mobile-sticky {
-      display: none;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(calc(100% + 16px));
     }
 
     .lp-mobile-sticky-space {
-      display: block;
+      display: none;
       height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
     }
 
-    :global(body.bfl-consent-visible) .lp-mobile-sticky-space {
-      display: none;
+    :global(body.lp-sticky-visible:not(.bfl-consent-visible)) .lp-mobile-sticky-space {
+      display: block;
     }
 
     .lp-mobile-sticky-price {

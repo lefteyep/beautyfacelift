@@ -106,6 +106,10 @@ assert(lp.includes('name="source" value="hydrofacial-microneedling-lp"'), 'Hydro
 assert(lp.includes('name="privacyConsent"'), 'Hydrofacial LP lead form must keep privacy consent');
 assert(!lp.includes('cf-turnstile') && !lp.includes('challenges.cloudflare.com/turnstile'), 'Hydrofacial LP lead form must not depend on Turnstile rendering');
 assert(lp.includes('lp-mobile-sticky'), 'Hydrofacial LP must include a mobile sticky CTA bar');
+assert(lp.includes('data-mobile-sticky'), 'Hydrofacial LP sticky CTA must be addressable for viewport gating');
+assert(lp.includes('aria-hidden="true" data-mobile-sticky'), 'Hydrofacial LP sticky CTA must start hidden before the hero leaves the viewport');
+assert(lp.includes('lp-sticky-visible'), 'Hydrofacial LP sticky CTA must be revealed by a scroll-gated body state');
+assert(lp.includes('heroSection.getBoundingClientRect()'), 'Hydrofacial LP sticky CTA must use the hero position before appearing');
 assert(lp.includes('data-button-location="sticky_booking"') && lp.includes('WhatsApp'), 'Hydrofacial LP sticky CTA must expose direct booking and WhatsApp actions');
 assert(lp.includes('WhatsAppButton'), 'Hydrofacial LP must use the reusable WhatsApp CTA component');
 assert(lp.includes('Wie viele Sitzungen sind sinnvoll?'), 'Hydrofacial LP FAQ must address session expectations');
