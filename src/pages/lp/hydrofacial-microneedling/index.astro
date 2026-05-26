@@ -63,7 +63,6 @@ const desireItems = [
   { title: 'Glatter wirkendes Hautbild', text: 'Wenn Unebenheiten und unruhige Struktur optisch feiner erscheinen sollen.' },
   { title: 'Optisch feinere Poren', text: 'Wenn Poren sichtbarer wirken und Sie eine professionelle Einschätzung möchten.' },
   { title: 'Mehr Feuchtigkeit', text: 'Wenn sich die Haut trocken anfühlt oder Make-up nicht mehr gleichmässig liegt.' },
-  { title: 'Keine Selbstdiagnose', text: 'Wenn Sie nicht sicher sind, ob Hydrofacial, Microneedling oder beides sinnvoll ist.' },
   { title: 'Ruhige Durchführung', text: 'Wenn Sie eine Behandlung wünschen, die individuell und ohne Druck durchgeführt wird.' },
 ];
 
@@ -328,10 +327,6 @@ const structuredData = {
           </div>
         ))}
       </div>
-      <p class="lp-section-note">
-        Wichtig: Sie müssen nicht vorab wissen, ob Hydrofacial oder Microneedling besser zu Ihnen passt.
-        Die Haut wird vor Ort angeschaut und die Behandlung entsprechend abgestimmt.
-      </p>
     </section>
 
     <section class="container lp-section lp-treatment-plan">
@@ -2223,6 +2218,10 @@ const structuredData = {
     }
 
     .lp-hero-bullets li::before {
+      display: none;
+    }
+
+    .lp-hero-bullets {
       display: none;
     }
 

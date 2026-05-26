@@ -83,6 +83,12 @@ assert(
   'Hydrofacial LP CTA buttons must use 1.15rem text',
 );
 assert(lp.includes('Wenn Ihre Haut mehr braucht als Pflege zu Hause'), 'Hydrofacial LP must connect visitor desire to the offer');
+assert(!lp.includes('Keine Selbstdiagnose'), 'Hydrofacial LP must remove the self-diagnosis desire card');
+assert(!lp.includes('Sie müssen nicht vorab wissen'), 'Hydrofacial LP must remove the extra self-diagnosis note box');
+assert(
+  /@media\s*\(max-width:\s*760px\)\s*\{[\s\S]*?\.lp-hero-bullets\s*\{[\s\S]*?display:\s*none;[\s\S]*?\}/m.test(lp),
+  'Hydrofacial LP must hide the hero bullet list on mobile only',
+);
 assert(lp.includes('Warum Hydrofacial und Microneedling zusammen sinnvoll sein können'), 'Hydrofacial LP must explain why Hydrofacial and Microneedling are combined');
 assert(lp.includes('Hydrofacial: reinigen, hydratisieren, Glow aufbauen'), 'Hydrofacial LP must include a dedicated Hydrofacial explanation');
 assert(lp.includes('Microneedling: gezielte Mikroimpulse für feinere Hautstruktur'), 'Hydrofacial LP must include a dedicated Microneedling explanation');
