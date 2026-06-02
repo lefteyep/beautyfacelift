@@ -60,12 +60,19 @@ The public website, landing page, route, asset names, metadata, CTAs, FAQ, struc
 - `npm run lint`: not available in this repo.
 - `npm run typecheck`: not available in this repo.
 - `npm run astro -- check`: fails on existing repo-wide type issues outside this LP, including `astro.config.mjs`, `src/api_backup/*`, `src/components/Nav.astro`, `src/lib/track.ts`, Supabase Deno globals and Worker globals.
-- `npm run qa:worker`: local Wrangler started, but the smoke script failed at the local `/termin/` fetch after a 301 response. Live route verification is required after deployment.
+- `npm run qa:worker`: local Wrangler started, but the smoke script failed at the local `/termin/` fetch after a 301 response.
+- Live `/lp/aquafacial-microneedling/`: verified HTTP 200 after deployment.
+- Live LP HTML: verified new H1, updated WhatsApp CTA, three-image hero stack, canonical URL and no prohibited Hydro/Hydra treatment spelling.
+- Live browser pass: verified the page opens at the live URL, mobile viewport matches the mobile breakpoint, hero H1 is centered on mobile, hero CTAs are side by side at 1.15rem, mobile sticky is hidden at the top of the page and all visible images load after lazy-scroll.
+- Live old Hydro/Hydra slugs: verified HTTP 404 for the old LP, service and blog URLs.
+- Live `/termin/` booking bridge HTML: verified Aquafacial offer parameter, Treatwell base URL, `serviceDetails` logic and service detail id `TR4124140`.
+- Live sitemap: verified Aquafacial service/blog URLs are present, old Hydro/Hydra URLs are absent, and the paid LP remains excluded by `/lp/` noindex/sitemap policy.
+- Tracking code paths: verified LP `data-button-location` tracking attributes remain, and shared landing layout Meta/GTM loaders remain environment- and consent-controlled.
 - `npm run launch:check`: still expects legacy docs at `docs/SETUP.md`, `docs/SITEMAP.md` and `docs/domain-launch-beautyfacelift-zuerich.md`.
 
 ## 7. Open Points / Recommendations
 
 - Confirm in Meta/TikTok/Google ad settings that destination URLs now point to `/lp/aquafacial-microneedling/`.
-- After deployment, re-check the live LP, old URL status, booking bridge and Treatwell service detail destination.
+- For future deploys, re-check the live LP, old URL status, booking bridge and Treatwell service detail destination.
 - If the LP should become organic SEO content, remove `/lp/` from the noindex/sitemap exclusion deliberately and update the CRO/SEO plan. Current behavior keeps it as a paid campaign landing page.
 - Existing repo-wide `astro check` errors should be fixed in a separate technical cleanup branch.
