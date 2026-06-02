@@ -278,11 +278,10 @@ const structuredData = {
           </div>
 
           <div class="lp-hero-trust" aria-label="Vertrauenssignale">
-            <span aria-hidden="true">★★★★★</span>
+            <span class="lp-stars" aria-hidden="true">★★★★★</span>
             <strong>4.8/5</strong>
             <span>248+ Bewertungen</span>
             <span>20+ Jahre Erfahrung</span>
-            <span>Persönlich bei Teresa Stimac</span>
             <span>{ADDRESS.street}, {ADDRESS.postalCode} {ADDRESS.city}</span>
           </div>
 
@@ -294,17 +293,45 @@ const structuredData = {
         </div>
 
         <div class="lp-hero-media" aria-label={OFFER_LABEL}>
-          <Image
-            src={heroHydrofacialMicroneedlingImage}
-            widths={[480, 720, 960, 1200, 1440, 1672]}
-            sizes={lpHeroSizes}
-            format="webp"
-            quality={86}
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-            alt="Hydrofacial und Microneedling Behandlung bei Beauty Face Lift Zürich"
-          />
+          <div class="lp-hero-image-stack">
+            <div class="lp-hero-image-card lp-hero-image-card-main">
+              <Image
+                src={heroHydrofacialMicroneedlingImage}
+                widths={[480, 720, 960, 1200, 1440, 1672]}
+                sizes={lpHeroSizes}
+                format="webp"
+                quality={86}
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                alt="Hydrofacial und Microneedling Behandlung bei Beauty Face Lift Zürich"
+              />
+            </div>
+            <div class="lp-hero-image-card lp-hero-image-card-hydro">
+              <Image
+                src={hydrofacialCloseUpImage}
+                widths={[240, 360, 480, 640]}
+                sizes="(max-width: 760px) 42vw, 260px"
+                format="webp"
+                quality={84}
+                loading="lazy"
+                decoding="async"
+                alt="Hydrofacial Behandlung zur Reinigung und Feuchtigkeitspflege"
+              />
+            </div>
+            <div class="lp-hero-image-card lp-hero-image-card-needling">
+              <Image
+                src={microneedlingCloseUpImage}
+                widths={[240, 360, 480, 640]}
+                sizes="(max-width: 760px) 47vw, 300px"
+                format="webp"
+                quality={84}
+                loading="lazy"
+                decoding="async"
+                alt="Kosmetisches Microneedling mit professionellem Pen"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1519,8 +1546,8 @@ const structuredData = {
   }
 
   .lp-hero-grid {
-    grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.9fr);
-    gap: clamp(48px, 6vw, 88px);
+    grid-template-columns: minmax(0, 0.92fr) minmax(420px, 0.98fr);
+    gap: clamp(44px, 5.4vw, 84px);
   }
 
   .lp-hero-content {
@@ -1582,16 +1609,18 @@ const structuredData = {
   .lp-hero-ctas {
     align-items: center;
     gap: 14px 18px;
+    flex-wrap: nowrap;
   }
 
   .lp-hero-ctas > :global(.pill-btn) {
-    min-height: 44px;
-    padding: 12px 20px;
+    min-height: 54px;
+    padding: 14px 22px;
     font-size: 1.15rem;
     letter-spacing: 0;
   }
 
   .lp-hero-primary {
+    flex: 0 0 auto;
     min-width: 190px;
   }
 
@@ -1629,10 +1658,57 @@ const structuredData = {
   }
 
   .lp-hero-media {
-    max-width: 620px;
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    min-height: clamp(560px, 50vw, 690px);
+    aspect-ratio: auto;
+    justify-self: end;
+    overflow: visible;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
-  .lp-hero-media,
+  .lp-hero-image-stack {
+    position: relative;
+    width: 100%;
+    min-height: inherit;
+  }
+
+  .lp-hero-image-card {
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid rgba(123, 103, 74, 0.16);
+    border-radius: 24px;
+    background: #e8ddd8;
+    box-shadow: 0 18px 48px rgba(45, 41, 38, 0.14);
+  }
+
+  .lp-hero-image-card-main {
+    top: 0;
+    right: clamp(44px, 6vw, 78px);
+    z-index: 1;
+    width: min(74%, 500px);
+    height: 100%;
+  }
+
+  .lp-hero-image-card-hydro {
+    left: 0;
+    bottom: clamp(48px, 9%, 82px);
+    z-index: 4;
+    width: min(42%, 286px);
+    aspect-ratio: 4 / 5;
+  }
+
+  .lp-hero-image-card-needling {
+    top: clamp(42px, 8%, 72px);
+    right: 0;
+    z-index: 3;
+    width: min(46%, 318px);
+    aspect-ratio: 4 / 3;
+  }
+
   .lp-combination-media,
   .lp-trust-media,
   .lp-visual-card-media,
@@ -1644,12 +1720,14 @@ const structuredData = {
     box-shadow: 0 16px 44px rgba(45, 41, 38, 0.12);
   }
 
+  .lp-hero-image-card :global(picture),
   .lp-hero-media :global(picture),
   .lp-combination-media :global(picture),
   .lp-trust-media :global(picture),
   .lp-visual-card-media :global(picture),
   .lp-expectation-visual :global(picture),
   .lp-lead-visual :global(picture),
+  .lp-hero-image-card img,
   .lp-hero-media img,
   .lp-combination-media img,
   .lp-trust-media img,
@@ -1661,6 +1739,7 @@ const structuredData = {
     height: 100%;
   }
 
+  .lp-hero-image-card img,
   .lp-hero-media img,
   .lp-combination-media img,
   .lp-trust-media img,
@@ -2087,7 +2166,8 @@ const structuredData = {
 
     .lp-hero-media {
       justify-self: center;
-      max-width: 560px;
+      max-width: 620px;
+      min-height: clamp(520px, 74vw, 640px);
     }
 
     .lp-phases,
@@ -2183,11 +2263,20 @@ const structuredData = {
     .lp-hero-ctas {
       width: 100%;
       align-items: stretch;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .lp-hero-primary,
     .lp-hero-ctas :global(.pill-btn) {
       width: 100%;
+      min-width: 0;
+      min-height: 52px;
+      justify-content: center;
+      padding-inline: 12px;
+      line-height: 1.12;
+      white-space: normal;
     }
 
     .lp-hero-note {
@@ -2228,7 +2317,25 @@ const structuredData = {
     .lp-hero-media {
       width: 100%;
       max-width: none;
-      aspect-ratio: 4 / 3;
+      min-height: clamp(430px, 108vw, 560px);
+      aspect-ratio: auto;
+    }
+
+    .lp-hero-image-card-main {
+      right: auto;
+      left: 50%;
+      width: min(76%, 420px);
+      transform: translateX(-50%);
+    }
+
+    .lp-hero-image-card-hydro {
+      bottom: 42px;
+      width: min(43%, 210px);
+    }
+
+    .lp-hero-image-card-needling {
+      top: 36px;
+      width: min(47%, 230px);
     }
 
     .lp-desire-grid,
@@ -2299,8 +2406,22 @@ const structuredData = {
   }
 
   .lp-hero-trust strong,
-  .lp-hero-trust span:first-child {
+  .lp-hero-trust .lp-stars {
     color: var(--gold-deep);
+  }
+
+  .lp-hero-trust span:not(.lp-stars) {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lp-hero-trust span:not(.lp-stars)::before {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 0.95em;
+    background: rgba(123, 103, 74, 0.36);
   }
 
   .lp-hero-note a,
@@ -2318,6 +2439,12 @@ const structuredData = {
     background: var(--bone);
     border-color: var(--border-subtle);
     color: var(--ink);
+  }
+
+  .lp-hero-ctas :global(.wa-inline) {
+    flex: 0 0 auto;
+    min-width: 258px;
+    white-space: nowrap;
   }
 
   .lp-section-note {
@@ -2816,6 +2943,11 @@ const structuredData = {
     .lp-hero-trust {
       justify-content: center;
       text-align: center;
+    }
+
+    .lp-hero-ctas :global(.wa-inline) {
+      min-width: 0;
+      white-space: normal;
     }
 
     .lp-hero-note {
