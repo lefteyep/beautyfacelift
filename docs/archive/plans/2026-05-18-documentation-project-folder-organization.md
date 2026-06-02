@@ -673,7 +673,7 @@ Classify these as private data and do not move them into the repo:
 
 ```text
 Beauty Face Lift Kundenexport 07.02.2025.csv
-BeautyFaceLift_Hydra4Face_Telefonleitfaden.docx
+BeautyFaceLift_Aquafacial_Telefonleitfaden.docx
 SwissPelviCare - Telefon Leitfaden für Telefon Anfragen .docx
 ```
 
@@ -743,7 +743,7 @@ Run after user approval:
 ```powershell
 Move-Item -LiteralPath "Angebot_AG0088.pdf" -Destination _archives\2026-05-18-local-cleanup\client-documents\
 Move-Item -LiteralPath "Beautyfacelift design system.zip" -Destination _archives\2026-05-18-local-cleanup\client-documents\
-Move-Item -LiteralPath "BeautyFaceLift_Hydra4Face_Telefonleitfaden.docx" -Destination _archives\2026-05-18-local-cleanup\client-documents\
+Move-Item -LiteralPath "BeautyFaceLift_Aquafacial_Telefonleitfaden.docx" -Destination _archives\2026-05-18-local-cleanup\client-documents\
 ```
 
 - [ ] **Step 6: Move private or unrelated personal documents separately**

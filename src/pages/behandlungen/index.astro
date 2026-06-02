@@ -7,7 +7,7 @@ import AiSummary from '../../components/AiSummary.astro';
 import { Image } from 'astro:assets';
 import {
     coldplasmaCard,
-    hydrafacialCard,
+    aquafacialCard,
     microneedlingCard,
     peelingCard,
     spaProducts,
@@ -48,15 +48,15 @@ const structuredData = {
 const pageFaqs = [
     {
         question: 'Was kostet eine Gesichtsbehandlung in Zürich?',
-        answer: 'Die Preise variieren je nach Behandlungsart und Dauer. Gesichtsbehandlungen beginnen bei CHF 150, Hydra4Face bei CHF 180, Microneedling bei CHF 210, ColdPlasma bei CHF 180. Waxing beginnt bei CHF 35, Laser-Haarentfernung bei CHF 85, Wimpern- und Brauenleistungen bei CHF 20, Make-up bei CHF 100 und Massagen bei CHF 65 beziehungsweise nach Buchungsumfang. Alle veröffentlichten Preise sollten vor dem Termin anhand der aktuellen Buchungsseite geprüft werden.'
+        answer: 'Die Preise variieren je nach Behandlungsart und Dauer. Gesichtsbehandlungen beginnen bei CHF 150, Aquafacial bei CHF 180, Microneedling bei CHF 210, ColdPlasma bei CHF 180. Waxing beginnt bei CHF 35, Laser-Haarentfernung bei CHF 85, Wimpern- und Brauenleistungen bei CHF 20, Make-up bei CHF 100 und Massagen bei CHF 65 beziehungsweise nach Buchungsumfang. Alle veröffentlichten Preise sollten vor dem Termin anhand der aktuellen Buchungsseite geprüft werden.'
     },
     {
         question: 'Welche Behandlung passt für den Einstieg?',
-        answer: 'Für viele neue Kundinnen ist eine klassische <a href="/behandlungen/gesichtsbehandlung-zuerich/">Gesichtsbehandlung</a> oder Hydra4Face ein sinnvoller Einstieg, weil Teresa dabei Hautzustand, Verträglichkeit und Pflegeziel einschätzen kann. Wer bereits weiss, dass Haarentfernung, Wimpern und Brauen, Make-up oder Massage gefragt sind, kann diese Leistungen direkt über die Buchung wählen.'
+        answer: 'Für viele neue Kundinnen ist eine klassische <a href="/behandlungen/gesichtsbehandlung-zuerich/">Gesichtsbehandlung</a> oder Aquafacial ein sinnvoller Einstieg, weil Teresa dabei Hautzustand, Verträglichkeit und Pflegeziel einschätzen kann. Wer bereits weiss, dass Haarentfernung, Wimpern und Brauen, Make-up oder Massage gefragt sind, kann diese Leistungen direkt über die Buchung wählen.'
     },
     {
         question: 'Kann ich Behandlungen kombinieren?',
-        answer: 'Ja, viele Leistungen können sinnvoll kombiniert werden, etwa Gesichtsbehandlung mit Wimpern und Brauen oder abgestimmte Hautbehandlungen wie Hydra4Face, Microneedling, Peeling und ColdPlasma. Reihenfolge und Abstand legt Teresa nach Hautzustand, Verträglichkeit und Ziel fest.'
+        answer: 'Ja, viele Leistungen können sinnvoll kombiniert werden, etwa Gesichtsbehandlung mit Wimpern und Brauen oder abgestimmte Hautbehandlungen wie Aquafacial, Microneedling, Peeling und ColdPlasma. Reihenfolge und Abstand legt Teresa nach Hautzustand, Verträglichkeit und Ziel fest.'
     },
     {
         question: 'Wie buche ich einen Termin?',
@@ -80,7 +80,7 @@ const faqStructuredData = {
 
 <Base
     title="Kosmetische Behandlungen Zürich | Beauty Face Lift Bahnhofstrasse"
-    description="Kosmetische Behandlungen in Zürich an der Bahnhofstrasse: Gesichtsbehandlung, Hydrafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage."
+    description="Kosmetische Behandlungen in Zürich an der Bahnhofstrasse: Gesichtsbehandlung, Aquafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage."
     structuredData={structuredData}
 >
     <!-- Breadcrumbs -->
@@ -120,21 +120,21 @@ const faqStructuredData = {
     <!-- Treatment Grid -->
     <section class="container" style="padding-bottom: 88px;">
         <div class="treatments-overview-grid">
-            <a href="/behandlungen/hydrafacial-zuerich/" class="treatment-overview-card scroll-anim">
+            <a href="/behandlungen/aquafacial-zuerich/" class="treatment-overview-card scroll-anim">
                 <div class="service-image-mask service-image-tall">
                     <Image
-                        src={hydrafacialCard}
+                        src={aquafacialCard}
                         widths={[360, 540, 720, 960]}
                         sizes={overviewCardSizes}
                         format="webp"
                         quality="high"
-                        alt="Hydrafacial Behandlung Zürich"
+                        alt="Aquafacial Behandlung Zürich"
                         class="anim-img"
                         loading="lazy"
                     />
                 </div>
                 <div class="treatment-overview-content">
-                    <h3>Hydra Facial</h3>
+                    <h3>Aquafacial</h3>
                     <p>Tiefenreinigung, Vitalisierung und Glow. Professionelle Pflege für ein strahlendes Selfie-Hautbild mit patentierter Vortex-Technologie.</p>
                     <span class="card-arrow">Details erfahren &rarr;</span>
                 </div>
@@ -231,10 +231,10 @@ const faqStructuredData = {
         <p style="max-width: 650px; margin-bottom: 2.25rem;">Jedes Hautbild ist einzigartig. Finden Sie die passende Behandlung für Ihr persönliches Hautpflegeziel.</p>
 
         <div class="highlights-grid highlights-grid--4col">
-            <a href="/behandlungen/hydrafacial-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
+            <a href="/behandlungen/aquafacial-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
                 <div class="highlight-number">01</div>
                 <h4>Sofortiger Glow</h4>
-                <p>Fahle, müde Haut? Hydra4Face kann in 60 Minuten ein frischeres, hydratisiertes Hautgefühl unterstützen — meist ohne Ausfallzeit.</p>
+                <p>Fahle, müde Haut? Aquafacial kann in 60 Minuten ein frischeres, hydratisiertes Hautgefühl unterstützen — meist ohne Ausfallzeit.</p>
             </a>
 
             <a href="/behandlungen/microneedling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">

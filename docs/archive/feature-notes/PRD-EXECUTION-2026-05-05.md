@@ -17,11 +17,11 @@ Executed the safe, high-impact slice from `PRD.md` for the Beauty Face Lift Astr
 Initial execution used the live `/api/services` values because Teresa's official catalog had not yet been provided. That source was superseded on 2026-05-05 by the official Treatwell catalog:
 
 - Source: https://buchung.treatwell.ch/ort/beauty-face-lift/
-- Hydra4Face Basic Intensiv: CHF 180, 60 min
-- Hydra4Face Anti Aging: CHF 250, 90 min
-- Hydra4Face Gesicht, Hals, Dekolletee: CHF 280, 90 min
-- Hydra4Face + coldPLASMA für Akne: CHF 280, 90 min
-- Hydra4Face + Microneedling: CHF 170, 90 min
+- Aquafacial Basic Intensiv: CHF 180, 60 min
+- Aquafacial Anti Aging: CHF 250, 90 min
+- Aquafacial Gesicht, Hals, Dekolletee: CHF 280, 90 min
+- Aquafacial + coldPLASMA für Akne: CHF 280, 90 min
+- Aquafacial + Microneedling: CHF 170, 90 min
 - Microneedling: CHF 210, 90 min
 - Micro Needling Anti Aging mit coldPLASMA: CHF 220, 90 min
 - Fruchtsäure: CHF 150, 45 min
@@ -51,12 +51,12 @@ The current code patch updates public site copy, visible booking service data fo
 - `src/pages/index.astro`
 - `src/pages/behandlungen/index.astro`
 - `src/pages/behandlungen/vergleich/index.astro`
-- `src/pages/behandlungen/hydrafacial-zuerich/index.astro`
+- `src/pages/behandlungen/aquafacial-zuerich/index.astro`
 - `src/pages/behandlungen/microneedling-zuerich/index.astro`
 - `src/pages/behandlungen/fruchtsaeure-peeling-zuerich/index.astro`
 - `src/pages/behandlungen/coldplasma-zuerich/index.astro`
-- `src/pages/blog/was-ist-hydrafacial/index.astro`
-- `src/pages/blog/hydrafacial-vs-microneedling/index.astro`
+- `src/pages/blog/was-ist-aquafacial/index.astro`
+- `src/pages/blog/aquafacial-vs-microneedling/index.astro`
 - `src/pages/lp/carbon-microneedling/index.astro`
 - `src/components/lp/OfferBox.astro`
 - `src/components/lp/StickyOfferBar.astro`
@@ -72,7 +72,7 @@ The current code patch updates public site copy, visible booking service data fo
 
 ### Pricing Trust
 
-Before: Hydrafacial and several treatment pages advertised prices that did not match the live booking data.
+Before: Aquafacial and several treatment pages advertised prices that did not match the live booking data.
 
 After: Public price copy, pricing cards, FAQ answers, and JSON-LD offer data now align with the live service values above.
 
@@ -104,11 +104,11 @@ After: Submenu dots align closer to labels, footer treatment links breathe bette
 
 - Ran `npm run build` successfully.
 - Ran local frontend preview with `astro preview` on `http://127.0.0.1:4322/`.
-- Captured responsive screenshots for homepage, Hydrafacial, and booking error states.
-- Checked mobile document overflow for homepage, Hydrafacial, and booking at a phone-sized viewport; no document-level horizontal scroll was detected.
+- Captured responsive screenshots for homepage, Aquafacial, and booking error states.
+- Checked mobile document overflow for homepage, Aquafacial, and booking at a phone-sized viewport; no document-level horizontal scroll was detected.
 - Confirmed local booking failure renders a recoverable error state instead of a blank or dead end.
 - After live deployment QA, adjusted the mobile booking stepper so the active step label can use the full row below the progress bar instead of truncating inside one column.
-- Verified the deployed Workers site after the initial release: homepage, Hydrafacial, and booking pages returned 200; booking mobile at 390px showed 7 service cards and no document-level horizontal overflow. This was superseded by the Treatwell pricing correction described above.
+- Verified the deployed Workers site after the initial release: homepage, Aquafacial, and booking pages returned 200; booking mobile at 390px showed 7 service cards and no document-level horizontal overflow. This was superseded by the Treatwell pricing correction described above.
 
 ## Environment Notes
 

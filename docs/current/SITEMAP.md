@@ -16,7 +16,7 @@ Astro generates `sitemap-index.xml` and `sitemap-0.xml`; the build copies `sitem
 - `/behandlungen/exosome-therapie-zuerich/`
 - `/behandlungen/fruchtsaeure-peeling-zuerich/`
 - `/behandlungen/gesichtsbehandlung-zuerich/`
-- `/behandlungen/hydrafacial-zuerich/`
+- `/behandlungen/aquafacial-zuerich/`
 - `/behandlungen/laser-haarentfernung-zuerich/`
 - `/behandlungen/make-up-zuerich/`
 - `/behandlungen/massage-zuerich-bahnhofstrasse/`
@@ -27,9 +27,9 @@ Astro generates `sitemap-index.xml` and `sitemap-0.xml`; the build copies `sitem
 - `/blog/`
 - `/blog/anti-aging-behandlungen-zuerich/`
 - `/blog/hautpflege-routine-zuerich/`
-- `/blog/hydrafacial-vs-microneedling/`
+- `/blog/aquafacial-vs-microneedling/`
 - `/blog/microneedling-erfahrung/`
-- `/blog/was-ist-hydrafacial/`
+- `/blog/was-ist-aquafacial/`
 - `/datenschutz/`
 - `/haeufige-fragen/`
 - `/impressum/`

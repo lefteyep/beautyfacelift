@@ -20,19 +20,19 @@ type OfficialServiceOverride = Pick<
 type OfficialPriceRange = Pick<PublicServiceRow, 'price_label' | 'price_min_chf' | 'price_max_chf'>;
 
 export const OFFICIAL_SERVICE_OVERRIDES: Record<string, OfficialServiceOverride> = {
-  'hydrafacial-signature': {
-    name: 'Gesichtsbehandlung - Hydra4Face Basic Intensiv',
-    description: 'Hydra4Face Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.',
+  'aquafacial-signature': {
+    name: 'Gesichtsbehandlung - Aquafacial Basic Intensiv',
+    description: 'Aquafacial Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.',
     duration_minutes: 60,
     price_chf: 180,
-    category: 'Hydrafacial',
+    category: 'Aquafacial',
   },
-  'hydrafacial-platinum': {
-    name: 'Gesichtsbehandlung - Hydra4Face Anti Aging',
-    description: 'Hydra4Face Anti-Aging-Behandlung mit intensiver Feuchtigkeitspflege und Glow-Finish.',
+  'aquafacial-platinum': {
+    name: 'Gesichtsbehandlung - Aquafacial Anti Aging',
+    description: 'Aquafacial Anti-Aging-Behandlung mit intensiver Feuchtigkeitspflege und Glow-Finish.',
     duration_minutes: 90,
     price_chf: 250,
-    category: 'Hydrafacial',
+    category: 'Aquafacial',
   },
   'microneedling-gesicht': {
     name: 'Gesichtsbehandlung - Microneedling',

@@ -32,7 +32,7 @@ type ContactSubmission = {
 };
 
 const TURNSTILE_OPTIONAL_SOURCES = new Set([
-  'hydrofacial-microneedling-lp',
+  'aquafacial-microneedling-lp',
 ]);
 
 function getString(value: unknown): string {

@@ -15,11 +15,11 @@ WITH official_services (
   sort_order
 ) AS (
   VALUES
-    ('Gesichtsbehandlung - Hydra4Face Basic Intensiv', 'hydrafacial-signature', 'Hydra4Face Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.', 60, 180.00, 'Hydrafacial', 1),
-    ('Gesichtsbehandlung - Hydra4Face Anti Aging', 'hydrafacial-platinum', 'Hydra4Face Anti-Aging-Behandlung mit intensiver Feuchtigkeitspflege und Glow-Finish.', 90, 250.00, 'Hydrafacial', 2),
-    ('Gesichtsbehandlung - Hydra4Face Gesicht, Hals, Dekolletee', 'hydra4face-gesicht-hals-dekolletee', 'Erweiterte Hydra4Face Behandlung für Gesicht, Hals und Dekolletee.', 90, 280.00, 'Hydrafacial', 3),
-    ('Gesichtsbehandlung - Hydra4Face + coldPLASMA für Akne', 'hydra4face-coldplasma-akne', 'Hydra4Face kombiniert mit coldPLASMA für Akne und unreine Haut.', 90, 280.00, 'Hydrafacial', 4),
-    ('Gesichtsbehandlung - Hydra4Face + Microneedling', 'hydra4face-microneedling', 'Hydra4Face kombiniert mit Microneedling für Glow und Kollagenstimulation.', 90, 170.00, 'Hydrafacial', 5),
+    ('Gesichtsbehandlung - Aquafacial Basic Intensiv', 'aquafacial-signature', 'Aquafacial Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.', 60, 180.00, 'Aquafacial', 1),
+    ('Gesichtsbehandlung - Aquafacial Anti Aging', 'aquafacial-platinum', 'Aquafacial Anti-Aging-Behandlung mit intensiver Feuchtigkeitspflege und Glow-Finish.', 90, 250.00, 'Aquafacial', 2),
+    ('Gesichtsbehandlung - Aquafacial Gesicht, Hals, Dekolletee', 'aquafacial-gesicht-hals-dekolletee', 'Erweiterte Aquafacial Behandlung für Gesicht, Hals und Dekolletee.', 90, 280.00, 'Aquafacial', 3),
+    ('Gesichtsbehandlung - Aquafacial + coldPLASMA für Akne', 'aquafacial-coldplasma-akne', 'Aquafacial kombiniert mit coldPLASMA für Akne und unreine Haut.', 90, 280.00, 'Aquafacial', 4),
+    ('Gesichtsbehandlung - Aquafacial + Microneedling', 'aquafacial-microneedling', 'Aquafacial kombiniert mit Microneedling für Glow und Kollagenstimulation.', 90, 170.00, 'Aquafacial', 5),
     ('Gesichtsbehandlung - Microneedling', 'microneedling-gesicht', 'Kollagenstimulation für verfeinerte Poren, glattere Struktur und sichtbar frischere Haut.', 90, 210.00, 'Microneedling', 10),
     ('Gesichtsbehandlung - Micro Needling Anti Aging mit coldPLASMA', 'microneedling-gesicht-hals', 'Microneedling Anti-Aging-Behandlung kombiniert mit coldPLASMA zur Regeneration.', 90, 220.00, 'Microneedling', 11),
     ('Gesichtsbehandlung - Carbon Laser Peeling + Microneedling', 'carbon-microneedling', 'Carbon Laser Peeling kombiniert mit Microneedling in einer 90-minütigen Sitzung.', 90, 250.00, 'Carbon Microneedling', 12),

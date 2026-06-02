@@ -69,7 +69,7 @@ Used on: Gold CTA buttons, Sticky CTA Mobile, gradient overlays.
 | Hero Display (desktop) | Cormorant Garamond | 96px | 400 | -2px | "BEAUTY" / "FACE LIFT" |
 | Hero Display (mobile) | Cormorant Garamond | 56px | 400 | -1.5px | "BEAUTY FACE LIFT" |
 | Section Heading | Cormorant Garamond | 48px | 400 | — | "Unsere Expertise" |
-| Card Title | Cormorant Garamond | 36px | 400 | — | "Hydra Facial" |
+| Card Title | Cormorant Garamond | 36px | 400 | — | "Aquafacial" |
 | Sub Heading | Cormorant Garamond | 24px | 400 | — | FAQ questions |
 | Body Large | Outfit | 17px | 300 | — | Footer contact info |
 | Body | Outfit | 16px | 300 | 1.65 line-height | Paragraphs |
@@ -181,8 +181,8 @@ Used on: Gold CTA buttons, Sticky CTA Mobile, gradient overlays.
 | Homepage — Mobile 375 | `E0rB1` | 375 x ~6200 | Complete |
 | Behandlungen — Desktop 1440 | `5H8fs` | 1440 x ~5600 | Complete (+ comparison strip) |
 | Behandlungen — Mobile 375 | `Qm36C` | 375 x ~3700 | Complete |
-| Hydrafacial — Desktop 1440 | `5MzhG` | 1440 x 3387 | Complete |
-| Hydrafacial — Mobile 375 | `Er4c6` | 375 x ~2240 | Complete |
+| Aquafacial — Desktop 1440 | `5MzhG` | 1440 x 3387 | Complete |
+| Aquafacial — Mobile 375 | `Er4c6` | 375 x ~2240 | Complete |
 | Booking Widget — Desktop 1440 | `GbABb` | 1440 x ~1900 | **NEW** — 5-step booking flow |
 | Blog Article — Desktop 1440 | `vzK3J` | 1440 x ~2800 | **NEW** — editorial article layout |
 | 404 — Desktop 1440 | `eyWVB` | 1440 x ~1500 | **NEW** — error page |
@@ -275,7 +275,7 @@ Used on: Gold CTA buttons, Sticky CTA Mobile, gradient overlays.
 - Reduced services heading from 72px to 52px (was inverting hierarchy vs hero)
 
 **Behandlungen Page Improvements:**
-- Added 4-column comparison strip (Hydrafacial / Microneedling / Fruchtsäure / ColdPlasma) with price, duration, and best-for
+- Added 4-column comparison strip (Aquafacial / Microneedling / Fruchtsäure / ColdPlasma) with price, duration, and best-for
 - Fixed FAQ section padding from 320px to 160px
 
 **Remaining Gaps:**

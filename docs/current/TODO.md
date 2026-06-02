@@ -79,7 +79,7 @@
 ## Priority 6: Ongoing Content
 - [ ] Write 2 blog articles per month targeting long-tail keywords:
   - "Gesichtsbehandlung Zürich Erfahrung"
-  - "Hydrafacial Kosten Schweiz"
+  - "Aquafacial Kosten Schweiz"
   - "Microneedling Aknenarben Zürich"
   - "Kosmetikerin Zürich Bahnhofstrasse"
   - "ColdPlasma Behandlung Erfahrung"

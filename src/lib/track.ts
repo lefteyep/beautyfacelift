@@ -117,10 +117,10 @@ const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
     value: 169,
     currency: 'CHF',
   },
-  '/lp/hydrofacial-microneedling/': {
-    content_name: 'Hydrofacial Microneedling Aktion',
-    treatment_name: 'Hydrofacial + Microneedling',
-    service: 'Hydrofacial + Microneedling',
+  '/lp/aquafacial-microneedling/': {
+    content_name: 'Aquafacial Microneedling Aktion',
+    treatment_name: 'Aquafacial + Microneedling',
+    service: 'Aquafacial + Microneedling',
     value: 170,
     currency: 'CHF',
   },

@@ -91,7 +91,7 @@ export function TreatmentSelect({ services, selectedId, onSelect, preselectedCat
             type="search"
             value={searchTerm}
             onChange={event => setSearchTerm(event.target.value)}
-            placeholder="z.B. Hydra4Face, Laser, Waxing"
+            placeholder="z.B. Aquafacial, Laser, Waxing"
             autoComplete="off"
             aria-describedby="booking-service-count"
           />
