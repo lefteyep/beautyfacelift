@@ -38,7 +38,7 @@ const whatsappMessage = `Guten Tag, ich interessiere mich für die Aquafacial Ak
 const studioAddress = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
 const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Beauty Face Lift ${studioAddress}`)}&output=embed`;
 const googleMapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(studioAddress)}`;
-const lpHeroSizes = '(min-width: 1101px) 44vw, (min-width: 761px) 620px, 100vw';
+const lpHeroSizes = '(min-width: 1101px) 46vw, (min-width: 761px) 660px, 100vw';
 const lpVisualSizes = '(min-width: 1101px) 30vw, (min-width: 761px) 48vw, 100vw';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
 
@@ -281,18 +281,6 @@ const structuredData = {
                 decoding="async"
                 fetchpriority="high"
                 alt="Aquafacial Behandlung mit Teresa Stimac bei Beauty Face Lift Zürich"
-              />
-            </div>
-            <div class="lp-hero-image-card lp-hero-image-card-care">
-              <Image
-                src={hautanalyseBeratungImage}
-                widths={[240, 360, 480, 640]}
-                sizes="(max-width: 760px) 42vw, 260px"
-                format="webp"
-                quality={84}
-                loading="eager"
-                decoding="async"
-                alt="Persönliche Hautabstimmung bei Beauty Face Lift Zürich"
               />
             </div>
           </div>
@@ -748,8 +736,8 @@ const structuredData = {
 
   .lp-hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.92fr) minmax(420px, 0.98fr);
-    gap: clamp(44px, 5.4vw, 84px);
+    grid-template-columns: minmax(0, 0.82fr) minmax(520px, 1.08fr);
+    gap: clamp(36px, 4.4vw, 68px);
     align-items: center;
   }
 
@@ -892,15 +880,15 @@ const structuredData = {
   .lp-hero-media {
     position: relative;
     width: 100%;
-    max-width: 680px;
-    min-height: clamp(560px, 50vw, 690px);
+    max-width: 720px;
     justify-self: end;
   }
 
   .lp-hero-image-stack {
     position: relative;
     width: 100%;
-    min-height: inherit;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .lp-hero-image-card,
@@ -915,24 +903,13 @@ const structuredData = {
   }
 
   .lp-hero-image-card {
-    position: absolute;
+    position: relative;
     border: 1px solid rgba(123, 103, 74, 0.16);
     box-shadow: 0 18px 48px rgba(45, 41, 38, 0.14);
   }
 
   .lp-hero-image-card-main {
-    top: 0;
-    right: clamp(24px, 4vw, 52px);
-    z-index: 1;
-    width: min(82%, 540px);
-    height: 100%;
-  }
-
-  .lp-hero-image-card-care {
-    right: 0;
-    bottom: clamp(38px, 8%, 72px);
-    z-index: 4;
-    width: min(42%, 286px);
+    width: min(100%, 660px);
     aspect-ratio: 4 / 5;
   }
 
@@ -958,6 +935,10 @@ const structuredData = {
   .lp-expectation-visual img {
     object-fit: cover;
     object-position: center;
+  }
+
+  .lp-hero-image-card-main img {
+    object-fit: contain;
   }
 
   .lp-section {
@@ -1545,7 +1526,6 @@ const structuredData = {
     .lp-hero-media {
       justify-self: center;
       max-width: 620px;
-      min-height: clamp(520px, 74vw, 640px);
     }
 
     .lp-phases,
@@ -1676,21 +1656,15 @@ const structuredData = {
 
     .lp-hero-media {
       width: 100%;
-      max-width: none;
-      min-height: clamp(430px, 108vw, 560px);
+      max-width: 460px;
+    }
+
+    .lp-hero-image-stack {
+      justify-content: center;
     }
 
     .lp-hero-image-card-main {
-      right: auto;
-      left: 50%;
-      width: min(76%, 420px);
-      transform: translateX(-50%);
-    }
-
-    .lp-hero-image-card-care {
-      right: 0;
-      bottom: 36px;
-      width: min(43%, 210px);
+      width: min(100%, 430px);
     }
 
     .lp-desire-grid,
