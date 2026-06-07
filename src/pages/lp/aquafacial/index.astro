@@ -42,12 +42,6 @@ const lpHeroSizes = '(min-width: 1101px) 46vw, (min-width: 761px) 660px, 100vw';
 const lpVisualSizes = '(min-width: 1101px) 30vw, (min-width: 761px) 48vw, 100vw';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
 
-const heroBullets = [
-  `${DURATION_LABEL} inklusive Hautabstimmung, Cleansing, Fruchtsäurepeeling und Hyaluron Booster`,
-  `Aktionspreis CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–`,
-  `Persönlich behandelt von Teresa Stimac an der ${ADDRESS.street}`,
-];
-
 const includedItems = [
   'Kurze persönliche Hautabstimmung',
   'Cleansing für ein saubereres Hautgefühl',
@@ -237,8 +231,8 @@ const structuredData = {
     <section class="container lp-hero">
       <div class="lp-hero-grid">
         <div class="lp-hero-content">
-          <div class="lp-eyebrow">Aktion: Aquafacial in Zürich</div>
-          <h1 class="lp-title display-text">Aquafacial Aktion in Zürich für frischer, klarer und gepflegter wirkende Haut</h1>
+          <div class="lp-eyebrow">In Zürich nur für kurze Zeit!</div>
+          <h1 class="lp-title display-text">Aquafacial Angebot für frischer, klarer und gepflegter wirkende Haut</h1>
           <p class="lp-subtitle">
             1 Stunde professionelle Aquafacial Pflege bei Beauty Face Lift an der Bahnhofstrasse:
             Cleansing, sanftes Fruchtsäurepeeling und Hyaluron Booster - persönlich abgestimmt von Teresa Stimac.
@@ -260,12 +254,6 @@ const structuredData = {
           <div class="lp-hero-trust">
             <TrustStrip variant="rating" align="left" />
           </div>
-
-          <ul class="lp-hero-bullets">
-            {heroBullets.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
         </div>
 
         <div class="lp-hero-media" aria-label={OFFER_LABEL}>
@@ -801,7 +789,7 @@ const structuredData = {
 
   .lp-hero-offer-card strong {
     color: var(--ink);
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 32px;
     font-weight: 400;
     line-height: 1;
@@ -834,6 +822,20 @@ const structuredData = {
     min-width: 190px;
   }
 
+  .lp-hero-ctas :global(.wa-inline) {
+    background: #fff;
+    border-color: rgba(158, 116, 47, 0.34);
+    color: var(--gold-deep);
+    box-shadow: 0 10px 24px rgba(45, 41, 38, 0.08);
+  }
+
+  .lp-hero-ctas :global(.wa-inline:hover) {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+    color: var(--paper);
+    box-shadow: var(--shadow-1);
+  }
+
   .lp-hero-note {
     width: 100%;
     margin: -2px 0 0;
@@ -844,37 +846,6 @@ const structuredData = {
 
   .lp-hero-trust {
     padding-top: 6px;
-  }
-
-  .lp-hero-bullets {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    width: 100%;
-    max-width: 640px;
-    margin: 4px 0 0;
-    padding: 22px 0 0;
-    border-top: 1px solid var(--border-subtle);
-    list-style: none;
-  }
-
-  .lp-hero-bullets li {
-    position: relative;
-    padding-left: 18px;
-    color: var(--ink-2);
-    font-size: 15px;
-    line-height: 1.5;
-  }
-
-  .lp-hero-bullets li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.72em;
-    width: 5px;
-    height: 5px;
-    border-radius: 999px;
-    background: var(--gold);
   }
 
   .lp-hero-media {
@@ -1648,10 +1619,6 @@ const structuredData = {
     .lp-hero-trust :global(.trust-rating-group) {
       justify-content: center;
       text-align: center;
-    }
-
-    .lp-hero-bullets {
-      display: none;
     }
 
     .lp-hero-media {
