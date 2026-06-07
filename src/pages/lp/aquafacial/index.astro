@@ -20,20 +20,17 @@ import {
   CONTACT_PHONE_DISPLAY,
   OPENING_HOURS,
   absoluteUrl,
-  bookingLinkForService,
 } from '../../../../shared/site';
 
 const PROMO_PRICE = 99;
 const REGULAR_PRICE = 180;
 const DURATION_LABEL = '1 Std.';
 const OFFER_LABEL = 'Aquafacial Aktion';
-const OFFER_SLUG = 'aquafacial-aktion';
 const SAVINGS_LABEL = 'Sie sparen CHF 81.-';
-const PRIMARY_CTA_LABEL = 'Aquafacial Termin sichern';
-const BOOKING_CTA_LABEL = 'Aquafacial Aktion sichern';
+const PRIMARY_CTA_LABEL = 'Jetzt Termin sichern';
+const BOOKING_CTA_LABEL = 'Jetzt Termin sichern';
 const SECONDARY_CTA_LABEL = 'Frage per WhatsApp';
-const BOOKING_SERVICE = 'Aquafacial Aktion';
-const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
+const bookingHref = 'https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Aquafacial+Aktion&offer=aquafacial-aktion&price=99#serviceDetails=TR4122487';
 const whatsappMessage = `Guten Tag, ich interessiere mich für die Aquafacial Aktion CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`;
 const studioAddress = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
 const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Beauty Face Lift ${studioAddress}`)}&output=embed`;
@@ -117,7 +114,7 @@ const expectationItems = [
 ];
 
 const processSteps = [
-  { title: 'Aquafacial Termin sichern', text: 'Der Button führt zur Buchung. Service, Angebot und Preis sind bereits vorbereitet.' },
+  { title: 'Jetzt Termin sichern', text: 'Der Button führt zur Buchung. Service, Angebot und Preis sind bereits vorbereitet.' },
   { title: 'Ankommen in Zürich', text: 'Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94, gut erreichbar in der Innenstadt.' },
   { title: 'Kurze Hautabstimmung', text: 'Teresa prüft vor Ort, was Ihre Haut aktuell braucht und ob die Behandlung sinnvoll ist.' },
   { title: '1 Stunde Aquafacial Pflege', text: 'Cleansing, Fruchtsäurepeeling, Hyaluron Booster und Abschlusspflege in einem strukturierten Termin.' },
@@ -379,7 +376,7 @@ const structuredData = {
             ))}
           </div>
           <div class="lp-section-cta lp-section-cta-left">
-            <a href={bookingHref} class="pill-btn" data-treatment="Aquafacial Aktion" data-button-location="what_section">Behandlung anfragen</a>
+            <a href={bookingHref} class="pill-btn" data-treatment="Aquafacial Aktion" data-button-location="what_section">{PRIMARY_CTA_LABEL}</a>
           </div>
         </div>
         <div class="lp-combination-media">
@@ -639,7 +636,7 @@ const structuredData = {
       oldPrice={REGULAR_PRICE}
       newPrice={PROMO_PRICE}
       href={bookingHref}
-      ctaText="Termin sichern"
+      ctaText={PRIMARY_CTA_LABEL}
     />
   </main>
 </LandingPage>
