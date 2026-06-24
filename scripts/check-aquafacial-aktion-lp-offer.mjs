@@ -91,6 +91,15 @@ assert(landingPage.includes('<link rel="canonical" href={canonicalUrl}>'), 'Land
 assert(landingPage.includes('og:title'), 'Landing page layout must expose Open Graph metadata');
 
 assert(lp.includes('id="aquafacial-lead-form"'), 'Aquafacial LP must expose the lead-form anchor');
+assert(lp.includes('<div class="lp-lead-header">'), 'Aquafacial lead section must use a centered heading above the form');
+assert(lp.includes('<p class="lp-eyebrow">Termin unverbindlich anfragen</p>'), 'Aquafacial lead section must use the requested overline');
+assert(lp.includes('<h2 class="lp-section-title">Sichern dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>'), 'Aquafacial lead section must use the requested title');
+assert(!lp.includes('<h2 class="lp-section-title">Aquafacial Aktion anfragen</h2>'), 'Aquafacial lead section must remove the old side-column title');
+assert(!lp.includes('Sende uns kurz deinen Terminwunsch oder deine Frage.'), 'Aquafacial lead section must remove the old side-column intro copy');
+assert(!lp.includes('formReassurance'), 'Aquafacial lead section must remove the old reassurance-list data');
+assert(!lp.includes('lp-reassurance-list'), 'Aquafacial lead section must remove the old reassurance list');
+assert(lp.includes('.lp-lead-grid {\n    display: grid;\n    grid-template-columns: 1fr;'), 'Aquafacial lead section must be a one-column layout');
+assert(lp.includes('width: min(100%, 860px);') && lp.includes('margin: 0 auto;'), 'Aquafacial lead form shell must be centered with a stable max width');
 assert(lp.includes('action="/api/contact"'), 'Aquafacial lead form must post to the existing contact backend');
 assert(lp.includes('method="post"'), 'Aquafacial lead form must support server-side form submission');
 assert(lp.includes('data-aquafacial-lead-form'), 'Aquafacial LP must initialize campaign-specific lead form behavior');
@@ -115,8 +124,8 @@ assert(!lp.includes('Nachricht, falls du Fragen hast'), 'Aquafacial lead form mu
 
 assert(lp.includes('Keine Online-Zahlung auf dieser Seite'), 'Aquafacial LP must reduce payment anxiety near the CTA/form');
 assert(lp.includes('Beauty Face Lift meldet sich persönlich'), 'Aquafacial LP must promise personal studio follow-up');
-assert(lp.includes('Fragen vor der Terminbestätigung möglich'), 'Aquafacial LP must reassure visitors that questions are possible before confirmation');
-assert(lp.includes('Deine Anfrage ist unverbindlich'), 'Aquafacial LP must clarify the form request is non-binding');
+assert(lp.includes('Fragen stellen und deinen Terminwunsch persönlich abstimmen'), 'Aquafacial LP must reassure visitors that questions are possible before confirmation');
+assert(lp.includes('Termin unverbindlich anfragen'), 'Aquafacial LP must clarify the form request is non-binding');
 assert(lp.includes('Ich habe die') && lp.includes('Datenschutzerklärung') && lp.includes('gelesen und bin einverstanden'), 'Aquafacial LP must include privacy consent copy');
 assert(lp.includes('href="/datenschutz/"'), 'Privacy consent must link to the existing privacy policy');
 for (const location of ['lp_hero', 'what_section', 'trust_section', 'final_cta']) {
