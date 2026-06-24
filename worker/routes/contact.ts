@@ -44,6 +44,7 @@ type ContactSubmission = {
 };
 
 const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
+const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion']);
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -251,6 +252,11 @@ function isTurnstileRequired(request: Request, env: Env): boolean {
   return getTurnstileAllowedHosts(env).includes(hostname);
 }
 
+function shouldRequireTurnstile(request: Request, env: Env, data: ContactSubmission): boolean {
+  if (TURNSTILE_OPTIONAL_CAMPAIGNS.has(data.campaign)) return false;
+  return isTurnstileRequired(request, env);
+}
+
 function isAllowedTopic(topic: string): boolean {
   return CONTACT_TOPICS.includes(topic as (typeof CONTACT_TOPICS)[number]);
 }
@@ -449,7 +455,7 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  const turnstileRequired = isTurnstileRequired(request, env);
+  const turnstileRequired = shouldRequireTurnstile(request, env, data);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
     return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
   }

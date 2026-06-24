@@ -17,7 +17,6 @@ const SEO_TITLE = 'Aquafacial Aktion Zürich | CHF 99 statt CHF 180 | Beauty Fac
 const META_DESCRIPTION = 'Professionelle Aquafacial Behandlung in Zürich: Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF 99 statt CHF 180. Jetzt unverbindlich anfragen.';
 const OG_DESCRIPTION = '1-stündige Aquafacial Behandlung mit Cleansing, Fruchtsäurepeeling und Hyaluron Booster bei Beauty Face Lift Zürich. Jetzt unverbindlich anfragen.';
 const TREATWELL_SUCCESS_HREF = 'https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Aquafacial+Aktion&offer=aquafacial-aktion&price=99#serviceDetails=TR4122487';
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const WHATSAPP_MESSAGE = 'Hallo Beauty Face Lift, ich interessiere mich für die Aquafacial Aktion für CHF 99 statt CHF 180 und möchte gerne einen Termin anfragen.';
 const whatsappHref = `https://wa.me/${CONTACT_PHONE.replace(/\D/g, '')}?${new URLSearchParams({ text: WHATSAPP_MESSAGE }).toString()}`;
 
@@ -379,13 +378,6 @@ const structuredData = {
               <input id="aquafacial-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
             </div>
 
-            {turnstileSiteKey && (
-              <div class="lp-turnstile">
-                <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
-                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-              </div>
-            )}
-
             <label class="lp-checkbox" for="aquafacial-privacy">
               <input id="aquafacial-privacy" name="privacy_consent" type="checkbox" value="yes" required aria-describedby="aquafacial-privacy-error" />
               <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Beauty Face Lift meine Angaben zur Kontaktaufnahme bezüglich der Aquafacial Aktion verarbeitet.</span>
@@ -656,12 +648,6 @@ const structuredData = {
       return payload;
     }
 
-    function resetTurnstile() {
-      if (typeof window === 'undefined') return;
-      const turnstile = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
-      if (turnstile && typeof turnstile.reset === 'function') turnstile.reset();
-    }
-
     function initLeadForm() {
       const form = document.querySelector('[data-aquafacial-lead-form]');
       if (!(form instanceof HTMLFormElement)) return;
@@ -720,7 +706,6 @@ const structuredData = {
             trackAquafacialLeadSubmit();
           }
         } catch (error) {
-          resetTurnstile();
           if (status instanceof HTMLElement) {
             status.textContent = error instanceof Error ? error.message : 'Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.';
             status.hidden = false;
@@ -1379,12 +1364,6 @@ const structuredData = {
   .lp-submit:disabled {
     cursor: wait;
     opacity: 0.68;
-  }
-
-  .lp-turnstile {
-    display: flex;
-    justify-content: center;
-    min-height: 65px;
   }
 
   .lp-honeypot {
