@@ -116,10 +116,11 @@ assert(fetchIndex !== -1, 'Aquafacial form must submit to the backend before sho
 assert(responseOkIndex > fetchIndex, 'Aquafacial form must check the backend response before showing success');
 assert(successShownIndex > responseOkIndex, 'Aquafacial form must show success only after response.ok');
 assert(leadTrackingIndex > successShownIndex, 'Aquafacial Lead tracking must fire only after the success UI is shown');
-assert(lp.includes('PUBLIC_TURNSTILE_SITE_KEY'), 'Aquafacial LP must render the production Turnstile widget when the public site key is available');
-assert(lp.includes('cf-turnstile'), 'Aquafacial LP must include the Turnstile widget for production contact submissions');
-assert(lp.includes('challenges.cloudflare.com/turnstile/v0/api.js'), 'Aquafacial LP must load the Cloudflare Turnstile widget script');
-assert(lp.includes('resetTurnstile'), 'Aquafacial LP must reset Turnstile after failed backend responses');
+assert(!lp.includes('PUBLIC_TURNSTILE_SITE_KEY'), 'Aquafacial LP must not depend on a public Turnstile site key');
+assert(!lp.includes('cf-turnstile'), 'Aquafacial LP lead form must not render a Turnstile widget');
+assert(!lp.includes('challenges.cloudflare.com/turnstile/v0/api.js'), 'Aquafacial LP lead form must not load the Turnstile widget script');
+assert(contactRoute.includes('TURNSTILE_OPTIONAL_CAMPAIGNS'), 'Contact route must explicitly exempt selected campaigns from Turnstile');
+assert(contactRoute.includes('TURNSTILE_OPTIONAL_CAMPAIGNS.has(data.campaign)'), 'Aquafacial campaign Turnstile exemption must be campaign-based');
 assert(lp.includes('CONTACT_PHONE'), 'Aquafacial LP must reuse the shared WhatsApp phone number');
 assert(lp.includes('new URLSearchParams({ text: WHATSAPP_MESSAGE })'), 'Aquafacial LP must build the WhatsApp prefilled message safely');
 assert(lp.includes('class="lp-floating-whatsapp wa-sticky"'), 'Aquafacial LP must include the floating WhatsApp CTA and opt out of global text-link styling');

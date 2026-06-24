@@ -34,7 +34,7 @@
 - Lead destination: existing Resend notification flow in `worker/routes/contact.ts`.
 - UTM handling: URL parameters and existing `sessionStorage` attribution are copied into the payload before submission.
 - Privacy consent behavior: the checkbox links to `/datenschutz/` and is required.
-- Production anti-spam behavior: the form renders Cloudflare Turnstile when `PUBLIC_TURNSTILE_SITE_KEY` is available at build time, submitting `cf-turnstile-response` through the existing form payload.
+- Production anti-spam behavior: this campaign form does not render Cloudflare Turnstile, because the widget can block cold traffic before submission if `challenges.cloudflare.com` fails or is blocked. Anti-spam protection for this LP uses the hidden honeypot field, server-side validation, privacy consent, and the Worker IP rate limit.
 
 ## Lead Delivery And Email Service
 
@@ -46,7 +46,7 @@
 - Sender selection order: `CONTACT_FROM_EMAIL`, then fallback `Beauty Face Lift <onboarding@resend.dev>`.
 - Reply-to behavior: if the lead email is valid, the notification uses the submitted email as `reply_to`.
 - Production secret names confirmed in Cloudflare on 2026-06-24: `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`.
-- Production Turnstile config confirmed on 2026-06-24: `TURNSTILE_SECRET_KEY` exists as a Cloudflare Worker secret and `PUBLIC_TURNSTILE_SITE_KEY` exists as a GitHub repository variable.
+- Production Turnstile config confirmed on 2026-06-24: `TURNSTILE_SECRET_KEY` exists as a Cloudflare Worker secret and `PUBLIC_TURNSTILE_SITE_KEY` exists as a GitHub repository variable for routes that still render Turnstile. The Aquafacial campaign is exempted server-side by campaign id.
 - Secret values are not readable through Wrangler after creation, so the actual recipient/sender addresses must be verified by a real test lead or by re-entering the secrets.
 - Current storage behavior: leads are not written to a database. The notification email is the lead destination.
 
@@ -92,7 +92,7 @@
 - Success state: verified in system Chrome with a temporary Playwright spec that mocked `/api/contact` as HTTP 200. The form is hidden, the thank-you state receives focus, the body gets `aquafacial-lead-success`, and the secondary Treatwell link becomes visible only after success.
 - Tracking separation: verified in the temporary Playwright spec. The test normalized the automation-wrapped `dataLayer.push` to native array behavior, then confirmed `aquafacial_whatsapp_click` fires separately from `aquafacial_lead_submit` and the WhatsApp click does not emit `whatsapp_click` or Meta Lead.
 - Backend lead delivery: route accepts Aquafacial fields and uses campaign-specific email subject.
-- Turnstile: production contact submissions require Turnstile on canonical hosts. The LP now renders the widget when `PUBLIC_TURNSTILE_SITE_KEY` is available during build.
+- Turnstile: the Aquafacial campaign no longer renders or requires Turnstile. This avoids the Cloudflare widget failure state shown by some browsers while keeping honeypot, validation, and rate limiting in place.
 - Tracking events: static QA covers `trackAquafacialLeadSubmit()`, `aquafacial_lead_submit`, `trackAquafacialWhatsappClick()`, and `aquafacial_whatsapp_click`. The success path calls the Lead helper only after a successful response; the floating WhatsApp button calls the WhatsApp helper only on click.
 - Treatwell secondary link: static QA and mocked success browser QA verify the requested direct URL and `noopener noreferrer`.
 - WhatsApp/privacy links: static QA covers page links.
@@ -103,7 +103,7 @@
 ## Open Points
 
 - Final Meta Events Manager verification must happen in the ad account after deployment.
-- Final production inbox delivery must be confirmed with one manual Turnstile-verified live test lead.
+- Final production inbox delivery must be confirmed with one manual live test lead.
 - Final legal/privacy approval remains a business/legal review item.
 
 ## Production Deployment Notes
@@ -124,9 +124,15 @@
 - Current Cloudflare Worker version ID: `770f6bf7-61f0-4910-9cac-4e3ef0a9268e`.
 - Live verification URL: `https://beautyfacelift-zuerich.ch/lp/aquafacial/?codex_verify=20260624-final5`.
 - Verified HTTP 200, campaign H1, lead form, `/api/contact` action, Turnstile widget/site key, Meta Pixel, and escaped success Treatwell URL.
-- Verified production `/api/contact` rejects valid lead payloads without `cf-turnstile-response` with HTTP 400, confirming Turnstile enforcement on canonical hosts.
+- Historical check before the 2026-06-25 fix: production `/api/contact` rejected valid lead payloads without `cf-turnstile-response` with HTTP 400, confirming the previous Turnstile dependency on canonical hosts.
 - Fresh verification commands passed after documentation sync: `npm run qa:aquafacial-lp`, `npm run qa:marketing`, production-style `npm run build`, and `npx wrangler deploy --assets=./dist --old-asset-ttl=0 --keep-vars --dry-run`.
 - Final manual check remaining: submit one real test lead through the live form to confirm Resend inbox delivery.
+
+### 2026-06-25 Turnstile Widget Fix
+
+- Root cause: the Aquafacial LP rendered Cloudflare Turnstile and the production Worker required a `cf-turnstile-response`; if `challenges.cloudflare.com` failed or was blocked, visitors saw a Cloudflare error and could not complete the form.
+- Fix: removed Turnstile rendering from `/lp/aquafacial/` and exempted the `aquafacial_aktion` campaign from the Worker Turnstile requirement.
+- Remaining anti-spam controls: hidden honeypot field, required privacy consent, strict field validation, topic allow-list, phone/email validation, message length limits, and IP rate limiting.
 
 ### 2026-06-24 Floating WhatsApp / CRO Polish
 
