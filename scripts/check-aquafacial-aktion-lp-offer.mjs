@@ -32,6 +32,7 @@ const [lp, contactRoute, tracking, landingPage, docs] = await Promise.all([
   readNamedFile('landingPage'),
   readNamedFile('docs'),
 ]);
+const normalizedLp = lp.replace(/\r\n/g, '\n');
 
 const forbiddenLpTerms = [
   'Hydrofacial',
@@ -98,7 +99,7 @@ assert(!lp.includes('<h2 class="lp-section-title">Aquafacial Aktion anfragen</h2
 assert(!lp.includes('Sende uns kurz deinen Terminwunsch oder deine Frage.'), 'Aquafacial lead section must remove the old side-column intro copy');
 assert(!lp.includes('formReassurance'), 'Aquafacial lead section must remove the old reassurance-list data');
 assert(!lp.includes('lp-reassurance-list'), 'Aquafacial lead section must remove the old reassurance list');
-assert(lp.includes('.lp-lead-grid {\n    display: grid;\n    grid-template-columns: 1fr;'), 'Aquafacial lead section must be a one-column layout');
+assert(normalizedLp.includes('.lp-lead-grid {\n    display: grid;\n    grid-template-columns: 1fr;'), 'Aquafacial lead section must be a one-column layout');
 assert(lp.includes('width: min(100%, 860px);') && lp.includes('margin: 0 auto;'), 'Aquafacial lead form shell must be centered with a stable max width');
 assert(lp.includes('action="/api/contact"'), 'Aquafacial lead form must post to the existing contact backend');
 assert(lp.includes('method="post"'), 'Aquafacial lead form must support server-side form submission');
