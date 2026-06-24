@@ -1,11 +1,9 @@
 import type { Env } from '../env';
 import {
   CONTACT_EMAIL,
-  CONTACT_PREFERRED_METHODS,
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
   CONTACT_TOPICS,
-  CONTACT_TREATMENT_INTERESTS,
   CONTACT_TO_EMAIL_FALLBACK,
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
@@ -20,23 +18,59 @@ type ContactSubmission = {
   name: string;
   email: string;
   phone: string;
-  treatmentInterest: string;
   preferredContactMethod: string;
-  preferredTime: string;
+  preferredCallbackTime: string;
   topic: string;
   message: string;
-  source: string;
   privacyConsent: string;
   company: string;
   turnstileToken: string;
+  campaign: string;
+  offer: string;
+  treatment: string;
+  landingPage: string;
+  pagePath: string;
+  pageUrl: string;
+  referrer: string;
+  skinConcern: string;
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmTerm: string;
+  fbclid: string;
+  gclid: string;
+  msclkid: string;
 };
 
-const TURNSTILE_OPTIONAL_SOURCES = new Set([
-  'aquafacial-microneedling-lp',
-]);
+const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
+}
+
+function getRecordString(payload: Record<string, unknown>, ...keys: string[]): string {
+  for (const key of keys) {
+    const value = getString(payload[key]);
+    if (value) return value;
+  }
+  return '';
+}
+
+function getFormString(formData: FormData, ...keys: string[]): string {
+  for (const key of keys) {
+    const value = getString(formData.get(key));
+    if (value) return value;
+  }
+  return '';
+}
+
+function defaultTopicForCampaign(campaign: string): string {
+  return campaign === 'aquafacial_aktion' ? 'Ich möchte einen Termin buchen' : '';
+}
+
+function isAquafacialLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
+  return data.campaign === 'aquafacial_aktion';
 }
 
 function isValidEmail(email: string): boolean {
@@ -127,42 +161,72 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
 
   if (contentType.includes('application/json')) {
     const payload = await request.json() as Record<string, unknown>;
+    const campaign = getRecordString(payload, 'campaign');
     return {
       expectsHtml: false,
       data: {
-        name: getString(payload.name),
-        email: getString(payload.email),
-        phone: getString(payload.phone),
-        treatmentInterest: getString(payload.treatment_interest || payload.treatmentInterest),
-        preferredContactMethod: getString(payload.preferred_contact || payload.preferredContactMethod),
-        preferredTime: getString(payload.preferred_time || payload.preferredCallbackTime),
-        topic: getString(payload.topic),
-        message: getString(payload.message),
-        source: getString(payload.source),
-        privacyConsent: getString(payload.privacy || payload.privacyConsent),
-        company: getString(payload.company),
-        turnstileToken: getString(payload.turnstileToken || payload['cf-turnstile-response']),
+        name: getRecordString(payload, 'name'),
+        email: getRecordString(payload, 'email'),
+        phone: getRecordString(payload, 'phone'),
+        preferredContactMethod: getRecordString(payload, 'preferredContactMethod', 'preferred_contact_method', 'preferred_contact'),
+        preferredCallbackTime: getRecordString(payload, 'preferredCallbackTime', 'preferred_time'),
+        topic: getRecordString(payload, 'topic') || defaultTopicForCampaign(campaign),
+        message: getRecordString(payload, 'message'),
+        privacyConsent: getRecordString(payload, 'privacyConsent', 'privacy_consent', 'privacy'),
+        company: getRecordString(payload, 'company'),
+        turnstileToken: getRecordString(payload, 'turnstileToken', 'cf-turnstile-response'),
+        campaign,
+        offer: getRecordString(payload, 'offer'),
+        treatment: getRecordString(payload, 'treatment'),
+        landingPage: getRecordString(payload, 'landingPage', 'landing_page'),
+        pagePath: getRecordString(payload, 'pagePath', 'page_path'),
+        pageUrl: getRecordString(payload, 'pageUrl', 'page_url'),
+        referrer: getRecordString(payload, 'referrer'),
+        skinConcern: getRecordString(payload, 'skinConcern', 'skin_concern'),
+        utmSource: getRecordString(payload, 'utmSource', 'utm_source'),
+        utmMedium: getRecordString(payload, 'utmMedium', 'utm_medium'),
+        utmCampaign: getRecordString(payload, 'utmCampaign', 'utm_campaign'),
+        utmContent: getRecordString(payload, 'utmContent', 'utm_content'),
+        utmTerm: getRecordString(payload, 'utmTerm', 'utm_term'),
+        fbclid: getRecordString(payload, 'fbclid'),
+        gclid: getRecordString(payload, 'gclid'),
+        msclkid: getRecordString(payload, 'msclkid'),
       },
     };
   }
 
   const formData = await request.formData();
+  const campaign = getFormString(formData, 'campaign');
 
   return {
     expectsHtml: true,
     data: {
-      name: getString(formData.get('name')),
-      email: getString(formData.get('email')),
-      phone: getString(formData.get('phone')),
-      treatmentInterest: getString(formData.get('treatment_interest') || formData.get('treatmentInterest')),
-      preferredContactMethod: getString(formData.get('preferred_contact') || formData.get('preferredContactMethod')),
-      preferredTime: getString(formData.get('preferred_time') || formData.get('preferredCallbackTime')),
-      topic: getString(formData.get('topic')),
-      message: getString(formData.get('message')),
-      source: getString(formData.get('source')),
-      privacyConsent: getString(formData.get('privacy') || formData.get('privacyConsent')),
-      company: getString(formData.get('company')),
-      turnstileToken: getString(formData.get('cf-turnstile-response')),
+      name: getFormString(formData, 'name'),
+      email: getFormString(formData, 'email'),
+      phone: getFormString(formData, 'phone'),
+      preferredContactMethod: getFormString(formData, 'preferredContactMethod', 'preferred_contact_method', 'preferred_contact'),
+      preferredCallbackTime: getFormString(formData, 'preferredCallbackTime', 'preferred_time'),
+      topic: getFormString(formData, 'topic') || defaultTopicForCampaign(campaign),
+      message: getFormString(formData, 'message'),
+      privacyConsent: getFormString(formData, 'privacyConsent', 'privacy_consent', 'privacy'),
+      company: getFormString(formData, 'company'),
+      turnstileToken: getFormString(formData, 'cf-turnstile-response'),
+      campaign,
+      offer: getFormString(formData, 'offer'),
+      treatment: getFormString(formData, 'treatment'),
+      landingPage: getFormString(formData, 'landingPage', 'landing_page'),
+      pagePath: getFormString(formData, 'pagePath', 'page_path'),
+      pageUrl: getFormString(formData, 'pageUrl', 'page_url'),
+      referrer: getFormString(formData, 'referrer'),
+      skinConcern: getFormString(formData, 'skinConcern', 'skin_concern'),
+      utmSource: getFormString(formData, 'utmSource', 'utm_source'),
+      utmMedium: getFormString(formData, 'utmMedium', 'utm_medium'),
+      utmCampaign: getFormString(formData, 'utmCampaign', 'utm_campaign'),
+      utmContent: getFormString(formData, 'utmContent', 'utm_content'),
+      utmTerm: getFormString(formData, 'utmTerm', 'utm_term'),
+      fbclid: getFormString(formData, 'fbclid'),
+      gclid: getFormString(formData, 'gclid'),
+      msclkid: getFormString(formData, 'msclkid'),
     },
   };
 }
@@ -187,36 +251,31 @@ function isTurnstileRequired(request: Request, env: Env): boolean {
   return getTurnstileAllowedHosts(env).includes(hostname);
 }
 
-function shouldRequireTurnstile(request: Request, env: Env, data: ContactSubmission): boolean {
-  if (TURNSTILE_OPTIONAL_SOURCES.has(data.source)) return false;
-  return isTurnstileRequired(request, env);
-}
-
 function isAllowedTopic(topic: string): boolean {
   return CONTACT_TOPICS.includes(topic as (typeof CONTACT_TOPICS)[number]);
 }
 
 function isAllowedPreferredContactMethod(method: string): boolean {
-  return CONTACT_PREFERRED_METHODS.includes(method as (typeof CONTACT_PREFERRED_METHODS)[number]);
-}
-
-function isAllowedTreatmentInterest(interest: string): boolean {
-  return CONTACT_TREATMENT_INTERESTS.includes(interest as (typeof CONTACT_TREATMENT_INTERESTS)[number]);
+  return PREFERRED_CONTACT_METHODS.includes(method as (typeof PREFERRED_CONTACT_METHODS)[number]);
 }
 
 function validateSubmission(data: ContactSubmission): string | null {
-  if (!data.name) return 'Bitte geben Sie Ihren Namen ein.';
+  const aquafacialLead = isAquafacialLead(data);
+
+  if (!data.name) return 'Bitte geben Sie Ihren Namen an.';
   if (data.name.length > 120) return 'Der Name ist zu lang.';
-  if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie aus, worum es bei Ihrer Anfrage geht.';
-  if (data.treatmentInterest && !isAllowedTreatmentInterest(data.treatmentInterest)) return 'Bitte wählen Sie eine gültige Behandlung aus.';
-  if (!data.email && !data.phone) return 'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an, damit Teresa Ihnen antworten kann.';
-  if (data.email && !isValidEmail(data.email)) return 'Bitte prüfen Sie die E-Mail-Adresse. Beispiel: name@email.ch';
-  if (data.phone && !isValidPhone(data.phone)) return 'Bitte prüfen Sie die Telefonnummer. Beispiel: +41 79 000 00 00';
+  if (aquafacialLead && !data.phone) return 'Bitte geben Sie eine Telefonnummer an.';
+  if (aquafacialLead && !data.email) return 'Bitte geben Sie eine E-Mail-Adresse an.';
+  if (!aquafacialLead && !data.email && !data.phone) return 'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.';
+  if (data.email && !isValidEmail(data.email)) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
+  if (data.phone && !isValidPhone(data.phone)) return 'Bitte geben Sie eine gültige Telefonnummer an.';
+  if (aquafacialLead && !data.preferredContactMethod) return 'Bitte wählen Sie aus, wie wir Sie kontaktieren dürfen.';
   if (data.preferredContactMethod && !isAllowedPreferredContactMethod(data.preferredContactMethod)) return 'Bitte wählen Sie einen gültigen Kontaktweg aus.';
-  if (data.preferredTime.length > 160) return 'Der gewünschte Zeitpunkt ist zu lang.';
-  if (!data.message) return 'Bitte beschreiben Sie kurz Ihr Anliegen oder Ihren Terminwunsch.';
+  if (data.preferredCallbackTime.length > 160) return 'Der gewünschte Rückrufzeitpunkt ist zu lang.';
+  if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie ein gültiges Thema aus.';
+  if (!aquafacialLead && !data.message) return 'Bitte schreiben Sie eine Nachricht.';
   if (data.message.length > 4000) return 'Die Nachricht ist zu lang.';
-  if (!data.privacyConsent) return 'Bitte bestätigen Sie die Datenschutzhinweise, damit wir Ihre Anfrage beantworten dürfen.';
+  if (!data.privacyConsent) return 'Bitte bestätigen Sie die Datenschutzerklärung.';
   return null;
 }
 
@@ -272,21 +331,47 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   const replyTo = isValidEmail(data.email) ? data.email : undefined;
   const userAgent = request.headers.get('user-agent') || 'Unbekannt';
   const submittedAt = new Date().toISOString();
+  const aquafacialLead = isAquafacialLead(data);
+  const subject = aquafacialLead
+    ? 'Neue Aquafacial Aktion Anfrage – Beauty Face Lift'
+    : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
+  const leadDetails = [
+    ['Kampagne', data.campaign],
+    ['Angebot', data.offer],
+    ['Behandlung', data.treatment],
+    ['Landing Page', data.landingPage],
+    ['Seitenpfad', data.pagePath],
+    ['Seiten-URL', data.pageUrl],
+    ['Referrer', data.referrer],
+    ['Hautziel', data.skinConcern],
+    ['UTM Source', data.utmSource],
+    ['UTM Medium', data.utmMedium],
+    ['UTM Campaign', data.utmCampaign],
+    ['UTM Content', data.utmContent],
+    ['UTM Term', data.utmTerm],
+    ['fbclid', data.fbclid],
+    ['gclid', data.gclid],
+    ['msclkid', data.msclkid],
+  ].filter(([, value]) => Boolean(value));
+  const leadDetailText = leadDetails.map(([label, value]) => `${label}: ${value}`).join('\n');
+  const leadDetailRows = leadDetails
+    .map(([label, value]) => `<tr><td style="padding: 8px 0; font-weight: 600;">${escapeHtml(label)}</td><td style="padding: 8px 0;">${escapeHtml(value)}</td></tr>`)
+    .join('');
+  const messageText = data.message || 'Keine zusätzliche Nachricht.';
 
   const text = [
-    `Neue Kontaktanfrage: ${data.topic}`,
+    aquafacialLead ? 'Neue Aquafacial Aktion Anfrage' : `Neue Kontaktanfrage: ${data.topic}`,
     '',
     `Name: ${data.name}`,
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
-    `Welche Behandlung interessiert Sie: ${data.treatmentInterest || 'Nicht angegeben'}`,
     `Bevorzugter Kontaktweg: ${data.preferredContactMethod || 'Nicht angegeben'}`,
-    `Wunschtermin oder bevorzugte Zeit: ${data.preferredTime || 'Nicht angegeben'}`,
+    `Terminwunsch / bevorzugter Zeitpunkt: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
     `Thema: ${data.topic}`,
-    `Quelle: ${data.source || 'Nicht angegeben'}`,
+    ...(leadDetailText ? ['', 'Kampagnendaten:', leadDetailText] : []),
     '',
     'Nachricht:',
-    data.message,
+    messageText,
     '',
     `IP: ${ip}`,
     `User-Agent: ${userAgent}`,
@@ -295,22 +380,21 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
 
   const html = `
     <div style="font-family: Inter, system-ui, sans-serif; color: #1C1A17; line-height: 1.6;">
-      <h1 style="font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-size: 32px; margin-bottom: 12px;">Neue Kontaktanfrage</h1>
+      <h1 style="font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-size: 32px; margin-bottom: 12px;">${aquafacialLead ? 'Neue Aquafacial Aktion Anfrage' : 'Neue Kontaktanfrage'}</h1>
       <p style="margin: 0 0 24px;">Thema: <strong>${escapeHtml(data.topic)}</strong></p>
       <table style="border-collapse: collapse; width: 100%; max-width: 720px;">
         <tr><td style="padding: 8px 0; font-weight: 600;">Name</td><td style="padding: 8px 0;">${escapeHtml(data.name)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Welche Behandlung interessiert Sie</td><td style="padding: 8px 0;">${escapeHtml(data.treatmentInterest || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Wunschtermin oder bevorzugte Zeit</td><td style="padding: 8px 0;">${escapeHtml(data.preferredTime || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Quelle</td><td style="padding: 8px 0;">${escapeHtml(data.source || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Terminwunsch / bevorzugter Zeitpunkt</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        ${leadDetailRows}
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>
       </table>
       <div style="margin-top: 24px; padding: 20px; background: #FBF8F3; border: 1px solid rgba(28, 26, 23, 0.08); border-radius: 16px;">
         <p style="margin: 0 0 8px; font-weight: 600;">Nachricht</p>
-        <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(data.message)}</p>
+        <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(messageText)}</p>
       </div>
     </div>
   `;
@@ -325,7 +409,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
       from,
       to: [to],
       reply_to: replyTo ? [replyTo] : undefined,
-      subject: `Neue Kontaktanfrage: ${data.topic} — ${data.name}`,
+      subject,
       text,
       html,
     }),
@@ -365,7 +449,7 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  const turnstileRequired = shouldRequireTurnstile(request, env, data);
+  const turnstileRequired = isTurnstileRequired(request, env);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
     return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
   }
