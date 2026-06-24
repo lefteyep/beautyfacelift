@@ -46,11 +46,9 @@ const leadFormFields = [
   'name="name"',
   'name="phone"',
   'name="email"',
-  'name="preferred_contact_method"',
   'name="privacy_consent"',
   'name="preferred_time"',
-  'name="skin_concern"',
-  'name="message"',
+  'name="preferred_date"',
   'name="campaign"',
   'name="offer"',
   'name="landing_page"',
@@ -65,6 +63,12 @@ const leadFormFields = [
   'name="fbclid"',
   'name="gclid"',
   'name="msclkid"',
+];
+
+const removedLeadFormFields = [
+  'name="preferred_contact_method"',
+  'name="skin_concern"',
+  'name="message"',
 ];
 
 const requiredAnchorLocations = [
@@ -93,6 +97,21 @@ assert(lp.includes('data-aquafacial-lead-form'), 'Aquafacial LP must initialize 
 for (const field of leadFormFields) {
   assert(lp.includes(field), `Aquafacial lead form must include ${field}`);
 }
+for (const field of removedLeadFormFields) {
+  assert(!lp.includes(field), `Aquafacial lead form must not include removed field ${field}`);
+}
+assert(lp.includes('Vor- und Nachname<span aria-hidden="true">*</span>'), 'Aquafacial lead form must use the requested name label');
+assert(!lp.includes('Vorname und Name'), 'Aquafacial lead form must not use the old name label');
+assert(!lp.includes('Wie dürfen wir dich kontaktieren?'), 'Aquafacial lead form must remove the contact-method question');
+assert(lp.includes('Wann erreichen wir dich telefonisch?'), 'Aquafacial lead form must use the requested callback-time label');
+assert(lp.includes('<select id="aquafacial-time" name="preferred_time">'), 'Aquafacial callback-time field must be an optional dropdown');
+for (const option of ['Vormittags', 'Mittags', 'Nachmittags']) {
+  assert(lp.includes(`<option>${option}</option>`), `Aquafacial callback-time dropdown must include ${option}`);
+}
+assert(lp.includes('<label for="aquafacial-date">Terminwunsch</label>'), 'Aquafacial lead form must include the requested appointment-date label');
+assert(lp.includes('id="aquafacial-date" name="preferred_date" type="date"'), 'Aquafacial appointment preference must use a native date calendar field');
+assert(!lp.includes('Was möchtest du verbessern?'), 'Aquafacial lead form must remove the skin concern question');
+assert(!lp.includes('Nachricht, falls du Fragen hast'), 'Aquafacial lead form must remove the message question');
 
 assert(lp.includes('Keine Online-Zahlung auf dieser Seite'), 'Aquafacial LP must reduce payment anxiety near the CTA/form');
 assert(lp.includes('Beauty Face Lift meldet sich persönlich'), 'Aquafacial LP must promise personal studio follow-up');
@@ -100,9 +119,15 @@ assert(lp.includes('Fragen vor der Terminbestätigung möglich'), 'Aquafacial LP
 assert(lp.includes('Deine Anfrage ist unverbindlich'), 'Aquafacial LP must clarify the form request is non-binding');
 assert(lp.includes('Ich habe die') && lp.includes('Datenschutzerklärung') && lp.includes('gelesen und bin einverstanden'), 'Aquafacial LP must include privacy consent copy');
 assert(lp.includes('href="/datenschutz/"'), 'Privacy consent must link to the existing privacy policy');
-assert(lp.includes('Aquafacial Aktion anfragen'), 'Aquafacial LP must use lead-generation CTA copy');
-assert(lp.includes('Terminwunsch senden'), 'Aquafacial LP must include lower-friction CTA copy');
-assert(lp.includes('CHF 99 Aktion sichern'), 'Aquafacial LP must include offer-specific CTA copy');
+for (const location of ['lp_hero', 'what_section', 'trust_section', 'final_cta']) {
+  assert(
+    lp.includes(`data-button-location="${location}" data-aquafacial-scroll>Jetzt Termin sichern</a>`),
+    `Aquafacial LP ${location} CTA must use the requested main CTA copy`,
+  );
+}
+assert(lp.includes('<span data-submit-label>Jetzt Termin sichern</span>'), 'Aquafacial form submit CTA must use the requested main CTA copy');
+assert(lp.includes("submitLabel.textContent = 'Jetzt Termin sichern'"), 'Aquafacial form submit reset must restore the requested main CTA copy');
+assert(lp.includes('data-button-location="mobile_sticky_lead" data-aquafacial-scroll>Termin anfragen</a>'), 'Aquafacial floating bar CTA must use the requested sticky CTA copy');
 assert(lp.includes('Anfrage wird gesendet'), 'Aquafacial form must expose a loading state');
 assert(lp.includes('Vielen Dank! Deine Anfrage ist eingegangen.'), 'Aquafacial form must expose the requested success message');
 assert(lp.includes('Leider konnte deine Anfrage gerade nicht gesendet werden.'), 'Aquafacial form must expose the requested error message');
@@ -116,10 +141,14 @@ assert(fetchIndex !== -1, 'Aquafacial form must submit to the backend before sho
 assert(responseOkIndex > fetchIndex, 'Aquafacial form must check the backend response before showing success');
 assert(successShownIndex > responseOkIndex, 'Aquafacial form must show success only after response.ok');
 assert(leadTrackingIndex > successShownIndex, 'Aquafacial Lead tracking must fire only after the success UI is shown');
-assert(lp.includes('PUBLIC_TURNSTILE_SITE_KEY'), 'Aquafacial LP must render the production Turnstile widget when the public site key is available');
-assert(lp.includes('cf-turnstile'), 'Aquafacial LP must include the Turnstile widget for production contact submissions');
-assert(lp.includes('challenges.cloudflare.com/turnstile/v0/api.js'), 'Aquafacial LP must load the Cloudflare Turnstile widget script');
-assert(lp.includes('resetTurnstile'), 'Aquafacial LP must reset Turnstile after failed backend responses');
+assert(!lp.includes('PUBLIC_TURNSTILE_SITE_KEY'), 'Aquafacial LP must not depend on a public Turnstile site key');
+assert(!lp.includes('cf-turnstile'), 'Aquafacial LP lead form must not render a Turnstile widget');
+assert(!lp.includes('challenges.cloudflare.com/turnstile/v0/api.js'), 'Aquafacial LP lead form must not load the Turnstile widget script');
+assert(contactRoute.includes('TURNSTILE_OPTIONAL_CAMPAIGNS'), 'Contact route must explicitly exempt selected campaigns from Turnstile');
+assert(contactRoute.includes('TURNSTILE_OPTIONAL_CAMPAIGNS.has(data.campaign)'), 'Aquafacial campaign Turnstile exemption must be campaign-based');
+assert(contactRoute.includes('preferredDate'), 'Contact route must accept the optional preferred date field');
+assert(contactRoute.includes('preferred_date'), 'Contact route must accept preferred_date from the form payload');
+assert(!contactRoute.includes('aquafacialLead && !data.preferredContactMethod'), 'Aquafacial campaign leads must not require a removed contact-method field');
 assert(lp.includes('CONTACT_PHONE'), 'Aquafacial LP must reuse the shared WhatsApp phone number');
 assert(lp.includes('new URLSearchParams({ text: WHATSAPP_MESSAGE })'), 'Aquafacial LP must build the WhatsApp prefilled message safely');
 assert(lp.includes('class="lp-floating-whatsapp wa-sticky"'), 'Aquafacial LP must include the floating WhatsApp CTA and opt out of global text-link styling');
@@ -128,7 +157,13 @@ assert(lp.includes('data-button-location="floating_whatsapp"'), 'Floating WhatsA
 assert(lp.includes('data-aquafacial-whatsapp'), 'Floating WhatsApp CTA must opt into campaign-specific tracking');
 assert(lp.includes('rel="noopener noreferrer"'), 'External WhatsApp links must use noopener noreferrer');
 assert(lp.includes('aria-hidden="true" focusable="false"'), 'Floating WhatsApp icon must be hidden from assistive tech');
-assert(lp.includes('position: fixed') && lp.includes('top: calc(108px + env(safe-area-inset-top, 0px))'), 'Floating WhatsApp CTA must be fixed near the upper-right edge');
+assert(lp.includes('viewBox="0 0 24 24"') && lp.includes('M17.472 14.382'), 'Floating WhatsApp icon must use the WhatsApp logo SVG');
+assert(
+  lp.includes('position: fixed')
+    && lp.includes('right: calc(24px + env(safe-area-inset-right, 0px))')
+    && lp.includes('bottom: calc(24px + env(safe-area-inset-bottom, 0px))'),
+  'Floating WhatsApp CTA must be fixed near the bottom-right edge',
+);
 assert(lp.includes('background: #25d366'), 'Floating WhatsApp CTA must use WhatsApp green styling');
 assert(lp.includes('focus-visible'), 'Floating WhatsApp CTA must expose a visible keyboard focus state');
 assert(lp.includes('class="lp-honeypot" aria-hidden="true" inert'), 'Honeypot must be hidden from users and assistive tech');
@@ -171,7 +206,6 @@ assert(contactRoute.includes('privacy_consent'), 'Contact route must accept the 
 assert(contactRoute.includes('aquafacial_aktion'), 'Contact route must recognize Aquafacial campaign leads');
 assert(contactRoute.includes('Neue Aquafacial Aktion Anfrage'), 'Contact route must use the requested Aquafacial notification subject');
 assert(contactRoute.includes('utm_source'), 'Contact route must include attribution fields in lead handling');
-assert(contactRoute.includes('skin_concern'), 'Contact route must include optional skin concern in lead handling');
 
 assert(docs.includes('# Aquafacial Landing Page Lead Generation Update'), 'Implementation documentation must exist');
 assert(docs.includes('PUBLIC_TURNSTILE_SITE_KEY'), 'Implementation docs must mention the production Turnstile site key dependency');

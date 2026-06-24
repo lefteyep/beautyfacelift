@@ -20,6 +20,7 @@ type ContactSubmission = {
   phone: string;
   preferredContactMethod: string;
   preferredCallbackTime: string;
+  preferredDate: string;
   topic: string;
   message: string;
   privacyConsent: string;
@@ -44,6 +45,7 @@ type ContactSubmission = {
 };
 
 const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
+const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion']);
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -80,6 +82,18 @@ function isValidEmail(email: string): boolean {
 function isValidPhone(phone: string): boolean {
   const digits = phone.replace(/\D/g, '');
   return digits.length >= 8 && digits.length <= 15;
+}
+
+function isValidDateString(value: string): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year
+    && date.getUTCMonth() === month - 1
+    && date.getUTCDate() === day;
 }
 
 function escapeHtml(value: string): string {
@@ -170,6 +184,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         phone: getRecordString(payload, 'phone'),
         preferredContactMethod: getRecordString(payload, 'preferredContactMethod', 'preferred_contact_method', 'preferred_contact'),
         preferredCallbackTime: getRecordString(payload, 'preferredCallbackTime', 'preferred_time'),
+        preferredDate: getRecordString(payload, 'preferredDate', 'preferred_date'),
         topic: getRecordString(payload, 'topic') || defaultTopicForCampaign(campaign),
         message: getRecordString(payload, 'message'),
         privacyConsent: getRecordString(payload, 'privacyConsent', 'privacy_consent', 'privacy'),
@@ -206,6 +221,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       phone: getFormString(formData, 'phone'),
       preferredContactMethod: getFormString(formData, 'preferredContactMethod', 'preferred_contact_method', 'preferred_contact'),
       preferredCallbackTime: getFormString(formData, 'preferredCallbackTime', 'preferred_time'),
+      preferredDate: getFormString(formData, 'preferredDate', 'preferred_date'),
       topic: getFormString(formData, 'topic') || defaultTopicForCampaign(campaign),
       message: getFormString(formData, 'message'),
       privacyConsent: getFormString(formData, 'privacyConsent', 'privacy_consent', 'privacy'),
@@ -251,6 +267,11 @@ function isTurnstileRequired(request: Request, env: Env): boolean {
   return getTurnstileAllowedHosts(env).includes(hostname);
 }
 
+function shouldRequireTurnstile(request: Request, env: Env, data: ContactSubmission): boolean {
+  if (TURNSTILE_OPTIONAL_CAMPAIGNS.has(data.campaign)) return false;
+  return isTurnstileRequired(request, env);
+}
+
 function isAllowedTopic(topic: string): boolean {
   return CONTACT_TOPICS.includes(topic as (typeof CONTACT_TOPICS)[number]);
 }
@@ -269,9 +290,9 @@ function validateSubmission(data: ContactSubmission): string | null {
   if (!aquafacialLead && !data.email && !data.phone) return 'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.';
   if (data.email && !isValidEmail(data.email)) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
   if (data.phone && !isValidPhone(data.phone)) return 'Bitte geben Sie eine gültige Telefonnummer an.';
-  if (aquafacialLead && !data.preferredContactMethod) return 'Bitte wählen Sie aus, wie wir Sie kontaktieren dürfen.';
   if (data.preferredContactMethod && !isAllowedPreferredContactMethod(data.preferredContactMethod)) return 'Bitte wählen Sie einen gültigen Kontaktweg aus.';
   if (data.preferredCallbackTime.length > 160) return 'Der gewünschte Rückrufzeitpunkt ist zu lang.';
+  if (data.preferredDate && !isValidDateString(data.preferredDate)) return 'Bitte wählen Sie ein gültiges Datum aus.';
   if (!data.topic || !isAllowedTopic(data.topic)) return 'Bitte wählen Sie ein gültiges Thema aus.';
   if (!aquafacialLead && !data.message) return 'Bitte schreiben Sie eine Nachricht.';
   if (data.message.length > 4000) return 'Die Nachricht ist zu lang.';
@@ -365,8 +386,9 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     `Name: ${data.name}`,
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
-    `Bevorzugter Kontaktweg: ${data.preferredContactMethod || 'Nicht angegeben'}`,
-    `Terminwunsch / bevorzugter Zeitpunkt: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
+    ...(data.preferredContactMethod ? [`Bevorzugter Kontaktweg: ${data.preferredContactMethod}`] : []),
+    `Telefonisch erreichbar: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
+    `Terminwunsch: ${data.preferredDate || 'Nicht angegeben'}`,
     `Thema: ${data.topic}`,
     ...(leadDetailText ? ['', 'Kampagnendaten:', leadDetailText] : []),
     '',
@@ -386,8 +408,9 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <tr><td style="padding: 8px 0; font-weight: 600;">Name</td><td style="padding: 8px 0;">${escapeHtml(data.name)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Terminwunsch / bevorzugter Zeitpunkt</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        ${data.preferredContactMethod ? `<tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod)}</td></tr>` : ''}
+        <tr><td style="padding: 8px 0; font-weight: 600;">Telefonisch erreichbar</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">Terminwunsch</td><td style="padding: 8px 0;">${escapeHtml(data.preferredDate || 'Nicht angegeben')}</td></tr>
         ${leadDetailRows}
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>
@@ -449,7 +472,7 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
   }
 
-  const turnstileRequired = isTurnstileRequired(request, env);
+  const turnstileRequired = shouldRequireTurnstile(request, env, data);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
     return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
   }

@@ -17,7 +17,6 @@ const SEO_TITLE = 'Aquafacial Aktion Zürich | CHF 99 statt CHF 180 | Beauty Fac
 const META_DESCRIPTION = 'Professionelle Aquafacial Behandlung in Zürich: Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF 99 statt CHF 180. Jetzt unverbindlich anfragen.';
 const OG_DESCRIPTION = '1-stündige Aquafacial Behandlung mit Cleansing, Fruchtsäurepeeling und Hyaluron Booster bei Beauty Face Lift Zürich. Jetzt unverbindlich anfragen.';
 const TREATWELL_SUCCESS_HREF = 'https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Aquafacial+Aktion&offer=aquafacial-aktion&price=99#serviceDetails=TR4122487';
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const WHATSAPP_MESSAGE = 'Hallo Beauty Face Lift, ich interessiere mich für die Aquafacial Aktion für CHF 99 statt CHF 180 und möchte gerne einen Termin anfragen.';
 const whatsappHref = `https://wa.me/${CONTACT_PHONE.replace(/\D/g, '')}?${new URLSearchParams({ text: WHATSAPP_MESSAGE }).toString()}`;
 
@@ -184,9 +183,8 @@ const structuredData = {
       data-aquafacial-whatsapp
       data-whatsapp-placement="floating_whatsapp"
     >
-      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M16 3.5c-6.9 0-12.5 5.4-12.5 12.1 0 2.2.6 4.3 1.7 6.1L4 28.5l7-1.8c1.6.8 3.3 1.2 5 1.2 6.9 0 12.5-5.4 12.5-12.1S22.9 3.5 16 3.5Z" />
-        <path d="M12.1 9.3c-.3-.7-.6-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 3.9 1.7 4.2c.2.3 2.9 4.6 7.2 6.2 3.5 1.4 4.3.9 5.1.8.8-.1 2.5-1 2.8-2 .4-.9.4-1.8.3-2-.1-.2-.4-.3-.8-.5l-2.8-1.4c-.4-.2-.7-.2-1 .2-.3.4-1.1 1.4-1.4 1.7-.3.3-.5.3-1 .1-.4-.2-1.8-.7-3.4-2.1-1.3-1.1-2.1-2.5-2.3-2.9-.2-.4 0-.7.2-.9.2-.2.4-.5.6-.7.2-.2.3-.4.5-.7.1-.3.1-.5 0-.7l-1.3-3.3Z" />
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.946L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
       </svg>
     </a>
 
@@ -213,7 +211,7 @@ const structuredData = {
           </ul>
 
           <div class="lp-hero-ctas">
-            <a href="#aquafacial-lead-form" class="pill-btn lp-hero-primary" data-button-location="lp_hero" data-aquafacial-scroll>Aquafacial Aktion anfragen</a>
+            <a href="#aquafacial-lead-form" class="pill-btn lp-hero-primary" data-button-location="lp_hero" data-aquafacial-scroll>Jetzt Termin sichern</a>
             <a href={whatsappHref} class="pill-btn pill-btn-outline lp-hero-secondary" target="_blank" rel="noopener noreferrer" data-treatment={OFFER_LABEL} data-button-location="lp_hero_whatsapp" data-source="lp_hero">Frage per WhatsApp</a>
           </div>
           <p class="lp-hero-note">Keine Online-Zahlung auf dieser Seite. Beauty Face Lift meldet sich persönlich bei dir.</p>
@@ -276,7 +274,7 @@ const structuredData = {
             ))}
           </ul>
           <div class="lp-section-cta lp-section-cta-left">
-            <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="what_section" data-aquafacial-scroll>CHF 99 Aktion sichern</a>
+            <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="what_section" data-aquafacial-scroll>Jetzt Termin sichern</a>
           </div>
         </div>
       </div>
@@ -324,7 +322,7 @@ const structuredData = {
             <input type="hidden" name="msclkid" value="" />
 
             <div class="lp-form-row">
-              <label for="aquafacial-name">Vorname und Name <span aria-hidden="true">*</span></label>
+              <label for="aquafacial-name">Vor- und Nachname<span aria-hidden="true">*</span></label>
               <input id="aquafacial-name" name="name" type="text" autocomplete="name" required aria-describedby="aquafacial-name-error" />
               <p id="aquafacial-name-error" class="lp-field-error" data-field-error="name" hidden></p>
             </div>
@@ -342,49 +340,26 @@ const structuredData = {
               </div>
             </div>
 
-            <fieldset class="lp-form-row lp-radio-group" aria-describedby="aquafacial-contact-error">
-              <legend>Wie dürfen wir dich kontaktieren? <span aria-hidden="true">*</span></legend>
-              <label><input type="radio" name="preferred_contact_method" value="Telefon" required /> Telefon</label>
-              <label><input type="radio" name="preferred_contact_method" value="WhatsApp" /> WhatsApp</label>
-              <label><input type="radio" name="preferred_contact_method" value="E-Mail" /> E-Mail</label>
-              <p id="aquafacial-contact-error" class="lp-field-error" data-field-error="preferred_contact_method" hidden></p>
-            </fieldset>
-
             <div class="lp-form-row-grid">
               <div class="lp-form-row">
-                <label for="aquafacial-time">Wann passt es dir ungefähr?</label>
-                <input id="aquafacial-time" name="preferred_time" type="text" placeholder="Vormittag, Nachmittag, Samstag, bestimmte Tage" />
-              </div>
-              <div class="lp-form-row">
-                <label for="aquafacial-skin">Was möchtest du verbessern?</label>
-                <select id="aquafacial-skin" name="skin_concern">
+                <label for="aquafacial-time">Wann erreichen wir dich telefonisch?</label>
+                <select id="aquafacial-time" name="preferred_time">
                   <option value="">Bitte wählen</option>
-                  <option>Frischerer Glow</option>
-                  <option>Trockenheit / Feuchtigkeit</option>
-                  <option>Verstopft wirkende Poren</option>
-                  <option>Unruhige Hautstruktur</option>
-                  <option>Behandlung vor einem Event</option>
-                  <option>Ich bin unsicher</option>
+                  <option>Vormittags</option>
+                  <option>Mittags</option>
+                  <option>Nachmittags</option>
                 </select>
               </div>
-            </div>
-
-            <div class="lp-form-row">
-              <label for="aquafacial-message">Nachricht, falls du Fragen hast</label>
-              <textarea id="aquafacial-message" name="message" rows="4" placeholder="Optional: Terminwunsch, Frage oder Hautziel"></textarea>
+              <div class="lp-form-row">
+                <label for="aquafacial-date">Terminwunsch</label>
+                <input id="aquafacial-date" name="preferred_date" type="date" />
+              </div>
             </div>
 
             <div class="lp-honeypot" aria-hidden="true" inert>
               <label for="aquafacial-company">Firma</label>
               <input id="aquafacial-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
             </div>
-
-            {turnstileSiteKey && (
-              <div class="lp-turnstile">
-                <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
-                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-              </div>
-            )}
 
             <label class="lp-checkbox" for="aquafacial-privacy">
               <input id="aquafacial-privacy" name="privacy_consent" type="checkbox" value="yes" required aria-describedby="aquafacial-privacy-error" />
@@ -393,7 +368,7 @@ const structuredData = {
             <p id="aquafacial-privacy-error" class="lp-field-error" data-field-error="privacy_consent" hidden></p>
 
             <button type="submit" class="pill-btn lp-submit" data-aquafacial-submit>
-              <span data-submit-label>Aquafacial Aktion anfragen</span>
+              <span data-submit-label>Jetzt Termin sichern</span>
             </button>
           </form>
         </div>
@@ -450,7 +425,7 @@ const structuredData = {
             ))}
           </div>
           <div class="lp-section-cta lp-section-cta-left">
-            <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="trust_section" data-aquafacial-scroll>Terminwunsch senden</a>
+            <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="trust_section" data-aquafacial-scroll>Jetzt Termin sichern</a>
           </div>
         </div>
       </div>
@@ -513,7 +488,7 @@ const structuredData = {
           Sende deinen Terminwunsch unverbindlich. Beauty Face Lift meldet sich persönlich bei dir und bespricht die nächsten Schritte für deine Aquafacial Behandlung in Zürich.
         </p>
         <div class="lp-final-ctas">
-          <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="final_cta" data-aquafacial-scroll>Aquafacial Aktion anfragen</a>
+          <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="final_cta" data-aquafacial-scroll>Jetzt Termin sichern</a>
           <a href={whatsappHref} class="pill-btn pill-btn-dark" target="_blank" rel="noopener noreferrer" data-treatment={OFFER_LABEL} data-button-location="lp_final_whatsapp" data-source="lp_final">Frage per WhatsApp</a>
         </div>
         <p class="lp-final-address">Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich</p>
@@ -526,7 +501,7 @@ const structuredData = {
         <span>CHF {PROMO_PRICE} statt CHF {REGULAR_PRICE}</span>
         <strong>{OFFER_LABEL}</strong>
       </div>
-      <a href="#aquafacial-lead-form" class="pill-btn" aria-label="Aquafacial Aktion anfragen" data-button-location="mobile_sticky_lead" data-aquafacial-scroll>Aktion anfragen</a>
+      <a href="#aquafacial-lead-form" class="pill-btn" aria-label="Termin anfragen" data-button-location="mobile_sticky_lead" data-aquafacial-scroll>Termin anfragen</a>
     </div>
   </main>
 
@@ -548,7 +523,6 @@ const structuredData = {
       name: 'Bitte gib deinen Namen ein.',
       phone: 'Bitte gib eine gültige Telefonnummer ein.',
       email: 'Bitte gib eine gültige E-Mail-Adresse ein.',
-      preferred_contact_method: 'Bitte wähle aus, wie wir dich kontaktieren dürfen.',
       privacy_consent: 'Bitte bestätige die Datenschutzerklärung.',
     };
 
@@ -617,11 +591,6 @@ const structuredData = {
         valid = false;
       }
 
-      if (!fieldValue(form, 'preferred_contact_method')) {
-        setFieldError(form, 'preferred_contact_method', fieldMessages.preferred_contact_method);
-        valid = false;
-      }
-
       const privacy = form.elements.namedItem('privacy_consent');
       if (!(privacy instanceof HTMLInputElement) || !privacy.checked) {
         setFieldError(form, 'privacy_consent', fieldMessages.privacy_consent);
@@ -650,16 +619,10 @@ const structuredData = {
     function formPayload(form) {
       const data = new FormData(form);
       const payload = Object.fromEntries(data.entries());
-      payload.preferredContactMethod = payload.preferred_contact_method || '';
       payload.preferredCallbackTime = payload.preferred_time || '';
+      payload.preferredDate = payload.preferred_date || '';
       payload.privacyConsent = payload.privacy_consent || '';
       return payload;
-    }
-
-    function resetTurnstile() {
-      if (typeof window === 'undefined') return;
-      const turnstile = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
-      if (turnstile && typeof turnstile.reset === 'function') turnstile.reset();
     }
 
     function initLeadForm() {
@@ -720,7 +683,6 @@ const structuredData = {
             trackAquafacialLeadSubmit();
           }
         } catch (error) {
-          resetTurnstile();
           if (status instanceof HTMLElement) {
             status.textContent = error instanceof Error ? error.message : 'Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.';
             status.hidden = false;
@@ -728,7 +690,7 @@ const structuredData = {
         } finally {
           pending = false;
           if (!form.hidden && submit instanceof HTMLButtonElement) submit.disabled = false;
-          if (!form.hidden && submitLabel instanceof HTMLElement) submitLabel.textContent = 'Aquafacial Aktion anfragen';
+          if (!form.hidden && submitLabel instanceof HTMLElement) submitLabel.textContent = 'Jetzt Termin sichern';
         }
       });
     }
@@ -826,8 +788,8 @@ const structuredData = {
 
   .lp-floating-whatsapp {
     position: fixed;
-    top: calc(108px + env(safe-area-inset-top, 0px));
-    right: max(18px, env(safe-area-inset-right, 0px));
+    right: calc(24px + env(safe-area-inset-right, 0px));
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     z-index: 45;
     display: inline-flex;
     align-items: center;
@@ -1381,12 +1343,6 @@ const structuredData = {
     opacity: 0.68;
   }
 
-  .lp-turnstile {
-    display: flex;
-    justify-content: center;
-    min-height: 65px;
-  }
-
   .lp-honeypot {
     position: absolute;
     left: -10000px;
@@ -1659,8 +1615,8 @@ const structuredData = {
 
   @media (max-width: 900px) {
     .lp-floating-whatsapp {
-      top: calc(88px + env(safe-area-inset-top, 0px));
-      right: max(14px, env(safe-area-inset-right, 0px));
+      right: calc(14px + env(safe-area-inset-right, 0px));
+      bottom: calc(var(--lp-sticky-offer-height) + 14px + env(safe-area-inset-bottom, 0px));
       width: 54px;
       height: 54px;
     }
@@ -1688,6 +1644,11 @@ const structuredData = {
     :global(body.bfl-consent-visible) .aquafacial-sticky-safe-space,
     :global(body.aquafacial-lead-success) .aquafacial-sticky-safe-space {
       display: none;
+    }
+
+    :global(body.bfl-consent-visible) .lp-floating-whatsapp,
+    :global(body.aquafacial-lead-success) .lp-floating-whatsapp {
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     }
   }
 
@@ -1805,7 +1766,7 @@ const structuredData = {
 
   @media (max-width: 420px) {
     .lp-floating-whatsapp {
-      top: calc(82px + env(safe-area-inset-top, 0px));
+      bottom: calc(var(--lp-sticky-offer-height) + 12px + env(safe-area-inset-bottom, 0px));
       width: 50px;
       height: 50px;
     }
@@ -1836,11 +1797,16 @@ const structuredData = {
       padding: 10px 14px;
       font-size: 12px;
     }
+
+    :global(body.bfl-consent-visible) .lp-floating-whatsapp,
+    :global(body.aquafacial-lead-success) .lp-floating-whatsapp {
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    }
   }
 
   @media (max-width: 760px) and (max-height: 620px) {
     .lp-floating-whatsapp {
-      top: calc(76px + env(safe-area-inset-top, 0px));
+      bottom: calc(var(--lp-sticky-offer-height) + 10px + env(safe-area-inset-bottom, 0px));
     }
   }
 </style>
