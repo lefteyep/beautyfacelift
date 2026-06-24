@@ -4,11 +4,12 @@ import '../styles/components.css';
 import '../styles/booking.css';
 import HeadIcons from '../components/HeadIcons.astro';
 import MarketingConsent from '../components/MarketingConsent.astro';
-import { absoluteUrl, SITE_NAME } from '../../shared/site';
+import { absoluteUrl, BOOKING_ATTRIBUTION_KEYS, SITE_NAME } from '../../shared/site';
 
 interface Props {
   title: string;
   description: string;
+  ogDescription?: string;
   ogImage?: string;
   preloadImage?: {
     href: string;
@@ -19,11 +20,13 @@ interface Props {
   };
 }
 
-const { title, description, ogImage, preloadImage } = Astro.props;
+const { title, description, ogDescription, ogImage, preloadImage } = Astro.props;
 const canonicalUrl = absoluteUrl(Astro.url.pathname);
 const ogImageUrl = ogImage ? absoluteUrl(ogImage) : absoluteUrl('/assets/hero_editorial_portrait.png');
+const socialDescription = ogDescription ?? description;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
+const attributionKeys = [...BOOKING_ATTRIBUTION_KEYS];
 ---
 
 <!DOCTYPE html>
@@ -38,7 +41,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <title>{title}</title>
     <meta name="theme-color" content="#B98F47">
     <meta property="og:title" content={title}>
-    <meta property="og:description" content={description}>
+    <meta property="og:description" content={socialDescription}>
     <meta property="og:url" content={canonicalUrl}>
     <meta property="og:type" content="website">
     <meta property="og:locale" content="de_CH">
@@ -48,7 +51,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <meta property="og:site_name" content={SITE_NAME}>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content={title}>
-    <meta name="twitter:description" content={description}>
+    <meta name="twitter:description" content={socialDescription}>
     <meta name="twitter:image" content={ogImageUrl}>
     <HeadIcons />
     {preloadImage && (
@@ -142,10 +145,10 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     </script>
 
     <!-- UTM Persistence -->
-    <script is:inline>
+    <script is:inline define:vars={{ attributionKeys }}>
         (function() {
             var params = new URLSearchParams(window.location.search);
-            var utmKeys = ['utm_id','utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_source_platform','gclid','gbraid','wbraid','fbclid','matchtype','network','device'];
+            var utmKeys = attributionKeys;
             var utm = {};
             var hasUtm = false;
             utmKeys.forEach(function(k) {
