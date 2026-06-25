@@ -2,9 +2,13 @@
 import LandingPage from '../../../layouts/LandingPage.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
 import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
+import AquafacialResultsSection from '../../../components/lp/AquafacialResultsSection.astro';
 import { Image, getImage } from 'astro:assets';
 import { aquafacialCard, consultationTrust, spaInterior, teresaPortrait } from '../../../lib/site-images';
 import { absoluteUrl, CONTACT_PHONE } from '../../../../shared/site';
+import resultGlowFace from '../../../assets/lp/aquafacial/results/aquafacial-result-glow-face.jpg';
+import resultHydratedSkin from '../../../assets/lp/aquafacial/results/aquafacial-result-hydrated-skin.jpg';
+import resultCleanerSkin from '../../../assets/lp/aquafacial/results/aquafacial-result-cleaner-skin.jpg';
 
 const PROMO_PRICE = 99;
 const REGULAR_PRICE = 180;
@@ -76,6 +80,33 @@ const processSteps = [
   { title: 'Studio meldet sich', text: 'Beauty Face Lift kontaktiert dich per Telefon, WhatsApp oder E-Mail.' },
   { title: 'Termin abstimmen', text: 'Gemeinsam wird ein passender Termin für die Aquafacial Aktion bestätigt.' },
   { title: 'Aquafacial geniessen', text: 'Du kommst zur 1-stündigen Behandlung an die Bahnhofstrasse 94 in Zürich.' },
+];
+
+const resultExamples = [
+  {
+    image: {
+      src: resultGlowFace,
+      alt: 'Aquafacial Ergebnisbeispiel mit frischer wirkender Haut',
+    },
+    caption: 'Frischer Glow nach der Behandlung',
+    note: 'Ein Beispiel dafür, wie die Haut nach professioneller Pflege glatter und frischer wirken kann.',
+  },
+  {
+    image: {
+      src: resultHydratedSkin,
+      alt: 'Aquafacial Ergebnisbeispiel mit gepflegt und hydratisiert wirkendem Hautbild',
+    },
+    caption: 'Gepflegteres und hydratisierter wirkendes Hautbild',
+    note: 'Die Haut kann nach der Aquafacial Behandlung sichtbar frischer und gepflegter wirken.',
+  },
+  {
+    image: {
+      src: resultCleanerSkin,
+      alt: 'Aquafacial Ergebnisbeispiel mit frischer wirkendem Hautbild',
+    },
+    caption: 'Professionelle Reinigung für ein frisches Hautgefühl',
+    note: 'Aquafacial unterstützt professionelle Reinigung und Feuchtigkeitspflege ohne aggressive Versprechen.',
+  },
 ];
 
 const faqs = [
@@ -272,6 +303,16 @@ const structuredData = {
         </div>
       </div>
     </section>
+
+    <AquafacialResultsSection
+      eyebrow="Aquafacial Ergebnisse"
+      headline="Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung"
+      intro="Die Beispiele zeigen, wie die Haut nach einer professionellen Aquafacial Behandlung sichtbar frischer, gepflegter und hydratisierter wirken kann."
+      examples={resultExamples}
+      disclaimer="Individuelle Ergebnisse können variieren. Die Beispielbilder dienen zur Orientierung und ersetzen keine persönliche Einschätzung vor Ort."
+      ctaLabel="Aquafacial Termin sichern"
+      ctaTarget="#aquafacial-lead-form"
+    />
 
     <section class="container lp-section lp-lead" id="aquafacial-lead-form">
       <div class="lp-lead-grid">
@@ -1133,14 +1174,22 @@ const structuredData = {
 
   .lp-lead-header {
     display: grid;
+    justify-items: center;
     gap: 12px;
     max-width: 820px;
     margin: 0 auto;
     text-align: center;
   }
 
+  .lp-lead-header .lp-eyebrow {
+    width: 100%;
+    text-align: center;
+  }
+
   .lp-lead-header .lp-section-title {
+    width: 100%;
     margin-bottom: 0;
+    text-align: center;
   }
 
   .lp-trust-grid,

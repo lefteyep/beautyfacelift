@@ -14,6 +14,7 @@
 - Form implementation: added an on-page campaign lead form posting to `/api/contact`.
 - Copy changes: rewritten in German with `du`, personal follow-up, no on-page payment pressure, and realistic cosmetic benefit wording.
 - Layout changes: rebuilt the route around hero, trust bar, offer contents, lead form, benefits, trust, request steps, FAQ, final CTA, and mobile sticky CTA.
+- Results section changes: added a locally served Aquafacial before/after results section directly before the lead form.
 - Tracking changes: successful submissions call `trackAquafacialLeadSubmit()`.
 - WhatsApp changes: added a fixed bottom-right floating WhatsApp CTA using the shared Beauty Face Lift phone number, WhatsApp logo, and a prefilled Aquafacial appointment message.
 - WhatsApp tracking: floating CTA clicks use the separate `aquafacial_whatsapp_click` event and do not fire the form Lead event.
@@ -35,6 +36,47 @@
 - UTM handling: URL parameters and existing `sessionStorage` attribution are copied into the payload before submission.
 - Privacy consent behavior: the checkbox links to `/datenschutz/` and is required.
 - Production anti-spam behavior: this campaign form does not render Cloudflare Turnstile, because the widget can block cold traffic before submission if `challenges.cloudflare.com` fails or is blocked. Anti-spam protection for this LP uses the hidden honeypot field, server-side validation, privacy consent, and the Worker IP rate limit.
+
+# Aquafacial Before / After Section Update
+
+## What Was Added
+
+- New section name: `AquafacialResultsSection`.
+- Placement: directly before `#aquafacial-lead-form`.
+- Purpose: show approved visual Aquafacial result examples to increase trust before the visitor reaches the lead form.
+- CTA behavior: scrolls to `#aquafacial-lead-form`.
+- Tracking behavior: the section CTA is a scroll CTA only and does not create Lead tracking events.
+
+## Assets Used
+
+- `aquafacial-result-glow-face.jpg`
+- `aquafacial-result-hydrated-skin.jpg`
+- `aquafacial-result-cleaner-skin.jpg`
+- Source: approved reference website image assets, downloaded into `src/assets/lp/aquafacial/results/` and served locally.
+- Display: each approved asset is rendered as one single composite image because the file already contains the before/after layout.
+- Runtime behavior: no third-party image hotlinking.
+
+## Copy Added
+
+- Eyebrow: `Aquafacial Ergebnisse`
+- Headline: `Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung`
+- Intro text: `Die Beispiele zeigen, wie die Haut nach einer professionellen Aquafacial Behandlung sichtbar frischer, gepflegter und hydratisierter wirken kann.`
+- Captions:
+  - `Frischer Glow nach der Behandlung`
+  - `Gepflegteres und hydratisierter wirkendes Hautbild`
+  - `Professionelle Reinigung für ein frisches Hautgefühl`
+- Disclaimer: `Individuelle Ergebnisse können variieren. Die Beispielbilder dienen zur Orientierung und ersetzen keine persönliche Einschätzung vor Ort.`
+- CTA text: `Aquafacial Termin sichern`
+
+## QA Results
+
+- Desktop: section uses a three-card grid with one approved composite result image per card.
+- Mobile: cards stack in one column with one composite result image per card.
+- CTA: scrolls to the existing lead form anchor through the existing `data-aquafacial-scroll` handler.
+- Form: no form fields, submit behavior, or success-only tracking logic were changed by this section.
+- Tracking: no duplicate form Lead event is created from the results CTA.
+- Image loading: images are local Astro assets, optimized to WebP output and lazy-loaded.
+- Naming compliance: landing page copy uses `Aquafacial` spelling only.
 
 ## Lead Delivery And Email Service
 
