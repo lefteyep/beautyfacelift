@@ -5,6 +5,7 @@ const files = {
   contactRoute: new URL('../worker/routes/contact.ts', import.meta.url),
   tracking: new URL('../src/lib/track.ts', import.meta.url),
   landingPage: new URL('../src/layouts/LandingPage.astro', import.meta.url),
+  resultsComponent: new URL('../src/components/lp/AquafacialResultsSection.astro', import.meta.url),
   docs: new URL('../docs/current/AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md', import.meta.url),
 };
 
@@ -25,11 +26,12 @@ async function readNamedFile(name) {
   }
 }
 
-const [lp, contactRoute, tracking, landingPage, docs] = await Promise.all([
+const [lp, contactRoute, tracking, landingPage, resultsComponent, docs] = await Promise.all([
   readNamedFile('lp'),
   readNamedFile('contactRoute'),
   readNamedFile('tracking'),
   readNamedFile('landingPage'),
+  readNamedFile('resultsComponent'),
   readNamedFile('docs'),
 ]);
 const normalizedLp = lp.replace(/\r\n/g, '\n');
@@ -92,6 +94,33 @@ assert(landingPage.includes('<link rel="canonical" href={canonicalUrl}>'), 'Land
 assert(landingPage.includes('og:title'), 'Landing page layout must expose Open Graph metadata');
 
 assert(lp.includes('id="aquafacial-lead-form"'), 'Aquafacial LP must expose the lead-form anchor');
+assert(lp.includes("import AquafacialResultsSection from '../../../components/lp/AquafacialResultsSection.astro'"), 'Aquafacial LP must use the reusable Aquafacial results section component');
+assert(lp.includes('const resultExamples = ['), 'Aquafacial LP must define multiple reusable result examples');
+assert(lp.includes('<AquafacialResultsSection'), 'Aquafacial LP must render the Aquafacial results section');
+assert(resultsComponent.includes('id="aquafacial-results"'), 'Aquafacial results section must expose a stable section id');
+const resultSectionIndex = lp.indexOf('<AquafacialResultsSection');
+const leadSectionIndex = lp.indexOf('<section class="container lp-section lp-lead" id="aquafacial-lead-form">');
+assert(resultSectionIndex !== -1 && leadSectionIndex !== -1 && resultSectionIndex < leadSectionIndex, 'Aquafacial results section must be placed directly before the lead form section');
+assert(lp.includes('Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung'), 'Aquafacial results section must use the approved headline');
+assert(lp.includes('Die Beispiele zeigen, wie die Haut nach einer professionellen Aquafacial Behandlung sichtbar frischer, gepflegter und hydratisierter wirken kann.'), 'Aquafacial results section must use compliant intro copy');
+assert(lp.includes('Aquafacial Termin sichern'), 'Aquafacial results CTA must use the requested copy');
+assert(resultsComponent.includes('data-button-location="results_section" data-aquafacial-scroll'), 'Aquafacial results CTA must scroll to the existing lead form without creating a lead event');
+assert(lp.includes('image: {'), 'Aquafacial result examples must define single approved composite images');
+assert(resultsComponent.includes('example.image.src'), 'Aquafacial result cards must render one single image from each approved composite');
+assert(!lp.includes('composite: true'), 'Aquafacial result examples must not use the old composite flag workaround');
+assert(!resultsComponent.includes('example.before'), 'Aquafacial results component must not render a separate before image');
+assert(!resultsComponent.includes('example.after'), 'Aquafacial results component must not render a separate after image');
+assert(!resultsComponent.includes('aquafacial-result-label'), 'Aquafacial results component must not render visible before/after label pills');
+assert(resultsComponent.includes('padding-bottom: clamp(72px, 8vw, 112px);'), 'Aquafacial results section must keep breathing room below the CTA');
+assert(resultsComponent.includes('.aquafacial-results-head .lp-eyebrow') && resultsComponent.includes('width: 100%;') && resultsComponent.includes('text-align: center;'), 'Aquafacial results header text must stay centered above the image grid');
+for (const caption of [
+  'Frischer Glow nach der Behandlung',
+  'Gepflegteres und hydratisierter wirkendes Hautbild',
+  'Professionelle Reinigung für ein frisches Hautgefühl',
+]) {
+  assert(lp.includes(caption), `Aquafacial results section must include caption: ${caption}`);
+}
+assert(lp.includes('Individuelle Ergebnisse können variieren'), 'Aquafacial results section must include a result-variation disclaimer');
 assert(lp.includes('<div class="lp-lead-header">'), 'Aquafacial lead section must use a centered heading above the form');
 assert(lp.includes('<p class="lp-eyebrow">Termin unverbindlich anfragen</p>'), 'Aquafacial lead section must use the requested overline');
 assert(lp.includes('<h2 class="lp-section-title">Sichern dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>'), 'Aquafacial lead section must use the requested title');
@@ -101,6 +130,7 @@ assert(!lp.includes('formReassurance'), 'Aquafacial lead section must remove the
 assert(!lp.includes('lp-reassurance-list'), 'Aquafacial lead section must remove the old reassurance list');
 assert(normalizedLp.includes('.lp-lead-grid {\n    display: grid;\n    grid-template-columns: 1fr;'), 'Aquafacial lead section must be a one-column layout');
 assert(lp.includes('width: min(100%, 860px);') && lp.includes('margin: 0 auto;'), 'Aquafacial lead form shell must be centered with a stable max width');
+assert(lp.includes('.lp-lead-header .lp-eyebrow') && lp.includes('width: 100%;') && lp.includes('text-align: center;'), 'Aquafacial lead form overline must stay centered above the form title');
 assert(lp.includes('action="/api/contact"'), 'Aquafacial lead form must post to the existing contact backend');
 assert(lp.includes('method="post"'), 'Aquafacial lead form must support server-side form submission');
 assert(lp.includes('data-aquafacial-lead-form'), 'Aquafacial LP must initialize campaign-specific lead form behavior');
@@ -218,6 +248,9 @@ assert(contactRoute.includes('Neue Aquafacial Aktion Anfrage'), 'Contact route m
 assert(contactRoute.includes('utm_source'), 'Contact route must include attribution fields in lead handling');
 
 assert(docs.includes('# Aquafacial Landing Page Lead Generation Update'), 'Implementation documentation must exist');
+assert(docs.includes('# Aquafacial Before / After Section Update'), 'Before/after section documentation must exist');
+assert(docs.includes('Placement: directly before `#aquafacial-lead-form`'), 'Before/after docs must document the placement');
+assert(docs.includes('CTA behavior: scrolls to `#aquafacial-lead-form`'), 'Before/after docs must document the CTA behavior');
 assert(docs.includes('PUBLIC_TURNSTILE_SITE_KEY'), 'Implementation docs must mention the production Turnstile site key dependency');
 assert(docs.includes('dataLayer event: aquafacial_lead_submit'), 'Implementation docs must document the GTM event');
 assert(docs.includes('dataLayer event: `aquafacial_whatsapp_click`'), 'Implementation docs must document the WhatsApp GTM event');
