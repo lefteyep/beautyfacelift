@@ -10,6 +10,8 @@ import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site'
 
 const router = Router();
 const DOCUMENT_ASSET_RELEASE_KEY = '2026-05-26-contact-layout-003';
+const AQUAFACIAL_HERO_ASSET_PREFIX = '/assets/lp-aquafacial/';
+const LONG_LIVED_STATIC_ASSET_CACHE = 'public, max-age=31536000, immutable';
 const CSP_REPORT_ONLY = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -88,6 +90,10 @@ function withSecurityHeaders(response: Response, request: Request): Response {
     headers.set('Cache-Control', 'no-store');
   }
 
+  if (isAquafacialHeroAssetRequest(request)) {
+    headers.set('Cache-Control', LONG_LIVED_STATIC_ASSET_CACHE);
+  }
+
   if (url.pathname.startsWith('/admin/')) {
     headers.set('Cache-Control', 'no-store');
     headers.set('X-Robots-Tag', 'noindex, nofollow');
@@ -142,6 +148,15 @@ function isDocumentAssetRequest(request: Request): boolean {
 
   const { pathname } = new URL(request.url);
   return isDocumentPath(pathname);
+}
+
+function isAquafacialHeroAssetRequest(request: Request): boolean {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return false;
+  }
+
+  const { pathname } = new URL(request.url);
+  return pathname.startsWith(AQUAFACIAL_HERO_ASSET_PREFIX);
 }
 
 function isDocumentPath(pathname: string): boolean {

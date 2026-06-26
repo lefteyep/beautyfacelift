@@ -3,6 +3,7 @@ import { readFile, stat } from 'node:fs/promises';
 const files = {
   lp: new URL('../src/pages/lp/aquafacial/index.astro', import.meta.url),
   contactRoute: new URL('../worker/routes/contact.ts', import.meta.url),
+  worker: new URL('../worker/index.ts', import.meta.url),
   tracking: new URL('../src/lib/track.ts', import.meta.url),
   landingPage: new URL('../src/layouts/LandingPage.astro', import.meta.url),
   resultsComponent: new URL('../src/components/lp/AquafacialResultsSection.astro', import.meta.url),
@@ -34,9 +35,10 @@ async function readNamedFile(name) {
   }
 }
 
-const [lp, contactRoute, tracking, landingPage, resultsComponent, docs] = await Promise.all([
+const [lp, contactRoute, worker, tracking, landingPage, resultsComponent, docs] = await Promise.all([
   readNamedFile('lp'),
   readNamedFile('contactRoute'),
+  readNamedFile('worker'),
   readNamedFile('tracking'),
   readNamedFile('landingPage'),
   readNamedFile('resultsComponent'),
@@ -124,6 +126,9 @@ assert(heroAssetSizes.mobilePoster > 0 && heroAssetSizes.mobilePoster <= 160_000
 assert(heroAssetSizes.desktopMp4 > 1_000_000 && heroAssetSizes.desktopMp4 <= 2_300_000, 'Desktop Aquafacial MP4 should be production-compressed near the requested target');
 assert(heroAssetSizes.mobileMp4 > 500_000 && heroAssetSizes.mobileMp4 <= 1_300_000, 'Mobile Aquafacial MP4 should be production-compressed near the requested target');
 assert(heroAssetSizes.desktopWebm > 500_000 && heroAssetSizes.desktopWebm <= 2_300_000, 'Aquafacial WebM source should be production-compressed near the requested target');
+assert(worker.includes("const AQUAFACIAL_HERO_ASSET_PREFIX = '/assets/lp-aquafacial/'"), 'Worker must define a stable cache scope for Aquafacial hero assets');
+assert(worker.includes("const LONG_LIVED_STATIC_ASSET_CACHE = 'public, max-age=31536000, immutable'"), 'Worker must define long-lived cache headers for optimized Aquafacial hero assets');
+assert(worker.includes('isAquafacialHeroAssetRequest(request)') && worker.includes("headers.set('Cache-Control', LONG_LIVED_STATIC_ASSET_CACHE)"), 'Worker must apply long-lived cache headers to Aquafacial hero assets');
 assert(lp.includes('Aquafacial in Zürich: frischer Glow in 60 Minuten'), 'Aquafacial LP must use the approved H1');
 assert(lp.includes('Premium Aquafacial Behandlung für ein sichtbar frisches, gepflegtes und hydratisiertes Hautgefühl.'), 'Aquafacial LP must use the approved hero subheadline');
 assert(!lp.includes('Aquafacial Aktion in Zürich: Frischer Glow für CHF 99 statt CHF 180'), 'Aquafacial LP must remove the old price-led H1');
