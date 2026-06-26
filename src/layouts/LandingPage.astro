@@ -6,18 +6,21 @@ import HeadIcons from '../components/HeadIcons.astro';
 import MarketingConsent from '../components/MarketingConsent.astro';
 import { absoluteUrl, BOOKING_ATTRIBUTION_KEYS, SITE_NAME } from '../../shared/site';
 
+interface PreloadImage {
+  href: string;
+  imagesrcset?: string;
+  imagesizes?: string;
+  media?: string;
+  type?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
 interface Props {
   title: string;
   description: string;
   ogDescription?: string;
   ogImage?: string;
-  preloadImage?: {
-    href: string;
-    imagesrcset?: string;
-    imagesizes?: string;
-    type?: string;
-    fetchpriority?: 'high' | 'low' | 'auto';
-  };
+  preloadImage?: PreloadImage | PreloadImage[];
 }
 
 const { title, description, ogDescription, ogImage, preloadImage } = Astro.props;
@@ -27,6 +30,7 @@ const socialDescription = ogDescription ?? description;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
 const attributionKeys = [...BOOKING_ATTRIBUTION_KEYS];
+const preloadImages = Array.isArray(preloadImage) ? preloadImage : preloadImage ? [preloadImage] : [];
 ---
 
 <!DOCTYPE html>
@@ -54,17 +58,18 @@ const attributionKeys = [...BOOKING_ATTRIBUTION_KEYS];
     <meta name="twitter:description" content={socialDescription}>
     <meta name="twitter:image" content={ogImageUrl}>
     <HeadIcons />
-    {preloadImage && (
+    {preloadImages.map((image) => (
         <link
             rel="preload"
             as="image"
-            href={preloadImage.href}
-            imagesrcset={preloadImage.imagesrcset}
-            imagesizes={preloadImage.imagesizes}
-            type={preloadImage.type}
-            fetchpriority={preloadImage.fetchpriority}
+            href={image.href}
+            imagesrcset={image.imagesrcset}
+            imagesizes={image.imagesizes}
+            media={image.media}
+            type={image.type}
+            fetchpriority={image.fetchpriority}
         />
-    )}
+    ))}
 </head>
 <body>
     <!-- Minimal Nav: Logo only — static in document flow (scrolls with page) -->

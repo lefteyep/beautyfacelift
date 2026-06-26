@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 
 const files = {
   lp: new URL('../src/pages/lp/aquafacial/index.astro', import.meta.url),
@@ -7,6 +7,14 @@ const files = {
   landingPage: new URL('../src/layouts/LandingPage.astro', import.meta.url),
   resultsComponent: new URL('../src/components/lp/AquafacialResultsSection.astro', import.meta.url),
   docs: new URL('../docs/current/AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md', import.meta.url),
+};
+
+const heroVideoAssets = {
+  desktopPoster: new URL('../public/assets/lp-aquafacial/hero-poster-1080.webp', import.meta.url),
+  mobilePoster: new URL('../public/assets/lp-aquafacial/hero-poster-720.webp', import.meta.url),
+  desktopMp4: new URL('../public/assets/lp-aquafacial/hero-video.mp4', import.meta.url),
+  mobileMp4: new URL('../public/assets/lp-aquafacial/hero-video-mobile.mp4', import.meta.url),
+  desktopWebm: new URL('../public/assets/lp-aquafacial/hero-video.webm', import.meta.url),
 };
 
 function assert(condition, message) {
@@ -34,6 +42,10 @@ const [lp, contactRoute, tracking, landingPage, resultsComponent, docs] = await 
   readNamedFile('resultsComponent'),
   readNamedFile('docs'),
 ]);
+const heroAssetStats = await Promise.all(
+  Object.entries(heroVideoAssets).map(async ([name, url]) => [name, await stat(url)]),
+);
+const heroAssetSizes = Object.fromEntries(heroAssetStats.map(([name, stats]) => [name, stats.size]));
 const normalizedLp = lp.replace(/\r\n/g, '\n');
 
 const forbiddenLpTerms = [
@@ -87,7 +99,34 @@ assert(lp.includes('const REGULAR_PRICE = 180'), 'Aquafacial LP must define CHF 
 assert(lp.includes("const OFFER_LABEL = 'Aquafacial Aktion'"), 'Aquafacial LP must use the requested treatment offer name');
 assert(lp.includes("const CAMPAIGN = 'aquafacial_aktion'"), 'Aquafacial LP must identify the campaign as aquafacial_aktion');
 assert(lp.includes("const OFFER_SLUG = 'aquafacial_aktion_99'"), 'Aquafacial LP must identify the offer as aquafacial_aktion_99');
-assert(lp.includes('Aquafacial Aktion in Zürich: Frischer Glow für CHF 99 statt CHF 180'), 'Aquafacial LP must use the approved H1');
+assert(lp.includes("const HERO_VIDEO_POSTER = '/assets/lp-aquafacial/hero-poster-1080.webp'"), 'Aquafacial LP must define the optimized desktop hero poster');
+assert(lp.includes("const HERO_VIDEO_POSTER_MOBILE = '/assets/lp-aquafacial/hero-poster-720.webp'"), 'Aquafacial LP must define the optimized mobile hero poster');
+assert(lp.includes("const HERO_VIDEO_MP4 = '/assets/lp-aquafacial/hero-video.mp4'"), 'Aquafacial LP must define the optimized desktop MP4 hero video');
+assert(lp.includes("const HERO_VIDEO_MOBILE_MP4 = '/assets/lp-aquafacial/hero-video-mobile.mp4'"), 'Aquafacial LP must define the optimized mobile MP4 hero video');
+assert(lp.includes("const HERO_VIDEO_WEBM = '/assets/lp-aquafacial/hero-video.webm'"), 'Aquafacial LP must define the optional WebM hero video source');
+assert(lp.includes('class="lp-hero-video-card"'), 'Aquafacial hero media must use the premium video card');
+assert(lp.includes('data-hero-video-card'), 'Aquafacial hero video card must expose a stable JS hook');
+assert(lp.includes('data-hero-video-poster'), 'Aquafacial hero video must render a poster-first image layer');
+assert(lp.includes('preload="none"'), 'Aquafacial hero video must not preload video automatically');
+assert(lp.includes('muted') && lp.includes('playsinline') && lp.includes('loop'), 'Aquafacial hero video must be muted, inline, and looped');
+assert(lp.includes('aria-hidden="true"'), 'Decorative Aquafacial hero video must be hidden from assistive tech');
+assert(lp.includes('data-desktop-mp4={HERO_VIDEO_MP4}'), 'Aquafacial hero video must defer the desktop MP4 URL into a data attribute');
+assert(lp.includes('data-mobile-mp4={HERO_VIDEO_MOBILE_MP4}'), 'Aquafacial hero video must defer the mobile MP4 URL into a data attribute');
+assert(lp.includes('data-desktop-webm={HERO_VIDEO_WEBM}'), 'Aquafacial hero video must defer the WebM URL into a data attribute');
+assert(lp.includes('prefers-reduced-motion: reduce'), 'Aquafacial hero video must respect reduced motion');
+assert(lp.includes('navigator.connection') && lp.includes('saveData'), 'Aquafacial hero video must respect save-data mode');
+assert(lp.includes('IntersectionObserver'), 'Aquafacial hero video must wait for viewport intersection before loading sources');
+assert(lp.includes('requestIdleCallback'), 'Aquafacial hero video must defer source loading until idle when available');
+assert(lp.includes('Video pausieren') && lp.includes('Video abspielen'), 'Aquafacial hero video toggle must expose German accessible labels');
+assert(!lp.includes('<source src={HERO_VIDEO_MP4}'), 'Aquafacial hero video must not place MP4 sources directly in initial HTML');
+assert(heroAssetSizes.desktopPoster > 0 && heroAssetSizes.desktopPoster <= 260_000, 'Desktop Aquafacial hero poster should stay lightweight');
+assert(heroAssetSizes.mobilePoster > 0 && heroAssetSizes.mobilePoster <= 160_000, 'Mobile Aquafacial hero poster should stay lightweight');
+assert(heroAssetSizes.desktopMp4 > 1_000_000 && heroAssetSizes.desktopMp4 <= 2_300_000, 'Desktop Aquafacial MP4 should be production-compressed near the requested target');
+assert(heroAssetSizes.mobileMp4 > 500_000 && heroAssetSizes.mobileMp4 <= 1_300_000, 'Mobile Aquafacial MP4 should be production-compressed near the requested target');
+assert(heroAssetSizes.desktopWebm > 500_000 && heroAssetSizes.desktopWebm <= 2_300_000, 'Aquafacial WebM source should be production-compressed near the requested target');
+assert(lp.includes('Aquafacial in Zürich: frischer Glow in 60 Minuten'), 'Aquafacial LP must use the approved H1');
+assert(lp.includes('Premium Aquafacial Behandlung für ein sichtbar frisches, gepflegtes und hydratisiertes Hautgefühl.'), 'Aquafacial LP must use the approved hero subheadline');
+assert(!lp.includes('Aquafacial Aktion in Zürich: Frischer Glow für CHF 99 statt CHF 180'), 'Aquafacial LP must remove the old price-led H1');
 assert(lp.includes('Aquafacial Aktion Zürich | CHF 99 statt CHF 180 | Beauty Face Lift'), 'Aquafacial LP must set the requested SEO/OG title');
 assert(lp.includes('Professionelle Aquafacial Behandlung in Zürich: Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF 99 statt CHF 180. Jetzt unverbindlich anfragen.'), 'Aquafacial LP must set the requested meta description');
 assert(landingPage.includes('<link rel="canonical" href={canonicalUrl}>'), 'Landing page layout must expose canonical metadata');
@@ -153,7 +192,6 @@ assert(lp.includes('id="aquafacial-date" name="preferred_date" type="date"'), 'A
 assert(!lp.includes('Was möchtest du verbessern?'), 'Aquafacial lead form must remove the skin concern question');
 assert(!lp.includes('Nachricht, falls du Fragen hast'), 'Aquafacial lead form must remove the message question');
 
-assert(lp.includes('Keine Online-Zahlung auf dieser Seite'), 'Aquafacial LP must reduce payment anxiety near the CTA/form');
 assert(lp.includes('Beauty Face Lift meldet sich persönlich'), 'Aquafacial LP must promise personal studio follow-up');
 assert(lp.includes('Fragen stellen und deinen Terminwunsch persönlich abstimmen'), 'Aquafacial LP must reassure visitors that questions are possible before confirmation');
 assert(lp.includes('Termin unverbindlich anfragen'), 'Aquafacial LP must clarify the form request is non-binding');
@@ -217,8 +255,16 @@ assert(!lp.includes('lp-hero-primary" href={bookingHref}'), 'Hero primary CTA mu
 assert(!lp.includes('Buchung über Treatwell'), 'Main page copy must not promote Treatwell as the primary flow');
 assert(!lp.includes('So funktioniert Ihre Buchung'), 'Old Treatwell-first booking flow must be replaced');
 assert(lp.includes('So funktioniert deine Anfrage'), 'Aquafacial LP must explain the lead request flow');
-assert(lp.includes('Warum Kundinnen die Aquafacial Behandlung anfragen'), 'Aquafacial LP must include lead-generation benefits');
+assert(lp.includes('Warum Aquafacial so beliebt ist'), 'Aquafacial LP must include the updated benefits headline');
+assert(!lp.includes('Warum Kundinnen die Aquafacial Behandlung anfragen'), 'Aquafacial LP must remove the old benefits headline');
+assert(!lp.includes('ohne übertriebene Versprechen und ohne Druck zur Sofortentscheidung'), 'Aquafacial LP must remove the requested benefits subheadline phrase');
 assert(lp.includes('Premium Kosmetikstudio an der Bahnhofstrasse 94'), 'Aquafacial LP must include the trust/location section');
+assert(!lp.includes("'Beauty Face Lift Zürich',"), 'Aquafacial proof strip must remove the generic studio label');
+assert(!lp.includes("'Bahnhofstrasse 94, 8001 Zürich',"), 'Aquafacial proof strip must remove the address label');
+assert(!lp.includes("'Professionelles Kosmetikinstitut',"), 'Aquafacial proof strip must remove the generic institute label');
+assert(!lp.includes('class="lp-offer-price"'), 'Aquafacial included-treatment section must not render a duplicate price box');
+assert(!lp.includes('Keine Online-Zahlung auf dieser Seite'), 'Aquafacial hero must remove the note below the CTA buttons');
+assert(!lp.includes('Du hast eine kurze Frage oder möchtest schneller'), 'Aquafacial hero must remove the WhatsApp note below the CTA buttons');
 assert(lp.includes('Häufige Fragen zur Aquafacial Aktion'), 'Aquafacial LP must include the requested FAQ heading');
 assert(lp.includes('data-aquafacial-sticky'), 'Aquafacial LP must include a mobile sticky lead CTA');
 assert(lp.includes('body.bfl-consent-visible'), 'Mobile sticky CTA must hide while the cookie consent banner is visible');
