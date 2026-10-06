@@ -59,23 +59,20 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <!-- Critical layout CSS — inlined so the fixed nav and page ground are
          correct before the bundled stylesheets arrive. -->
     <style>
-        :root { --nav-h: 84px; --gutter: clamp(20px, 5vw, 72px); --content-px: max(var(--gutter), calc(50vw - 660px)); }
-        html, body { background: #F7F4EF; }
-        body { margin: 0; position: relative; overflow-x: hidden; color: #3A332C; }
+        :root { --nav-h: 96px; --gutter: clamp(16px, 4vw, 40px); }
+        html, body { background: #FBF7F2; }
+        body { margin: 0; position: relative; overflow-x: hidden; color: #4B3B32; }
         .nav-minimal {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            height: var(--nav-h);
-            display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center;
-            padding: 0 var(--content-px);
-            background: rgba(247, 244, 239, 0.9);
+            position: fixed; top: 14px; left: 0; right: 0; z-index: 100;
+            width: calc(100% - 2 * var(--gutter)); max-width: 1280px; height: 64px; margin: 0 auto;
+            display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
+            padding: 0 8px 0 22px; border-radius: 999px; background: rgba(255, 253, 251, 0.9);
         }
-        .nav-brand { grid-column: 2; }
-        .nav-logo { height: 48px; width: auto; }
+        .nav-logo { height: 36px; width: auto; }
         @media (max-width: 900px) {
-            :root { --nav-h: 68px; }
-            .nav-minimal { grid-template-columns: auto 1fr auto; padding: 0 var(--gutter); }
-            .nav-brand { grid-column: 1; }
-            .nav-logo { height: 38px; }
+            :root { --nav-h: 84px; }
+            .nav-minimal { top: 10px; height: 60px; padding: 0 6px 0 18px; }
+            .nav-logo { height: 32px; }
             .nav-links, .nav-right { display: none; }
         }
     </style>
@@ -87,7 +84,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <!-- SEO -->
     {noindex && <meta name="robots" content="noindex, nofollow">}
     {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">}
-    <meta name="theme-color" content="#F7F4EF">
+    <meta name="theme-color" content="#FBF7F2">
     <meta name="geo.region" content="CH-ZH">
     <meta name="geo.placename" content="Zürich">
     <meta name="geo.position" content="47.3753;8.5385">
