@@ -1,25 +1,40 @@
 ---
 /**
- * Renders "A + B" titles with a legible plus: Bodoni's hairline "+" nearly
- * disappears at heading sizes, so the joiner is set in the text face.
+ * Renders "A + B" titles with a quieter, legible plus set in the text face.
+ *   keepHyphens — never break a line inside a hyphenated word
+ *                 ("Hochzeits-Make-up" stays together)
  */
 interface Props {
   text: string;
+  keepHyphens?: boolean;
 }
 
-const parts = Astro.props.text.split(' + ');
+const { text, keepHyphens = false } = Astro.props;
+const parts = text.split(' + ');
+
+// Split a part into words; hyphenated words become non-breaking tokens.
+const tokens = (part: string) => part.split(/(\s+)/).map((word) => ({
+  word,
+  nobr: keepHyphens && word.includes('-'),
+}));
 ---
 
 {parts.map((part, index) => (
-  <>{index > 0 && <> <span class="joiner">+</span> </>}{part}</>
+  <>{index > 0 && <> <span class="joiner">+</span> </>}{tokens(part).map((token) => (
+    token.nobr ? <span class="nobr">{token.word}</span> : token.word
+  ))}</>
 ))}
 
 <style>
   .joiner {
-    font-family: var(--f-body);
+    font-family: var(--f-sans);
     font-size: 0.7em;
     font-weight: 400;
-    color: var(--bronze);
+    color: var(--clay);
     vertical-align: 0.1em;
+  }
+
+  .nobr {
+    white-space: nowrap;
   }
 </style>

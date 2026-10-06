@@ -1,176 +1,158 @@
 ---
-
+import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import FaqBlock from '../../../components/treatment/FaqBlock.astro';
+import { FACIAL_TREATMENTS } from '../../../components/treatment/catalog';
 
-const treatments = [
-    { name: 'Aquafacial', href: '/behandlungen/aquafacial-zuerich/' },
-    { name: 'Microneedling', href: '/behandlungen/microneedling-zuerich/' },
-    { name: 'Fruchtsäure Peeling', href: '/behandlungen/fruchtsaeure-peeling-zuerich/' },
-    { name: 'ColdPlasma', href: '/behandlungen/coldplasma-zuerich/' },
-];
+type Cell = [value: string, note?: string];
 
-// One row per criterion; cells follow the order of `treatments` as [value, explanation].
-const comparison: { label: string; cells: [string, string][] }[] = [
+// Criteria in display order; each treatment fills one cell per criterion.
+const criteria = ['Hauptziel', 'Dauer', 'Gefühl', 'Ausfallzeit', 'Preis', 'Sitzungen', 'Ideal für'] as const;
+
+const comparison: { href: string; cells: Cell[] }[] = [
     {
-        label: 'Hauptziel',
+        href: '/behandlungen/aquafacial-zuerich/',
         cells: [
-            ['Glow & Hydration', 'Ein sichtbar frischeres Hautbild durch patentierte Vortex-Tiefenreinigung und intensive Hydrierung.'],
-            ['Anti-Aging & Hautstruktur', 'Kann die natürliche Hauterneuerung und Kollagenbildung für ein sichtbar verfeinertes Hautbild unterstützen.'],
-            ['Hauterneuerung & Klärung', 'Natürliche AHA-Säuren entfernen abgestorbene Hautzellen für einen ebenmässigen Teint.'],
-            ['Wirkstoffpflege & Hautbarriere', 'Innovative Plasmatechnologie für ergänzende Pflege und ein ruhiger wirkendes Hautbild.'],
+            ['Glow & Hydration', 'Tiefenreinigung und intensive Hydrierung.'],
+            ['60–90 Min.'],
+            ['Angenehm', 'Wie eine sanfte Gesichtsmassage.'],
+            ['Meist keine', 'Direkt zurück in den Alltag.'],
+            ['ab CHF 180', 'Anti Aging CHF 250, erweiterte Varianten CHF 280.'],
+            ['Monatlich', 'Im Rhythmus der natürlichen Hauterneuerung.'],
+            ['Alle Hauttypen, Glow'],
         ],
     },
     {
-        label: 'Dauer der Behandlung',
+        href: '/behandlungen/microneedling-zuerich/',
         cells: [
-            ['60–90 Minuten', 'Je nach Aquafacial Variante und Kombination.'],
-            ['90 Minuten', 'Inklusive Vorbereitung und Nachpflege.'],
-            ['45–60 Minuten', 'Abhängig von Variante und Hautzustand.'],
-            ['90 Minuten', 'Je nach Behandlungsfokus und Kombination.'],
+            ['Anti-Aging & Hautstruktur', 'Kann Hauterneuerung und Kollagenbildung unterstützen.'],
+            ['90 Min.'],
+            ['Leichtes Piksen', 'Mit Betäubungscreme gut verträglich.'],
+            ['24–48 h Rötung', '1–2 Tage ohne Make-up und Sonne.'],
+            ['ab CHF 210', 'Mit coldPLASMA CHF 220, Carbon Laser + Microneedling CHF 250.'],
+            ['3–5 Sitzungen', 'Im Abstand von 4–6 Wochen.'],
+            ['Anti-Aging, Narben'],
         ],
     },
     {
-        label: 'Schmerz­empfinden',
+        href: '/behandlungen/fruchtsaeure-peeling-zuerich/',
         cells: [
-            ['Schmerzfrei', 'Die Behandlung fühlt sich angenehm an, wie eine sanfte Gesichtsmassage.'],
-            ['Leichtes Piksen', 'Nach Auftragen der Betäubungscreme gut verträglich.'],
-            ['Leichtes Brennen', 'Ein kurzes Wärmegefühl, das nach Neutralisierung sofort nachlässt.'],
-            ['Schmerzfrei', 'Ein leichtes, warmes Kribbeln auf der Haut, aber meist keine stärkeren Schmerzen.'],
+            ['Hauterneuerung & Klärung', 'AHA-Säuren lösen abgestorbene Hautzellen.'],
+            ['45–60 Min.'],
+            ['Leichtes Brennen', 'Lässt nach der Neutralisation nach.'],
+            ['Leichte Schuppung', 'Gehört zur natürlichen Erneuerung.'],
+            ['CHF 150', 'Die günstigste online buchbare Behandlung.'],
+            ['4–6 Sitzungen', 'Mit schrittweise steigender Konzentration.'],
+            ['Akne, Unreinheiten'],
         ],
     },
     {
-        label: 'Ausfallzeit (Downtime)',
+        href: '/behandlungen/coldplasma-zuerich/',
         cells: [
-            ['Keine', 'Direkt zurück in den Alltag. Perfekt vor Events und wichtigen Terminen.'],
-            ['24–48 h Rötung', 'Für 1–2 Tage sollten Sie auf Make-up und Sonne verzichten.'],
-            ['Leichte Schuppung', 'Die Haut kann 2–3 Tage leicht schuppen, was zur natürlichen Erneuerung gehört.'],
-            ['Keine', 'Sie können sofort Make-up auftragen und Ihren normalen Alltag fortsetzen.'],
-        ],
-    },
-    {
-        label: 'Preis ab',
-        cells: [
-            ['Ab CHF 180', 'Aquafacial Basic Intensiv (60 Min.). Anti Aging CHF 250, erweiterte Varianten CHF 280.'],
-            ['Ab CHF 210', 'Microneedling 90 Min.; Anti Aging mit coldPLASMA CHF 220, Carbon Laser + Microneedling CHF 250.'],
-            ['CHF 150', 'Unsere günstigste online buchbare Behandlung für wirksame Hauterneuerung.'],
-            ['Ab CHF 180', 'coldPLASMA Akne/unreine Haut; Anti Aging und Hautbarriere CHF 220.'],
-        ],
-    },
-    {
-        label: 'Empfohlene Sitzungen',
-        cells: [
-            ['Monatlich', 'Regelmässige Pflege im Rhythmus des natürlichen Hauterneuerungszyklus.'],
-            ['3–5 Sitzungen', 'Im Abstand von 4–6 Wochen zur Unterstützung der Kollagenbildung.'],
-            ['4–6 Sitzungen', 'In steigender Konzentration für kontrollierte kosmetische Hauterneuerung.'],
-            ['Nach Bedarf', 'Flexibel als Einzelbehandlung oder Ergänzung zu anderen Treatments.'],
-        ],
-    },
-    {
-        label: 'Ideal für',
-        cells: [
-            ['Alle Hauttypen, Glow', 'Die universellste Behandlung für ein sichtbar frischeres Hautbild bei jedem Hauttyp.'],
-            ['Anti-Aging, Narben', 'Häufig geeignet bei Fältchen, Aknenarben und schlaffer Haut.'],
-            ['Akne, Unreinheiten', 'Die Lösung für unreine Haut, vergrösserte Poren und unebenmässigen Teint.'],
-            ['Hautverjüngung', 'Für alle, die auf modernste Technologie und gezielte Wirkstoffpflege setzen.'],
+            ['Wirkstoffpflege & Hautbarriere', 'Für ein ruhiger wirkendes Hautbild.'],
+            ['90 Min.'],
+            ['Leichtes Kribbeln', 'Meist keine stärkeren Schmerzen.'],
+            ['Meist keine', 'Make-up direkt danach möglich.'],
+            ['ab CHF 180', 'Anti Aging und Hautbarriere CHF 220.'],
+            ['Nach Bedarf', 'Einzeln oder als Ergänzung.'],
+            ['Unreine Haut, Hautbarriere'],
         ],
     },
 ];
 
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-        "@type": "Question",
-        "name": "Aquafacial oder Microneedling — was ist besser?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Die Wahl zwischen Aquafacial und Microneedling hängt von Ihrem Hautziel ab. Aquafacial eignet sich gut für frischen Glow, Tiefenreinigung und Hydration — in der Regel ohne Ausfallzeit. Es ist eine passende Behandlung vor besonderen Anlässen oder als regelmässige Hautpflege. Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen und passt eher zu Hautstruktur, Poren, feinen Linien oder Narbenoptik. Teresa berät Sie bei Beauty Face Lift individuell."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Kann man verschiedene Behandlungen kombinieren?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Ja, viele unserer Kundinnen bei Beauty Face Lift in Zürich kombinieren verschiedene Behandlungen für möglichst gute Ergebnisse. Besonders beliebt ist die Kombination von Aquafacial mit ColdPlasma oder Aquafacial als Vorbereitung vor Microneedling. Exosome Therapie kann nach persönlicher Hautanalyse als regenerative Wirkstoffpflege eingeplant werden, zum Beispiel im Umfeld von Microneedling. Wichtig: Zwischen intensiveren Behandlungen wie Microneedling und Fruchtsäure Peeling sollten mindestens 2-4 Wochen Abstand liegen. Teresa erstellt Ihnen einen individuellen Behandlungsplan."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Welche Behandlung hat die wenigste Ausfallzeit?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Aquafacial und ColdPlasma haben meist keine längere Ausfallzeit; viele Kundinnen können direkt in den Alltag zurückkehren. Direkte Sonne sollte nach der Behandlung möglichst vermieden werden. Beide Behandlungen sind ideal für den Zürcher Lifestyle und gut vor wichtigen Terminen oder besonderen Anlässen. Beim Fruchtsäure Peeling kann eine leichte Schuppung auftreten, die 2-3 Tage anhält. Microneedling verursacht eine Rötung von 24-48 Stunden, in der Sie auf Make-up und direkte Sonneneinstrahlung verzichten sollten. Planen Sie Microneedling daher am besten vor einem freien Tag ein."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Welche Behandlung ist am günstigsten?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Das Fruchtsäure Peeling ist mit CHF 150 die günstigste online buchbare Einzelbehandlung bei Beauty Face Lift an der Bahnhofstrasse in Zürich. Aquafacial und ColdPlasma beginnen bei CHF 180, Microneedling beginnt bei CHF 210. Bedenken Sie bei der Wahl jedoch nicht nur den Preis, sondern vor allem, welche Behandlung zu Ihrem Hautziel passt — Teresa berät Sie ehrlich und empfiehlt nur, was Ihre Haut wirklich braucht."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Wie finde ich die richtige Behandlung für meinen Hauttyp?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Der beste Weg zur richtigen Behandlung führt über eine persönliche Hautanalyse bei Teresa Stimac. Als Faustregel gilt: Bei fahler, dehydrierter Haut ohne Glow ist Aquafacial die erste Wahl. Bei Zeichen der Hautalterung wie Fältchen, schlaffer Haut oder Narben kann Microneedling sinnvoll sein. Akne, Unreinheiten und vergrösserte Poren sprechen oft gut auf Fruchtsäure Peeling an. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Buchen Sie einen unverbindlichen Beratungstermin bei Beauty Face Lift — Teresa findet die passende Behandlung für Ihre Haut."
-        }
-    }]
-};
+// Keep "CHF 220" on one line.
+const keepPrice = (text?: string) => text?.replace(/CHF /g, 'CHF ');
+
+const columns = comparison.map((column) => ({
+    ...column,
+    treatment: FACIAL_TREATMENTS.find((treatment) => treatment.href === column.href)!,
+}));
+
+const faqs = [
+    {
+        question: 'Aquafacial oder Microneedling – was ist besser?',
+        answer: 'Das hängt von Ihrem Hautziel ab. Aquafacial eignet sich für frischen Glow, Tiefenreinigung und Hydration – in der Regel ohne Ausfallzeit. Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen und passt eher zu Hautstruktur, Poren, feinen Linien oder Narbenoptik.',
+    },
+    {
+        question: 'Kann man verschiedene Behandlungen kombinieren?',
+        answer: 'Ja. Beliebt ist Aquafacial mit ColdPlasma oder als Vorbereitung vor Microneedling; Exosome Therapie kann nach persönlicher Hautanalyse ergänzen. Zwischen intensiveren Behandlungen wie Microneedling und Fruchtsäure Peeling sollten mindestens 2–4 Wochen Abstand liegen.',
+    },
+    {
+        question: 'Welche Behandlung hat die wenigste Ausfallzeit?',
+        answer: 'Aquafacial und ColdPlasma haben meist keine längere Ausfallzeit. Beim Fruchtsäure Peeling kann eine leichte Schuppung auftreten; Microneedling verursacht eine Rötung von 24–48 Stunden – planen Sie es am besten vor einem freien Tag ein.',
+    },
+    {
+        question: 'Welche Behandlung ist am günstigsten?',
+        answer: 'Das Fruchtsäure Peeling ist mit CHF 150 die günstigste online buchbare Einzelbehandlung. Aquafacial und ColdPlasma beginnen bei CHF 180, Microneedling bei CHF 210.',
+    },
+    {
+        question: 'Wie finde ich die richtige Behandlung für meinen Hauttyp?',
+        answer: 'Am besten über eine persönliche Hautanalyse bei Teresa Stimac. Als Faustregel: fahle, dehydrierte Haut – Aquafacial; Fältchen, schlaffe Haut oder Narben – Microneedling; Unreinheiten und vergrösserte Poren – Fruchtsäure Peeling. ColdPlasma und Exosome Therapie können die Wirkstoffpflege ergänzen.',
+    },
+];
 ---
 
 <Base
-    title="Behandlungsvergleich | Aquafacial vs. Microneedling vs. Peeling vs. ColdPlasma — Beauty Face Lift Zürich"
-    description="Welche Gesichtsbehandlung passt? Vergleich von Aquafacial, Microneedling, Peeling, ColdPlasma und Exosome Therapie in Zürich."
-    structuredData={structuredData}
+    title="Gesichtsbehandlungen im Vergleich | Beauty Face Lift Zürich"
+    description="Aquafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma im Vergleich: Ziel, Dauer, Ausfallzeit und Preis. Kostenlose Erstberatung in Zürich."
 >
-    <header class="page-hero compare-hero">
-        <div class="container page-hero-inner">
-            <div class="reveal-up">
-                <Breadcrumbs items={[
-                    { label: "Home", href: "/" },
-                    { label: "Behandlungen", href: "/behandlungen/" },
-                    { label: "Vergleich" }
-                ]} />
+    <header class="page-hero cmp-hero">
+        <div class="container cmp-hero-inner">
+            <div class="cmp-hero-title">
+                <div class="reveal-up">
+                    <Breadcrumbs items={[
+                        { label: 'Home', href: '/' },
+                        { label: 'Behandlungen', href: '/behandlungen/' },
+                        { label: 'Vergleich' }
+                    ]} />
+                </div>
+                <h1 class="reveal-up d-1">Behandlungen im <em>Vergleich</em></h1>
             </div>
-            <h1 class="reveal-up d-2">Behandlungs&shy;vergleich</h1>
-            <p class="lead reveal-up d-3">Beauty Face Lift in Zürich bietet mehrere Gesichtsbehandlungen an, die unterschiedliche Hautbedürfnisse gezielt ansprechen. Aquafacial steht für frischen Glow und Tiefenreinigung. Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen. Fruchtsäure Peeling klärt die Haut bei Unreinheiten durch kontrollierte kosmetische Hauterneuerung. ColdPlasma setzt auf ergänzende Wirkstoffpflege. Exosome Therapie ergänzt das Spektrum als regenerative Kosmetik mit Exosomen Serum beziehungsweise exosomenähnlicher Technologie. In diesem Vergleich finden Sie die wichtigsten Unterschiede auf einen Blick.</p>
+            <div class="cmp-hero-copy">
+                <p class="lead reveal-up d-2">Aquafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma nebeneinander – Ziel, Dauer, Ausfallzeit und Preis.</p>
+                <div class="btn-row reveal-up d-3">
+                    <a href="/termin/" class="btn btn-lg btn-arrow" data-button-location="compare_hero">Termin buchen</a>
+                    <a href="/kontakt/" class="btn btn-secondary btn-lg" data-button-location="compare_hero_consultation">Kostenlose Beratung</a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Comparison table -->
-    <section class="section section--flush-top" aria-labelledby="compare-title">
+    <!-- Comparison: table on desktop, one card per treatment on mobile -->
+    <section class="section section--flush-top" aria-label="Vergleich der Gesichtsbehandlungen">
         <div class="container">
-            <div class="section-head">
-                <div>
-                    <h2 id="compare-title">Die Unterschiede auf einen <em>Blick</em></h2>
-                </div>
-                <p class="compare-hint" aria-hidden="true">Tabelle seitlich scrollen</p>
-            </div>
-            <div class="compare-scroll" role="region" aria-labelledby="compare-title" tabindex="0">
-                <table class="compare-table">
-                    <caption class="sr-only">Vergleich von Aquafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma nach Hauptziel, Dauer, Schmerzempfinden, Ausfallzeit, Preis, Sitzungen und Eignung</caption>
+            <div class="cmp-table-wrap">
+                <table class="cmp-table">
+                    <caption class="sr-only">Aquafacial, Microneedling, Fruchtsäure Peeling und ColdPlasma nach Hauptziel, Dauer, Gefühl, Ausfallzeit, Preis, Sitzungen und Eignung</caption>
                     <colgroup>
-                        <col class="compare-col-label" />
-                        {treatments.map(() => <col />)}
+                        <col class="cmp-col-label" />
+                        {columns.map(() => <col />)}
                     </colgroup>
                     <thead>
                         <tr>
-                            <th scope="col"><span class="sr-only">Kriterium</span></th>
-                            {treatments.map((treatment) => (
-                                <th scope="col"><a href={treatment.href}>{treatment.name}</a></th>
+                            <td></td>
+                            {columns.map(({ treatment }) => (
+                                <th scope="col">
+                                    <a href={treatment.href} class="cmp-head">
+                                        <span class="cmp-thumb">
+                                            <Image src={treatment.image} widths={[96, 160]} sizes="64px" format="webp" quality="mid" loading="lazy" alt="" />
+                                        </span>
+                                        <span class="cmp-name">{treatment.name}</span>
+                                        <span class="cmp-go" aria-hidden="true"></span>
+                                    </a>
+                                </th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {comparison.map((row) => (
+                        {criteria.map((label, row) => (
                             <tr>
-                                <th scope="row">{row.label}</th>
-                                {row.cells.map(([value, text]) => (
+                                <th scope="row">{label}</th>
+                                {columns.map(({ cells }) => (
                                     <td>
-                                        <strong>{value}</strong>
-                                        <span>{text}</span>
+                                        <strong>{cells[row][0]}</strong>
+                                        {cells[row][1] && <span>{keepPrice(cells[row][1])}</span>}
                                     </td>
                                 ))}
                             </tr>
@@ -178,103 +160,62 @@ const structuredData = {
                     </tbody>
                 </table>
             </div>
-        </div>
-    </section>
 
-    <!-- Which treatment fits -->
-    <section class="section section--ivory" aria-labelledby="fit-title">
-        <div class="container">
-            <div class="section-head">
-                <div>
-                    <h2 id="fit-title">Ihr Hautziel bestimmt die richtige <em>Wahl</em></h2>
-                </div>
-            </div>
-            <div class="index-grid index-grid--2 fit-grid">
-                <div class="scroll-anim">
-                    <h3>Wenn Sie frischen Glow wollen</h3>
-                    <p>Dann kann <strong>Aquafacial</strong> gut passen. Die patentierte Vortex-Technologie reinigt, peelt und hydriert die Haut in einem Ablauf — häufig mit direkt frischerem Hautgefühl und meist ohne längere Ausfallzeit. Vor Hochzeiten, Fotoshootings oder wichtigen Events sollte die Behandlung rechtzeitig geplant werden. Viele Kundinnen nutzen Aquafacial regelmässig als Basis-Hautpflege.</p>
-                    <div class="btn-row"><a href="/behandlungen/aquafacial-zuerich/" class="btn-link">Aquafacial entdecken</a></div>
-                </div>
-                <div class="scroll-anim">
-                    <h3>Wenn Sie Anti-Aging und Straffung suchen</h3>
-                    <p>Dann führt kein Weg an <strong>Microneedling</strong> vorbei. Die kontrollierten Mikroverletzungen aktivieren die natürliche Wundheilung Ihrer Haut und stimulieren die Neubildung von Kollagen und Elastin. Das Ergebnis: ein sichtbar verfeinertes, glatteres und gepflegteres Hautbild. Besonders wirksam bei Fältchen, Aknenarben und Elastizitätsverlust. Die Ergebnisse bauen sich über mehrere Sitzungen auf und halten langfristig an.</p>
-                    <div class="btn-row"><a href="/behandlungen/microneedling-zuerich/" class="btn-link">Microneedling entdecken</a></div>
-                </div>
-                <div class="scroll-anim">
-                    <h3>Wenn Sie regenerative Wirkstoffpflege suchen</h3>
-                    <p>Dann kann die <strong>Exosome Therapie</strong> interessant sein. Dabei wird ein Exosomen Serum beziehungsweise eine exosomenähnliche Wirkstofftechnologie kosmetisch eingesetzt, um Feuchtigkeit, Hautbarriere, Glow und ein ruhiger wirkendes Hautbild zu unterstützen. Die Behandlung ist kein Stammzell-Ersatz und sollte realistisch eingeordnet werden.</p>
-                    <div class="btn-row"><a href="/behandlungen/exosome-therapie-zuerich/" class="btn-link">Exosome Therapie entdecken</a></div>
-                </div>
-                <div class="scroll-anim">
-                    <h3>Wenn Sie Akne oder Unreinheiten behandeln wollen</h3>
-                    <p>Dann ist das <strong>Fruchtsäure Peeling</strong> die gezielte Lösung. Natürliche AHA-Säuren lösen die Verbindungen zwischen abgestorbenen Hautzellen und ermöglichen eine kontrollierte Hauterneuerung. Verstopfte Poren werden befreit, der Teint wird ebenmässiger und klarer. Besonders wirksam bei Akne, Mitessern, vergrösserten Poren und Hyperpigmentierung. Zudem ist es mit CHF 150 die günstigste online buchbare Option.</p>
-                    <div class="btn-row"><a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="btn-link">Fruchtsäure Peeling entdecken</a></div>
-                </div>
-                <div class="scroll-anim">
-                    <h3>Wenn Sie innovative Technologie bevorzugen</h3>
-                    <p>Dann ist <strong>ColdPlasma</strong> eine moderne Ergänzung in unserem Angebot. Die Plasmatechnologie ionisiert Luft zu energiereichem Plasma, kann die kosmetische Hautpflege unterstützen und die Wirkstoffpflege je nach Hautzustand ergänzen. Besonders sinnvoll kann ColdPlasma nach einem Aquafacial sein, wenn Teresa die Hautbarriere und Verträglichkeit entsprechend einschätzt. Schmerzfrei und ohne Ausfallzeit.</p>
-                    <div class="btn-row"><a href="/behandlungen/coldplasma-zuerich/" class="btn-link">ColdPlasma entdecken</a></div>
-                </div>
-                <div class="scroll-anim">
-                    <h3>Wenn Sie unsicher sind</h3>
-                    <p>Kein Problem — genau dafür ist Teresa da. In einem persönlichen Beratungsgespräch analysiert sie Ihren Hautzustand, bespricht Ihre Wünsche und empfiehlt die Behandlung oder Kombination, die gut zu Ihrer Haut passt. Ehrlich, kompetent und ohne Verkaufsdruck. Über 20 Jahre Erfahrung sprechen für sich.</p>
-                    <div class="btn-row"><a href="/termin/" class="btn">Beratungstermin buchen</a></div>
-                </div>
+            <ul class="cmp-cards">
+                {columns.map(({ treatment, cells }) => (
+                    <li class="cmp-card">
+                        <a href={treatment.href} class="cmp-card-head">
+                            <span class="cmp-thumb">
+                                <Image src={treatment.image} widths={[96, 160]} sizes="56px" format="webp" quality="mid" loading="lazy" alt="" />
+                            </span>
+                            <h2 class="cmp-name">{treatment.name}</h2>
+                            <span class="cmp-go" aria-hidden="true"></span>
+                        </a>
+                        <dl>
+                            {criteria.map((label, row) => (
+                                <div>
+                                    <dt>{label}</dt>
+                                    <dd>
+                                        <strong>{cells[row][0]}</strong>
+                                        {cells[row][1] && <span>{keepPrice(cells[row][1])}</span>}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </li>
+                ))}
+            </ul>
+
+            <div class="cmp-more">
+                <p>Exosome Therapie wird nach persönlicher Hautanalyse als regenerative Wirkstoffpflege eingeplant.</p>
+                <a href="/behandlungen/exosome-therapie-zuerich/" class="btn btn-secondary btn-arrow" data-button-location="compare_exosome">Exosome Therapie</a>
             </div>
         </div>
     </section>
 
     <!-- FAQ -->
-    <section class="section" aria-label="Häufige Fragen">
+    <section class="section section--shell" aria-label="Häufige Fragen">
         <div class="container">
-            <FaqBlock>
-                <Fragment slot="title">Häufig gestellte <em>Fragen</em></Fragment>
-                <details class="faq-item">
-                    <summary><h3>Aquafacial oder Microneedling — was ist besser?</h3></summary>
-                    <div class="faq-answer"><div class="faq-answer-inner">
-                        <p>Die Wahl zwischen Aquafacial und Microneedling hängt von Ihrem Hautziel ab. Aquafacial eignet sich gut für frischen Glow, Tiefenreinigung und Hydration — in der Regel ohne Ausfallzeit. Es ist eine passende Behandlung vor besonderen Anlässen oder als regelmässige Hautpflege. Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen und passt eher zu Hautstruktur, Poren, feinen Linien oder Narbenoptik. Teresa berät Sie bei Beauty Face Lift individuell.</p>
-                    </div></div>
-                </details>
-                <details class="faq-item">
-                    <summary><h3>Kann man verschiedene Behandlungen kombinieren?</h3></summary>
-                    <div class="faq-answer"><div class="faq-answer-inner">
-                        <p>Ja, viele unserer Kundinnen bei Beauty Face Lift in Zürich kombinieren verschiedene Behandlungen für möglichst gute Ergebnisse. Besonders beliebt ist die Kombination von Aquafacial mit ColdPlasma oder Aquafacial als Vorbereitung vor Microneedling. Exosome Therapie kann nach persönlicher Hautanalyse als regenerative Wirkstoffpflege eingeplant werden, zum Beispiel im Umfeld von Microneedling. Wichtig: Zwischen intensiveren Behandlungen wie Microneedling und Fruchtsäure Peeling sollten mindestens 2-4 Wochen Abstand liegen. Teresa erstellt Ihnen einen individuellen Behandlungsplan.</p>
-                    </div></div>
-                </details>
-                <details class="faq-item">
-                    <summary><h3>Welche Behandlung hat die wenigste Ausfallzeit?</h3></summary>
-                    <div class="faq-answer"><div class="faq-answer-inner">
-                        <p>Aquafacial und ColdPlasma haben meist keine längere Ausfallzeit; viele Kundinnen können direkt in den Alltag zurückkehren. Direkte Sonne sollte nach der Behandlung möglichst vermieden werden. Beide Behandlungen sind ideal für den Zürcher Lifestyle und gut vor wichtigen Terminen oder besonderen Anlässen. Beim Fruchtsäure Peeling kann eine leichte Schuppung auftreten, die 2-3 Tage anhält. Microneedling verursacht eine Rötung von 24-48 Stunden, in der Sie auf Make-up und direkte Sonneneinstrahlung verzichten sollten. Planen Sie Microneedling daher am besten vor einem freien Tag ein.</p>
-                    </div></div>
-                </details>
-                <details class="faq-item">
-                    <summary><h3>Welche Behandlung ist am günstigsten?</h3></summary>
-                    <div class="faq-answer"><div class="faq-answer-inner">
-                        <p>Das Fruchtsäure Peeling ist mit CHF 150 die günstigste online buchbare Einzelbehandlung bei Beauty Face Lift an der Bahnhofstrasse in Zürich. Aquafacial und ColdPlasma beginnen bei CHF 180, Microneedling beginnt bei CHF 210. Bedenken Sie bei der Wahl jedoch nicht nur den Preis, sondern vor allem, welche Behandlung zu Ihrem Hautziel passt — Teresa berät Sie ehrlich und empfiehlt nur, was Ihre Haut wirklich braucht.</p>
-                    </div></div>
-                </details>
-                <details class="faq-item">
-                    <summary><h3>Wie finde ich die richtige Behandlung für meinen Hauttyp?</h3></summary>
-                    <div class="faq-answer"><div class="faq-answer-inner">
-                        <p>Der beste Weg zur richtigen Behandlung führt über eine persönliche Hautanalyse bei Teresa Stimac. Als Faustregel gilt: Bei fahler, dehydrierter Haut ohne Glow ist Aquafacial die erste Wahl. Bei Zeichen der Hautalterung wie Fältchen, schlaffer Haut oder Narben kann Microneedling sinnvoll sein. Akne, Unreinheiten und vergrösserte Poren sprechen oft gut auf Fruchtsäure Peeling an. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Buchen Sie einen unverbindlichen Beratungstermin bei Beauty Face Lift — Teresa findet die passende Behandlung für Ihre Haut.</p>
-                    </div></div>
-                </details>
+            <FaqBlock items={faqs}>
+                <Fragment slot="title">Gut zu wissen</Fragment>
             </FaqBlock>
         </div>
     </section>
 
     <!-- Closing CTA -->
-    <section class="cta-band" aria-labelledby="cta-title">
-        <div class="cta-band-inner">
-            <div>
-                <h2 id="cta-title">Noch unsicher? Lassen Sie sich <em>beraten</em>.</h2>
-                <p>Teresa Stimac analysiert Ihren Hautzustand und empfiehlt Ihnen die passende Behandlung — ehrlich, kompetent und unverbindlich. Über 20 Jahre Erfahrung, direkt an der Bahnhofstrasse in Zürich.</p>
+    <div class="cmp-cta-space">
+        <section class="cta-band" aria-labelledby="cta-title">
+            <div class="cta-band-inner">
+                <div>
+                    <h2 id="cta-title">Noch unsicher? Lassen Sie sich beraten.</h2>
+                    <p>Teresa analysiert Ihren Hautzustand und empfiehlt die passende Behandlung – ehrlich und unverbindlich.</p>
+                </div>
+                <div class="btn-row">
+                    <a href="/termin/" class="btn btn-arrow" data-button-location="compare_cta_band">Beratungstermin buchen</a>
+                </div>
             </div>
-            <div class="btn-row">
-                <a href="/termin/" class="btn">Beratungstermin buchen</a>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </Base>
 
 <style>
@@ -282,137 +223,230 @@ const structuredData = {
     .d-2 { --d: 2; }
     .d-3 { --d: 3; }
 
-    .compare-hero .page-hero-inner :global(.breadcrumbs) {
-        padding: 0;
+    /* ─── Hero: title left, lead + CTAs right ─────────────── */
+    .cmp-hero-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        align-items: end;
+        gap: 28px clamp(32px, 6vw, 96px);
     }
 
-    .compare-hero .lead {
-        max-width: 64ch;
+    .cmp-hero-title {
+        display: grid;
+        gap: 22px;
+        justify-items: start;
     }
 
-    /* Comparison table — hairline rows; scrolls inside its own box on small screens */
-    .compare-scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    .cmp-hero-title :global(.breadcrumbs) { padding: 0; }
+
+    .cmp-hero h1 {
+        max-width: 11ch;
+        font-size: clamp(2.75rem, 5.4vw, 5.25rem);
+        line-height: 0.96;
+        letter-spacing: -0.015em;
     }
 
-    .compare-scroll:focus-visible {
-        outline: 1px solid var(--bronze);
-        outline-offset: 4px;
+    .cmp-hero-copy {
+        display: grid;
+        gap: 24px;
+        justify-items: start;
+        padding-bottom: 8px;
     }
 
-    .compare-table {
+    .cmp-hero-copy .lead { max-width: 40ch; }
+
+    /* ─── Shared bits ─────────────────────────────────────── */
+    .cmp-thumb {
+        flex: none;
+        display: block;
+        width: 56px;
+        height: 56px;
+        overflow: hidden;
+        border-radius: 50%;
+        background: var(--blush);
+    }
+
+    .cmp-thumb :global(img) {
         width: 100%;
-        min-width: 880px;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s var(--ease-expo);
+    }
+
+    .cmp-name {
+        font-family: var(--f-serif);
+        font-weight: 400;
+        font-size: clamp(1.5rem, 1.9vw, 1.8rem);
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        color: var(--cocoa);
+        transition: color 0.3s ease;
+    }
+
+    .cmp-go {
+        flex: none;
+        width: 32px;
+        height: 32px;
+        margin-left: auto;
+        border-radius: 50%;
+        border: 1px solid var(--line-strong);
+        background: var(--i-arrow-dark) center / 11px no-repeat;
+        transition: background 0.3s ease, border-color 0.3s ease, transform 0.45s var(--ease-expo);
+    }
+
+    :is(.cmp-head, .cmp-card-head):hover .cmp-name { color: var(--clay); }
+    :is(.cmp-head, .cmp-card-head):hover .cmp-thumb :global(img) { transform: scale(1.08); }
+
+    :is(.cmp-head, .cmp-card-head):hover .cmp-go {
+        border-color: var(--clay);
+        background: var(--i-arrow-light) center / 11px no-repeat, var(--clay);
+        transform: rotate(45deg);
+    }
+
+    /* ─── Desktop table ───────────────────────────────────── */
+    .cmp-table {
+        width: 100%;
         border-collapse: collapse;
         table-layout: fixed;
         text-align: left;
     }
 
-    .compare-col-label {
-        width: 190px;
-    }
+    .cmp-col-label { width: 168px; }
 
-    .compare-table th,
-    .compare-table td {
-        padding: 22px 28px 24px 0;
-        vertical-align: top;
-        border-bottom: 1px solid var(--rule);
-    }
-
-    .compare-table thead th {
-        padding-top: 0;
-        padding-bottom: 20px;
+    .cmp-table thead :is(th, td) {
+        padding: 0 20px 24px 0;
         vertical-align: bottom;
-        border-bottom-color: var(--rule-strong);
-        font-family: var(--f-display);
-        font-size: var(--fs-h3);
-        font-weight: 400;
-        line-height: 1.15;
-        color: var(--espresso);
+        border-bottom: 1px solid var(--line-strong);
     }
 
-    .compare-table thead a {
-        transition: color 0.35s ease;
+    .cmp-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: inherit;
     }
 
-    .compare-table thead a:hover {
-        color: var(--bronze);
+    .cmp-table tbody :is(th, td) {
+        padding: 20px 24px 20px 0;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
     }
 
-    .compare-table tbody th {
-        padding-top: 26px;
-        font-family: var(--f-body);
-        font-size: var(--fs-label);
-        font-weight: 600;
-        letter-spacing: var(--tracking-label);
-        line-height: 1.5;
-        text-transform: uppercase;
-        color: var(--taupe);
-    }
-
-    .compare-table td strong {
-        display: block;
-        margin-bottom: 6px;
-        font-family: var(--f-display);
-        font-size: 1.2rem;
-        font-weight: 400;
-        line-height: 1.3;
-        color: var(--espresso);
-    }
-
-    .compare-table td span {
-        display: block;
+    .cmp-table tbody th {
         font-size: var(--fs-small);
-        line-height: 1.55;
-        color: var(--umber);
+        font-weight: 500;
+        line-height: 1.5;
+        color: var(--muted);
     }
 
-    .compare-hint {
-        display: none;
-        font-size: var(--fs-label);
-        font-weight: 600;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--taupe);
+    .cmp-table td strong,
+    .cmp-card dd strong {
+        display: block;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--cocoa);
     }
 
-    .fit-grid :global(.btn-row) {
-        margin-top: auto;
-        padding-top: 12px;
+    .cmp-table td span,
+    .cmp-card dd span {
+        display: block;
+        margin-top: 4px;
+        font-size: var(--fs-small);
+        line-height: 1.5;
+        color: var(--muted);
+    }
+
+    /* Price row stands out a touch */
+    .cmp-table tbody tr:nth-child(5) td strong {
+        font-family: var(--f-serif);
+        font-weight: 400;
+        font-size: 1.6rem;
+        line-height: 1.1;
+    }
+
+    .cmp-table tbody tr:hover td { background: rgba(255, 252, 249, 0.6); }
+
+    /* ─── Mobile cards ────────────────────────────────────── */
+    .cmp-cards { display: none; }
+
+    .cmp-card {
+        padding: 8px 20px 4px;
+        border-radius: var(--r-lg);
+        background: var(--paper);
+        border: 1px solid var(--line);
+    }
+
+    .cmp-card-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0 16px;
+        border-bottom: 1px solid var(--line-strong);
+        color: inherit;
+    }
+
+    .cmp-card dl > div {
+        display: grid;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 12px;
+        padding-block: 14px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .cmp-card dl > div:last-child { border-bottom: 0; }
+
+    .cmp-card dt {
+        font-size: var(--fs-small);
+        font-weight: 500;
+        color: var(--muted);
+    }
+
+    .cmp-card dd { margin: 0; }
+
+    /* ─── Exosome line ────────────────────────────────────── */
+    .cmp-more {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px 32px;
+        margin-top: clamp(32px, 4vw, 48px);
+    }
+
+    .cmp-more p {
+        max-width: 56ch;
+        color: var(--text);
+    }
+
+    /* ─── Closing CTA spacing ─────────────────────────────── */
+    .cmp-cta-space { padding-top: var(--section-y); }
+
+    @media (max-width: 1000px) {
+        .cmp-table-wrap { display: none; }
+
+        .cmp-cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
     }
 
     @media (max-width: 900px) {
-        .compare-hint {
-            display: block;
-        }
+        .cmp-hero-inner { grid-template-columns: minmax(0, 1fr); }
 
-        .compare-col-label {
-            width: 124px;
+        .cmp-hero h1 {
+            max-width: none;
+            font-size: clamp(2.6rem, 11vw, 3.6rem);
         }
+    }
 
-        .compare-table tbody th {
-            letter-spacing: 0.12em;
-        }
+    @media (max-width: 680px) {
+        .cmp-cards { grid-template-columns: minmax(0, 1fr); }
+    }
 
-        .compare-table th[scope="row"],
-        .compare-table thead th:first-child {
-            position: sticky;
-            left: 0;
-            z-index: 1;
-            background: var(--porcelain);
-            padding-right: 16px;
-        }
-
-        /* Hairline that travels with the sticky label column */
-        .compare-table th[scope="row"]::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 1px;
-            background: var(--rule);
-        }
+    @media (max-width: 600px) {
+        .cmp-hero-copy .btn-row { width: 100%; }
+        .cmp-hero-copy .btn-row .btn { flex: 1 1 100%; }
+        .cmp-more .btn { width: 100%; }
     }
 </style>

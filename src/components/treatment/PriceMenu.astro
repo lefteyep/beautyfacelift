@@ -34,7 +34,7 @@ const hasActions = Astro.slots.has('actions');
     {items.map((item) => (
       <li class="price-row">
         <div class="price-row-main">
-          <h3 class="price-row-name"><JoinedTitle text={item.name} /></h3>
+          <h3 class="price-row-name"><JoinedTitle text={item.name} keepHyphens /></h3>
           {item.note && <p class="price-row-note">{item.note}</p>}
           {item.sub && <p class="price-row-sub">{item.sub}</p>}
         </div>

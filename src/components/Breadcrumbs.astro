@@ -29,14 +29,13 @@ const structuredData = {
 
 <nav class="breadcrumbs" aria-label="Breadcrumb">
   <ol>
-    {items.map((item, i) => (
+    {items.map((item) => (
       <li>
         {item.href ? (
           <a href={item.href}>{item.display ?? item.label}</a>
         ) : (
           <span aria-current="page">{item.display ?? item.label}</span>
         )}
-        {i < items.length - 1 && <span class="breadcrumb-sep" aria-hidden="true"></span>}
       </li>
     ))}
   </ol>
@@ -65,9 +64,24 @@ const structuredData = {
     color: var(--muted);
   }
 
+  /* The chevron belongs to the item after it, so a wrapped trail never
+     leaves a separator dangling at the end of a line. */
   .breadcrumbs li {
     display: flex;
     align-items: center;
+    min-width: 0;
+  }
+
+  .breadcrumbs li + li::before {
+    content: '';
+    flex: none;
+    width: 5px;
+    height: 5px;
+    margin-inline: 10px 12px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    opacity: 0.55;
+    transform: rotate(45deg);
   }
 
   /* Invisible padding gives each link a comfortable tap target. */
@@ -85,16 +99,6 @@ const structuredData = {
   .breadcrumbs a:hover {
     color: var(--cocoa);
     text-decoration-color: var(--line-strong);
-  }
-
-  .breadcrumb-sep {
-    width: 5px;
-    height: 5px;
-    margin-inline: 10px 12px;
-    border-top: 1px solid currentColor;
-    border-right: 1px solid currentColor;
-    opacity: 0.55;
-    transform: rotate(45deg);
   }
 
   .breadcrumbs [aria-current="page"] {
