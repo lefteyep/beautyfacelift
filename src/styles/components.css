@@ -806,7 +806,7 @@ a.index-item:hover::after { background: var(--i-arrow-light) center / 13px no-re
 }
 
 .cta-band .btn-link { color: var(--cream); }
-.cta-band .btn-link::after { background: rgba(255, 253, 251, 0.12); color: var(--cream); }
+.cta-band .btn-link::after { background: var(--i-arrow-light) center / 12px no-repeat, rgba(255, 253, 251, 0.14); }
 
 
 /* ═══ TRUST LINE — chip row ══════════════════════════════════ */
