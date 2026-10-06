@@ -7,6 +7,7 @@ declare global {
       trackTreatwellOutbound: typeof trackTreatwellOutbound;
       trackBookingButtonClick: typeof trackBookingButtonClick;
       trackContact: typeof trackContact;
+      trackLead: typeof trackLead;
       trackAquafacialLeadSubmit: typeof trackAquafacialLeadSubmit;
       trackAquafacialWhatsappClick: typeof trackAquafacialWhatsappClick;
     };
@@ -234,6 +235,23 @@ async function sha256(value: string): Promise<string | undefined> {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// Meta matches phone hashes only with a country code; convert Swiss local formats (079…, 0041…) to 41….
+function normalizePhoneForMeta(phone: string): string {
+  let digits = phone.replace(/\D/g, '');
+  if (digits.startsWith('00')) digits = digits.slice(2);
+  else if (digits.startsWith('0')) digits = `41${digits.slice(1)}`;
+  return digits;
+}
+
+async function hashedContactData(email?: string, phone?: string): Promise<Record<string, string>> {
+  const userData: Record<string, string> = {};
+  const em = await sha256(email || '');
+  const ph = await sha256(normalizePhoneForMeta(phone || ''));
+  if (em) userData.em = em;
+  if (ph) userData.ph = ph;
+  return userData;
+}
+
 function readCookie(name: string): string | undefined {
   if (typeof document === 'undefined') return undefined;
   const encodedName = `${encodeURIComponent(name)}=`;
@@ -456,6 +474,7 @@ function trackPpcEvent(options: {
   payload?: EventPayload;
   sendCapi?: boolean;
   pushToDataLayer?: boolean;
+  userData?: Record<string, string>;
 }): string {
   if (typeof window === 'undefined') return '';
   if (!hasMarketingConsent()) return '';
@@ -481,7 +500,7 @@ function trackPpcEvent(options: {
       event_id,
       event_source_url: window.location.href,
       event_data: capiEventData(eventPayload),
-      user_data: getUserData(),
+      user_data: { ...options.userData, ...getUserData() },
     });
   }
 
@@ -520,12 +539,7 @@ export async function trackLead(payload: LeadPayload = {}): Promise<void> {
   window.fbq?.('track', 'Lead', customData, { eventID: event_id });
   pushDataLayer('generate_lead', { ...currentEventContext(), ...customData, event_id });
 
-  const user_data: Record<string, string> = {};
-  const em = await sha256(email || '');
-  const ph = await sha256((phone || '').replace(/\D/g, ''));
-  if (em) user_data.em = em;
-  if (ph) user_data.ph = ph;
-  Object.assign(user_data, getUserData());
+  const user_data = { ...(await hashedContactData(email, phone)), ...getUserData() };
 
   postCapi({
     event_name: 'Lead',
@@ -536,9 +550,12 @@ export async function trackLead(payload: LeadPayload = {}): Promise<void> {
   });
 }
 
-export function trackAquafacialLeadSubmit(): string {
+export async function trackAquafacialLeadSubmit(contact: { email?: string; phone?: string } = {}): Promise<string> {
   if (typeof window === 'undefined') return '';
   if (aquafacialLeadTracked) return '';
+  if (!hasMarketingConsent()) return '';
+  aquafacialLeadTracked = true;
+  const userData = await hashedContactData(contact.email, contact.phone);
 
   const eventId = trackPpcEvent({
     dataLayerEvent: 'aquafacial_lead_submit',
@@ -546,6 +563,7 @@ export function trackAquafacialLeadSubmit(): string {
     metaEventName: 'Lead',
     metaTrackMethod: 'track',
     sendCapi: true,
+    userData,
     payload: {
       campaign: 'aquafacial_aktion',
       offer: 'aquafacial_aktion_99',
@@ -557,7 +575,7 @@ export function trackAquafacialLeadSubmit(): string {
     },
   });
 
-  if (eventId) aquafacialLeadTracked = true;
+  if (!eventId) aquafacialLeadTracked = false;
   return eventId;
 }
 
@@ -851,6 +869,7 @@ export function initPpcTracking(): void {
     trackTreatwellOutbound,
     trackBookingButtonClick,
     trackContact,
+    trackLead,
     trackAquafacialLeadSubmit,
     trackAquafacialWhatsappClick,
   };

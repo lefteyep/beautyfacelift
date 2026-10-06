@@ -334,7 +334,7 @@ const structuredData = {
       <div class="lp-lead-grid">
         <div class="lp-lead-header">
           <p class="lp-eyebrow">Termin unverbindlich anfragen</p>
-          <h2 class="lp-section-title">Sichern dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>
+          <h2 class="lp-section-title">Sichere dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>
         </div>
 
         <div class="lp-form-shell">
@@ -700,13 +700,14 @@ const structuredData = {
         if (submitLabel instanceof HTMLElement) submitLabel.textContent = 'Anfrage wird gesendet ...';
 
         try {
+          const payload = formPayload(form);
           const response = await fetch(form.action, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify(formPayload(form)),
+            body: JSON.stringify(payload),
           });
 
           if (!response.ok) {
@@ -722,7 +723,7 @@ const structuredData = {
 
           if (!tracked) {
             tracked = true;
-            trackAquafacialLeadSubmit();
+            void trackAquafacialLeadSubmit({ email: String(payload.email || ''), phone: String(payload.phone || '') });
           }
         } catch (error) {
           if (status instanceof HTMLElement) {

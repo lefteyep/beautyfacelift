@@ -167,7 +167,7 @@ for (const caption of [
 assert(lp.includes('Individuelle Ergebnisse können variieren'), 'Aquafacial results section must include a result-variation disclaimer');
 assert(lp.includes('<div class="lp-lead-header">'), 'Aquafacial lead section must use a centered heading above the form');
 assert(lp.includes('<p class="lp-eyebrow">Termin unverbindlich anfragen</p>'), 'Aquafacial lead section must use the requested overline');
-assert(lp.includes('<h2 class="lp-section-title">Sichern dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>'), 'Aquafacial lead section must use the requested title');
+assert(lp.includes('<h2 class="lp-section-title">Sichere dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>'), 'Aquafacial lead section must use the requested title');
 assert(!lp.includes('<h2 class="lp-section-title">Aquafacial Aktion anfragen</h2>'), 'Aquafacial lead section must remove the old side-column title');
 assert(!lp.includes('Sende uns kurz deinen Terminwunsch oder deine Frage.'), 'Aquafacial lead section must remove the old side-column intro copy');
 assert(!lp.includes('formReassurance'), 'Aquafacial lead section must remove the old reassurance-list data');
@@ -219,7 +219,7 @@ assert(lp.includes('https://buchung.treatwell.ch/ort/beauty-face-lift/?service=A
 const fetchIndex = lp.indexOf('const response = await fetch(form.action');
 const responseOkIndex = lp.indexOf('if (!response.ok)');
 const successShownIndex = lp.indexOf('success.hidden = false');
-const leadTrackingIndex = lp.indexOf('trackAquafacialLeadSubmit();');
+const leadTrackingIndex = lp.indexOf('trackAquafacialLeadSubmit({ email:');
 assert(fetchIndex !== -1, 'Aquafacial form must submit to the backend before showing success');
 assert(responseOkIndex > fetchIndex, 'Aquafacial form must check the backend response before showing success');
 assert(successShownIndex > responseOkIndex, 'Aquafacial form must show success only after response.ok');

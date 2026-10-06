@@ -49,6 +49,9 @@
     "ws": "8.21.0",
     "yaml-language-server": {
       "yaml": "2.8.4"
+    },
+    "miniflare": {
+      "sharp": "0.35.5"
     }
   }
 }
