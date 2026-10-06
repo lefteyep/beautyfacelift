@@ -1,9 +1,8 @@
 ---
 /**
- * Editorial split: copy (default slot) beside one framed image.
- *   reverse — image on the left on desktop (copy stays first on mobile)
- *   narrow  — 7fr / 4fr columns, top-aligned (for long process content)
- * Wrap single links in .btn-row so they keep their natural width.
+ * Editorial split: one framed image beside the copy (default slot).
+ *   reverse — image on the right on desktop
+ * Copy comes first on mobile; the image then crops to 4:3.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -12,74 +11,110 @@ import { splitImageSizes, widthsFor } from './images';
 interface Props {
   image: ImageMetadata;
   alt: string;
-  ratio?: 'portrait' | 'tall' | 'square';
   reverse?: boolean;
-  narrow?: boolean;
   quality?: 'mid' | 'high';
+  /** Horizontal focus of the cover crop. */
+  focus?: 'left' | 'center' | 'right';
 }
 
-const { image, alt, ratio = 'portrait', reverse = false, narrow = false, quality = 'mid' } = Astro.props;
-const frame = { portrait: 5 / 4, tall: 4 / 3, square: 1 }[ratio];
+const { image, alt, reverse = false, quality = 'mid', focus = 'center' } = Astro.props;
 ---
 
-<div class:list={['split-layout', 'tp-split', reverse && 'is-reverse', narrow && 'is-narrow']}>
-  <div class="tp-split-copy scroll-anim">
+<div class:list={['tp-split', reverse && 'is-reverse']}>
+  <div class:list={['tp-split-media', 'scroll-anim', `focus-${focus}`]}>
+    <Image
+      src={image}
+      widths={widthsFor(image)}
+      sizes={splitImageSizes(image, 5 / 4)}
+      format="webp"
+      quality={quality}
+      loading="lazy"
+      alt={alt}
+    />
+  </div>
+  <div class="tp-split-copy">
     <slot />
   </div>
-  <figure class="tp-split-media scroll-anim">
-    <div class:list={['media', `media--${ratio}`]}>
-      <Image
-        src={image}
-        widths={widthsFor(image)}
-        sizes={splitImageSizes(image, frame, narrow)}
-        format="webp"
-        quality={quality}
-        loading="lazy"
-        alt={alt}
-      />
-    </div>
-  </figure>
 </div>
 
 <style>
   .tp-split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(40px, 7vw, 120px);
     align-items: center;
   }
+
+  .tp-split.is-reverse {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  }
+
+  .tp-split.is-reverse .tp-split-media {
+    order: 2;
+  }
+
+  .tp-split-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    background: var(--blush);
+  }
+
+  .tp-split-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-expo);
+  }
+
+  .tp-split-media:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  .focus-left :global(img) { object-position: 35% 50%; }
+  .focus-right :global(img) { object-position: 65% 50%; }
 
   .tp-split-copy {
     display: grid;
     gap: 24px;
-    align-content: start;
+    align-content: center;
+    justify-items: start;
     min-width: 0;
   }
 
   .tp-split-copy > :global(h2) {
-    margin-bottom: 8px;
-    font-size: clamp(2rem, 3.1vw, 2.9rem);
+    max-width: 16ch;
   }
 
-  .tp-split-copy > :global(.steps) {
-    row-gap: 40px;
-    margin-top: 16px;
+  .tp-split-copy > :global(.lead) {
+    max-width: 46ch;
   }
 
-  @media (min-width: 901px) {
+  .tp-split-copy > :global(.btn-row) {
+    margin-top: 8px;
+  }
+
+  /* Quiet caveat under a list, e.g. "Nicht empfohlen bei …" */
+  .tp-split-copy > :global(.split-note) {
+    max-width: 52ch;
+    margin-top: -4px;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .tp-split,
+    .tp-split.is-reverse {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+
+    .tp-split-media,
     .tp-split.is-reverse .tp-split-media {
-      order: -1;
-    }
-
-    .tp-split.is-narrow {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-      align-items: start;
-    }
-
-    .tp-split.is-narrow.is-reverse {
-      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-    }
-
-    .tp-split.is-narrow .tp-split-media {
-      position: sticky;
-      top: calc(var(--nav-h) + 40px);
+      order: 2;
+      aspect-ratio: 4 / 3;
     }
   }
 </style>

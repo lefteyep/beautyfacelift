@@ -36,7 +36,7 @@ const structuredData = {
         ) : (
           <span aria-current="page">{item.display ?? item.label}</span>
         )}
-        {i < items.length - 1 && <span class="breadcrumb-sep" aria-hidden="true">·</span>}
+        {i < items.length - 1 && <span class="breadcrumb-sep" aria-hidden="true"></span>}
       </li>
     ))}
   </ol>
@@ -45,7 +45,7 @@ const structuredData = {
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 <style>
-  /* Small label type in taupe; the current page is set in espresso. */
+  /* Quiet sentence-case trail: muted links, the current page in cocoa. */
   .breadcrumbs {
     padding: 1rem 0;
   }
@@ -55,14 +55,14 @@ const structuredData = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    row-gap: 4px;
-    font-family: var(--f-body);
-    font-size: 0.7rem;
-    font-weight: 600;
+    row-gap: 2px;
+    font-family: var(--f-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
     line-height: 1.5;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--taupe);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--muted);
   }
 
   .breadcrumbs li {
@@ -70,22 +70,34 @@ const structuredData = {
     align-items: center;
   }
 
+  /* Invisible padding gives each link a comfortable tap target. */
   .breadcrumbs a {
-    color: var(--taupe);
-    text-decoration: none;
-    transition: color 0.3s ease;
+    display: inline-block;
+    padding-block: 12px;
+    margin-block: -12px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: color 0.3s ease, text-decoration-color 0.3s ease;
   }
 
   .breadcrumbs a:hover {
-    color: var(--espresso);
+    color: var(--cocoa);
+    text-decoration-color: var(--line-strong);
   }
 
   .breadcrumb-sep {
-    margin-inline: 0.75em;
-    color: var(--stone);
+    width: 5px;
+    height: 5px;
+    margin-inline: 10px 12px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    opacity: 0.55;
+    transform: rotate(45deg);
   }
 
   .breadcrumbs [aria-current="page"] {
-    color: var(--espresso);
+    color: var(--cocoa);
   }
 </style>
