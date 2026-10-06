@@ -1,32 +1,52 @@
 ---
-import { CONTACT_WHATSAPP_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 import Base from '../../../layouts/Base.astro';
 import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingCta from '../../../components/BookingCta.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import { Image, getImage } from 'astro:assets';
+import TreatmentHero from '../../../components/treatment/TreatmentHero.astro';
+import TreatmentSplit from '../../../components/treatment/TreatmentSplit.astro';
+import RuledList from '../../../components/treatment/RuledList.astro';
+import FaqBlock from '../../../components/treatment/FaqBlock.astro';
+import LinkList from '../../../components/treatment/LinkList.astro';
+import { treatmentHeroPreload } from '../../../components/treatment/images';
 import {
     consultationTrust,
-    aquafacialCard,
     microneedlingCard,
     spaFacialTreatment,
     spaInterior,
     spaProducts,
 } from '../../../lib/site-images';
 
-const treatmentHeroSizes = '100vw';
-const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
 const bookingHref = bookingLinkForService('Exosome Therapie');
-
-const exosomeHeroPreload = await getImage({
-    src: spaProducts,
-    widths: [768, 1024, 1440, 1536],
-    sizes: treatmentHeroSizes,
-    format: 'webp',
-    quality: 'high',
-});
+const heroPreload = await treatmentHeroPreload(spaProducts);
 
 const canonicalUrl = absoluteUrl('/behandlungen/exosome-therapie-zuerich/');
+
+const audiences = [
+    'Fahle, müde oder gestresste Haut',
+    'Trockenheitsgefühl und geschwächte Hautbarriere',
+    'Feine Linien, Elastizitätsverlust und unruhige Textur',
+    'Pflege nach Microneedling, wenn die Haut dafür geeignet ist',
+    'Kundinnen und Kunden, die moderne Exosomen Kosmetik in Zürich suchen',
+];
+
+const combinations = [
+    {
+        href: '/behandlungen/microneedling-zuerich/',
+        title: 'Microneedling mit Exosomen',
+        text: 'Microneedling kann feine Mikrokanäle erzeugen und die Aufnahme von Seren begünstigen. Ein Exosomen Serum kann danach pflegend eingesetzt werden, wenn Hautzustand und Produktwahl passen.',
+    },
+    {
+        href: '/behandlungen/aquafacial-zuerich/',
+        title: 'Aquafacial als Vorbereitung',
+        text: 'Eine gründliche Reinigung und Hydration kann die Haut sorgfältig auf eine Wirkstoffbehandlung vorbereiten. Besonders bei fahlem Teint oder verstopften Poren kann ein abgestimmter Plan sinnvoll sein.',
+    },
+    {
+        href: '/behandlungen/coldplasma-zuerich/',
+        title: 'Beruhigende Technologie & Pflege',
+        text: 'Je nach Hautziel kann Teresa auch andere nicht-invasive Behandlungen in den Plan einbeziehen. Entscheidend ist, die Haut nicht zu überfordern und die Behandlungsschritte sinnvoll zu timen.',
+    },
+];
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -175,313 +195,224 @@ const faqData = {
     title="Exosome Therapie Zürich | Beauty Face Lift"
     description="Exosome Gesichtsbehandlung in Zürich: regeneratives Serum, Hyaluronsäure und persönliche Hautanalyse bei Beauty Face Lift Bahnhofstrasse."
     canonical={canonicalUrl}
-    preloadImage={{
-        href: exosomeHeroPreload.src,
-        imagesrcset: exosomeHeroPreload.srcSet.attribute,
-        imagesizes: treatmentHeroSizes,
-        type: 'image/webp',
-        fetchpriority: 'high',
-    }}
+    preloadImage={heroPreload}
     ogImage={absoluteUrl('/assets/spa_products.png')}
-    navVariant="treatment"
-    bodyClass="treatment-page"
     structuredData={structuredData}
 >
-    <header class="treatment-hero exosome-treatment-hero">
-        <div class="treatment-hero-media">
-            <Image
-                src={spaProducts}
-                widths={[768, 1024, 1440, 1536]}
-                sizes={treatmentHeroSizes}
-                format="webp"
-                quality="high"
-                priority
-                alt="Exosome Therapie Zürich mit regenerativem Serum bei Beauty Face Lift"
-                id="treatment-hero-img"
-            />
-        </div>
-        <div class="hero-titles">
-            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
-                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Regenerative Kosmetik • Zürich</span>
-            </div>
-            <h1 class="sr-only">Exosome Therapie Zürich — regenerative Gesichtsbehandlung für Gesicht und Hautbild</h1>
-            <div class="title-line text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.2rem, 7.4vw, 7.5rem);">Exosome</span>
-            </div>
-            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="color: var(--gold); font-weight: 300; font-size: clamp(3.2rem, 7.4vw, 7.5rem);">Therapie</span>
-            </div>
-        </div>
-    </header>
+    <TreatmentHero
+        treatment="Exosome Therapie"
+        breadcrumb="Exosome Therapie Zürich"
+        eyebrow="Regenerative Kosmetik · Bahnhofstrasse 94"
+        lead="Die Exosome Therapie bei Beauty Face Lift ist eine kosmetisch-ästhetische Gesichtsbehandlung, bei der ein Exosomen Serum beziehungsweise exosomenähnliche Wirkstofftechnologie auf die professionell vorbereitete Haut aufgetragen wird."
+        bookingHref={bookingHref}
+        image={spaProducts}
+        alt="Exosome Therapie Zürich mit regenerativem Serum bei Beauty Face Lift"
+        focus="right"
+    >Exosome Therapie <em>Zürich</em></TreatmentHero>
 
-    <div class="container treatment-breadcrumbs">
-        <Breadcrumbs items={[
-            { label: "Home", href: "/" },
-            { label: "Behandlungen", href: "/behandlungen/" },
-            { label: "Exosome Therapie Zürich" }
-        ]} />
-    </div>
-
-    <section class="treatment-action-bar container exosome-action-bar" aria-label="Exosome Therapie Termin und Kontakt">
-        <div class="treatment-action-copy">
-            <span class="sub-display">Behandlung planen</span>
-            <p>Teresa stimmt Hautzustand, Produktwahl und Ablauf persönlich ab, damit die Exosome Therapie zur Haut passt.</p>
-        </div>
-        <div class="treatment-action-buttons">
-            <a href={bookingHref} class="pill-btn" data-treatment="Exosome Therapie" data-button-location="exosome_action_bar">Termin buchen</a>
-            <a
-                href={CONTACT_WHATSAPP_URL}
-                class="pill-btn pill-btn-outline"
-                target="_blank"
-                rel="noopener"
-                data-treatment="Exosome Therapie"
-                data-button-location="exosome_action_bar_whatsapp"
-                data-source="exosome_action_bar"
-            >
-                Frage per WhatsApp
-            </a>
+    <!-- Summary -->
+    <section class="section section--ivory" aria-labelledby="summary-title">
+        <div class="container">
+            <TreatmentSplit image={spaFacialTreatment} alt="Exosome Gesichtsbehandlung mit professioneller Hautanalyse in Zürich">
+                <p class="eyebrow eyebrow--rule">Kurz erklärt</p>
+                <h2 id="summary-title">„Moderne Wirkstoffpflege.<br />Realistische <em>Erwartungen</em>.“</h2>
+                <p>Ziel ist ein hydratisierter, ruhiger und ebenmässiger wirkendes Hautbild. Je nach Hautziel kann die Behandlung als eigenständiges Facial oder in Kombination mit Microneedling geplant werden.</p>
+                <p>Wichtig: Exosomen sind ein spannendes Feld der regenerativen Hautpflege, aber kein Wundermittel. Erste klinische Anwendungen und Studien deuten auf Potenzial bei Hautstruktur, Feuchtigkeit, Elastizität und sichtbarer Hautqualität hin. Gleichzeitig ist die Studienlage noch nicht so robust wie bei etablierten Verfahren. Deshalb formulieren wir bewusst vorsichtig: Die Behandlung kann die Hautpflege unterstützen, die individuelle Wirkung kann variieren.</p>
+                <div class="btn-row">
+                    <a href={bookingHref} class="btn-link" data-treatment="Exosome Therapie" data-button-location="exosome_skin_analysis">Persönliche Hautanalyse buchen</a>
+                </div>
+            </TreatmentSplit>
         </div>
     </section>
 
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Kurz erklärt</span>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Moderne Wirkstoffpflege.<br>Realistische Erwartungen."</h2>
-                <p class="margin-bottom-md"><strong>Die Exosome Therapie bei Beauty Face Lift ist eine kosmetisch-ästhetische Gesichtsbehandlung, bei der ein Exosomen Serum beziehungsweise exosomenähnliche Wirkstofftechnologie auf die professionell vorbereitete Haut aufgetragen wird.</strong> Ziel ist ein hydratisierter, ruhiger und ebenmässiger wirkendes Hautbild. Je nach Hautziel kann die Behandlung als eigenständiges Facial oder in Kombination mit Microneedling geplant werden.</p>
-                <p class="margin-bottom-md">Wichtig: Exosomen sind ein spannendes Feld der regenerativen Hautpflege, aber kein Wundermittel. Erste klinische Anwendungen und Studien deuten auf Potenzial bei Hautstruktur, Feuchtigkeit, Elastizität und sichtbarer Hautqualität hin. Gleichzeitig ist die Studienlage noch nicht so robust wie bei etablierten Verfahren. Deshalb formulieren wir bewusst vorsichtig: Die Behandlung kann die Hautpflege unterstützen, die individuelle Wirkung kann variieren.</p>
-                <a href={bookingHref} class="pill-btn pill-btn-outline" data-treatment="Exosome Therapie" data-button-location="exosome_skin_analysis">Persönliche Hautanalyse buchen</a>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={spaFacialTreatment}
-                        widths={[360, 540, 720, 960]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="mid"
-                        alt="Exosome Gesichtsbehandlung mit professioneller Hautanalyse in Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
+    <!-- Background -->
+    <section class="section" aria-labelledby="exosomes-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Hintergrund</p>
+                    <h2 id="exosomes-title">Was sind <em>Exosomen</em>?</h2>
                 </div>
             </div>
+            <ul class="index-grid">
+                <li class="scroll-anim">
+                    <h3>Natürliche Exosomen</h3>
+                    <p>Natürliche Exosomen sind winzige extrazelluläre Vesikel. Zellen nutzen sie zur Zellkommunikation; sie können Proteine, Lipide und Nukleinsäuren transportieren. In der Forschung werden sie unter anderem im Zusammenhang mit Hautregeneration, Kollagen, Elastizität und Entzündungsprozessen untersucht.</p>
+                </li>
+                <li class="scroll-anim">
+                    <h3>Biomimetische Wirkstoffe</h3>
+                    <p>In der Exosomen Kosmetik werden häufig pflanzliche, vegane oder biomimetische exosomenähnliche Inhaltsstoffe eingesetzt. Sie sind nicht identisch mit menschlichen körpereigenen Exosomen, können aber als moderne Trägersysteme für pflegende Wirkstoffe wie Hyaluronsäure, Peptide oder Antioxidantien dienen.</p>
+                </li>
+                <li class="scroll-anim">
+                    <h3>Kosmetisch statt medizinisch</h3>
+                    <p>Bei Beauty Face Lift steht die kosmetische Verbesserung des Hautbildes im Vordergrund: Feuchtigkeit, Glow, Hautbarriere und Textur. Wir versprechen keine Krankheitsbehandlung, keine permanente Verjüngung und keine Stammzellwirkung. Bei medizinischen Hauterkrankungen ist ärztliche Abklärung wichtig.</p>
+                </li>
+            </ul>
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Was sind Exosomen?</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Natürliche Exosomen</h4>
-                <p>Natürliche Exosomen sind winzige extrazelluläre Vesikel. Zellen nutzen sie zur Zellkommunikation; sie können Proteine, Lipide und Nukleinsäuren transportieren. In der Forschung werden sie unter anderem im Zusammenhang mit Hautregeneration, Kollagen, Elastizität und Entzündungsprozessen untersucht.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Biomimetische Wirkstoffe</h4>
-                <p>In der Exosomen Kosmetik werden häufig pflanzliche, vegane oder biomimetische exosomenähnliche Inhaltsstoffe eingesetzt. Sie sind nicht identisch mit menschlichen körpereigenen Exosomen, können aber als moderne Trägersysteme für pflegende Wirkstoffe wie Hyaluronsäure, Peptide oder Antioxidantien dienen.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Kosmetisch statt medizinisch</h4>
-                <p>Bei Beauty Face Lift steht die kosmetische Verbesserung des Hautbildes im Vordergrund: Feuchtigkeit, Glow, Hautbarriere und Textur. Wir versprechen keine Krankheitsbehandlung, keine permanente Verjüngung und keine Stammzellwirkung. Bei medizinischen Hauterkrankungen ist ärztliche Abklärung wichtig.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={spaInterior}
-                        widths={[360, 540, 720, 960]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="mid"
-                        alt="Beauty Face Lift Studio Zürich Bahnhofstrasse für Exosome Behandlung"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-            </div>
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Ablauf</span>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">So funktioniert die Exosome Behandlung</h2>
-                <p class="margin-bottom-md">Die Exosome Gesichtsbehandlung wird nicht nach Schema F durchgeführt. Teresa stimmt Vorbereitung, Intensität und Wirkstoffauswahl auf Ihr Hautbild ab, damit die Anwendung zur Hautbarriere passt und nicht unnötig reizt.</p>
-                <div class="process-grid">
-                    <div class="process-step">
-                        <div class="highlight-number">01</div>
-                        <h4>Hautanalyse</h4>
+    <!-- Process -->
+    <section class="section section--sand" aria-labelledby="process-title">
+        <div class="container">
+            <TreatmentSplit image={spaInterior} alt="Beauty Face Lift Studio Zürich Bahnhofstrasse für Exosome Behandlung" ratio="tall" reverse narrow>
+                <p class="eyebrow eyebrow--rule">Ablauf</p>
+                <h2 id="process-title">So funktioniert die Exosome <em>Behandlung</em></h2>
+                <p>Die Exosome Gesichtsbehandlung wird nicht nach Schema F durchgeführt. Teresa stimmt Vorbereitung, Intensität und Wirkstoffauswahl auf Ihr Hautbild ab, damit die Anwendung zur Hautbarriere passt und nicht unnötig reizt.</p>
+                <ol class="steps">
+                    <li>
+                        <h3>Hautanalyse</h3>
                         <p>Hauttyp, Empfindlichkeit, aktuelle Pflege, Hautziele und mögliche Gegenanzeigen werden besprochen.</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="highlight-number">02</div>
-                        <h4>Vorbereitung</h4>
+                    </li>
+                    <li>
+                        <h3>Vorbereitung</h3>
                         <p>Die Haut wird gereinigt und je nach Bedarf sanft vorbereitet, zum Beispiel mit einem Facial oder einer passenden Hydration.</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="highlight-number">03</div>
-                        <h4>Serum-Anwendung</h4>
+                    </li>
+                    <li>
+                        <h3>Serum-Anwendung</h3>
                         <p>Das Exosomen Serum beziehungsweise exosomenähnliche Wirkstoffserum wird sorgfältig aufgetragen und in die Pflegeroutine integriert.</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="highlight-number">04</div>
-                        <h4>Beruhigung</h4>
+                    </li>
+                    <li>
+                        <h3>Beruhigung</h3>
                         <p>Eine abschliessende Pflege unterstützt Feuchtigkeit, Hautbarriere und ein ruhiges Hautgefühl. Sonnenschutz ist Teil der Nachsorge.</p>
-                    </div>
+                    </li>
+                </ol>
+            </TreatmentSplit>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section" aria-labelledby="benefits-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Mögliche Vorteile</p>
+                    <h2 id="benefits-title">Was die Behandlung <em>unterstützen</em> kann</h2>
                 </div>
             </div>
+            <ul class="index-grid">
+                <li class="scroll-anim">
+                    <h3>Mehr Feuchtigkeit &amp; Glow</h3>
+                    <p>In Kombination mit Hyaluronsäure kann die Behandlung ein pralleres, frischer wirkendes Hautgefühl unterstützen. Gerade fahle oder gestresste Haut profitiert oft von einer professionellen Wirkstoffpflege.</p>
+                </li>
+                <li class="scroll-anim">
+                    <h3>Ruhigere Hautbarriere</h3>
+                    <p>Beruhigende, antioxidative und hydratisierende Wirkstoffe können helfen, die Hautbarriere nach ästhetischen Behandlungen zu pflegen. Rötungen oder Spannungsgefühl können individuell unterschiedlich reagieren.</p>
+                </li>
+                <li class="scroll-anim">
+                    <h3>Feinere Hautstruktur</h3>
+                    <p>Bei einer Behandlungsserie kann die Hautoberfläche ebenmässiger wirken. Erste Studien zu Exosomen und extrazellulären Vesikeln zeigen Potenzial, dennoch sollten Ergebnisse realistisch und individuell betrachtet werden.</p>
+                </li>
+            </ul>
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Mögliche Vorteile</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Mehr Feuchtigkeit & Glow</h4>
-                <p>In Kombination mit Hyaluronsäure kann die Behandlung ein pralleres, frischer wirkendes Hautgefühl unterstützen. Gerade fahle oder gestresste Haut profitiert oft von einer professionellen Wirkstoffpflege.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Ruhigere Hautbarriere</h4>
-                <p>Beruhigende, antioxidative und hydratisierende Wirkstoffe können helfen, die Hautbarriere nach ästhetischen Behandlungen zu pflegen. Rötungen oder Spannungsgefühl können individuell unterschiedlich reagieren.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Feinere Hautstruktur</h4>
-                <p>Bei einer Behandlungsserie kann die Hautoberfläche ebenmässiger wirken. Erste Studien zu Exosomen und extrazellulären Vesikeln zeigen Potenzial, dennoch sollten Ergebnisse realistisch und individuell betrachtet werden.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="about-editorial" style="padding-bottom: 10vh;">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Für wen?</span>
-                <h2 style="font-size: clamp(1.8rem, 3vw, 2.8rem); text-transform: none; margin-bottom: 2rem;">Wann ist Exosome Therapie Gesicht sinnvoll?</h2>
-                <p class="margin-bottom-md">Die Behandlung kann passend sein, wenn Sie sich regenerative Hautpflege mit einem frischen, natürlichen Finish wünschen, ohne aggressive Versprechen oder starke Ausfallzeit.</p>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Fahle, müde oder gestresste Haut</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Trockenheitsgefühl und geschwächte Hautbarriere</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Feine Linien, Elastizitätsverlust und unruhige Textur</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Pflege nach Microneedling, wenn die Haut dafür geeignet ist</li>
-                    <li style="padding: 0.5rem 0; font-size: 1.0625rem; color: var(--text-secondary);">• Kundinnen und Kunden, die moderne Exosomen Kosmetik in Zürich suchen</li>
-                </ul>
+    <!-- Suitability -->
+    <section class="section section--ivory" aria-labelledby="suitability-title">
+        <div class="container">
+            <TreatmentSplit image={consultationTrust} alt="Persönliche Beratung für Exosome Therapie Zürich bei Teresa Stimac" quality="high">
+                <p class="eyebrow eyebrow--rule">Für wen?</p>
+                <h2 id="suitability-title">Wann ist Exosome Therapie Gesicht <em>sinnvoll</em>?</h2>
+                <p>Die Behandlung kann passend sein, wenn Sie sich regenerative Hautpflege mit einem frischen, natürlichen Finish wünschen, ohne aggressive Versprechen oder starke Ausfallzeit.</p>
+                <RuledList items={audiences} />
                 <p>Ob eine Exosome Behandlung oder eine andere Gesichtsbehandlung besser passt, entscheidet Teresa nach Ihrer Hautanalyse.</p>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 100%;">
-                    <Image
-                        src={consultationTrust}
-                        widths={[360, 540, 720, 960, 1023]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Persönliche Beratung für Exosome Therapie Zürich bei Teresa Stimac"
-                        class="anim-img"
-                        loading="lazy"
-                    />
+            </TreatmentSplit>
+        </div>
+    </section>
+
+    <!-- Safety -->
+    <section class="section" aria-labelledby="safety-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Gut zu wissen</p>
+                    <h2 id="safety-title">Sicherheit &amp; <em>Grenzen</em></h2>
                 </div>
             </div>
+            <ul class="index-grid">
+                <li class="scroll-anim">
+                    <h3>Nicht bei aktiven Reizungen</h3>
+                    <p>Offene Wunden, aktive Infektionen, akuter Herpes, stark entzündete Haut, ungeklärte Ausschläge oder bekannte Allergien gegen Inhaltsstoffe sprechen gegen eine sofortige Behandlung.</p>
+                </li>
+                <li class="scroll-anim">
+                    <h3>Vorsicht bei Microneedling</h3>
+                    <p>Wird Microneedling mit Exosomen kombiniert, gelten die üblichen Needling-Hinweise: Rötung, Empfindlichkeit und kurze Schonzeit sind möglich. Retinol, Säuren, Sauna, intensive Sonne und starkes Schwitzen sollten danach vorübergehend gemieden werden.</p>
+                </li>
+                <li class="scroll-anim">
+                    <h3>Keine Heilsversprechen</h3>
+                    <p>Die Behandlung dient der kosmetischen Hautbildverbesserung. Sie behandelt keine Krankheiten, ersetzt keine dermatologische Therapie und verspricht keine garantierte Hautregeneration oder permanente Anti-Aging-Ergebnisse.</p>
+                </li>
+            </ul>
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Sicherheit & Grenzen</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Nicht bei aktiven Reizungen</h4>
-                <p>Offene Wunden, aktive Infektionen, akuter Herpes, stark entzündete Haut, ungeklärte Ausschläge oder bekannte Allergien gegen Inhaltsstoffe sprechen gegen eine sofortige Behandlung.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Vorsicht bei Microneedling</h4>
-                <p>Wird Microneedling mit Exosomen kombiniert, gelten die üblichen Needling-Hinweise: Rötung, Empfindlichkeit und kurze Schonzeit sind möglich. Retinol, Säuren, Sauna, intensive Sonne und starkes Schwitzen sollten danach vorübergehend gemieden werden.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Keine Heilsversprechen</h4>
-                <p>Die Behandlung dient der kosmetischen Hautbildverbesserung. Sie behandelt keine Krankheiten, ersetzt keine dermatologische Therapie und verspricht keine garantierte Hautregeneration oder permanente Anti-Aging-Ergebnisse.</p>
-            </div>
+    <!-- Combinations -->
+    <section class="section section--sand" aria-labelledby="combinations-title">
+        <div class="container">
+            <TreatmentSplit image={microneedlingCard} alt="Microneedling mit Exosomen Serum in Zürich als mögliche Kombination" ratio="square" reverse>
+                <p class="eyebrow eyebrow--rule">Kombinationen</p>
+                <h2 id="combinations-title">Exosomen Serum sinnvoll <em>kombinieren</em></h2>
+                <p>Exosome Therapie ist besonders interessant, wenn die Haut gezielt vorbereitet wird und die Nachpflege konsequent erfolgt. Geeignete Kombinationen werden bei Beauty Face Lift immer individuell geplant.</p>
+                <LinkList items={combinations} variant="stacked" />
+            </TreatmentSplit>
         </div>
     </section>
 
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Kombinationen</span>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Exosomen Serum sinnvoll kombinieren</h2>
-                <p class="margin-bottom-md">Exosome Therapie ist besonders interessant, wenn die Haut gezielt vorbereitet wird und die Nachpflege konsequent erfolgt. Geeignete Kombinationen werden bei Beauty Face Lift immer individuell geplant.</p>
-                <div class="margin-bottom-md">
-                    <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/microneedling-zuerich/" style="color: var(--accent); text-decoration: none;">Microneedling mit Exosomen</a></h4>
-                    <p style="margin-bottom: 1.5rem;">Microneedling kann feine Mikrokanäle erzeugen und die Aufnahme von Seren begünstigen. Ein Exosomen Serum kann danach pflegend eingesetzt werden, wenn Hautzustand und Produktwahl passen.</p>
-
-                    <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/aquafacial-zuerich/" style="color: var(--accent); text-decoration: none;">Aquafacial als Vorbereitung</a></h4>
-                    <p style="margin-bottom: 1.5rem;">Eine gründliche Reinigung und Hydration kann die Haut sorgfältig auf eine Wirkstoffbehandlung vorbereiten. Besonders bei fahlem Teint oder verstopften Poren kann ein abgestimmter Plan sinnvoll sein.</p>
-
-                    <h4 style="margin-bottom: 0.5rem;"><a href="/behandlungen/coldplasma-zuerich/" style="color: var(--accent); text-decoration: none;">Beruhigende Technologie & Pflege</a></h4>
-                    <p>Je nach Hautziel kann Teresa auch andere nicht-invasive Behandlungen in den Plan einbeziehen. Entscheidend ist, die Haut nicht zu überfordern und die Behandlungsschritte sinnvoll zu timen.</p>
-                </div>
+    <!-- Expectations -->
+    <section class="section" aria-labelledby="expectations-title">
+        <div class="container exo-expectations scroll-anim">
+            <div class="exo-expectations-head">
+                <p class="eyebrow eyebrow--rule">Erwartungen</p>
+                <h2 id="expectations-title">Wann sieht man <em>Ergebnisse</em>?</h2>
             </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={microneedlingCard}
-                        widths={[360, 540, 720, 960]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="mid"
-                        alt="Microneedling mit Exosomen Serum in Zürich als mögliche Kombination"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
+            <div class="exo-expectations-copy">
+                <p class="lead">Direkt nach der Exosome Gesichtsbehandlung kann die Haut frischer, hydratisierter und ruhiger wirken. Veränderungen an Textur, Elastizität und Ebenmässigkeit bauen sich, wenn sie auftreten, meist über mehrere Wochen und mehrere Sitzungen auf.</p>
+                <p>Die wissenschaftliche Forschung zu Exosomen Haut Anwendungen entwickelt sich dynamisch. Viele Ergebnisse sind vielversprechend, aber nicht jeder Effekt lässt sich bereits eindeutig auf Exosomen allein zurückführen, besonders wenn die Behandlung mit Microneedling, Laser, Hyaluronsäure oder anderen Wirkstoffen kombiniert wird. Deshalb beraten wir ehrlich und planen Schritt für Schritt.</p>
             </div>
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="scroll-anim treatment-copy-block">
-            <div class="sub-display">Erwartungen</div>
-            <h2 style="font-size: clamp(1.8rem, 3vw, 2.8rem); text-transform: none; margin-bottom: 1.5rem;">Wann sieht man Ergebnisse?</h2>
-            <p>Direkt nach der Exosome Gesichtsbehandlung kann die Haut frischer, hydratisierter und ruhiger wirken. Veränderungen an Textur, Elastizität und Ebenmässigkeit bauen sich, wenn sie auftreten, meist über mehrere Wochen und mehrere Sitzungen auf.</p>
-            <p>Die wissenschaftliche Forschung zu Exosomen Haut Anwendungen entwickelt sich dynamisch. Viele Ergebnisse sind vielversprechend, aber nicht jeder Effekt lässt sich bereits eindeutig auf Exosomen allein zurückführen, besonders wenn die Behandlung mit Microneedling, Laser, Hyaluronsäure oder anderen Wirkstoffen kombiniert wird. Deshalb beraten wir ehrlich und planen Schritt für Schritt.</p>
-        </div>
-    </section>
-
-    <section class="faq-section">
-        <div class="faq-label">Häufig gestellte Fragen</div>
-        <div class="faq-list">
-            {faqData.mainEntity.map((faq) => (
-                <details class="faq-item scroll-anim">
-                    <summary><h3>{faq.name}</h3></summary>
-                    <div class="faq-answer"><div class="faq-answer-inner">
-                        <p>{faq.acceptedAnswer.text}</p>
-                    </div></div>
-                </details>
-            ))}
+    <!-- FAQ -->
+    <section class="section section--rule" aria-label="Häufige Fragen">
+        <div class="container">
+            <FaqBlock>
+                <Fragment slot="title">Fragen zur <em>Exosome</em> Therapie</Fragment>
+                {faqData.mainEntity.map((faq) => (
+                    <details class="faq-item">
+                        <summary><h3>{faq.name}</h3></summary>
+                        <div class="faq-answer"><div class="faq-answer-inner">
+                            <p>{faq.acceptedAnswer.text}</p>
+                        </div></div>
+                    </details>
+                ))}
+            </FaqBlock>
         </div>
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 
-    <section class="container pad-y" id="buchen">
-        <BookingCta
-            treatment="Exosome Therapie"
-            href={bookingHref}
-            eyebrow="Termin planen"
-            title="Exosome Therapie in Zürich besprechen"
-            text="Teresa analysiert Ihre Haut persönlich und klärt, ob Exosome Therapie, Microneedling mit Exosomen oder eine andere Behandlung zu Ihrem Hautziel passt."
-        />
+    <!-- Booking -->
+    <section class="section section--tight section--flush-top" id="buchen">
+        <div class="container">
+            <BookingCta
+                treatment="Exosome Therapie"
+                href={bookingHref}
+                eyebrow="Termin planen"
+                title="Exosome Therapie in Zürich besprechen"
+                text="Teresa analysiert Ihre Haut persönlich und klärt, ob Exosome Therapie, Microneedling mit Exosomen oder eine andere Behandlung zu Ihrem Hautziel passt."
+            />
+        </div>
     </section>
 
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="more-treatments">
-            <div class="sub-display margin-bottom-lg">Weitere Behandlungen</div>
-            <div class="more-treatments-grid">
+    <!-- Related -->
+    <section class="section section--tight section--rule" aria-labelledby="related-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Weitere Behandlungen</p>
+                    <h2 id="related-title">Mehr für Ihre <em>Haut</em></h2>
+                </div>
+                <a href="/behandlungen/" class="btn-link">Alle Behandlungen</a>
+            </div>
+            <div class="index-grid">
                 <TreatmentLinkCard
                     href="/behandlungen/aquafacial-zuerich/"
                     title="Aquafacial"
@@ -489,7 +420,7 @@ const faqData = {
                 />
                 <TreatmentLinkCard
                     href="/behandlungen/microneedling-zuerich/"
-                    title="Micro Needling"
+                    title="Microneedling"
                     description="Kollagenstimulation für Hautstruktur, Poren und Anti-Aging-Ziele."
                 />
                 <TreatmentLinkCard
@@ -503,21 +434,22 @@ const faqData = {
 </Base>
 
 <style>
+    .exo-expectations {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+        gap: 24px clamp(40px, 7vw, 120px);
+        align-items: start;
+    }
+
+    .exo-expectations-head,
+    .exo-expectations-copy {
+        display: grid;
+        gap: 20px;
+    }
+
     @media (max-width: 900px) {
-        .exosome-treatment-hero .title-right {
-            justify-content: flex-start;
-        }
-
-        .exosome-action-bar,
-        .exosome-action-bar .treatment-action-copy,
-        .exosome-action-bar .treatment-action-copy p {
-            min-width: 0;
-            max-width: 100%;
-            width: 100%;
-        }
-
-        .exosome-action-bar .treatment-action-copy p {
-            overflow-wrap: break-word;
+        .exo-expectations {
+            grid-template-columns: minmax(0, 1fr);
         }
     }
 </style>
