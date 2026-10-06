@@ -81,8 +81,11 @@ Visual rules and tokens: [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) ("Atelier Glow").
 - **Page components:**
   - `Breadcrumbs.astro` — visual breadcrumbs plus schema.org BreadcrumbList.
   - `ServiceHubPage.astro` — template for the six service hubs (Gesichtsbehandlung, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up, Massage).
-  - `src/components/treatment/*` — kit for the treatment detail pages (hero, price rows, steps, FAQ, review, related treatments).
-  - `BookingCta.astro` and `AiSummary.astro` — shared booking CTA and optional summary block.
+  - `src/components/treatment/*` — kit for the treatment detail pages:
+    - `TreatmentHero`, `BenefitList`, `PriceMenu` (hairline price rows) and `TreatmentSteps`;
+    - `FaqBlock` (also outputs the FAQ JSON-LD), `ReviewQuote` and `RelatedTreatments`;
+    - `catalog.ts` holds the card data.
+  - `BookingCta.astro` — shared booking panel with a WhatsApp button and an optional image.
   - `MarketingConsent.astro` — consent banner; it can be reopened from the footer.
   - `src/components/lp/*` — ad landing page sections (offer box, lead form, testimonials).
 
