@@ -7,6 +7,12 @@ import {
     CONTACT_PHONE_DISPLAY,
     CONTACT_WHATSAPP_URL,
 } from '../../../../shared/site';
+
+const nextSteps = [
+    { title: 'Anrufen', detail: CONTACT_PHONE_DISPLAY, href: `tel:${CONTACT_PHONE}`, location: 'thanks_phone', icon: 'phone' },
+    { title: 'WhatsApp', detail: 'Für eine schnelle Rückfrage', href: CONTACT_WHATSAPP_URL, location: 'thanks_whatsapp', icon: 'whatsapp', external: true },
+    { title: 'E-Mail', detail: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, location: 'thanks_email', icon: 'mail' },
+];
 ---
 
 <Base
@@ -16,31 +22,43 @@ import {
 >
     <section class="kontakt-thanks" aria-labelledby="thanks-title">
         <div class="kontakt-thanks-copy">
-            <h1 id="thanks-title">Ihre Anfrage wurde <em>gesendet</em>.</h1>
-            <p class="lead">Teresa meldet sich persönlich bei Ihnen. Bei dringenden Terminänderungen erreichen Sie uns schneller telefonisch oder per WhatsApp.</p>
+            <span class="kontakt-thanks-mark reveal-up" aria-hidden="true"></span>
+            <h1 id="thanks-title" class="reveal-up kd-1">Ihre Anfrage wurde <em>gesendet</em></h1>
+            <p class="lead reveal-up kd-2">Teresa meldet sich persönlich bei Ihnen. Bei dringenden Terminänderungen erreichen Sie uns schneller telefonisch oder per WhatsApp.</p>
+            <div class="btn-row reveal-up kd-3">
+                <a class="btn btn-lg btn-arrow" href="/termin/" data-button-location="thanks_booking">Termin online buchen</a>
+                <a class="btn btn-secondary btn-lg" href="/" data-button-location="thanks_home">Zur Startseite</a>
+            </div>
         </div>
 
-        <div class="kontakt-location-grid">
-            <article class="kontakt-location-card">
-                <span class="label">Telefon</span>
-                <h2 class="kontakt-thanks-value">{CONTACT_PHONE_DISPLAY}</h2>
-                <a class="btn-link" href={`tel:${CONTACT_PHONE}`}>Jetzt anrufen</a>
-            </article>
-            <article class="kontakt-location-card">
-                <span class="label">WhatsApp</span>
-                <h2 class="kontakt-thanks-value">Schnelle Rückfrage</h2>
-                <a class="btn-link" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp öffnen</a>
-            </article>
-            <article class="kontakt-location-card">
-                <span class="label">E-Mail</span>
-                <h2 class="kontakt-thanks-value">{CONTACT_EMAIL}</h2>
-                <a class="btn-link" href={`mailto:${CONTACT_EMAIL}`}>E-Mail schreiben</a>
-            </article>
-            <article class="kontakt-location-card">
-                <span class="label">Buchung</span>
-                <h2 class="kontakt-thanks-value">Termin online buchen</h2>
-                <a class="btn-link" href="/termin/">Zur Buchung</a>
-            </article>
-        </div>
+        <ul class="kontakt-options kontakt-options--thanks" aria-label="Weitere Kontaktmöglichkeiten">
+            {nextSteps.map((step) => (
+                <li>
+                    <a
+                        class="kontakt-option"
+                        href={step.href}
+                        {...(step.external ? { target: '_blank', rel: 'noopener' } : {})}
+                        data-button-location={step.location}
+                    >
+                        <span class="kontakt-option-top">
+                            <span class="kontakt-option-icon" aria-hidden="true">
+                                {step.icon === 'phone' && (
+                                    <svg viewBox="0 0 24 24"><path d="M6.2 4h3l1.6 4.2-2 1.4a10.5 10.5 0 0 0 5.6 5.6l1.4-2L20 14.8v3A2.2 2.2 0 0 1 17.8 20 13.8 13.8 0 0 1 4 6.2 2.2 2.2 0 0 1 6.2 4z" /></svg>
+                                )}
+                                {step.icon === 'whatsapp' && (
+                                    <svg viewBox="0 0 24 24"><path d="M20 11.6a8 8 0 0 1-11.7 7.1L4 20l1.3-4.1A8 8 0 1 1 20 11.6z" /><path d="M9 9.5c.3 1.8 1.7 3.6 3.6 4.4" /></svg>
+                                )}
+                                {step.icon === 'mail' && (
+                                    <svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" /><path d="M4.5 7l7.5 6 7.5-6" /></svg>
+                                )}
+                            </span>
+                            <span class="kontakt-option-go" aria-hidden="true"></span>
+                        </span>
+                        <span class="kontakt-option-title">{step.title}</span>
+                        <span class="kontakt-option-detail">{step.detail}</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
     </section>
 </Base>
