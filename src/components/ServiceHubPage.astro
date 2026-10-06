@@ -28,7 +28,6 @@ interface RelatedLink {
 interface Props {
   title: string;
   description: string;
-  eyebrow: string;
   h1: string;
   intro: string[];
   summaryTitle: string;
@@ -47,7 +46,6 @@ interface Props {
 const {
   title,
   description,
-  eyebrow,
   h1,
   intro,
   summaryTitle,
@@ -90,7 +88,7 @@ const structuredData = {
 };
 
 // "Waxing Zürich – professionelle Haarentfernung …" → large name with one
-// italic accent (its last word) above a quieter display sub-line.
+// copper accent (its last word) above a quieter display sub-line.
 const [h1Name, ...h1Rest] = h1.split(' – ');
 const h1Sub = h1Rest.join(' – ');
 const h1Words = h1Name.split(' ');
@@ -119,7 +117,6 @@ const relatedLinks = related.map((link) => ({ href: link.href, title: link.title
             { label: h1, display: h1Name },
           ]} />
         </div>
-        <p class="eyebrow eyebrow--rule reveal-up d-1">{eyebrow}</p>
         <h1 class="hub-title reveal-up d-2">
           {h1Lead} <em>{h1Accent}</em>{h1Sub && (
             <span class="hub-title-sub"><span class="sr-only"> – </span>{h1Sub}</span>
@@ -140,7 +137,7 @@ const relatedLinks = related.map((link) => ({ href: link.href, title: link.title
 
   <section class="section section--ivory" aria-label="Preise und Dauer">
     <div class="container">
-      <PriceMenu items={prices} eyebrow="Preise">
+      <PriceMenu items={prices}>
         <Fragment slot="title">Preise &amp; <em>Dauer</em></Fragment>
       </PriceMenu>
     </div>
@@ -150,7 +147,6 @@ const relatedLinks = related.map((link) => ({ href: link.href, title: link.title
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow eyebrow--rule">Ihre Behandlung</p>
           <h2 id="hub-details-title">Was Sie <em>erwartet</em></h2>
         </div>
       </div>
@@ -194,7 +190,6 @@ const relatedLinks = related.map((link) => ({ href: link.href, title: link.title
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow eyebrow--rule">Passend dazu</p>
           <h2 id="hub-related-title">Weitere <em>Empfehlungen</em></h2>
         </div>
         <a href="/behandlungen/" class="btn-link">Alle Behandlungen</a>

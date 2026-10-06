@@ -4,7 +4,6 @@ import { bookingLinkForService } from '../../shared/site';
 interface Props {
   treatment?: string;
   href?: string;
-  eyebrow?: string;
   title?: string;
   text?: string;
   ctaText?: string;
@@ -13,7 +12,6 @@ interface Props {
 const {
   treatment,
   href,
-  eyebrow = 'Termin',
   title = treatment ? `${treatment} an der Bahnhofstrasse` : 'Ihr Termin an der Bahnhofstrasse',
   text = 'Buchen Sie Ihren Wunschtermin bequem online. Teresa klärt Details und Eignung vor der Behandlung persönlich mit Ihnen.',
   ctaText = 'Termin buchen',
@@ -24,7 +22,6 @@ const bookingHref = href || bookingLinkForService(treatment);
 
 <section class="booking-cta" aria-label={title}>
   <div class="booking-cta-copy">
-    <span class="eyebrow eyebrow--rule booking-cta-kicker">{eyebrow}</span>
     <h2>{title}</h2>
     <p>{text}</p>
   </div>

@@ -36,7 +36,8 @@ const treatments = [
 
 const marquee = treatments.map(({ name, image }) => ({ name, image }));
 
-// Exact-match anchor text for each service hub (internal-linking plan, checked by scripts/seo-plan-smoke.mjs).
+// SEO name of each service hub (checked by scripts/seo-plan-smoke.mjs). Rows show it
+// without the city — the section and the hub pages carry "Zürich".
 const hubAnchors: Record<string, string> = {
     '/behandlungen/gesichtsbehandlung-zuerich/': 'Gesichtsbehandlung Zürich',
     '/behandlungen/laser-haarentfernung-zuerich/': 'Laser-Haarentfernung Zürich',
@@ -46,24 +47,12 @@ const hubAnchors: Record<string, string> = {
     '/behandlungen/massage-zuerich-bahnhofstrasse/': 'Massage Zürich Bahnhofstrasse',
 };
 
-// Starting prices as stated in each hub's "Preise" fact.
-const priceFrom: Record<string, string> = {
-    '/behandlungen/gesichtsbehandlung-zuerich/': 'ab CHF 150',
-    '/behandlungen/laser-haarentfernung-zuerich/': 'ab CHF 85',
-    '/behandlungen/waxing-zuerich/': 'ab CHF 35',
-    '/behandlungen/wimpern-brauen-zuerich/': 'ab CHF 20',
-    '/behandlungen/make-up-zuerich/': 'ab CHF 100',
-    '/behandlungen/massage-zuerich-bahnhofstrasse/': 'ab CHF 65',
-};
-
 const services = SERVICE_GROUPS.map((group) => {
     const anchor = hubAnchors[group.href] ?? group.label;
-    const split = anchor.indexOf(' Zürich');
     return {
         href: group.href,
-        name: split > 0 ? anchor.slice(0, split) : anchor,
-        place: split > 0 ? anchor.slice(split + 1) : '',
-        price: priceFrom[group.href] ?? '',
+        name: anchor.replace(/\s+Zürich.*$/, ''),
+        price: group.priceFrom,
     };
 });
 
@@ -118,27 +107,27 @@ const structuredData = [businessStructuredData, websiteStructuredData];
 const faqs = [
     {
         q: 'Brauche ich eine Beratung vor der ersten Behandlung?',
-        a: 'Eine kurze persönliche Beratung ist fester Bestandteil jeder Erstbehandlung bei Beauty Face Lift. Teresa nimmt sich Zeit, Ihren Hauttyp sorgfältig zu analysieren, eventuelle Empfindlichkeiten zu besprechen und die passende Behandlung für Ihre individuellen Bedürfnisse zu empfehlen. Diese Beratung ist kostenlos und unverbindlich. So stellen wir sicher, dass Sie von Anfang an die bestmöglichen Ergebnisse erzielen und sich bei uns rundum wohlfühlen.',
+        a: 'Ja, eine kurze Beratung gehört zu jeder Erstbehandlung. Teresa analysiert Ihre Haut, bespricht Empfindlichkeiten und empfiehlt die passende Behandlung – kostenlos und unverbindlich.',
     },
     {
         q: 'Welche Behandlung passt zu mir?',
-        a: 'Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Aquafacial eignet sich hervorragend für frischen Glow und intensive Feuchtigkeit. Microneedling ist eine Option bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie persönlich in einem Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut.',
+        a: 'Das hängt von Ihrem Hautziel ab: Aquafacial für Glow und Feuchtigkeit, Microneedling bei feinen Linien und Narben, Fruchtsäure Peeling bei Unreinheiten und unebener Textur. ColdPlasma und Exosome Therapie ergänzen die Wirkstoffpflege – im Erstgespräch erstellt Teresa Ihren persönlichen Plan.',
     },
     {
         q: 'Kann ich mehrere Behandlungen kombinieren?',
-        a: 'Ja, viele unserer Behandlungen ergänzen sich hervorragend und können für möglichst gute Ergebnisse miteinander kombiniert werden. Besonders beliebt ist die Kombination aus Aquafacial und ColdPlasma — die Tiefenreinigung des Aquafacials bereitet die Haut ideal auf die regenerierende Wirkung des ColdPlasma vor. Auch Microneedling und Fruchtsäure Peeling lassen sich in einem abgestimmten Behandlungsplan integrieren. Teresa empfiehlt Ihnen die ideale Kombination basierend auf Ihrem Hautbild.',
+        a: 'Ja. Beliebt ist Aquafacial mit ColdPlasma, weil die Tiefenreinigung die Haut auf die Plasma-Pflege vorbereitet. Auch Microneedling und Fruchtsäure Peeling lassen sich in einen abgestimmten Behandlungsplan integrieren.',
     },
     {
         q: 'Sind die Behandlungen für empfindliche Haut geeignet?',
-        a: 'Ja, alle unsere Behandlungen sind individuell auf Ihren Hauttyp anpassbar. Besonders Aquafacial und ColdPlasma zeichnen sich durch ihre sanfte Wirkungsweise aus und sind hervorragend für empfindliche Haut geeignet. Die Intensität wird bei jeder Behandlung an Ihre persönliche Hautempfindlichkeit angepasst. Bei der Erstberatung bespricht Teresa allfällige Allergien oder Unverträglichkeiten mit Ihnen, damit wir die Behandlung sorgfältig auf Ihre Bedürfnisse abstimmen können.',
+        a: 'Ja. Jede Behandlung wird an Ihren Hauttyp angepasst, Aquafacial und ColdPlasma sind besonders sanft. Allergien und Unverträglichkeiten bespricht Teresa vorab mit Ihnen.',
     },
     {
         q: 'Wo befindet sich Beauty Face Lift?',
-        a: 'Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt, nur wenige Schritte vom Paradeplatz entfernt. Die zentrale Lage ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar: Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe. Auch mit dem Auto ist das Studio gut zugänglich, mit mehreren Parkhäusern in der Umgebung. Wir freuen uns auf Ihren Besuch in unserer Beauty Oase an Zürichs bekanntester Einkaufsstrasse.',
+        a: 'An der Bahnhofstrasse 94, 8001 Zürich – wenige Schritte vom Paradeplatz. Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe, Parkhäuser gibt es in der Umgebung.',
     },
     {
         q: 'Was ist ein Kosmetikinstitut?',
-        a: 'Ein Kosmetikinstitut vereint kosmetisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-chirurgische Behandlungen wie Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte, hochwertige Wirkstoffe und persönliche Beratung — ganz ohne chirurgische Eingriffe.',
+        a: 'Ein Kosmetikinstitut verbindet kosmetisch-ästhetische Behandlungen mit professionellen Geräten, hochwertigen Wirkstoffen und persönlicher Beratung – ohne chirurgische Eingriffe. Bei Beauty Face Lift gehören dazu Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie.',
     },
 ];
 
@@ -172,14 +161,13 @@ const faqData = {
     <header class="hx">
         <div class="container hx-grid">
             <div class="hx-copy">
-                <span class="eyebrow eyebrow--pill reveal-up">Kosmetikstudio Zürich · Bahnhofstrasse 94</span>
-                <h1 class="hx-title reveal-up" style="--d: 1">Ihr Kosmetikstudio für <em>strahlende</em> Haut in Zürich</h1>
-                <p class="hx-sub reveal-up" style="--d: 2">Gesichtsbehandlungen, die zu Ihrer Haut passen – persönlich von Teresa Stimac, seit über 20 Jahren.</p>
-                <div class="btn-row reveal-up" style="--d: 3">
+                <h1 class="hx-title reveal-up">Ihr Kosmetikstudio für <em>strahlende</em> Haut in Zürich</h1>
+                <p class="hx-sub reveal-up" style="--d: 1">Gesichtsbehandlungen, die zu Ihrer Haut passen – persönlich von Teresa Stimac, seit über 20 Jahren.</p>
+                <div class="btn-row reveal-up" style="--d: 2">
                     <a href="/termin/" class="btn btn-lg btn-arrow hero-cta" data-button-location="home_hero">Termin buchen</a>
                     <a href="/kontakt/" class="btn btn-secondary btn-lg" data-button-location="home_hero_consultation">Kostenlose Beratung</a>
                 </div>
-                <ul class="hx-proof reveal-up" style="--d: 4">
+                <ul class="hx-proof reveal-up" style="--d: 3">
                     <li><span class="stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></li>
                     <li class="hx-proof-check">Erstberatung kostenlos</li>
                 </ul>
@@ -225,10 +213,9 @@ const faqData = {
         <div class="container">
             <div class="section-head">
                 <div>
-                    <span class="eyebrow">Gesichtsbehandlungen</span>
                     <h2 id="tx-title">Gesichtsbehandlungen in <em>Zürich</em></h2>
                 </div>
-                <a href="/behandlungen/" class="btn-link">Alle Behandlungen &amp; Preise</a>
+                <a href="/behandlungen/" class="btn btn-secondary btn-lg btn-arrow" data-button-location="home_treatments_overview">Übersicht aller Behandlungen</a>
             </div>
             <ul class="tx-bento">
                 {treatments.map((t, index) => (
@@ -260,7 +247,6 @@ const faqData = {
                 </div>
             </div>
             <div class="tm-copy">
-                <span class="eyebrow">Ihre Kosmetikerin</span>
                 <h2 id="tm-title">Teresa Stimac, <em>persönlich</em> für Ihre Haut</h2>
                 <p class="lead">Jede Behandlung führt Teresa selbst durch: mit sorgfältiger Hautanalyse, ehrlicher Empfehlung und über 20 Jahren Erfahrung an der Bahnhofstrasse.</p>
                 <dl class="tm-stats">
@@ -278,7 +264,6 @@ const faqData = {
     <section class="section" aria-labelledby="sv-title">
         <div class="container sv-grid">
             <div class="sv-head">
-                <span class="eyebrow">Beauty-Services</span>
                 <h2 id="sv-title">Alles für gepflegte <em>Details</em></h2>
                 <p class="lead">Ergänzend zur Gesichtsbehandlung, an einer Adresse und mit einer Ansprechperson.</p>
                 <a href="/termin/" class="btn btn-arrow" data-button-location="home_services">Termin buchen</a>
@@ -287,7 +272,7 @@ const faqData = {
                 {services.map((service) => (
                     <li>
                         <a href={service.href} class="sv-row">
-                            <span class="sv-name">{service.name} {service.place && <span class="sv-place">{service.place}</span>}</span>
+                            <span class="sv-name">{service.name}</span>
                             <span class="sv-price">{service.price}</span>
                             <span class="sv-go" aria-hidden="true"></span>
                         </a>
@@ -304,7 +289,6 @@ const faqData = {
                 <Image src={consultation} widths={[480, 720, 960]} sizes="(min-width: 1280px) 560px, (min-width: 901px) 44vw, 92vw" format="webp" quality="mid" loading="lazy" alt="Teresa bespricht mit einer Kundin die Hautanalyse" />
             </div>
             <div class="fv-copy">
-                <span class="eyebrow">Ihr erster Besuch</span>
                 <h2 id="fv-title">Kostenlose Erstberatung, <em>ehrliche</em> Empfehlung</h2>
                 <ol class="fv-steps">
                     <li><h3>Termin wählen</h3><p>Online oder per WhatsApp.</p></li>
@@ -324,7 +308,6 @@ const faqData = {
         <div class="container">
             <div class="section-head">
                 <div>
-                    <span class="eyebrow">Bewertungen</span>
                     <h2 id="rv-title">4,8 Sterne aus <em>248+</em> Bewertungen</h2>
                 </div>
                 <a href={TREATWELL_URL} class="btn-link" target="_blank" rel="noopener">Alle auf Treatwell</a>
@@ -349,7 +332,6 @@ const faqData = {
     <section class="section section--flush-top" aria-labelledby="faq-title">
         <div class="container fq-grid">
             <div class="fq-head">
-                <span class="eyebrow">Häufige Fragen</span>
                 <h2 id="faq-title">Gut zu <em>wissen</em></h2>
                 <a href="/haeufige-fragen/" class="btn btn-secondary">Alle Fragen</a>
             </div>
@@ -501,7 +483,6 @@ const faqData = {
         align-items: center;
         gap: 28px;
         font-family: var(--f-serif);
-        font-style: italic;
         font-size: clamp(2rem, 3.6vw, 3.25rem);
         line-height: 1;
         color: var(--cocoa);
@@ -668,7 +649,6 @@ const faqData = {
         transition: color 0.3s ease;
     }
 
-    .sv-place { font-style: italic; color: var(--muted); }
 
     .sv-price {
         padding: 7px 14px;
@@ -720,8 +700,6 @@ const faqData = {
 
     .fv-copy { display: grid; gap: 26px; justify-items: start; padding-block: 24px; }
     .fv-copy h2 { color: var(--cream); }
-    .fv-copy h2 em { color: var(--clay-light); }
-    .fv-copy .eyebrow { color: var(--clay-light); }
 
     .fv-steps { display: grid; width: 100%; counter-reset: fv; border-top: 1px solid var(--line-light); }
 

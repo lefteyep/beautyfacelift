@@ -11,14 +11,12 @@ interface Props {
   detail?: string;
   /** Show five stars (only where the source review is shown with them). */
   stars?: boolean;
-  eyebrow?: string;
 }
 
-const { quote, author, detail, stars = false, eyebrow = 'Kundenstimme' } = Astro.props;
+const { quote, author, detail, stars = false } = Astro.props;
 ---
 
 <div class="review scroll-anim">
-  <p class="eyebrow">{eyebrow}</p>
   <figure class="quote quote--center">
     {stars && <span class="review-stars" role="img" aria-label="5 von 5 Sternen">★★★★★</span>}
     <blockquote>„{quote}“</blockquote>

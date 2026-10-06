@@ -2,7 +2,7 @@
    JOURNAL — article layout (src/layouts/BlogPost.astro)
    Header: breadcrumbs · eyebrow (category) · H1 · byline on a hairline
    Body:   .blog-article — 66ch measure, Instrument Sans 400,
-           Bodoni h2/h3, italic display blockquotes, bronze list markers
+           serif h2/h3, upright display blockquotes, copper list markers
    The journal index styles live in src/pages/blog/index.astro.
    ═══════════════════════════════════════════════════════════════ */
 
@@ -185,7 +185,6 @@
   border-top: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule);
   font-family: var(--f-display);
-  font-style: italic;
   font-size: clamp(1.45rem, 2.3vw, 1.95rem);
   line-height: 1.32;
   color: var(--espresso);

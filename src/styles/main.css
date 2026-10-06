@@ -2,13 +2,12 @@
    BEAUTY FACE LIFT — "Atelier Glow" design system
    Synthesised from contemporary beauty/clinic templates (Eira, Lumiera,
    Stillwater, Spaday, Shiny, Luxo …) and the studio's previous look:
-   soft serif headlines mixing upright and italic words, clean sans text,
+   soft upright serif headlines (never italic), clean sans text,
    warm cream palette with the logo's copper-gold, rounded and arched
    photo frames, pill buttons, floating detail cards.
    ═══════════════════════════════════════════════════════════════ */
 @import '@fontsource-variable/instrument-sans/standard.css';
 @import '@fontsource/instrument-serif/400.css';
-@import '@fontsource/instrument-serif/400-italic.css';
 
 :root {
   /* ─── Colour ─────────────────────────────────────────────── */
@@ -174,6 +173,8 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 16px);
   -webkit-text-size-adjust: 100%;
+  /* No italics anywhere: no italic faces are loaded and none are faked. */
+  font-synthesis-style: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -195,7 +196,8 @@ body {
 }
 
 /* ═══ Typography ═════════════════════════════════════════════
-   h1/h2: Instrument Serif, upright with italic accent words.
+   h1/h2: Instrument Serif, always upright; an optional <em> accent word
+   only changes colour.
    h3/h4: Instrument Sans for crisp card and list titles.
    ═══════════════════════════════════════════════════════════ */
 h1, h2, h3, h4, h5, h6 {
@@ -218,19 +220,20 @@ h2 { font-size: var(--fs-h2); line-height: 1.04; }
 h3 { font-size: var(--fs-h3); line-height: 1.22; }
 h4 { font-size: var(--fs-h4); line-height: 1.3; letter-spacing: -0.01em; }
 
-/* Italic accent words: <h2>Haut, die <em>strahlt</em></h2> */
-:is(h1, h2, .display) em,
+/* Accent word, page titles only: <h1>Haut, die <em>strahlt</em></h1> —
+   upright copper. Inside section headings an <em> stays plain so the
+   colour keeps its weight. */
+:is(h1, .display) em,
 .accent-word {
   font-family: var(--f-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
-  letter-spacing: -0.01em;
   color: var(--clay);
 }
 
-h3 em { font-style: italic; color: var(--clay); }
+:is(h2, h3, h4) em { font-style: normal; color: inherit; }
 
-em, i { font-style: italic; }
+em, i, cite, address, dfn, var, blockquote { font-style: normal; }
 
 p {
   font-size: var(--fs-body);
@@ -265,12 +268,12 @@ ul, ol { list-style: none; }
   max-width: 54ch;
 }
 
-/* Eyebrow: small sentence-case label with a dot */
+/* Eyebrow: plain small label. Used sparingly, only where it carries real
+   information (offer kickers on ad pages, article categories) — never as a
+   decorative overline above every heading. */
 .eyebrow,
 .sub-display {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: block;
   font-family: var(--f-sans);
   font-size: var(--fs-label);
   font-weight: 500;
@@ -279,26 +282,6 @@ ul, ol { list-style: none; }
   text-transform: none;
   color: var(--clay);
 }
-
-.eyebrow::before,
-.sub-display::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  flex: none;
-}
-
-/* Pill tag variant: <span class="eyebrow eyebrow--pill">…</span> */
-.eyebrow--pill {
-  padding: 6px 14px 6px 12px;
-  border-radius: var(--r-pill);
-  background: var(--paper);
-  border: 1px solid var(--line);
-}
-
-.eyebrow--rule::before { width: 6px; }
 
 .label {
   font-size: var(--fs-label);
@@ -310,7 +293,6 @@ ul, ol { list-style: none; }
 
 .pull-quote {
   font-family: var(--f-serif);
-  font-style: italic;
   font-size: clamp(1.6rem, 3vw, 2.5rem);
   line-height: 1.2;
   color: var(--cocoa);
@@ -352,8 +334,8 @@ ul, ol { list-style: none; }
 .on-dark p { color: var(--on-dark); }
 .section--dark :is(.eyebrow, .sub-display),
 .on-dark :is(.eyebrow, .sub-display),
-.section--dark :is(h1, h2, h3) em,
-.on-dark :is(h1, h2, h3) em { color: var(--clay-light); }
+.section--dark h1 em,
+.on-dark h1 em { color: var(--clay-light); }
 
 .split-layout {
   display: grid;
@@ -530,7 +512,7 @@ ul, ol { list-style: none; }
 .btn-lg.btn-arrow { padding-right: 9px; }
 .btn-lg.btn-arrow::after { width: 38px; height: 38px; }
 
-:is(.btn-light, .on-dark .btn, .section--dark .btn, .cta-band .btn).btn-arrow::after {
+:is(.btn-light, .btn-secondary, .on-dark .btn, .section--dark .btn, .cta-band .btn).btn-arrow::after {
   background: var(--i-arrow-light) center / 13px no-repeat, var(--clay);
 }
 

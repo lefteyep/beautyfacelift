@@ -90,6 +90,8 @@ export const SERVICE_GROUPS = [
   {
     label: 'Gesicht & Haut',
     href: '/behandlungen/gesichtsbehandlung-zuerich/',
+    /** Starting price as published on the hub page. */
+    priceFrom: 'ab CHF 150',
     description: 'Gesichtsbehandlungen, Hautanalyse und moderne kosmetisch-ästhetische Pflege.',
     services: [
       {
@@ -133,6 +135,8 @@ export const SERVICE_GROUPS = [
   {
     label: 'Laser-Haarentfernung',
     href: '/behandlungen/laser-haarentfernung-zuerich/',
+    /** Starting price as published on the hub page. */
+    priceFrom: 'ab CHF 85',
     description: 'Professionelle dauerhafte Haarentfernung für viele Zonen, diskret in Zürich.',
     services: [
       {
@@ -146,6 +150,8 @@ export const SERVICE_GROUPS = [
   {
     label: 'Waxing',
     href: '/behandlungen/waxing-zuerich/',
+    /** Starting price as published on the hub page. */
+    priceFrom: 'ab CHF 35',
     description: 'Sorgfältige Haarentfernung mit Waxing für Damen und Herren.',
     services: [
       {
@@ -159,6 +165,8 @@ export const SERVICE_GROUPS = [
   {
     label: 'Wimpern & Brauen',
     href: '/behandlungen/wimpern-brauen-zuerich/',
+    /** Starting price as published on the hub page. */
+    priceFrom: 'ab CHF 20',
     description: 'Färben, Formen und Lifting für einen gepflegten Ausdruck.',
     services: [
       {
@@ -172,6 +180,8 @@ export const SERVICE_GROUPS = [
   {
     label: 'Make-up',
     href: '/behandlungen/make-up-zuerich/',
+    /** Starting price as published on the hub page. */
+    priceFrom: 'ab CHF 100',
     description: 'Make-up für Tageslook, Gala und Hochzeit.',
     services: [
       {
@@ -185,6 +195,8 @@ export const SERVICE_GROUPS = [
   {
     label: 'Massage',
     href: '/behandlungen/massage-zuerich-bahnhofstrasse/',
+    /** Starting price as published on the hub page. */
+    priceFrom: 'ab CHF 65',
     description: 'Massagen in ruhiger Atmosphäre an der Bahnhofstrasse.',
     services: [
       {

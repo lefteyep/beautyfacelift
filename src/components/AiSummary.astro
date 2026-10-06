@@ -14,7 +14,6 @@ interface Props {
   title?: string;
   intro: string;
   facts?: Fact[];
-  eyebrow?: string;
   variant?: 'band' | 'aside';
 }
 
@@ -22,7 +21,6 @@ const {
   title = 'Kurz erklärt',
   intro,
   facts = [],
-  eyebrow = 'Auf einen Blick',
   variant = 'band',
 } = Astro.props;
 const headingId = `summary-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
@@ -30,7 +28,6 @@ const headingId = `summary-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
 {variant === 'aside' ? (
   <aside class="ai-summary ai-summary--aside" aria-labelledby={headingId}>
-    <p class="eyebrow">{eyebrow}</p>
     <h2 id={headingId}>{title}</h2>
     <p class="ai-summary-intro">{intro}</p>
     {facts.length > 0 && (
@@ -49,7 +46,6 @@ const headingId = `summary-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     <div class="container">
       <div class="ai-summary-inner">
         <div class="ai-summary-copy">
-          <p class="eyebrow eyebrow--rule">{eyebrow}</p>
           <h2 id={headingId}>{title}</h2>
           <p class="ai-summary-intro">{intro}</p>
         </div>

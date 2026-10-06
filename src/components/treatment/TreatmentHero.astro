@@ -1,6 +1,6 @@
 ---
 /**
- * Split treatment hero (spec: "Treatment pages"): breadcrumbs, eyebrow, one
+ * Split treatment hero (spec: "Treatment pages"): breadcrumbs, one
  * visible H1 (default slot, one <em> accent), lead, booking + WhatsApp CTA,
  * and the 4:5 hero image. Pair with treatmentHeroPreload() for Base.astro.
  */
@@ -15,7 +15,6 @@ interface Props {
   treatment: string;
   /** Last breadcrumb label, e.g. "Aquafacial Zürich". */
   breadcrumb: string;
-  eyebrow: string;
   lead: string;
   bookingHref: string;
   image: ImageMetadata;
@@ -24,7 +23,7 @@ interface Props {
   focus?: 'left' | 'center' | 'right';
 }
 
-const { treatment, breadcrumb, eyebrow, lead, bookingHref, image, alt, focus = 'center' } = Astro.props;
+const { treatment, breadcrumb, lead, bookingHref, image, alt, focus = 'center' } = Astro.props;
 ---
 
 <header class="treatment-hero">
@@ -36,7 +35,6 @@ const { treatment, breadcrumb, eyebrow, lead, bookingHref, image, alt, focus = '
         { label: breadcrumb },
       ]} />
     </div>
-    <p class="eyebrow eyebrow--rule reveal-up d-1">{eyebrow}</p>
     <h1 class="treatment-hero-title reveal-up d-2"><slot /></h1>
     <p class="lead reveal-up d-3">{lead}</p>
     <div class="btn-row reveal-up d-4">
