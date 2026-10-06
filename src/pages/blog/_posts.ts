@@ -1,5 +1,5 @@
-// Journal metadata shared by the blog index and the BlogPost layout.
-// The leading underscore keeps this file out of Astro's routing.
+// "Wissen" (knowledge section, URL /blog/) metadata shared by the index and the
+// BlogPost layout. The leading underscore keeps this file out of Astro's routing.
 // Images are existing site photography matched to each article's topic;
 // the articles' JSON-LD `image` fields are left unchanged.
 import type { ImageMetadata } from 'astro';
@@ -21,6 +21,8 @@ export interface JournalPost {
     readingTime: string;
     image: ImageMetadata;
     imageAlt: string;
+    /** Treatment page offered next to "Termin buchen" in the article's consultation block. */
+    treatment: { href: string; label: string };
 }
 
 // Newest first.
@@ -35,6 +37,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         readingTime: '10 Min.',
         image: spaFacialTreatment,
         imageAlt: 'Pflegeserum wird mit der Pipette auf die Wange aufgetragen',
+        treatment: { href: '/behandlungen/vergleich/', label: 'Behandlungen vergleichen' },
     },
     {
         slug: 'hautpflege-routine-zuerich',
@@ -46,6 +49,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         readingTime: '10 Min.',
         image: spaProducts,
         imageAlt: 'Serumflaschen mit Pipette auf hellem Stein',
+        treatment: { href: '/behandlungen/gesichtsbehandlung-zuerich/', label: 'Zur Gesichtsbehandlung' },
     },
     {
         slug: 'was-ist-aquafacial',
@@ -57,6 +61,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         readingTime: '12 Min.',
         image: aquafacialCard,
         imageAlt: 'Aquafacial Behandlung mit Handstück an der Wange',
+        treatment: { href: '/behandlungen/aquafacial-zuerich/', label: 'Mehr zu Aquafacial' },
     },
     {
         slug: 'microneedling-erfahrung',
@@ -68,6 +73,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         readingTime: '10 Min.',
         image: microneedlingCard,
         imageAlt: 'Microneedling Behandlung im Gesicht',
+        treatment: { href: '/behandlungen/microneedling-zuerich/', label: 'Mehr zu Microneedling' },
     },
     {
         slug: 'anti-aging-behandlungen-zuerich',
@@ -79,13 +85,29 @@ export const JOURNAL_POSTS: JournalPost[] = [
         readingTime: '12 Min.',
         image: spaInterior,
         imageAlt: 'Ruhiger Behandlungsraum mit Liege, Leinen und warmem Licht',
+        treatment: { href: '/behandlungen/vergleich/', label: 'Behandlungen vergleichen' },
     },
 ];
 
 export function getJournalPost(slug: string): JournalPost {
     const post = JOURNAL_POSTS.find((item) => item.slug === slug);
-    if (!post) throw new Error(`Unknown journal post: ${slug}`);
+    if (!post) throw new Error(`Unknown Wissen post: ${slug}`);
     return post;
+}
+
+/**
+ * Up to `count` further articles: the hand-picked slugs first, then the
+ * newest remaining posts, never the current one.
+ */
+export function getRelatedPosts(slug: string, picks: string[] = [], count = 3): JournalPost[] {
+    const chosen = picks
+        .filter((pick) => pick !== slug)
+        .map((pick) => getJournalPost(pick));
+    for (const post of JOURNAL_POSTS) {
+        if (chosen.length >= count) break;
+        if (post.slug !== slug && !chosen.includes(post)) chosen.push(post);
+    }
+    return chosen.slice(0, count);
 }
 
 export function formatJournalDate(isoDate: string): string {

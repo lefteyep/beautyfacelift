@@ -1,19 +1,19 @@
 ---
-// Journal article layout. Each article keeps its own <title>, description,
-// canonical and JSON-LD (passed through unchanged); presentation metadata
-// (category, date, reading time, lead image) comes from pages/blog/_posts.ts.
+// "Wissen" article layout (URL /blog/…). Each article keeps its own <title>,
+// description, canonical and JSON-LD (passed through unchanged); presentation
+// metadata (category, date, reading time, image, treatment link) comes from
+// pages/blog/_posts.ts.
+//
+// The article body is rendered once as HTML so every <h2> gets an anchor id:
+// that feeds the table of contents and places the consultation block before
+// one of the H2s — the article copy itself stays untouched.
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
 import { teresaPortrait } from '../lib/site-images';
-import { formatJournalDate, getJournalPost } from '../pages/blog/_posts';
+import { CONTACT_WHATSAPP_URL } from '../../shared/site';
+import { formatJournalDate, getJournalPost, getRelatedPosts } from '../pages/blog/_posts';
 import '../styles/blog.css';
-
-interface RelatedLink {
-    href: string;
-    title: string;
-    text: string;
-}
 
 interface Props {
     slug: string;
@@ -24,9 +24,12 @@ interface Props {
     breadcrumbLabel: string;
     title: string;
     lead?: string;
-    related: RelatedLink[];
+    /** Hand-picked related article slugs; topped up with the newest posts. */
+    related?: string[];
+    /** Index of the H2 the consultation block is placed before (default: the middle one). */
+    ctaBefore?: number;
     cta: {
-        /** Trusted markup: may contain one <em> accent word. */
+        /** Trusted markup: may contain one <em> (renders plain inside h2). */
         title: string;
         text: string;
         label: string;
@@ -42,19 +45,66 @@ const {
     breadcrumbLabel,
     title,
     lead,
-    related,
+    related = [],
+    ctaBefore,
     cta,
 } = Astro.props;
 
 const post = getJournalPost(slug);
 const dateLabel = formatJournalDate(post.publishDate);
-const leadImageSizes = '(min-width: 1024px) 880px, 100vw';
+const relatedPosts = getRelatedPosts(slug, related);
 
 const breadcrumbs = [
     { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/blog/' },
+    { label: 'Wissen', href: '/blog/' },
     { label: breadcrumbLabel },
 ];
+
+// ─── Body: anchor ids for the H2s + table of contents ─────────────
+const decode = (value: string) => value
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
+
+const slugify = (value: string) => value
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .split('-')
+    .slice(0, 6)
+    .join('-');
+
+// Short, clean labels for the contents list; the H2 itself is unchanged.
+const tocLabel = (text: string) => (/^Häufig gestellte Fragen/.test(text) ? 'Häufige Fragen' : text);
+
+const rawBody = await Astro.slots.render('default');
+const toc: { id: string; label: string }[] = [];
+const usedIds = new Set<string>();
+
+const body = rawBody.replace(/<h2(\s[^>]*)?>([\s\S]*?)<\/h2>/g, (_match, attrs = '', inner: string) => {
+    const text = decode(inner.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+    let id = slugify(text) || 'abschnitt';
+    for (let n = 2; usedIds.has(id); n++) id = `${slugify(text)}-${n}`;
+    usedIds.add(id);
+    toc.push({ id, label: tocLabel(text) });
+    return `<h2${attrs} id="${id}">${inner}</h2>`;
+});
+
+// Consultation block before the chosen H2 (never before the first one).
+const h2Offsets = [...body.matchAll(/<h2[\s>]/g)].map((match) => match.index ?? 0);
+const ctaIndex = Math.min(Math.max(ctaBefore ?? Math.floor(h2Offsets.length / 2), 1), h2Offsets.length - 1);
+const splitAt = h2Offsets.length > 1 ? h2Offsets[ctaIndex] : body.length;
+const bodyStart = body.slice(0, splitAt);
+const bodyEnd = body.slice(splitAt);
 ---
 
 <Base
@@ -62,79 +112,160 @@ const breadcrumbs = [
     description={description}
     canonical={canonical}
     structuredData={structuredData}
+    articleDate={post.publishDate}
 >
-    <article class="journal-article">
-        <header class="journal-header">
-            <div class="container container--narrow">
-                <Breadcrumbs items={breadcrumbs} />
-                <div class="journal-header-copy">
-                    <p class="eyebrow eyebrow--rule reveal-up">{post.category}</p>
-                    <h1 class="journal-title reveal-up">{title}</h1>
-                    {lead && <p class="lead journal-lead reveal-up">{lead}</p>}
+    <article class="wx-article">
+        <header class="wx-hero">
+            <div class="container wx-hero-grid">
+                <div class="wx-hero-copy">
+                    <div class="reveal-up">
+                        <Breadcrumbs items={breadcrumbs} />
+                    </div>
+                    <h1 class="wx-title reveal-up" style="--d: 1">{title}</h1>
+                    {lead && <p class="lead wx-lead reveal-up" style="--d: 2">{lead}</p>}
+                    <div class="wx-byline reveal-up" style="--d: 2">
+                        <span class="wx-avatar">
+                            <Image
+                                src={teresaPortrait}
+                                widths={[96, 144]}
+                                sizes="48px"
+                                format="webp"
+                                quality="high"
+                                alt=""
+                            />
+                        </span>
+                        <span class="wx-byline-text">
+                            <span class="wx-byline-name">Von <a href="/ueber-mich/">Teresa Stimac</a>, Kosmetikerin</span>
+                            <span class="wx-byline-meta">
+                                <time datetime={post.publishDate}>{dateLabel}</time>
+                                <span>{post.readingTime} Lesezeit</span>
+                            </span>
+                        </span>
+                    </div>
                 </div>
-                <p class="journal-byline">
-                    <span>Von Teresa Stimac</span>
-                    <span class="journal-byline-meta">
-                        <time datetime={post.publishDate}>{dateLabel}</time>
-                        <span>{post.readingTime} Lesezeit</span>
-                    </span>
-                </p>
-            </div>
-            <figure class="container container--narrow journal-figure reveal-media">
-                <div class="media journal-lead-image">
+                <div class="wx-hero-media reveal-media">
                     <Image
                         src={post.image}
-                        widths={[480, 720, 960, 1320, 1760]}
-                        sizes={leadImageSizes}
+                        widths={[400, 600, 800, 1000]}
+                        sizes="(min-width: 1280px) 520px, (min-width: 901px) 42vw, calc(100vw - 32px)"
                         format="webp"
                         quality="high"
                         alt={post.imageAlt}
                         priority
                     />
                 </div>
-            </figure>
+            </div>
         </header>
 
-        <div class="container container--text">
-            <div class="blog-article">
-                <slot />
-            </div>
+        <div class="container wx-body">
+            {toc.length > 1 && (
+                <nav class="wx-toc" aria-label="Inhalt">
+                    <p class="wx-toc-title">Inhalt</p>
+                    <ol>
+                        {toc.map((item) => (
+                            <li><a href={`#${item.id}`}>{item.label}</a></li>
+                        ))}
+                    </ol>
+                </nav>
+            )}
 
-            <aside class="journal-author" aria-label="Über die Autorin">
-                <div class="media journal-author-portrait">
-                    <Image
-                        src={teresaPortrait}
-                        widths={[160, 240, 320]}
-                        sizes="120px"
-                        format="webp"
-                        quality="high"
-                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
-                        loading="lazy"
-                    />
+            <div class="wx-main">
+                {toc.length > 1 && (
+                    <nav class="wx-toc-mobile" aria-label="Inhalt">
+                        <details>
+                            <summary>
+                                <span>Inhalt</span>
+                                <span class="wx-toc-count">{toc.length} Abschnitte</span>
+                            </summary>
+                            <ol>
+                                {toc.map((item) => (
+                                    <li><a href={`#${item.id}`}>{item.label}</a></li>
+                                ))}
+                            </ol>
+                        </details>
+                    </nav>
+                )}
+
+                <div class="blog-article">
+                    <Fragment set:html={bodyStart} />
+
+                    <aside class="wx-consult" aria-label="Persönliche Beratung">
+                        <span class="wx-consult-portrait">
+                            <Image
+                                src={teresaPortrait}
+                                widths={[144, 216]}
+                                sizes="72px"
+                                format="webp"
+                                quality="high"
+                                alt="Teresa Stimac"
+                                loading="lazy"
+                            />
+                        </span>
+                        <div class="wx-consult-copy">
+                            <p class="wx-consult-title">Welche Behandlung passt zu Ihrer Haut?</p>
+                            <p>Teresa analysiert Ihre Haut und berät Sie persönlich – die Erstberatung ist kostenlos.</p>
+                            <div class="btn-row">
+                                <a href="/termin/" class="btn btn-arrow" data-button-location="blog_article_inline_cta">Termin buchen</a>
+                                <a href={post.treatment.href} class="btn btn-secondary" data-button-location="blog_article_inline_treatment">{post.treatment.label}</a>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <Fragment set:html={bodyEnd} />
                 </div>
-                <div class="journal-author-copy">
-                    <p class="label">Über die Autorin</p>
-                    <slot name="author-bio" />
-                    <a href="/ueber-mich/" class="btn-link">Mehr über Teresa</a>
-                </div>
-            </aside>
+
+                <aside class="wx-author" aria-label="Über die Autorin">
+                    <span class="wx-author-portrait">
+                        <Image
+                            src={teresaPortrait}
+                            widths={[176, 264]}
+                            sizes="88px"
+                            format="webp"
+                            quality="high"
+                            alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
+                            loading="lazy"
+                        />
+                    </span>
+                    <div class="wx-author-copy">
+                        <slot name="author-bio" />
+                        <a href="/ueber-mich/" class="btn-link">Mehr über Teresa</a>
+                    </div>
+                </aside>
+            </div>
         </div>
     </article>
 
-    <section class="section section--tight journal-related" aria-labelledby="journal-related-title">
-        <div class="container container--narrow">
+    <section class="section wx-related" aria-labelledby="wx-related-title">
+        <div class="container">
             <div class="section-head">
                 <div>
-                    <h2 id="journal-related-title">Passend zu diesem <em>Beitrag</em></h2>
+                    <h2 id="wx-related-title">Weiterlesen</h2>
                 </div>
-                <a href="/blog/" class="btn-link">Alle Beiträge</a>
+                <a href="/blog/" class="btn btn-secondary btn-arrow" data-button-location="blog_article_all_posts">Alle Beiträge</a>
             </div>
-            <ul class="index-list journal-related-list">
-                {related.map((item) => (
+            <ul class="wx-related-grid">
+                {relatedPosts.map((item) => (
                     <li>
-                        <a href={item.href} class="index-item">
-                            <h3 class="index-item-title">{item.title}</h3>
-                            <p class="index-item-text">{item.text}</p>
+                        <a href={item.href} class="wx-card">
+                            <span class="wx-card-media">
+                                <Image
+                                    src={item.image}
+                                    widths={[360, 540, 760]}
+                                    sizes="(min-width: 1280px) 400px, (min-width: 901px) 30vw, (min-width: 601px) 46vw, calc(100vw - 32px)"
+                                    format="webp"
+                                    quality="mid"
+                                    loading="lazy"
+                                    alt={item.imageAlt}
+                                />
+                            </span>
+                            <div class="wx-card-title">
+                                <h3>{item.title}</h3>
+                                <span class="wx-go" aria-hidden="true"></span>
+                            </div>
+                            <span class="wx-card-meta">
+                                <span>{item.category}</span>
+                                <span>{item.readingTime} Lesezeit</span>
+                            </span>
                         </a>
                     </li>
                 ))}
@@ -142,16 +273,55 @@ const breadcrumbs = [
         </div>
     </section>
 
-    <section class="cta-band" aria-labelledby="journal-cta-title">
+    <section class="cta-band wx-cta" aria-labelledby="wx-cta-title">
         <div class="cta-band-inner">
             <div>
-                <h2 id="journal-cta-title" set:html={cta.title} />
+                <h2 id="wx-cta-title" set:html={cta.title} />
                 <p>{cta.text}</p>
             </div>
             <div class="btn-row">
-                <a href="/termin/" class="btn" data-button-location="blog_article_cta">{cta.label}</a>
-                <a href="/kontakt/" class="btn-link">Persönlich beraten lassen</a>
+                <a href="/termin/" class="btn btn-arrow" data-button-location="blog_article_cta">{cta.label}</a>
+                <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary" target="_blank" rel="noopener" data-button-location="blog_article_cta_whatsapp" data-source="blog_article_cta">Frage per WhatsApp</a>
             </div>
         </div>
     </section>
 </Base>
+
+<script>
+    // Contents: mark the section in view, close the mobile list after a jump.
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.wx-toc a, .wx-toc-mobile a'));
+    const headings = Array.from(document.querySelectorAll<HTMLElement>('.blog-article h2[id]'));
+
+    if (links.length && headings.length) {
+        let ticking = false;
+        let current = '';
+
+        const update = () => {
+            ticking = false;
+            const line = window.innerHeight * 0.3;
+            let active = '';
+            for (const heading of headings) {
+                if (heading.getBoundingClientRect().top <= line) active = heading.id;
+                else break;
+            }
+            if (active === current) return;
+            current = active;
+            for (const link of links) {
+                if (link.hash === `#${active}`) link.setAttribute('aria-current', 'location');
+                else link.removeAttribute('aria-current');
+            }
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        }, { passive: true });
+        update();
+
+        document.querySelectorAll<HTMLAnchorElement>('.wx-toc-mobile a').forEach((link) => {
+            link.addEventListener('click', () => link.closest('details')?.removeAttribute('open'));
+        });
+    }
+</script>

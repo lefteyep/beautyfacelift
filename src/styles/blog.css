@@ -1,79 +1,255 @@
 /* ═══════════════════════════════════════════════════════════════
-   JOURNAL — article layout (src/layouts/BlogPost.astro)
-   Header: breadcrumbs · eyebrow (category) · H1 · byline on a hairline
-   Body:   .blog-article — 66ch measure, Instrument Sans 400,
-           serif h2/h3, upright display blockquotes, copper list markers
-   The journal index styles live in src/pages/blog/index.astro.
+   WISSEN — article layout (src/layouts/BlogPost.astro)
+   Hero:    breadcrumbs · H1 · byline (avatar, date, reading time) | photo
+   Body:    sticky contents (left) · .blog-article at a 66ch measure
+            (Instrument Sans 400, serif H2, sans H3, upright pull quotes,
+            copper list markers, hairline tables) · consultation block
+   After:   author · related cards · cta-band
+   The Wissen index styles live in src/pages/blog/index.astro.
    ═══════════════════════════════════════════════════════════════ */
 
-/* ─── Header ─────────────────────────────────────────────────── */
+/* ─── Hero ───────────────────────────────────────────────────── */
 
-.journal-header {
+.wx-hero {
   padding-top: calc(var(--nav-h) + clamp(24px, 4vw, 56px));
 }
 
-.journal-header nav.breadcrumbs {
-  padding: 0 0 clamp(28px, 4vw, 48px);
+.wx-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 96px);
 }
 
-.journal-header-copy {
+.wx-hero-copy {
   display: grid;
   gap: 24px;
+  justify-items: start;
 }
 
-.journal-title {
-  max-width: 22ch;
-  font-size: clamp(2.35rem, 4.6vw, 4rem);
-  line-height: 1.04;
+.wx-hero .wx-hero-copy .breadcrumbs {
+  padding: 0;
 }
 
-.journal-lead {
-  max-width: 60ch;
+.wx-title {
+  max-width: 18ch;
+  font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+  line-height: 1;
 }
 
-.journal-byline {
+.wx-lead {
+  max-width: 46ch;
+}
+
+.wx-byline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.wx-avatar {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--blush);
+}
+
+.wx-avatar img,
+.wx-consult-portrait img,
+.wx-author-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+
+.wx-byline-text {
+  display: grid;
+  gap: 2px;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+}
+
+.wx-byline-name {
+  font-weight: 500;
+  color: var(--cocoa);
+}
+
+.wx-byline-name a {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+}
+
+.wx-byline-name a:hover {
+  color: var(--clay);
+  text-decoration-color: currentColor;
+}
+
+.wx-byline-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 28px;
-  max-width: none;
-  margin-top: clamp(32px, 4vw, 48px);
-  padding-block: 18px;
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  line-height: 1.5;
-  text-transform: uppercase;
-  color: var(--taupe);
+  gap: 0 10px;
+  color: var(--muted);
 }
 
-.journal-byline-meta {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8px 28px;
-}
-
-.journal-byline > * + *::before,
-.journal-byline-meta > * + *::before {
+.wx-byline-meta > * + *::before {
   content: '·';
-  margin-right: 28px;
-  color: var(--bronze);
+  margin-right: 10px;
 }
 
-.journal-figure {
-  margin-top: clamp(36px, 5vw, 64px);
+.wx-hero-media {
+  justify-self: end;
+  width: min(100%, 520px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background: var(--blush);
 }
 
-.journal-lead-image {
-  aspect-ratio: 16 / 9;
+.wx-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* ─── Body ───────────────────────────────────────────────────── */
+/* ─── Body grid: contents | article | air ────────────────────── */
+
+.wx-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 680px) minmax(0, 1fr);
+  column-gap: clamp(32px, 4vw, 64px);
+  align-items: start;
+  padding-top: clamp(56px, 7vw, 112px);
+}
+
+.wx-main {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.wx-toc {
+  grid-column: 1;
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+  max-width: 236px;
+  padding-top: 6px;
+}
+
+.wx-toc-title {
+  margin-bottom: 14px;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.wx-toc ol,
+.wx-toc-mobile ol {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.wx-toc a,
+.wx-toc-mobile a {
+  position: relative;
+  display: block;
+  padding: 12px 0 12px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--muted);
+  text-wrap: pretty;
+  transition: color 0.3s ease;
+}
+
+.wx-toc a::before,
+.wx-toc-mobile a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: background 0.3s ease, transform 0.45s var(--ease-expo);
+}
+
+.wx-toc a:hover,
+.wx-toc-mobile a:hover,
+.wx-toc a[aria-current],
+.wx-toc-mobile a[aria-current] {
+  color: var(--cocoa);
+}
+
+.wx-toc a[aria-current]::before,
+.wx-toc-mobile a[aria-current]::before {
+  background: var(--clay);
+  transform: scale(1.35);
+}
+
+/* Contents on tablet/phone: a hairline disclosure above the text */
+.wx-toc-mobile {
+  display: none;
+  margin-bottom: clamp(32px, 6vw, 48px);
+  border-block: 1px solid var(--line-strong);
+}
+
+.wx-toc-mobile summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 500;
+  color: var(--cocoa);
+}
+
+.wx-toc-mobile summary::-webkit-details-marker { display: none; }
+
+.wx-toc-count {
+  margin-right: auto;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.wx-toc-mobile summary::after {
+  content: '';
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background:
+    linear-gradient(var(--cocoa), var(--cocoa)) center / 11px 1.5px no-repeat,
+    linear-gradient(var(--cocoa), var(--cocoa)) center / 1.5px 11px no-repeat,
+    var(--shell);
+  transition: transform 0.4s var(--ease-expo);
+}
+
+.wx-toc-mobile details[open] summary::after { transform: rotate(45deg); }
+
+.wx-toc-mobile ol {
+  margin-bottom: 16px;
+}
+
+.wx-toc-mobile a {
+  padding-block: 12px;
+  font-size: var(--fs-small);
+}
+
+.wx-toc-mobile li:last-child a { border-bottom: 0; }
+
+/* ─── Article typography ─────────────────────────────────────── */
 
 .blog-article {
-  padding-block: clamp(56px, 7vw, 96px) clamp(48px, 6vw, 80px);
-  color: var(--umber);
+  color: var(--text);
 }
 
 .blog-article > * {
@@ -82,126 +258,141 @@
 
 .blog-article p,
 .blog-article li {
-  font-size: clamp(1.0625rem, 0.95rem + 0.25vw, 1.125rem);
+  font-size: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
   font-weight: 400;
-  line-height: 1.75;
-  color: var(--umber);
+  line-height: 1.78;
+  color: var(--text);
 }
 
 .blog-article p {
-  margin-bottom: 1.4em;
+  margin: 0 0 1.35em;
 }
 
+/* Opening paragraph reads as the article's lead */
 .blog-article > p:first-child {
   font-size: var(--fs-lead);
-  line-height: 1.65;
-  color: var(--espresso);
+  line-height: 1.62;
+  color: var(--cocoa);
 }
 
 .blog-article h2 {
-  margin: clamp(56px, 6vw, 88px) 0 24px;
-  font-size: clamp(1.75rem, 2.7vw, 2.4rem);
-  line-height: 1.12;
   max-width: 24ch;
+  margin: clamp(64px, 7vw, 104px) 0 24px;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  line-height: 1.08;
+  scroll-margin-top: calc(var(--nav-h) + 24px);
+}
+
+.blog-article > h2:first-child {
+  margin-top: 0;
 }
 
 .blog-article h3 {
-  margin: clamp(36px, 4vw, 52px) 0 14px;
-  font-size: clamp(1.3rem, 1.7vw, 1.55rem);
-  line-height: 1.22;
+  margin: clamp(40px, 4.5vw, 52px) 0 12px;
+  font-size: clamp(1.2rem, 1.5vw, 1.375rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
-.blog-article h2 + h3 {
+.blog-article h2 + h3,
+.blog-article h3 + h3 {
   margin-top: 8px;
 }
 
 .blog-article strong {
   font-weight: 600;
-  color: var(--espresso);
+  color: var(--cocoa);
 }
 
-.blog-article a {
-  color: var(--espresso);
+/* Text links only — buttons keep their own styling */
+.blog-article :is(p, li, td) a {
+  color: var(--cocoa);
   text-decoration: underline;
-  text-decoration-color: var(--bronze-light);
+  text-decoration-color: var(--clay-light);
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
   transition: color 0.3s ease, text-decoration-color 0.3s ease;
 }
 
-.blog-article a:hover {
-  color: var(--bronze);
+.blog-article :is(p, li, td) a:hover {
+  color: var(--clay);
   text-decoration-color: currentColor;
 }
 
-/* Lists — bronze hairline markers, Bodoni numerals for ordered steps */
+/* Lists — copper dot markers */
 .blog-article ul,
 .blog-article ol {
-  margin: 0 0 1.6em;
+  margin: 4px 0 1.8em;
   padding: 0;
   list-style: none;
 }
 
-.blog-article li {
+.blog-article ul > li {
   position: relative;
-  padding-left: 32px;
-  margin-bottom: 0.7em;
+  padding-left: 28px;
+  margin-bottom: 0.65em;
 }
 
+/* Small copper dots (a 1px dash renders unevenly at fractional line positions) */
 .blog-article ul > li::before {
   content: '';
   position: absolute;
-  left: 2px;
-  top: 0.9em;
-  width: 14px;
-  height: 1px;
-  background: var(--bronze);
+  left: 4px;
+  top: calc(0.89em - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clay);
+  opacity: 0.85;
 }
 
+/* Ordered steps — hairline rows with serif numerals */
 .blog-article ol {
   counter-reset: article-step;
+  border-top: 1px solid var(--line-strong);
 }
 
 .blog-article ol > li {
   counter-increment: article-step;
+  position: relative;
+  margin: 0;
+  padding: 16px 0 16px 56px;
+  border-bottom: 1px solid var(--line);
 }
 
 .blog-article ol > li::before {
-  content: counter(article-step);
+  content: counter(article-step, decimal-leading-zero);
   position: absolute;
   left: 0;
-  top: 0.05em;
-  font-family: var(--f-display);
-  font-size: 1.15em;
-  line-height: 1.5;
-  color: var(--bronze);
+  top: 14px;
+  font-family: var(--f-serif);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--clay);
   font-variant-numeric: lining-nums;
 }
 
-/* Pull quotes */
+/* Pull quotes — upright serif on a copper hairline */
 .blog-article blockquote {
-  margin: clamp(40px, 5vw, 64px) 0;
-  padding: clamp(24px, 3vw, 36px) 0;
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule);
-  font-family: var(--f-display);
-  font-size: clamp(1.45rem, 2.3vw, 1.95rem);
-  line-height: 1.32;
-  color: var(--espresso);
-  text-wrap: pretty;
+  margin: clamp(48px, 6vw, 72px) 0;
+  padding: 2px 0 2px clamp(22px, 3vw, 32px);
+  border-left: 1px solid var(--clay);
+  font-family: var(--f-serif);
+  font-size: clamp(1.6rem, 2.5vw, 2.15rem);
+  font-style: normal;
+  line-height: 1.22;
+  color: var(--cocoa);
+  text-wrap: balance;
 }
 
-/* Comparison tables */
+/* Comparison tables — hairline rows, stacked on phones */
 .blog-table-wrap {
   max-width: none;
-  margin: clamp(32px, 4vw, 48px) 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  margin: clamp(36px, 4vw, 48px) 0 clamp(40px, 5vw, 56px);
 }
 
 .blog-table {
   width: 100%;
-  min-width: 560px;
   border-collapse: collapse;
   font-size: 0.95rem;
   line-height: 1.5;
@@ -212,122 +403,359 @@
   padding: 14px 16px 14px 0;
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--line);
 }
 
 .blog-table thead th {
   padding-top: 0;
-  border-bottom: 1px solid var(--rule-strong);
+  vertical-align: bottom;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-strong);
+  font-family: var(--f-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--cocoa);
+}
+
+.blog-table thead th:first-child {
+  font-family: var(--f-sans);
   font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--taupe);
+  font-weight: 500;
+  color: var(--muted);
 }
 
 .blog-table tbody th {
-  font-weight: 600;
-  color: var(--espresso);
+  font-weight: 500;
+  color: var(--cocoa);
 }
 
 .blog-table td {
-  color: var(--umber);
+  color: var(--text);
 }
 
 /* FAQ inside articles uses the shared details.faq-item rows */
 .blog-article .faq-list {
+  max-width: none;
   margin-top: 8px;
 }
 
 .blog-article .faq-item p {
+  margin: 0;
   font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ─── Consultation block (placed before a middle H2) ─────────── */
+
+.blog-article .wx-consult {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 24px;
+  max-width: none;
+  margin: clamp(56px, 7vw, 88px) 0 0;
+  padding: clamp(24px, 3vw, 36px);
+  border-radius: var(--r-lg);
+  background: var(--shell);
+}
+
+.wx-consult-portrait {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--blush);
+}
+
+.blog-article .wx-consult p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.blog-article .wx-consult .wx-consult-title {
+  margin-bottom: 8px;
+  font-family: var(--f-serif);
+  font-size: clamp(1.6rem, 2.3vw, 2rem);
+  line-height: 1.1;
+  color: var(--cocoa);
+  text-wrap: balance;
+}
+
+.wx-consult .btn-row {
+  margin-top: 22px;
 }
 
 /* ─── Author ─────────────────────────────────────────────────── */
 
-.journal-author {
+.wx-author {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: 28px;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 24px;
   align-items: start;
-  margin-bottom: clamp(72px, 9vw, 120px);
+  margin-top: clamp(64px, 8vw, 104px);
   padding-top: 32px;
-  border-top: 1px solid var(--rule-strong);
+  border-top: 1px solid var(--line-strong);
 }
 
-.journal-author-portrait {
-  aspect-ratio: 4 / 5;
+.wx-author-portrait {
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--blush);
 }
 
-.journal-author-portrait img {
-  object-position: 50% 20%;
-}
-
-.journal-author-copy {
+.wx-author-copy {
   display: grid;
-  gap: 14px;
+  gap: 18px;
   justify-items: start;
 }
 
-.journal-author-copy p:not(.label) {
+.wx-author-copy p {
   font-size: 1rem;
+  line-height: 1.7;
   max-width: 60ch;
 }
 
-.journal-author-copy .btn-link {
-  margin-top: 6px;
+/* Comfortable tap target for the text link */
+.wx-author-copy .btn-link {
+  min-height: 44px;
+}
+
+.wx-author-copy p a {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
 }
 
 /* ─── Related ────────────────────────────────────────────────── */
 
-.journal-related {
-  border-top: 1px solid var(--rule);
+.wx-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(40px, 4vw, 56px) clamp(20px, 2.4vw, 32px);
 }
 
-/* Keep the link at its natural width when .section-head stacks on mobile */
-.journal-related .section-head > .btn-link {
-  justify-self: start;
+.wx-card {
+  display: grid;
+  gap: 12px;
+  color: inherit;
 }
 
-.journal-related-list .index-item {
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) 24px;
+.wx-card-media {
+  display: block;
+  margin-bottom: 8px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-lg);
+  background: var(--blush);
+}
+
+.wx-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-expo);
+}
+
+.wx-card:hover .wx-card-media img { transform: scale(1.04); }
+
+.wx-card-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.wx-card-title h3 {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 1.8vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  transition: color 0.3s ease;
+}
+
+.wx-go {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--i-arrow-dark) center / 13px no-repeat;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.45s var(--ease-expo);
+}
+
+.wx-card:hover h3 { color: var(--clay); }
+
+.wx-card:hover .wx-go {
+  border-color: var(--clay);
+  background: var(--i-arrow-light) center / 13px no-repeat, var(--clay);
+  transform: rotate(45deg);
+}
+
+.wx-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.wx-card-meta > * + *::before {
+  content: '·';
+  margin-inline: 9px;
+  opacity: 0.7;
+}
+
+/* ─── Closing band: outline WhatsApp pill on the dark band ──── */
+
+.wx-cta .btn-secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--cream);
+  --btn-border: rgba(255, 253, 251, 0.32);
+  --btn-bg-hover: rgba(255, 253, 251, 0.1);
+  --btn-fg-hover: var(--cream);
+  --btn-border-hover: rgba(255, 253, 251, 0.5);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .wx-body {
+    grid-template-columns: minmax(0, 680px);
+    justify-content: center;
+  }
+
+  .wx-main { grid-column: 1; }
+  .wx-toc { display: none; }
+  .wx-toc-mobile { display: block; }
 }
 
 @media (max-width: 900px) {
-  .journal-lead-image {
-    aspect-ratio: 3 / 2;
+  .wx-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
   }
 
-  .journal-figure {
-    padding-inline: 0;
+  .wx-hero-media {
+    justify-self: stretch;
+    width: 100%;
+    aspect-ratio: 4 / 3;
   }
 
-  .journal-byline,
-  .journal-byline-meta {
-    gap: 6px 16px;
-  }
-
-  .journal-byline-meta > * + *::before {
-    margin-right: 16px;
-  }
-
-  /* Author on its own line, date · reading time below — no dangling dot */
-  .journal-byline {
-    flex-direction: column;
-  }
-
-  .journal-byline > * + *::before {
-    display: none;
-  }
-
-  .journal-related-list .index-item {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
+  .wx-related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wx-related-grid > li:nth-child(3) { display: none; }
 }
 
-@media (max-width: 600px) {
-  .journal-author {
-    grid-template-columns: 88px minmax(0, 1fr);
-    gap: 20px;
+@media (max-width: 640px) {
+  .wx-title { font-size: clamp(2.2rem, 9.6vw, 2.6rem); }
+
+  /* The H1 names the page: keep the trail to Home · Wissen on one line */
+  .wx-hero .wx-hero-copy .breadcrumbs li:last-child { display: none; }
+  .wx-hero .wx-hero-copy .breadcrumbs li:nth-last-child(2) .breadcrumb-sep { display: none; }
+
+  .blog-article h2 { font-size: clamp(1.75rem, 7.4vw, 2rem); }
+
+  .blog-article ol > li { padding-left: 46px; }
+  .blog-article ol > li::before { font-size: 1.4rem; }
+
+  /* Portrait beside the question, text and buttons full width below */
+  .blog-article .wx-consult {
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    padding: 24px 20px;
   }
+
+  .wx-consult-copy { display: contents; }
+  .wx-consult-portrait { width: 56px; height: 56px; }
+  .blog-article .wx-consult .wx-consult-title { margin: 0; font-size: 1.55rem; }
+  .blog-article .wx-consult .wx-consult-title ~ * { grid-column: 1 / -1; }
+
+  .wx-consult .btn-row { margin-top: 4px; flex-direction: column; align-items: stretch; }
+
+  /* Tables: one block per row, the column name in front of each value */
+  .blog-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .blog-table,
+  .blog-table tbody,
+  .blog-table tr,
+  .blog-table th,
+  .blog-table td { display: block; }
+
+  .blog-table { border-top: 1px solid var(--line-strong); }
+
+  .blog-table tr {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .blog-table tbody th {
+    padding: 0 0 8px;
+    border: 0;
+    font-size: 1rem;
+  }
+
+  .blog-table td {
+    display: grid;
+    grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr);
+    gap: 12px;
+    padding: 3px 0;
+    border: 0;
+  }
+
+  .blog-table td::before {
+    content: attr(data-label);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  .wx-author {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .wx-author-portrait { width: 64px; height: 64px; }
+
+  /* Related: compact rows with a square thumbnail */
+  .wx-related-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .wx-related-grid > li { border-bottom: 1px solid var(--line-strong); }
+  .wx-related-grid > li:nth-child(3) { display: block; }
+
+  .wx-card {
+    grid-template-columns: 96px minmax(0, 1fr);
+    align-content: start;
+    gap: 8px 18px;
+    padding: 20px 0;
+  }
+
+  .wx-card-media {
+    grid-row: 1 / 3;
+    margin: 0;
+    aspect-ratio: 1;
+    border-radius: var(--r-sm);
+  }
+
+  .wx-card-title h3 { font-size: 1.4rem; }
+  .wx-go { display: none; }
+  .wx-card-meta > :first-child { display: none; }
+  .wx-card-meta > :nth-child(2)::before { display: none; }
+
+  .wx-cta .btn-row { flex-direction: column; align-items: stretch; }
 }
