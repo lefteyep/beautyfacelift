@@ -157,7 +157,7 @@
 .wx-toc-mobile a {
   position: relative;
   display: block;
-  padding: 10px 0 10px 16px;
+  padding: 12px 0 12px 16px;
   border-bottom: 1px solid var(--line);
   font-size: 0.875rem;
   line-height: 1.4;
@@ -516,6 +516,11 @@
   font-size: 1rem;
   line-height: 1.7;
   max-width: 60ch;
+}
+
+/* Comfortable tap target for the text link */
+.wx-author-copy .btn-link {
+  min-height: 44px;
 }
 
 .wx-author-copy p a {
