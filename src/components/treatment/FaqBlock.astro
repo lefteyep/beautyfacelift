@@ -1,0 +1,58 @@
+---
+/**
+ * FAQ layout: sticky heading column beside the accordion list.
+ * Default slot = <details class="faq-item"> rows (keep their text in sync
+ * with the page's FAQPage JSON-LD); slot "title" = h2 content.
+ */
+interface Props {
+  eyebrow?: string;
+  /** Link to the full FAQ page; pass false to hide. */
+  allLink?: boolean;
+}
+
+const { eyebrow = 'Häufige Fragen', allLink = true } = Astro.props;
+---
+
+<div class="faq-block">
+  <div class="faq-block-head">
+    <p class="eyebrow eyebrow--rule">{eyebrow}</p>
+    <h2><slot name="title" /></h2>
+    {allLink && <a href="/haeufige-fragen/" class="btn-link">Alle Fragen</a>}
+  </div>
+  <div class="faq-list">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .faq-block {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(40px, 7vw, 120px);
+    align-items: start;
+  }
+
+  .faq-block-head {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+
+  .faq-block-head h2 {
+    max-width: 12ch;
+  }
+
+  @media (min-width: 901px) {
+    .faq-block-head {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .faq-block {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+  }
+</style>

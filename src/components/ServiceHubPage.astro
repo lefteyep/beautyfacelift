@@ -4,7 +4,8 @@ import Base from '../layouts/Base.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import AiSummary from './AiSummary.astro';
 import BookingCta from './BookingCta.astro';
-import TreatmentLinkCard from './TreatmentLinkCard.astro';
+import PriceMenu from './treatment/PriceMenu.astro';
+import LinkList from './treatment/LinkList.astro';
 
 interface Fact {
   label: string;
@@ -87,87 +88,218 @@ const structuredData = {
   },
   description,
 };
+
+// "Waxing Zürich – professionelle Haarentfernung …" → large name with one
+// italic accent (its last word) above a quieter display sub-line.
+const [h1Name, ...h1Rest] = h1.split(' – ');
+const h1Sub = h1Rest.join(' – ');
+const h1Words = h1Name.split(' ');
+const h1Accent = h1Words.pop();
+const h1Lead = h1Words.join(' ');
+
+const [leadParagraph, ...moreIntro] = intro;
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+const prices = priceItems.map((item) => ({
+  name: item.label,
+  duration: item.duration,
+  price: item.price,
+  note: item.note,
+}));
+const relatedLinks = related.map((link) => ({ href: link.href, title: link.title, text: link.description }));
 ---
 
 <Base title={title} description={description} structuredData={structuredData}>
-  <section class="container" style="padding-top: 108px; padding-bottom: 0;">
-    <Breadcrumbs items={[
-      { label: 'Home', href: '/' },
-      { label: 'Behandlungen', href: '/behandlungen/' },
-      { label: h1 },
-    ]} />
-  </section>
-
-  <section class="container" style="padding-top: 28px; padding-bottom: 64px;">
-    <span class="sub-display">{eyebrow}</span>
-    <h1 style="font-size: clamp(2.4rem, 6vw, 5rem); max-width: 980px; margin: 1rem 0; text-transform: none;">{h1}</h1>
-    <div style="display: grid; gap: 1rem; max-width: 760px;">
-      {intro.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
-      <a href={bookingHref} class="pill-btn">Termin buchen</a>
-      <a href="/kontakt/" class="pill-btn pill-btn-outline">Beratung anfragen</a>
-    </div>
-  </section>
-
-  <AiSummary title={summaryTitle} intro={summaryIntro} facts={facts} />
-
-  <section class="container" style="padding-top: 72px; padding-bottom: 88px;">
-    <div class="sub-display margin-bottom-md">Preise & Dauer</div>
-    <div class="pricing-grid">
-      {priceItems.map((item, index) => (
-        <div class:list={['pricing-card', index === 0 && 'pricing-card-accent']}>
-          <div class="pricing-label">{item.label}</div>
-          <div class="pricing-price">{item.price}</div>
-          <div class="pricing-duration">{item.duration}</div>
-          <p style="max-width: none; text-align: center;">{item.note}</p>
+  <header class="page-hero page-hero--split hub-hero">
+    <div class="container page-hero-inner">
+      <div class="page-hero-copy">
+        <div class="reveal-up">
+          <Breadcrumbs items={[
+            { label: 'Home', href: '/' },
+            { label: 'Behandlungen', href: '/behandlungen/' },
+            { label: h1, display: h1Name },
+          ]} />
         </div>
-      ))}
+        <p class="eyebrow eyebrow--rule reveal-up d-1">{eyebrow}</p>
+        <h1 class="hub-title reveal-up d-2">
+          {h1Lead} <em>{h1Accent}</em>{h1Sub && (
+            <span class="hub-title-sub"><span class="sr-only"> – </span>{h1Sub}</span>
+          )}
+        </h1>
+        <p class="lead reveal-up d-3">{leadParagraph}</p>
+        {moreIntro.map((paragraph) => <p class="reveal-up d-3">{paragraph}</p>)}
+        <div class="btn-row reveal-up d-4">
+          <a href={bookingHref} class="btn">Termin buchen</a>
+          <a href="/kontakt/" class="btn-link">Beratung anfragen</a>
+        </div>
+      </div>
+      <div class="hub-summary reveal-up d-5">
+        <AiSummary variant="aside" title={summaryTitle} intro={summaryIntro} facts={facts} />
+      </div>
+    </div>
+  </header>
+
+  <section class="section section--ivory" aria-label="Preise und Dauer">
+    <div class="container">
+      <PriceMenu items={prices} eyebrow="Preise">
+        <Fragment slot="title">Preise &amp; <em>Dauer</em></Fragment>
+      </PriceMenu>
     </div>
   </section>
 
-  <section class="container" style="padding-bottom: 88px;">
-    <div class="highlights-grid">
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">01</div>
-        <h4>Geeignet für</h4>
-        <p>{suitedFor.join(', ')}.</p>
+  <section class="section" aria-labelledby="hub-details-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow eyebrow--rule">Ihre Behandlung</p>
+          <h2 id="hub-details-title">Was Sie <em>erwartet</em></h2>
+        </div>
       </div>
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">02</div>
-        <h4>Ablauf</h4>
-        <p>{process.join(' ')}</p>
-      </div>
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">03</div>
-        <h4>Realistische Erwartungen</h4>
-        <p>{expectations}</p>
-      </div>
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">04</div>
-        <h4>Wichtig vor dem Termin</h4>
-        <p>{contraindications}</p>
+      <div class="index-grid index-grid--2 hub-details">
+        <div class="scroll-anim">
+          <h3>Geeignet für</h3>
+          <ul class="hub-list">
+            {suitedFor.map((item) => <li>{capitalize(item)}</li>)}
+          </ul>
+        </div>
+        <div class="scroll-anim">
+          <h3>Ablauf</h3>
+          <ol class="hub-process">
+            {process.map((step) => <li>{step}</li>)}
+          </ol>
+        </div>
+        <div class="scroll-anim">
+          <h3>Realistische Erwartungen</h3>
+          <p>{expectations}</p>
+        </div>
+        <div class="scroll-anim">
+          <h3>Wichtig vor dem Termin</h3>
+          <p>{contraindications}</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="container pad-y" id="buchen">
-    <BookingCta
-      treatment={bookingService}
-      href={bookingHref}
-      title={`${serviceType} an der Bahnhofstrasse`}
-      text="Buchen Sie Ihren Wunschtermin bequem online. Teresa klärt Details und Eignung vor der Behandlung persönlich mit Ihnen."
-    />
+  <section class="section section--tight section--flush-top" id="buchen">
+    <div class="container">
+      <BookingCta
+        treatment={bookingService}
+        href={bookingHref}
+        title={`${serviceType} an der Bahnhofstrasse`}
+        text="Buchen Sie Ihren Wunschtermin bequem online. Teresa klärt Details und Eignung vor der Behandlung persönlich mit Ihnen."
+      />
+    </div>
   </section>
 
-  <section class="container" style="padding-bottom: 15vh;">
-    <div class="more-treatments">
-      <div class="sub-display margin-bottom-lg">Passende nächste Seiten</div>
-      <div class="more-treatments-grid">
-        {related.map((link) => (
-          <TreatmentLinkCard href={link.href} title={link.title} description={link.description} />
-        ))}
+  <section class="section section--tight section--rule" aria-labelledby="hub-related-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow eyebrow--rule">Passend dazu</p>
+          <h2 id="hub-related-title">Weitere <em>Empfehlungen</em></h2>
+        </div>
+        <a href="/behandlungen/" class="btn-link">Alle Behandlungen</a>
       </div>
+      <LinkList items={relatedLinks} />
     </div>
   </section>
 </Base>
+
+<style>
+  .d-1 { --d: 1; }
+  .d-2 { --d: 2; }
+  .d-3 { --d: 3; }
+  .d-4 { --d: 4; }
+  .d-5 { --d: 5; }
+
+  .hub-hero .page-hero-copy :global(.breadcrumbs) {
+    padding: 0;
+  }
+
+  .hub-hero .page-hero-inner {
+    align-items: end;
+  }
+
+  .hub-title {
+    max-width: 14ch;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+
+  @media (max-width: 600px) {
+    /* Long single words ("Gesichtsbehandlung") must fit 390px screens */
+    .hub-title {
+      max-width: none;
+      font-size: clamp(2rem, 9.2vw, 2.6rem);
+    }
+  }
+
+  .hub-title-sub {
+    display: block;
+    max-width: 26ch;
+    margin-top: 18px;
+    font-size: var(--fs-h3);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    color: var(--umber);
+  }
+
+  .page-hero-copy .btn-row {
+    margin-top: 8px;
+  }
+
+  .hub-details h3 {
+    margin-bottom: 4px;
+  }
+
+  .hub-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .hub-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    color: var(--umber);
+  }
+
+  .hub-list li::before {
+    content: '';
+    flex: none;
+    width: 14px;
+    height: 1px;
+    background: var(--bronze);
+    transform: translateY(-4px);
+  }
+
+  .hub-process {
+    display: grid;
+    gap: 16px;
+    counter-reset: hub-step;
+  }
+
+  .hub-process li {
+    counter-increment: hub-step;
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: 12px;
+    align-items: baseline;
+    color: var(--umber);
+  }
+
+  .hub-process li::before {
+    content: counter(hub-step, decimal-leading-zero);
+    font-family: var(--f-display);
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--bronze);
+    font-variant-numeric: lining-nums;
+  }
+
+  @media (max-width: 900px) {
+    .hub-summary {
+      margin-top: 16px;
+    }
+  }
+</style>

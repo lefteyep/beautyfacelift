@@ -1,0 +1,99 @@
+---
+/**
+ * Split treatment hero (spec: "Treatment pages"): breadcrumbs, eyebrow, one
+ * visible H1 (default slot, one <em> accent), lead, booking + WhatsApp CTA,
+ * and the 4:5 hero image. Pair with treatmentHeroPreload() for Base.astro.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import { CONTACT_WHATSAPP_URL } from '../../../shared/site';
+import { treatmentHeroSizes, treatmentHeroWidths } from './images';
+
+interface Props {
+  /** Tracking name, e.g. "Aquafacial" (data-treatment). */
+  treatment: string;
+  /** Last breadcrumb label, e.g. "Aquafacial Zürich". */
+  breadcrumb: string;
+  eyebrow: string;
+  lead: string;
+  bookingHref: string;
+  image: ImageMetadata;
+  alt: string;
+  /** Horizontal focus of the cover crop. */
+  focus?: 'left' | 'center' | 'right';
+}
+
+const { treatment, breadcrumb, eyebrow, lead, bookingHref, image, alt, focus = 'center' } = Astro.props;
+---
+
+<header class="treatment-hero">
+  <div class="treatment-hero-copy">
+    <div class="reveal-up">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Behandlungen', href: '/behandlungen/' },
+        { label: breadcrumb },
+      ]} />
+    </div>
+    <p class="eyebrow eyebrow--rule reveal-up d-1">{eyebrow}</p>
+    <h1 class="treatment-hero-title reveal-up d-2"><slot /></h1>
+    <p class="lead reveal-up d-3">{lead}</p>
+    <div class="btn-row reveal-up d-4">
+      <a href={bookingHref} class="btn" data-treatment={treatment} data-button-location="treatment_hero">Termin buchen</a>
+      <a
+        href={CONTACT_WHATSAPP_URL}
+        class="btn-link"
+        target="_blank"
+        rel="noopener"
+        data-treatment={treatment}
+        data-button-location="treatment_hero_whatsapp"
+        data-source="treatment_hero"
+      >Frage per WhatsApp</a>
+    </div>
+  </div>
+  <div class:list={['treatment-hero-media', 'reveal-media', `focus-${focus}`]}>
+    <Image
+      src={image}
+      widths={treatmentHeroWidths(image)}
+      sizes={treatmentHeroSizes(image)}
+      format="webp"
+      quality="high"
+      priority
+      alt={alt}
+      id="treatment-hero-img"
+    />
+  </div>
+</header>
+
+<style>
+  .d-1 { --d: 1; }
+  .d-2 { --d: 2; }
+  .d-3 { --d: 3; }
+  .d-4 { --d: 4; }
+
+  .treatment-hero-copy :global(.breadcrumbs) {
+    padding: 0;
+  }
+
+  .treatment-hero-copy .lead {
+    margin-top: 4px;
+  }
+
+  .treatment-hero-copy .btn-row {
+    margin-top: 12px;
+  }
+
+  .focus-left :global(img) { object-position: 38% 50%; }
+  .focus-center :global(img) { object-position: 50% 50%; }
+  .focus-right :global(img) { object-position: 62% 50%; }
+
+  @media (min-width: 901px) {
+    /* Keep the CTA row inside the first viewport on shorter laptop screens. */
+    .treatment-hero-media {
+      width: 100%;
+      max-height: max(520px, calc(100svh - var(--nav-h) - 112px));
+    }
+  }
+
+</style>

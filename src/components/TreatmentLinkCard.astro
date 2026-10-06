@@ -1,4 +1,8 @@
 ---
+/**
+ * Ruled cross-link entry (display title, one line, label + arrow).
+ * Place several inside a .index-grid so rows fill without orphans.
+ */
 interface Props {
   href: string;
   title: string;
@@ -11,5 +15,61 @@ const { href, title, description } = Astro.props;
 <a href={href} class="treatment-link-card scroll-anim">
     <h3>{title}</h3>
     <p>{description}</p>
-    <span class="card-arrow">Entdecken &rarr;</span>
+    <span class="treatment-link-card-cta">Entdecken</span>
 </a>
+
+<style>
+    .treatment-link-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        height: 100%;
+        padding: 26px 0 clamp(32px, 4vw, 44px);
+        border-top: 1px solid var(--rule-strong);
+        color: inherit;
+    }
+
+    .treatment-link-card h3 {
+        font-size: var(--fs-h3);
+        transition: color 0.35s ease;
+    }
+
+    .treatment-link-card p {
+        margin: 0;
+        color: var(--umber);
+    }
+
+    .treatment-link-card-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: auto;
+        padding-top: 8px;
+        font-size: var(--fs-label);
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--taupe);
+        transition: color 0.3s ease;
+    }
+
+    .treatment-link-card-cta::after {
+        content: '\2192';
+        font-size: 1rem;
+        letter-spacing: 0;
+        color: var(--bronze);
+        transition: transform 0.45s var(--ease-expo);
+    }
+
+    .treatment-link-card:hover h3 {
+        color: var(--bronze);
+    }
+
+    .treatment-link-card:hover .treatment-link-card-cta {
+        color: var(--espresso);
+    }
+
+    .treatment-link-card:hover .treatment-link-card-cta::after {
+        transform: translateX(4px);
+    }
+</style>

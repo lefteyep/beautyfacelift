@@ -1,0 +1,62 @@
+---
+/**
+ * Centred client quote with the shared rating line (4,8 / 248+ on Treatwell).
+ * Pass the quote text without quotation marks — „…“ are added here.
+ */
+import { TREATWELL_URL } from '../../../shared/site';
+
+interface Props {
+  quote: string;
+  author: string;
+  detail?: string;
+  /** Show five stars (only where the source review is shown with them). */
+  stars?: boolean;
+  eyebrow?: string;
+}
+
+const { quote, author, detail, stars = false, eyebrow = 'Kundenstimme' } = Astro.props;
+---
+
+<div class="review scroll-anim">
+  <p class="eyebrow">{eyebrow}</p>
+  <figure class="quote quote--center">
+    {stars && <span class="review-stars" role="img" aria-label="5 von 5 Sternen">★★★★★</span>}
+    <blockquote>„{quote}“</blockquote>
+    <figcaption>{author}{detail && <> · {detail}</>}</figcaption>
+  </figure>
+  <a href={TREATWELL_URL} class="review-rating" target="_blank" rel="noopener">4,8 von 5 Sternen aus 248+ verifizierten Bewertungen auf Treatwell</a>
+</div>
+
+<style>
+  .review {
+    display: grid;
+    justify-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .review blockquote {
+    max-width: 24ch;
+  }
+
+  .review-stars {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    color: var(--bronze);
+  }
+
+  .review-rating {
+    font-size: var(--fs-small);
+    color: var(--taupe);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition: color 0.3s ease, text-decoration-color 0.3s ease;
+  }
+
+  .review-rating:hover {
+    color: var(--bronze);
+    text-decoration-color: currentColor;
+  }
+</style>
