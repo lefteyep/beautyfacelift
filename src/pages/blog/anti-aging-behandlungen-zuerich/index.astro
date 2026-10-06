@@ -76,22 +76,13 @@ const faqSchema = {
 
 const structuredData = [articleSchema, faqSchema];
 
-const related = [
-    {
-        href: '/behandlungen/vergleich/',
-        title: 'Behandlungen im Vergleich',
-        text: 'Detaillierter Vergleich aller Behandlungen bei Beauty Face Lift: Wirkung, Dauer, Kosten und Empfehlungen.',
-    },
-    {
-        href: '/blog/aquafacial-vs-microneedling/',
-        title: 'Aquafacial vs. Microneedling',
-        text: 'Welche Behandlung passt besser zu Ihrem Hauttyp? Ein direkter Vergleich der zwei beliebtesten Verfahren.',
-    },
-];
+// Further reading: these first, topped up with the newest articles. The
+// treatment comparison is offered as a button in the consultation block.
+const related = ['aquafacial-vs-microneedling'];
 
 const cta = {
     title: 'Bereit für Ihr Anti-Aging <em>Programm</em>?',
-    text: 'Teresa Stimac berät Sie persönlich und erstellt Ihren individuellen Behandlungsplan. Buchen Sie jetzt Ihren Termin.',
+    text: 'Teresa Stimac berät Sie persönlich und erstellt Ihren individuellen Behandlungsplan.',
     label: 'Termin buchen',
 };
 ---
@@ -104,6 +95,7 @@ const cta = {
     breadcrumbLabel="Anti-Aging Behandlungen"
     title="Anti-Aging Behandlungen in Zürich: Ein umfassender Überblick"
     related={related}
+    ctaBefore={5}
     cta={cta}
 >
     <!-- 1. Einleitung -->
@@ -242,45 +234,45 @@ const cta = {
             <tbody>
                 <tr>
                     <th scope="row">Kollagenstimulation</th>
-                    <td>Mittel</td>
-                    <td>Sehr hoch</td>
-                    <td>Hoch</td>
-                    <td>Mittel</td>
+                    <td data-label="Aquafacial">Mittel</td>
+                    <td data-label="Microneedling">Sehr hoch</td>
+                    <td data-label="ColdPlasma">Hoch</td>
+                    <td data-label="Fruchtsäure">Mittel</td>
                 </tr>
                 <tr>
                     <th scope="row">Sofortergebnis</th>
-                    <td>Sehr hoch</td>
-                    <td>Mittel</td>
-                    <td>Hoch</td>
-                    <td>Hoch</td>
+                    <td data-label="Aquafacial">Sehr hoch</td>
+                    <td data-label="Microneedling">Mittel</td>
+                    <td data-label="ColdPlasma">Hoch</td>
+                    <td data-label="Fruchtsäure">Hoch</td>
                 </tr>
                 <tr>
                     <th scope="row">Ausfallzeit</th>
-                    <td>Keine</td>
-                    <td>1 &ndash; 3 Tage</td>
-                    <td>Keine</td>
-                    <td>1 &ndash; 5 Tage</td>
+                    <td data-label="Aquafacial">Keine</td>
+                    <td data-label="Microneedling">1 &ndash; 3 Tage</td>
+                    <td data-label="ColdPlasma">Keine</td>
+                    <td data-label="Fruchtsäure">1 &ndash; 5 Tage</td>
                 </tr>
                 <tr>
                     <th scope="row">Empfindliche Haut</th>
-                    <td>Sehr gut</td>
-                    <td>Bedingt</td>
-                    <td>Sehr gut</td>
-                    <td>Anpassbar</td>
+                    <td data-label="Aquafacial">Sehr gut</td>
+                    <td data-label="Microneedling">Bedingt</td>
+                    <td data-label="ColdPlasma">Sehr gut</td>
+                    <td data-label="Fruchtsäure">Anpassbar</td>
                 </tr>
                 <tr>
                     <th scope="row">Faltentiefe</th>
-                    <td>Feine Linien</td>
-                    <td>Mittel bis tief</td>
-                    <td>Fein bis mittel</td>
-                    <td>Oberflächlich</td>
+                    <td data-label="Aquafacial">Feine Linien</td>
+                    <td data-label="Microneedling">Mittel bis tief</td>
+                    <td data-label="ColdPlasma">Fein bis mittel</td>
+                    <td data-label="Fruchtsäure">Oberflächlich</td>
                 </tr>
                 <tr>
                     <th scope="row">Ideal ab Alter</th>
-                    <td>Ab 25</td>
-                    <td>Ab 30</td>
-                    <td>Ab 25</td>
-                    <td>Ab 25</td>
+                    <td data-label="Aquafacial">Ab 25</td>
+                    <td data-label="Microneedling">Ab 30</td>
+                    <td data-label="ColdPlasma">Ab 25</td>
+                    <td data-label="Fruchtsäure">Ab 25</td>
                 </tr>
             </tbody>
         </table>

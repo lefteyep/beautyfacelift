@@ -91,28 +91,12 @@ const faqSchema = {
 
 const structuredData = [articleSchema, faqSchema];
 
-const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/blog/' },
-    { label: 'Aquafacial vs. Microneedling' }
-];
-
-const related = [
-    {
-        href: '/blog/was-ist-aquafacial/',
-        title: 'Was ist Aquafacial? Alles was Sie wissen müssen',
-        text: 'Von der patentierten Vortex-Technologie bis zum Glow-Effekt.',
-    },
-    {
-        href: '/blog/microneedling-erfahrung/',
-        title: 'Microneedling Erfahrung: Was erwartet Sie?',
-        text: 'Was passiert während einer Microneedling-Sitzung und wie fühlt sich die Behandlung an?',
-    },
-];
+// Further reading: these first, topped up with the newest article.
+const related = ['was-ist-aquafacial', 'microneedling-erfahrung'];
 
 const cta = {
     title: 'Welche Behandlung passt zu <em>Ihnen</em>?',
-    text: 'Teresa Stimac berät Sie persönlich und erstellt einen individuellen Behandlungsplan, abgestimmt auf Ihren Hauttyp und Ihre Ziele.',
+    text: 'Teresa Stimac berät Sie persönlich und erstellt Ihren individuellen Behandlungsplan.',
     label: 'Beratungstermin buchen',
 };
 ---
@@ -192,48 +176,48 @@ const cta = {
             <tbody>
                 <tr>
                     <th scope="row">Hauptziel</th>
-                    <td>Tiefenreinigung, Hydrierung, direkter Glow</td>
-                    <td>Hautstruktur, feinere Narbenoptik, verfeinerte Poren</td>
+                    <td data-label="Aquafacial">Tiefenreinigung, Hydrierung, direkter Glow</td>
+                    <td data-label="Microneedling">Hautstruktur, feinere Narbenoptik, verfeinerte Poren</td>
                 </tr>
                 <tr>
                     <th scope="row">Methode</th>
-                    <td>Vortex-Vakuumtechnologie mit Seren</td>
-                    <td>Kontrollierte Mikroverletzungen mit Derma-Pen</td>
+                    <td data-label="Aquafacial">Vortex-Vakuumtechnologie mit Seren</td>
+                    <td data-label="Microneedling">Kontrollierte Mikroverletzungen mit Derma-Pen</td>
                 </tr>
                 <tr>
                     <th scope="row">Behandlungsdauer</th>
-                    <td>60 – 90 Minuten</td>
-                    <td>60 – 90 Minuten</td>
+                    <td data-label="Aquafacial">60 – 90 Minuten</td>
+                    <td data-label="Microneedling">60 – 90 Minuten</td>
                 </tr>
                 <tr>
                     <th scope="row">Schmerzempfinden</th>
-                    <td>Schmerzfrei, angenehm</td>
-                    <td>Leichtes Pieksen (mit Betäubung minimal)</td>
+                    <td data-label="Aquafacial">Schmerzfrei, angenehm</td>
+                    <td data-label="Microneedling">Leichtes Pieksen (mit Betäubung minimal)</td>
                 </tr>
                 <tr>
                     <th scope="row">Downtime</th>
-                    <td>Keine</td>
-                    <td>2 – 5 Tage (Rötung, leichte Schwellung)</td>
+                    <td data-label="Aquafacial">Keine</td>
+                    <td data-label="Microneedling">2 – 5 Tage (Rötung, leichte Schwellung)</td>
                 </tr>
                 <tr>
                     <th scope="row">Preis (ab)</th>
-                    <td>CHF 180</td>
-                    <td>CHF 210</td>
+                    <td data-label="Aquafacial">CHF 180</td>
+                    <td data-label="Microneedling">CHF 210</td>
                 </tr>
                 <tr>
                     <th scope="row">Empfohlene Sitzungen</th>
-                    <td>1x monatlich (Pflegeroutine)</td>
-                    <td>3 – 4 Sitzungen im Abstand von 4 – 6 Wochen</td>
+                    <td data-label="Aquafacial">1x monatlich (Pflegeroutine)</td>
+                    <td data-label="Microneedling">3 – 4 Sitzungen im Abstand von 4 – 6 Wochen</td>
                 </tr>
                 <tr>
                     <th scope="row">Ergebnis-Dauer</th>
-                    <td>5 – 7 Tage (Glow), langfristig bei regelmässiger Anwendung</td>
-                    <td>6 – 12 Monate (nach vollständiger Serie)</td>
+                    <td data-label="Aquafacial">5 – 7 Tage (Glow), langfristig bei regelmässiger Anwendung</td>
+                    <td data-label="Microneedling">6 – 12 Monate (nach vollständiger Serie)</td>
                 </tr>
                 <tr>
                     <th scope="row">Geeignete Hauttypen</th>
-                    <td>Alle Hauttypen inkl. empfindliche Haut</td>
-                    <td>Normale bis reife Haut, nicht bei aktiver Akne</td>
+                    <td data-label="Aquafacial">Alle Hauttypen inkl. empfindliche Haut</td>
+                    <td data-label="Microneedling">Normale bis reife Haut, nicht bei aktiver Akne</td>
                 </tr>
             </tbody>
         </table>
@@ -245,7 +229,7 @@ const cta = {
 
     <h3>Fahle, müde wirkende Haut</h3>
 
-    <p>Wenn Ihre Haut ihren natürlichen Glanz verloren hat und fahl oder erschöpft wirkt, ist Aquafacial eine passende Option. Die Kombination aus Tiefenreinigung und intensiver Hydrierung sorgt für einen sichtbar frischeres Hautgefühl. Besonders vor wichtigen Terminen oder Veranstaltungen ist Aquafacial die Behandlung der Wahl, da meist keine Downtime einzuplanen ist und viele Kundinnen direkt ein frischeres Hautgefühl bemerken.</p>
+    <p>Wenn Ihre Haut ihren natürlichen Glanz verloren hat und fahl oder erschöpft wirkt, ist Aquafacial eine passende Option. Die Kombination aus Tiefenreinigung und intensiver Hydrierung sorgt für ein sichtbar frischeres Hautgefühl. Besonders vor wichtigen Terminen oder Veranstaltungen ist Aquafacial die Behandlung der Wahl, da meist keine Downtime einzuplanen ist und viele Kundinnen direkt ein frischeres Hautgefühl bemerken.</p>
 
     <h3>Falten und feine Linien</h3>
 
@@ -285,7 +269,7 @@ const cta = {
 
     <h2>Fazit und Empfehlung</h2>
 
-    <p>Aquafacial und Microneedling sind beide professionelle professionelle Gesichtsbehandlungen mit jeweils eigenen Stärken. Die richtige Wahl hängt von Ihrem individuellen Hautzustand, Ihren Behandlungszielen und Ihren Lebensumständen ab.</p>
+    <p>Aquafacial und Microneedling sind beide professionelle Gesichtsbehandlungen mit jeweils eigenen Stärken. Die richtige Wahl hängt von Ihrem individuellen Hautzustand, Ihren Behandlungszielen und Ihren Lebensumständen ab.</p>
 
     <p><strong>Wählen Sie Aquafacial, wenn</strong> Sie eine direkt frischer wirkende Haut wünschen, möglichst wenig Downtime einplanen möchten, empfindliche Haut haben oder eine regelmässige Pflegeroutine aufbauen wollen. Aquafacial ist eine passende Einstiegsbehandlung und eignet sich hervorragend als monatliche Hautpflege.</p>
 
