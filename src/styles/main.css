@@ -187,7 +187,7 @@ h3 { font-size: var(--fs-h3); line-height: 1.15; }
 h4 { font-size: var(--fs-h4); line-height: 1.25; letter-spacing: 0; }
 
 /* One italic accent word per heading, set in bronze. */
-h1 em, h2 em, h3 em, .display em, .display-text em, .accent-word {
+h1 em, h2 em, h3 em, .display em, .accent-word {
   font-style: italic;
   color: var(--bronze);
   font-weight: inherit;
@@ -223,18 +223,15 @@ ul, ol { list-style: none; }
   color: var(--espresso);
 }
 
-/* Display sizes */
-.display,
-.display-text {
+/* Display size */
+.display {
   font-family: var(--f-display);
   font-weight: 400;
-  font-size: var(--fs-h1);
-  line-height: 1.02;
-  letter-spacing: var(--tracking-display);
+  font-size: var(--fs-display);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
   text-transform: none;
 }
-
-.display { font-size: var(--fs-display); line-height: 0.98; letter-spacing: -0.025em; }
 
 .lead {
   font-size: var(--fs-lead);
@@ -328,11 +325,6 @@ ul, ol { list-style: none; }
 .section--dark :is(h1, h2, h3) em,
 .on-dark :is(h1, h2, h3) em { color: var(--bronze-light); }
 
-.pad-y {
-  padding-top: var(--section-y);
-  padding-bottom: var(--section-y);
-}
-
 .split-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -343,21 +335,6 @@ ul, ol { list-style: none; }
 .margin-bottom-sm { margin-bottom: 1.25rem; }
 .margin-bottom-md { margin-bottom: 2rem; }
 .margin-bottom-lg { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
-
-.section-divider {
-  width: calc(100% - 2 * var(--content-px));
-  max-width: var(--container);
-  margin: 0 auto;
-  height: 1px;
-  background: var(--rule);
-}
-
-.deco-line {
-  width: 40px;
-  height: 1px;
-  background: var(--bronze);
-  display: block;
-}
 
 /* ═══ Buttons ════════════════════════════════════════════════
    .btn-primary   espresso fill        (legacy: .pill-btn)
@@ -550,16 +527,5 @@ textarea:focus-visible {
 .scroll-anim, .anim-img, .text-reveal { backface-visibility: hidden; }
 
 img { transition: opacity 0.4s ease; }
-
-/* Numerals — only for real sequences (process steps) */
-.number-accent {
-  font-family: var(--f-body);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  color: var(--bronze);
-  display: block;
-  margin-bottom: 10px;
-}
 
 .tabular { font-variant-numeric: tabular-nums lining-nums; }

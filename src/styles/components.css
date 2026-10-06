@@ -2,7 +2,7 @@
    COMPONENTS — Swiss Quiet Luxury
    Shared patterns first (use these in new markup), then restyles of
    legacy classes still used by page templates. Page-specific layout
-   belongs in the page's scoped <style>. Kontakt lives in kontakt.css.
+   belongs in the page's scoped \3c style>. Kontakt lives in kontakt.css.
    ═══════════════════════════════════════════════════════════════ */
 
 
@@ -456,6 +456,7 @@ body.nav-lock { overflow: hidden; }
 
 .treatment-hero-media {
   position: relative;
+  width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--stone);
@@ -468,8 +469,6 @@ body.nav-lock { overflow: hidden; }
   object-fit: cover;
   display: block;
 }
-
-.treatment-page .treatment-breadcrumbs { padding-top: 0; }
 
 
 /* ═══ SECTION HEAD ═══════════════════════════════════════════ */
@@ -666,7 +665,7 @@ a.index-item:hover::after { transform: translateX(5px); }
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  column-gap: clamp(24px, 4vw, 56px);
+  gap: 40px clamp(24px, 4vw, 56px);
   counter-reset: step;
 }
 
@@ -775,8 +774,9 @@ a.index-item:hover::after { transform: translateX(5px); }
     animation-delay: calc(var(--d, 0) * 90ms + 80ms);
   }
 
+  /* backwards (not both) so GSAP's scroll zoom can take over once the entrance ends */
   .reveal-media img {
-    animation: revealMedia 1.8s var(--ease-expo) both;
+    animation: revealMedia 1.8s var(--ease-expo) backwards;
   }
 }
 
@@ -796,185 +796,11 @@ a.index-item:hover::after { transform: translateX(5px); }
 .breadcrumbs ol { font-size: 0.8rem; color: var(--taupe); }
 
 
-/* ═══ MARQUEE — one quiet line ═══════════════════════════════ */
-
-.marquee-container {
-  display: flex;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 26px 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  background: transparent;
-}
-
-.marquee-content {
-  display: flex;
-  align-items: center;
-  gap: 48px;
-  animation: scrollMarquee 60s linear infinite;
-}
-
-.marquee-item {
-  display: flex;
-  align-items: center;
-  gap: 48px;
-  font-family: var(--f-display);
-  font-style: italic;
-  font-size: clamp(1.4rem, 2.4vw, 2rem);
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--umber);
-}
-
-.marquee-dot { font-family: var(--f-body); font-size: 0.6rem; color: var(--bronze); }
-
-@keyframes scrollMarquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-content { animation: none; }
-}
-
-
 /* ═══════════════════════════════════════════════════════════
-   LEGACY CLASSES — restyled to the new system
+   SHARED COMPONENT STYLES — FAQ, link cards, quotes, testimonials
    ═══════════════════════════════════════════════════════════ */
 
-/* Homepage editorial services (legacy markup) */
-.services-section { padding: var(--section-y) var(--content-px); }
-
-.services-wrapper {
-  display: grid;
-  grid-template-columns: minmax(260px, 4fr) minmax(0, 8fr);
-  gap: clamp(48px, 7vw, 120px);
-}
-
-.services-sticky {
-  position: sticky;
-  top: calc(var(--nav-h) + 40px);
-  height: fit-content;
-  display: grid;
-  gap: 24px;
-}
-
-.services-sticky p { max-width: 34ch; }
-
-.service-card {
-  display: grid;
-  gap: 20px;
-  padding-block: clamp(36px, 4vw, 56px);
-  border-bottom: 1px solid var(--rule);
-}
-
-.service-card:first-child { padding-top: 0; }
-.service-card h3 { font-size: var(--fs-h2); }
-
-.service-image-mask {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  background: var(--stone);
-}
-
-.service-image-tall { height: clamp(320px, 34vw, 480px); }
-
-.service-image-mask img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.06);
-  transition: transform 1.4s var(--ease-expo);
-}
-
-.service-card:hover .service-image-mask img,
-.treatment-overview-card:hover .service-image-mask img { transform: scale(1.09); }
-
-/* Treatment action bar (legacy duplicate booking bar) */
-.treatment-action-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding-block: 28px;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-
-.treatment-action-copy { max-width: 620px; display: grid; gap: 8px; }
-.treatment-action-copy p { margin: 0; font-size: var(--fs-small); }
-.treatment-action-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; }
-
-.treatment-copy-block { max-width: 880px; margin-inline: auto; text-align: center; }
-.treatment-copy-block .sub-display { margin-bottom: 1.25rem; }
-.treatment-copy-block p { margin-inline: auto; }
-.treatment-copy-block p + p { margin-top: 1rem; }
-
-.treatment-callout {
-  text-align: center;
-  padding: clamp(40px, 5vw, 72px);
-  background: var(--sand);
-}
-
-.treatment-callout p { margin: 0 auto 2rem; }
-
-/* Highlights → ruled grid (no boxes) */
-.highlights-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: clamp(24px, 4vw, 64px);
-}
-
-.highlights-grid--4col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-
-.highlight-item {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 26px 0 clamp(32px, 4vw, 48px);
-  border-top: 1px solid var(--rule-strong);
-  color: inherit;
-}
-
-.highlight-number {
-  font-family: var(--f-body);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  color: var(--bronze);
-  line-height: 1;
-}
-
-.highlight-item h4 {
-  font-family: var(--f-display);
-  font-size: var(--fs-h3);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  text-transform: none;
-  color: var(--espresso);
-  transition: color 0.35s ease;
-}
-
-.highlight-item p { margin: 0; max-width: none; }
-a.highlight-item:hover h4 { color: var(--bronze); }
-
 /* FAQ accordion */
-.faq-section { padding: var(--section-y) var(--content-px); }
-
-.faq-label {
-  display: block;
-  margin-bottom: clamp(32px, 4vw, 56px);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--bronze);
-}
 
 .faq-list { border-top: 1px solid var(--rule-strong); }
 .faq-item { border-bottom: 1px solid var(--rule); }
@@ -1034,14 +860,7 @@ a.highlight-item:hover h4 { color: var(--bronze); }
 .faq-answer-inner p,
 .faq-item > p { padding-bottom: 28px; max-width: 72ch; }
 
-/* Cross-navigation treatment cards → ruled entries */
-.more-treatments { padding: clamp(48px, 6vw, 88px) 0; }
-
-.more-treatments-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(24px, 4vw, 64px);
-}
+/* Treatment link cards */
 
 .treatment-link-card {
   display: flex;
@@ -1069,132 +888,9 @@ a.highlight-item:hover h4 { color: var(--bronze); }
   transition: transform 0.45s var(--ease-expo), color 0.3s ease;
 }
 
-.treatment-link-card:hover .card-arrow,
-.treatment-overview-card:hover .card-arrow { transform: translateX(5px); color: var(--bronze); }
+.treatment-link-card:hover .card-arrow { transform: translateX(5px); color: var(--bronze); }
 
-/* Treatment overview grid */
-.treatments-overview-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(48px, 6vw, 96px) clamp(24px, 4vw, 64px);
-}
-
-.treatment-overview-card { display: grid; gap: 22px; color: inherit; }
-.treatment-overview-content { display: grid; gap: 12px; }
-.treatment-overview-content h3 { font-size: var(--fs-h2); }
-.treatment-overview-content p { margin: 0; }
-
-/* Pricing cards → price menu style */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(24px, 4vw, 64px);
-  border-top: 1px solid var(--rule-strong);
-}
-
-.pricing-grid-two { max-width: none; }
-.pricing-grid-single { grid-template-columns: minmax(0, 1fr); max-width: 720px; }
-
-.pricing-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "label price"
-    "duration price"
-    "text text";
-  align-items: baseline;
-  gap: 6px 24px;
-  padding-block: 26px;
-  border-bottom: 1px solid var(--rule);
-  text-align: left;
-}
-
-.pricing-card-accent { background: none; }
-
-.pricing-label {
-  grid-area: label;
-  font-family: var(--f-display);
-  font-size: var(--fs-h4);
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--espresso);
-}
-
-.pricing-price {
-  grid-area: price;
-  font-family: var(--f-display);
-  font-size: clamp(1.5rem, 2.2vw, 2rem);
-  line-height: 1;
-  color: var(--espresso);
-  white-space: nowrap;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-
-.pricing-duration {
-  grid-area: duration;
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--taupe);
-}
-
-.pricing-card p { grid-area: text; margin: 6px 0 0; font-size: var(--fs-small); color: var(--taupe); max-width: 52ch; }
-
-/* Process grid (legacy) */
-.process-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  column-gap: clamp(24px, 4vw, 56px);
-}
-
-.process-step {
-  display: grid;
-  gap: 12px;
-  align-content: start;
-  padding: 24px 0 36px;
-  border-top: 1px solid var(--rule-strong);
-}
-
-.process-step .highlight-number {
-  font-family: var(--f-display);
-  font-size: 2.25rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1;
-}
-
-.process-step h4 {
-  font-family: var(--f-display);
-  font-size: var(--fs-h4);
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  color: var(--espresso);
-}
-
-.process-step p { margin: 0; }
-.about-text .process-grid { grid-template-columns: 1fr; }
-
-/* About (legacy) */
-.about-editorial { padding: var(--section-y) var(--content-px); }
-
-.about-portrait {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--stone);
-}
-
-.about-portrait img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.4s var(--ease-expo);
-}
-
-.about-text { display: grid; gap: 24px; align-content: center; }
+/* About quote */
 
 .about-quote { margin: 0; padding: 0; border: 0; }
 
@@ -1208,16 +904,6 @@ a.highlight-item:hover h4 { color: var(--bronze); }
 }
 
 /* Testimonials */
-.testimonials-section { padding: var(--section-y) var(--content-px); }
-
-.testimonials-label {
-  margin-bottom: clamp(32px, 4vw, 56px);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--bronze);
-}
 
 .testimonials-grid {
   display: grid;
@@ -1269,39 +955,6 @@ a.highlight-item:hover h4 { color: var(--bronze); }
 }
 
 .trust-strip-item { display: inline-flex; align-items: center; }
-
-.testimonial-block {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: var(--section-y-tight) var(--gutter);
-  text-align: center;
-}
-
-.testimonial-block blockquote {
-  font-family: var(--f-display);
-  font-style: italic;
-  font-size: clamp(1.6rem, 3vw, 2.5rem);
-  line-height: 1.25;
-  color: var(--espresso);
-  margin: 0 0 20px;
-}
-
-.testimonial-block cite {
-  display: block;
-  font-style: normal;
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--taupe);
-}
-
-.services-section,
-.about-editorial,
-.faq-section {
-  content-visibility: visible;
-  contain-intrinsic-size: none;
-}
 
 
 /* ═══ FOOTER ═════════════════════════════════════════════════ */
@@ -1422,19 +1075,7 @@ a.highlight-item:hover h4 { color: var(--bronze); }
 
   .index-grid,
   .index-grid--2,
-  .highlights-grid,
-  .highlights-grid--4col,
-  .testimonials-grid,
-  .more-treatments-grid,
-  .treatments-overview-grid,
-  .pricing-grid { grid-template-columns: minmax(0, 1fr); }
-
-  .services-wrapper { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .services-sticky { position: static; }
-  .service-image-tall { height: 300px; }
-
-  .treatment-action-bar { flex-direction: column; align-items: stretch; }
-  .treatment-action-buttons { justify-content: flex-start; }
+  .testimonials-grid { grid-template-columns: minmax(0, 1fr); }
 
   .cta-band-inner { grid-template-columns: minmax(0, 1fr); align-items: start; }
 
@@ -1446,8 +1087,4 @@ a.highlight-item:hover h4 { color: var(--bronze); }
 
   .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
-}
-
-@media (min-width: 1200px) {
-  .highlights-grid--4col.highlights-grid--fill { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }

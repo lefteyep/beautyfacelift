@@ -203,27 +203,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
             // never flashes or depends on the GSAP ticker.
 
 
-            // 4. Image Parallax + clip-path curtain reveal
-            document.querySelectorAll('.service-image-mask, .about-image .service-image-mask').forEach(container => {
-                const img = container.querySelector('.anim-img');
-                if (!img) return;
-
-                // Parallax
-                gsap.fromTo(img,
-                    { y: '-4%' },
-                    {
-                        y: '4%',
-                        scrollTrigger: {
-                            trigger: container,
-                            start: 'top bottom',
-                            end: 'bottom top',
-                            scrub: 1.2
-                        }
-                    }
-                );
-            });
-
-            // 5. Fade Up Reveal for blocks — staggered with more finesse
+            // 2. Gentle rise for blocks marked .scroll-anim
             gsap.utils.toArray('.scroll-anim').forEach(element => {
                 gsap.from(element as Element,
                     {
@@ -240,7 +220,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             });
 
-            // 6. Treatment Hero Parallax
+            // 3. Slow zoom on the treatment hero image while scrolling
             const treatmentHeroImg = document.querySelector('#treatment-hero-img');
             if (treatmentHeroImg) {
                 gsap.fromTo(treatmentHeroImg,
@@ -257,7 +237,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 7. Footer Text Reveal — cinematic entrance
+            // 4. Footer wordmark entrance
             const footerReveal = document.querySelector('.footer-editorial .text-reveal');
             if (footerReveal) {
                 gsap.from(footerReveal,
@@ -275,45 +255,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 8. Parallax depth on about portrait
-            const aboutPortrait = document.querySelector('.about-portrait img');
-            if (aboutPortrait) {
-                gsap.fromTo(aboutPortrait,
-                    { y: '-5%', scale: 1.08 },
-                    {
-                        y: '5%',
-                        scale: 1.08,
-                        scrollTrigger: {
-                            trigger: '.about-portrait',
-                            start: 'top bottom',
-                            end: 'bottom top',
-                            scrub: 1.5
-                        }
-                    }
-                );
-            }
-
-            // 9. Stagger service cards for sequential reveal
-            const serviceCards = gsap.utils.toArray('.service-card');
-            if (serviceCards.length > 0) {
-                serviceCards.forEach((card, i) => {
-                    gsap.from(card as Element,
-                        {
-                            y: 36,
-                            duration: 1,
-                            ease: "expo.out",
-                            immediateRender: false,
-                            scrollTrigger: {
-                                trigger: card as Element,
-                                start: 'top 90%',
-                                once: true,
-                            }
-                        }
-                    );
-                });
-            }
-
-            // 10. Testimonial cards stagger
+            // 5. Testimonial stagger
             const testimonialCards = gsap.utils.toArray('.testimonial-card');
             if (testimonialCards.length > 0) {
                 gsap.from(testimonialCards as Element[],
@@ -332,7 +274,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 11. FAQ items stagger
+            // 6. FAQ rows stagger
             const faqItems = gsap.utils.toArray('.faq-item');
             if (faqItems.length > 0) {
                 const faqTrigger = document.querySelector('.faq-list') ?? (faqItems[0] as Element).parentElement;
@@ -352,25 +294,6 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 12. Highlight/Process grid stagger
-            const highlightItems = gsap.utils.toArray('.highlight-item, .process-step');
-            if (highlightItems.length > 0) {
-                gsap.from(highlightItems as Element[],
-                    {
-                        y: 24,
-                        duration: 0.9,
-                        stagger: 0.1,
-                        ease: "power3.out",
-                        immediateRender: false,
-                        scrollTrigger: {
-                            trigger: (highlightItems[0] as Element).parentElement,
-                            start: 'top 85%',
-                            once: true,
-                        }
-                    }
-                );
-            }
-
         } else {
             // Reduced motion: make everything visible immediately
             document.querySelectorAll('.text-reveal').forEach(el => {
@@ -380,7 +303,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 (el as HTMLElement).style.opacity = '1';
                 (el as HTMLElement).style.transform = 'none';
             });
-            document.querySelectorAll('.service-card, .testimonial-card, .faq-item, .highlight-item, .process-step').forEach(el => {
+            document.querySelectorAll('.testimonial-card, .faq-item').forEach(el => {
                 (el as HTMLElement).style.opacity = '1';
                 (el as HTMLElement).style.transform = 'none';
             });
