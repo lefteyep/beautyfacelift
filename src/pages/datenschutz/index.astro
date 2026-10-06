@@ -7,11 +7,15 @@ import Base from '../../layouts/Base.astro';
     title="Datenschutzerklärung | Beauty Face Lift Zürich"
     description="Datenschutzerklärung von Beauty Face Lift — wie wir Ihre Daten schützen und verarbeiten. Premium Kosmetikinstitut, Bahnhofstrasse 94, 8001 Zürich."
 >
-    <section class="container legal-page">
-        <h1>Datenschutzerklärung</h1>
+    <header class="page-hero legal-hero">
+        <div class="container container--text page-hero-inner">
+            <p class="eyebrow eyebrow--rule">Rechtliches</p>
+            <h1>Datenschutzerklärung</h1>
+            <p class="caption">Stand: April 2026</p>
+        </div>
+    </header>
 
-        <p><strong>Stand:</strong> April 2026</p>
-
+    <section class="container container--text legal-body">
         <h2>1. Verantwortliche Stelle</h2>
         <p>
             Beauty Face Lift<br>
@@ -93,74 +97,71 @@ import Base from '../../layouts/Base.astro';
 </Base>
 
 <style>
-    .legal-page {
-        padding-top: 18vh;
-        padding-bottom: 10vh;
-        max-width: 800px;
+    .legal-hero {
+        padding-bottom: clamp(32px, 5vw, 64px);
     }
 
-    .legal-page h1 {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        margin-bottom: 3rem;
+    .legal-body {
+        padding-bottom: var(--section-y);
     }
 
-    .legal-page h2 {
-        font-size: 1.3rem;
-        margin-top: 3rem;
+    /* Hairline aligned to the text column, not the gutter */
+    .legal-body::before {
+        content: '';
+        display: block;
+        height: 1px;
+        margin-bottom: clamp(40px, 5vw, 72px);
+        background: var(--rule-strong);
+    }
+
+    .legal-body h2 {
+        margin: clamp(48px, 5vw, 72px) 0 18px;
+        font-size: clamp(1.5rem, 2.2vw, 2rem);
+        line-height: 1.15;
+    }
+
+    .legal-body h2:first-child {
+        margin-top: 0;
+    }
+
+    .legal-body h3 {
+        margin: 32px 0 8px;
+        font-size: var(--fs-h4);
+    }
+
+    .legal-body p {
         margin-bottom: 1rem;
-        text-transform: none;
     }
 
-    .legal-page h3 {
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-secondary);
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
+    .legal-body a {
+        color: var(--espresso);
+        text-decoration: underline;
+        text-decoration-color: var(--bronze-light);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease;
     }
 
-    .legal-page p {
-        max-width: none;
-        margin-bottom: 1rem;
+    .legal-body a:hover {
+        color: var(--bronze);
     }
 
-    .legal-page ul {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 1.5rem;
+    .legal-body ul {
+        margin: 0 0 1.5rem;
     }
 
-    .legal-page ul li {
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 300;
-        color: var(--text-secondary);
-        padding: 0.4rem 0;
-        padding-left: 1.5rem;
+    .legal-body li {
         position: relative;
+        padding: 0.35rem 0 0.35rem 30px;
+        color: var(--umber);
     }
 
-    .legal-page ul li::before {
+    .legal-body li::before {
         content: '';
         position: absolute;
-        left: 0;
-        top: 0.85rem;
-        width: 6px;
-        height: 6px;
-        background: var(--accent);
-        border-radius: 50%;
-    }
-
-    .legal-page a {
-        color: var(--accent);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
-
-    .legal-page a:hover {
-        color: var(--accent-dark);
+        left: 2px;
+        top: 1.2em;
+        width: 14px;
+        height: 1px;
+        background: var(--bronze);
     }
 </style>

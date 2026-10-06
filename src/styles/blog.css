@@ -1,270 +1,334 @@
-/* Blog Styles */
-.blog-hero {
-    padding: 80px 320px 40px;
-    text-align: center;
+/* ═══════════════════════════════════════════════════════════════
+   JOURNAL — article layout (src/layouts/BlogPost.astro)
+   Header: breadcrumbs · eyebrow (category) · H1 · byline on a hairline
+   Body:   .blog-article — 66ch measure, Instrument Sans 400,
+           Bodoni h2/h3, italic display blockquotes, bronze list markers
+   The journal index styles live in src/pages/blog/index.astro.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Header ─────────────────────────────────────────────────── */
+
+.journal-header {
+  padding-top: calc(var(--nav-h) + clamp(24px, 4vw, 56px));
 }
 
-.blog-hero .sub-display {
-    margin-bottom: 20px;
-    display: block;
+.journal-header nav.breadcrumbs {
+  padding: 0 0 clamp(28px, 4vw, 48px);
 }
 
-.blog-hero h1 {
-    font-size: 42px;
-    text-transform: none;
-    margin-bottom: 16px;
-    line-height: 1.2;
+.journal-header-copy {
+  display: grid;
+  gap: 24px;
 }
 
-.blog-featured-image {
-    padding: 0 58px;
+.journal-title {
+  max-width: 22ch;
+  font-size: clamp(2.35rem, 4.6vw, 4rem);
+  line-height: 1.04;
 }
 
-.blog-featured-image-inner {
-    width: 100%;
-    height: 500px;
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    background: var(--bg-warm);
+.journal-lead {
+  max-width: 60ch;
 }
 
-.blog-featured-image-inner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.journal-byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  max-width: none;
+  margin-top: clamp(32px, 4vw, 48px);
+  padding-block: 18px;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--taupe);
 }
+
+.journal-byline-meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+
+.journal-byline > * + *::before,
+.journal-byline-meta > * + *::before {
+  content: '·';
+  margin-right: 28px;
+  color: var(--bronze);
+}
+
+.journal-figure {
+  margin-top: clamp(36px, 5vw, 64px);
+}
+
+.journal-lead-image {
+  aspect-ratio: 16 / 9;
+}
+
+/* ─── Body ───────────────────────────────────────────────────── */
 
 .blog-article {
-    width: min(100%, 920px);
-    margin: 0 auto;
-    padding: clamp(44px, 6vw, 72px) 0;
+  padding-block: clamp(56px, 7vw, 96px) clamp(48px, 6vw, 80px);
+  color: var(--umber);
 }
 
-.blog-article h2 {
-    font-size: 32px;
-    text-transform: none;
-    margin-top: 32px;
-    margin-bottom: 16px;
+.blog-article > * {
+  max-width: 66ch;
 }
 
-.blog-article h3 {
-    font-size: 24px;
-    text-transform: none;
-    margin-top: 24px;
-    margin-bottom: 12px;
+.blog-article p,
+.blog-article li {
+  font-size: clamp(1.0625rem, 0.95rem + 0.25vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--umber);
 }
 
 .blog-article p {
-    max-width: 86ch;
-    margin-bottom: 24px;
-    font-size: 17px;
-    font-weight: 300;
-    line-height: 1.75;
+  margin-bottom: 1.4em;
 }
 
-.blog-article ul, .blog-article ol {
-    max-width: 86ch;
-    margin-bottom: 24px;
-    padding-left: 24px;
-    color: var(--text-secondary);
-    font-size: 17px;
-    font-weight: 300;
-    line-height: 1.75;
+.blog-article > p:first-child {
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+  color: var(--espresso);
 }
 
-.blog-article li {
-    margin-bottom: 8px;
+.blog-article h2 {
+  margin: clamp(56px, 6vw, 88px) 0 24px;
+  font-size: clamp(1.75rem, 2.7vw, 2.4rem);
+  line-height: 1.12;
+  max-width: 24ch;
 }
 
-.blog-article a {
-    color: var(--accent-text);
-    text-decoration: underline;
-    text-decoration-color: var(--accent-light);
-    text-underline-offset: 3px;
-    transition: text-decoration-color 0.3s ease;
+.blog-article h3 {
+  margin: clamp(36px, 4vw, 52px) 0 14px;
+  font-size: clamp(1.3rem, 1.7vw, 1.55rem);
+  line-height: 1.22;
 }
 
-.blog-article a:hover {
-    text-decoration-color: var(--accent);
-}
-
-.blog-article blockquote {
-    border-left: 3px solid var(--accent-text);
-    padding: 4px 0 4px 24px;
-    margin: 32px 0;
-    max-width: 760px;
-    font-family: var(--font-serif);
-    font-size: 24px;
-    font-weight: 300;
-    color: var(--text-primary);
-    line-height: 1.4;
+.blog-article h2 + h3 {
+  margin-top: 8px;
 }
 
 .blog-article strong {
-    color: var(--text-primary);
-    font-weight: 600;
+  font-weight: 600;
+  color: var(--espresso);
 }
 
-.blog-meta {
-    display: flex;
-    gap: 24px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-    justify-content: center;
+.blog-article a {
+  color: var(--espresso);
+  text-decoration: underline;
+  text-decoration-color: var(--bronze-light);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
 }
 
-/* Blog CTA Section — design: bg-cream, centered */
-.blog-cta {
-    background: var(--bg-cream);
-    padding: 60px var(--content-px);
-    text-align: center;
+.blog-article a:hover {
+  color: var(--bronze);
+  text-decoration-color: currentColor;
 }
 
-.blog-cta h2 {
-    font-size: 32px;
-    text-transform: none;
-    margin-bottom: 24px;
+/* Lists — bronze hairline markers, Bodoni numerals for ordered steps */
+.blog-article ul,
+.blog-article ol {
+  margin: 0 0 1.6em;
+  padding: 0;
+  list-style: none;
 }
 
-/* Author Box — design: bordered top/bottom */
-.blog-author-bio {
-    margin-top: clamp(44px, 6vw, 72px);
-    padding: clamp(32px, 4vw, 44px) 0;
-    border-top: 1px solid var(--border-subtle);
-    border-bottom: 1px solid var(--border-subtle);
-    display: grid;
-    grid-template-columns: 112px minmax(0, 1fr);
-    column-gap: 34px;
-    row-gap: 10px;
-    align-items: start;
+.blog-article li {
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 0.7em;
 }
 
-.blog-author-bio .blog-author-avatar {
-    grid-column: 1;
-    grid-row: 1 / -1;
+.blog-article ul > li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.9em;
+  width: 14px;
+  height: 1px;
+  background: var(--bronze);
 }
 
-.blog-author-bio > *:not(.blog-author-avatar) {
-    grid-column: 2;
+.blog-article ol {
+  counter-reset: article-step;
 }
 
-.blog-author-bio h3 {
-    font-size: clamp(28px, 3vw, 36px);
-    text-transform: none;
-    margin: 0;
+.blog-article ol > li {
+  counter-increment: article-step;
 }
 
-.blog-author-bio p {
-    max-width: 68ch;
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.75;
+.blog-article ol > li::before {
+  content: counter(article-step);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: var(--f-display);
+  font-size: 1.15em;
+  line-height: 1.5;
+  color: var(--bronze);
+  font-variant-numeric: lining-nums;
 }
 
-.blog-author-avatar {
-    width: 112px;
-    height: 112px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-    border: 1px solid var(--border-subtle);
+/* Pull quotes */
+.blog-article blockquote {
+  margin: clamp(40px, 5vw, 64px) 0;
+  padding: clamp(24px, 3vw, 36px) 0;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: clamp(1.45rem, 2.3vw, 1.95rem);
+  line-height: 1.32;
+  color: var(--espresso);
+  text-wrap: pretty;
 }
 
-.blog-author-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Comparison tables */
+.blog-table-wrap {
+  max-width: none;
+  margin: clamp(32px, 4vw, 48px) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.blog-further-reading {
-    margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border-subtle);
-    text-align: center;
+.blog-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-.blog-further-reading h2 {
-    font-size: 28px;
-    text-transform: none;
-    margin-bottom: 24px;
+.blog-table th,
+.blog-table td {
+  padding: 14px 16px 14px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule);
 }
 
-/* Blog Listing Cards */
-.blog-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+.blog-table thead th {
+  padding-top: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--taupe);
 }
 
-.blog-card {
-    padding: 32px;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-card);
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    transition: transform 0.4s var(--ease-expo), box-shadow 0.4s var(--ease-expo);
-    background: var(--bg-secondary);
+.blog-table tbody th {
+  font-weight: 600;
+  color: var(--espresso);
 }
 
-.blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(18, 18, 18, 0.06);
+.blog-table td {
+  color: var(--umber);
 }
 
-.blog-card h3 {
-    font-size: 24px;
-    text-transform: none;
+/* FAQ inside articles uses the shared details.faq-item rows */
+.blog-article .faq-list {
+  margin-top: 8px;
 }
 
-.blog-card p {
-    font-size: 15px;
-    max-width: none;
+.blog-article .faq-item p {
+  font-size: 1rem;
 }
 
-.blog-card .card-arrow {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--accent-text);
-    margin-top: auto;
+/* ─── Author ─────────────────────────────────────────────────── */
+
+.journal-author {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-bottom: clamp(72px, 9vw, 120px);
+  padding-top: 32px;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.journal-author-portrait {
+  aspect-ratio: 4 / 5;
+}
+
+.journal-author-portrait img {
+  object-position: 50% 20%;
+}
+
+.journal-author-copy {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+
+.journal-author-copy p:not(.label) {
+  font-size: 1rem;
+  max-width: 60ch;
+}
+
+.journal-author-copy .btn-link {
+  margin-top: 6px;
+}
+
+/* ─── Related ────────────────────────────────────────────────── */
+
+.journal-related {
+  border-top: 1px solid var(--rule);
+}
+
+/* Keep the link at its natural width when .section-head stacks on mobile */
+.journal-related .section-head > .btn-link {
+  justify-self: start;
+}
+
+.journal-related-list .index-item {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) 24px;
 }
 
 @media (max-width: 900px) {
-    .blog-hero { padding: 60px 24px 24px; }
-    .blog-featured-image { padding: 0 24px; }
-    .blog-featured-image-inner { height: 280px; }
-    .blog-article { width: 100%; padding: 40px 0; }
-    .blog-article p,
-    .blog-article ul,
-    .blog-article ol { font-size: 16px; }
-    .blog-article blockquote { font-size: 20px; }
-    .blog-cta { padding: 40px 24px; }
-    .blog-author-bio {
-        grid-template-columns: 1fr;
-        justify-items: start;
-        row-gap: 16px;
-        padding: 32px 0;
-        text-align: left;
-    }
-    .blog-author-bio .blog-author-avatar,
-    .blog-author-bio > *:not(.blog-author-avatar) {
-        grid-column: 1;
-    }
-    .blog-author-bio .blog-author-avatar {
-        grid-row: auto;
-    }
-    .blog-author-avatar {
-        width: 88px;
-        height: 88px;
-    }
-    .blog-grid { grid-template-columns: 1fr; }
-    .blog-meta { flex-direction: column; gap: 8px; }
+  .journal-lead-image {
+    aspect-ratio: 3 / 2;
+  }
+
+  .journal-figure {
+    padding-inline: 0;
+  }
+
+  .journal-byline,
+  .journal-byline-meta {
+    gap: 6px 16px;
+  }
+
+  .journal-byline-meta > * + *::before {
+    margin-right: 16px;
+  }
+
+  /* Author on its own line, date · reading time below — no dangling dot */
+  .journal-byline {
+    flex-direction: column;
+  }
+
+  .journal-byline > * + *::before {
+    display: none;
+  }
+
+  .journal-related-list .index-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .journal-author {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 20px;
+  }
 }

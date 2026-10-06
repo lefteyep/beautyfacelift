@@ -2,35 +2,12 @@
 import { absoluteUrl } from '../../../shared/site';
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import '../../styles/blog.css';
+import { Image } from 'astro:assets';
+import { JOURNAL_POSTS, formatJournalDate } from './_posts';
 
-const blogPosts = [
-    {
-        title: 'Aquafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?',
-        description: 'Beide Behandlungen versprechen ein strahlendes Hautbild — doch welche ist die richtige für Ihren Hauttyp? Ein direkter Vergleich.',
-        href: '/blog/aquafacial-vs-microneedling/'
-    },
-    {
-        title: 'Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin',
-        description: 'Teresa Stimac verrät die wichtigsten Schritte für eine wirksame tägliche Hautpflege — abgestimmt auf das Zürcher Klima.',
-        href: '/blog/hautpflege-routine-zuerich/'
-    },
-    {
-        title: 'Was ist Aquafacial? Alles was Sie wissen müssen',
-        description: 'Von der patentierten Vortex-Technologie bis zum Glow-Effekt — alles Wissenswerte über die beliebteste Gesichtsbehandlung.',
-        href: '/blog/was-ist-aquafacial/'
-    },
-    {
-        title: 'Microneedling Erfahrung: Was erwartet Sie bei Ihrer ersten Behandlung?',
-        description: 'Was passiert während einer Microneedling-Sitzung und wie fühlt sich die Behandlung an? Ein ehrlicher Erfahrungsbericht.',
-        href: '/blog/microneedling-erfahrung/'
-    },
-    {
-        title: 'Anti-Aging Behandlungen in Zürich: Ein Überblick',
-        description: 'Von Aquafacial über ColdPlasma bis Fruchtsäure Peeling — welche Anti-Aging Methoden wirken nachweislich?',
-        href: '/blog/anti-aging-behandlungen-zuerich/'
-    }
-];
+const [featured, ...posts] = JOURNAL_POSTS;
+const featuredSizes = '(min-width: 1320px) 720px, (min-width: 901px) 55vw, 100vw';
+const cardSizes = '(min-width: 1320px) 620px, (min-width: 901px) 46vw, 100vw';
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -56,39 +33,224 @@ const breadcrumbs = [
     description="Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac. Ihr Kosmetikinstitut Blog aus Zürich."
     structuredData={structuredData}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <header class="page-hero journal-hero">
+        <div class="container page-hero-inner">
+            <Breadcrumbs items={breadcrumbs} />
+            <p class="eyebrow eyebrow--rule reveal-up">Journal</p>
+            <h1 class="reveal-up journal-hero-title">Wissen rund um Ihre <em>Haut</em></h1>
+            <p class="lead reveal-up">Beiträge über professionelle Hautpflege, Gesichtsbehandlungen und bewährte Pflege im Alltag. Teresa Stimac teilt ihr Wissen aus der täglichen Praxis an der Bahnhofstrasse in Zürich.</p>
+        </div>
+    </header>
 
-    <!-- Page Header -->
-    <section class="container" style="padding-bottom: 5vh;">
-        <div class="sub-display margin-bottom-md">Hautpflege Wissen</div>
-        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Blog</h1>
-        <p style="max-width: 700px;">Aktuelle Beiträge rund um professionelle Hautpflege, Gesichtsbehandlungen und bewährte Beauty-Tipps. Teresa Stimac teilt ihr Expertenwissen aus der täglichen Praxis in unserem Kosmetikinstitut an der Bahnhofstrasse Zürich.</p>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Blog Grid -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="blog-grid">
-            {blogPosts.map((post) => (
-                <a href={post.href} class="blog-card scroll-anim">
-                    <h3>{post.title}</h3>
-                    <p>{post.description}</p>
-                    <span class="card-arrow">Weiterlesen &rarr;</span>
-                </a>
-            ))}
+    <!-- Latest article -->
+    <section class="journal-featured-section" aria-label="Neuester Beitrag">
+        <div class="container">
+            <a href={featured.href} class="journal-featured">
+                <span class="media media--landscape journal-featured-media">
+                    <Image
+                        src={featured.image}
+                        widths={[480, 720, 960, 1440]}
+                        sizes={featuredSizes}
+                        format="webp"
+                        quality="high"
+                        alt={featured.imageAlt}
+                        priority
+                    />
+                </span>
+                <div class="journal-featured-copy">
+                    <span class="eyebrow">{featured.category}</span>
+                    <h2 class="journal-featured-title">{featured.title}</h2>
+                    <p>{featured.excerpt}</p>
+                    <span class="journal-meta">
+                        <time datetime={featured.publishDate}>{formatJournalDate(featured.publishDate)}</time>
+                        <span>{featured.readingTime} Lesezeit</span>
+                    </span>
+                    <span class="btn-link journal-read">Beitrag lesen</span>
+                </div>
+            </a>
         </div>
     </section>
 
-    <div class="section-divider"></div>
+    <!-- All further articles: 2 × 2, no orphans -->
+    <section class="section journal-archive" aria-labelledby="journal-archive-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Weitere Beiträge</p>
+                    <h2 id="journal-archive-title">Aus dem <em>Journal</em></h2>
+                </div>
+            </div>
+            <ul class="journal-grid">
+                {posts.map((post) => (
+                    <li>
+                        <a href={post.href} class="journal-card">
+                            <span class="media media--landscape">
+                                <Image
+                                    src={post.image}
+                                    widths={[400, 620, 940, 1240]}
+                                    sizes={cardSizes}
+                                    format="webp"
+                                    quality="mid"
+                                    loading="lazy"
+                                    alt={post.imageAlt}
+                                />
+                            </span>
+                            <span class="eyebrow">{post.category}</span>
+                            <h3 class="journal-card-title">{post.title}</h3>
+                            <p>{post.excerpt}</p>
+                            <span class="journal-meta">
+                                <time datetime={post.publishDate}>{formatJournalDate(post.publishDate)}</time>
+                                <span>{post.readingTime} Lesezeit</span>
+                            </span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
 
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center;">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
-        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    <section class="cta-band" aria-labelledby="journal-index-cta-title">
+        <div class="cta-band-inner">
+            <div>
+                <p class="eyebrow eyebrow--rule">Termin</p>
+                <h2 id="journal-index-cta-title">Bereit für Ihr neues <em>Hautbild</em>?</h2>
+                <p>Buchen Sie Ihren Termin direkt online, unkompliziert und in wenigen Klicks.</p>
+            </div>
+            <div class="btn-row">
+                <a href="/termin/" class="btn" data-button-location="blog_index_cta">Termin buchen</a>
+                <a href="/behandlungen/" class="btn-link">Behandlungen entdecken</a>
+            </div>
+        </div>
     </section>
 </Base>
+
+<style>
+    .journal-hero {
+        padding-top: calc(var(--nav-h) + clamp(24px, 4vw, 56px));
+    }
+
+    .journal-hero :global(.breadcrumbs) {
+        padding: 0 0 clamp(20px, 4vw, 40px);
+    }
+
+    .journal-hero-title {
+        max-width: 14ch;
+    }
+
+    .journal-hero .lead {
+        max-width: 56ch;
+    }
+
+    /* Featured — image left, copy right */
+    .journal-featured {
+        display: grid;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        gap: clamp(32px, 5vw, 88px);
+        align-items: center;
+        padding-top: clamp(32px, 4vw, 48px);
+        border-top: 1px solid var(--rule-strong);
+        color: inherit;
+    }
+
+    .journal-featured-copy {
+        display: grid;
+        gap: 20px;
+        justify-items: start;
+    }
+
+    .journal-featured-title {
+        font-size: clamp(2rem, 3.4vw, 3rem);
+        line-height: 1.08;
+        max-width: 18ch;
+        transition: color 0.35s ease;
+    }
+
+    .journal-featured-copy p {
+        margin: 0;
+    }
+
+    .journal-read {
+        margin-top: 8px;
+    }
+
+    .journal-featured:hover .journal-featured-title,
+    .journal-card:hover .journal-card-title {
+        color: var(--bronze);
+    }
+
+    .journal-featured:hover .journal-read {
+        color: var(--bronze);
+    }
+
+    .journal-featured:hover .journal-read::after {
+        transform: translateX(4px);
+    }
+
+    /* Archive grid */
+    .journal-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(56px, 6vw, 88px) clamp(24px, 4vw, 64px);
+    }
+
+    .journal-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        height: 100%;
+        color: inherit;
+    }
+
+    .journal-card .journal-meta {
+        margin-top: auto;
+    }
+
+    .journal-card .media {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .journal-card-title {
+        font-size: clamp(1.5rem, 2.2vw, 2rem);
+        line-height: 1.14;
+        max-width: 22ch;
+        transition: color 0.35s ease;
+    }
+
+    .journal-card p {
+        margin: 0;
+        max-width: 52ch;
+    }
+
+    .journal-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+        padding-top: 14px;
+        width: 100%;
+        border-top: 1px solid var(--rule);
+        font-size: var(--fs-label);
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--taupe);
+    }
+
+    .journal-meta > * + *::before {
+        content: '·';
+        margin-right: 20px;
+        color: var(--bronze);
+    }
+
+    @media (max-width: 900px) {
+        .journal-featured {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 28px;
+        }
+
+        .journal-grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+</style>

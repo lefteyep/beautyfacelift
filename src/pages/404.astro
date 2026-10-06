@@ -10,57 +10,100 @@ import { absoluteUrl } from '../../shared/site';
     canonical={absoluteUrl('/404')}
     noindex
 >
-    <section class="container error-page">
-        <div class="error-content">
-            <div class="error-number" aria-hidden="true">404</div>
-            <h1>Seite nicht gefunden</h1>
-            <p>Die angeforderte Seite existiert nicht. Vielleicht finden Sie, was Sie suchen, auf unserer Startseite.</p>
-            <a href="/" class="pill-btn pill-btn-outline">Alle ansehen</a>
+    <section class="error-page" aria-labelledby="error-title">
+        <div class="container error-inner">
+            <div class="error-copy">
+                <p class="eyebrow eyebrow--rule">Fehler 404</p>
+                <h1 id="error-title">Seite nicht <em>gefunden</em></h1>
+                <p class="lead">Die angeforderte Seite existiert nicht oder wurde verschoben. Vielleicht finden Sie, was Sie suchen, auf unserer Startseite oder bei den Behandlungen.</p>
+                <div class="btn-row">
+                    <a href="/" class="btn">Zur Startseite</a>
+                    <a href="/behandlungen/" class="btn-link">Alle Behandlungen</a>
+                </div>
+            </div>
+            <ul class="index-list error-links" aria-label="Beliebte Seiten">
+                <li>
+                    <a href="/behandlungen/" class="index-item">
+                        <span class="index-item-title">Behandlungen</span>
+                        <span class="index-item-text">Gesicht &amp; Haut, Laser, Waxing, Wimpern, Make-up und Massage</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ueber-mich/" class="index-item">
+                        <span class="index-item-title">Über Teresa</span>
+                        <span class="index-item-text">Persönlich von Teresa Stimac an der Bahnhofstrasse 94</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/kontakt/" class="index-item">
+                        <span class="index-item-title">Kontakt</span>
+                        <span class="index-item-text">Beratung, Anfahrt und Öffnungszeiten</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </section>
 </Base>
 
 <style>
     .error-page {
-        min-height: 700px;
+        min-height: 80vh;
         display: flex;
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 0 58px;
+        padding-top: calc(var(--nav-h) + clamp(48px, 8vw, 120px));
+        padding-bottom: clamp(72px, 9vw, 136px);
     }
 
-    .error-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .error-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: end;
+    }
+
+    .error-copy {
+        display: grid;
         gap: 24px;
+        justify-items: start;
     }
 
-    .error-number {
-        font-family: var(--font-serif);
-        font-size: clamp(8rem, 20vw, 16rem);
-        line-height: 1;
-        color: var(--text-primary);
-        opacity: 0.06;
-        letter-spacing: 8px;
+    .error-copy h1 {
+        max-width: 13ch;
     }
 
-    .error-page h1 {
-        font-family: var(--font-serif);
-        font-size: 38px;
-        text-transform: none;
-        margin: 0;
+    .error-copy .btn-row {
+        margin-top: 8px;
     }
 
-    .error-page p {
-        max-width: 500px;
-        margin: 0;
-        text-align: center;
+    .error-links .index-item {
+        grid-template-columns: minmax(0, 1fr) 24px;
+        gap: 6px 24px;
+        padding-block: 22px;
+    }
+
+    .error-links .index-item-title {
+        font-family: var(--f-display);
+        font-size: var(--fs-h4);
+        line-height: 1.2;
+        color: var(--espresso);
+    }
+
+    .error-links .index-item-text {
+        grid-column: 1;
+        grid-row: 2;
+        font-size: var(--fs-small);
+        color: var(--taupe);
+    }
+
+    .error-links .index-item::after {
+        grid-column: 2;
+        grid-row: 1;
     }
 
     @media (max-width: 900px) {
-        .error-page { padding: 0 24px; min-height: 500px; }
-        .error-page h1 { font-size: 28px; }
+        .error-inner {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 56px;
+        }
     }
 </style>

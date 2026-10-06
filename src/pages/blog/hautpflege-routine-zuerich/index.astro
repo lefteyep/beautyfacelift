@@ -1,28 +1,11 @@
 ---
 import { absoluteUrl } from '../../../../shared/site';
-import Base from '../../../layouts/Base.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import { Image } from 'astro:assets';
-import { teresaPortrait } from '../../../lib/site-images';
-import '../../../styles/blog.css';
+import BlogPost from '../../../layouts/BlogPost.astro';
 
 const title = 'Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin';
 const description = 'Erfahren Sie die ideale Hautpflege Routine Zürich — Morgen- & Abendpflege, Wirkstoffe und Profi-Tipps von Kosmetikerin Teresa Stimac bei Beauty Face Lift.';
 const publishDate = '2026-03-10';
 const author = 'Teresa Stimac';
-const readingTime = '10 Min.';
-
-const formattedDate = new Date(publishDate).toLocaleDateString('de-CH', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-});
-
-const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/blog/' },
-    { label: 'Hautpflege-Routine' }
-];
 
 const articleSchema = {
     "@context": "https://schema.org",
@@ -105,379 +88,335 @@ const faqSchema = {
 };
 
 const structuredData = [articleSchema, faqSchema];
+
+const related = [
+    {
+        href: '/blog/anti-aging-behandlungen-zuerich/',
+        title: 'Anti-Aging Behandlungen in Zürich',
+        text: 'Von Aquafacial über ColdPlasma bis Fruchtsäure Peeling: welche Methoden sich für welche Haut eignen.',
+    },
+    {
+        href: '/blog/was-ist-aquafacial/',
+        title: 'Was ist Aquafacial?',
+        text: 'Wie die Behandlung abläuft, für wen sie geeignet ist und was Sie in Zürich erwartet.',
+    },
+];
+
+const cta = {
+    title: 'Bereit für Ihr neues <em>Hautbild</em>?',
+    text: 'Buchen Sie Ihren Termin direkt online, unkompliziert und in wenigen Klicks. Teresa Stimac berät Sie persönlich zu Ihrer passenden Pflegeroutine.',
+    label: 'Termin buchen',
+};
 ---
 
-<Base
-    title="Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin | Beauty Face Lift Zürich"
+<BlogPost
+    slug="hautpflege-routine-zuerich"
+    pageTitle="Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin | Beauty Face Lift Zürich"
     description={description}
     structuredData={structuredData}
+    breadcrumbLabel="Hautpflege-Routine"
+    title={title}
+    related={related}
+    cta={cta}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <p>
+        Eine konsequente Hautpflege-Routine ist das Fundament für ein strahlendes, gesundes Hautbild. Als Kosmetikerin an der Bahnhofstrasse in Zürich sehe ich täglich, welchen Unterschied eine durchdachte Pflegeroutine macht — und welche vermeidbaren Fehler selbst anspruchsvolle Kundinnen begehen. In diesem umfassenden Ratgeber teile ich mein Fachwissen aus jahrelanger Praxis und zeige Ihnen Schritt für Schritt, wie Sie Ihre persönliche Hautpflege-Routine aufbauen, optimieren und an die besonderen klimatischen Bedingungen in Zürich anpassen.
+    </p>
 
-    <!-- Article Header -->
-    <section class="container" style="padding-bottom: 4vh;">
-        <div style="max-width: 700px; margin: 0 auto;">
-            <div class="sub-display margin-bottom-md">Blog</div>
-            <h1 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none; line-height: 1.15;">{title}</h1>
-            <div class="blog-meta">
-                <span>Von {author}</span>
-                <span>{formattedDate}</span>
-                <span>{readingTime} Lesezeit</span>
-            </div>
-        </div>
-    </section>
+    <p>
+        Ob Sie gerade erst beginnen, sich intensiver mit Ihrer Hautpflege zu beschäftigen, oder ob Sie Ihre bestehende Routine verfeinern möchten: Dieser Leitfaden bietet Ihnen praxisnahe Tipps, die Sie sofort umsetzen können. Denn schöne Haut ist kein Zufall — sie ist das Ergebnis von Wissen, Konsequenz und den richtigen Produkten.
+    </p>
 
-    <!-- Article Body -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="blog-article">
+    <h2>Warum eine tägliche Hautpflege-Routine so wichtig ist</h2>
 
-            <p>
-                Eine konsequente Hautpflege-Routine ist das Fundament für ein strahlendes, gesundes Hautbild. Als Kosmetikerin an der Bahnhofstrasse in Zürich sehe ich täglich, welchen Unterschied eine durchdachte Pflegeroutine macht — und welche vermeidbaren Fehler selbst anspruchsvolle Kundinnen begehen. In diesem umfassenden Ratgeber teile ich mein Fachwissen aus jahrelanger Praxis und zeige Ihnen Schritt für Schritt, wie Sie Ihre persönliche Hautpflege-Routine aufbauen, optimieren und an die besonderen klimatischen Bedingungen in Zürich anpassen.
-            </p>
+    <p>
+        Unsere Haut ist das grösste Organ des Körpers und gleichzeitig unsere erste Schutzbarriere gegen Umwelteinflüsse. Täglich ist sie Schadstoffen, UV-Strahlung, Temperaturschwankungen und freien Radikalen ausgesetzt. Ohne eine gezielte Pflegeroutine kann die Hautbarriere geschwächt werden, was zu Trockenheit, vorzeitiger Hautalterung, Unreinheiten und einem fahlen Teint führt.
+    </p>
 
-            <p>
-                Ob Sie gerade erst beginnen, sich intensiver mit Ihrer Hautpflege zu beschäftigen, oder ob Sie Ihre bestehende Routine verfeinern möchten: Dieser Leitfaden bietet Ihnen praxisnahe Tipps, die Sie sofort umsetzen können. Denn schöne Haut ist kein Zufall — sie ist das Ergebnis von Wissen, Konsequenz und den richtigen Produkten.
-            </p>
+    <p>
+        Eine gut strukturierte Hautpflege-Routine verfolgt drei zentrale Ziele: Reinigung (Entfernung von Schmutz, Talg und Make-up), Pflege (Versorgung mit Feuchtigkeit und Wirkstoffen) und Schutz (Abschirmung gegen UV-Strahlung und Umweltbelastungen). Diese drei Säulen bilden das Gerüst, auf dem jede erfolgreiche Routine aufbaut.
+    </p>
 
-            <h2>Warum eine tägliche Hautpflege-Routine so wichtig ist</h2>
+    <blockquote>
+        „Die beste Hautpflege ist die, die Sie tatsächlich jeden Tag anwenden. Konsistenz schlägt Komplexität — immer.“
+    </blockquote>
 
-            <p>
-                Unsere Haut ist das grösste Organ des Körpers und gleichzeitig unsere erste Schutzbarriere gegen Umwelteinflüsse. Täglich ist sie Schadstoffen, UV-Strahlung, Temperaturschwankungen und freien Radikalen ausgesetzt. Ohne eine gezielte Pflegeroutine kann die Hautbarriere geschwächt werden, was zu Trockenheit, vorzeitiger Hautalterung, Unreinheiten und einem fahlen Teint führt.
-            </p>
+    <h2>Die Morgenroutine: Frisch und geschützt in den Tag</h2>
 
-            <p>
-                Eine gut strukturierte Hautpflege-Routine verfolgt drei zentrale Ziele: Reinigung (Entfernung von Schmutz, Talg und Make-up), Pflege (Versorgung mit Feuchtigkeit und Wirkstoffen) und Schutz (Abschirmung gegen UV-Strahlung und Umweltbelastungen). Diese drei Säulen bilden das Gerüst, auf dem jede erfolgreiche Routine aufbaut.
-            </p>
+    <p>
+        Die morgendliche Hautpflege bereitet Ihre Haut auf den Tag vor und schützt sie vor den Belastungen, denen sie in den kommenden Stunden ausgesetzt sein wird. Eine effektive Morgenroutine umfasst fünf Schritte, die in der richtigen Reihenfolge aufeinander aufbauen.
+    </p>
 
-            <blockquote>
-                «Die beste Hautpflege ist die, die Sie tatsächlich jeden Tag anwenden. Konsistenz schlägt Komplexität — immer.»
-            </blockquote>
+    <h3>Schritt 1: Sanfte Reinigung</h3>
 
-            <h2>Die Morgenroutine: Frisch und geschützt in den Tag</h2>
+    <p>
+        Auch wenn Sie abends gründlich gereinigt haben, produziert Ihre Haut über Nacht Talg und Schweiss. Eine sanfte Reinigung am Morgen entfernt diese Rückstände, ohne die Hautbarriere anzugreifen. Verwenden Sie einen milden Reinigungsschaum oder ein Reinigungsgel mit einem pH-Wert zwischen 5,0 und 5,5 — das entspricht dem natürlichen pH-Wert der Haut. Vermeiden Sie aggressive Reinigungsprodukte mit Sulfaten, die den hauteigenen Schutzfilm zerstören.
+    </p>
 
-            <p>
-                Die morgendliche Hautpflege bereitet Ihre Haut auf den Tag vor und schützt sie vor den Belastungen, denen sie in den kommenden Stunden ausgesetzt sein wird. Eine effektive Morgenroutine umfasst fünf Schritte, die in der richtigen Reihenfolge aufeinander aufbauen.
-            </p>
+    <p>
+        Massieren Sie das Reinigungsprodukt mit kreisenden Bewegungen circa 30 Sekunden lang in die angefeuchtete Haut ein und spülen Sie es anschliessend mit lauwarmem Wasser ab. Zu heisses Wasser entzieht der Haut Feuchtigkeit und kann Rötungen verstärken.
+    </p>
 
-            <h3>Schritt 1: Sanfte Reinigung</h3>
+    <h3>Schritt 2: Toner oder Gesichtswasser</h3>
 
-            <p>
-                Auch wenn Sie abends gründlich gereinigt haben, produziert Ihre Haut über Nacht Talg und Schweiss. Eine sanfte Reinigung am Morgen entfernt diese Rückstände, ohne die Hautbarriere anzugreifen. Verwenden Sie einen milden Reinigungsschaum oder ein Reinigungsgel mit einem pH-Wert zwischen 5,0 und 5,5 — das entspricht dem natürlichen pH-Wert der Haut. Vermeiden Sie aggressive Reinigungsprodukte mit Sulfaten, die den hauteigenen Schutzfilm zerstören.
-            </p>
+    <p>
+        Der Toner ist ein oft unterschätzter, aber wichtiger Schritt. Er gleicht den pH-Wert der Haut nach der Reinigung aus, entfernt letzte Reinigungsrückstände und bereitet die Haut sorgfältig auf die nachfolgenden Pflegeprodukte vor. Moderne Toner sind keine aggressiven Gesichtswasser mehr — sie enthalten hydratisierende Inhaltsstoffe wie Hyaluronsäure, beruhigendes Panthenol oder klärende Niacinamide.
+    </p>
 
-            <p>
-                Massieren Sie das Reinigungsprodukt mit kreisenden Bewegungen circa 30 Sekunden lang in die angefeuchtete Haut ein und spülen Sie es anschliessend mit lauwarmem Wasser ab. Zu heisses Wasser entzieht der Haut Feuchtigkeit und kann Rötungen verstärken.
-            </p>
+    <p>
+        Tragen Sie den Toner auf ein Wattepad auf oder klopfen Sie ihn mit den Fingerspitzen sanft in die Haut ein. Die zweite Methode ist besonders bei empfindlicher Haut schonender und vermeidet unnötige Reibung.
+    </p>
 
-            <h3>Schritt 2: Toner oder Gesichtswasser</h3>
+    <h3>Schritt 3: Serum — der Wirkstoff-Booster</h3>
 
-            <p>
-                Der Toner ist ein oft unterschätzter, aber wichtiger Schritt. Er gleicht den pH-Wert der Haut nach der Reinigung aus, entfernt letzte Reinigungsrückstände und bereitet die Haut sorgfältig auf die nachfolgenden Pflegeprodukte vor. Moderne Toner sind keine aggressiven Gesichtswasser mehr — sie enthalten hydratisierende Inhaltsstoffe wie Hyaluronsäure, beruhigendes Panthenol oder klärende Niacinamide.
-            </p>
+    <p>
+        Seren sind hochkonzentrierte Wirkstoffpräparate, die die Hautpflege gezielt ergänzen. Am Morgen empfehle ich ein Serum mit Vitamin C (L-Ascorbinsäure). Vitamin C ist ein starkes Antioxidans, das freie Radikale neutralisiert, die Kollagenbildung unterstützen kann, Pigmentflecken optisch mildern und der Haut einen natürlichen Glow verleihen kann.
+    </p>
 
-            <p>
-                Tragen Sie den Toner auf ein Wattepad auf oder klopfen Sie ihn mit den Fingerspitzen sanft in die Haut ein. Die zweite Methode ist besonders bei empfindlicher Haut schonender und vermeidet unnötige Reibung.
-            </p>
+    <p>
+        Alternativ eignet sich morgens ein Serum mit Niacinamid (Vitamin B3), das die Poren verfeinert, die Talgproduktion reguliert und die Hautbarriere stärkt. Tragen Sie zwei bis drei Tropfen auf Gesicht und Hals auf und lassen Sie das Serum vollständig einziehen, bevor Sie den nächsten Schritt beginnen.
+    </p>
 
-            <h3>Schritt 3: Serum — der Wirkstoff-Booster</h3>
+    <h3>Schritt 4: Feuchtigkeitscreme</h3>
 
-            <p>
-                Seren sind hochkonzentrierte Wirkstoffpräparate, die die Hautpflege gezielt ergänzen. Am Morgen empfehle ich ein Serum mit Vitamin C (L-Ascorbinsäure). Vitamin C ist ein starkes Antioxidans, das freie Radikale neutralisiert, die Kollagenbildung unterstützen kann, Pigmentflecken optisch mildern und der Haut einen natürlichen Glow verleihen kann.
-            </p>
+    <p>
+        Die Feuchtigkeitscreme versiegelt die vorangegangenen Pflegeschritte und bildet eine schützende Schicht auf der Haut. Wählen Sie die Textur passend zu Ihrem Hauttyp: eine leichte Gel-Creme bei öliger Haut, eine reichhaltigere Creme bei trockener Haut. Achten Sie auf Inhaltsstoffe wie Ceramide (stärken die Hautbarriere), Hyaluronsäure (bindet Feuchtigkeit) und Squalan (pflegt, ohne die Poren zu verstopfen).
+    </p>
 
-            <p>
-                Alternativ eignet sich morgens ein Serum mit Niacinamid (Vitamin B3), das die Poren verfeinert, die Talgproduktion reguliert und die Hautbarriere stärkt. Tragen Sie zwei bis drei Tropfen auf Gesicht und Hals auf und lassen Sie das Serum vollständig einziehen, bevor Sie den nächsten Schritt beginnen.
-            </p>
+    <p>
+        Vergessen Sie nicht den Hals und das Dekolleté — diese Bereiche altern oft schneller als das Gesicht, weil sie in der täglichen Pflege häufig vernachlässigt werden.
+    </p>
 
-            <h3>Schritt 4: Feuchtigkeitscreme</h3>
+    <h3>Schritt 5: Sonnenschutz — der wichtigste Anti-Aging-Schritt</h3>
 
-            <p>
-                Die Feuchtigkeitscreme versiegelt die vorangegangenen Pflegeschritte und bildet eine schützende Schicht auf der Haut. Wählen Sie die Textur passend zu Ihrem Hauttyp: eine leichte Gel-Creme bei öliger Haut, eine reichhaltigere Creme bei trockener Haut. Achten Sie auf Inhaltsstoffe wie Ceramide (stärken die Hautbarriere), Hyaluronsäure (bindet Feuchtigkeit) und Squalan (pflegt, ohne die Poren zu verstopfen).
-            </p>
+    <p>
+        Sonnenschutz ist der wirksamste Schutz gegen vorzeitige Hautalterung. Bis zu 80 Prozent der sichtbaren Hautalterung werden durch UV-Strahlung verursacht. Tragen Sie jeden Morgen einen Breitband-Sonnenschutz mit mindestens SPF 30 auf — unabhängig von der Jahreszeit und auch bei bewölktem Himmel. UVA-Strahlen, die massgeblich zur Hautalterung beitragen, durchdringen Wolken und Fensterglas.
+    </p>
 
-            <p>
-                Vergessen Sie nicht den Hals und das Dekolleté — diese Bereiche altern oft schneller als das Gesicht, weil sie in der täglichen Pflege häufig vernachlässigt werden.
-            </p>
+    <p>
+        Verwenden Sie eine ausreichende Menge: Für das Gesicht benötigen Sie etwa einen halben Teelöffel. Moderne Sonnenschutzformeln integrieren sich nahtlos in die Pflegeroutine und können problemlos unter Make-up getragen werden. Bei längerer Sonnenexposition sollten Sie den Schutz alle zwei Stunden erneuern.
+    </p>
 
-            <h3>Schritt 5: Sonnenschutz — der wichtigste Anti-Aging-Schritt</h3>
+    <h2>Die Abendroutine: Regeneration und Reparatur</h2>
 
-            <p>
-                Sonnenschutz ist der wirksamste Schutz gegen vorzeitige Hautalterung. Bis zu 80 Prozent der sichtbaren Hautalterung werden durch UV-Strahlung verursacht. Tragen Sie jeden Morgen einen Breitband-Sonnenschutz mit mindestens SPF 30 auf — unabhängig von der Jahreszeit und auch bei bewölktem Himmel. UVA-Strahlen, die massgeblich zur Hautalterung beitragen, durchdringen Wolken und Fensterglas.
-            </p>
+    <p>
+        Die Abendroutine ist der wichtigere Teil Ihrer täglichen Hautpflege, denn nachts laufen die Reparatur- und Regenerationsprozesse der Haut auf Hochtouren. Die Zellteilung ist zwischen 23 Uhr und 4 Uhr morgens am aktivsten. Mit der richtigen Abendpflege unterstützen Sie diese natürlichen Prozesse und unterstützen die Wirkung Ihrer Pflegeprodukte.
+    </p>
 
-            <p>
-                Verwenden Sie eine ausreichende Menge: Für das Gesicht benötigen Sie etwa einen halben Teelöffel. Moderne Sonnenschutzformeln integrieren sich nahtlos in die Pflegeroutine und können problemlos unter Make-up getragen werden. Bei längerer Sonnenexposition sollten Sie den Schutz alle zwei Stunden erneuern.
-            </p>
+    <h3>Schritt 1: Double Cleansing — die gründliche Doppelreinigung</h3>
 
-            <h2>Die Abendroutine: Regeneration und Reparatur</h2>
+    <p>
+        Das Double Cleansing ist mein absoluter Top-Tipp für jeden Hauttyp. Im ersten Schritt verwenden Sie ein ölbasiertes Reinigungsprodukt (Reinigungsöl oder Cleansing Balm). Öl löst Öl — das bedeutet, Make-up, Sonnenschutz und überschüssiger Talg werden sanft und gründlich entfernt, ohne die Haut auszutrocknen.
+    </p>
 
-            <p>
-                Die Abendroutine ist der wichtigere Teil Ihrer täglichen Hautpflege, denn nachts laufen die Reparatur- und Regenerationsprozesse der Haut auf Hochtouren. Die Zellteilung ist zwischen 23 Uhr und 4 Uhr morgens am aktivsten. Mit der richtigen Abendpflege unterstützen Sie diese natürlichen Prozesse und unterstützen die Wirkung Ihrer Pflegeprodukte.
-            </p>
+    <p>
+        Im zweiten Schritt folgt ein wasserbasiertes Reinigungsprodukt (Reinigungsschaum oder -gel), das verbliebenen Schmutz, Schweiss und Reinigungsrückstände entfernt. Durch diese zweistufige Methode ist Ihre Haut porentief rein und gleichzeitig sorgfältig vorbereitet, um die nachfolgenden Wirkstoffe aufzunehmen.
+    </p>
 
-            <h3>Schritt 1: Double Cleansing — die gründliche Doppelreinigung</h3>
+    <h3>Schritt 2: Wirkstoffpflege — gezielte Behandlung</h3>
 
-            <p>
-                Das Double Cleansing ist mein absoluter Top-Tipp für jeden Hauttyp. Im ersten Schritt verwenden Sie ein ölbasiertes Reinigungsprodukt (Reinigungsöl oder Cleansing Balm). Öl löst Öl — das bedeutet, Make-up, Sonnenschutz und überschüssiger Talg werden sanft und gründlich entfernt, ohne die Haut auszutrocknen.
-            </p>
+    <p>
+        Der Abend ist eine gute Zeit für aktive Wirkstoffe, da viele von ihnen die Haut lichtempfindlicher machen und deshalb nicht unter Sonneneinstrahlung verwendet werden sollten. Häufig eingesetzte Abendwirkstoffe sind:
+    </p>
 
-            <p>
-                Im zweiten Schritt folgt ein wasserbasiertes Reinigungsprodukt (Reinigungsschaum oder -gel), das verbliebenen Schmutz, Schweiss und Reinigungsrückstände entfernt. Durch diese zweistufige Methode ist Ihre Haut porentief rein und gleichzeitig sorgfältig vorbereitet, um die nachfolgenden Wirkstoffe aufzunehmen.
-            </p>
+    <ul>
+        <li><strong>Retinol (Vitamin A):</strong> Ein etablierter Anti-Aging-Wirkstoff. Retinol kann die Zellerneuerung und Kollagenbildung unterstützen, die Poren optisch verfeinern und Pigmentflecken mildern. Beginnen Sie mit einer niedrigen Konzentration (0,3 %) und steigern Sie langsam.</li>
+        <li><strong>AHA-Säuren (Glykolsäure, Milchsäure):</strong> Chemische Peelings, die abgestorbene Hautzellen lösen, den Teint ebenmässiger machen und die Aufnahme anderer Wirkstoffe verbessern. Bei empfindlicher Haut eignet sich Milchsäure besonders gut.</li>
+        <li><strong>BHA-Säuren (Salicylsäure):</strong> Ideal bei öliger Haut und Unreinheiten. BHA dringt in die Poren ein, löst Talg und wirkt entzündungshemmend.</li>
+        <li><strong>Peptide:</strong> Signalmoleküle, die die Kollagenproduktion anregen und die Hautfestigkeit verbessern. Besonders geeignet für empfindliche Haut, die Retinol nicht verträgt.</li>
+    </ul>
 
-            <h3>Schritt 2: Wirkstoffpflege — gezielte Behandlung</h3>
+    <p>
+        <strong>Wichtig:</strong> Kombinieren Sie nicht alle Wirkstoffe gleichzeitig. Retinol und AHA/BHA sollten an unterschiedlichen Abenden verwendet werden, um die Haut nicht zu überfordern. Ein bewährter Rhythmus: Retinol an drei Abenden pro Woche, AHA/BHA an zwei Abenden, zwei Abende nur mit einer beruhigenden Pflege.
+    </p>
 
-            <p>
-                Der Abend ist eine gute Zeit für aktive Wirkstoffe, da viele von ihnen die Haut lichtempfindlicher machen und deshalb nicht unter Sonneneinstrahlung verwendet werden sollten. Häufig eingesetzte Abendwirkstoffe sind:
-            </p>
+    <h3>Schritt 3: Nachtcreme — intensive Regeneration</h3>
 
-            <ul>
-                <li><strong>Retinol (Vitamin A):</strong> Ein etablierter Anti-Aging-Wirkstoff. Retinol kann die Zellerneuerung und Kollagenbildung unterstützen, die Poren optisch verfeinern und Pigmentflecken mildern. Beginnen Sie mit einer niedrigen Konzentration (0,3 %) und steigern Sie langsam.</li>
-                <li><strong>AHA-Säuren (Glykolsäure, Milchsäure):</strong> Chemische Peelings, die abgestorbene Hautzellen lösen, den Teint ebenmässiger machen und die Aufnahme anderer Wirkstoffe verbessern. Bei empfindlicher Haut eignet sich Milchsäure besonders gut.</li>
-                <li><strong>BHA-Säuren (Salicylsäure):</strong> Ideal bei öliger Haut und Unreinheiten. BHA dringt in die Poren ein, löst Talg und wirkt entzündungshemmend.</li>
-                <li><strong>Peptide:</strong> Signalmoleküle, die die Kollagenproduktion anregen und die Hautfestigkeit verbessern. Besonders geeignet für empfindliche Haut, die Retinol nicht verträgt.</li>
-            </ul>
+    <p>
+        Die Nachtcreme darf reichhaltiger sein als die Tagescreme, da die Haut nachts keinen Umweltbelastungen ausgesetzt ist und die okklusive Textur die Feuchtigkeit besser einschliesst. Achten Sie auf Inhaltsstoffe wie Ceramide, Sheabutter, Squalan und Peptide. Diese unterstützen die natürliche Regeneration und stärken die Hautbarriere über Nacht.
+    </p>
 
-            <p>
-                <strong>Wichtig:</strong> Kombinieren Sie nicht alle Wirkstoffe gleichzeitig. Retinol und AHA/BHA sollten an unterschiedlichen Abenden verwendet werden, um die Haut nicht zu überfordern. Ein bewährter Rhythmus: Retinol an drei Abenden pro Woche, AHA/BHA an zwei Abenden, zwei Abende nur mit einer beruhigenden Pflege.
-            </p>
+    <h3>Schritt 4: Augenpflege</h3>
 
-            <h3>Schritt 3: Nachtcreme — intensive Regeneration</h3>
+    <p>
+        Die Haut rund um die Augen ist bis zu fünfmal dünner als im restlichen Gesicht und besitzt kaum Talgdrüsen. Sie verdient daher eine spezielle Pflege. Eine gute Augencreme enthält Peptide gegen Fältchen, Koffein gegen Schwellungen und Vitamin K gegen dunkle Augenringe. Tragen Sie die Creme mit dem Ringfinger sanft tupfend auf — dieser Finger übt den geringsten Druck aus und schont die empfindliche Augenpartie.
+    </p>
 
-            <p>
-                Die Nachtcreme darf reichhaltiger sein als die Tagescreme, da die Haut nachts keinen Umweltbelastungen ausgesetzt ist und die okklusive Textur die Feuchtigkeit besser einschliesst. Achten Sie auf Inhaltsstoffe wie Ceramide, Sheabutter, Squalan und Peptide. Diese unterstützen die natürliche Regeneration und stärken die Hautbarriere über Nacht.
-            </p>
+    <h2>Spezielle Tipps für das Zürcher Klima</h2>
 
-            <h3>Schritt 4: Augenpflege</h3>
+    <p>
+        Zürich liegt in einer gemässigten Klimazone mit ausgeprägten Jahreszeiten — und jede Jahreszeit stellt besondere Anforderungen an Ihre Hautpflege. Als Kosmetikerin im Herzen von Zürich berate ich meine Kundinnen gezielt zu saisonalen Anpassungen ihrer Pflegeroutine.
+    </p>
 
-            <p>
-                Die Haut rund um die Augen ist bis zu fünfmal dünner als im restlichen Gesicht und besitzt kaum Talgdrüsen. Sie verdient daher eine spezielle Pflege. Eine gute Augencreme enthält Peptide gegen Fältchen, Koffein gegen Schwellungen und Vitamin K gegen dunkle Augenringe. Tragen Sie die Creme mit dem Ringfinger sanft tupfend auf — dieser Finger übt den geringsten Druck aus und schont die empfindliche Augenpartie.
-            </p>
+    <h3>Winter: Schutz vor trockener Heizungsluft</h3>
 
-            <h2>Spezielle Tipps für das Zürcher Klima</h2>
+    <p>
+        Die Zürcher Winter sind kalt und feucht, doch in Innenräumen herrscht durch Heizungen eine extrem trockene Luft. Diese Kombination aus Kälte draussen und trockener Wärme drinnen strapaziert die Hautbarriere erheblich. Die Haut verliert schneller Feuchtigkeit, spannt, wird rau und neigt zu Rötungen.
+    </p>
 
-            <p>
-                Zürich liegt in einer gemässigten Klimazone mit ausgeprägten Jahreszeiten — und jede Jahreszeit stellt besondere Anforderungen an Ihre Hautpflege. Als Kosmetikerin im Herzen von Zürich berate ich meine Kundinnen gezielt zu saisonalen Anpassungen ihrer Pflegeroutine.
-            </p>
+    <p>
+        Meine Winterpflege-Empfehlungen für Zürich:
+    </p>
 
-            <h3>Winter: Schutz vor trockener Heizungsluft</h3>
+    <ul>
+        <li>Wechseln Sie zu einer reichhaltigeren Feuchtigkeitscreme mit Ceramiden und Sheabutter.</li>
+        <li>Integrieren Sie ein Hyaluronsäure-Serum — es bindet das bis zu Tausendfache seines Gewichts an Wasser.</li>
+        <li>Verwenden Sie nachts eine okklusivere Nachtcreme oder ein Gesichtsöl als letzte Schicht.</li>
+        <li>Reduzieren Sie die Häufigkeit von chemischen Peelings auf einmal pro Woche.</li>
+        <li>Investieren Sie in einen Luftbefeuchter für Ihr Schlafzimmer — die optimale Luftfeuchtigkeit liegt bei 40 bis 60 Prozent.</li>
+        <li>Trinken Sie ausreichend Wasser und ungesüsste Kräutertees, um die Haut auch von innen zu hydratisieren.</li>
+    </ul>
 
-            <p>
-                Die Zürcher Winter sind kalt und feucht, doch in Innenräumen herrscht durch Heizungen eine extrem trockene Luft. Diese Kombination aus Kälte draussen und trockener Wärme drinnen strapaziert die Hautbarriere erheblich. Die Haut verliert schneller Feuchtigkeit, spannt, wird rau und neigt zu Rötungen.
-            </p>
+    <h3>Sommer: UV-Schutz und Leichtigkeit</h3>
 
-            <p>
-                Meine Winterpflege-Empfehlungen für Zürich:
-            </p>
+    <p>
+        Die Zürcher Sommer bringen höhere Temperaturen, stärkere UV-Strahlung und erhöhte Luftfeuchtigkeit. Die Haut produziert mehr Talg, schwitzt stärker und ist einem höheren Risiko für Sonnenschäden und Pigmentflecken ausgesetzt.
+    </p>
 
-            <ul>
-                <li>Wechseln Sie zu einer reichhaltigeren Feuchtigkeitscreme mit Ceramiden und Sheabutter.</li>
-                <li>Integrieren Sie ein Hyaluronsäure-Serum — es bindet das bis zu Tausendfache seines Gewichts an Wasser.</li>
-                <li>Verwenden Sie nachts eine okklusivere Nachtcreme oder ein Gesichtsöl als letzte Schicht.</li>
-                <li>Reduzieren Sie die Häufigkeit von chemischen Peelings auf einmal pro Woche.</li>
-                <li>Investieren Sie in einen Luftbefeuchter für Ihr Schlafzimmer — die optimale Luftfeuchtigkeit liegt bei 40 bis 60 Prozent.</li>
-                <li>Trinken Sie ausreichend Wasser und ungesüsste Kräutertees, um die Haut auch von innen zu hydratisieren.</li>
-            </ul>
+    <p>
+        Meine Sommerpflege-Empfehlungen für Zürich:
+    </p>
 
-            <h3>Sommer: UV-Schutz und Leichtigkeit</h3>
+    <ul>
+        <li>Erhöhen Sie den Sonnenschutz auf SPF 50, besonders bei Aufenthalten am Zürichsee oder in den Bergen.</li>
+        <li>Wechseln Sie zu leichteren Texturen: Gel-Cremes statt reichhaltiger Cremes.</li>
+        <li>Verwenden Sie weiterhin Ihr Vitamin-C-Serum — es verstärkt den UV-Schutz und neutralisiert freie Radikale.</li>
+        <li>Integrieren Sie ein leichtes Antioxidans-Serum mit Vitamin E und Ferulasäure.</li>
+        <li>Reinigen Sie Ihr Gesicht nach dem Sport oder starkem Schwitzen zusätzlich mit einem milden Reinigungswasser.</li>
+        <li>Verwenden Sie wöchentlich eine Tonerde-Maske, um überschüssigen Talg zu absorbieren und die Poren zu klären.</li>
+    </ul>
 
-            <p>
-                Die Zürcher Sommer bringen höhere Temperaturen, stärkere UV-Strahlung und erhöhte Luftfeuchtigkeit. Die Haut produziert mehr Talg, schwitzt stärker und ist einem höheren Risiko für Sonnenschäden und Pigmentflecken ausgesetzt.
-            </p>
+    <h3>Frühling und Herbst: Übergangszeiten nutzen</h3>
 
-            <p>
-                Meine Sommerpflege-Empfehlungen für Zürich:
-            </p>
+    <p>
+        Die Übergangszeiten sind ideal, um Ihre Routine umzustellen und die Haut auf die kommende Saison vorzubereiten. Im Frühling können Sie die reichhaltige Winterpflege schrittweise durch leichtere Produkte ersetzen. Im Herbst ist es sinnvoll, die Sommerroutine um regenerierende Wirkstoffe wie Retinol zu ergänzen und eventuell ein professionelles <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> durchführen zu lassen, um Pigmentflecken und Sonnenschäden zu behandeln.
+    </p>
 
-            <ul>
-                <li>Erhöhen Sie den Sonnenschutz auf SPF 50, besonders bei Aufenthalten am Zürichsee oder in den Bergen.</li>
-                <li>Wechseln Sie zu leichteren Texturen: Gel-Cremes statt reichhaltiger Cremes.</li>
-                <li>Verwenden Sie weiterhin Ihr Vitamin-C-Serum — es verstärkt den UV-Schutz und neutralisiert freie Radikale.</li>
-                <li>Integrieren Sie ein leichtes Antioxidans-Serum mit Vitamin E und Ferulasäure.</li>
-                <li>Reinigen Sie Ihr Gesicht nach dem Sport oder starkem Schwitzen zusätzlich mit einem milden Reinigungswasser.</li>
-                <li>Verwenden Sie wöchentlich eine Tonerde-Maske, um überschüssigen Talg zu absorbieren und die Poren zu klären.</li>
-            </ul>
+    <h2>Professionelle Behandlungen als Ergänzung zur täglichen Routine</h2>
 
-            <h3>Frühling und Herbst: Übergangszeiten nutzen</h3>
+    <p>
+        So wichtig eine konsequente Heimpflege ist — bestimmte Verbesserungen lassen sich nur durch professionelle Behandlungen erzielen. Professionelle Geräte und Wirkstoffkonzentrationen, die nicht für den Heimgebrauch zugelassen sind, wirken in tieferen Hautschichten und erzielen Resultate, die mit Kosmetikprodukten allein nicht möglich sind.
+    </p>
 
-            <p>
-                Die Übergangszeiten sind ideal, um Ihre Routine umzustellen und die Haut auf die kommende Saison vorzubereiten. Im Frühling können Sie die reichhaltige Winterpflege schrittweise durch leichtere Produkte ersetzen. Im Herbst ist es sinnvoll, die Sommerroutine um regenerierende Wirkstoffe wie Retinol zu ergänzen und eventuell ein professionelles <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> durchführen zu lassen, um Pigmentflecken und Sonnenschäden zu behandeln.
-            </p>
+    <h3>Aquafacial: Tiefenreinigung und Hydrierung</h3>
 
-            <h2>Professionelle Behandlungen als Ergänzung zur täglichen Routine</h2>
+    <p>
+        Das <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> ist die ideale Ergänzung zu Ihrer täglichen Routine. In einer einzigen Sitzung werden Reinigung, Peeling, Extraktion und Hydrierung kombiniert. Die patentierte Vortex-Technologie reinigt die Poren porentief und infundiert gleichzeitig massgeschneiderte Seren in die Haut. Bei Beauty Face Lift bieten wir drei Varianten an — von der 30-minütigen Express-Behandlung bis zur 90-minütigen Platinum-Version mit LED-Lichttherapie.
+    </p>
 
-            <p>
-                So wichtig eine konsequente Heimpflege ist — bestimmte Verbesserungen lassen sich nur durch professionelle Behandlungen erzielen. Professionelle Geräte und Wirkstoffkonzentrationen, die nicht für den Heimgebrauch zugelassen sind, wirken in tieferen Hautschichten und erzielen Resultate, die mit Kosmetikprodukten allein nicht möglich sind.
-            </p>
+    <p>
+        Ich empfehle meinen Kundinnen, ein Aquafacial alle vier bis sechs Wochen in ihre Pflegeroutine zu integrieren. Es eignet sich für jeden Hauttyp und hat meist keine längere Ausfallzeit; bei leichter Rötung sollte die Haut zunächst beruhigt werden.
+    </p>
 
-            <h3>Aquafacial: Tiefenreinigung und Hydrierung</h3>
+    <h3>Fruchtsäure-Peeling: Zellerneuerung und ebenmässiger Teint</h3>
 
-            <p>
-                Das <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> ist die ideale Ergänzung zu Ihrer täglichen Routine. In einer einzigen Sitzung werden Reinigung, Peeling, Extraktion und Hydrierung kombiniert. Die patentierte Vortex-Technologie reinigt die Poren porentief und infundiert gleichzeitig massgeschneiderte Seren in die Haut. Bei Beauty Face Lift bieten wir drei Varianten an — von der 30-minütigen Express-Behandlung bis zur 90-minütigen Platinum-Version mit LED-Lichttherapie.
-            </p>
+    <p>
+        Ein professionelles <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> arbeitet mit höheren Konzentrationen als Heimprodukte und wird kontrolliert auf Hautzustand und Ziel abgestimmt. Es löst abgestorbene Hautzellen, kann die kosmetische Hauterneuerung unterstützen, Pigmentflecken optisch mildern und die Hauttextur verfeinern. Besonders nach dem Sommer kann ein professionelles Peeling sinnvoll sein, um Sonnenspuren kosmetisch anzugehen und die Haut für die kühlere Jahreszeit vorzubereiten.
+    </p>
 
-            <p>
-                Ich empfehle meinen Kundinnen, ein Aquafacial alle vier bis sechs Wochen in ihre Pflegeroutine zu integrieren. Es eignet sich für jeden Hauttyp und hat meist keine längere Ausfallzeit; bei leichter Rötung sollte die Haut zunächst beruhigt werden.
-            </p>
+    <h3>Microneedling: Kollagen-Boost von innen</h3>
 
-            <h3>Fruchtsäure-Peeling: Zellerneuerung und ebenmässiger Teint</h3>
+    <p>
+        <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ist eine minimalinvasive Behandlung, bei der feinste Nadeln mikroskopisch kleine Kanäle in die Haut erzeugen. Dieser kontrollierte Heilungsprozess regt die körpereigene Kollagen- und Elastinproduktion an. Das Ergebnis: ein verfeinertes Hautbild, verfeinerte Poren, gemilderte Narben und ein insgesamt verjüngtes Hautbild. In Kombination mit Ihrer täglichen Pflegeroutine und den richtigen Wirkstoffen können die Ergebnisse des Microneedlings langfristig erhalten und sogar verstärkt werden.
+    </p>
 
-            <p>
-                Ein professionelles <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> arbeitet mit höheren Konzentrationen als Heimprodukte und wird kontrolliert auf Hautzustand und Ziel abgestimmt. Es löst abgestorbene Hautzellen, kann die kosmetische Hauterneuerung unterstützen, Pigmentflecken optisch mildern und die Hauttextur verfeinern. Besonders nach dem Sommer kann ein professionelles Peeling sinnvoll sein, um Sonnenspuren kosmetisch anzugehen und die Haut für die kühlere Jahreszeit vorzubereiten.
-            </p>
+    <h3>Coldplasma: Innovation für anspruchsvolle Haut</h3>
 
-            <h3>Microneedling: Kollagen-Boost von innen</h3>
+    <p>
+        Die <a href="/behandlungen/coldplasma-zuerich/">Coldplasma-Behandlung</a> ist eine moderne Technologie in der ästhetischen Hautpflege. Kaltes Plasma kann die kosmetische Hautpflege unterstützen und wird wegen antimikrobieller Eigenschaften eingesetzt, ohne die Haut mechanisch zu verletzen. Diese Behandlung kann für Kundinnen mit empfindlicher oder unreiner Haut eine sanfte Ergänzung sein.
+    </p>
 
-            <p>
-                <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> ist eine minimalinvasive Behandlung, bei der feinste Nadeln mikroskopisch kleine Kanäle in die Haut erzeugen. Dieser kontrollierte Heilungsprozess regt die körpereigene Kollagen- und Elastinproduktion an. Das Ergebnis: ein verfeinertes Hautbild, verfeinerte Poren, gemilderte Narben und ein insgesamt verjüngtes Hautbild. In Kombination mit Ihrer täglichen Pflegeroutine und den richtigen Wirkstoffen können die Ergebnisse des Microneedlings langfristig erhalten und sogar verstärkt werden.
-            </p>
+    <h2>Häufige Fehler bei der Hautpflege — und wie Sie sie vermeiden</h2>
 
-            <h3>Coldplasma: Innovation für anspruchsvolle Haut</h3>
+    <p>
+        In meiner täglichen Praxis bei Beauty Face Lift sehe ich immer wieder die gleichen Pflegefehler, die das Hautbild verschlechtern statt verbessern. Hier sind die häufigsten Fehler und meine Empfehlungen, wie Sie sie vermeiden.
+    </p>
 
-            <p>
-                Die <a href="/behandlungen/coldplasma-zuerich/">Coldplasma-Behandlung</a> ist eine moderne Technologie in der ästhetischen Hautpflege. Kaltes Plasma kann die kosmetische Hautpflege unterstützen und wird wegen antimikrobieller Eigenschaften eingesetzt, ohne die Haut mechanisch zu verletzen. Diese Behandlung kann für Kundinnen mit empfindlicher oder unreiner Haut eine sanfte Ergänzung sein.
-            </p>
+    <h3>Fehler 1: Zu viele Produkte gleichzeitig</h3>
 
-            <h2>Häufige Fehler bei der Hautpflege — und wie Sie sie vermeiden</h2>
+    <p>
+        Mehr ist nicht immer besser. Wenn Sie zehn verschiedene Seren übereinander schichten, überfordern Sie Ihre Haut. Die Wirkstoffe können miteinander interagieren, Irritationen verursachen oder sich gegenseitig in ihrer Wirkung aufheben. Retinol und Vitamin C sollten beispielsweise nicht in derselben Routine verwendet werden — Vitamin C gehört in die Morgenroutine, Retinol in die Abendroutine. Starten Sie mit den Grundlagen und fügen Sie neue Produkte einzeln hinzu, damit Sie die Reaktion Ihrer Haut beobachten können.
+    </p>
 
-            <p>
-                In meiner täglichen Praxis bei Beauty Face Lift sehe ich immer wieder die gleichen Pflegefehler, die das Hautbild verschlechtern statt verbessern. Hier sind die häufigsten Fehler und meine Empfehlungen, wie Sie sie vermeiden.
-            </p>
+    <h3>Fehler 2: Sonnenschutz vergessen oder zu wenig auftragen</h3>
 
-            <h3>Fehler 1: Zu viele Produkte gleichzeitig</h3>
+    <p>
+        Dieser Fehler wiegt am schwersten. Ohne ausreichenden Sonnenschutz sind alle anderen Pflegebemühungen nur halb so wirksam. Viele Kundinnen verwenden zudem viel zu wenig Sonnenschutz. Für das Gesicht benötigen Sie etwa einen halben Teelöffel — die meisten Menschen tragen nur ein Viertel der nötigen Menge auf und erhalten damit nur einen Bruchteil des angegebenen Schutzes.
+    </p>
 
-            <p>
-                Mehr ist nicht immer besser. Wenn Sie zehn verschiedene Seren übereinander schichten, überfordern Sie Ihre Haut. Die Wirkstoffe können miteinander interagieren, Irritationen verursachen oder sich gegenseitig in ihrer Wirkung aufheben. Retinol und Vitamin C sollten beispielsweise nicht in derselben Routine verwendet werden — Vitamin C gehört in die Morgenroutine, Retinol in die Abendroutine. Starten Sie mit den Grundlagen und fügen Sie neue Produkte einzeln hinzu, damit Sie die Reaktion Ihrer Haut beobachten können.
-            </p>
+    <h3>Fehler 3: Die Haut zu aggressiv reinigen</h3>
 
-            <h3>Fehler 2: Sonnenschutz vergessen oder zu wenig auftragen</h3>
+    <p>
+        Schrubbende Peelings, heisses Wasser und alkalische Reinigungsprodukte zerstören den Säureschutzmantel der Haut und schwächen die Hautbarriere. Die Folge: Die Haut produziert übermässig viel Talg als Schutzreaktion, wird empfindlicher und neigt zu Rötungen. Setzen Sie auf sanfte Reinigungsprodukte und ersetzen Sie mechanische Peelings durch chemische Peelings mit AHA oder BHA, die schonender und gleichmässiger wirken.
+    </p>
 
-            <p>
-                Dieser Fehler wiegt am schwersten. Ohne ausreichenden Sonnenschutz sind alle anderen Pflegebemühungen nur halb so wirksam. Viele Kundinnen verwenden zudem viel zu wenig Sonnenschutz. Für das Gesicht benötigen Sie etwa einen halben Teelöffel — die meisten Menschen tragen nur ein Viertel der nötigen Menge auf und erhalten damit nur einen Bruchteil des angegebenen Schutzes.
-            </p>
+    <h3>Fehler 4: Unrealistische Erwartungen an Produkte</h3>
 
-            <h3>Fehler 3: Die Haut zu aggressiv reinigen</h3>
+    <p>
+        Kein Produkt verändert die Haut über Nacht. Wirkstoffe wie Retinol benötigen mindestens sechs bis acht Wochen regelmässiger Anwendung, bevor sichtbare Veränderungen eintreten. Geduld und Konsequenz sind der Schlüssel. Wer alle zwei Wochen die Produkte wechselt, gibt keinem Wirkstoff ausreichend Zeit, seine Wirkung zu zeigen.
+    </p>
 
-            <p>
-                Schrubbende Peelings, heisses Wasser und alkalische Reinigungsprodukte zerstören den Säureschutzmantel der Haut und schwächen die Hautbarriere. Die Folge: Die Haut produziert übermässig viel Talg als Schutzreaktion, wird empfindlicher und neigt zu Rötungen. Setzen Sie auf sanfte Reinigungsprodukte und ersetzen Sie mechanische Peelings durch chemische Peelings mit AHA oder BHA, die schonender und gleichmässiger wirken.
-            </p>
+    <h3>Fehler 5: Die Halspartie und das Dekolleté vergessen</h3>
 
-            <h3>Fehler 4: Unrealistische Erwartungen an Produkte</h3>
-
-            <p>
-                Kein Produkt verändert die Haut über Nacht. Wirkstoffe wie Retinol benötigen mindestens sechs bis acht Wochen regelmässiger Anwendung, bevor sichtbare Veränderungen eintreten. Geduld und Konsequenz sind der Schlüssel. Wer alle zwei Wochen die Produkte wechselt, gibt keinem Wirkstoff ausreichend Zeit, seine Wirkung zu zeigen.
-            </p>
-
-            <h3>Fehler 5: Die Halspartie und das Dekolleté vergessen</h3>
-
-            <p>
-                Die Haut an Hals und Dekolleté ist dünn, hat weniger Talgdrüsen und zeigt oft als erstes Zeichen der Hautalterung. Beziehen Sie diese Bereiche in jeden Schritt Ihrer Pflegeroutine ein — von der Reinigung über das Serum bis zum Sonnenschutz. Ihre zukünftige Selbst wird es Ihnen danken.
-            </p>
-
-            <h3>Fehler 6: Pflege nicht auf den Hauttyp abstimmen</h3>
-
-            <p>
-                Was für Ihre beste Freundin funktioniert, muss nicht für Sie ideal sein. Jede Haut ist individuell und verdient eine massgeschneiderte Pflege. Eine professionelle Hautanalyse hilft Ihnen, Ihren Hauttyp und -zustand genau zu bestimmen und die richtigen Produkte auszuwählen. Bei <a href="/ueber-mich/">Beauty Face Lift</a> ist diese Analyse Teil jeder Erstberatung.
-            </p>
-
-            <h2>Ihre persönliche Routine zusammenstellen — ein Fahrplan</h2>
-
-            <p>
-                Wenn Sie sich fragen, wo Sie anfangen sollen, hier ein einfacher Fahrplan:
-            </p>
-
-            <ol>
-                <li><strong>Woche 1-2:</strong> Starten Sie mit den Grundlagen — Reinigung, Feuchtigkeitscreme, Sonnenschutz. Beobachten Sie, wie Ihre Haut reagiert.</li>
-                <li><strong>Woche 3-4:</strong> Fügen Sie einen Toner und ein Serum hinzu (morgens Vitamin C oder Niacinamid).</li>
-                <li><strong>Woche 5-6:</strong> Beginnen Sie mit dem Double Cleansing am Abend und einer Nachtcreme.</li>
-                <li><strong>Woche 7-8:</strong> Integrieren Sie ein Wirkstoffserum in die Abendroutine (Retinol oder AHA, niedrige Konzentration).</li>
-                <li><strong>Ab Woche 9:</strong> Verfeinern Sie Ihre Routine und ergänzen Sie sie bei Bedarf um professionelle Behandlungen.</li>
-            </ol>
-
-            <p>
-                Dieser schrittweise Ansatz ermöglicht es Ihnen, die Verträglichkeit jedes Produkts zu testen und Ihre Routine individuell anzupassen. Sollten Irritationen auftreten, wissen Sie sofort, welches Produkt verantwortlich ist.
-            </p>
-
-            <!-- FAQ Section -->
-            <h2>Häufig gestellte Fragen zur Hautpflege-Routine</h2>
-
-            <div class="faq-section">
-                <details class="faq-item">
-                    <summary>Wie oft sollte ich meine Hautpflege-Routine anpassen?</summary>
-                    <p>Ihre Hautpflege-Routine sollte mindestens zweimal im Jahr angepasst werden — beim Wechsel von der kalten zur warmen Jahreszeit und umgekehrt. In Zürich ist dies besonders wichtig, da die trockene Heizungsluft im Winter und die stärkere UV-Strahlung im Sommer unterschiedliche Anforderungen an die Pflege stellen. Darüber hinaus können hormonelle Veränderungen, Stress oder Medikamente eine Anpassung erfordern. Ich empfehle, alle drei Monate eine professionelle Hautanalyse durchführen zu lassen, um die Routine optimal abzustimmen.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Welche Reihenfolge ist bei der Hautpflege richtig?</summary>
-                    <p>Die goldene Regel lautet: von der dünnsten zur dicksten Konsistenz. Morgens bedeutet das: Reinigung, Toner, Serum, Augencreme, Feuchtigkeitscreme und Sonnenschutz. Abends folgt auf die Doppelreinigung ein Wirkstoffserum (z. B. Retinol oder AHA/BHA), gefolgt von Augenpflege und einer reichhaltigeren Nachtcreme. Durch diese Reihenfolge kann jedes Produkt passend in die Pflege eingebunden werden.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Brauche ich wirklich Sonnenschutz im Winter in Zürich?</summary>
-                    <p>Ja, unbedingt. Auch im Winter erreichen UVA-Strahlen die Haut — sie durchdringen Wolken und sogar Fensterglas. UVA-Strahlung ist hauptverantwortlich für vorzeitige Hautalterung, Pigmentflecken und den Abbau von Kollagen. Besonders wenn Sie tagsüber in der Zürcher Innenstadt unterwegs sind oder am Fenster arbeiten, ist ein Lichtschutzfaktor von mindestens SPF 30 empfehlenswert. Moderne Sonnenschutzprodukte lassen sich wunderbar unter Make-up tragen und hinterlassen keinen weissen Film.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Ab welchem Alter sollte man mit Anti-Aging-Pflege beginnen?</summary>
-                    <p>Prävention ist der beste Anti-Aging-Ansatz. Ab Mitte 20 beginnt die natürliche Kollagenproduktion der Haut abzunehmen — etwa ein Prozent pro Jahr. Ein leichtes Serum mit Antioxidantien (z. B. Vitamin C) und konsequenter Sonnenschutz sind in diesem Alter ideal. Ab 30 lohnt es sich, Retinol und Peptide in die Abendroutine zu integrieren. Ab 40 profitieren Sie zusätzlich von professionellen Behandlungen wie <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> oder <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>, um die Kollagenproduktion gezielt anzukurbeln.</p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>Kann ich professionelle Behandlungen mit meiner täglichen Routine kombinieren?</summary>
-                    <p>Absolut — professionelle Behandlungen und die tägliche Hautpflege ergänzen sich ideal. Behandlungen wie <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a>, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> oder <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> wirken in tieferen Hautschichten und regen die Zellerneuerung an. Ihre tägliche Routine sorgt dafür, dass diese Ergebnisse erhalten bleiben und die Haut zwischen den Terminen optimal versorgt wird. Bei Beauty Face Lift in Zürich erstelle ich für jede Kundin einen individuellen Pflege- und Behandlungsplan, der beide Elemente aufeinander abstimmt. <a href="/termin/">Buchen Sie Ihre Beratung</a> direkt online.</p>
-                </details>
-            </div>
-
-        </div>
-
-        <!-- Blog Meta -->
-        <div class="blog-article">
-            <div class="blog-meta" style="margin-top: 3rem; border-top: 1px solid rgba(18, 18, 18, 0.1); border-bottom: none; padding-top: 2rem;">
-                <span>Veröffentlicht am {formattedDate}</span>
-                <span>Von {author}</span>
-                <span>{readingTime} Lesezeit</span>
-            </div>
-        </div>
-
-        <!-- Author Bio -->
-        <div class="blog-article">
-            <div class="blog-author-bio">
-                <div class="blog-author-avatar">
-                    <Image
-                        src={teresaPortrait}
-                        widths={[120, 192]}
-                        sizes="96px"
-                        format="webp"
-                        quality="high"
-                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
-                        loading="lazy"
-                    />
-                </div>
-                <h3>Über die Autorin</h3>
-                <p>Teresa Stimac ist Inhaberin und leitende Kosmetikerin bei <strong>Beauty Face Lift</strong> an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege berät sie ihre Kundinnen individuell zu den besten Behandlungen und Pflegeroutinen für ein strahlendes Hautbild.</p>
-                <div style="margin-top: 1.5rem;">
-                    <a href="/ueber-mich/" class="pill-btn-outline pill-btn" style="font-size: 0.8rem; padding: 10px 24px;">Mehr über Teresa</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Further Reading -->
-        <div class="blog-article">
-            <div class="blog-further-reading">
-                <h2>Weitere Artikel</h2>
-                <p style="max-width: 500px; margin: 0 auto 2rem;">Entdecken Sie mehr Expertenwissen rund um Hautpflege und Gesichtsbehandlungen in unserem Blog.</p>
-                <a href="/blog/" class="pill-btn-outline pill-btn" style="font-size: 0.8rem; padding: 10px 24px;">Alle Artikel ansehen</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks. Teresa Stimac berät Sie persönlich zu Ihrer passenden Pflegeroutine.</p>
-        <a href="/termin/" class="pill-btn">Termin buchen</a>
-    </section>
-</Base>
+    <p>
+        Die Haut an Hals und Dekolleté ist dünn, hat weniger Talgdrüsen und zeigt oft als erstes Zeichen der Hautalterung. Beziehen Sie diese Bereiche in jeden Schritt Ihrer Pflegeroutine ein — von der Reinigung über das Serum bis zum Sonnenschutz. Ihre zukünftige Selbst wird es Ihnen danken.
+    </p>
+
+    <h3>Fehler 6: Pflege nicht auf den Hauttyp abstimmen</h3>
+
+    <p>
+        Was für Ihre beste Freundin funktioniert, muss nicht für Sie ideal sein. Jede Haut ist individuell und verdient eine massgeschneiderte Pflege. Eine professionelle Hautanalyse hilft Ihnen, Ihren Hauttyp und -zustand genau zu bestimmen und die richtigen Produkte auszuwählen. Bei <a href="/ueber-mich/">Beauty Face Lift</a> ist diese Analyse Teil jeder Erstberatung.
+    </p>
+
+    <h2>Ihre persönliche Routine zusammenstellen — ein Fahrplan</h2>
+
+    <p>
+        Wenn Sie sich fragen, wo Sie anfangen sollen, hier ein einfacher Fahrplan:
+    </p>
+
+    <ol>
+        <li><strong>Woche 1-2:</strong> Starten Sie mit den Grundlagen — Reinigung, Feuchtigkeitscreme, Sonnenschutz. Beobachten Sie, wie Ihre Haut reagiert.</li>
+        <li><strong>Woche 3-4:</strong> Fügen Sie einen Toner und ein Serum hinzu (morgens Vitamin C oder Niacinamid).</li>
+        <li><strong>Woche 5-6:</strong> Beginnen Sie mit dem Double Cleansing am Abend und einer Nachtcreme.</li>
+        <li><strong>Woche 7-8:</strong> Integrieren Sie ein Wirkstoffserum in die Abendroutine (Retinol oder AHA, niedrige Konzentration).</li>
+        <li><strong>Ab Woche 9:</strong> Verfeinern Sie Ihre Routine und ergänzen Sie sie bei Bedarf um professionelle Behandlungen.</li>
+    </ol>
+
+    <p>
+        Dieser schrittweise Ansatz ermöglicht es Ihnen, die Verträglichkeit jedes Produkts zu testen und Ihre Routine individuell anzupassen. Sollten Irritationen auftreten, wissen Sie sofort, welches Produkt verantwortlich ist.
+    </p>
+
+    <!-- FAQ Section -->
+    <h2>Häufig gestellte Fragen zur Hautpflege-Routine</h2>
+
+    <div class="faq-list">
+        <details class="faq-item">
+            <summary>Wie oft sollte ich meine Hautpflege-Routine anpassen?</summary>
+            <p>Ihre Hautpflege-Routine sollte mindestens zweimal im Jahr angepasst werden — beim Wechsel von der kalten zur warmen Jahreszeit und umgekehrt. In Zürich ist dies besonders wichtig, da die trockene Heizungsluft im Winter und die stärkere UV-Strahlung im Sommer unterschiedliche Anforderungen an die Pflege stellen. Darüber hinaus können hormonelle Veränderungen, Stress oder Medikamente eine Anpassung erfordern. Ich empfehle, alle drei Monate eine professionelle Hautanalyse durchführen zu lassen, um die Routine optimal abzustimmen.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Welche Reihenfolge ist bei der Hautpflege richtig?</summary>
+            <p>Die goldene Regel lautet: von der dünnsten zur dicksten Konsistenz. Morgens bedeutet das: Reinigung, Toner, Serum, Augencreme, Feuchtigkeitscreme und Sonnenschutz. Abends folgt auf die Doppelreinigung ein Wirkstoffserum (z. B. Retinol oder AHA/BHA), gefolgt von Augenpflege und einer reichhaltigeren Nachtcreme. Durch diese Reihenfolge kann jedes Produkt passend in die Pflege eingebunden werden.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Brauche ich wirklich Sonnenschutz im Winter in Zürich?</summary>
+            <p>Ja, unbedingt. Auch im Winter erreichen UVA-Strahlen die Haut — sie durchdringen Wolken und sogar Fensterglas. UVA-Strahlung ist hauptverantwortlich für vorzeitige Hautalterung, Pigmentflecken und den Abbau von Kollagen. Besonders wenn Sie tagsüber in der Zürcher Innenstadt unterwegs sind oder am Fenster arbeiten, ist ein Lichtschutzfaktor von mindestens SPF 30 empfehlenswert. Moderne Sonnenschutzprodukte lassen sich wunderbar unter Make-up tragen und hinterlassen keinen weissen Film.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Ab welchem Alter sollte man mit Anti-Aging-Pflege beginnen?</summary>
+            <p>Prävention ist der beste Anti-Aging-Ansatz. Ab Mitte 20 beginnt die natürliche Kollagenproduktion der Haut abzunehmen — etwa ein Prozent pro Jahr. Ein leichtes Serum mit Antioxidantien (z. B. Vitamin C) und konsequenter Sonnenschutz sind in diesem Alter ideal. Ab 30 lohnt es sich, Retinol und Peptide in die Abendroutine zu integrieren. Ab 40 profitieren Sie zusätzlich von professionellen Behandlungen wie <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> oder <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>, um die Kollagenproduktion gezielt anzukurbeln.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Kann ich professionelle Behandlungen mit meiner täglichen Routine kombinieren?</summary>
+            <p>Absolut — professionelle Behandlungen und die tägliche Hautpflege ergänzen sich ideal. Behandlungen wie <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a>, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Peeling</a> oder <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> wirken in tieferen Hautschichten und regen die Zellerneuerung an. Ihre tägliche Routine sorgt dafür, dass diese Ergebnisse erhalten bleiben und die Haut zwischen den Terminen optimal versorgt wird. Bei Beauty Face Lift in Zürich erstelle ich für jede Kundin einen individuellen Pflege- und Behandlungsplan, der beide Elemente aufeinander abstimmt. <a href="/termin/">Buchen Sie Ihre Beratung</a> direkt online.</p>
+        </details>
+    </div>
+
+    <Fragment slot="author-bio">
+        <p>Teresa Stimac ist Inhaberin und leitende Kosmetikerin bei <strong>Beauty Face Lift</strong> an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege berät sie ihre Kundinnen individuell zu den besten Behandlungen und Pflegeroutinen für ein strahlendes Hautbild.</p>
+    </Fragment>
+</BlogPost>
