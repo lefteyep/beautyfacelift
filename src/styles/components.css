@@ -302,14 +302,12 @@ body.nav-lock { overflow: hidden; }
 }
 
 .nav-mobile-links > li > a::after {
-  content: '\2197';
-  display: inline-grid;
-  place-items: center;
+  content: '';
+  flex: none;
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--shell);
-  font-size: 0.85rem;
+  background: var(--i-arrow-dark) center / 12px no-repeat, var(--shell);
 }
 
 .nav-mobile-row { display: grid; grid-template-columns: 1fr auto; align-items: center; padding-right: 14px; }
@@ -551,21 +549,18 @@ a.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-co
 .index-item-meta:empty { display: none; }
 
 a.index-item::after {
-  content: '\2197';
+  content: '';
   justify-self: end;
-  display: inline-grid;
-  place-items: center;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--shell);
-  color: var(--cocoa);
-  transition: transform 0.4s var(--ease-expo), background-color 0.3s ease, color 0.3s ease;
+  background: var(--i-arrow-dark) center / 13px no-repeat, var(--shell);
+  transition: transform 0.45s var(--ease-expo), background 0.3s ease;
 }
 
 a.index-item:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: transparent; }
 a.index-item:hover .index-item-title { color: var(--clay); }
-a.index-item:hover::after { background: var(--clay); color: #FFFFFF; transform: rotate(45deg); }
+a.index-item:hover::after { background: var(--i-arrow-light) center / 13px no-repeat, var(--clay); transform: translate(2px, -2px); }
 
 /* Index grid → card grid */
 .index-grid {

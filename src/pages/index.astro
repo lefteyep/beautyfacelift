@@ -3,20 +3,19 @@ import { absoluteUrl, CONTACT_WHATSAPP_URL, SERVICE_GROUPS, TREATWELL_URL } from
 import Base from '../layouts/Base.astro';
 import { Image, getImage } from 'astro:assets';
 import {
-    carbonTreatmentTeresa,
     coldplasmaCard,
     aquafacialCard,
     microneedlingCard,
     peelingCard,
     spaProducts,
+    carbonTreatmentTeresa,
 } from '../lib/site-images';
 import teresaWithClient from '../assets/lp/aquafacial/aquafacial-behandlung-zuerich.webp';
 import glowPortrait from '../assets/lp/aquafacial/post-treatment-glow-zuerich.webp';
 import consultation from '../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import zurichView from '../assets/lp/aquafacial/personal-treatment-zuerich.webp';
-import { JOURNAL_POSTS } from './blog/_posts';
 
-const heroSizes = '(min-width: 1280px) 520px, (min-width: 901px) 40vw, 82vw';
+const heroSizes = '(min-width: 1280px) 500px, (min-width: 901px) 38vw, 80vw';
 
 const homepageHeroPreload = await getImage({
     src: teresaWithClient,
@@ -26,15 +25,16 @@ const homepageHeroPreload = await getImage({
     quality: 'high',
 });
 
-const signatureTreatments = [
-    { href: '/behandlungen/aquafacial-zuerich/', name: 'Aquafacial', text: 'Tiefenreinigung, sanftes Peeling und intensive Feuchtigkeit.', meta: 'ab CHF 180', image: aquafacialCard, alt: 'Aquafacial Behandlung mit Handstück an der Wange' },
-    { href: '/behandlungen/microneedling-zuerich/', name: 'Microneedling', text: 'Für Hautstruktur, Poren und ein verfeinertes Hautbild.', meta: 'ab CHF 210', image: microneedlingCard, alt: 'Microneedling Behandlung im Gesicht' },
-    { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', name: 'Fruchtsäure Peeling', text: 'Für einen klaren, ebenmässigen Teint.', meta: 'CHF 150', image: peelingCard, alt: 'Fruchtsäure Peeling wird mit dem Pinsel aufgetragen' },
-    { href: '/behandlungen/coldplasma-zuerich/', name: 'ColdPlasma', text: 'Plasma-Technologie als Unterstützung der Wirkstoffpflege.', meta: 'ab CHF 180', image: coldplasmaCard, alt: 'ColdPlasma Handstück an der Schläfe' },
-    { href: '/behandlungen/exosome-therapie-zuerich/', name: 'Exosome Therapie', text: 'Regenerative Wirkstoffpflege für Feuchtigkeit und Glow.', meta: '', image: spaProducts, alt: 'Serumflaschen mit Pipette auf hellem Stein' },
+// Facial treatments: price and duration as published on each treatment page.
+const treatments = [
+    { href: '/behandlungen/aquafacial-zuerich/', name: 'Aquafacial', meta: 'ab CHF 180 · 60–90 Min.', line: 'Tiefenreinigung, Peeling und Feuchtigkeit in einer Behandlung.', image: aquafacialCard, alt: 'Aquafacial Behandlung mit Handstück an der Wange' },
+    { href: '/behandlungen/microneedling-zuerich/', name: 'Microneedling', meta: 'ab CHF 210 · 90 Min.', image: microneedlingCard, alt: 'Microneedling Behandlung im Gesicht' },
+    { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', name: 'Fruchtsäure Peeling', meta: 'CHF 150 · 45–60 Min.', image: peelingCard, alt: 'Fruchtsäure Peeling wird mit dem Pinsel aufgetragen' },
+    { href: '/behandlungen/coldplasma-zuerich/', name: 'ColdPlasma', meta: 'ab CHF 180 · 90 Min.', image: coldplasmaCard, alt: 'ColdPlasma Handstück an der Schläfe' },
+    { href: '/behandlungen/exosome-therapie-zuerich/', name: 'Exosome Therapie', meta: 'Persönliche Beratung', image: spaProducts, alt: 'Serumflaschen mit Pipette auf hellem Stein' },
 ];
 
-const marqueeWords = ['Aquafacial', 'Microneedling', 'Fruchtsäure Peeling', 'ColdPlasma', 'Exosome Therapie', 'Laser-Haarentfernung', 'Waxing', 'Wimpern & Brauen', 'Make-up', 'Massage'];
+const marquee = treatments.map(({ name, image }) => ({ name, image }));
 
 // Exact-match anchor text for each service hub (internal-linking plan, checked by scripts/seo-plan-smoke.mjs).
 const hubAnchors: Record<string, string> = {
@@ -46,23 +46,32 @@ const hubAnchors: Record<string, string> = {
     '/behandlungen/massage-zuerich-bahnhofstrasse/': 'Massage Zürich Bahnhofstrasse',
 };
 
-const priceList = [
-    { name: 'Gesichtsbehandlungen', price: 'ab CHF 150' },
-    { name: 'Aquafacial', price: 'ab CHF 180' },
-    { name: 'Microneedling', price: 'ab CHF 210' },
-    { name: 'Fruchtsäure Peeling', price: 'CHF 150' },
-    { name: 'ColdPlasma', price: 'ab CHF 180' },
-    { name: 'Weitere Beauty-Leistungen', price: 'ab CHF 20' },
-];
+// Starting prices as stated in each hub's "Preise" fact.
+const priceFrom: Record<string, string> = {
+    '/behandlungen/gesichtsbehandlung-zuerich/': 'ab CHF 150',
+    '/behandlungen/laser-haarentfernung-zuerich/': 'ab CHF 85',
+    '/behandlungen/waxing-zuerich/': 'ab CHF 35',
+    '/behandlungen/wimpern-brauen-zuerich/': 'ab CHF 20',
+    '/behandlungen/make-up-zuerich/': 'ab CHF 100',
+    '/behandlungen/massage-zuerich-bahnhofstrasse/': 'ab CHF 65',
+};
+
+const services = SERVICE_GROUPS.map((group) => {
+    const anchor = hubAnchors[group.href] ?? group.label;
+    const split = anchor.indexOf(' Zürich');
+    return {
+        href: group.href,
+        name: split > 0 ? anchor.slice(0, split) : anchor,
+        place: split > 0 ? anchor.slice(split + 1) : '',
+        price: priceFrom[group.href] ?? '',
+    };
+});
 
 const reviews = [
     { quote: 'Wie immer eine wunderbare Verwöhnzeit!', author: 'Emina', detail: 'Aquafacial' },
     { quote: 'Stammkunde seit 2008, immer wieder begeistert.', author: 'Daniel', detail: 'Stammkunde' },
     { quote: 'Teresa ist charmant, warm und absolut professionell.', author: 'Andreas', detail: 'Gesichtsbehandlung' },
 ];
-
-const journal = JOURNAL_POSTS.slice(0, 3);
-const formatDate = (iso: string) => new Date(iso).toLocaleDateString('de-CH', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const businessStructuredData = {
     "@context": "https://schema.org",
@@ -148,8 +157,8 @@ const faqData = {
 ---
 
 <Base
-    title="Beauty Face Lift Zürich | Kosmetikstudio an der Bahnhofstrasse"
-    description="Kosmetikstudio Zürich Bahnhofstrasse: Beauty Face Lift bietet Gesichtsbehandlung, Aquafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage."
+    title="Kosmetikstudio Zürich Bahnhofstrasse | Beauty Face Lift"
+    description="Gesichtsbehandlungen, Aquafacial und Microneedling an der Bahnhofstrasse 94 – persönlich von Teresa Stimac. 4,8 Sterne aus 248+ Bewertungen. Erstberatung kostenlos."
     preloadImage={{
         href: homepageHeroPreload.src,
         imagesrcset: homepageHeroPreload.srcSet.attribute,
@@ -159,21 +168,21 @@ const faqData = {
     }}
     structuredData={structuredData}
 >
-    <!-- 1 · Hero: founder-led split with collage -->
+    <!-- 1 · Hero -->
     <header class="hx">
         <div class="container hx-grid">
             <div class="hx-copy">
-                <span class="eyebrow eyebrow--pill reveal-up">Kosmetikstudio an der Bahnhofstrasse 94</span>
-                <h1 class="hx-title reveal-up" style="--d: 1">Ihre Schönheitsadresse an der <em>Bahnhofstrasse</em> Zürich</h1>
-                <p class="lead reveal-up" style="--d: 2">Hochwertige kosmetisch-ästhetische Behandlungen, persönlich abgestimmt von Teresa Stimac, Kosmetikerin mit über 20 Jahren Erfahrung.</p>
+                <span class="eyebrow eyebrow--pill reveal-up">Kosmetikstudio Zürich · Bahnhofstrasse 94</span>
+                <h1 class="hx-title reveal-up" style="--d: 1">Ihr Kosmetikstudio für <em>strahlende</em> Haut in Zürich</h1>
+                <p class="hx-sub reveal-up" style="--d: 2">Gesichtsbehandlungen, die zu Ihrer Haut passen – persönlich von Teresa Stimac, seit über 20 Jahren.</p>
                 <div class="btn-row reveal-up" style="--d: 3">
-                    <a href="/termin/" class="btn btn-lg hero-cta" data-button-location="home_hero">Termin buchen</a>
-                    <a href="/behandlungen/" class="btn btn-secondary btn-lg">Behandlungen entdecken</a>
+                    <a href="/termin/" class="btn btn-lg btn-arrow hero-cta" data-button-location="home_hero">Termin buchen</a>
+                    <a href="/kontakt/" class="btn btn-secondary btn-lg" data-button-location="home_hero_consultation">Kostenlose Beratung</a>
                 </div>
-                <a class="hx-proof reveal-up" style="--d: 4" href={TREATWELL_URL} target="_blank" rel="noopener">
-                    <span class="hx-stars" aria-hidden="true">★★★★★</span>
-                    <span><strong>4,8 / 5</strong> aus 248+ Bewertungen auf Treatwell</span>
-                </a>
+                <ul class="hx-proof reveal-up" style="--d: 4">
+                    <li><span class="stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></li>
+                    <li class="hx-proof-check">Erstberatung kostenlos</li>
+                </ul>
             </div>
 
             <div class="hx-media">
@@ -189,18 +198,7 @@ const faqData = {
                     />
                 </div>
                 <div class="media hx-thumb">
-                    <Image
-                        src={glowPortrait}
-                        widths={[240, 360, 480]}
-                        sizes="(min-width: 901px) 200px, 34vw"
-                        format="webp"
-                        quality="mid"
-                        alt="Frau mit frischer, gepflegter Haut nach der Behandlung"
-                    />
-                </div>
-                <div class="float-card hx-float reveal-up" style="--d: 5">
-                    <span class="icon-dot" aria-hidden="true">✦</span>
-                    <span><strong>Persönlich von Teresa</strong>Jeder Termin, seit über 20 Jahren</span>
+                    <Image src={glowPortrait} widths={[240, 360, 480]} sizes="(min-width: 901px) 190px, 32vw" format="webp" quality="mid" alt="Frau mit frischer, gepflegter Haut" />
                 </div>
                 <div class="ring-badge hx-ring" aria-hidden="true">
                     <svg viewBox="0 0 120 120"><defs><path id="hx-ring-path" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" /></defs><text><textPath href="#hx-ring-path" textLength="286" lengthAdjust="spacing">Jahre Erfahrung · Bahnhofstrasse ·</textPath></text></svg>
@@ -210,237 +208,149 @@ const faqData = {
         </div>
     </header>
 
-    <!-- 2 · Italic marquee -->
-    <div class="word-marquee" aria-hidden="true">
-        <div class="word-marquee-track">
-            {[...marqueeWords, ...marqueeWords].map((word) => <span>{word}</span>)}
+    <!-- 2 · Marquee with inline photography -->
+    <div class="mq" aria-hidden="true">
+        <div class="mq-track">
+            {[...marquee, ...marquee].map((item) => (
+                <span class="mq-item">
+                    {item.name}
+                    <span class="mq-img"><Image src={item.image} widths={[160]} sizes="80px" format="webp" quality="low" alt="" loading="lazy" /></span>
+                </span>
+            ))}
         </div>
     </div>
 
-    <!-- 3 · Studio intro + stats -->
-    <section class="section" aria-labelledby="studio-title">
-        <div class="container">
-            <div class="hm-intro">
-                <div class="hm-intro-head">
-                    <span class="eyebrow">Das Studio</span>
-                    <h2 id="studio-title">Haut im Mittelpunkt, <em>Schönheit</em> im Detail</h2>
-                </div>
-                <div class="hm-intro-copy">
-                    <p class="lead">Beauty Face Lift ist auf hochwertige Gesichtsbehandlungen in Zürich spezialisiert. Ergänzend bietet Teresa Stimac an der Bahnhofstrasse Laser-Haarentfernung, Waxing, Wimpern &amp; Brauen, Make-up und Massage an, jede Leistung diskret, sorgfältig und persönlich geplant.</p>
-                    <a href="/ueber-mich/" class="btn-link">Mehr über das Studio</a>
-                </div>
-            </div>
-            <div class="stats-bar scroll-anim">
-                <div><strong>4,8</strong><span>von 5 Sternen auf Treatwell</span></div>
-                <div><strong>248+</strong><span>Bewertungen von Kundinnen</span></div>
-                <div><strong>20+</strong><span>Jahre Erfahrung in Zürich</span></div>
-                <div><strong>{SERVICE_GROUPS.length}</strong><span>Behandlungsbereiche</span></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4 · Signature treatments -->
-    <section class="section section--flush-top" id="expertise" aria-labelledby="signature-title">
+    <!-- 3 · Facial treatments (bento) -->
+    <section class="section" id="expertise" aria-labelledby="tx-title">
         <div class="container">
             <div class="section-head">
                 <div>
-                    <span class="eyebrow">Signature-Behandlungen</span>
-                    <h2 id="signature-title">Behandlungen für sichtbar <em>frische</em> Haut</h2>
+                    <span class="eyebrow">Gesichtsbehandlungen</span>
+                    <h2 id="tx-title">Gesichtsbehandlungen in <em>Zürich</em></h2>
                 </div>
-                <a href="/behandlungen/" class="btn-link">Alle Behandlungen</a>
+                <a href="/behandlungen/" class="btn-link">Alle Behandlungen &amp; Preise</a>
             </div>
-            <ul class="hm-tiles">
-                {signatureTreatments.map((treatment) => (
-                    <li>
-                        <a href={treatment.href} class="hm-tile scroll-anim">
-                            <span class="media hm-tile-media">
-                                <Image src={treatment.image} widths={[360, 540, 720]} sizes="(min-width: 1280px) 410px, (min-width: 901px) 31vw, 92vw" format="webp" quality="mid" loading="lazy" alt={treatment.alt} />
-                                {treatment.meta && <span class="hm-tile-price">{treatment.meta}</span>}
+            <ul class="tx-bento">
+                {treatments.map((t, index) => (
+                    <li class:list={['tx-item', { 'tx-item--feature': index === 0 }]}>
+                        <a href={t.href} class="tx-card">
+                            <Image src={t.image} widths={index === 0 ? [640, 960, 1280] : [360, 540, 720]} sizes={index === 0 ? '(min-width: 1280px) 630px, (min-width: 901px) 48vw, 82vw' : '(min-width: 1280px) 310px, (min-width: 901px) 24vw, 82vw'} format="webp" quality="mid" loading="lazy" alt={t.alt} class="tx-img" />
+                            <span class="tx-top">
+                                {index === 0 ? <span class="tx-chip">Signature</span> : <span />}
+                                <span class="tx-go" aria-hidden="true"></span>
                             </span>
-                            <span class="hm-tile-body">
-                                <span>
-                                    <h3>{treatment.name}</h3>
-                                    <p>{treatment.text}</p>
-                                </span>
-                                <span class="hm-tile-arrow" aria-hidden="true">&#8599;</span>
+                            <span class="tx-bottom">
+                                <h3>{t.name}</h3>
+                                {t.line && <p>{t.line}</p>}
+                                <span class="tx-meta">{t.meta}</span>
                             </span>
                         </a>
                     </li>
                 ))}
-                <li>
-                    <div class="hm-tile hm-tile--cta scroll-anim">
-                        <span class="eyebrow">Erstberatung</span>
-                        <h3>Unsicher, welche Behandlung <em>passt</em>?</h3>
-                        <p>Teresa analysiert Ihre Haut und empfiehlt die passende Behandlung. Die Erstberatung ist kostenlos und unverbindlich.</p>
-                        <div class="btn-row">
-                            <a href="/kontakt/" class="btn" data-button-location="home_consultation_tile">Beratung anfragen</a>
-                        </div>
-                    </div>
-                </li>
             </ul>
         </div>
     </section>
 
-    <!-- 5 · Services + price menu -->
-    <section class="section section--shell" aria-labelledby="services-title">
-        <div class="container hm-services">
-            <div class="hm-services-copy">
-                <span class="eyebrow">Behandlungsbereiche</span>
-                <h2 id="services-title">Alles für gepflegte <em>Details</em></h2>
-                <p class="lead">Neben Gesicht und Haut finden Sie im Studio an der Bahnhofstrasse die Leistungen, die Ihren Auftritt abrunden.</p>
-                <ul class="hm-groups">
-                    {SERVICE_GROUPS.map((group) => (
-                        <li>
-                            <a href={group.href} class="hm-group">
-                                <span>
-                                    <strong>{group.label}</strong>
-                                    <small>{hubAnchors[group.href] ?? group.label}</small>
-                                </span>
-                                <span class="hm-group-arrow" aria-hidden="true">&#8599;</span>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
+    <!-- 4 · Teresa -->
+    <section class="section section--shell" id="about" aria-labelledby="tm-title">
+        <div class="container tm-grid">
+            <div class="tm-media scroll-anim">
+                <div class="arch tm-arch">
+                    <Image src={carbonTreatmentTeresa} widths={[420, 640, 900]} sizes="(min-width: 1280px) 460px, (min-width: 901px) 38vw, 88vw" format="webp" quality="high" loading="lazy" alt="Teresa Stimac bei einer Behandlung im Studio an der Bahnhofstrasse" />
+                </div>
             </div>
-            <aside class="hm-menu scroll-anim" aria-labelledby="menu-title">
-                <span class="eyebrow">Preise</span>
-                <h3 id="menu-title" class="hm-menu-title">Auf einen <em>Blick</em></h3>
-                <dl class="price-list">
-                    {priceList.map((row) => (
-                        <div class="price-list-row"><dt>{row.name}</dt><span class="leader" aria-hidden="true"></span><dd>{row.price}</dd></div>
-                    ))}
+            <div class="tm-copy">
+                <span class="eyebrow">Ihre Kosmetikerin</span>
+                <h2 id="tm-title">Teresa Stimac, <em>persönlich</em> für Ihre Haut</h2>
+                <p class="lead">Jede Behandlung führt Teresa selbst durch: mit sorgfältiger Hautanalyse, ehrlicher Empfehlung und über 20 Jahren Erfahrung an der Bahnhofstrasse.</p>
+                <dl class="tm-stats">
+                    <div><dt><span data-count="4.8" data-decimals="1">4,8</span></dt><dd>Bewertung auf Treatwell</dd></div>
+                    <div><dt><span data-count="248" data-suffix="+">248+</span></dt><dd>Bewertungen</dd></div>
+                    <div><dt><span data-count="20" data-suffix="+">20+</span></dt><dd>Jahre Erfahrung</dd></div>
+                    <div><dt>1:1</dt><dd>jeder Termin persönlich</dd></div>
                 </dl>
-                <p class="hm-menu-note">Die genauen Preise und Dauer finden Sie auf den Behandlungsseiten.</p>
-                <a href="/termin/" class="btn btn-block" data-button-location="home_price_menu">Termin buchen</a>
-            </aside>
-        </div>
-    </section>
-
-    <!-- 6 · Teresa -->
-    <section class="section" id="about" aria-labelledby="teresa-title">
-        <div class="container hm-teresa">
-            <div class="hm-teresa-media scroll-anim">
-                <div class="arch hm-teresa-arch">
-                    <Image src={carbonTreatmentTeresa} widths={[420, 640, 900]} sizes="(min-width: 1280px) 500px, (min-width: 901px) 40vw, 92vw" format="webp" quality="high" loading="lazy" alt="Teresa Stimac bei einer Carbon Peeling Behandlung im Studio" />
-                </div>
-                <div class="float-card hm-teresa-float">
-                    <span class="icon-dot" aria-hidden="true">✦</span>
-                    <span><strong>Seit 2008</strong>begleitet Teresa einige Kundinnen</span>
-                </div>
-            </div>
-            <div class="hm-teresa-copy">
-                <span class="eyebrow">Über Teresa</span>
-                <h2 id="teresa-title">Persönlich betreut von <em>Teresa Stimac</em></h2>
-                <figure class="quote">
-                    <blockquote>„Die Haut ist 90 Prozent von deinem Selfie.“</blockquote>
-                    <figcaption>Teresa Stimac, Gründerin</figcaption>
-                </figure>
-                <p>Im Zentrum von Zürich, an der Bahnhofstrasse, liegt das Studio von Teresa Stimac. Seit über 20 Jahren ist sie selbstständige Kosmetikerin in Zürich, mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
-                <ul class="hm-chips">
-                    <li>Über 20 Jahre selbstständig</li>
-                    <li>Jeder Termin persönlich</li>
-                    <li>Bahnhofstrasse 94</li>
-                </ul>
-                <a href="/ueber-mich/" class="btn btn-secondary">Teresa kennenlernen</a>
+                <a href="/ueber-mich/" class="btn-link">Mehr über Teresa</a>
             </div>
         </div>
     </section>
 
-    <!-- 7 · First visit -->
-    <section class="section section--flush-top" aria-labelledby="visit-title">
-        <div class="container hm-visit">
-            <div class="hm-visit-head">
+    <!-- 5 · Beauty services with starting prices -->
+    <section class="section" aria-labelledby="sv-title">
+        <div class="container sv-grid">
+            <div class="sv-head">
+                <span class="eyebrow">Beauty-Services</span>
+                <h2 id="sv-title">Alles für gepflegte <em>Details</em></h2>
+                <p class="lead">Ergänzend zur Gesichtsbehandlung, an einer Adresse und mit einer Ansprechperson.</p>
+                <a href="/termin/" class="btn btn-arrow" data-button-location="home_services">Termin buchen</a>
+            </div>
+            <ul class="sv-list">
+                {services.map((service) => (
+                    <li>
+                        <a href={service.href} class="sv-row">
+                            <span class="sv-name">{service.name} {service.place && <span class="sv-place">{service.place}</span>}</span>
+                            <span class="sv-price">{service.price}</span>
+                            <span class="sv-go" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
+
+    <!-- 6 · First visit (conversion band) -->
+    <section class="fv" aria-labelledby="fv-title">
+        <div class="fv-panel">
+            <div class="fv-media">
+                <Image src={consultation} widths={[480, 720, 960]} sizes="(min-width: 1280px) 560px, (min-width: 901px) 44vw, 92vw" format="webp" quality="mid" loading="lazy" alt="Teresa bespricht mit einer Kundin die Hautanalyse" />
+            </div>
+            <div class="fv-copy">
                 <span class="eyebrow">Ihr erster Besuch</span>
-                <h2 id="visit-title">Gut vorbereitet zum <em>ersten</em> Termin</h2>
-                <div class="media hm-visit-media scroll-anim">
-                    <Image src={consultation} widths={[480, 720, 960]} sizes="(min-width: 1280px) 560px, (min-width: 901px) 44vw, 92vw" format="webp" quality="mid" loading="lazy" alt="Teresa bespricht mit einer Kundin die Hautanalyse" />
-                    <div class="float-card hm-visit-float">
-                        <span class="icon-dot" aria-hidden="true">✓</span>
-                        <span><strong>Erstberatung</strong>kostenlos und unverbindlich</span>
-                    </div>
+                <h2 id="fv-title">Kostenlose Erstberatung, <em>ehrliche</em> Empfehlung</h2>
+                <ol class="fv-steps">
+                    <li><h3>Termin wählen</h3><p>Online oder per WhatsApp.</p></li>
+                    <li><h3>Hautanalyse &amp; Beratung</h3><p>Kostenlos und unverbindlich.</p></li>
+                    <li><h3>Ihre Behandlung</h3><p>Persönlich abgestimmt, mit Pflegeplan für zu Hause.</p></li>
+                </ol>
+                <div class="btn-row">
+                    <a href="/kontakt/" class="btn btn-arrow" data-button-location="home_first_visit">Beratung anfragen</a>
+                    <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary" target="_blank" rel="noopener" data-button-location="home_first_visit_whatsapp" data-source="home_first_visit">WhatsApp</a>
                 </div>
             </div>
-            <ol class="steps hm-steps">
-                <li>
-                    <h3>Termin wählen</h3>
-                    <p>Bequem online buchen oder per WhatsApp anfragen, wenn Sie vorab eine Frage haben.</p>
-                </li>
-                <li>
-                    <h3>Beratung &amp; Hautanalyse</h3>
-                    <p>Teresa nimmt sich Zeit für Hauttyp, Ziele und Empfindlichkeiten.</p>
-                </li>
-                <li>
-                    <h3>Ihre Behandlung</h3>
-                    <p>Persönlich durchgeführt und auf Ihre Haut abgestimmt, in ruhiger Atmosphäre.</p>
-                </li>
-                <li>
-                    <h3>Pflege danach</h3>
-                    <p>Mit Pflegehinweisen für zu Hause und, wenn sinnvoll, einem persönlichen Behandlungsplan.</p>
-                </li>
-            </ol>
         </div>
     </section>
 
-    <!-- 8 · Reviews -->
-    <section class="section section--shell" aria-labelledby="reviews-title">
+    <!-- 7 · Reviews -->
+    <section class="section" aria-labelledby="rv-title">
         <div class="container">
-            <div class="section-head section-head--center">
+            <div class="section-head">
                 <div>
-                    <span class="eyebrow">Kundenstimmen</span>
-                    <h2 id="reviews-title">Was Kundinnen über uns <em>sagen</em></h2>
+                    <span class="eyebrow">Bewertungen</span>
+                    <h2 id="rv-title">4,8 Sterne aus <em>248+</em> Bewertungen</h2>
                 </div>
+                <a href={TREATWELL_URL} class="btn-link" target="_blank" rel="noopener">Alle auf Treatwell</a>
             </div>
-            <div class="hm-reviews">
-                <div class="hm-rating">
-                    <span class="hm-rating-score">4,8</span>
-                    <span class="hx-stars" aria-label="4,8 von 5 Sternen">★★★★★</span>
-                    <p>aus 248+ Bewertungen auf Treatwell</p>
-                    <a href={TREATWELL_URL} class="btn-link" target="_blank" rel="noopener">Bewertungen ansehen</a>
-                </div>
+            <div class="rv-grid">
                 {reviews.map((review) => (
-                    <figure class="testimonial-card">
-                        <span class="testimonial-stars" aria-label="5 von 5 Sternen">★★★★★</span>
-                        <blockquote class="testimonial-quote">„{review.quote}“</blockquote>
-                        <figcaption class="testimonial-author"><strong>{review.author}</strong> · {review.detail}</figcaption>
+                    <figure class="rv-card">
+                        <span class="rv-mark" aria-hidden="true">„</span>
+                        <blockquote>{review.quote}</blockquote>
+                        <figcaption>
+                            <span class="rv-avatar" aria-hidden="true">{review.author.charAt(0)}</span>
+                            <span><strong>{review.author}</strong>{review.detail}</span>
+                            <span class="stars" aria-label="5 von 5 Sternen">★★★★★</span>
+                        </figcaption>
                     </figure>
                 ))}
             </div>
         </div>
     </section>
 
-    <!-- 9 · Journal -->
-    <section class="section" aria-labelledby="journal-title">
-        <div class="container">
-            <div class="section-head">
-                <div>
-                    <span class="eyebrow">Journal</span>
-                    <h2 id="journal-title">Wissen rund um Ihre <em>Haut</em></h2>
-                </div>
-                <a href="/blog/" class="btn-link">Alle Beiträge</a>
-            </div>
-            <ul class="hm-journal">
-                {journal.map((post) => (
-                    <li>
-                        <a href={post.href} class="hm-post scroll-anim">
-                            <span class="media media--landscape">
-                                <Image src={post.image} widths={[360, 540, 720]} sizes="(min-width: 1280px) 410px, (min-width: 901px) 31vw, 92vw" format="webp" quality="mid" loading="lazy" alt={post.imageAlt} />
-                            </span>
-                            <span class="hm-post-meta"><span class="hm-post-tag">{post.category}</span>{formatDate(post.publishDate)} · {post.readingTime}</span>
-                            <h3>{post.title}</h3>
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    </section>
-
-    <!-- 10 · FAQ -->
+    <!-- 8 · FAQ -->
     <section class="section section--flush-top" aria-labelledby="faq-title">
-        <div class="container hm-faq">
-            <div class="hm-faq-head">
+        <div class="container fq-grid">
+            <div class="fq-head">
                 <span class="eyebrow">Häufige Fragen</span>
                 <h2 id="faq-title">Gut zu <em>wissen</em></h2>
-                <p>Noch Fragen? Teresa beantwortet sie gerne persönlich, per WhatsApp oder im Studio.</p>
                 <a href="/haeufige-fragen/" class="btn btn-secondary">Alle Fragen</a>
             </div>
             <div class="faq-list">
@@ -455,16 +365,15 @@ const faqData = {
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
 
-    <!-- 11 · Closing CTA over photography -->
-    <section class="hm-cta" aria-labelledby="cta-title">
-        <div class="hm-cta-frame">
-            <Image src={zurichView} widths={[720, 1080, 1440]} sizes="100vw" format="webp" quality="mid" loading="lazy" alt="Frau mit gepflegter Haut vor einem Fenster mit Blick über Zürich" class="hm-cta-img" />
-            <div class="hm-cta-card">
-                <span class="eyebrow">Termin</span>
-                <h2 id="cta-title">Zeit für <em>Ihre</em> Haut</h2>
-                <p>Bahnhofstrasse 94, 8001 Zürich. Online buchen oder persönlich per WhatsApp anfragen.</p>
+    <!-- 9 · Closing CTA -->
+    <section class="ct" aria-labelledby="ct-title">
+        <div class="ct-frame">
+            <Image src={zurichView} widths={[720, 1080, 1440]} sizes="100vw" format="webp" quality="mid" loading="lazy" alt="Frau mit gepflegter Haut vor einem Fenster mit Blick über Zürich" class="ct-img" />
+            <div class="ct-card">
+                <h2 id="ct-title">Bereit für <em>strahlende</em> Haut?</h2>
+                <p>Termin online buchen. Die Erstberatung ist kostenlos.</p>
                 <div class="btn-row">
-                    <a href="/termin/" class="btn" data-button-location="home_cta_band">Termin buchen</a>
+                    <a href="/termin/" class="btn btn-arrow" data-button-location="home_cta_band">Termin buchen</a>
                     <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary" target="_blank" rel="noopener" data-button-location="home_cta_band_whatsapp" data-source="home_cta_band">WhatsApp</a>
                 </div>
             </div>
@@ -472,404 +381,472 @@ const faqData = {
     </section>
 </Base>
 
+<script>
+    // Count-up for the Teresa stats. The final value is already in the HTML, so it reads correctly without JS.
+    const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const run = (el: HTMLElement) => {
+        const target = Number(el.dataset.count);
+        const decimals = Number(el.dataset.decimals || 0);
+        const suffix = el.dataset.suffix || '';
+        const start = performance.now();
+        const duration = 1400;
+        const tick = (now: number) => {
+            const progress = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = (target * eased).toFixed(decimals).replace('.', ',') + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    };
+
+    if (!reduce && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                run(entry.target as HTMLElement);
+            });
+        }, { threshold: 0.6 });
+        counters.forEach((el) => observer.observe(el));
+    }
+</script>
+
 <style>
     /* ─── Hero ─────────────────────────────────────────── */
     .hx {
-        padding-top: calc(var(--nav-h) + clamp(28px, 4vw, 64px));
-        padding-bottom: clamp(56px, 6vw, 96px);
+        padding-top: calc(var(--nav-h) + clamp(32px, 5vw, 80px));
+        padding-bottom: clamp(48px, 6vw, 96px);
         overflow: hidden;
     }
 
     .hx-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
         align-items: center;
-        gap: clamp(40px, 5vw, 88px);
+        gap: clamp(40px, 6vw, 112px);
     }
 
-    .hx-copy {
-        display: grid;
-        gap: 24px;
-        justify-items: start;
-    }
+    .hx-copy { display: grid; gap: 26px; justify-items: start; }
 
     .hx-title {
-        font-size: clamp(2.6rem, 5vw, 4.75rem);
-        line-height: 0.98;
-        max-width: 18ch;
+        font-size: clamp(2.7rem, 5.4vw, 5.25rem);
+        line-height: 0.96;
+        letter-spacing: -0.015em;
+        max-width: 15ch;
+    }
+
+    .hx-sub {
+        max-width: 40ch;
+        font-size: var(--fs-lead);
+        line-height: 1.55;
     }
 
     .hx-proof {
-        display: inline-flex;
+        display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        gap: 12px;
-        margin-top: 8px;
-        font-size: 0.95rem;
+        gap: 10px 22px;
+        margin-top: 4px;
+        font-size: 0.92rem;
         color: var(--text);
     }
 
-    .hx-proof:hover strong { color: var(--clay); }
+    .hx-proof li { display: inline-flex; align-items: center; gap: 10px; }
+    .hx-proof li + li { padding-left: 22px; border-left: 1px solid var(--line-strong); }
 
-    .hx-stars {
-        color: var(--gold);
-        letter-spacing: 0.12em;
-        font-size: 0.95rem;
+    .hx-proof-check::before {
+        content: '';
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--clay) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
     }
+
+    .stars { color: var(--gold); letter-spacing: 0.1em; font-size: 0.9rem; }
 
     .hx-media {
         position: relative;
-        width: min(100%, 520px);
+        width: min(100%, 500px);
         justify-self: end;
-        padding: 0 0 48px 64px;
+        padding: 0 0 40px 56px;
     }
 
-    .hx-arch {
-        width: 100%;
-        aspect-ratio: 4 / 5;
-        box-shadow: var(--shadow);
-    }
+    .hx-arch { width: 100%; aspect-ratio: 4 / 5; box-shadow: var(--shadow); }
 
     .hx-thumb {
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 38%;
+        width: 36%;
         aspect-ratio: 1;
         border-radius: var(--r-lg);
         border: 6px solid var(--cream);
         box-shadow: var(--shadow);
     }
 
-    .hx-float {
-        position: absolute;
-        right: -18px;
-        top: 46%;
+    .hx-ring { position: absolute; right: -22px; top: 18%; }
+
+    /* ─── Marquee ──────────────────────────────────────── */
+    .mq {
+        overflow: hidden;
+        padding-block: 26px;
+        border-block: 1px solid var(--line);
+        white-space: nowrap;
     }
 
-    .hx-ring {
-        position: absolute;
-        right: -24px;
-        bottom: 6px;
-    }
-
-    /* ─── Intro ────────────────────────────────────────── */
-    .hm-intro {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 24px clamp(40px, 6vw, 96px);
-        align-items: end;
-        margin-bottom: clamp(40px, 5vw, 64px);
-    }
-
-    .hm-intro-head,
-    .hm-intro-copy {
-        display: grid;
-        gap: 18px;
-        justify-items: start;
-    }
-
-    /* ─── Treatment tiles ──────────────────────────────── */
-    .hm-tiles {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
-    }
-
-    .hm-tiles > li { display: flex; }
-
-    .hm-tile {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        width: 100%;
-        color: inherit;
-    }
-
-    .hm-tile-media {
-        aspect-ratio: 4 / 4.4;
-        border-radius: var(--r-lg);
-    }
-
-    .hm-tile-price {
-        position: absolute;
-        top: 14px;
-        left: 14px;
-        padding: 7px 13px;
-        border-radius: var(--r-pill);
-        background: rgba(255, 252, 249, 0.9);
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: var(--cocoa);
-        backdrop-filter: blur(8px);
-    }
-
-    .hm-tile-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-        padding-inline: 4px;
-    }
-
-    .hm-tile-body h3 { margin-bottom: 4px; }
-    .hm-tile-body p { margin: 0; font-size: var(--fs-small); color: var(--muted); }
-
-    .hm-tile-arrow {
-        flex: none;
-        display: inline-grid;
-        place-items: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--shell);
-        color: var(--cocoa);
-        transition: transform 0.4s var(--ease-expo), background-color 0.3s ease, color 0.3s ease;
-    }
-
-    a.hm-tile:hover .hm-tile-arrow { background: var(--clay); color: #FFFFFF; transform: rotate(45deg); }
-    a.hm-tile:hover h3 { color: var(--clay); }
-
-    .hm-tile--cta {
-        justify-content: flex-end;
-        padding: clamp(24px, 3vw, 36px);
-        border-radius: var(--r-lg);
-        background: var(--shell);
-    }
-
-    .hm-tile--cta h3 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(1.9rem, 2.6vw, 2.4rem); line-height: 1.05; }
-    .hm-tile--cta p { margin: 0; color: var(--text); }
-
-    /* ─── Services + menu ──────────────────────────────── */
-    .hm-services {
-        display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-        gap: clamp(32px, 5vw, 80px);
-        align-items: start;
-    }
-
-    .hm-services-copy {
-        display: grid;
-        gap: 20px;
-        justify-items: start;
-    }
-
-    .hm-groups {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-        width: 100%;
-        margin-top: 12px;
-    }
-
-    .hm-group {
-        display: flex;
-        justify-content: space-between;
+    .mq-track {
+        display: inline-flex;
         align-items: center;
-        gap: 12px;
-        height: 100%;
-        padding: 18px 16px 18px 20px;
-        border-radius: var(--r);
-        background: var(--paper);
-        border: 1px solid var(--line);
-        transition: transform 0.4s var(--ease-expo), box-shadow 0.4s var(--ease-expo);
-    }
-
-    .hm-group strong { display: block; font-weight: 500; font-size: 1.05rem; }
-    .hm-group small { font-size: 0.85rem; color: var(--muted); }
-
-    .hm-group-arrow {
-        flex: none;
-        display: inline-grid;
-        place-items: center;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background: var(--shell);
-        transition: transform 0.4s var(--ease-expo), background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .hm-group:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-    .hm-group:hover .hm-group-arrow { background: var(--clay); color: #FFFFFF; transform: rotate(45deg); }
-
-    .hm-menu {
-        display: grid;
-        gap: 20px;
-        padding: clamp(28px, 3.5vw, 44px);
-        border-radius: var(--r-xl);
-        background: var(--paper);
-        box-shadow: var(--shadow);
-    }
-
-    .hm-menu-title {
+        gap: 28px;
         font-family: var(--f-serif);
-        font-weight: 400;
-        font-size: clamp(2rem, 3vw, 2.6rem);
+        font-style: italic;
+        font-size: clamp(2rem, 3.6vw, 3.25rem);
         line-height: 1;
-        margin-top: -6px;
-    }
-
-    .hm-menu-note { font-size: var(--fs-small); color: var(--muted); margin: 0; }
-
-    /* ─── Teresa ───────────────────────────────────────── */
-    .hm-teresa {
-        display: grid;
-        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-        gap: clamp(40px, 6vw, 104px);
-        align-items: center;
-    }
-
-    .hm-teresa-media { position: relative; padding-bottom: 36px; }
-    .hm-teresa-arch { width: min(100%, 480px); }
-
-    .hm-teresa-float {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-    }
-
-    .hm-teresa-copy {
-        display: grid;
-        gap: 22px;
-        justify-items: start;
-    }
-
-    .hm-chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .hm-chips li {
-        padding: 9px 16px;
-        border-radius: var(--r-pill);
-        background: var(--shell);
-        font-size: 0.9rem;
-        font-weight: 500;
         color: var(--cocoa);
     }
 
-    /* ─── First visit ──────────────────────────────────── */
-    .hm-visit {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: clamp(32px, 5vw, 80px);
-        align-items: end;
+    .mq-item { display: inline-flex; align-items: center; gap: 28px; }
+
+    .mq-img {
+        display: inline-block;
+        width: 1.7em;
+        height: 1em;
+        overflow: hidden;
+        border-radius: var(--r-pill);
+        background: var(--blush);
     }
 
-    .hm-visit-head {
-        display: grid;
-        gap: 18px;
-        justify-items: start;
+    .mq-img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .mq-track { animation: mqScroll 52s linear infinite; }
     }
 
-    .hm-visit-media {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 4 / 3;
-        margin-top: 14px;
-        border-radius: var(--r-xl);
-    }
+    @keyframes mqScroll { to { transform: translateX(-50%); } }
 
-    .hm-visit-float {
-        position: absolute;
-        left: 18px;
-        bottom: 18px;
-    }
-
-    .hm-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-    /* ─── Reviews ──────────────────────────────────────── */
-    .hm-reviews {
+    /* ─── Treatments bento ─────────────────────────────── */
+    .tx-bento {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-rows: repeat(2, clamp(240px, 22vw, 300px));
         gap: 14px;
     }
 
-    .hm-rating {
-        display: grid;
-        align-content: center;
-        justify-items: start;
-        gap: 8px;
-        padding: clamp(24px, 2.6vw, 32px);
+    .tx-item--feature { grid-column: 1 / 3; grid-row: 1 / 3; }
+
+    .tx-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        padding: 18px;
+        overflow: hidden;
         border-radius: var(--r-lg);
+        background: var(--blush);
+        color: #FFFFFF;
+        isolation: isolate;
+    }
+
+    .tx-card :global(.tx-img) {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s var(--ease-expo);
+    }
+
+    .tx-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(to top, rgba(30, 20, 14, 0.72) 0%, rgba(30, 20, 14, 0.18) 45%, rgba(30, 20, 14, 0) 65%);
+    }
+
+    .tx-card:hover :global(.tx-img) { transform: scale(1.05); }
+
+    .tx-top { display: flex; justify-content: space-between; align-items: flex-start; }
+
+    .tx-chip {
+        padding: 7px 13px;
+        border-radius: var(--r-pill);
+        background: rgba(255, 252, 249, 0.92);
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--cocoa);
+    }
+
+    .tx-go {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--i-arrow-light) center / 14px no-repeat, rgba(255, 252, 249, 0.18);
+        border: 1px solid rgba(255, 252, 249, 0.45);
+        backdrop-filter: blur(8px);
+        transition: transform 0.45s var(--ease-expo), background 0.3s ease;
+    }
+
+    .tx-card:hover .tx-go { background: var(--i-arrow-clay) center / 14px no-repeat, #FFFFFF; transform: translate(2px, -2px); }
+
+    .tx-bottom { display: grid; gap: 6px; }
+    .tx-bottom h3 { color: #FFFFFF; font-size: clamp(1.25rem, 1.6vw, 1.5rem); }
+    .tx-item--feature .tx-bottom h3 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(2.4rem, 3.6vw, 3.4rem); line-height: 1; }
+    .tx-bottom p { margin: 0; max-width: 34ch; color: rgba(255, 252, 249, 0.86); }
+    .tx-meta { font-size: 0.88rem; font-weight: 500; color: rgba(255, 252, 249, 0.9); }
+
+    /* ─── Teresa ───────────────────────────────────────── */
+    .tm-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: center;
+    }
+
+    .tm-arch { width: min(100%, 460px); }
+
+    .tm-copy { display: grid; gap: 24px; justify-items: start; }
+
+    .tm-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        width: 100%;
+        margin: 8px 0;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .tm-stats > div { display: grid; gap: 6px; padding: 20px 16px 0 0; }
+    .tm-stats > div + div { padding-left: 16px; border-left: 1px solid var(--line); }
+
+    .tm-stats dt {
+        font-family: var(--f-serif);
+        font-size: clamp(2.4rem, 3.4vw, 3.2rem);
+        line-height: 1;
+        color: var(--cocoa);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .tm-stats dd { margin: 0; font-size: 0.88rem; color: var(--muted); }
+
+    /* ─── Services ─────────────────────────────────────── */
+    .sv-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: start;
+    }
+
+    .sv-head {
+        display: grid;
+        gap: 22px;
+        justify-items: start;
+        position: sticky;
+        top: calc(var(--nav-h) + 32px);
+    }
+
+    .sv-list { border-top: 1px solid var(--line-strong); }
+
+    .sv-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto 40px;
+        align-items: center;
+        gap: 20px;
+        padding: 24px 4px;
+        border-bottom: 1px solid var(--line);
+        transition: padding 0.45s var(--ease-expo);
+    }
+
+    .sv-name {
+        font-family: var(--f-serif);
+        font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+        line-height: 1.05;
+        color: var(--cocoa);
+        transition: color 0.3s ease;
+    }
+
+    .sv-place { font-style: italic; color: var(--muted); }
+
+    .sv-price {
+        padding: 7px 14px;
+        border-radius: var(--r-pill);
+        background: var(--shell);
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--cocoa);
+        white-space: nowrap;
+    }
+
+    .sv-go {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--i-arrow-dark) center / 14px no-repeat, transparent;
+        border: 1px solid var(--line-strong);
+        transition: transform 0.45s var(--ease-expo), background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .sv-row:hover { padding-left: 14px; }
+    .sv-row:hover .sv-name { color: var(--clay); }
+    .sv-row:hover .sv-go { background: var(--i-arrow-light) center / 14px no-repeat, var(--clay); border-color: var(--clay); }
+
+    /* ─── First visit band ─────────────────────────────── */
+    .fv { padding: 0 var(--gutter); }
+
+    .fv-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(32px, 5vw, 80px);
+        align-items: center;
+        max-width: calc(var(--container) + 2 * var(--gutter));
+        margin-inline: auto;
+        padding: clamp(16px, 2vw, 24px);
+        padding-right: clamp(24px, 5vw, 80px);
+        border-radius: var(--r-xl);
         background: var(--cocoa);
         color: var(--on-dark);
     }
 
-    .hm-rating-score {
-        font-family: var(--f-serif);
-        font-size: clamp(3.5rem, 6vw, 5rem);
-        line-height: 0.9;
-        color: var(--cream);
+    .fv-media {
+        aspect-ratio: 4 / 4.2;
+        overflow: hidden;
+        border-radius: calc(var(--r-xl) - 10px);
     }
 
-    .hm-rating p { margin: 0 0 8px; color: var(--on-dark); font-size: var(--fs-small); }
-    .hm-rating .btn-link { color: var(--cream); }
-    .hm-rating .btn-link::after { background: rgba(255, 252, 249, 0.12); color: var(--cream); }
+    .fv-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
 
-    /* ─── Journal ──────────────────────────────────────── */
-    .hm-journal {
+    .fv-copy { display: grid; gap: 26px; justify-items: start; padding-block: 24px; }
+    .fv-copy h2 { color: var(--cream); }
+    .fv-copy h2 em { color: var(--clay-light); }
+    .fv-copy .eyebrow { color: var(--clay-light); }
+
+    .fv-steps { display: grid; width: 100%; counter-reset: fv; border-top: 1px solid var(--line-light); }
+
+    .fv-steps li {
+        counter-increment: fv;
+        display: grid;
+        grid-template-columns: 52px minmax(0, 1fr) auto;
+        align-items: baseline;
+        gap: 12px;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--line-light);
+    }
+
+    .fv-steps li::before {
+        content: counter(fv, decimal-leading-zero);
+        font-family: var(--f-serif);
+        font-size: 1.6rem;
+        color: var(--clay-light);
+    }
+
+    .fv-steps h3 { color: var(--cream); font-size: 1.15rem; }
+    .fv-steps p { margin: 0; color: var(--on-dark); font-size: var(--fs-small); text-align: right; }
+
+    .fv-copy :global(.btn-secondary) {
+        --btn-bg: transparent;
+        --btn-fg: var(--cream);
+        --btn-border: rgba(255, 253, 251, 0.32);
+        --btn-bg-hover: rgba(255, 253, 251, 0.1);
+        --btn-fg-hover: var(--cream);
+        --btn-border-hover: rgba(255, 253, 251, 0.5);
+    }
+
+    /* ─── Reviews ──────────────────────────────────────── */
+    .rv-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
-    }
-
-    .hm-post {
-        display: grid;
         gap: 14px;
-        color: inherit;
     }
 
-    .hm-post-meta {
-        display: flex;
-        flex-wrap: wrap;
+    .rv-card {
+        position: relative;
+        display: grid;
+        gap: 28px;
+        align-content: space-between;
+        min-height: 240px;
+        padding: clamp(26px, 3vw, 36px);
+        border-radius: var(--r-lg);
+        background: var(--paper);
+        border: 1px solid var(--line);
+    }
+
+    .rv-mark {
+        position: absolute;
+        top: 6px;
+        right: 26px;
+        font-family: var(--f-serif);
+        font-size: 6rem;
+        line-height: 1;
+        color: var(--blush);
+    }
+
+    .rv-card blockquote {
+        position: relative;
+        font-family: var(--f-serif);
+        font-size: clamp(1.6rem, 2.2vw, 2rem);
+        line-height: 1.15;
+        color: var(--cocoa);
+        max-width: 18ch;
+    }
+
+    .rv-card figcaption {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) auto;
         align-items: center;
-        gap: 10px;
-        font-size: 0.85rem;
+        gap: 12px;
+        font-size: 0.88rem;
         color: var(--muted);
     }
 
-    .hm-post-tag {
-        padding: 5px 11px;
-        border-radius: var(--r-pill);
+    .rv-card figcaption strong { display: block; font-weight: 600; color: var(--cocoa); }
+
+    .rv-avatar {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
         background: var(--shell);
-        font-weight: 500;
-        color: var(--cocoa);
+        font-family: var(--f-serif);
+        font-size: 1.3rem;
+        color: var(--clay);
     }
 
-    .hm-post h3 { transition: color 0.3s ease; }
-    .hm-post:hover h3 { color: var(--clay); }
-
     /* ─── FAQ ──────────────────────────────────────────── */
-    .hm-faq {
+    .fq-grid {
         display: grid;
-        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-        gap: clamp(32px, 5vw, 80px);
+        grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+        gap: clamp(32px, 6vw, 96px);
         align-items: start;
     }
 
-    .hm-faq-head {
+    .fq-head {
         display: grid;
-        gap: 18px;
+        gap: 20px;
         justify-items: start;
         position: sticky;
-        top: calc(var(--nav-h) + 24px);
+        top: calc(var(--nav-h) + 32px);
     }
 
     /* ─── Closing CTA ──────────────────────────────────── */
-    .hm-cta { padding: 0 var(--gutter) var(--gutter); }
+    .ct { padding: 0 var(--gutter) var(--gutter); }
 
-    .hm-cta-frame {
+    .ct-frame {
         position: relative;
         display: grid;
-        align-items: center;
-        min-height: clamp(460px, 48vw, 640px);
-        padding: clamp(24px, 5vw, 72px);
+        align-items: end;
+        min-height: clamp(480px, 46vw, 620px);
+        max-width: calc(var(--container) + 2 * var(--gutter));
+        margin-inline: auto;
+        padding: clamp(16px, 3vw, 40px);
         border-radius: var(--r-xl);
         overflow: hidden;
     }
 
-    .hm-cta-frame :global(.hm-cta-img) {
+    .ct-frame :global(.ct-img) {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -878,53 +855,76 @@ const faqData = {
         object-position: 50% 30%;
     }
 
-    .hm-cta-card {
+    .ct-card {
         position: relative;
         display: grid;
         gap: 16px;
         justify-items: start;
-        width: min(100%, 460px);
-        padding: clamp(28px, 3.5vw, 44px);
+        width: min(100%, 440px);
+        padding: clamp(26px, 3vw, 40px);
         border-radius: var(--r-lg);
-        background: rgba(255, 252, 249, 0.92);
+        background: rgba(255, 252, 249, 0.9);
         box-shadow: var(--shadow);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
     }
 
-    .hm-cta-card p { margin: 0; }
+    .ct-card p { margin: 0; }
 
     /* ─── Responsive ───────────────────────────────────── */
     @media (max-width: 1100px) {
-        .hm-reviews { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .tm-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
+        .tm-stats > div + div:nth-child(3) { padding-left: 0; border-left: 0; }
     }
 
     @media (max-width: 900px) {
         .hx-grid,
-        .hm-intro,
-        .hm-services,
-        .hm-teresa,
-        .hm-visit,
-        .hm-faq { grid-template-columns: minmax(0, 1fr); }
+        .tm-grid,
+        .sv-grid,
+        .fv-panel,
+        .fq-grid { grid-template-columns: minmax(0, 1fr); }
 
-        .hx-title { font-size: clamp(2.5rem, 10.5vw, 3.4rem); }
+        .hx-title { font-size: clamp(2.55rem, 11vw, 3.4rem); }
+        .hx-media { justify-self: center; width: min(100%, 400px); padding: 0 0 30px 40px; }
+        .hx-ring { right: -6px; top: 8%; }
+        .hx-proof li + li { padding-left: 0; border-left: 0; }
 
-        .hx-media {
-            justify-self: center;
-            width: min(100%, 420px);
-            padding: 0 0 36px 44px;
+        .tx-bento {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            margin-inline: calc(-1 * var(--gutter));
+            padding-inline: var(--gutter);
+            scrollbar-width: none;
         }
 
-        .hx-float { right: -6px; top: 52%; font-size: 0.82rem; }
-        .hx-ring { right: -8px; bottom: -6px; }
+        .tx-bento::-webkit-scrollbar { display: none; }
+        .tx-item { flex: 0 0 78%; height: 420px; scroll-snap-align: start; }
 
-        .hm-tiles,
-        .hm-journal { grid-template-columns: minmax(0, 1fr); }
-        .hm-groups { grid-template-columns: minmax(0, 1fr); }
-        .hm-steps { grid-template-columns: minmax(0, 1fr); }
-        .hm-reviews { grid-template-columns: minmax(0, 1fr); }
-        .hm-faq-head { position: static; }
+        .sv-head,
+        .fq-head { position: static; }
+        .sv-row { grid-template-columns: minmax(0, 1fr) 36px; }
+        .sv-price { grid-column: 1; grid-row: 2; justify-self: start; }
+        .sv-go { grid-column: 2; grid-row: 1 / 3; width: 36px; height: 36px; }
 
-        .hm-teresa-float { right: 8px; }
-        .hm-cta-frame { align-items: end; min-height: 560px; padding: 16px; }
+        .fv-panel { padding: 12px; padding-bottom: 28px; }
+        .fv-copy { padding: 8px 12px 0; }
+        .fv-steps li { grid-template-columns: 44px minmax(0, 1fr); }
+        .fv-steps p { grid-column: 2; text-align: left; }
+
+        .rv-grid {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            margin-inline: calc(-1 * var(--gutter));
+            padding-inline: var(--gutter);
+            scrollbar-width: none;
+        }
+
+        .rv-grid::-webkit-scrollbar { display: none; }
+        .rv-card { flex: 0 0 82%; scroll-snap-align: start; min-height: 0; }
+        .ct-frame { min-height: 560px; }
     }
 </style>

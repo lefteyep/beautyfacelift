@@ -64,6 +64,11 @@
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-elegant: cubic-bezier(0.22, 0.61, 0.36, 1);
 
+  /* ─── Icons (thin arrow, colours baked in for layered backgrounds) ── */
+  --i-arrow-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%232A1E18' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 11.5l7-7M6 4.5h5.5V10'/%3E%3C/svg%3E");
+  --i-arrow-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 11.5l7-7M6 4.5h5.5V10'/%3E%3C/svg%3E");
+  --i-arrow-clay: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 11.5l7-7M6 4.5h5.5V10'/%3E%3C/svg%3E");
+
   /* ═══ ALIASES — older templates and the previous system ═══ */
   --porcelain: var(--cream);
   --ivory: var(--paper);
@@ -489,25 +494,45 @@ ul, ol { list-style: none; }
 
 .btn-link::after,
 .booking-text-link::after {
-  content: '\2197';
-  display: inline-grid;
-  place-items: center;
+  content: '';
+  flex: none;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: var(--shell);
-  color: var(--cocoa);
-  font-size: 0.85rem;
-  transition: transform 0.4s var(--ease-expo), background-color 0.3s ease, color 0.3s ease;
+  background: var(--i-arrow-dark) center / 12px no-repeat, var(--shell);
+  transition: transform 0.45s var(--ease-expo), background 0.3s ease;
 }
 
 .btn-link:hover,
 .booking-text-link:hover { color: var(--clay); }
 .btn-link:hover::after,
-.booking-text-link:hover::after { background: var(--clay); color: #FFFFFF; transform: rotate(45deg); }
+.booking-text-link:hover::after { background: var(--i-arrow-light) center / 12px no-repeat, var(--clay); transform: translate(2px, -2px); }
+
+:is(.section--shell, .section--sand) :is(.btn-link, .booking-text-link)::after { background: var(--i-arrow-dark) center / 12px no-repeat, var(--paper); }
 
 :is(.on-dark, .section--dark, .footer-editorial) .btn-link { color: var(--cream); }
-:is(.on-dark, .section--dark, .footer-editorial) .btn-link::after { background: rgba(255, 253, 251, 0.12); color: var(--cream); }
+:is(.on-dark, .section--dark, .footer-editorial) .btn-link::after { background: var(--i-arrow-light) center / 12px no-repeat, rgba(255, 253, 251, 0.14); }
+
+/* Pill with an arrow disc: <a class="btn btn-arrow">Termin buchen</a> */
+.btn-arrow { padding-right: 8px; gap: 14px; }
+
+.btn-arrow::after {
+  content: '';
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--i-arrow-clay) center / 13px no-repeat, #FFFFFF;
+  transition: transform 0.45s var(--ease-expo);
+}
+
+.btn-arrow:hover::after { transform: rotate(45deg); }
+.btn-lg.btn-arrow { padding-right: 9px; }
+.btn-lg.btn-arrow::after { width: 38px; height: 38px; }
+
+:is(.btn-light, .on-dark .btn, .section--dark .btn, .cta-band .btn).btn-arrow::after {
+  background: var(--i-arrow-light) center / 13px no-repeat, var(--clay);
+}
 
 .btn-row {
   display: flex;
