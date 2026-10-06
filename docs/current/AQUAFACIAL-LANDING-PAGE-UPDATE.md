@@ -76,3 +76,9 @@ The public website, landing page, route, asset names, metadata, CTAs, FAQ, struc
 - For future deploys, re-check the live LP, old URL status, booking bridge and Treatwell service detail destination.
 - If the LP should become organic SEO content, remove `/lp/` from the noindex/sitemap exclusion deliberately and update the CRO/SEO plan. Current behavior keeps it as a paid campaign landing page.
 - ~~Existing repo-wide `astro check` errors should be fixed in a separate technical cleanup branch.~~ Done 2026-10-06 (`npm run check`).
+
+## 8. 2026-10-06 Shared LP Layout And Component Restyle
+
+- `src/layouts/LandingPage.astro` and the shared `src/components/lp/*` components (OfferBox, StickyOfferBar, TrustStrip, TestimonialStrip, FAQAccordion, WhatsAppButton, BenefitIcon, AquafacialResultsSection) were restyled to the Swiss Quiet Luxury system on branch `codex/luxury-lps`. Component props, class names and `data-*` attributes are unchanged, so this page keeps working without markup changes; its own page redesign runs separately.
+- LandingPage: centred monogram masthead (no menu) and a label-type legal strip that keeps `Cookie-Einstellungen` (`data-bfl-consent-open`). The legal strip now only reserves bottom space for a sticky bar when the page sets `--lp-sticky-offer-height`.
+- WhatsAppButton (sticky variant) is hidden while the consent banner is open; StickyOfferBar sets `--lp-sticky-offer-height: 0px` while the banner is open (the bar is hidden then), so the banner sits at the bottom edge.
