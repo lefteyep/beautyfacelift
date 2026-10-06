@@ -337,9 +337,9 @@ body.page-contact {
   outline-offset: 3px;
 }
 
-/* Error: bronze edge (no separate error token in the palette) + message */
+/* Error: error-token edge + message */
 .kontakt-field [aria-invalid="true"] {
-  border-color: var(--bronze);
+  border-color: var(--error);
   background: var(--porcelain);
 }
 
@@ -352,7 +352,7 @@ body.page-contact {
   font-size: var(--fs-small);
   font-weight: 600;
   line-height: 1.45;
-  color: var(--bronze);
+  color: var(--error);
 }
 
 .kontakt-field-error::before {

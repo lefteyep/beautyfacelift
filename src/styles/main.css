@@ -21,6 +21,7 @@
   --bronze:       #7A5C34;
   --bronze-light: #C2A475;
   --champagne:    #D9C6A5;
+  --error:        #8E2F22; /* form errors only — 7.4:1 on porcelain */
   --rule:         rgba(23, 20, 17, 0.12);
   --rule-strong:  rgba(23, 20, 17, 0.24);
   --rule-light:   rgba(247, 244, 239, 0.16);
