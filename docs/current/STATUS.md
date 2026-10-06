@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** October 6, 2026
+**Last updated:** October 7, 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -16,7 +16,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 | Production www | https://www.beautyfacelift-zuerich.ch | 301 redirects to apex |
 | Temporary Worker | beautyfacelift.mediapaulo.workers.dev | Not canonical; `workers_dev=false`, live check returned 404 |
 | GitHub | https://github.com/lefteyep/beautyfacelift | Private repo |
-| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Active (EU Frankfurt) |
+| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Unreachable (NXDOMAIN) since 2026-10-06 — see Infrastructure Notes |
 
 Production Worker launch details:
 
@@ -33,9 +33,11 @@ Production Worker launch details:
 | Branch | Contents | State |
 |--------|----------|-------|
 | `codex/code-health-2026-10` | npm audit fix (0 vulnerabilities, CI gate passes again), restored `trackLead` for the Aquafacial + Microneedling LP (Lead events had silently stopped in June), hashed email/phone on the Aquafacial CAPI Lead, re-openable cookie consent ("Cookie-Einstellungen"), compact mobile consent banner, `npm run check` at 0 errors, `src/api_backup/` removed | Ready for review |
-| `codex/luxury-redesign` | "Swiss Quiet Luxury" redesign on top of code health — see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) and the spec in `docs/superpowers/specs/` | In progress |
+| `codex/modern-redesign` | "Atelier Glow" redesign on top of code health — see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). New navigation with a two-column treatments menu, new homepage and `/behandlungen/` overview, overlines and italics removed site-wide, "Wissen" instead of "Journal", redesigned ad landing pages. It supersedes the rejected "Swiss Quiet Luxury" branch `codex/luxury-redesign` | All release gates pass; pushed to GitHub |
+| `codex/glow-hubs` | The six service hubs refined: no facts aside, one-sentence lead, spec list, price rows | Done; to be merged into `codex/modern-redesign` |
+| `codex/glow-treatments`, `codex/glow-content`, `codex/glow-wissen` | Treatment detail pages and comparison; About, Kontakt, FAQ and utility pages; the Wissen section | In progress |
 
-Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`).
+Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`). The client wants the redesign to launch as one release, once all page groups are merged, reviewed with desktop and mobile screenshots, and documented.
 
 ## Infrastructure Notes (2026-10-06)
 

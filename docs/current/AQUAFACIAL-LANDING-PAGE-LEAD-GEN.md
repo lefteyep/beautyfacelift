@@ -185,7 +185,11 @@
 
 ## 2026-10-06 Swiss Quiet Luxury Redesign
 
-- Branch: `codex/luxury-lps`. Spec: `docs/superpowers/specs/2026-10-06-luxury-redesign-design.md` (Landing pages section) and the Jul-31 Meta-ads audit (section F, mobile hero).
+- Branch: `codex/luxury-lps`. Spec, now archived: `docs/archive/specs/2026-10-06-swiss-quiet-luxury-design-rejected.md` (Landing pages section), plus the Jul-31 Meta-ads audit (section F, mobile hero).
+- **Update 2026-10-07:** the client rejected the Swiss visual language. The site-wide system is now "Atelier Glow" ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+  - The LP keeps everything below: structure, copy, CTA wording, floating-UI rules, form contract and tracking.
+  - Its shared tokens now render as Atelier Glow: cream/copper palette, upright Instrument Serif headings, rounded corners, pill buttons.
+  - The LP kickers (`.eyebrow`) stay; the QA script requires them.
 - Layout: rebuilt in the site design system (Bodoni Moda headings, Instrument Sans body, porcelain/ivory/sand/espresso tokens, hairlines, square corners). Section order, form, endpoint, payload, validation texts, success flow, tracking attributes and WhatsApp/Treatwell links are unchanged.
 - Hero: kicker `Aquafacial an der Bahnhofstrasse 94` (replaces `In Zürich nur für kurze Zeit`); H1 unchanged and at most three lines on a 390 px phone; price line `Kennenlernpreis CHF 99.– · statt CHF 180.–`; three benefits (`1 Stunde Behandlung`, `Cleansing, Fruchtsäurepeeling & Hyaluron Booster`, `Persönlich durch Teresa Stimac`); the duplicate offer card/bullet list was removed.
 - Hero image: real treatment photo `src/assets/lp/aquafacial/aquafacial-behandlung-zuerich.webp` (copy left, photo right on desktop; a pre-cropped 2:1 photo band under the price line on phones). The page preloads this photo (media-split mobile band / desktop portrait) instead of the campaign poster.

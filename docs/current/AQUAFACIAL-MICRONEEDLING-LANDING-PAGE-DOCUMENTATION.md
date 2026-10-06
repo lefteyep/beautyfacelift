@@ -10,7 +10,9 @@ Document status:
 Production documentation for the live campaign landing page.
 
 Last documented:
-October 6, 2026 — visual redesign to the "Swiss Quiet Luxury" system (`docs/superpowers/specs/2026-10-06-luxury-redesign-design.md`). Section order, offer, copy, form contract and tracking are unchanged from the June 2, 2026 version; design notes below describe the new presentation.
+October 7, 2026 — the page now renders in the site-wide "Atelier Glow" system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+- **Unchanged since June 2, 2026:** section order, offer, copy, form contract and tracking.
+- **History:** the October 6 "Swiss Quiet Luxury" restyle was rejected by the client. Its spec is archived at `docs/archive/specs/2026-10-06-swiss-quiet-luxury-design-rejected.md`.
 
 ## 1. Project Overview
 
@@ -381,7 +383,12 @@ The page should make visitors do:
 ## 5. Design Documentation
 
 Overall design style:
-"Swiss Quiet Luxury" (site-wide system, see `docs/superpowers/specs/2026-10-06-luxury-redesign-design.md`): porcelain/ivory/sand surfaces, Bodoni Moda display headings, Instrument Sans body, hairline rules instead of cards, square corners, real photography and generous whitespace. Gold is detail (bronze eyebrows, check marks, numerals), never fill.
+"Atelier Glow" is the site-wide system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)):
+- **Colour:** cream, paper and shell surfaces, with a copper accent and cocoa text.
+- **Type:** upright Instrument Serif headings (never italic) and an Instrument Sans body.
+- **Shape and imagery:** rounded image frames, pill buttons, real photography and generous whitespace.
+- **Tokens:** the token names below are the legacy aliases (`--porcelain` → `--cream`, `--espresso` → `--cocoa`, `--bronze` → `--clay` …), which `main.css` still maps to the current tokens.
+- **Kickers:** ad-page kickers (`.eyebrow`) remain as plain copper text, without dots or pills.
 
 Brand feeling:
 Calm, personal, premium, trustworthy and professional. The design should feel like a high-quality Zurich studio, not a discount ad page.

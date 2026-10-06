@@ -68,13 +68,23 @@ RLS policies:
 ## Component Architecture
 
 ### Astro Components (server-rendered, zero JS)
-- Base.astro — master layout with all meta tags, fonts, GSAP, UTM, GTM
-- LandingPage.astro — stripped layout for ad pages (no nav, no footer)
-- Nav.astro — fixed nav + mobile hamburger overlay
-- Footer.astro — 3-col grid + legal links + mobile sticky CTA
-- Marquee.astro — infinite scroll (CSS animation)
-- Breadcrumbs.astro — visual + schema.org BreadcrumbList
-- TreatmentLinkCard.astro — cross-navigation card
+Visual rules and tokens: [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) ("Atelier Glow").
+
+- **Layouts:**
+  - `Base.astro` — master layout: meta tags, critical nav CSS, fonts, GSAP scroll animations, UTM persistence, consent-gated tracking.
+  - `LandingPage.astro` — stripped layout for the Meta ad pages (no nav, no footer).
+  - `BlogPost.astro` — "Wissen" article layout.
+- **Navigation and footer:**
+  - `Nav.astro` — floating pill nav: logo, centred text links (Behandlungen ▾, Über mich, Wissen, Kontakt) and a "Termin buchen" CTA.
+    - The treatments panel and the mobile overlay are built from `SERVICE_GROUPS` (`shared/site.ts`).
+  - `Footer.astro` — rounded cocoa panel with a wordmark, four columns (Studio, Kontakt, Behandlungen, Entdecken) and legal links with "Cookie-Einstellungen".
+- **Page components:**
+  - `Breadcrumbs.astro` — visual breadcrumbs plus schema.org BreadcrumbList.
+  - `ServiceHubPage.astro` — template for the six service hubs (Gesichtsbehandlung, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up, Massage).
+  - `src/components/treatment/*` — kit for the treatment detail pages (hero, price rows, steps, FAQ, review, related treatments).
+  - `BookingCta.astro` and `AiSummary.astro` — shared booking CTA and optional summary block.
+  - `MarketingConsent.astro` — consent banner; it can be reopened from the footer.
+  - `src/components/lp/*` — ad landing page sections (offer box, lead form, testimonials).
 
 ### React Islands (JS loaded on demand)
 - BookingWidget — legacy first-party booking flow retained but not used as the public booking path while Treatwell is active
