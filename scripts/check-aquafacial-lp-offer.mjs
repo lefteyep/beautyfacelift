@@ -70,24 +70,31 @@ assert(lp.includes('Kombi-Behandlung buchen'), 'Aquafacial LP must keep a warm-t
 assert(!lp.includes('Sie wissen bereits, dass die Kombi passt?'), 'Aquafacial LP hero must not show the direct-booking prompt line');
 assert(!lp.includes('lp_hero_direct_booking'), 'Aquafacial LP hero must not show a separate direct-booking CTA');
 assert(!lp.includes('Kombi-Termin sichern'), 'Aquafacial LP must not keep the previous CTA copy');
-assert(lp.includes('font-size: clamp(2.25rem, 4.7vw, 3.5rem)'), 'Aquafacial LP hero headline must match the section headline scale on desktop');
-assert(lp.includes('font-size: clamp(2rem, 9vw, 2.6rem)'), 'Aquafacial LP hero headline must match the section headline scale on mobile');
-assert(lp.includes('font-weight: 500'), 'Aquafacial LP hero headline must use the requested 500 font weight');
-assert(!/\.lp-title\s*\{\s*max-width:\s*760px;\s*font-weight:\s*400;/m.test(lp), 'Aquafacial LP hero headline override must not reset the title to 400 font weight');
-assert(lp.includes('text-align: center'), 'Aquafacial LP mobile hero text must be center aligned');
+// Swiss Quiet Luxury redesign (2026-10-06): Bodoni display H1 at weight 400, token colours only,
+// square espresso `.btn` CTAs, left-aligned editorial hero with price + CTA before the subtitle on phones.
+assert(/\.lp-title\s*\{[^}]*font-size:\s*clamp\(2\.4rem,\s*3\.9vw,\s*3\.6rem\)/.test(lp), 'Aquafacial LP hero headline must use the display scale on desktop');
+assert(
+  /@media\s*\(max-width:\s*760px\)\s*\{[\s\S]*?\.lp-title\s*\{[^}]*font-size:\s*clamp\(1\.75rem,\s*7\.4vw,\s*2\.1rem\)/.test(lp),
+  'Aquafacial LP hero headline must stay at four lines on a 390px phone',
+);
+assert(!/\.lp-title\s*\{[^}]*font-weight:\s*[5-9]00/.test(lp), 'Aquafacial LP hero headline must keep the 400 display weight');
+assert(
+  /@media\s*\(max-width:\s*900px\)\s*\{[\s\S]*?\.lp-subtitle\s*\{\s*order:\s*1;/.test(lp),
+  'Aquafacial LP stacked hero must show price and primary CTA before the subtitle',
+);
 assert(lp.includes('Aktion: Aquafacial + Microneedling in Zürich'), 'Aquafacial LP hero eyebrow must use the requested action-focused copy');
+assert(
+  lp.includes('<p class="eyebrow eyebrow--rule lp-eyebrow">Aktion: Aquafacial + Microneedling in Zürich</p>'),
+  'Aquafacial LP hero eyebrow must use the shared eyebrow style',
+);
 assert(
   lp.includes('Ganzheitliche Kombi-Behandlung für sichtbar strahlende, straffere und regenerierte Haut.'),
   'Aquafacial LP must use the brief outcome-led hero headline',
 );
-assert(
-  /\.lp-eyebrow\s*\{(?=[\s\S]*?color:\s*#ff0000;)(?=[\s\S]*?font-weight:\s*700;)[\s\S]*?\}/m.test(lp),
-  'Aquafacial LP hero eyebrow must use the requested bold red styling',
-);
-assert(
-  /\.lp-page\s+:global\(\.pill-btn\)\s*\{(?=[\s\S]*?font-size:\s*1\.15rem;)[\s\S]*?\}/m.test(lp),
-  'Aquafacial LP CTA buttons must use 1.15rem text',
-);
+assert(!/#[0-9a-f]{3,8}\b/i.test(lp.split('<style>')[1] ?? ''), 'Aquafacial LP styles must use design tokens instead of hard-coded colours');
+assert(!lp.includes('pill-btn'), 'Aquafacial LP CTAs must use the square .btn system');
+assert(!/border-radius:\s*(?:[1-9]\d*(?:px|rem)|50%)/.test(lp), 'Aquafacial LP must not use rounded cards or pills (2px input radius via token only)');
+assert(!/\sstyle=["{]/.test(lp), 'Aquafacial LP markup must not use inline styles');
 assert(lp.includes('Wenn Ihre Haut mehr braucht als Pflege zu Hause'), 'Aquafacial LP must connect visitor desire to the offer');
 assert(!lp.includes('Keine Selbstdiagnose'), 'Aquafacial LP must remove the self-diagnosis desire card');
 assert(!lp.includes('Sie müssen nicht vorab wissen'), 'Aquafacial LP must remove the extra self-diagnosis note box');
@@ -112,12 +119,15 @@ assert(lp.includes('Aquafacial und Microneedling Behandlung bei Beauty Face Lift
 assert(lp.includes('loading="eager"') && lp.includes('fetchpriority="high"'), 'Aquafacial LP must prioritize only the hero image');
 assert(!lp.includes('loading="eager"') || (lp.match(/loading="eager"/g) || []).length === 1, 'Aquafacial LP must not eagerly load non-hero images');
 assert(lp.includes('Persönliche Behandlung statt Standardprogramm'), 'Aquafacial LP must include a stronger trust/proof section before the final booking area');
-assert(lp.includes('color: #178a45'), 'Aquafacial LP included-item checks must render as green check marks');
+assert(
+  /\.lp-checks > li::before\s*\{[\s\S]*?border-left:\s*1px solid var\(--bronze\)/.test(lp),
+  'Aquafacial LP included-item checks must render as hairline bronze check marks',
+);
 assert(lp.includes('Realistische Ergebnisse statt übertriebener Versprechen'), 'Aquafacial LP must keep expectation-setting visible');
 assert(lp.includes('id={LEAD_FORM_ID}'), 'Aquafacial LP must include a lead form anchor');
 assert(lp.includes("const LEAD_FORM_TARGET_ID = 'anfrage-form'"), 'Aquafacial LP must define a direct form anchor target');
 assert(lp.includes('data-button-location="lp_hero_booking"'), 'Aquafacial LP hero primary CTA must be a direct booking CTA');
-assert(lp.includes('<a href={bookingHref} class="pill-btn lp-hero-primary"'), 'Aquafacial LP hero primary CTA must route through the booking bridge');
+assert(lp.includes('<a href={bookingHref} class="btn lp-hero-primary"'), 'Aquafacial LP hero primary CTA must route through the booking bridge');
 assert(!lp.includes('data-button-location="lp_hero_lead"'), 'Aquafacial LP hero must not make the lead form the primary CTA');
 assert(lp.includes('href={`#${LEAD_FORM_TARGET_ID}`}'), 'Aquafacial LP secondary lead CTAs must scroll directly to the form');
 assert(lp.includes('id={LEAD_FORM_TARGET_ID}'), 'Aquafacial LP form must expose the direct anchor id');
@@ -150,6 +160,12 @@ assert(lp.includes('TrustStrip variant="promises"'), 'Aquafacial LP must include
 assert(lp.includes("bookingLinkForService(BOOKING_SERVICE)"), 'Aquafacial LP must route booking through the existing /termin/ bridge');
 assert(lp.includes("data-treatment=\"Aquafacial + Microneedling\""), 'Aquafacial LP CTAs must expose the treatment for tracking');
 assert(lp.includes('window.bflTracking?.trackLead'), 'Aquafacial LP must track lead form submits when analytics consent allows it');
+assert(
+  /if \(!form\.checkValidity\(\)\) \{[\s\S]*?event\.preventDefault\(\);[\s\S]*?return;[\s\S]*?window\.bflTracking\?\.trackLead/.test(lp),
+  'Aquafacial LP must block and mark invalid form submits before tracking a lead',
+);
+assert(lp.includes('role="alert"'), 'Aquafacial LP form must announce validation errors');
+assert(/\.lp-field input,[\s\S]*?border-radius:\s*var\(--radius-input\)/.test(lp), 'Aquafacial LP form fields must use the 2px input radius token');
 assert(!lp.includes('garantiert'), 'Aquafacial LP must avoid guaranteed-result claims');
 assert(!lp.includes('schmerzfrei'), 'Aquafacial LP must avoid unsupported pain-free claims');
 assert(!lp.includes('keine Ausfallzeit'), 'Aquafacial LP must avoid no-downtime claims');
