@@ -1,0 +1,25 @@
+---
+/**
+ * Renders "A + B" titles with a legible plus: Bodoni's hairline "+" nearly
+ * disappears at heading sizes, so the joiner is set in the text face.
+ */
+interface Props {
+  text: string;
+}
+
+const parts = Astro.props.text.split(' + ');
+---
+
+{parts.map((part, index) => (
+  <>{index > 0 && <> <span class="joiner">+</span> </>}{part}</>
+))}
+
+<style>
+  .joiner {
+    font-family: var(--f-body);
+    font-size: 0.7em;
+    font-weight: 400;
+    color: var(--bronze);
+    vertical-align: 0.1em;
+  }
+</style>

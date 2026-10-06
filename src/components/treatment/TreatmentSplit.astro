@@ -1,0 +1,85 @@
+---
+/**
+ * Editorial split: copy (default slot) beside one framed image.
+ *   reverse — image on the left on desktop (copy stays first on mobile)
+ *   narrow  — 7fr / 4fr columns, top-aligned (for long process content)
+ * Wrap single links in .btn-row so they keep their natural width.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { splitImageSizes, widthsFor } from './images';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  ratio?: 'portrait' | 'tall' | 'square';
+  reverse?: boolean;
+  narrow?: boolean;
+  quality?: 'mid' | 'high';
+}
+
+const { image, alt, ratio = 'portrait', reverse = false, narrow = false, quality = 'mid' } = Astro.props;
+const frame = { portrait: 5 / 4, tall: 4 / 3, square: 1 }[ratio];
+---
+
+<div class:list={['split-layout', 'tp-split', reverse && 'is-reverse', narrow && 'is-narrow']}>
+  <div class="tp-split-copy scroll-anim">
+    <slot />
+  </div>
+  <figure class="tp-split-media scroll-anim">
+    <div class:list={['media', `media--${ratio}`]}>
+      <Image
+        src={image}
+        widths={widthsFor(image)}
+        sizes={splitImageSizes(image, frame, narrow)}
+        format="webp"
+        quality={quality}
+        loading="lazy"
+        alt={alt}
+      />
+    </div>
+  </figure>
+</div>
+
+<style>
+  .tp-split {
+    align-items: center;
+  }
+
+  .tp-split-copy {
+    display: grid;
+    gap: 24px;
+    align-content: start;
+    min-width: 0;
+  }
+
+  .tp-split-copy > :global(h2) {
+    margin-bottom: 8px;
+    font-size: clamp(2rem, 3.1vw, 2.9rem);
+  }
+
+  .tp-split-copy > :global(.steps) {
+    row-gap: 40px;
+    margin-top: 16px;
+  }
+
+  @media (min-width: 901px) {
+    .tp-split.is-reverse .tp-split-media {
+      order: -1;
+    }
+
+    .tp-split.is-narrow {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      align-items: start;
+    }
+
+    .tp-split.is-narrow.is-reverse {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    }
+
+    .tp-split.is-narrow .tp-split-media {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+  }
+</style>

@@ -2,8 +2,11 @@
 import { absoluteUrl } from '../../shared/site';
 
 interface BreadcrumbItem {
+  /** Name used in the BreadcrumbList JSON-LD (and shown unless `display` is set). */
   label: string;
   href?: string;
+  /** Optional shorter visible text; the JSON-LD keeps `label`. */
+  display?: string;
 }
 
 interface Props {
@@ -29,9 +32,9 @@ const structuredData = {
     {items.map((item, i) => (
       <li>
         {item.href ? (
-          <a href={item.href}>{item.label}</a>
+          <a href={item.href}>{item.display ?? item.label}</a>
         ) : (
-          <span aria-current="page">{item.label}</span>
+          <span aria-current="page">{item.display ?? item.label}</span>
         )}
         {i < items.length - 1 && <span class="breadcrumb-sep" aria-hidden="true">·</span>}
       </li>
@@ -42,6 +45,7 @@ const structuredData = {
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 <style>
+  /* Small label type in taupe; the current page is set in espresso. */
   .breadcrumbs {
     padding: 1rem 0;
   }
@@ -50,37 +54,38 @@ const structuredData = {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
     align-items: center;
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: var(--text-secondary);
+    row-gap: 4px;
+    font-family: var(--f-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--taupe);
   }
 
   .breadcrumbs li {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
   }
 
   .breadcrumbs a {
-    color: var(--text-secondary);
+    color: var(--taupe);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
   }
 
   .breadcrumbs a:hover {
-    color: var(--accent);
+    color: var(--espresso);
   }
 
   .breadcrumb-sep {
-    margin: 0 0.25rem;
-    opacity: 0.5;
+    margin-inline: 0.75em;
+    color: var(--stone);
   }
 
   .breadcrumbs [aria-current="page"] {
-    color: var(--text-primary);
-    font-weight: 500;
+    color: var(--espresso);
   }
 </style>

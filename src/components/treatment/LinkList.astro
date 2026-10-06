@@ -1,0 +1,63 @@
+---
+/**
+ * Hairline index list of linked rows (title · text · optional meta · arrow),
+ * built on the shared .index-list / .index-item pattern.
+ *   variant="stacked" — title above text, for half-width columns
+ */
+import JoinedTitle from './JoinedTitle.astro';
+
+interface LinkItem {
+  href: string;
+  title: string;
+  text: string;
+  meta?: string;
+}
+
+interface Props {
+  items: LinkItem[];
+  variant?: 'rows' | 'stacked';
+}
+
+const { items, variant = 'rows' } = Astro.props;
+const hasMeta = items.some((item) => item.meta);
+---
+
+<ul class:list={['index-list', 'link-list', `is-${variant}`, hasMeta && 'has-meta']}>
+  {items.map((item) => (
+    <li>
+      <a href={item.href} class="index-item">
+        <h3 class="index-item-title"><JoinedTitle text={item.title} /></h3>
+        <p class="index-item-text">{item.text}</p>
+        {hasMeta && <span class="index-item-meta">{item.meta}</span>}
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  @media (min-width: 901px) {
+    .is-rows:not(.has-meta) .index-item {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr) 24px;
+    }
+
+    /* Fixed meta column so text columns line up from row to row */
+    .is-rows.has-meta .index-item {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) 140px 24px;
+    }
+
+    .is-stacked .index-item {
+      grid-template-columns: minmax(0, 1fr) 24px;
+      gap: 10px 24px;
+    }
+
+    .is-stacked .index-item-text {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .is-stacked .index-item::after {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+</style>

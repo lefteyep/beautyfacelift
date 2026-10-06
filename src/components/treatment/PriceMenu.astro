@@ -1,0 +1,109 @@
+---
+/**
+ * Price section: heading column (eyebrow, title slot, optional note) beside a
+ * .price-menu of hairline rows — name (+ optional sub-label), duration, CHF.
+ */
+import JoinedTitle from './JoinedTitle.astro';
+
+interface PriceItem {
+  name: string;
+  /** Small label above the name, e.g. the booking-system service name. */
+  sub?: string;
+  duration: string;
+  price: string;
+  note?: string;
+}
+
+interface Props {
+  items: PriceItem[];
+  eyebrow?: string;
+  note?: string;
+}
+
+const { items, eyebrow = 'Preise', note } = Astro.props;
+---
+
+<div class="price-section">
+  <div class="price-section-head">
+    <p class="eyebrow eyebrow--rule">{eyebrow}</p>
+    <h2><slot name="title" /></h2>
+    {note && <p class="price-section-note">{note}</p>}
+  </div>
+  <ul class="price-menu">
+    {items.map((item) => (
+      <li class="price-row">
+        <div>
+          {item.sub && <p class="price-row-sub">{item.sub}</p>}
+          <h3 class="price-row-name"><JoinedTitle text={item.name} /></h3>
+          {item.note && <p class="price-row-note">{item.note}</p>}
+        </div>
+        <span class="price-row-duration">{item.duration}</span>
+        <span class="price-row-price">{item.price}</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .price-section {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(40px, 7vw, 120px);
+    align-items: start;
+  }
+
+  .price-section-head {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+
+  .price-section-head h2 {
+    max-width: 14ch;
+  }
+
+  .price-section-note {
+    font-size: var(--fs-small);
+    color: var(--taupe);
+    max-width: 38ch;
+  }
+
+  .price-row-sub {
+    margin-bottom: 6px;
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+
+  @media (min-width: 901px) {
+    .price-section-head {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+
+    /* Shared columns so durations and prices align from row to row */
+    .price-menu {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      column-gap: clamp(20px, 3vw, 48px);
+    }
+
+    .price-row {
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+    }
+
+    .price-row-price {
+      text-align: right;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .price-section {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+  }
+</style>
