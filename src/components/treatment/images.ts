@@ -18,14 +18,14 @@ export function cropFactor(image: ImageMetadata, frameHeightOverWidth: number): 
   return Math.max(1, frameHeightOverWidth * (image.width / image.height));
 }
 
-/* ── Treatment hero: 4:5 frame (4:3 full-bleed on mobile) ── */
+/* ── Treatment hero: 4:5 arch, max 456px wide (4:3 full-width on mobile) ── */
 
 export function treatmentHeroSizes(image: ImageMetadata): string {
   const desktop = cropFactor(image, 5 / 4);
   const mobile = cropFactor(image, 3 / 4);
   return [
-    `(min-width: 1440px) ${Math.round(586 * desktop)}px`,
-    `(min-width: 901px) ${Math.round(40 * desktop)}vw`,
+    `(min-width: 1280px) ${Math.round(456 * desktop)}px`,
+    `(min-width: 901px) ${Math.round(38 * desktop)}vw`,
     `${Math.round(100 * mobile)}vw`,
   ].join(', ');
 }
@@ -54,15 +54,25 @@ export async function treatmentHeroPreload(image: ImageMetadata) {
   };
 }
 
-/* ── Editorial split image: half the container on desktop ── */
+/* ── Editorial split image: 5 of 11 columns on desktop, 4:3 on mobile ── */
 
-export function splitImageSizes(image: ImageMetadata, frameHeightOverWidth: number, narrow = false): string {
+export function splitImageSizes(image: ImageMetadata, frameHeightOverWidth: number): string {
   const factor = cropFactor(image, frameHeightOverWidth);
-  const desktopPx = narrow ? 440 : 610;
-  const desktopVw = narrow ? 33 : 45;
+  const mobile = cropFactor(image, 3 / 4);
   return [
-    `(min-width: 1440px) ${Math.round(desktopPx * factor)}px`,
+    `(min-width: 1280px) ${Math.round(540 * factor)}px`,
+    `(min-width: 901px) ${Math.round(40 * factor)}vw`,
+    `${Math.round(92 * mobile)}vw`,
+  ].join(', ');
+}
+
+/* ── Small card image (related treatments, booking panel) ── */
+
+export function cardImageSizes(image: ImageMetadata, frameHeightOverWidth: number, desktopPx: number, desktopVw: number, mobileVw: number): string {
+  const factor = cropFactor(image, frameHeightOverWidth);
+  return [
+    `(min-width: 1280px) ${Math.round(desktopPx * factor)}px`,
     `(min-width: 901px) ${Math.round(desktopVw * factor)}vw`,
-    `${Math.round(92 * factor)}vw`,
+    `${Math.round(mobileVw * factor)}vw`,
   ].join(', ');
 }

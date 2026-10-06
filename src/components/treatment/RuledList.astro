@@ -1,8 +1,8 @@
 ---
 /**
  * Hairline list for suitability notes and similar enumerations.
- *   items: plain strings, or { term, text } rows
- *   size="large": term becomes an h3 in a 4fr / 7fr row (long explanations)
+ *   items: plain strings (shown with a small copper check), or
+ *          { term, text } rows (term above a muted line)
  */
 interface Row {
   term: string;
@@ -11,23 +11,21 @@ interface Row {
 
 interface Props {
   items: (string | Row)[];
-  size?: 'default' | 'large';
 }
 
-const { items, size = 'default' } = Astro.props;
-const hasTerms = items.some((item) => typeof item !== 'string');
+const { items } = Astro.props;
 ---
 
-<ul class:list={['ruled-list', hasTerms && 'has-terms', size === 'large' && 'is-large']}>
+<ul class="ruled-list">
   {items.map((item) => (
     typeof item === 'string' ? (
       <li><span class="ruled-list-text">{item}</span></li>
     ) : (
       <li>
-        {size === 'large'
-          ? <h3 class="ruled-list-term">{item.term}</h3>
-          : <span class="ruled-list-term">{item.term}</span>}
-        <span class="ruled-list-text">{item.text}</span>
+        <span class="ruled-list-text">
+          <span class="ruled-list-term">{item.term}</span>
+          <span class="ruled-list-sub">{item.text}</span>
+        </span>
       </li>
     )
   ))}
@@ -35,49 +33,41 @@ const hasTerms = items.some((item) => typeof item !== 'string');
 
 <style>
   .ruled-list {
-    border-top: 1px solid var(--rule-strong);
+    width: 100%;
+    border-top: 1px solid var(--line-strong);
   }
 
   .ruled-list li {
-    padding-block: 14px;
-    border-bottom: 1px solid var(--rule);
-    color: var(--umber);
-    line-height: 1.6;
-  }
-
-  .has-terms li {
-    display: grid;
-    grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
-    gap: 4px 24px;
+    display: flex;
     align-items: baseline;
+    gap: 14px;
+    padding-block: 15px;
+    border-bottom: 1px solid var(--line);
+    color: var(--cocoa);
+    line-height: 1.5;
   }
 
-  .ruled-list-term {
-    font-family: var(--f-display);
-    font-size: 1.12rem;
-    line-height: 1.3;
-    color: var(--espresso);
+  .ruled-list li::before {
+    content: '';
+    flex: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+    transform: translateY(3px);
   }
 
-  .is-large li {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-    gap: 12px clamp(20px, 4vw, 64px);
-    padding-block: clamp(22px, 2.6vw, 34px);
+  .ruled-list-text {
+    display: grid;
+    gap: 2px;
   }
 
-  .is-large .ruled-list-term {
-    font-size: var(--fs-h3);
-    line-height: 1.15;
+  .ruled-list-sub {
+    font-size: var(--fs-small);
+    color: var(--muted);
   }
 
-  .is-large .ruled-list-text {
-    max-width: 62ch;
-  }
-
-  @media (max-width: 700px) {
-    .has-terms li,
-    .is-large li {
-      grid-template-columns: minmax(0, 1fr);
-    }
+  :global(.section--shell) .ruled-list li::before {
+    background-color: var(--paper);
   }
 </style>

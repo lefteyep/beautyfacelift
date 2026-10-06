@@ -1,13 +1,14 @@
 ---
 /**
- * Price section: heading column (title slot, optional note) beside a
- * .price-menu of hairline rows — name (+ optional sub-label), duration, CHF.
+ * Price section: heading column (title slot, optional note, optional
+ * "actions" slot for a CTA) beside slim hairline rows —
+ * name (+ optional note), duration, CHF.
  */
 import JoinedTitle from './JoinedTitle.astro';
 
 interface PriceItem {
   name: string;
-  /** Small label above the name, e.g. the booking-system service name. */
+  /** Optional booking-system service name, shown quietly under the name. */
   sub?: string;
   duration: string;
   price: string;
@@ -20,20 +21,22 @@ interface Props {
 }
 
 const { items, note } = Astro.props;
+const hasActions = Astro.slots.has('actions');
 ---
 
 <div class="price-section">
   <div class="price-section-head">
     <h2><slot name="title" /></h2>
     {note && <p class="price-section-note">{note}</p>}
+    {hasActions && <div class="price-section-actions"><slot name="actions" /></div>}
   </div>
   <ul class="price-menu">
     {items.map((item) => (
       <li class="price-row">
-        <div>
-          {item.sub && <p class="price-row-sub">{item.sub}</p>}
-          <h3 class="price-row-name"><JoinedTitle text={item.name} /></h3>
+        <div class="price-row-main">
+          <h3 class="price-row-name"><JoinedTitle text={item.name} keepHyphens /></h3>
           {item.note && <p class="price-row-note">{item.note}</p>}
+          {item.sub && <p class="price-row-sub">{item.sub}</p>}
         </div>
         <span class="price-row-duration">{item.duration}</span>
         <span class="price-row-price">{item.price}</span>
@@ -45,8 +48,8 @@ const { items, note } = Astro.props;
 <style>
   .price-section {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-    gap: clamp(40px, 7vw, 120px);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 96px);
     align-items: start;
   }
 
@@ -57,22 +60,76 @@ const { items, note } = Astro.props;
   }
 
   .price-section-head h2 {
-    max-width: 14ch;
+    max-width: 12ch;
   }
 
   .price-section-note {
+    max-width: 36ch;
     font-size: var(--fs-small);
-    color: var(--taupe);
-    max-width: 38ch;
+    color: var(--muted);
   }
 
+  .price-section-actions {
+    margin-top: 8px;
+  }
+
+  /* Hairline rows (replace the boxed rows from components.css) */
+  .price-menu {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .price-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    gap: 6px clamp(20px, 3vw, 44px);
+    padding: 22px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    border-radius: 0;
+    background: none;
+  }
+
+  .price-row-main {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .price-row-name {
+    font-family: var(--f-serif);
+    font-size: clamp(1.5rem, 2vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .price-row-note,
   .price-row-sub {
-    margin-bottom: 6px;
-    font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--bronze);
+    max-width: 46ch;
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .price-row-duration {
+    padding: 0;
+    background: none;
+    font-size: var(--fs-small);
+    font-weight: 400;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .price-row-price {
+    font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--cocoa);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   @media (min-width: 901px) {
@@ -83,9 +140,8 @@ const { items, note } = Astro.props;
 
     /* Shared columns so durations and prices align from row to row */
     .price-menu {
-      display: grid;
       grid-template-columns: minmax(0, 1fr) auto auto;
-      column-gap: clamp(20px, 3vw, 48px);
+      column-gap: clamp(20px, 3vw, 44px);
     }
 
     .price-row {
@@ -103,5 +159,14 @@ const { items, note } = Astro.props;
       grid-template-columns: minmax(0, 1fr);
       gap: 32px;
     }
+
+    .price-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding: 20px 0;
+    }
+
+    .price-row-main { grid-column: 1; grid-row: 1; }
+    .price-row-price { grid-column: 2; grid-row: 1; }
+    .price-row-duration { grid-column: 1; grid-row: 2; }
   }
 </style>

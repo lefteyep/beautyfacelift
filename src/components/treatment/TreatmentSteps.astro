@@ -1,0 +1,87 @@
+---
+/**
+ * Numbered process steps (3–4): copper serif numerals on hairlines,
+ * side by side on desktop, stacked rows on mobile.
+ */
+interface Step {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps } = Astro.props;
+---
+
+<ol class="tsteps" style={`--cols: ${steps.length}`}>
+  {steps.map((step, index) => (
+    <li class="scroll-anim">
+      <span class="tsteps-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+      <h3>{step.title}</h3>
+      <p>{step.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .tsteps {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: clamp(24px, 3vw, 48px);
+  }
+
+  .tsteps li {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .tsteps-num {
+    margin-bottom: 14px;
+    font-family: var(--f-serif);
+    font-size: clamp(2.4rem, 3.4vw, 3.2rem);
+    line-height: 1;
+    color: var(--clay);
+    font-variant-numeric: lining-nums;
+  }
+
+  .tsteps h3 {
+    font-size: var(--fs-h4);
+    line-height: 1.3;
+  }
+
+  .tsteps p {
+    max-width: 34ch;
+    font-size: var(--fs-small);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .tsteps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .tsteps li {
+      grid-template-columns: 52px minmax(0, 1fr);
+      column-gap: 12px;
+      row-gap: 4px;
+      padding-block: 20px;
+    }
+
+    .tsteps-num {
+      grid-row: 1 / 3;
+      margin: 0;
+      font-size: 1.9rem;
+    }
+
+    .tsteps p {
+      max-width: none;
+    }
+  }
+</style>
