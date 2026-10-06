@@ -13,58 +13,44 @@ import {
 
 <footer class="footer-editorial">
     <div class="footer-editorial-header">
-        <span class="sub-display" style="color: var(--text-muted); margin-bottom: 16px; display: block;">{FULL_ADDRESS}</span>
-        <h2 class="text-reveal-wrapper"><span class="text-reveal">Beauty Face Lift</span></h2>
+        <span class="eyebrow eyebrow--rule">{FULL_ADDRESS}</span>
+        <p class="footer-wordmark text-reveal-wrapper" aria-hidden="true"><span class="text-reveal">Beauty Face Lift</span></p>
     </div>
-
-    <div class="footer-spacer"></div>
 
     <div class="footer-grid">
         <div class="footer-col">
-            <h4>Besuchen Sie uns</h4>
-            <p>{ADDRESS.street}</p>
-            <p>{ADDRESS.postalCode} {ADDRESS.city}, {ADDRESS.country}</p>
+            <p class="footer-heading">Studio</p>
+            <p>{ADDRESS.street}<br>{ADDRESS.postalCode} {ADDRESS.city}, {ADDRESS.country}</p>
             <p>Paradeplatz und Börsenstrasse in wenigen Minuten zu Fuss.</p>
+            <a href="/termin/" class="btn btn-sm" data-button-location="footer_booking_column">Termin buchen</a>
         </div>
         <div class="footer-col">
-            <h4>Kontakt</h4>
+            <p class="footer-heading">Kontakt</p>
             <a href={`tel:${CONTACT_PHONE}`} data-button-location="footer_phone">{CONTACT_PHONE_DISPLAY}</a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             <a href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener" data-button-location="footer_whatsapp" data-source="footer">WhatsApp</a>
             <a href="/kontakt/">Alle Kontaktmöglichkeiten</a>
         </div>
         <div class="footer-col">
-            <h4>Buchung</h4>
-            <p>Erstberatung, Rückfragen oder Terminänderungen direkt über unsere Kontaktseite.</p>
-            <a href="/termin/" class="pill-btn pill-btn-dark" data-button-location="footer_booking_column">Termin buchen</a>
-        </div>
-    </div>
-
-    <div class="footer-links-grid">
-        <div>
-            <h4>Behandlungen</h4>
+            <p class="footer-heading">Behandlungen</p>
             {SERVICE_GROUPS.map((group) => (
                 <a href={group.href}>{group.label}</a>
             ))}
             <a href="/behandlungen/vergleich/">Behandlungsvergleich</a>
         </div>
-        <div>
-            <h4>Wissen</h4>
-            <a href="/blog/">Blog</a>
+        <div class="footer-col">
+            <p class="footer-heading">Journal &amp; Studio</p>
+            <a href="/blog/">Journal</a>
             <a href="/haeufige-fragen/">Häufige Fragen</a>
             <a href="/ueber-mich/">Über Teresa</a>
-        </div>
-        <div>
-            <h4>Studio</h4>
-            <a href="/kontakt/">Kontakt</a>
-            <a href="/termin/" data-button-location="footer_studio_links">Termin buchen</a>
             <a href="https://www.instagram.com/beautyfacelift.zh/" target="_blank" rel="noopener">Instagram</a>
-            <a href={TREATWELL_URL} target="_blank" rel="noopener">Treatwell Bewertungen</a>
+            <a href={TREATWELL_URL} target="_blank" rel="noopener">Bewertungen auf Treatwell</a>
+            <a href="/termin/" data-button-location="footer_studio_links">Online buchen</a>
         </div>
     </div>
 
     <div class="footer-bottom">
-        <span>&copy; {new Date().getFullYear()} Beauty Face Lift</span>
+        <span>&copy; {new Date().getFullYear()} Beauty Face Lift · Teresa Stimac</span>
         <div class="footer-legal">
             <a href="/impressum/">Impressum</a>
             <a href="/datenschutz/">Datenschutz</a>

@@ -12,48 +12,7 @@
   padding: 0;
 }
 
-/* Treatwell outbound booking CTA */
-.booking-cta {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: clamp(2rem, 5vw, 3.5rem);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-card);
-  background: linear-gradient(180deg, var(--bg-secondary), var(--bg-cream));
-  text-align: center;
-  box-shadow: var(--shadow-soft);
-}
-
-.booking-cta-kicker {
-  display: block;
-  margin-bottom: 0.75rem;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--accent-dark);
-}
-
-.booking-cta h2 {
-  font-size: clamp(1.85rem, 4vw, 2.75rem);
-  line-height: 1.08;
-  margin-bottom: 1rem;
-  text-transform: none;
-}
-
-.booking-cta p {
-  max-width: 52ch;
-  margin: 0 auto 1.5rem;
-  color: var(--text-secondary);
-}
-
-.booking-cta-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-}
+/* Treatwell outbound booking CTA: styles live in src/components/BookingCta.astro */
 
 .booking-header {
   text-align: center;

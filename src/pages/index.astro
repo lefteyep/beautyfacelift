@@ -1,32 +1,89 @@
 ---
-import { absoluteUrl, SERVICE_GROUPS } from '../../shared/site';
+import { absoluteUrl, CONTACT_WHATSAPP_URL, SERVICE_GROUPS, TREATWELL_URL } from '../../shared/site';
 import Base from '../layouts/Base.astro';
-import Marquee from '../components/Marquee.astro';
 import { Image, getImage } from 'astro:assets';
 import {
     carbonTreatmentTeresa,
     coldplasmaCard,
-    heroCenter,
-    heroRight,
     aquafacialCard,
     microneedlingCard,
     peelingCard,
+    spaInterior,
     spaProducts,
     teresaPortrait,
 } from '../lib/site-images';
 
-const heroMainSizes = '(min-width: 1240px) 396px, (min-width: 901px) 32vw, 88vw';
-const heroSecondarySizes = '(min-width: 1240px) 307px, (min-width: 901px) 24vw, 54vw';
-const cardSizes = '(min-width: 1240px) 760px, (min-width: 901px) 56vw, 100vw';
-const portraitSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const heroSizes = '(min-width: 1320px) 820px, (min-width: 901px) 62vw, 100vw';
+const thumbSizes = '(min-width: 901px) 176px, 96px';
+const portraitSizes = '(min-width: 1320px) 560px, (min-width: 901px) 44vw, 100vw';
+const interiorSizes = '(min-width: 1320px) 480px, (min-width: 901px) 38vw, 100vw';
 
 const homepageHeroPreload = await getImage({
     src: carbonTreatmentTeresa,
-    widths: [480, 720, 960, 1122],
-    sizes: heroMainSizes,
+    widths: [640, 960, 1280, 1640],
+    sizes: heroSizes,
     format: 'webp',
     quality: 'high',
 });
+
+const signatureTreatments = [
+    {
+        href: '/behandlungen/aquafacial-zuerich/',
+        name: 'Aquafacial',
+        text: 'Tiefenreinigung, sanftes Peeling und intensive Feuchtigkeit in einer meist gut verträglichen Behandlung.',
+        meta: 'ab CHF 180',
+        image: aquafacialCard,
+        alt: 'Aquafacial Behandlung mit Handstück an der Wange',
+    },
+    {
+        href: '/behandlungen/microneedling-zuerich/',
+        name: 'Microneedling',
+        text: 'Kosmetisches Needling für Hautstruktur, Poren und ein sichtbar verfeinertes Hautbild.',
+        meta: 'ab CHF 210',
+        image: microneedlingCard,
+        alt: 'Microneedling Behandlung im Gesicht',
+    },
+    {
+        href: '/behandlungen/fruchtsaeure-peeling-zuerich/',
+        name: 'Fruchtsäure Peeling',
+        text: 'AHA-Peeling für einen klaren, ebenmässigen Teint und eine glattere Hautoberfläche.',
+        meta: 'CHF 150',
+        image: peelingCard,
+        alt: 'Fruchtsäure Peeling wird mit dem Pinsel aufgetragen',
+    },
+    {
+        href: '/behandlungen/coldplasma-zuerich/',
+        name: 'ColdPlasma',
+        text: 'Kosmetische Plasma-Technologie als Unterstützung der professionellen Wirkstoffpflege.',
+        meta: 'ab CHF 180',
+        image: coldplasmaCard,
+        alt: 'ColdPlasma Handstück an der Schläfe',
+    },
+    {
+        href: '/behandlungen/exosome-therapie-zuerich/',
+        name: 'Exosome Therapie',
+        text: 'Regenerative Wirkstoffpflege für Feuchtigkeit, Hautbarriere und Glow, mit ehrlicher Beratung.',
+        meta: '',
+        image: spaProducts,
+        alt: 'Serumflaschen mit Pipette auf hellem Stein',
+    },
+];
+
+// Exact-match anchor text for each service hub (internal-linking plan, checked by scripts/seo-plan-smoke.mjs).
+const hubAnchors: Record<string, string> = {
+    '/behandlungen/gesichtsbehandlung-zuerich/': 'Gesichtsbehandlung Zürich',
+    '/behandlungen/laser-haarentfernung-zuerich/': 'Laser-Haarentfernung Zürich',
+    '/behandlungen/waxing-zuerich/': 'Waxing Zürich',
+    '/behandlungen/wimpern-brauen-zuerich/': 'Wimpern & Brauen Zürich',
+    '/behandlungen/make-up-zuerich/': 'Make-up Zürich',
+    '/behandlungen/massage-zuerich-bahnhofstrasse/': 'Massage Zürich Bahnhofstrasse',
+};
+
+const reviews = [
+    { quote: 'Wie immer eine wunderbare Verwöhnzeit!', author: 'Emina', detail: 'Aquafacial' },
+    { quote: 'Stammkunde seit 2008, immer wieder begeistert.', author: 'Daniel', detail: 'Stammkunde' },
+    { quote: 'Teresa ist charmant, warm und absolut professionell.', author: 'Andreas', detail: 'Gesichtsbehandlung' },
+];
 
 const businessStructuredData = {
     "@context": "https://schema.org",
@@ -69,59 +126,45 @@ const websiteStructuredData = {
 
 const structuredData = [businessStructuredData, websiteStructuredData];
 
+// First-visit questions lead; the definitional question stays for search but moves last.
+const faqs = [
+    {
+        q: 'Brauche ich eine Beratung vor der ersten Behandlung?',
+        a: 'Eine kurze persönliche Beratung ist fester Bestandteil jeder Erstbehandlung bei Beauty Face Lift. Teresa nimmt sich Zeit, Ihren Hauttyp sorgfältig zu analysieren, eventuelle Empfindlichkeiten zu besprechen und die passende Behandlung für Ihre individuellen Bedürfnisse zu empfehlen. Diese Beratung ist kostenlos und unverbindlich. So stellen wir sicher, dass Sie von Anfang an die bestmöglichen Ergebnisse erzielen und sich bei uns rundum wohlfühlen.',
+    },
+    {
+        q: 'Welche Behandlung passt zu mir?',
+        a: 'Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Aquafacial eignet sich hervorragend für frischen Glow und intensive Feuchtigkeit. Microneedling ist eine Option bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie persönlich in einem Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut.',
+    },
+    {
+        q: 'Kann ich mehrere Behandlungen kombinieren?',
+        a: 'Ja, viele unserer Behandlungen ergänzen sich hervorragend und können für möglichst gute Ergebnisse miteinander kombiniert werden. Besonders beliebt ist die Kombination aus Aquafacial und ColdPlasma — die Tiefenreinigung des Aquafacials bereitet die Haut ideal auf die regenerierende Wirkung des ColdPlasma vor. Auch Microneedling und Fruchtsäure Peeling lassen sich in einem abgestimmten Behandlungsplan integrieren. Teresa empfiehlt Ihnen die ideale Kombination basierend auf Ihrem Hautbild.',
+    },
+    {
+        q: 'Sind die Behandlungen für empfindliche Haut geeignet?',
+        a: 'Ja, alle unsere Behandlungen sind individuell auf Ihren Hauttyp anpassbar. Besonders Aquafacial und ColdPlasma zeichnen sich durch ihre sanfte Wirkungsweise aus und sind hervorragend für empfindliche Haut geeignet. Die Intensität wird bei jeder Behandlung an Ihre persönliche Hautempfindlichkeit angepasst. Bei der Erstberatung bespricht Teresa allfällige Allergien oder Unverträglichkeiten mit Ihnen, damit wir die Behandlung sorgfältig auf Ihre Bedürfnisse abstimmen können.',
+    },
+    {
+        q: 'Wo befindet sich Beauty Face Lift?',
+        a: 'Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt, nur wenige Schritte vom Paradeplatz entfernt. Die zentrale Lage ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar: Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe. Auch mit dem Auto ist das Studio gut zugänglich, mit mehreren Parkhäusern in der Umgebung. Wir freuen uns auf Ihren Besuch in unserer Beauty Oase an Zürichs bekanntester Einkaufsstrasse.',
+    },
+    {
+        q: 'Was ist ein Kosmetikinstitut?',
+        a: 'Ein Kosmetikinstitut vereint kosmetisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-chirurgische Behandlungen wie Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte, hochwertige Wirkstoffe und persönliche Beratung — ganz ohne chirurgische Eingriffe.',
+    },
+];
+
 const faqData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
-        {
-            "@type": "Question",
-            "name": "Was ist ein Kosmetikinstitut?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Ein Kosmetikinstitut vereint kosmetisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-chirurgische Behandlungen wie Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte, hochwertige Wirkstoffe und persönliche Beratung — ganz ohne chirurgische Eingriffe."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Welche Behandlung passt zu mir?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Aquafacial eignet sich hervorragend für frischen Glow und intensive Feuchtigkeit. Microneedling ist eine Option bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie persönlich in einem Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Brauche ich eine Beratung vor der ersten Behandlung?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Eine kurze persönliche Beratung ist fester Bestandteil jeder Erstbehandlung bei Beauty Face Lift. Teresa nimmt sich Zeit, Ihren Hauttyp sorgfältig zu analysieren, eventuelle Empfindlichkeiten zu besprechen und die passende Behandlung für Ihre individuellen Bedürfnisse zu empfehlen. Diese Beratung ist kostenlos und unverbindlich. So stellen wir sicher, dass Sie von Anfang an die bestmöglichen Ergebnisse erzielen und sich bei uns rundum wohlfühlen."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Kann ich mehrere Behandlungen kombinieren?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Ja, viele unserer Behandlungen ergänzen sich hervorragend und können für möglichst gute Ergebnisse miteinander kombiniert werden. Besonders beliebt ist die Kombination aus Aquafacial und ColdPlasma — die Tiefenreinigung des Aquafacials bereitet die Haut ideal auf die regenerierende Wirkung des ColdPlasma vor. Auch Microneedling und Fruchtsäure Peeling lassen sich in einem abgestimmten Behandlungsplan integrieren. Teresa empfiehlt Ihnen die ideale Kombination basierend auf Ihrem Hautbild."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Sind die Behandlungen für empfindliche Haut geeignet?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Ja, alle unsere Behandlungen sind individuell auf Ihren Hauttyp anpassbar. Besonders Aquafacial und ColdPlasma zeichnen sich durch ihre sanfte Wirkungsweise aus und sind hervorragend für empfindliche Haut geeignet. Die Intensität wird bei jeder Behandlung an Ihre persönliche Hautempfindlichkeit angepasst. Bei der Erstberatung bespricht Teresa allfällige Allergien oder Unverträglichkeiten mit Ihnen, damit wir die Behandlung sorgfältig auf Ihre Bedürfnisse abstimmen können."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Wo befindet sich Beauty Face Lift?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt, nur wenige Schritte vom Paradeplatz entfernt. Die zentrale Lage ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar: Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe. Auch mit dem Auto ist das Studio gut zugänglich, mit mehreren Parkhäusern in der Umgebung. Wir freuen uns auf Ihren Besuch in unserer Beauty Oase an Zürichs bekanntester Einkaufsstrasse."
-            }
+    "mainEntity": faqs.map((item) => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": item.a
         }
-    ]
+    }))
 };
 ---
 
@@ -131,307 +174,466 @@ const faqData = {
     preloadImage={{
         href: homepageHeroPreload.src,
         imagesrcset: homepageHeroPreload.srcSet.attribute,
-        imagesizes: heroMainSizes,
+        imagesizes: heroSizes,
         type: 'image/webp',
         fetchpriority: 'high',
     }}
     structuredData={structuredData}
 >
-    <!-- Hero — Conversion-optimized -->
-    <header class="hero-editorial">
-        <div class="hero-content">
-            <div class="hero-sub-display sub-display text-reveal-wrapper">
-                <span class="text-reveal">Premium Kosmetikstudio ·<br class="hero-sub-mobile-break"> Bahnhofstrasse Zürich</span>
-            </div>
-
-            <h1 class="hero-display text-reveal-wrapper">
-                <span class="display-text text-reveal">Ihre persönliche Schönheitsadresse an der Bahnhofstrasse Zürich</span>
-            </h1>
-
-            <p class="hero-body">Hochwertige kosmetisch-ästhetische Behandlungen – persönlich abgestimmt von Teresa Stimac, Kosmetikerin mit über 20 Jahren Erfahrung.</p>
-
-            <div class="hero-ctas">
-                <a href="/termin/" class="pill-btn hero-cta">Jetzt Termin buchen</a>
-                <a href="/behandlungen/" class="pill-btn pill-btn-ghost hero-cta-secondary">Behandlungen entdecken</a>
-            </div>
+    <!-- 1 · Masthead hero -->
+    <header class="home-hero">
+        <div class="container home-hero-head">
+            <p class="eyebrow eyebrow--rule reveal-up">Kosmetikstudio · Teresa Stimac · Zürich</p>
+            <h1 class="home-hero-title reveal-up" style="--d: 1">Ihre Schönheitsadresse an der <em>Bahnhofstrasse</em> Zürich</h1>
         </div>
-
-        <div class="hero-media" id="hero-media">
-            <div class="hero-media-main">
-                <Image
-                    src={carbonTreatmentTeresa}
-                    widths={[480, 720, 960, 1122]}
-                    sizes={heroMainSizes}
-                    format="webp"
-                    quality="high"
-                    priority
-                    class="hero-img-inner"
-                    id="hero-img-1"
-                    alt="Teresa Stimac bei einer Carbon Peeling Behandlung im Studio an der Bahnhofstrasse Zürich"
-                />
+        <div class="container home-hero-body">
+            <div class="home-hero-copy reveal-up" style="--d: 3">
+                <p class="lead">Hochwertige kosmetisch-ästhetische Behandlungen, persönlich abgestimmt von Teresa Stimac, Kosmetikerin mit über 20 Jahren Erfahrung.</p>
+                <div class="btn-row">
+                    <a href="/termin/" class="btn hero-cta" data-button-location="home_hero">Termin buchen</a>
+                    <a href="/behandlungen/" class="btn-link">Behandlungen entdecken</a>
+                </div>
             </div>
-            <div class="hero-media-overlap" id="hero-float-1">
-                <Image
-                    src={heroRight}
-                    widths={[320, 480, 640]}
-                    sizes={heroSecondarySizes}
-                    format="webp"
-                    quality="mid"
-                    loading="lazy"
-                    fetchpriority="low"
-                    id="hero-img-2"
-                    alt="Professionelle Gesichtsbehandlung bei Beauty Face Lift Zürich"
-                />
-            </div>
-            <div class="hero-media-overlap-bottom" id="hero-float-2">
-                <Image
-                    src={heroCenter}
-                    widths={[320, 480, 640]}
-                    sizes={heroSecondarySizes}
-                    format="webp"
-                    quality="mid"
-                    loading="lazy"
-                    fetchpriority="low"
-                    id="hero-img-3"
-                    alt="Frau mit natürlicher, strahlender Haut in einem warmen Premium Kosmetikstudio"
-                />
-            </div>
-        </div>
-
-        <div class="scroll-indicator" aria-hidden="true">
-            <span class="scroll-indicator-line"></span>
-            <span class="scroll-indicator-label">Scroll</span>
+            <figure class="home-hero-media media-figure reveal-media">
+                <div class="media home-hero-frame">
+                    <Image
+                        src={carbonTreatmentTeresa}
+                        widths={[640, 960, 1280, 1640]}
+                        sizes={heroSizes}
+                        format="webp"
+                        quality="high"
+                        priority
+                        alt="Teresa Stimac bei einer Gesichtsbehandlung im Studio an der Bahnhofstrasse Zürich"
+                    />
+                </div>
+                <figcaption>Teresa Stimac im Studio an der Bahnhofstrasse 94</figcaption>
+            </figure>
         </div>
     </header>
 
-    <!-- Marquee -->
-    <Marquee items={["Aquafacial", "Microneedling", "ColdPlasma", "Fruchtsäure Peeling", "Exosome Therapie"]} />
+    <!-- 2 · Trust line -->
+    <div class="container">
+        <div class="trust-line" aria-label="Auf einen Blick">
+            <span>Seit über 20 Jahren in Zürich</span>
+            <a href={TREATWELL_URL} target="_blank" rel="noopener">4,8 / 5 aus 248+ Bewertungen</a>
+            <span>Bahnhofstrasse 94 · beim Paradeplatz</span>
+            <span>Persönlich von Teresa Stimac</span>
+        </div>
+    </div>
 
-    <section class="container" style="padding-top: 56px; padding-bottom: 72px;">
-        <span class="sub-display">Kosmetikstudio Zürich Bahnhofstrasse</span>
-        <h2 style="font-size: clamp(2rem, 4vw, 3.6rem); margin: 1rem 0; text-transform: none;">Kosmetik in Zürich für Haut, Schönheit und gepflegte Details</h2>
-        <p style="max-width: 760px;">Beauty Face Lift ist auf hochwertige Gesichtsbehandlung Zürich spezialisiert und bietet darüber hinaus belegte Beauty-Leistungen wie Laser-Haarentfernung Zürich, Waxing Zürich, {'Wimpern & Brauen Zürich'}, Make-up Zürich und Massage Zürich Bahnhofstrasse. Hautbehandlungen bleiben der fachliche Schwerpunkt; ergänzende Leistungen werden diskret, sorgfältig und persönlich durch Teresa Stimac geplant.</p>
+    <!-- 3 · Studio intro + service groups -->
+    <section class="section" aria-labelledby="studio-title">
+        <div class="container">
+            <div class="home-intro">
+                <p class="eyebrow eyebrow--rule">Das Studio</p>
+                <h2 id="studio-title">Haut im Mittelpunkt, <em>Schönheit</em> im Detail</h2>
+                <p class="lead">Beauty Face Lift ist auf hochwertige Gesichtsbehandlungen in Zürich spezialisiert. Ergänzend bietet Teresa Stimac an der Bahnhofstrasse Laser-Haarentfernung, Waxing, Wimpern &amp; Brauen, Make-up und Massage an, jede Leistung diskret, sorgfältig und persönlich geplant.</p>
+            </div>
 
-        <div class="highlights-grid highlights-grid--4col" style="margin-top: 2.5rem;">
-            {SERVICE_GROUPS.map((group, index) => (
-                <a href={group.href} class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                    <div class="highlight-number">{String(index + 1).padStart(2, '0')}</div>
-                    <h4>{group.label}</h4>
-                    <p>{group.description}</p>
-                </a>
-            ))}
+            <ul class="index-grid home-groups">
+                {SERVICE_GROUPS.map((group) => (
+                    <li>
+                        <a href={group.href} class="home-group scroll-anim">
+                            <h3>{group.label}</h3>
+                            <p>{group.description}</p>
+                            <span class="card-arrow">{hubAnchors[group.href] ?? 'Entdecken'} &rarr;</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="expertise" class="services-section">
-        <div class="services-wrapper">
-            <!-- Left Sticky -->
-            <div class="services-sticky">
-                <span class="sub-display">Behandlungen</span>
-                <h2>Unsere<br>Expertise</h2>
-                <p>Kosmetisch-ästhetische Gesichtsbehandlungen mit modernster Technologie. Persönliche Beratung und individuelle Behandlungspläne für jedes Hautbild — direkt an der Bahnhofstrasse Zürich.</p>
-                <a href="/behandlungen/" class="pill-btn pill-btn-outline">Alle Behandlungen</a>
+    <!-- 4 · Signature treatments -->
+    <section class="section section--ivory" id="expertise" aria-labelledby="signature-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Signature-Behandlungen</p>
+                    <h2 id="signature-title">Gesichtsbehandlungen mit <em>Handschrift</em></h2>
+                </div>
+                <a href="/behandlungen/" class="btn-link">Alle Behandlungen</a>
             </div>
 
-            <!-- Right Scrolling -->
-            <div class="services-list">
-                <div class="service-card">
-                    <span class="number-accent">01</span>
-                    <h3>Aquafacial</h3>
-                    <div class="service-image-mask service-image-tall">
-                        <Image
-                            src={aquafacialCard}
-                            widths={[360, 540, 720, 960]}
-                            sizes={cardSizes}
-                            format="webp"
-                            quality="high"
-                            alt="Aquafacial Behandlung Zürich — Tiefenreinigung und Glow"
-                            class="anim-img"
-                            loading="lazy"
-                        />
-                    </div>
-                    <p>Die beliebteste Gesichtsbehandlung der Welt — jetzt an der Bahnhofstrasse Zürich. Aquafacial kombiniert Tiefenreinigung, sanftes Peeling und intensive Feuchtigkeitspflege in einer meist gut verträglichen 60-Minuten-Behandlung. Frischeres Hautbild, meist keine Ausfallzeit.</p>
-                    <a href="/behandlungen/aquafacial-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Aquafacial entdecken</a>
-                </div>
-
-                <div class="service-card">
-                    <span class="number-accent">02</span>
-                    <h3>Microneedling</h3>
-                    <div class="service-image-mask service-image-tall">
-                        <Image
-                            src={microneedlingCard}
-                            widths={[360, 540, 720, 960]}
-                            sizes={cardSizes}
-                            format="webp"
-                            quality="high"
-                            alt="Microneedling Zürich — Anti-Aging und Kollagenbooster"
-                            class="anim-img"
-                            loading="lazy"
-                        />
-                    </div>
-                    <p>Kosmetische Anti-Aging-Pflege für anspruchsvolle Haut. Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen — für ein sichtbar verfeinertes Hautbild, verfeinerte Poren und feinere Linien.</p>
-                    <a href="/behandlungen/microneedling-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Microneedling entdecken</a>
-                </div>
-
-                <div class="service-card">
-                    <span class="number-accent">03</span>
-                    <h3>Fruchtsäure Peeling</h3>
-                    <div class="service-image-mask service-image-tall">
-                        <Image
-                            src={peelingCard}
-                            widths={[360, 540, 720, 960]}
-                            sizes={cardSizes}
-                            format="webp"
-                            quality="high"
-                            alt="Fruchtsäure Peeling Zürich — Chemisches Peeling für reine Haut"
-                            class="anim-img"
-                            loading="lazy"
-                        />
-                    </div>
-                    <p>Das professionelle chemische Peeling für einen ebenmässigen, strahlenden Teint. AHA-Fruchtsäuren lösen abgestorbene Hautzellen und mildern Unreinheiten, Akne und Hyperpigmentierung.</p>
-                    <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Peeling entdecken</a>
-                </div>
-
-                <div class="service-card">
-                    <span class="number-accent">04</span>
-                    <h3>ColdPlasma</h3>
-                    <div class="service-image-mask service-image-tall">
-                        <Image
-                            src={coldplasmaCard}
-                            widths={[360, 540, 720, 960]}
-                            sizes={cardSizes}
-                            format="webp"
-                            quality="high"
-                            alt="ColdPlasma Behandlung Zürich — Innovative Hautregeneration"
-                            class="anim-img"
-                            loading="lazy"
-                        />
-                    </div>
-                    <p>Die Innovation der Hautpflege. ColdPlasma-Technologie kann die professionelle Wirkstoffpflege unterstützen und steigert die Wirkstoffaufnahme je nach Hautzustand.</p>
-                    <a href="/behandlungen/coldplasma-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">ColdPlasma entdecken</a>
-                </div>
-
-                <div class="service-card">
-                    <span class="number-accent">05</span>
-                    <h3>Exosome Therapie</h3>
-                    <div class="service-image-mask service-image-tall">
-                        <Image
-                            src={spaProducts}
-                            widths={[360, 540, 720, 960]}
-                            sizes={cardSizes}
-                            format="webp"
-                            quality="high"
-                            alt="Exosome Therapie Zürich — regeneratives Serum und Hyaluronsäure"
-                            class="anim-img"
-                            loading="lazy"
-                        />
-                    </div>
-                    <p>Regenerative Kosmetik mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie. Für Feuchtigkeit, Hautbarriere, Glow und ein ruhigeres Hautbild — mit ehrlicher Beratung und realistischen Erwartungen.</p>
-                    <a href="/behandlungen/exosome-therapie-zuerich/" class="pill-btn pill-btn-outline pill-btn-sm">Exosome Therapie entdecken</a>
-                </div>
-            </div>
+            <ul class="index-list signature-list">
+                {signatureTreatments.map((treatment) => (
+                    <li>
+                        <a href={treatment.href} class="index-item signature-item">
+                            <span class="media media--landscape signature-thumb">
+                                <Image
+                                    src={treatment.image}
+                                    widths={[192, 288, 384]}
+                                    sizes={thumbSizes}
+                                    format="webp"
+                                    quality="mid"
+                                    loading="lazy"
+                                    alt={treatment.alt}
+                                />
+                            </span>
+                            <h3 class="index-item-title">{treatment.name}</h3>
+                            <p class="index-item-text">{treatment.text}</p>
+                            <span class="index-item-meta">{treatment.meta}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- About -->
-    <section id="about" class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-image scroll-anim">
-                <div class="about-portrait">
+    <!-- 5 · Teresa -->
+    <section class="section" id="about" aria-labelledby="teresa-title">
+        <div class="container home-teresa">
+            <figure class="media-figure scroll-anim">
+                <div class="media media--portrait">
                     <Image
                         src={teresaPortrait}
-                        widths={[360, 540, 720]}
+                        widths={[420, 640, 900]}
                         sizes={portraitSizes}
                         format="webp"
                         quality="high"
-                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
-                        class="anim-img"
                         loading="lazy"
+                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
                     />
                 </div>
-            </div>
-            <div class="about-text">
-                <span class="sub-display">Über Teresa</span>
-                <blockquote class="about-quote">
-                    <p>"Die Haut ist 90% von<br>deinem Selfie."</p>
-                </blockquote>
-                <p>Im Zentrum der Stadt Zürich an der berühmten Bahnhofstrasse befindet sich unsere Beauty Oase. Geleitet von Teresa Stimac — seit über 20 Jahren selbstständige Kosmetikerin in Zürich mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
-                <a href="/ueber-mich/" class="pill-btn pill-btn-outline">Teresa kennenlernen</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Testimonials -->
-    <section class="testimonials-section">
-        <div class="testimonials-label">Kundenstimmen</div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <span class="testimonial-stars">★ ★ ★ ★ ★</span>
-                <p class="testimonial-quote">"Wie immer eine wunderbare Verwöhnzeit!"</p>
-                <span class="testimonial-author">Emina — Aquafacial · verifizierte Bewertung</span>
-            </div>
-            <div class="testimonial-card">
-                <span class="testimonial-stars">★ ★ ★ ★ ★</span>
-                <p class="testimonial-quote">"Stammkunde seit 2008 — immer wieder begeistert."</p>
-                <span class="testimonial-author">Daniel — Stammkunde · verifizierte Bewertung</span>
-            </div>
-            <div class="testimonial-card">
-                <span class="testimonial-stars">★ ★ ★ ★ ★</span>
-                <p class="testimonial-quote">"Teresa ist charmant, warm und absolut professionell."</p>
-                <span class="testimonial-author">Andreas — Gesichtsbehandlung · verifizierte Bewertung</span>
+            </figure>
+            <div class="home-teresa-copy">
+                <p class="eyebrow eyebrow--rule">Über Teresa</p>
+                <h2 id="teresa-title" class="sr-only">Teresa Stimac</h2>
+                <figure class="quote">
+                    <blockquote>„Die Haut ist 90 Prozent von deinem Selfie.“</blockquote>
+                    <figcaption>Teresa Stimac, Gründerin</figcaption>
+                </figure>
+                <p>Im Zentrum von Zürich, an der Bahnhofstrasse, liegt das Studio von Teresa Stimac. Seit über 20 Jahren ist sie selbstständige Kosmetikerin in Zürich, mit einer treuen Stammkundschaft, die sich auf ihre Erfahrung und Expertise verlässt.</p>
+                <dl class="facts">
+                    <div><dt>Erfahrung</dt><dd>Über 20 Jahre selbstständig in Zürich</dd></div>
+                    <div><dt>Stammkundschaft</dt><dd>Einige Kundinnen begleitet Teresa seit 2008</dd></div>
+                    <div><dt>Behandlung</dt><dd>Jeder Termin persönlich durch Teresa</dd></div>
+                </dl>
+                <a href="/ueber-mich/" class="btn-link">Teresa kennenlernen</a>
             </div>
         </div>
     </section>
 
-    <!-- Rating Line -->
-    <div class="rating-line">
-        <p style="text-align: center; margin: 0 auto; font-size: var(--text-xs); color: var(--text-muted); letter-spacing: 0.03em;">4.8 von 5 Sternen aus 248+ verifizierten Bewertungen</p>
-    </div>
+    <!-- 6 · First visit -->
+    <section class="section section--sand" aria-labelledby="visit-title">
+        <div class="container home-visit">
+            <figure class="media-figure home-visit-media scroll-anim">
+                <div class="media media--tall">
+                    <Image
+                        src={spaInterior}
+                        widths={[400, 600, 900]}
+                        sizes={interiorSizes}
+                        format="webp"
+                        quality="mid"
+                        loading="lazy"
+                        alt="Ruhiger Behandlungsraum mit Liege, Leinen und warmem Licht"
+                    />
+                </div>
+            </figure>
+            <div class="home-visit-copy">
+                <div class="section-head">
+                    <div>
+                        <p class="eyebrow eyebrow--rule">Ihr erster Besuch</p>
+                        <h2 id="visit-title">Gut vorbereitet zum <em>ersten</em> Termin</h2>
+                    </div>
+                </div>
+                <ol class="steps home-steps">
+                    <li>
+                        <h3>Termin wählen</h3>
+                        <p>Bequem online buchen oder per WhatsApp anfragen, wenn Sie vorab eine Frage haben.</p>
+                    </li>
+                    <li>
+                        <h3>Beratung &amp; Hautanalyse</h3>
+                        <p>Teresa nimmt sich Zeit für Hauttyp, Ziele und Empfindlichkeiten. Die Erstberatung ist kostenlos und unverbindlich.</p>
+                    </li>
+                    <li>
+                        <h3>Ihre Behandlung</h3>
+                        <p>Persönlich durchgeführt und auf Ihre Haut abgestimmt, in ruhiger Atmosphäre an der Bahnhofstrasse 94.</p>
+                    </li>
+                    <li>
+                        <h3>Pflege danach</h3>
+                        <p>Mit Pflegehinweisen für zu Hause und, wenn sinnvoll, einem persönlichen Behandlungsplan.</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
 
-    <!-- Trust Strip -->
-    <div class="trust-strip" aria-label="Vertrauensindikatoren">
-        <span class="trust-strip-item">Bahnhofstrasse Zürich</span>
-        <span class="trust-strip-item">248+ verifizierte Bewertungen</span>
-        <span class="trust-strip-item">20+ Jahre Erfahrung</span>
-        <span class="trust-strip-item">Persönliche Betreuung</span>
-    </div>
+    <!-- 7 · Reviews -->
+    <section class="section" aria-labelledby="reviews-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Kundenstimmen</p>
+                    <h2 id="reviews-title">4,8 von 5 aus 248+ <em>Bewertungen</em></h2>
+                </div>
+                <a href={TREATWELL_URL} class="btn-link" target="_blank" rel="noopener">Bewertungen ansehen</a>
+            </div>
+            <div class="testimonials-grid">
+                {reviews.map((review) => (
+                    <figure class="testimonial-card">
+                        <span class="testimonial-stars" aria-label="5 von 5 Sternen">★★★★★</span>
+                        <blockquote class="testimonial-quote">„{review.quote}“</blockquote>
+                        <figcaption class="testimonial-author">{review.author} · {review.detail} · verifizierte Bewertung</figcaption>
+                    </figure>
+                ))}
+            </div>
+        </div>
+    </section>
 
-    <div class="section-divider"></div>
-
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="faq-label">Häufig gestellte Fragen</div>
-        <div class="faq-list">
-            <details class="faq-item">
-                <summary>Was ist ein Kosmetikinstitut?</summary>
-                <p>Ein Kosmetikinstitut vereint kosmetisch-ästhetische Behandlungen mit der Entspannung eines hochwertigen Spa-Erlebnisses. Bei Beauty Face Lift in Zürich bieten wir nicht-chirurgische Behandlungen wie Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie an. Anders als in einem klassischen Kosmetikstudio setzen wir auf professionelle Geräte, hochwertige Wirkstoffe und persönliche Beratung — ganz ohne chirurgische Eingriffe.</p>
-            </details>
-            <details class="faq-item">
-                <summary>Welche Behandlung passt zu mir?</summary>
-                <p>Die ideale Behandlung hängt von Ihren individuellen Hautbedürfnissen ab. Aquafacial eignet sich hervorragend für frischen Glow und intensive Feuchtigkeit. Microneedling ist eine Option bei Anti-Aging, feinen Linien und Narben. Fruchtsäure Peeling empfehlen wir bei Unreinheiten, Akne und unebenmässiger Hauttextur. ColdPlasma und Exosome Therapie können die professionelle Wirkstoffpflege ergänzen. Teresa berät Sie persönlich in einem Erstgespräch und erstellt einen massgeschneiderten Behandlungsplan für Ihre Haut.</p>
-            </details>
-            <details class="faq-item">
-                <summary>Brauche ich eine Beratung vor der ersten Behandlung?</summary>
-                <p>Eine kurze persönliche Beratung ist fester Bestandteil jeder Erstbehandlung bei Beauty Face Lift. Teresa nimmt sich Zeit, Ihren Hauttyp sorgfältig zu analysieren, eventuelle Empfindlichkeiten zu besprechen und die passende Behandlung für Ihre individuellen Bedürfnisse zu empfehlen. Diese Beratung ist kostenlos und unverbindlich. So stellen wir sicher, dass Sie von Anfang an die bestmöglichen Ergebnisse erzielen und sich bei uns rundum wohlfühlen.</p>
-            </details>
-            <details class="faq-item">
-                <summary>Kann ich mehrere Behandlungen kombinieren?</summary>
-                <p>Ja, viele unserer Behandlungen ergänzen sich hervorragend und können für möglichst gute Ergebnisse miteinander kombiniert werden. Besonders beliebt ist die Kombination aus Aquafacial und ColdPlasma — die Tiefenreinigung des Aquafacials bereitet die Haut ideal auf die regenerierende Wirkung des ColdPlasma vor. Auch Microneedling und Fruchtsäure Peeling lassen sich in einem abgestimmten Behandlungsplan integrieren. Teresa empfiehlt Ihnen die ideale Kombination basierend auf Ihrem Hautbild.</p>
-            </details>
-            <details class="faq-item">
-                <summary>Sind die Behandlungen für empfindliche Haut geeignet?</summary>
-                <p>Ja, alle unsere Behandlungen sind individuell auf Ihren Hauttyp anpassbar. Besonders Aquafacial und ColdPlasma zeichnen sich durch ihre sanfte Wirkungsweise aus und sind hervorragend für empfindliche Haut geeignet. Die Intensität wird bei jeder Behandlung an Ihre persönliche Hautempfindlichkeit angepasst. Bei der Erstberatung bespricht Teresa allfällige Allergien oder Unverträglichkeiten mit Ihnen, damit wir die Behandlung sorgfältig auf Ihre Bedürfnisse abstimmen können.</p>
-            </details>
-            <details class="faq-item">
-                <summary>Wo befindet sich Beauty Face Lift?</summary>
-                <p>Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt, nur wenige Schritte vom Paradeplatz entfernt. Die zentrale Lage ist hervorragend mit öffentlichen Verkehrsmitteln erreichbar: Die Tram-Haltestellen Paradeplatz und Börsenstrasse liegen in unmittelbarer Nähe. Auch mit dem Auto ist das Studio gut zugänglich, mit mehreren Parkhäusern in der Umgebung. Wir freuen uns auf Ihren Besuch in unserer Beauty Oase an Zürichs bekanntester Einkaufsstrasse.</p>
-            </details>
+    <!-- 8 · FAQ -->
+    <section class="section section--rule" aria-labelledby="faq-title">
+        <div class="container home-faq">
+            <div class="home-faq-head">
+                <p class="eyebrow eyebrow--rule">Häufige Fragen</p>
+                <h2 id="faq-title">Gut zu <em>wissen</em></h2>
+                <a href="/haeufige-fragen/" class="btn-link">Alle Fragen</a>
+            </div>
+            <div class="faq-list">
+                {faqs.map((item) => (
+                    <details class="faq-item">
+                        <summary>{item.q}</summary>
+                        <p>{item.a}</p>
+                    </details>
+                ))}
+            </div>
         </div>
         <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
     </section>
+
+    <!-- 9 · Closing CTA -->
+    <section class="cta-band" aria-labelledby="cta-title">
+        <div class="cta-band-inner">
+            <div>
+                <p class="eyebrow eyebrow--rule">Termin</p>
+                <h2 id="cta-title">Zeit für <em>Ihre</em> Haut</h2>
+                <p>Bahnhofstrasse 94, 8001 Zürich. Online buchen oder persönlich per WhatsApp anfragen.</p>
+            </div>
+            <div class="btn-row">
+                <a href="/termin/" class="btn" data-button-location="home_cta_band">Termin buchen</a>
+                <a href={CONTACT_WHATSAPP_URL} class="btn-link" target="_blank" rel="noopener" data-button-location="home_cta_band_whatsapp" data-source="home_cta_band">WhatsApp</a>
+            </div>
+        </div>
+    </section>
 </Base>
+
+<style>
+    /* Hero — full-width masthead headline, then copy + image */
+    .home-hero {
+        padding-top: calc(var(--nav-h) + clamp(40px, 7vw, 104px));
+        padding-bottom: clamp(48px, 6vw, 88px);
+    }
+
+    .home-hero-head {
+        display: grid;
+        gap: clamp(20px, 2.5vw, 32px);
+    }
+
+    .home-hero-title {
+        font-size: clamp(2.45rem, 6.6vw, 6rem);
+        line-height: 0.98;
+        letter-spacing: -0.025em;
+        max-width: 24ch;
+    }
+
+    .home-hero-body {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+        align-items: center;
+        gap: clamp(32px, 5vw, 80px);
+        margin-top: clamp(36px, 5vw, 64px);
+    }
+
+    .home-hero-copy {
+        display: grid;
+        gap: 32px;
+    }
+
+    .home-hero-frame {
+        aspect-ratio: 16 / 10;
+    }
+
+    .home-hero-frame :global(img) {
+        object-position: 50% 28%;
+    }
+
+    .home-hero-media figcaption {
+        font-size: var(--fs-small);
+        color: var(--taupe);
+    }
+
+    /* Studio intro */
+    .home-intro {
+        display: grid;
+        gap: 24px;
+        max-width: 860px;
+        margin-bottom: clamp(48px, 6vw, 88px);
+    }
+
+    .home-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        height: 100%;
+        color: inherit;
+    }
+
+    .home-group h3 {
+        transition: color 0.35s ease;
+    }
+
+    .home-group:hover h3 {
+        color: var(--bronze);
+    }
+
+    .home-group :global(.card-arrow) {
+        margin-top: 8px;
+    }
+
+    .home-group:hover :global(.card-arrow) {
+        transform: translateX(5px);
+        color: var(--bronze);
+    }
+
+    /* Signature list with thumbnails */
+    .signature-item {
+        grid-template-columns: 176px minmax(0, 3.5fr) minmax(0, 5fr) minmax(96px, auto) 24px;
+        align-items: center;
+    }
+
+    .signature-item .index-item-title {
+        font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+    }
+
+    /* Teresa */
+    .home-teresa {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: center;
+    }
+
+    .home-teresa-copy {
+        display: grid;
+        gap: 28px;
+        justify-items: start;
+    }
+
+    .home-teresa-copy .facts {
+        width: 100%;
+    }
+
+    /* First visit */
+    .home-visit {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: start;
+    }
+
+    .home-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 40px;
+    }
+
+    /* FAQ */
+    .home-faq {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: start;
+    }
+
+    .home-faq-head {
+        display: grid;
+        gap: 20px;
+        justify-items: start;
+        position: sticky;
+        top: calc(var(--nav-h) + 40px);
+    }
+
+    @media (max-width: 1100px) {
+        .signature-item {
+            grid-template-columns: 132px minmax(0, 1fr) auto 24px;
+        }
+
+        .signature-item .index-item-text {
+            grid-column: 2 / 4;
+            grid-row: 2;
+        }
+
+        .signature-thumb {
+            grid-row: 1 / 3;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .home-hero-body,
+        .home-teresa,
+        .home-visit,
+        .home-faq {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .home-hero-body {
+            margin-top: 28px;
+        }
+
+        .home-hero-copy {
+            padding-bottom: 0;
+        }
+
+        .home-hero-media {
+            order: -1;
+            margin-inline: calc(-1 * var(--gutter));
+        }
+
+        .home-hero-media figcaption {
+            padding-inline: var(--gutter);
+        }
+
+        .home-hero-frame {
+            aspect-ratio: 4 / 3;
+        }
+
+        .home-faq-head {
+            position: static;
+        }
+
+        .home-steps {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .signature-item {
+            grid-template-columns: 96px minmax(0, 1fr) 20px;
+            column-gap: 16px;
+            align-items: start;
+        }
+
+        .signature-thumb {
+            grid-row: 1 / 4;
+        }
+
+        .signature-item .index-item-title {
+            grid-column: 2;
+            grid-row: 1;
+            font-size: 1.5rem;
+        }
+
+        .signature-item .index-item-text {
+            grid-column: 2 / 4;
+            grid-row: 2;
+            font-size: 0.95rem;
+        }
+
+        .signature-item .index-item-meta {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .signature-item::after {
+            grid-column: 3;
+            grid-row: 1;
+        }
+    }
+</style>

@@ -1,0 +1,760 @@
+/* Kontakt page — editorial salon layout (moved from components.css on 2026-10-06; restyled through tokens). */
+
+/* ═══════════════════════════════════════════════════════════════
+   KONTAKT — Editorial Salon layout
+   Atelier system: paper neutrals + single gold accent, no gradients,
+   no italics (emphasis via .accent-word), no glows. Hairline rules
+   and display serif do the heavy lifting. Bottom-border inputs per
+   Form Input spec.
+   ═══════════════════════════════════════════════════════════════ */
+
+.kontakt {
+  padding: 120px 0 var(--space-2xl);
+}
+
+/* --- Eyebrow primitive --- */
+.kontakt-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 28px;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.kontakt-eyebrow-rule {
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+  display: block;
+}
+
+.kontakt-eyebrow--aside {
+  margin-bottom: 32px;
+}
+
+.kontakt-required {
+  color: var(--gold);
+  font-weight: 400;
+}
+
+/* ── MASTHEAD ───────────────────────────────────────────────── */
+
+.kontakt-masthead {
+  padding: 0 var(--content-px) var(--space-2xl);
+  position: relative;
+}
+
+.kontakt-masthead::after {
+  content: '';
+  position: absolute;
+  left: var(--content-px);
+  right: var(--content-px);
+  bottom: 0;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.kontakt-masthead-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 88px;
+  align-items: start;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.kontakt-masthead-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.kontakt-display {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 5.6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin: 0;
+  max-width: 14ch;
+}
+
+.kontakt-lede {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 52ch;
+  margin: 0;
+}
+
+.kontakt-lede--muted {
+  color: var(--ink-3);
+  font-size: 16px;
+}
+
+/* Channel list (right column) */
+.kontakt-channels {
+  padding-top: 10px;
+}
+
+.kontakt-channel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.kontakt-channel {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.kontakt-channel:last-child {
+  border-bottom: 1px solid var(--ink);
+}
+
+.kontakt-channel-link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 24px;
+  padding: 26px 4px 26px 0;
+  color: var(--ink);
+  transition: padding 0.35s var(--ease-expo);
+  position: relative;
+}
+
+.kontakt-channel-link::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  right: -16px;
+  top: 0;
+  bottom: 0;
+  background: var(--paper-2);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-expo);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.kontakt-channel-link:hover::before,
+.kontakt-channel-link:focus-visible::before {
+  opacity: 1;
+}
+
+.kontakt-channel-link > * {
+  position: relative;
+  z-index: 1;
+}
+
+.kontakt-channel-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+}
+
+.kontakt-channel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.kontakt-channel-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kontakt-channel-value {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: 0;
+  word-break: break-word;
+}
+
+.kontakt-channel-value--serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: 0;
+}
+
+.kontakt-channel-note {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  font-weight: 300;
+  max-width: 32ch;
+}
+
+.kontakt-channel-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+  color: var(--ink-2);
+  transition: color 0.35s var(--ease-expo);
+}
+
+.kontakt-channel-cta-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  white-space: nowrap;
+}
+
+.kontakt-channel-arrow {
+  color: var(--gold);
+  transform: translateX(0);
+  transition: transform 0.45s var(--ease-expo);
+}
+
+.kontakt-channel-link:hover .kontakt-channel-arrow,
+.kontakt-channel-link:focus-visible .kontakt-channel-arrow {
+  transform: translateX(10px);
+}
+
+.kontakt-channel-link:hover .kontakt-channel-cta,
+.kontakt-channel-link:focus-visible .kontakt-channel-cta {
+  color: var(--gold-deep);
+}
+
+/* ── STUDIO BAND (full-bleed paper-2) ──────────────────────── */
+
+.kontakt-studio.full-bleed {
+  background: var(--paper-2);
+  padding: var(--space-2xl) var(--content-px);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+  position: relative;
+}
+
+.kontakt-studio.full-bleed::before,
+.kontakt-studio.full-bleed::after {
+  content: '';
+  position: absolute;
+  left: var(--content-px);
+  right: var(--content-px);
+  height: 1px;
+  background: rgba(28, 26, 23, 0.08);
+}
+.kontakt-studio.full-bleed::before { top: 0; }
+.kontakt-studio.full-bleed::after { bottom: 0; }
+
+.kontakt-studio-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 88px;
+  align-items: start;
+}
+
+.kontakt-studio-heading {
+  position: sticky;
+  top: 120px;
+}
+
+.kontakt-studio-title {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.kontakt-dot {
+  color: var(--gold);
+  font-weight: 300;
+  padding: 0 4px;
+}
+
+.kontakt-studio-sub {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  max-width: 28ch;
+  margin: 0;
+  font-weight: 300;
+}
+
+.kontakt-studio-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  row-gap: 48px;
+}
+
+.kontakt-studio-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(28, 26, 23, 0.12);
+  position: relative;
+}
+
+.kontakt-studio-index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: var(--gold-deep);
+  position: absolute;
+  top: -7px;
+  left: 0;
+  background: var(--paper-2);
+  padding-right: 10px;
+}
+
+.kontakt-studio-label {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: 0;
+  margin-top: 4px;
+}
+
+.kontakt-studio-body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  font-weight: 300;
+  font-style: normal;
+  margin: 0;
+}
+
+.kontakt-studio-body p {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  max-width: 34ch;
+}
+
+.kontakt-studio-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kontakt-studio-hours p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px dashed rgba(28, 26, 23, 0.12);
+  padding-bottom: 6px;
+  max-width: 32ch;
+}
+
+.kontakt-studio-hours p:last-child {
+  border-bottom: none;
+}
+
+.kontakt-hours-day {
+  color: var(--ink-3);
+  font-weight: 300;
+}
+
+.kontakt-hours-value {
+  color: var(--ink);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── DIALOG: guidance + form ───────────────────────────────── */
+
+.kontakt-dialog {
+  padding: 0 var(--content-px);
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 88px;
+  align-items: start;
+}
+
+.kontakt-guidance {
+  position: sticky;
+  top: 120px;
+}
+
+.kontakt-guidance-heading {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin: 0 0 20px;
+  max-width: 14ch;
+}
+
+.kontakt-guidance-lede {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  font-weight: 300;
+  margin: 0 0 40px;
+  max-width: 36ch;
+}
+
+.kontakt-guidance-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.kontakt-guidance-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.kontakt-guidance-item:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.kontakt-guidance-index {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--gold);
+  letter-spacing: 0;
+  min-width: 48px;
+}
+
+.kontakt-guidance-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kontakt-guidance-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0;
+}
+
+.kontakt-guidance-body p {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  font-weight: 300;
+  margin: 0;
+  max-width: 36ch;
+}
+
+/* Form panel */
+.kontakt-form-panel {
+  position: relative;
+}
+
+.kontakt-form-heading {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.kontakt-form-intro {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  font-weight: 300;
+  margin: 0 0 48px;
+  max-width: 56ch;
+}
+
+.kontakt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.kontakt-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  row-gap: 28px;
+}
+
+.kontakt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.kontakt-field--full {
+  grid-column: 1 / -1;
+}
+
+.kontakt-field label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--ink-3);
+}
+
+.kontakt-field input,
+.kontakt-field select,
+.kontakt-field textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(28, 26, 23, 0.28);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.5;
+  padding: 10px 0 14px;
+  transition: border-color 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.kontakt-field textarea {
+  min-height: 180px;
+  resize: vertical;
+  padding-top: 14px;
+}
+
+.kontakt-field input::placeholder,
+.kontakt-field textarea::placeholder {
+  color: var(--ink-3);
+  opacity: 0.55;
+  font-weight: 300;
+}
+
+.kontakt-field input:focus,
+.kontakt-field select:focus,
+.kontakt-field textarea:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+  box-shadow: 0 1px 0 0 var(--gold);
+}
+
+.kontakt-select {
+  position: relative;
+}
+
+.kontakt-select select {
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+.kontakt-select-caret {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-30%);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.kontakt-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.kontakt-turnstile {
+  min-height: 0;
+}
+
+.kontakt-turnstile:has(> .cf-turnstile) {
+  min-height: 65px;
+}
+
+.kontakt-checkbox {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 14px;
+  line-height: 1.55;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--ink-2);
+  cursor: pointer;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.kontakt-checkbox input {
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  accent-color: var(--gold);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.kontakt-checkbox a {
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 1px;
+  transition: color 0.25s var(--ease-expo);
+}
+
+.kontakt-checkbox a:hover {
+  color: var(--gold-deep);
+}
+
+.kontakt-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+.kontakt-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 36px;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+}
+
+.kontakt-submit svg {
+  color: currentColor;
+  transform: translateX(0);
+  transition: transform 0.4s var(--ease-expo);
+}
+
+.kontakt-submit:hover svg {
+  transform: translateX(6px);
+}
+
+.kontakt-form-note {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  font-weight: 300;
+  margin: 0;
+  max-width: 36ch;
+}
+
+.kontakt-form-note code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 2px 6px;
+  background: var(--paper-2);
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+/* Legacy status banner aliases (kept for /api/contact response pages). */
+.contact-status {
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  border-radius: 2px;
+  border-left: 2px solid var(--gold);
+  background: var(--paper-2);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.contact-status-error {
+  border-left-color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kontakt-channel-arrow,
+  .kontakt-channel-link::before,
+  .kontakt-channel-cta,
+  .kontakt-submit svg {
+    transition: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Kontakt — mobile */
+  .kontakt { padding: 96px 0 64px; }
+  .kontakt-masthead { padding: 0 24px 48px; }
+  .kontakt-masthead::after { left: 24px; right: 24px; }
+  .kontakt-masthead-inner,
+  .kontakt-studio-inner,
+  .kontakt-dialog { grid-template-columns: 1fr; gap: 48px; }
+  .kontakt-studio.full-bleed { padding: 56px 24px; margin-top: 56px; margin-bottom: 56px; }
+  .kontakt-studio.full-bleed::before,
+  .kontakt-studio.full-bleed::after { left: 24px; right: 24px; }
+  .kontakt-studio-heading { position: static; }
+  .kontakt-studio-grid { grid-template-columns: 1fr; row-gap: 40px; }
+  .kontakt-dialog { padding: 0 24px; }
+  .kontakt-guidance { position: static; }
+  .kontakt-field-grid { grid-template-columns: 1fr; column-gap: 0; row-gap: 24px; }
+  .kontakt-display { font-size: clamp(2.4rem, 10vw, 3.2rem); max-width: 100%; }
+  .kontakt-form-heading,
+  .kontakt-studio-title,
+  .kontakt-guidance-heading { max-width: 100%; }
+  .kontakt-channel-link { padding: 22px 4px; gap: 18px; }
+  .kontakt-channel-link::before { left: -24px; right: -24px; }
+  .kontakt-channel-value--serif { font-size: 26px; }
+  .kontakt-channel-cta-label { display: none; }
+  .kontakt-channel-cta { align-self: center; }
+  .kontakt-form-actions { align-items: flex-start; flex-direction: column; }
+}

@@ -13,23 +13,25 @@ interface Props {
 const {
   treatment,
   href,
-  eyebrow = 'Online buchen',
-  title = treatment ? `${treatment} Termin buchen` : 'Termin buchen',
-  text = 'Die Online-Buchung läuft vorübergehend über Treatwell. Ihre Auswahl wird mit Kampagnen- und Behandlungsangaben übergeben.',
+  eyebrow = 'Termin',
+  title = treatment ? `${treatment} an der Bahnhofstrasse` : 'Ihr Termin an der Bahnhofstrasse',
+  text = 'Buchen Sie Ihren Wunschtermin bequem online. Teresa klärt Details und Eignung vor der Behandlung persönlich mit Ihnen.',
   ctaText = 'Termin buchen',
 } = Astro.props;
 
 const bookingHref = href || bookingLinkForService(treatment);
 ---
 
-<div class="booking-cta">
-  <span class="booking-cta-kicker">{eyebrow}</span>
-  <h2>{title}</h2>
-  <p>{text}</p>
+<section class="booking-cta" aria-label={title}>
+  <div class="booking-cta-copy">
+    <span class="eyebrow eyebrow--rule booking-cta-kicker">{eyebrow}</span>
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </div>
   <div class="booking-cta-actions">
     <a
       href={bookingHref}
-      class="pill-btn"
+      class="btn"
       data-treatment={treatment}
       data-button-location="booking_cta"
     >
@@ -37,7 +39,7 @@ const bookingHref = href || bookingLinkForService(treatment);
     </a>
     <a
       href="https://wa.me/41792143462?text=Guten%20Tag%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Behandlung%20bei%20Beauty%20Face%20Lift."
-      class="pill-btn pill-btn-outline"
+      class="btn-link"
       target="_blank"
       rel="noopener"
       data-treatment={treatment}
@@ -47,4 +49,46 @@ const bookingHref = href || bookingLinkForService(treatment);
       Frage per WhatsApp
     </a>
   </div>
-</div>
+</section>
+
+<style>
+  .booking-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 32px clamp(32px, 6vw, 96px);
+    padding: clamp(40px, 6vw, 80px) clamp(24px, 5vw, 72px);
+    background: var(--sand);
+  }
+
+  .booking-cta-copy {
+    display: grid;
+    gap: 18px;
+  }
+
+  .booking-cta h2 {
+    font-size: var(--fs-h2);
+    max-width: 18ch;
+  }
+
+  .booking-cta p {
+    max-width: 52ch;
+  }
+
+  .booking-cta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  @media (max-width: 760px) {
+    .booking-cta {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-cta-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

@@ -11,19 +11,20 @@ interface Props {
   variant?: 'default' | 'treatment';
 }
 
-const { variant = 'default' } = Astro.props;
-const isTreatment = variant === 'treatment';
+// The luxury system uses one light navigation everywhere; `variant` is kept for API compatibility.
+const path = Astro.url.pathname;
+const isCurrent = (prefix: string) => path.startsWith(prefix);
 ---
 
-<nav class={`nav-minimal ${isTreatment ? 'nav-treatment' : ''}`} data-nav-root>
-    <a href="/" class="nav-brand">
+<nav class="nav-minimal" data-nav-root aria-label="Hauptnavigation">
+    <a href="/" class="nav-brand" aria-label="Beauty Face Lift — Startseite">
         <img src="/assets/logo.png" alt="Beauty Face Lift" class="nav-logo" width="224" height="130">
     </a>
 
     <ul class="nav-links">
         <li class="nav-dropdown" data-nav-dropdown>
             <div class="nav-dropdown-header">
-                <a href="/behandlungen/" class="nav-dropdown-link">Behandlungen</a>
+                <a href="/behandlungen/" class="nav-dropdown-link" aria-current={isCurrent('/behandlungen/') ? 'page' : undefined}>Behandlungen</a>
                 <button
                     type="button"
                     class="nav-disclosure"
@@ -47,12 +48,14 @@ const isTreatment = variant === 'treatment';
                 ))}
             </ul>
         </li>
-        <li><a href="/ueber-mich/">Über mich</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/kontakt/">Kontakt</a></li>
+        <li><a href="/ueber-mich/" aria-current={isCurrent('/ueber-mich/') ? 'page' : undefined}>Über mich</a></li>
+        <li><a href="/blog/" aria-current={isCurrent('/blog/') ? 'page' : undefined}>Journal</a></li>
     </ul>
 
-    <a href="/termin/" class="pill-btn nav-cta" data-button-location="nav_desktop">Termin buchen</a>
+    <div class="nav-right">
+        <a href="/kontakt/" aria-current={isCurrent('/kontakt/') ? 'page' : undefined}>Kontakt</a>
+        <a href="/termin/" class="btn btn-sm nav-cta" data-button-location="nav_desktop">Termin buchen</a>
+    </div>
 
     <button
         class="nav-hamburger"
@@ -105,11 +108,11 @@ const isTreatment = variant === 'treatment';
                 </ul>
             </li>
             <li><a href="/ueber-mich/">Über mich</a></li>
-            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/blog/">Journal</a></li>
             <li><a href="/haeufige-fragen/">Häufige Fragen</a></li>
             <li><a href="/kontakt/">Kontakt</a></li>
         </ul>
-        <a href="/termin/" class="pill-btn pill-btn-lg nav-mobile-cta" data-button-location="nav_mobile">Jetzt Termin buchen</a>
+        <a href="/termin/" class="btn btn-lg nav-mobile-cta" data-button-location="nav_mobile">Termin buchen</a>
         <div class="nav-mobile-contact">
             <a href={`tel:${CONTACT_PHONE}`} data-button-location="nav_mobile_phone">{CONTACT_PHONE_DISPLAY}</a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
