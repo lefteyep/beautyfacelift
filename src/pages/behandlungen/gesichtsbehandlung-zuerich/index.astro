@@ -1,41 +1,34 @@
 ---
 import ServiceHubPage from '../../../components/ServiceHubPage.astro';
+import heroImage from '../../../assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp';
 ---
 
 <ServiceHubPage
   title="Gesichtsbehandlung Zürich | Beauty Face Lift Bahnhofstrasse"
-  description="Gesichtsbehandlung Zürich an der Bahnhofstrasse 94: persönliche Hautanalyse, Reinigung, Pflege und passende Behandlungsempfehlung durch Teresa Stimac."
-  eyebrow="Gesicht & Haut"
+  description="Gesichtsbehandlung Zürich an der Bahnhofstrasse 94: Hautanalyse, Reinigung und Pflege – persönlich von Teresa Stimac. Ab CHF 150, jetzt Termin buchen."
   h1="Gesichtsbehandlung Zürich – persönliche Hautpflege an der Bahnhofstrasse"
+  name="Gesichtsbehandlung"
+  lead="Ihre Gesichtsbehandlung in Zürich beginnt mit einer persönlichen Hautanalyse – danach reinigt und pflegt Teresa Stimac Ihre Haut, abgestimmt auf Hautzustand und Ziel."
+  duration="45–120 Min."
+  image={heroImage}
+  imageAlt="Pflegende Gesichtsbehandlung im Studio an der Bahnhofstrasse Zürich"
   serviceType="Gesichtsbehandlung Zürich"
   bookingService="Gesichtsbehandlungen"
-  intro={[
-    'Nicht jede Haut braucht direkt Aquafacial, Microneedling oder Peeling. Eine persönliche Gesichtsbehandlung ist der ruhige Einstieg, wenn Sie Ihre Haut professionell reinigen, pflegen und besser verstehen möchten.',
-    'Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich analysiert Teresa Stimac Hautzustand, Empfindlichkeiten und Ziel. Danach empfiehlt sie eine klassische Pflegebehandlung oder eine moderne Methode, die zu Haut, Alltag und Erwartungen passt.',
-  ]}
-  summaryTitle="Gesichtsbehandlung als Einstieg"
-  summaryIntro="Diese Seite richtet sich an Kundinnen und Kunden, die eine gepflegte Haut wünschen, aber noch nicht wissen, ob Aquafacial, Peeling, Microneedling, ColdPlasma oder eine klassische Behandlung passend ist."
-  facts={[
-    { label: 'Ort', value: 'Bahnhofstrasse 94, Zürich' },
-    { label: 'Preise', value: 'klassische Gesichtsbehandlungen ab CHF 150' },
-    { label: 'Dauer', value: '45 bis 120 Minuten je nach Buchung' },
-    { label: 'Fokus', value: 'Hautanalyse, Reinigung, Pflege, Empfehlung' },
-  ]}
   priceItems={[
-    { label: 'Tiefenreinigung', price: 'CHF 180', duration: '90 Minuten', note: 'Klassische Tiefenreinigung mit Peeling, Vapozon, Ampulle, Massage und Maske.' },
-    { label: 'Fresh Up! Treatment', price: 'CHF 180', duration: '90 Minuten', note: 'Pflegebehandlung für schnelle Frische und ein gepflegtes Hautgefühl.' },
-    { label: 'Kurzurlaub für Herren', price: 'CHF 150', duration: '45 Minuten', note: 'Kurze, gezielte Pflege für vitale Männerhaut.' },
+    { label: 'Tiefenreinigung', price: 'CHF 180', duration: '90 Minuten', note: 'Mit Peeling, Vapozon, Ampulle, Massage und Maske.' },
+    { label: 'Fresh Up! Treatment', price: 'CHF 180', duration: '90 Minuten', note: 'Für schnelle Frische und ein gepflegtes Hautgefühl.' },
+    { label: 'Kurzurlaub für Herren', price: 'CHF 150', duration: '45 Minuten', note: 'Kurze, gezielte Pflege für Männerhaut.' },
   ]}
-  suitedFor={['fahle Haut', 'unreine Haut', 'trockene Haut', 'erste professionelle Hautpflege', 'unsichere Behandlungsauswahl']}
+  suitedFor={['Fahle Haut', 'Unreine Haut', 'Trockene Haut', 'Erste professionelle Pflege', 'Unsicher, was passt']}
   process={[
-    'Teresa beginnt mit einer kurzen Hautanalyse und klärt Pflegeziel, Empfindlichkeiten und Alltag.',
-    'Danach folgen Reinigung, passende Pflege, Wirkstoffe und Abschluss mit Nachpflegeempfehlung.',
+    'Hautanalyse: Pflegeziel, Empfindlichkeiten und Alltag klären.',
+    'Reinigung, Pflege und Wirkstoffe – mit Empfehlung für zu Hause.',
   ]}
-  expectations="Ziel ist ein gepflegtes, frischer wirkendes Hautbild und eine klare Empfehlung für die nächsten sinnvollen Schritte. Ergebnisse sind je nach Hautzustand unterschiedlich."
-  contraindications="Bitte erwähnen Sie aktive Entzündungen, Herpes, Allergien, starke Hautreaktionen, Medikamente oder aktuelle dermatologische Behandlungen vor dem Termin."
+  expectations="Ein gepflegtes, frischer wirkendes Hautbild und eine klare Empfehlung für die nächsten Schritte. Ergebnisse sind je nach Hautzustand unterschiedlich."
+  contraindications="Bitte vorab erwähnen: aktive Entzündungen, Herpes, Allergien, starke Hautreaktionen, Medikamente oder laufende dermatologische Behandlungen."
   related={[
     { href: '/behandlungen/aquafacial-zuerich/', title: 'Aquafacial', description: 'Für Tiefenreinigung, Feuchtigkeit und Glow.' },
     { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', title: 'Fruchtsäure Peeling', description: 'Für klärende AHA-Pflege bei unebenmässigem Teint.' },
-    { href: '/behandlungen/vergleich/', title: 'Behandlungsvergleich', description: 'Wenn Sie mehrere Hautbehandlungen vergleichen möchten.' },
+    { href: '/behandlungen/vergleich/', title: 'Behandlungsvergleich', description: 'Mehrere Hautbehandlungen im direkten Vergleich.' },
   ]}
 />

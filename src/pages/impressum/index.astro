@@ -2,91 +2,122 @@
 import { absoluteUrl } from '../../../shared/site';
 
 import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Impressum' },
+];
 ---
 
 <Base
     title="Impressum | Beauty Face Lift Zürich"
     description="Impressum und rechtliche Angaben von Beauty Face Lift — Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich."
 >
-    <section class="container legal-page">
-        <h1>Impressum</h1>
+    <header class="page-hero legal-hero">
+        <div class="container legal-container legal-head">
+            <Breadcrumbs items={breadcrumbs} />
+            <h1>Impressum</h1>
+        </div>
+    </header>
 
+    <section class="container legal-container legal-body">
         <h2>Angaben gemäss Art. 3 UWG</h2>
 
-        <h3>Unternehmen</h3>
-        <p>
-            Beauty Face Lift<br>
-            Bahnhofstrasse 94<br>
-            8001 Zürich<br>
-            Schweiz
-        </p>
+        <div class="legal-row">
+            <h3>Unternehmen</h3>
+            <p>
+                Beauty Face Lift<br>
+                Bahnhofstrasse 94<br>
+                8001 Zürich<br>
+                Schweiz
+            </p>
+        </div>
 
-        <h3>Inhaberin</h3>
-        <p>Teresa Stimac</p>
+        <div class="legal-row">
+            <h3>Inhaberin</h3>
+            <p>Teresa Stimac</p>
+        </div>
 
-        <h3>Kontakt</h3>
-        <p>
-            Telefon: <a href="tel:+41792143462">+41 79 214 34 62</a><br>
-            E-Mail: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a><br>
-            Website: <a href={absoluteUrl('/')}>beautyfacelift-zuerich.ch</a>
-        </p>
+        <div class="legal-row">
+            <h3>Kontakt</h3>
+            <p>
+                Telefon: <a href="tel:+41792143462">+41 79 214 34 62</a><br>
+                E-Mail: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a><br>
+                Website: <a href={absoluteUrl('/')}>beautyfacelift-zuerich.ch</a>
+            </p>
+        </div>
 
-        <h3>Verantwortlich für den Inhalt</h3>
-        <p>Teresa Stimac, Bahnhofstrasse 94, 8001 Zürich</p>
+        <div class="legal-row">
+            <h3>Verantwortlich für den Inhalt</h3>
+            <p>Teresa Stimac, Bahnhofstrasse 94, 8001 Zürich</p>
+        </div>
 
-        <h3>Haftungsausschluss</h3>
-        <p>Der Autor übernimmt keinerlei Gewähr hinsichtlich der inhaltlichen Richtigkeit, Genauigkeit, Aktualität, Zuverlässigkeit und Vollständigkeit der Informationen. Haftungsansprüche gegen den Autor wegen Schäden materieller oder immaterieller Art, welche aus dem Zugriff oder der Nutzung bzw. Nichtnutzung der veröffentlichten Informationen entstanden sind, werden grundsätzlich ausgeschlossen.</p>
+        <div class="legal-row">
+            <h3>Haftungsausschluss</h3>
+            <p>Der Autor übernimmt keinerlei Gewähr hinsichtlich der inhaltlichen Richtigkeit, Genauigkeit, Aktualität, Zuverlässigkeit und Vollständigkeit der Informationen. Haftungsansprüche gegen den Autor wegen Schäden materieller oder immaterieller Art, welche aus dem Zugriff oder der Nutzung bzw. Nichtnutzung der veröffentlichten Informationen entstanden sind, werden grundsätzlich ausgeschlossen.</p>
+        </div>
 
-        <h3>Haftung für Links</h3>
-        <p>Verweise und Links auf Webseiten Dritter liegen ausserhalb unseres Verantwortungsbereichs. Jegliche Verantwortung für solche Webseiten wird abgelehnt. Der Zugriff und die Nutzung solcher Webseiten erfolgen auf eigene Gefahr des Nutzers.</p>
+        <div class="legal-row">
+            <h3>Haftung für Links</h3>
+            <p>Verweise und Links auf Webseiten Dritter liegen ausserhalb unseres Verantwortungsbereichs. Jegliche Verantwortung für solche Webseiten wird abgelehnt. Der Zugriff und die Nutzung solcher Webseiten erfolgen auf eigene Gefahr des Nutzers.</p>
+        </div>
 
-        <h3>Urheberrechte</h3>
-        <p>Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf dieser Website gehören ausschliesslich Beauty Face Lift oder den speziell genannten Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung der Urheberrechtsträger im Voraus einzuholen.</p>
+        <div class="legal-row">
+            <h3>Urheberrechte</h3>
+            <p>Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf dieser Website gehören ausschliesslich Beauty Face Lift oder den speziell genannten Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung der Urheberrechtsträger im Voraus einzuholen.</p>
+        </div>
     </section>
 </Base>
 
 <style>
-    .legal-page {
-        padding-top: 18vh;
-        padding-bottom: 10vh;
-        max-width: 800px;
+    .legal-container { max-width: calc(960px + 2 * var(--gutter)); }
+
+    .legal-hero { padding-bottom: clamp(32px, 4vw, 56px); }
+    .legal-head { display: grid; gap: 20px; justify-items: start; }
+    .legal-head :global(.breadcrumbs) { padding: 0; }
+
+    .legal-body { padding-bottom: var(--section-y); }
+
+    .legal-body h2 {
+        margin-bottom: clamp(24px, 3vw, 40px);
+        font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+        line-height: 1.1;
     }
 
-    .legal-page h1 {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        margin-bottom: 3rem;
+    /* Label column + text column, divided by hairlines */
+    .legal-row {
+        display: grid;
+        grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
+        gap: 8px clamp(24px, 4vw, 56px);
+        padding-block: 24px;
+        border-top: 1px solid var(--line);
     }
 
-    .legal-page h2 {
-        font-size: 1.5rem;
-        margin-top: 3rem;
-        margin-bottom: 1.5rem;
-        text-transform: none;
+    .legal-row:first-of-type { border-top-color: var(--line-strong); }
+    .legal-row:last-child { border-bottom: 1px solid var(--line); }
+
+    .legal-row h3 {
+        font-size: var(--fs-h4);
+        line-height: 1.35;
     }
 
-    .legal-page h3 {
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-secondary);
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
-    }
+    .legal-row p { max-width: 64ch; }
 
-    .legal-page p {
-        max-width: none;
-        margin-bottom: 1rem;
-    }
-
-    .legal-page a {
-        color: var(--accent);
+    .legal-body a {
+        color: var(--cocoa);
         text-decoration: underline;
-        text-underline-offset: 3px;
+        text-decoration-color: var(--line-strong);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease, text-decoration-color 0.3s ease;
     }
 
-    .legal-page a:hover {
-        color: var(--accent-dark);
+    .legal-body a:hover {
+        color: var(--clay);
+        text-decoration-color: currentColor;
+    }
+
+    @media (max-width: 700px) {
+        .legal-row { grid-template-columns: minmax(0, 1fr); padding-block: 20px; }
     }
 </style>

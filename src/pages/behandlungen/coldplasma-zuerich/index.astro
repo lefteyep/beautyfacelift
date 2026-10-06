@@ -1,37 +1,89 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingCta from '../../../components/BookingCta.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
-import AiSummary from '../../../components/AiSummary.astro';
-import { Image, getImage } from 'astro:assets';
-import { coldplasmaCard, spaInterior, spaProducts } from '../../../lib/site-images';
+import TreatmentHero from '../../../components/treatment/TreatmentHero.astro';
+import TreatmentSplit from '../../../components/treatment/TreatmentSplit.astro';
+import BenefitList from '../../../components/treatment/BenefitList.astro';
+import PriceMenu from '../../../components/treatment/PriceMenu.astro';
+import TreatmentSteps from '../../../components/treatment/TreatmentSteps.astro';
+import RuledList from '../../../components/treatment/RuledList.astro';
+import ReviewQuote from '../../../components/treatment/ReviewQuote.astro';
+import FaqBlock from '../../../components/treatment/FaqBlock.astro';
+import RelatedTreatments from '../../../components/treatment/RelatedTreatments.astro';
+import { treatmentHeroPreload } from '../../../components/treatment/images';
+import { coldplasmaCard, consultationTrust, teresaPortrait } from '../../../lib/site-images';
+import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
-const treatmentHeroSizes = '100vw';
-const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const pagePath = '/behandlungen/coldplasma-zuerich/';
 const bookingHref = bookingLinkForService('ColdPlasma');
-const coldPlasmaHeroPreload = await getImage({
-    src: coldplasmaCard,
-    widths: [768, 1024, 1440, 1536],
-    sizes: treatmentHeroSizes,
-    format: 'webp',
-    quality: 'high',
-});
+const heroPreload = await treatmentHeroPreload(coldplasmaCard);
 
-const summaryFacts = [
-    { label: 'Dauer', value: '90 Minuten' },
-    { label: 'Preis', value: 'ab CHF 180' },
-    { label: 'Gefühl', value: 'meist leichtes Kribbeln oder Wärmegefühl' },
-    { label: 'Einsatz', value: 'unreine Haut, Hautbarriere, beruhigende Wirkstoffpflege' },
+const benefits = [
+    { title: 'Ergänzende Wirkstoffpflege', text: 'Kann die Haut auf professionelle Seren vorbereiten – wie stark sie reagiert, hängt vom Hautzustand ab.' },
+    { title: 'Bei unreiner Haut', text: 'Antimikrobielle Eigenschaften können die Pflege bei Unreinheiten und Akne ergänzen.' },
+    { title: 'Meist angenehm & non-invasiv', text: 'Leichtes Kribbeln oder Wärmegefühl ist möglich; empfindliche Haut prüft Teresa vorher individuell.' },
+];
+
+const priceItems = [
+    { name: 'coldPLASMA Akne/unreine Haut', duration: '90 Min.', price: 'CHF 180', note: 'Für unreine Haut, Akne-Neigung und ein ruhigeres Hautbild.' },
+    { name: 'Anti Aging Behandlung', duration: '90 Min.', price: 'CHF 220', note: 'Mit Anti-Aging-Fokus für beruhigende Wirkstoffpflege.' },
+    { name: 'Stabilisierung Hautbarriere', duration: '90 Min.', price: 'CHF 220', note: 'Für beanspruchte, empfindliche oder aus dem Gleichgewicht geratene Haut.' },
+    { name: 'Aquafacial + coldPLASMA', duration: '90 Min.', price: 'CHF 280', note: 'Aquafacial Reinigung kombiniert mit coldPLASMA, besonders bei Akne.' },
+];
+
+const steps = [
+    { title: 'Hautanalyse & Vorbereitung', text: 'Teresa analysiert Ihren Hautzustand, wählt die passenden Seren und reinigt die Haut schonend.' },
+    { title: 'ColdPlasma-Applikation', text: 'Das ionisierte Gas wird kontrolliert und gleichmässig auf die Hautoberfläche appliziert.' },
+    { title: 'Serum-Infusion', text: 'Wirkstoffe wie Hyaluronsäure, Peptide oder Antioxidantien werden nach Hautzustand aufgetragen.' },
+    { title: 'Abschluss & Pflege', text: 'Eine beruhigende Abschlusspflege schützt die Hautbarriere – mit Pflegetipps für die nächsten 24 bis 48 Stunden.' },
+];
+
+const suitedFor = [
+    'Feine Linien, Elastizitätsverlust und fahler Teint',
+    'Unreinheiten und Akne',
+    'Müde, gestresste Haut',
+    'Empfindliche Haut',
+    'Nach Microneedling oder Aquafacial',
+    'Vor Hochzeiten, Fotoshootings oder Business-Events',
+];
+
+const faqs = [
+    {
+        question: 'Was ist ColdPlasma und wie wirkt es auf die Haut?',
+        answer: 'ColdPlasma ist ein ionisiertes Gas, das bei niedriger Temperatur auf die Haut einwirkt. In der Kosmetik wird es zur unterstützenden Pflege bei unreiner Haut, Hautbarriere-Themen und zur Vorbereitung auf professionelle Seren eingesetzt. Wirkung und Verträglichkeit hängen vom individuellen Hautzustand ab.',
+    },
+    {
+        question: 'Ist die ColdPlasma Behandlung schmerzhaft?',
+        answer: 'In der Regel nicht: Sie spüren ein leichtes Kribbeln oder ein sanftes Wärmegefühl, vergleichbar mit einem feinen Luftstrom. Da das Plasma bei niedriger Temperatur arbeitet, ist das Risiko einer thermischen Reizung bei fachgerechter Anwendung gering.',
+    },
+    {
+        question: 'Für wen ist ColdPlasma geeignet?',
+        answer: 'ColdPlasma kann für verschiedene Hauttypen infrage kommen, besonders bei unreiner, fahler oder empfindlicher Haut sowie als Ergänzung zu Aquafacial oder Microneedling. Teresa klärt im Vorgespräch, ob die Behandlung passt und welche Intensität sinnvoll ist.',
+    },
+    {
+        question: 'Wie viele ColdPlasma Sitzungen braucht man?',
+        answer: 'Viele Kundinnen planen ColdPlasma als Serie, wenn Hautbarriere, Unreinheiten oder ein fahler Teint längerfristig begleitet werden sollen. Anzahl und Abstand hängen vom Hautzustand, von Kombinationen und der Verträglichkeit ab.',
+    },
+    {
+        question: 'Was kostet ColdPlasma in Zürich?',
+        answer: 'coldPLASMA Akne/unreine Haut kostet CHF 180, die Anti Aging Behandlung und die Stabilisierung der Hautbarriere jeweils CHF 220, Aquafacial + coldPLASMA für Akne CHF 280 – jeweils 90 Minuten, inklusive MwSt. und persönlicher Hautanalyse.',
+    },
+    {
+        question: 'Kann man ColdPlasma mit Microneedling kombinieren?',
+        answer: 'Ja, je nach Hautzustand. Ob ColdPlasma direkt im Anschluss oder mit Abstand sinnvoll ist, entscheidet Teresa nach Hautanalyse, Empfindlichkeit und Behandlungsziel.',
+    },
+    {
+        question: 'Gibt es Nebenwirkungen bei ColdPlasma?',
+        answer: 'ColdPlasma ist in der Regel gut verträglich. Vorübergehende Rötung, Wärmegefühl, Kribbeln oder leichte Empfindlichkeit können auftreten. Teresa bespricht vor jeder Behandlung mögliche Kontraindikationen.',
+    },
 ];
 
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "ColdPlasma Behandlung Zürich",
-    "url": absoluteUrl('/behandlungen/coldplasma-zuerich/'),
+    "url": absoluteUrl(pagePath),
     "image": absoluteUrl('/assets/coldplasma_treatment_editorial.png'),
     "serviceType": "ColdPlasma",
     "category": "Gesichtsbehandlung",
@@ -50,370 +102,93 @@ const structuredData = {
     "description": "ColdPlasma ist eine kosmetisch-ästhetische Behandlung mit ionisiertem Gas bei niedriger Temperatur. Bei Beauty Face Lift an der Bahnhofstrasse Zürich wird jede Behandlung von Inhaberin Teresa Stimac persönlich durchgeführt.",
     "areaServed": "Zürich"
 };
-
-const faqData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-        "@type": "Question",
-        "name": "Was ist ColdPlasma und wie wirkt es auf die Haut?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "ColdPlasma ist ein ionisiertes Gas, das bei niedriger Temperatur auf die Haut einwirkt. In der Kosmetik wird es zur unterstützenden Pflege bei unreiner Haut, Hautbarriere-Themen und zur Vorbereitung auf professionelle Seren eingesetzt. Die Wirkung und Verträglichkeit hängen vom individuellen Hautzustand ab."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Ist die ColdPlasma Behandlung schmerzhaft?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Nein, die ColdPlasma Behandlung bei Beauty Face Lift ist in der Regel angenehm. Während der Applikation spüren Sie lediglich ein leichtes, angenehmes Kribbeln oder ein sanftes Wärmegefühl auf der Haut — vergleichbar mit einem feinen Luftstrom. Da das Plasma bei niedriger Temperatur arbeitet (daher der Name 'Cold' Plasma), ist das Risiko einer thermischen Reizung gering, wenn fachgerecht gearbeitet wird. ColdPlasma wird meist als angenehm empfunden und kann auch für empfindlichere Haut interessant sein, wenn keine Gegenanzeigen vorliegen."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Für wen ist ColdPlasma geeignet?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "ColdPlasma kann für verschiedene Hauttypen infrage kommen, besonders bei unreiner, fahler oder empfindlicher Haut sowie als Ergänzung zu Aquafacial oder Microneedling. Teresa klärt im Vorgespräch, ob die Behandlung für Ihren Hautzustand geeignet ist und welche Intensität sinnvoll ist."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Wie viele ColdPlasma Sitzungen braucht man?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Viele Kundinnen planen ColdPlasma als Serie, wenn Hautbarriere, Unreinheiten oder ein fahler Teint längerfristig begleitet werden sollen. Anzahl und Abstand der Sitzungen hängen vom Hautzustand, der Kombination mit anderen Behandlungen und der Verträglichkeit ab."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Was kostet ColdPlasma in Zürich?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet coldPLASMA Akne/unreine Haut aktuell CHF 180 und dauert 90 Minuten. Die Anti Aging Behandlung und die Stabilisierung der Hautbarriere kosten jeweils CHF 220 für 90 Minuten. Aquafacial + coldPLASMA für Akne kostet CHF 280 für 90 Minuten."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Kann man ColdPlasma mit Microneedling kombinieren?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Ja, ColdPlasma kann je nach Hautzustand mit Microneedling kombiniert werden. Ob es direkt im Anschluss oder mit Abstand sinnvoll ist, entscheidet Teresa nach Hautanalyse, Empfindlichkeit und Behandlungsziel."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Gibt es Nebenwirkungen bei ColdPlasma?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "ColdPlasma ist in der Regel gut verträglich. Vorübergehende Rötung, Wärmegefühl, Kribbeln oder leichte Empfindlichkeit können auftreten. Teresa bespricht vor jeder Behandlung mögliche Kontraindikationen und passt die Anwendung an Ihren Hautzustand an."
-        }
-    }]
-};
 ---
 
 <Base
-    title="ColdPlasma Behandlung Zürich | Beauty Face Lift Bahnhofstrasse"
-    description="ColdPlasma Behandlung in Zürich ab CHF 180 — kosmetische Plasma-Technologie für unreine Haut, Hautbarriere und professionelle Wirkstoffpflege."
-    preloadImage={{
-        href: coldPlasmaHeroPreload.src,
-        imagesrcset: coldPlasmaHeroPreload.srcSet.attribute,
-        imagesizes: treatmentHeroSizes,
-        type: 'image/webp',
-        fetchpriority: 'high',
-    }}
-    navVariant="treatment"
-    bodyClass="treatment-page"
+    title="ColdPlasma Zürich ab CHF 180 | Beauty Face Lift"
+    description="ColdPlasma Behandlung in Zürich ab CHF 180: kosmetische Plasma-Technologie für unreine Haut, Hautbarriere und Wirkstoffpflege. Jetzt Termin buchen."
+    preloadImage={heroPreload}
     structuredData={structuredData}
 >
-    <!-- Editorial Hero with Background Image -->
-    <header class="treatment-hero">
-        <div class="treatment-hero-media">
-            <Image
-                src={coldplasmaCard}
-                widths={[768, 1024, 1440, 1536]}
-                sizes={treatmentHeroSizes}
-                format="webp"
-                quality="high"
-                priority
-                alt="ColdPlasma Behandlung Zürich — Innovative Hautbildpflege an der Bahnhofstrasse"
-                id="treatment-hero-img"
-            />
+    <TreatmentHero
+        treatment="ColdPlasma"
+        breadcrumb="ColdPlasma Zürich"
+        lead="ColdPlasma in Zürich: kosmetische Behandlung mit ionisiertem Gas bei niedriger Temperatur – zur Unterstützung bei unreiner, fahler oder empfindlicher Haut."
+        bookingHref={bookingHref}
+        image={coldplasmaCard}
+        alt="ColdPlasma Behandlung Zürich – Innovative Hautbildpflege an der Bahnhofstrasse"
+        price="ab CHF 180"
+        duration="90 Minuten"
+    >ColdPlasma <em>Zürich</em></TreatmentHero>
+
+    <!-- What it is & benefits -->
+    <section class="section section--flush-top" aria-labelledby="intro-title">
+        <div class="container">
+            <TreatmentSplit image={teresaPortrait} alt="Teresa Stimac in ihrem Studio an der Bahnhofstrasse Zürich" focus="center">
+                <h2 id="intro-title">Ruhiger wirkende Haut, meist ohne Ausfallzeit</h2>
+                <p class="lead">Jede ColdPlasma Behandlung führt Teresa Stimac persönlich durch – individuell dosiert und auf Ihren Hauttyp abgestimmt.</p>
+                <BenefitList items={benefits} />
+            </TreatmentSplit>
         </div>
-        <div class="hero-titles">
-            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
-                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Plasma Technologie • Zürich</span>
-            </div>
-            <h1 class="sr-only">ColdPlasma Behandlung Zürich — Innovative Hautbildpflege an der Bahnhofstrasse</h1>
-            <div class="title-line text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.5rem, 8vw, 8rem);">Cold</span>
-            </div>
-            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="color: var(--gold); font-weight: 300; font-size: clamp(3.5rem, 8vw, 8rem);">Plasma</span>
-            </div>
+    </section>
+
+    <!-- Prices -->
+    <section class="section section--shell" id="preise" aria-label="Preise und Dauer">
+        <div class="container">
+            <PriceMenu items={priceItems} note="Alle Preise inkl. MwSt. Individuelle Beratung und Hautanalyse inklusive.">
+                <Fragment slot="title">ColdPlasma Preise</Fragment>
+                <a slot="actions" href={bookingHref} class="btn btn-arrow" data-treatment="ColdPlasma" data-button-location="treatment_prices">Termin buchen</a>
+            </PriceMenu>
         </div>
-    </header>
+    </section>
 
-    <div class="container treatment-breadcrumbs">
-        <Breadcrumbs items={[
-            { label: "Home", href: "/" },
-            { label: "Behandlungen", href: "/behandlungen/" },
-            { label: "ColdPlasma Zürich" }
-        ]} />
-    </div>
-
-    <TreatmentActionBar treatment="ColdPlasma" href={bookingHref} />
-
-    <AiSummary
-        title="ColdPlasma Zürich"
-        intro="ColdPlasma ist eine kosmetisch-ästhetische Behandlung mit ionisiertem Gas bei niedriger Temperatur. Sie kann die professionelle Wirkstoffpflege bei unreiner, fahler oder empfindlicher Haut unterstützen; Ergebnisse und Verträglichkeit sind individuell unterschiedlich."
-        facts={summaryFacts}
-    />
-
-    <!-- Content Split -->
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Die Innovation</span>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Zukunft der<br>Hautpflege."</h2>
-                <p class="margin-bottom-md">ColdPlasma ist eine kosmetisch-ästhetische Behandlung mit ionisiertem Gas bei niedriger Temperatur. Sie kann die professionelle Wirkstoffpflege bei unreiner, fahler oder empfindlicher Haut unterstützen und wird individuell dosiert. Bei Beauty Face Lift an der Bahnhofstrasse Zürich wird jede ColdPlasma Behandlung von Inhaberin Teresa Stimac persönlich durchgeführt und individuell auf Ihren Hauttyp abgestimmt. Ziel ist ein frischer, ruhiger wirkendes Hautbild, meist ohne relevante Ausfallzeit.</p>
-                <a href={bookingHref} class="pill-btn pill-btn-outline">Termin vereinbaren</a>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={spaInterior}
-                        widths={[360, 540, 720, 960]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="mid"
-                        alt="ColdPlasma Behandlung im Beauty Face Lift Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
+    <!-- Process -->
+    <section class="section" aria-labelledby="process-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2 id="process-title">Ablauf in vier Schritten</h2>
+                    <p class="lead">Non-invasiv und meist angenehm – Sie können direkt danach in den Alltag zurück.</p>
                 </div>
             </div>
+            <TreatmentSteps steps={steps} />
         </div>
     </section>
 
-    <!-- Highlights Grid -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Vorteile</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Zellerneuerung</h4>
-                <p>Kann die professionelle Wirkstoffpflege unterstützen; die Haut wirkt je nach Ausgangszustand frischer und ruhiger.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Wirkstoffpflege</h4>
-                <p>Kann die Haut auf professionelle Seren vorbereiten. Ob und wie stark die Haut reagiert, hängt vom individuellen Hautzustand ab.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Meist angenehm & non-invasiv</h4>
-                <p>Non-invasiv und meist angenehm. Leichtes Kribbeln, Wärmegefühl oder vorübergehende Rötung sind möglich; Teresa prüft empfindliche Haut vorher individuell.</p>
-            </div>
+    <!-- Suitability -->
+    <section class="section section--flush-top" aria-labelledby="suitability-title">
+        <div class="container">
+            <TreatmentSplit image={consultationTrust} alt="Persönliche Hautanalyse vor der ColdPlasma Behandlung in Zürich" quality="high" reverse>
+                <h2 id="suitability-title">Für wen ist ColdPlasma geeignet?</h2>
+                <p class="lead">ColdPlasma kann für verschiedene Hauttypen infrage kommen – ob es passt, klärt Teresa im Vorgespräch.</p>
+                <RuledList items={suitedFor} />
+                <p class="split-note">Mögliche Kontraindikationen bespricht Teresa vor jeder Behandlung mit Ihnen.</p>
+            </TreatmentSplit>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Preise</div>
-        <div class="pricing-grid">
-            <div class="pricing-card pricing-card-accent scroll-anim">
-                <div class="pricing-label">coldPLASMA Akne/unreine Haut</div>
-                <div class="pricing-price">CHF 180</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p>Für unreine Haut, Akne-Neigung und ein ruhigeres Hautbild. Die Behandlung wird individuell auf Hautzustand und Ziel abgestimmt.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Anti Aging Behandlung</div>
-                <div class="pricing-price">CHF 220</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p>coldPLASMA mit Anti-Aging-Fokus für beruhigende Wirkstoffpflege und sichtbar frischere Haut.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Stabilisierung Hautbarriere</div>
-                <div class="pricing-price">CHF 220</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p>Stabilisierende coldPLASMA Behandlung für beanspruchte, empfindliche oder aus dem Gleichgewicht geratene Haut.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Aquafacial + coldPLASMA</div>
-                <div class="pricing-price">CHF 280</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p>Aquafacial Reinigung kombiniert mit coldPLASMA, besonders bei Akne und unreiner Haut.</p>
-            </div>
-        </div>
-        <p style="text-align: center; margin: 2rem auto; font-size: 0.9rem;">Alle Preise inkl. MwSt. Individuelle Beratung und Hautanalyse inklusive.</p>
-    </section>
-
-    <!-- Treatment Process -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Ablauf der Behandlung</div>
-        <div class="process-grid">
-            <div class="process-step scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Hautanalyse & Vorbereitung</h4>
-                <p>Teresa analysiert Ihren Hautzustand und bespricht Ihre individuellen Ziele. Basierend auf der Analyse wird eine passende Serenkombination ausgewählt und Ihre Haut schonend gereinigt und vorbereitet.</p>
-            </div>
-            <div class="process-step scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>ColdPlasma-Applikation</h4>
-                <p>Das ionisierte Gas wird kontrolliert und gleichmässig auf die Hautoberfläche appliziert. Die Plasmaenergie wird kontrolliert eingesetzt und kann die Haut auf nachfolgende professionelle Seren vorbereiten.</p>
-            </div>
-            <div class="process-step scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Serum-Infusion</h4>
-                <p>Professionelle Wirkstoffe wie Hyaluronsäure, Peptide, Vitamine oder Antioxidantien werden nach Hautzustand ausgewählt und aufgetragen. Die Aufnahme kann nach der Vorbereitung vorübergehend verbessert sein.</p>
-            </div>
-            <div class="process-step scroll-anim">
-                <div class="highlight-number">04</div>
-                <h4>Abschluss & Pflege</h4>
-                <p>Eine beruhigende Abschlusspflege schützt die Hautbarriere. Teresa gibt Ihnen individuelle Pflegetipps für die nächsten 24 bis 48 Stunden mit.</p>
-            </div>
+    <!-- Review -->
+    <section class="section section--shell" aria-label="Kundenstimme">
+        <div class="container">
+            <ReviewQuote quote="Stammkunde seit 2008, immer wieder begeistert." author="Daniel" detail="Stammkunde" />
         </div>
     </section>
 
-    <!-- Target Audience Section -->
-    <section class="about-editorial" style="padding-bottom: 10vh;">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Für wen?</span>
-                <h2 style="font-size: clamp(1.8rem, 3vw, 2.8rem); text-transform: none; margin-bottom: 2rem;">Wer profitiert von ColdPlasma?</h2>
-                <p class="margin-bottom-md">ColdPlasma kann für verschiedene Hauttypen infrage kommen. Besonders häufig wird die Behandlung besprochen bei:</p>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Hautalterung — feine Linien, Elastizitätsverlust, fahler Teint</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Unreinheiten & Akne — antimikrobielle Eigenschaften können die Pflege ergänzen</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Müde, gestresste Haut — frischer wirkendes Hautgefühl</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Empfindliche Haut — sanft und non-invasiv, ideal für sensible Hauttypen</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 1.0625rem; color: var(--text-secondary);">• Post-Treatment Boost — nach Microneedling oder Aquafacial für ergänzende Wirkstoffpflege</li>
-                    <li style="padding: 0.5rem 0; font-size: 1.0625rem; color: var(--text-secondary);">• Vor besonderen Anlässen — Hochzeit, Fotoshooting, Business-Events</li>
-                </ul>
-                <p>Teresa berät Sie im Vorgespräch individuell und empfiehlt die passende Behandlungsoption für Ihren Hauttyp und Ihre Ziele.</p>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 100%;">
-                    <Image
-                        src={spaProducts}
-                        widths={[360, 540, 720, 960]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="mid"
-                        alt="Premium Seren und Wirkstoffe für ColdPlasma Behandlung in Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-            </div>
+    <!-- FAQ -->
+    <section class="section" aria-label="Häufige Fragen">
+        <div class="container">
+            <FaqBlock items={faqs}>
+                <Fragment slot="title">Fragen zu ColdPlasma</Fragment>
+            </FaqBlock>
         </div>
     </section>
 
-    <!-- Combination Section -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Behandlungskombinationen</div>
-        <h2 style="text-align: center; font-size: clamp(1.8rem, 3vw, 2.5rem); text-transform: none; margin-bottom: 3rem;">ColdPlasma kombinieren für gezielte Wirkung</h2>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <h4>ColdPlasma + <a href="/behandlungen/aquafacial-zuerich/" style="color: var(--accent); text-decoration: underline;">Aquafacial</a></h4>
-                <p>Eine sinnvolle Kombination: Aquafacial reinigt und hydratisiert die Haut als Vorbereitung, ColdPlasma kann anschliessend die Wirkstoffpflege je nach Hautzustand ergänzen. Ideal in einer Sitzung oder im Abstand von wenigen Tagen.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <h4>ColdPlasma + <a href="/behandlungen/microneedling-zuerich/" style="color: var(--accent); text-decoration: underline;">Microneedling</a></h4>
-                <p>Microneedling erzeugt feine Mikrokanäle und kann die Kollagenbildung unterstützen. ColdPlasma kann danach als beruhigende Wirkstoffpflege eingeplant werden, wenn der Hautzustand passt.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <h4>ColdPlasma + <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" style="color: var(--accent); text-decoration: underline;">Fruchtsäure Peeling</a></h4>
-                <p>Ein Fruchtsäure Peeling entfernt abgestorbene Hautzellen und bereitet die Hautoberfläche sorgfältig vor. ColdPlasma im Anschluss kann die anschliessende Wirkstoffpflege ergänzen — bitte mit Teresa abstimmen.</p>
-            </div>
+    <!-- Booking -->
+    <section class="section section--flush-top" id="buchen">
+        <div class="container">
+            <BookingCta treatment="ColdPlasma" href={bookingHref} image={consultation} alt="Teresa Stimac bespricht mit einer Kundin die Hautanalyse" />
         </div>
     </section>
 
-    <!-- Testimonial Section -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Kundenstimmen</div>
-        <div style="max-width: 700px; margin: 0 auto; text-align: center;">
-            <blockquote style="font-family: var(--font-serif); font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 300; color: var(--text-primary); line-height: 1.5; margin: 0 0 1.5rem 0; padding: 0;">
-                "Stammkundin seit 2008 — Teresa versteht meine Haut wie keine andere."
-            </blockquote>
-            <p style="color: var(--text-secondary); font-size: 1rem; margin-bottom: 0.5rem;">— Daniel, Stammkunde</p>
-            <p style="color: var(--accent); font-size: var(--text-sm); font-weight: 500;">4.8 von 5 Sternen aus 248+ verifizierten Bewertungen</p>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="faq-label">Häufig gestellte Fragen</div>
-        <div class="faq-list">
-            <details class="faq-item scroll-anim">
-                <summary><h3>Was ist ColdPlasma und wie wirkt es auf die Haut?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>ColdPlasma — auch kaltes Atmosphärenplasma oder Non-Thermal Plasma genannt — ist ein ionisiertes Gas, das bei niedriger Temperatur auf die Haut einwirkt. Das ionisierte Gas kann die Hauterneuerung kosmetisch unterstützen, wird in der Kosmetik wegen antimikrobieller Eigenschaften eingesetzt gegen Bakterien und Unreinheiten, und kann die Hautbarriere temporär für ergänzende Wirkstoffpflege vorbereiten. Bei Beauty Face Lift in Zürich setzen wir ColdPlasma gezielt ein, um professionelle Seren sorgfältig einzuarbeiten — für ein frischer und ruhiger wirkendes Hautbild.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Ist die ColdPlasma Behandlung schmerzhaft?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Nein, die ColdPlasma Behandlung bei Beauty Face Lift ist in der Regel angenehm. Während der Applikation spüren Sie lediglich ein leichtes, angenehmes Kribbeln oder ein sanftes Wärmegefühl auf der Haut — vergleichbar mit einem feinen Luftstrom. Da das Plasma bei niedriger Temperatur arbeitet (daher der Name "Cold" Plasma), ist das Risiko einer thermischen Reizung gering, wenn fachgerecht gearbeitet wird. ColdPlasma wird meist als angenehm empfunden und kann auch für empfindlichere Haut interessant sein, wenn keine Gegenanzeigen vorliegen.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Für wen ist ColdPlasma geeignet?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>ColdPlasma kann für verschiedene Hauttypen infrage kommen, besonders bei unreiner, fahler oder empfindlicher Haut sowie als Ergänzung zu Aquafacial oder Microneedling. Teresa klärt im Vorgespräch, ob die Behandlung für Ihren Hautzustand geeignet ist und welche Intensität sinnvoll ist.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Wie viele ColdPlasma Sitzungen braucht man?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Viele Kundinnen planen ColdPlasma als Serie, wenn Hautbarriere, Unreinheiten oder ein fahler Teint längerfristig begleitet werden sollen. Anzahl und Abstand der Sitzungen hängen vom Hautzustand, der Kombination mit anderen Behandlungen und der Verträglichkeit ab.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Was kostet ColdPlasma in Zürich?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet coldPLASMA Akne/unreine Haut aktuell CHF 180 und dauert 90 Minuten. Die Anti Aging Behandlung und die Stabilisierung der Hautbarriere kosten jeweils CHF 220 für 90 Minuten. Aquafacial + coldPLASMA für Akne kostet CHF 280 für 90 Minuten. Alle Preise verstehen sich inklusive MwSt., persönlicher Hautanalyse, Beratung durch Teresa und abgestimmter Wirkstoffpflege.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Kann man ColdPlasma mit Microneedling kombinieren?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Ja, die Kombination von ColdPlasma und Microneedling ist eine mögliche Kombination, die Teresa nach Hautanalyse bewertet. Microneedling erzeugt feine Mikrokanäle in der Haut und kann die natürliche Hauterneuerung und Kollagenbildung unterstützen, während ColdPlasma die Wirkstoffpflege je nach Hautzustand ergänzen kann. Ob ColdPlasma direkt im Anschluss oder mit Abstand sinnvoll ist, entscheidet Teresa nach Hautzustand, Empfindlichkeit und Behandlungsziel.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Gibt es Nebenwirkungen bei ColdPlasma?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>ColdPlasma ist in der Regel gut verträglich. Vorübergehende Rötung, Wärmegefühl, Kribbeln oder leichte Empfindlichkeit können auftreten. Teresa bespricht vor jeder Behandlung mögliche Kontraindikationen und passt die Anwendung an Ihren Hautzustand an.</p>
-                </div></div>
-            </details>
-        </div>
-        <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
-    </section>
-
-    <!-- Booking CTA -->
-    <section class="container pad-y" id="buchen">
-        <BookingCta treatment="ColdPlasma" href={bookingHref} />
-    </section>
-
-    <!-- More Treatments -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="more-treatments">
-            <div class="sub-display margin-bottom-lg">Weitere Behandlungen</div>
-            <div class="more-treatments-grid">
-                <TreatmentLinkCard
-                    href="/behandlungen/aquafacial-zuerich/"
-                    title="Aquafacial"
-                    description="Tiefenreinigung, Vitalisierung und Glow. Professionelle Pflege für den frischen Selfie-Look."
-                />
-                <TreatmentLinkCard
-                    href="/behandlungen/microneedling-zuerich/"
-                    title="Micro Needling"
-                    description="Kosmetische Hautbildverbesserung ohne OP. Kollagenstimulation für ein verfeinertes Hautbild."
-                />
-                <TreatmentLinkCard
-                    href="/behandlungen/fruchtsaeure-peeling-zuerich/"
-                    title="Fruchtsäure Peeling"
-                    description="Tiefenreinigung und Hauterneuerung für einen kompromisslos klaren Teint."
-                />
-            </div>
-        </div>
-    </section>
+    <RelatedTreatments current={pagePath} />
 </Base>

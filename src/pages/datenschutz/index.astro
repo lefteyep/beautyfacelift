@@ -1,166 +1,214 @@
 ---
 
 import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Datenschutzerklärung' },
+];
 ---
 
 <Base
     title="Datenschutzerklärung | Beauty Face Lift Zürich"
     description="Datenschutzerklärung von Beauty Face Lift — wie wir Ihre Daten schützen und verarbeiten. Premium Kosmetikinstitut, Bahnhofstrasse 94, 8001 Zürich."
 >
-    <section class="container legal-page">
-        <h1>Datenschutzerklärung</h1>
+    <header class="page-hero legal-hero">
+        <div class="container legal-head">
+            <Breadcrumbs items={breadcrumbs} />
+            <h1>Datenschutzerklärung</h1>
+            <p class="caption">Stand: April 2026</p>
+        </div>
+    </header>
 
-        <p><strong>Stand:</strong> April 2026</p>
+    <div class="container legal-layout">
+        <nav class="legal-toc" aria-label="Inhalt der Datenschutzerklärung">
+            <ol>
+                    <li><a href="#abschnitt-1"><span>1</span>Verantwortliche Stelle</a></li>
+                    <li><a href="#abschnitt-2"><span>2</span>Erhebung und Verarbeitung personenbezogener Daten</a></li>
+                    <li><a href="#abschnitt-3"><span>3</span>Zweck der Datenverarbeitung</a></li>
+                    <li><a href="#abschnitt-4"><span>4</span>Datenspeicherung</a></li>
+                    <li><a href="#abschnitt-5"><span>5</span>Cookies und Tracking</a></li>
+                    <li><a href="#abschnitt-6"><span>6</span>Server-seitige Datenverarbeitung</a></li>
+                    <li><a href="#abschnitt-7"><span>7</span>Drittanbieter</a></li>
+                    <li><a href="#abschnitt-8"><span>8</span>Ihre Rechte</a></li>
+                    <li><a href="#abschnitt-9"><span>9</span>Datensicherheit</a></li>
+                    <li><a href="#abschnitt-10"><span>10</span>Änderungen dieser Datenschutzerklärung</a></li>
+            </ol>
+        </nav>
 
-        <h2>1. Verantwortliche Stelle</h2>
-        <p>
-            Beauty Face Lift<br>
-            Teresa Stimac<br>
-            Bahnhofstrasse 94<br>
-            8001 Zürich, Schweiz<br>
-            E-Mail: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a><br>
-            Telefon: <a href="tel:+41792143462">+41 79 214 34 62</a>
-        </p>
+        <section class="legal-body">
+            <h2 id="abschnitt-1">1. Verantwortliche Stelle</h2>
+            <p>
+                Beauty Face Lift<br>
+                Teresa Stimac<br>
+                Bahnhofstrasse 94<br>
+                8001 Zürich, Schweiz<br>
+                E-Mail: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a><br>
+                Telefon: <a href="tel:+41792143462">+41 79 214 34 62</a>
+            </p>
 
-        <h2>2. Erhebung und Verarbeitung personenbezogener Daten</h2>
-        <p>Wir erheben personenbezogene Daten nur dann, wenn Sie uns diese im Rahmen einer Terminbuchung, Kontaktaufnahme oder Anfrage freiwillig mitteilen. Dies umfasst:</p>
-        <ul>
-            <li>Name</li>
-            <li>E-Mail-Adresse</li>
-            <li>Telefonnummer</li>
-            <li>Angaben aus dem Kontaktformular (Thema, Nachricht, gewünschter Rückrufzeitpunkt)</li>
-            <li>Buchungsdaten (gewählte Behandlung, Datum, Uhrzeit)</li>
-            <li>Optionale Anmerkungen zur Buchung</li>
-        </ul>
+            <h2 id="abschnitt-2">2. Erhebung und Verarbeitung personenbezogener Daten</h2>
+            <p>Wir erheben personenbezogene Daten nur dann, wenn Sie uns diese im Rahmen einer Terminbuchung, Kontaktaufnahme oder Anfrage freiwillig mitteilen. Dies umfasst:</p>
+            <ul>
+                <li>Name</li>
+                <li>E-Mail-Adresse</li>
+                <li>Telefonnummer</li>
+                <li>Angaben aus dem Kontaktformular (Thema, Nachricht, gewünschter Rückrufzeitpunkt)</li>
+                <li>Buchungsdaten (gewählte Behandlung, Datum, Uhrzeit)</li>
+                <li>Optionale Anmerkungen zur Buchung</li>
+            </ul>
 
-        <h2>3. Zweck der Datenverarbeitung</h2>
-        <p>Ihre Daten werden ausschliesslich für folgende Zwecke verwendet:</p>
-        <ul>
-            <li>Bearbeitung und Bestätigung Ihrer Terminbuchung</li>
-            <li>Kommunikation bezüglich Ihres Termins (Bestätigung, Erinnerung, Änderung, Stornierung)</li>
-            <li>Beantwortung Ihrer Anfragen</li>
-            <li>Spam- und Missbrauchsschutz für unser Kontaktformular</li>
-            <li>Verbesserung unseres Angebots und unserer Website</li>
-        </ul>
+            <h2 id="abschnitt-3">3. Zweck der Datenverarbeitung</h2>
+            <p>Ihre Daten werden ausschliesslich für folgende Zwecke verwendet:</p>
+            <ul>
+                <li>Bearbeitung und Bestätigung Ihrer Terminbuchung</li>
+                <li>Kommunikation bezüglich Ihres Termins (Bestätigung, Erinnerung, Änderung, Stornierung)</li>
+                <li>Beantwortung Ihrer Anfragen</li>
+                <li>Spam- und Missbrauchsschutz für unser Kontaktformular</li>
+                <li>Verbesserung unseres Angebots und unserer Website</li>
+            </ul>
 
-        <h2>4. Datenspeicherung</h2>
-        <p>Ihre Buchungsdaten werden in einer Datenbank bei <strong>Supabase</strong> (EU-Region, Frankfurt) gespeichert. Die Daten werden verschlüsselt übertragen (TLS) und in einer EU-konformen Infrastruktur gehostet.</p>
-        <p>Zahlungsdaten für optionale Anzahlungen werden direkt von <strong>Stripe</strong> verarbeitet. Wir speichern keine Kreditkartendaten auf unseren Servern.</p>
-        <p>Kontaktanfragen werden serverseitig verarbeitet. Dabei werden Ihre Formularangaben, die IP-Adresse, der User-Agent sowie der Zeitpunkt der Anfrage zur Missbrauchsprävention und Bearbeitung der Nachricht verarbeitet.</p>
+            <h2 id="abschnitt-4">4. Datenspeicherung</h2>
+            <p>Ihre Buchungsdaten werden in einer Datenbank bei <strong>Supabase</strong> (EU-Region, Frankfurt) gespeichert. Die Daten werden verschlüsselt übertragen (TLS) und in einer EU-konformen Infrastruktur gehostet.</p>
+            <p>Zahlungsdaten für optionale Anzahlungen werden direkt von <strong>Stripe</strong> verarbeitet. Wir speichern keine Kreditkartendaten auf unseren Servern.</p>
+            <p>Kontaktanfragen werden serverseitig verarbeitet. Dabei werden Ihre Formularangaben, die IP-Adresse, der User-Agent sowie der Zeitpunkt der Anfrage zur Missbrauchsprävention und Bearbeitung der Nachricht verarbeitet.</p>
 
-        <h2>5. Cookies und Tracking</h2>
-        <p>Unsere Website verwendet technisch notwendige Funktionen für Betrieb, Sicherheit und Formularschutz. Marketing- und Analyse-Technologien laden wir erst nach Ihrer Einwilligung:</p>
-        <ul>
-            <li><strong>Google Analytics 4 (GA4):</strong> Zur Analyse des Nutzerverhaltens auf unserer Website. IP-Adressen werden anonymisiert.</li>
-            <li><strong>Google Ads:</strong> Conversion-Tracking und Remarketing zur Optimierung unserer Werbekampagnen.</li>
-            <li><strong>Meta Pixel (Facebook/Instagram):</strong> Conversion-Tracking und Erstellung von Zielgruppen für Werbeanzeigen.</li>
-            <li><strong>Google Tag Manager:</strong> Verwaltung der oben genannten Tracking-Skripte.</li>
-        </ul>
-        <p>Sie können die Nutzung von Cookies in Ihrem Browser deaktivieren oder Ihre Marketing-Einwilligung auf der Website ablehnen. Ohne Einwilligung werden Meta Pixel, Google Tag Manager und serverseitige Marketing-Events nicht aktiviert.</p>
+            <h2 id="abschnitt-5">5. Cookies und Tracking</h2>
+            <p>Unsere Website verwendet technisch notwendige Funktionen für Betrieb, Sicherheit und Formularschutz. Marketing- und Analyse-Technologien laden wir erst nach Ihrer Einwilligung:</p>
+            <ul>
+                <li><strong>Google Analytics 4 (GA4):</strong> Zur Analyse des Nutzerverhaltens auf unserer Website. IP-Adressen werden anonymisiert.</li>
+                <li><strong>Google Ads:</strong> Conversion-Tracking und Remarketing zur Optimierung unserer Werbekampagnen.</li>
+                <li><strong>Meta Pixel (Facebook/Instagram):</strong> Conversion-Tracking und Erstellung von Zielgruppen für Werbeanzeigen.</li>
+                <li><strong>Google Tag Manager:</strong> Verwaltung der oben genannten Tracking-Skripte.</li>
+            </ul>
+            <p>Sie können die Nutzung von Cookies in Ihrem Browser deaktivieren oder Ihre Marketing-Einwilligung auf der Website ablehnen. Ohne Einwilligung werden Meta Pixel, Google Tag Manager und serverseitige Marketing-Events nicht aktiviert.</p>
 
-        <h2>6. Server-seitige Datenverarbeitung</h2>
-        <p>Wenn Sie Marketing-Tracking akzeptieren, können Ereignisse wie Seitenaufrufe, Klicks auf Buchungs- oder Kontaktmöglichkeiten und Kampagnenparameter serverseitig an Meta oder Google übermittelt werden. Dabei werden IP-Adresse und User-Agent serverseitig verarbeitet; E-Mail-Adresse oder Telefonnummer werden nur bei freiwillig übermittelten Formular- oder Lead-Daten gehasht weitergegeben. Ohne Marketing-Einwilligung werden diese serverseitigen Marketing-Events nicht ausgelöst.</p>
+            <h2 id="abschnitt-6">6. Server-seitige Datenverarbeitung</h2>
+            <p>Wenn Sie Marketing-Tracking akzeptieren, können Ereignisse wie Seitenaufrufe, Klicks auf Buchungs- oder Kontaktmöglichkeiten und Kampagnenparameter serverseitig an Meta oder Google übermittelt werden. Dabei werden IP-Adresse und User-Agent serverseitig verarbeitet; E-Mail-Adresse oder Telefonnummer werden nur bei freiwillig übermittelten Formular- oder Lead-Daten gehasht weitergegeben. Ohne Marketing-Einwilligung werden diese serverseitigen Marketing-Events nicht ausgelöst.</p>
 
-        <h2>7. Drittanbieter</h2>
-        <p>Wir nutzen folgende Drittanbieter zur Erbringung unserer Dienste:</p>
-        <ul>
-            <li><strong>Cloudflare:</strong> Hosting und Bereitstellung der Website (USA/EU)</li>
-            <li><strong>Cloudflare Turnstile:</strong> Bot- und Missbrauchsschutz für das Kontaktformular</li>
-            <li><strong>Supabase:</strong> Datenbank und Authentifizierung (EU — Frankfurt)</li>
-            <li><strong>Stripe:</strong> Zahlungsabwicklung für Anzahlungen (EU/USA)</li>
-            <li><strong>Resend:</strong> Versand von E-Mail-Benachrichtigungen und Kontaktanfragen (USA)</li>
-            <li><strong>Google:</strong> Analytics, Ads, Tag Manager (USA)</li>
-            <li><strong>Meta:</strong> Pixel, Conversions API (USA)</li>
-        </ul>
+            <h2 id="abschnitt-7">7. Drittanbieter</h2>
+            <p>Wir nutzen folgende Drittanbieter zur Erbringung unserer Dienste:</p>
+            <ul>
+                <li><strong>Cloudflare:</strong> Hosting und Bereitstellung der Website (USA/EU)</li>
+                <li><strong>Cloudflare Turnstile:</strong> Bot- und Missbrauchsschutz für das Kontaktformular</li>
+                <li><strong>Supabase:</strong> Datenbank und Authentifizierung (EU — Frankfurt)</li>
+                <li><strong>Stripe:</strong> Zahlungsabwicklung für Anzahlungen (EU/USA)</li>
+                <li><strong>Resend:</strong> Versand von E-Mail-Benachrichtigungen und Kontaktanfragen (USA)</li>
+                <li><strong>Google:</strong> Analytics, Ads, Tag Manager (USA)</li>
+                <li><strong>Meta:</strong> Pixel, Conversions API (USA)</li>
+            </ul>
 
-        <h2>8. Ihre Rechte</h2>
-        <p>Gemäss dem Schweizer Datenschutzgesetz (DSG) und der EU-Datenschutz-Grundverordnung (DSGVO) haben Sie folgende Rechte:</p>
-        <ul>
-            <li><strong>Auskunftsrecht:</strong> Sie können jederzeit Auskunft über Ihre gespeicherten Daten verlangen.</li>
-            <li><strong>Berichtigungsrecht:</strong> Sie können die Berichtigung unrichtiger Daten verlangen.</li>
-            <li><strong>Löschungsrecht:</strong> Sie können die Löschung Ihrer Daten verlangen, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</li>
-            <li><strong>Widerspruchsrecht:</strong> Sie können der Verarbeitung Ihrer Daten jederzeit widersprechen.</li>
-            <li><strong>Datenportabilität:</strong> Sie können die Herausgabe Ihrer Daten in einem gängigen Format verlangen.</li>
-        </ul>
-        <p>Für die Ausübung Ihrer Rechte wenden Sie sich bitte an: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a></p>
+            <h2 id="abschnitt-8">8. Ihre Rechte</h2>
+            <p>Gemäss dem Schweizer Datenschutzgesetz (DSG) und der EU-Datenschutz-Grundverordnung (DSGVO) haben Sie folgende Rechte:</p>
+            <ul>
+                <li><strong>Auskunftsrecht:</strong> Sie können jederzeit Auskunft über Ihre gespeicherten Daten verlangen.</li>
+                <li><strong>Berichtigungsrecht:</strong> Sie können die Berichtigung unrichtiger Daten verlangen.</li>
+                <li><strong>Löschungsrecht:</strong> Sie können die Löschung Ihrer Daten verlangen, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</li>
+                <li><strong>Widerspruchsrecht:</strong> Sie können der Verarbeitung Ihrer Daten jederzeit widersprechen.</li>
+                <li><strong>Datenportabilität:</strong> Sie können die Herausgabe Ihrer Daten in einem gängigen Format verlangen.</li>
+            </ul>
+            <p>Für die Ausübung Ihrer Rechte wenden Sie sich bitte an: <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a></p>
 
-        <h2>9. Datensicherheit</h2>
-        <p>Wir setzen technische und organisatorische Sicherheitsmassnahmen ein, um Ihre Daten gegen Verlust, Zerstörung, Verfälschung und unbefugten Zugriff zu schützen. Unsere Sicherheitsmassnahmen werden laufend überprüft und dem technologischen Fortschritt angepasst.</p>
+            <h2 id="abschnitt-9">9. Datensicherheit</h2>
+            <p>Wir setzen technische und organisatorische Sicherheitsmassnahmen ein, um Ihre Daten gegen Verlust, Zerstörung, Verfälschung und unbefugten Zugriff zu schützen. Unsere Sicherheitsmassnahmen werden laufend überprüft und dem technologischen Fortschritt angepasst.</p>
 
-        <h2>10. Änderungen dieser Datenschutzerklärung</h2>
-        <p>Wir behalten uns vor, diese Datenschutzerklärung jederzeit anzupassen. Die aktuelle Version ist stets auf dieser Seite abrufbar.</p>
-    </section>
+            <h2 id="abschnitt-10">10. Änderungen dieser Datenschutzerklärung</h2>
+            <p>Wir behalten uns vor, diese Datenschutzerklärung jederzeit anzupassen. Die aktuelle Version ist stets auf dieser Seite abrufbar.</p>
+</section>
+    </div>
 </Base>
 
 <style>
-    .legal-page {
-        padding-top: 18vh;
-        padding-bottom: 10vh;
-        max-width: 800px;
+    .legal-hero { padding-bottom: clamp(32px, 4vw, 56px); }
+    .legal-head { display: grid; gap: 20px; justify-items: start; }
+    .legal-head :global(.breadcrumbs) { padding: 0; }
+
+    /* Sticky table of contents beside a comfortable reading column */
+    .legal-layout {
+        display: grid;
+        grid-template-columns: minmax(240px, 300px) minmax(0, 740px);
+        justify-content: space-between;
+        gap: clamp(40px, 6vw, 112px);
+        align-items: start;
+        padding-bottom: var(--section-y);
     }
 
-    .legal-page h1 {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        margin-bottom: 3rem;
+    .legal-toc {
+        position: sticky;
+        top: calc(var(--nav-h) + 32px);
     }
 
-    .legal-page h2 {
-        font-size: 1.3rem;
-        margin-top: 3rem;
-        margin-bottom: 1rem;
-        text-transform: none;
+    .legal-toc ol { border-top: 1px solid var(--line-strong); }
+    .legal-toc li { border-bottom: 1px solid var(--line); }
+
+    .legal-toc a {
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 8px;
+        padding: 11px 0;
+        font-size: var(--fs-small);
+        line-height: 1.4;
+        color: var(--text);
+        transition: color 0.3s ease, padding 0.45s var(--ease-expo);
     }
 
-    .legal-page h3 {
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-secondary);
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
+    .legal-toc a span { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .legal-toc a:hover { color: var(--clay); padding-left: 6px; }
+
+    .legal-body { padding-top: 4px; }
+
+    .legal-body h2 {
+        margin: clamp(48px, 5vw, 64px) 0 16px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        font-size: clamp(1.7rem, 2.4vw, 2.2rem);
+        line-height: 1.12;
+        scroll-margin-top: calc(var(--nav-h) + 24px);
     }
 
-    .legal-page p {
-        max-width: none;
-        margin-bottom: 1rem;
+    .legal-body h2:first-child {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
     }
 
-    .legal-page ul {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 1.5rem;
+    .legal-body p { margin-bottom: 1rem; }
+
+    .legal-body a {
+        color: var(--cocoa);
+        text-decoration: underline;
+        text-decoration-color: var(--line-strong);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease, text-decoration-color 0.3s ease;
     }
 
-    .legal-page ul li {
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 300;
-        color: var(--text-secondary);
-        padding: 0.4rem 0;
-        padding-left: 1.5rem;
+    .legal-body a:hover {
+        color: var(--clay);
+        text-decoration-color: currentColor;
+    }
+
+    .legal-body ul { margin: 0 0 1.5rem; }
+
+    .legal-body li {
         position: relative;
+        padding: 0.35rem 0 0.35rem 28px;
+        color: var(--text);
     }
 
-    .legal-page ul li::before {
+    .legal-body li::before {
         content: '';
         position: absolute;
-        left: 0;
-        top: 0.85rem;
+        left: 4px;
+        top: 1.05em;
         width: 6px;
         height: 6px;
-        background: var(--accent);
         border-radius: 50%;
+        background: var(--clay);
     }
 
-    .legal-page a {
-        color: var(--accent);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
-
-    .legal-page a:hover {
-        color: var(--accent-dark);
+    @media (max-width: 900px) {
+        .legal-layout { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+        .legal-toc { position: static; }
     }
 </style>

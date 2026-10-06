@@ -1,0 +1,131 @@
+---
+/**
+ * One client review beside the shared rating heading (4,8 / 248+ on Treatwell).
+ * Pass the quote text without quotation marks — „…“ are added here.
+ */
+import { TREATWELL_URL } from '../../../shared/site';
+
+interface Props {
+  quote: string;
+  author: string;
+  detail?: string;
+  /** Show five stars (only where the source review is shown with them). */
+  stars?: boolean;
+}
+
+const { quote, author, detail, stars = false } = Astro.props;
+---
+
+<div class="review">
+  <div class="review-head">
+    <h2>4,8 Sterne aus 248+ Bewertungen</h2>
+    <a href={TREATWELL_URL} class="btn-link" target="_blank" rel="noopener">Alle auf Treatwell</a>
+  </div>
+  <figure class="review-card scroll-anim">
+    <span class="review-mark" aria-hidden="true">„</span>
+    <blockquote>„{quote}“</blockquote>
+    <figcaption>
+      <span class="review-avatar" aria-hidden="true">{author.charAt(0)}</span>
+      <span class="review-who"><strong>{author}</strong>{detail && <span>{detail}</span>}</span>
+      {stars && <span class="review-stars" role="img" aria-label="5 von 5 Sternen">★★★★★</span>}
+    </figcaption>
+  </figure>
+</div>
+
+<style>
+  .review {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .review-head {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+
+  .review-head h2 {
+    max-width: 15ch;
+  }
+
+  .review-card {
+    position: relative;
+    display: grid;
+    gap: 32px;
+    padding: clamp(28px, 4vw, 52px);
+    border-radius: var(--r-lg);
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+
+  .review-mark {
+    position: absolute;
+    top: 4px;
+    right: 32px;
+    font-family: var(--f-serif);
+    font-size: 7rem;
+    line-height: 1;
+    color: var(--blush);
+  }
+
+  .review-card blockquote {
+    position: relative;
+    max-width: 22ch;
+    font-family: var(--f-serif);
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--cocoa);
+    text-wrap: balance;
+  }
+
+  .review-card figcaption {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .review-avatar {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--shell);
+    font-family: var(--f-serif);
+    font-size: 1.35rem;
+    color: var(--clay);
+  }
+
+  .review-who {
+    display: grid;
+  }
+
+  .review-who strong {
+    font-weight: 600;
+    color: var(--cocoa);
+  }
+
+  .review-stars {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+
+  @media (max-width: 900px) {
+    .review {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .review-mark {
+      font-size: 5rem;
+      right: 20px;
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+/**
+ * Hairline list for suitability notes and similar enumerations.
+ *   items: plain strings (shown with a small copper check), or
+ *          { term, text } rows (term above a muted line)
+ */
+interface Row {
+  term: string;
+  text: string;
+}
+
+interface Props {
+  items: (string | Row)[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="ruled-list">
+  {items.map((item) => (
+    typeof item === 'string' ? (
+      <li><span class="ruled-list-text">{item}</span></li>
+    ) : (
+      <li>
+        <span class="ruled-list-text">
+          <span class="ruled-list-term">{item.term}</span>
+          <span class="ruled-list-sub">{item.text}</span>
+        </span>
+      </li>
+    )
+  ))}
+</ul>
+
+<style>
+  .ruled-list {
+    width: 100%;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .ruled-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-block: 15px;
+    border-bottom: 1px solid var(--line);
+    color: var(--cocoa);
+    line-height: 1.5;
+  }
+
+  .ruled-list li::before {
+    content: '';
+    flex: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+    transform: translateY(3px);
+  }
+
+  .ruled-list-text {
+    display: grid;
+    gap: 2px;
+  }
+
+  .ruled-list-sub {
+    font-size: var(--fs-small);
+    color: var(--muted);
+  }
+
+  :global(.section--shell) .ruled-list li::before {
+    background-color: var(--paper);
+  }
+</style>

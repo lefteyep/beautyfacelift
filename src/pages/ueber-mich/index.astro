@@ -1,19 +1,47 @@
 ---
-import { absoluteUrl } from '../../../shared/site';
+import { absoluteUrl, TREATWELL_URL } from '../../../shared/site';
 
 import Base from '../../layouts/Base.astro';
-import Marquee from '../../components/Marquee.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { Image, getImage } from 'astro:assets';
-import { spaInterior, spaProducts, teresaPortrait } from '../../lib/site-images';
+import { spaInterior, teresaPortrait } from '../../lib/site-images';
+import teresaAtWork from '../../assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp';
 
-const aboutImageSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const heroSizes = '(min-width: 1280px) 480px, (min-width: 901px) 38vw, 88vw';
 const aboutTeresaPreload = await getImage({
     src: teresaPortrait,
-    widths: [360, 540, 720, 960, 1023],
-    sizes: aboutImageSizes,
+    widths: [420, 640, 860, 1100],
+    sizes: heroSizes,
     format: 'webp',
     quality: 'high',
 });
+
+const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Über mich' },
+];
+
+// Facts as published elsewhere on the site (homepage, shared/site.ts).
+const stats = [
+    { value: '20+', label: 'Jahre selbstständig in Zürich' },
+    { value: '4,8', label: 'aus 248+ Bewertungen auf Treatwell' },
+    { value: '1:1', label: 'jede Behandlung persönlich' },
+    { value: '2008', label: 'seit diesem Jahr begleitet Teresa einige Kundinnen' },
+];
+
+const principles = [
+    { title: 'Persönlich', text: 'Jede Behandlung führt Teresa selbst durch – ohne Assistenten, ohne Delegation.' },
+    { title: 'Erprobte Produkte', text: 'Nur Rezepturen, die Teresa kennt und an der eigenen Haut anwendet.' },
+    { title: 'Moderne Methoden', text: 'Regelmässige Weiterbildung, von Aquafacial über Microneedling bis ColdPlasma.' },
+    { title: 'Ehrliche Beratung', text: 'Sorgfältige Hautanalyse und eine Empfehlung, die zu Ihrer Haut passt.' },
+];
+
+// Existing reviews, wording unchanged.
+const testimonials = [
+    { quote: 'Wie immer eine wunderbare Verwöhnzeit!', author: 'Emina', detail: 'Stammkundin' },
+    { quote: 'Seit 2008 bei Teresa, absolute Vertrauenssache. Professionell, ehrlich und immer auf dem neuesten Stand.', author: 'Daniel', detail: 'Stammkunde seit 2008' },
+    { quote: 'Teresas Charme und Professionalität machen jeden Besuch besonders. Man fühlt sich sofort wohl und bestens aufgehoben.', author: 'Andreas', detail: 'Verifizierter Kunde' },
+];
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -47,193 +75,436 @@ const structuredData = {
 ---
 
 <Base
-    title="Über mich | Beauty Face Lift — Teresa Stimac, Kosmetikerin Zürich"
-    description="Lernen Sie Teresa Stimac kennen — seit über 20 Jahren selbstständige Kosmetikerin in Zürich. 4.8 Sterne bei 248+ Bewertungen. Ihr Premium Kosmetikinstitut an der Bahnhofstrasse 94."
+    title="Teresa Stimac, Kosmetikerin Zürich | Beauty Face Lift"
+    description="Teresa Stimac, seit über 20 Jahren selbstständige Kosmetikerin in Zürich: jede Behandlung persönlich, 4,8 aus 248+ Bewertungen. Erstberatung kostenlos."
     preloadImage={{
         href: aboutTeresaPreload.src,
         imagesrcset: aboutTeresaPreload.srcSet.attribute,
-        imagesizes: aboutImageSizes,
+        imagesizes: heroSizes,
         type: 'image/webp',
         fetchpriority: 'high',
     }}
     ogImage={absoluteUrl('/assets/teresa_portrait.jpg')}
     structuredData={structuredData}
 >
-    <!-- Page Header -->
-    <section class="container" style="padding-top: 20vh; padding-bottom: 5vh;">
-        <div class="sub-display margin-bottom-md">Teresa Stimac</div>
-        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Über mich</h1>
-    </section>
+    <!-- 1 · Portrait hero -->
+    <header class="page-hero page-hero--split ab-hero">
+        <div class="container page-hero-inner">
+            <div class="page-hero-copy">
+                <div class="reveal-up">
+                    <Breadcrumbs items={breadcrumbs} />
+                </div>
+                <h1 class="reveal-up d-1">Teresa Stimac, Ihre Kosmetikerin in <em>Zürich</em></h1>
+                <p class="lead reveal-up d-2">Seit über 20 Jahren selbstständig – und bis heute führt Teresa jede Behandlung persönlich durch.</p>
+                <div class="btn-row reveal-up d-3">
+                    <a href="/termin/" class="btn btn-lg btn-arrow" data-button-location="about_hero">Termin bei Teresa buchen</a>
+                    <a href="/kontakt/" class="btn btn-secondary btn-lg" data-button-location="about_hero_consultation">Kostenlose Beratung</a>
+                </div>
+                <ul class="ab-proof reveal-up d-4">
+                    <li><span class="stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></li>
+                    <li class="ab-proof-check">Erstberatung kostenlos</li>
+                </ul>
+            </div>
 
-    <!-- Teresa Section -->
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 130%;">
+            <div class="ab-media">
+                <div class="arch ab-arch reveal-media">
                     <Image
                         src={teresaPortrait}
-                        widths={[360, 540, 720, 960, 1023]}
-                        sizes={aboutImageSizes}
+                        widths={[420, 640, 860, 1100]}
+                        sizes={heroSizes}
                         format="webp"
                         quality="high"
-                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
-                        class="anim-img"
-                        loading="eager"
+                        priority
+                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich, in ihrem Studio"
                     />
                 </div>
-            </div>
-            <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Die Gründerin</div>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Teresa Stimac — über 20 Jahre Leidenschaft für Ihre Haut</h2>
-                <p class="margin-bottom-md">Seit über 20 Jahren ist Teresa Stimac als selbstständige Kosmetikerin in Zürich tätig. Mit einer treuen und langjährigen Stammkundschaft — einige Kundinnen begleitet sie seit 2008 — hat sie sich als eine der vertrauenswürdigsten Expertinnen für professionelle Gesichtsbehandlungen in der Region etabliert. Tausende Behandlungen hat Teresa in dieser Zeit persönlich durchgeführt, jede einzelne mit voller Aufmerksamkeit und Hingabe.</p>
-                <p class="margin-bottom-md">An der Bahnhofstrasse 94 in Zürich hat Teresa mit Beauty Face Lift eine Oase geschaffen, die modernste Behandlungsmethoden mit persönlicher, ehrlicher Beratung verbindet. Ihre Mission war von Beginn an klar: Jeder Kundin und jedem Kunden zu einem strahlenden, selbstbewussten Hautbild verhelfen — mit Behandlungen, die wirken und Ergebnisse liefern, die man sieht und spürt.</p>
-                <a href="/termin/" class="pill-btn pill-btn-outline">Termin bei Teresa buchen</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <Marquee items={["Expertise", "Leidenschaft", "Innovation", "Vertrauen"]} />
-
-    <!-- Philosophy Section -->
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Philosophie</div>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Nur das Beste ist gut genug</h2>
-                <p class="margin-bottom-md">Teresa verwendet ausschliesslich Produkte, deren Eigenschaften und Rezepturen sie persönlich kennt und selbst anwendet. Für ihre Kundinnen und Kunden ist ihr nur das Beste gut genug. Was Teresa nicht an ihrer eigenen Haut getestet hat, kommt nicht an Ihre — so einfach ist das Prinzip, das seit über zwei Jahrzehnten den Unterschied macht.</p>
-                <p class="margin-bottom-lg">Jede Behandlung wird von Teresa persönlich durchgeführt — keine Assistenten, keine Delegation. Wenn Sie bei Beauty Face Lift einen Termin buchen, werden Sie von der Gründerin selbst behandelt. Diese persönliche Betreuung ist kein Zufall, sondern Überzeugung: Nur wer jede Haut kennt, kann sie optimal behandeln. Diese Philosophie hat Teresa die Treue ihrer Kundinnen über viele Jahre gesichert.</p>
-                <a href="/behandlungen/" class="pill-btn pill-btn-outline">Behandlungen ansehen</a>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={spaProducts}
-                        widths={[360, 540, 720, 960]}
-                        sizes={aboutImageSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Premium Hautpflegeprodukte bei Beauty Face Lift — persönlich von Teresa ausgewählt"
-                        class="anim-img"
-                        loading="lazy"
-                    />
+                <div class="ring-badge ab-ring" aria-hidden="true">
+                    <svg viewBox="0 0 120 120"><defs><path id="ab-ring-path" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" /></defs><text><textPath href="#ab-ring-path" textLength="286" lengthAdjust="spacing">Jahre selbstständig · Zürich ·</textPath></text></svg>
+                    <span>20+</span>
                 </div>
             </div>
         </div>
+    </header>
+
+    <!-- 2 · Story in numbers -->
+    <section class="section section--shell" aria-labelledby="story-title">
+        <div class="container ab-story">
+            <div class="ab-story-media scroll-anim">
+                <Image
+                    src={teresaAtWork}
+                    widths={[420, 640, 900]}
+                    sizes="(min-width: 1280px) 520px, (min-width: 901px) 42vw, 92vw"
+                    format="webp"
+                    quality="high"
+                    loading="lazy"
+                    alt="Teresa Stimac trägt nach der Behandlung die Abschlusspflege auf"
+                />
+            </div>
+            <div class="ab-story-copy">
+                <h2 id="story-title">Eine Kosmetikerin, die Ihre Haut kennt</h2>
+                <p class="lead">Eine treue Stammkundschaft verlässt sich auf Teresas Erfahrung. Tausende Behandlungen hat sie persönlich durchgeführt, jede mit voller Aufmerksamkeit.</p>
+                <dl class="ab-stats">
+                    {stats.map((stat) => (
+                        <div>
+                            <dt>{stat.value}</dt>
+                            <dd>{stat.label}</dd>
+                        </div>
+                    ))}
+                </dl>
+            </div>
+        </div>
     </section>
 
-    <div class="section-divider"></div>
+    <!-- 3 · Principles -->
+    <section class="section" aria-labelledby="principles-title">
+        <div class="container ab-principles">
+            <div class="ab-principles-head">
+                <h2 id="principles-title">Nur das Beste für Ihre Haut</h2>
+                <p class="lead">Vier Grundsätze, die seit über zwei Jahrzehnten den Unterschied machen.</p>
+                <a href="/behandlungen/" class="btn btn-secondary btn-arrow" data-button-location="about_principles_treatments">Behandlungen ansehen</a>
+            </div>
+            <ul class="ab-principles-list">
+                {principles.map((item) => (
+                    <li>
+                        <h3>{item.title}</h3>
+                        <p>{item.text}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
 
-    <!-- Studio Section -->
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={spaInterior}
-                        widths={[360, 540, 720, 960]}
-                        sizes={aboutImageSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Beauty Face Lift Studio Interieur — Bahnhofstrasse 94, Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
+    <!-- 4 · Reviews -->
+    <section class="section section--flush-top" aria-labelledby="voices-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2 id="voices-title">Vertrauen, das man spürt</h2>
+                    <p class="lead">4,8 aus 248+ Bewertungen auf Treatwell.</p>
+                </div>
+                <a href={TREATWELL_URL} class="btn btn-secondary btn-arrow" target="_blank" rel="noopener" data-button-location="about_reviews_treatwell">Alle Bewertungen</a>
+            </div>
+            <div class="ab-reviews">
+                {testimonials.map((item) => (
+                    <figure class="ab-review scroll-anim">
+                        <span class="ab-review-mark" aria-hidden="true">„</span>
+                        <blockquote>{item.quote}</blockquote>
+                        <figcaption>
+                            <span class="ab-review-avatar" aria-hidden="true">{item.author.charAt(0)}</span>
+                            <span><strong>{item.author}</strong>{item.detail}</span>
+                            <span class="stars" aria-label="5 von 5 Sternen">★★★★★</span>
+                        </figcaption>
+                    </figure>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 · Studio + closing CTA -->
+    <section class="ab-cta" aria-labelledby="about-cta-title">
+        <div class="ab-cta-frame">
+            <Image
+                src={spaInterior}
+                widths={[720, 1080, 1440]}
+                sizes="100vw"
+                format="webp"
+                quality="mid"
+                loading="lazy"
+                alt="Ruhiger Behandlungsraum von Beauty Face Lift an der Bahnhofstrasse 94"
+                class="ab-cta-img"
+            />
+            <div class="ab-cta-card">
+                <h2 id="about-cta-title">Besuchen Sie Teresa an der Bahnhofstrasse 94</h2>
+                <p>Wenige Schritte vom Paradeplatz. Die Erstberatung ist kostenlos.</p>
+                <div class="btn-row">
+                    <a href="/termin/" class="btn btn-arrow" data-button-location="about_cta_band">Termin buchen</a>
+                    <a href="/kontakt/" class="btn btn-secondary" data-button-location="about_cta_consultation">Kontakt</a>
                 </div>
             </div>
-            <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Das Studio</div>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">Bahnhofstrasse 94,<br>Zürich</h2>
-                <p class="margin-bottom-md">Im Herzen von Zürich, an einer der exklusivsten Adressen der Welt, erwartet Sie Beauty Face Lift, Teresas Premium-Kosmetikinstitut. Ein Ort der Ruhe und Transformation — ausgestattet mit den neuesten Technologien und einer Atmosphäre, die Sie den Alltag vergessen lässt.</p>
-                <p class="margin-bottom-lg">Ob Aquafacial, Microneedling, Fruchtsäure Peeling oder ColdPlasma — jede Behandlung wird individuell auf Ihren Hauttyp und Ihre Wünsche abgestimmt. Diskret gelegen, leicht erreichbar und mit einem Ambiente, das den Besuch bei Beauty Face Lift zu einem Erlebnis macht.</p>
-                <a href="/behandlungen/vergleich/" class="pill-btn pill-btn-outline">Behandlungen vergleichen</a>
-            </div>
         </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Expertise & Credentials Section -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Expertise &amp; Erfahrung</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>20+ Jahre Erfahrung</h4>
-                <p>Seit über zwei Jahrzehnten ist Teresa als selbstständige Kosmetikerin in Zürich tätig und hat tausende Behandlungen durchgeführt. Ihre langjährige Stammkundschaft — einige Kundinnen begleitet sie seit 2008 — ist der beste Beweis für ihre Kompetenz und Vertrauenswürdigkeit.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Persönliche Behandlung</h4>
-                <p>Jede einzelne Behandlung wird von Teresa persönlich durchgeführt. Keine Assistenten, keine Delegation — volle Aufmerksamkeit für Ihre Haut. Sie kennt die Geschichte jeder Kundin und kann so sorgfältig auf Veränderungen und Bedürfnisse eingehen.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Ständige Weiterbildung</h4>
-                <p>Teresa bildet sich regelmässig in den neuesten Behandlungsmethoden und Technologien fort, um Ihnen stets die bestmögliche Behandlung zu bieten. Von Aquafacial über Microneedling bis ColdPlasma — sie beherrscht jede Methode aus Überzeugung und Erfahrung.</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Testimonials Section -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Was Kundinnen und Kunden sagen</div>
-        <h2 style="text-align: center; font-size: clamp(2rem, 3.5vw, 3rem); text-transform: none; margin-bottom: 3rem;">Vertrauen, das man spürt</h2>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <p style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; margin-bottom: 1rem; line-height: 1.6;">&laquo;Wie immer eine wunderbare Verwöhnzeit!&raquo;</p>
-                <p style="font-weight: 600; margin-bottom: 0.25rem;">Emina</p>
-                <p style="font-size: 0.85rem; color: var(--text-secondary);">Stammkundin bei Beauty Face Lift</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <p style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; margin-bottom: 1rem; line-height: 1.6;">&laquo;Seit 2008 bei Teresa — absolute Vertrauenssache. Professionell, ehrlich und immer auf dem neuesten Stand.&raquo;</p>
-                <p style="font-weight: 600; margin-bottom: 0.25rem;">Daniel</p>
-                <p style="font-size: 0.85rem; color: var(--text-secondary);">Stammkunde seit 2008</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <p style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 300; margin-bottom: 1rem; line-height: 1.6;">&laquo;Teresas Charme und Professionalität machen jeden Besuch besonders. Man fühlt sich sofort wohl und bestens aufgehoben.&raquo;</p>
-                <p style="font-weight: 600; margin-bottom: 0.25rem;">Andreas</p>
-                <p style="font-size: 0.85rem; color: var(--text-secondary);">Verifizierter Kunde</p>
-            </div>
-        </div>
-        <p style="text-align: center; margin-top: 2.5rem; font-size: 1.0625rem; color: var(--text-secondary);">
-            <strong style="color: var(--accent); font-size: 1.25rem;">4.8 von 5 Sternen</strong> aus 248+ verifizierten Bewertungen
-        </p>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Highlights -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Warum Beauty Face Lift</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Premium Lage</h4>
-                <p>Direkt an der Bahnhofstrasse 94, im Zentrum von Zürich. Leicht erreichbar und diskret gelegen.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Modernste Technologie</h4>
-                <p>Teresa arbeitet mit modernen Geräten und hochwertigen Produkten der professionellen Ästhetik.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Persönliche Betreuung</h4>
-                <p>Jede Behandlung wird von Teresa persönlich durchgeführt — individuell abgestimmt und mit voller Hingabe.</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- CTA Section -->
-    <section class="container" style="padding-bottom: 15vh; text-align: center;">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Vereinbaren Sie Ihren persönlichen Termin bei Teresa — unkompliziert und in wenigen Klicks.</p>
-        <a href="/termin/" class="pill-btn">Jetzt Termin buchen</a>
     </section>
 </Base>
+
+<style>
+    .d-1 { --d: 1; }
+    .d-2 { --d: 2; }
+    .d-3 { --d: 3; }
+    .d-4 { --d: 4; }
+
+    /* ─── Hero ─────────────────────────────────────────── */
+    .ab-hero { overflow: hidden; }
+    .ab-hero .page-hero-inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+    .ab-hero .page-hero-copy :global(.breadcrumbs) { padding: 0; }
+    .ab-hero h1 { max-width: 16ch; }
+    .ab-hero .btn-row { margin-top: 12px; }
+
+    .ab-proof {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 22px;
+        margin-top: 4px;
+        font-size: 0.92rem;
+        color: var(--text);
+    }
+
+    .ab-proof li { display: inline-flex; align-items: center; gap: 10px; }
+    .ab-proof li + li { padding-left: 22px; border-left: 1px solid var(--line-strong); }
+
+    .ab-proof-check::before {
+        content: '';
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--clay) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+    }
+
+    .stars { color: var(--gold); letter-spacing: 0.1em; font-size: 0.9rem; }
+
+    .ab-media {
+        position: relative;
+        width: min(100%, 480px);
+        justify-self: end;
+    }
+
+    .ab-arch { width: 100%; aspect-ratio: 4 / 5; box-shadow: var(--shadow); }
+    .ab-arch :global(img) { object-position: 50% 18%; }
+    .ab-ring { position: absolute; left: -48px; bottom: 56px; }
+
+    /* ─── Story ────────────────────────────────────────── */
+    .ab-story {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: center;
+    }
+
+    .ab-story-media {
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: var(--r-xl);
+        background: var(--blush);
+    }
+
+    .ab-story-media :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 42% 50%;
+        transition: transform 1.2s var(--ease-expo);
+    }
+
+    .ab-story-media:hover :global(img) { transform: scale(1.04); }
+
+    .ab-story-copy { display: grid; gap: 24px; justify-items: start; }
+    .ab-story-copy h2 { max-width: 14ch; }
+
+    .ab-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+        margin-top: 12px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .ab-stats > div {
+        display: grid;
+        align-content: start;
+        gap: 8px;
+        padding: 24px 24px 24px 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .ab-stats > div:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--line); }
+
+    .ab-stats dt {
+        font-family: var(--f-serif);
+        font-size: clamp(2.6rem, 3.6vw, 3.4rem);
+        line-height: 1;
+        color: var(--cocoa);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .ab-stats dd { margin: 0; max-width: 24ch; font-size: var(--fs-small); color: var(--muted); }
+
+    /* ─── Principles ───────────────────────────────────── */
+    .ab-principles {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: clamp(40px, 7vw, 120px);
+        align-items: start;
+    }
+
+    .ab-principles-head {
+        display: grid;
+        gap: 22px;
+        justify-items: start;
+        position: sticky;
+        top: calc(var(--nav-h) + 32px);
+    }
+
+    .ab-principles-head h2 { max-width: 12ch; }
+    .ab-principles-head .btn { margin-top: 6px; }
+
+    .ab-principles-list { border-top: 1px solid var(--line-strong); }
+
+    .ab-principles-list li {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        align-items: baseline;
+        gap: 12px 32px;
+        padding: 30px 4px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .ab-principles-list h3 {
+        font-family: var(--f-serif);
+        font-weight: 400;
+        font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+    }
+
+    .ab-principles-list p { margin: 0; max-width: 40ch; }
+
+    /* ─── Reviews ──────────────────────────────────────── */
+    .ab-reviews {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .ab-review {
+        position: relative;
+        display: grid;
+        gap: 28px;
+        align-content: space-between;
+        min-height: 280px;
+        padding: clamp(26px, 3vw, 36px);
+        border-radius: var(--r-lg);
+        background: var(--paper);
+        border: 1px solid var(--line);
+    }
+
+    .ab-review-mark {
+        position: absolute;
+        top: 6px;
+        right: 26px;
+        font-family: var(--f-serif);
+        font-size: 6rem;
+        line-height: 1;
+        color: var(--blush);
+    }
+
+    .ab-review blockquote {
+        position: relative;
+        font-family: var(--f-serif);
+        font-size: clamp(1.45rem, 1.9vw, 1.75rem);
+        line-height: 1.18;
+        color: var(--cocoa);
+        max-width: 22ch;
+    }
+
+    .ab-review figcaption {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.88rem;
+        color: var(--muted);
+    }
+
+    .ab-review figcaption strong { display: block; font-weight: 600; color: var(--cocoa); }
+
+    .ab-review-avatar {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--shell);
+        font-family: var(--f-serif);
+        font-size: 1.3rem;
+        color: var(--clay);
+    }
+
+    /* ─── Studio CTA ───────────────────────────────────── */
+    .ab-cta { padding: 0 var(--gutter) var(--gutter); }
+
+    .ab-cta-frame {
+        position: relative;
+        display: grid;
+        align-items: end;
+        min-height: clamp(480px, 46vw, 620px);
+        max-width: calc(var(--container) + 2 * var(--gutter));
+        margin-inline: auto;
+        padding: clamp(16px, 3vw, 40px);
+        border-radius: var(--r-xl);
+        overflow: hidden;
+        background: var(--blush);
+    }
+
+    .ab-cta-frame :global(.ab-cta-img) {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 62%;
+    }
+
+    .ab-cta-card {
+        position: relative;
+        display: grid;
+        gap: 16px;
+        justify-items: start;
+        width: min(100%, 460px);
+        padding: clamp(26px, 3vw, 40px);
+        border-radius: var(--r-lg);
+        background: rgba(255, 252, 249, 0.9);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .ab-cta-card h2 { font-size: clamp(2rem, 3.4vw, 3rem); max-width: 14ch; }
+    .ab-cta-card p { margin: 0; }
+    .ab-cta-card .btn-row { margin-top: 6px; }
+
+    /* ─── Responsive ───────────────────────────────────── */
+    @media (max-width: 900px) {
+        .ab-hero .page-hero-inner,
+        .ab-story,
+        .ab-principles { grid-template-columns: minmax(0, 1fr); }
+
+        .ab-hero h1 { max-width: 13ch; }
+        .ab-proof li + li { padding-left: 0; border-left: 0; }
+
+        .ab-media { justify-self: center; width: min(100%, 420px); padding-left: 28px; }
+        .ab-ring { left: 0; bottom: 32px; }
+
+        .ab-story-media { aspect-ratio: 4 / 3.4; }
+        .ab-principles-head { position: static; }
+
+        .ab-reviews {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            margin-inline: calc(-1 * var(--gutter));
+            padding-inline: var(--gutter);
+            scrollbar-width: none;
+        }
+
+        .ab-reviews::-webkit-scrollbar { display: none; }
+        .ab-review { flex: 0 0 84%; scroll-snap-align: start; min-height: 0; }
+        .ab-cta-frame { min-height: 560px; }
+    }
+
+    @media (max-width: 600px) {
+        .ab-stats > div { padding: 20px 14px 20px 0; }
+        .ab-stats > div:nth-child(even) { padding-left: 14px; }
+        .ab-principles-list li { grid-template-columns: minmax(0, 1fr); padding: 24px 0; }
+        .ab-cta-card .btn-row .btn { flex: 1 1 auto; }
+    }
+</style>

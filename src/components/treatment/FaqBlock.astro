@@ -1,0 +1,86 @@
+---
+/**
+ * FAQ layout: sticky heading column beside the accordion list.
+ * Either pass `items` (rendered as plain-text accordion rows plus matching
+ * FAQPage JSON-LD), or fill the default slot with <details class="faq-item">
+ * rows and keep their text in sync with the page's own JSON-LD.
+ * Slot "title" = h2 content.
+ */
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  /** Link to the full FAQ page; pass false to hide. */
+  allLink?: boolean;
+  items?: FaqItem[];
+}
+
+const { allLink = true, items } = Astro.props;
+
+const faqData = items && {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+---
+
+<div class="faq-block">
+  <div class="faq-block-head">
+    <h2><slot name="title" /></h2>
+    {allLink && <a href="/haeufige-fragen/" class="btn btn-secondary">Alle Fragen</a>}
+  </div>
+  <div class="faq-list">
+    {items ? items.map((item) => (
+      <details class="faq-item">
+        <summary><h3>{item.question}</h3></summary>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>{item.answer}</p>
+        </div></div>
+      </details>
+    )) : <slot />}
+  </div>
+</div>
+
+{faqData && <script type="application/ld+json" set:html={JSON.stringify(faqData)} />}
+
+<style>
+  .faq-block {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .faq-block-head {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+
+  .faq-block-head h2 {
+    max-width: 12ch;
+  }
+
+  @media (min-width: 901px) {
+    .faq-block-head {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .faq-block {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+</style>

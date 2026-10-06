@@ -1,30 +1,82 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import TreatmentLinkCard from '../../../components/TreatmentLinkCard.astro';
 import BookingCta from '../../../components/BookingCta.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import TreatmentActionBar from '../../../components/TreatmentActionBar.astro';
-import AiSummary from '../../../components/AiSummary.astro';
-import { Image, getImage } from 'astro:assets';
-import { consultationTrust, aquafacialCard, spaInterior } from '../../../lib/site-images';
+import TreatmentHero from '../../../components/treatment/TreatmentHero.astro';
+import TreatmentSplit from '../../../components/treatment/TreatmentSplit.astro';
+import BenefitList from '../../../components/treatment/BenefitList.astro';
+import PriceMenu from '../../../components/treatment/PriceMenu.astro';
+import TreatmentSteps from '../../../components/treatment/TreatmentSteps.astro';
+import RuledList from '../../../components/treatment/RuledList.astro';
+import ReviewQuote from '../../../components/treatment/ReviewQuote.astro';
+import FaqBlock from '../../../components/treatment/FaqBlock.astro';
+import RelatedTreatments from '../../../components/treatment/RelatedTreatments.astro';
+import { treatmentHeroPreload } from '../../../components/treatment/images';
+import { aquafacialCard, consultationTrust } from '../../../lib/site-images';
+import glowPortrait from '../../../assets/lp/aquafacial/post-treatment-glow-zuerich.webp';
+import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
-const treatmentHeroSizes = '100vw';
-const treatmentContentSizes = '(min-width: 1240px) 540px, (min-width: 901px) 42vw, 100vw';
+const pagePath = '/behandlungen/aquafacial-zuerich/';
 const bookingHref = bookingLinkForService('Aquafacial');
-const aquafacialHeroPreload = await getImage({
-    src: aquafacialCard,
-    widths: [768, 1024, 1400],
-    sizes: treatmentHeroSizes,
-    format: 'webp',
-    quality: 'high',
-});
+const heroPreload = await treatmentHeroPreload(aquafacialCard);
 
-const summaryFacts = [
-    { label: 'Dauer', value: '60 bis 90 Minuten' },
-    { label: 'Preis', value: 'ab CHF 180' },
-    { label: 'Downtime', value: 'meist keine, leichte Rötung möglich' },
-    { label: 'Geeignet für', value: 'fahle, trockene oder unreine Haut, vergrösserte Poren, Glow-Wunsch' },
+const benefits = [
+    { title: 'Sofort frischer', text: 'Die Haut wirkt direkt nach der ersten Sitzung frischer, praller und ebenmässiger.' },
+    { title: 'Meist keine Ausfallzeit', text: 'Make-up ist direkt danach möglich – ideal vor besonderen Anlässen.' },
+    { title: 'Individuell abgestimmt', text: 'Teresa analysiert Ihre Haut und stellt die Seren nach Hauttyp und Saison zusammen.' },
+];
+
+const priceItems = [
+    { name: 'Aquafacial Basic Intensiv', duration: '60 Min.', price: 'CHF 180', note: 'Tiefenreinigung, Peeling und Feuchtigkeitsaufbau.' },
+    { name: 'Aquafacial Anti Aging', duration: '90 Min.', price: 'CHF 250', note: 'Intensive Pflege mit Anti-Aging-Fokus und Glow-Finish.' },
+    { name: 'Gesicht, Hals, Dekolletee', duration: '90 Min.', price: 'CHF 280', note: 'Erweiterte Behandlung über Gesicht, Hals und Dekolletee.' },
+    { name: 'Aquafacial + coldPLASMA', duration: '90 Min.', price: 'CHF 280', note: 'Für Akne und unreine Haut.' },
+];
+
+const steps = [
+    { title: 'Reinigung & Peeling', text: 'Die Vortex-Technologie öffnet die Poren sanft, ein mildes Glykolsäure-Peeling entfernt abgestorbene Hautzellen.' },
+    { title: 'Extraktion & Hydration', text: 'Unreinheiten werden sanft aus den Poren gelöst, Seren mit Hyaluronsäure und Antioxidantien eingearbeitet.' },
+    { title: 'Schutz & Glow', text: 'Peptide und pflegende Wirkstoffe schützen die Haut – optional ergänzt durch LED-Lichttherapie.' },
+];
+
+const suitedFor = [
+    'Fahler Teint und Feuchtigkeitsmangel',
+    'Fettige Haut und vergrösserte Poren',
+    'Unreinheiten und Akne',
+    'Erste feine Linien',
+    'Sonnenschäden und Hyperpigmentierung',
+    'Vor Hochzeiten, Fotoshootings oder wichtigen Events',
+];
+
+const faqs = [
+    {
+        question: 'Was kostet ein Aquafacial in Zürich?',
+        answer: 'Aquafacial Basic Intensiv (60 Min.) kostet CHF 180, Anti Aging (90 Min.) CHF 250, Gesicht/Hals/Dekolletee (90 Min.) CHF 280 und Aquafacial + coldPLASMA für Akne (90 Min.) CHF 280. Alle Preise inklusive MwSt., persönlicher Beratung und Hautanalyse durch Teresa Stimac.',
+    },
+    {
+        question: 'Wie oft sollte man Aquafacial machen?',
+        answer: 'Zu Beginn empfehlen wir häufig eine Behandlung alle 4 Wochen – passend zum natürlichen Hauterneuerungszyklus von circa 28 Tagen. Nach 3–4 Sitzungen kann das Intervall auf alle 6 Wochen ausgeweitet werden.',
+    },
+    {
+        question: 'Wie lange dauert eine Aquafacial Behandlung?',
+        answer: 'Aquafacial Basic Intensiv dauert circa 60 Minuten; Anti Aging, Gesicht/Hals/Dekolletee, Aquafacial + coldPLASMA und Aquafacial + Microneedling dauern circa 90 Minuten. Meist gibt es keine längere Ausfallzeit.',
+    },
+    {
+        question: 'Für welche Hauttypen ist Aquafacial geeignet?',
+        answer: 'Für alle Hauttypen und jedes Alter – ob fettig, trocken, empfindlich, Mischhaut oder reife Haut. Die Seren werden individuell auf Ihren Hautzustand und die aktuelle Saison abgestimmt.',
+    },
+    {
+        question: 'Hat Aquafacial Nebenwirkungen?',
+        answer: 'Aquafacial ist in der Regel gut verträglich. In seltenen Fällen kann eine leichte Rötung auftreten, die meist rasch abklingt. Make-up können Sie direkt nach der Behandlung auftragen.',
+    },
+    {
+        question: 'Aquafacial oder Microneedling – was ist besser?',
+        answer: 'Aquafacial passt zu frischem Glow, Hydration und sanfter Porenreinigung, in der Regel ohne Ausfallzeit. Microneedling passt eher zu Hautstruktur, feinen Linien oder Narbenoptik – mit 1–2 Tagen Regeneration. Teresa berät Sie persönlich.',
+    },
+    {
+        question: 'Kann man Aquafacial in der Schwangerschaft machen?',
+        answer: 'Aquafacial ist sanft und enthält keine invasiven Elemente. Wir empfehlen dennoch Rücksprache mit Ihrer Gynäkologin oder Ihrem Gynäkologen; auf Wunsch verwenden wir ausschliesslich schwangerschaftsfreundliche Wirkstoffe.',
+    },
 ];
 
 const structuredData = {
@@ -33,7 +85,7 @@ const structuredData = {
     "name": "Aquafacial Behandlung Zürich",
     "serviceType": "Aquafacial",
     "category": "Gesichtsbehandlung",
-    "url": absoluteUrl('/behandlungen/aquafacial-zuerich/'),
+    "url": absoluteUrl(pagePath),
     "image": absoluteUrl('/assets/aquafacial_treatment.png'),
     "provider": {
         "@type": "BeautySalon",
@@ -47,373 +99,97 @@ const structuredData = {
             "addressCountry": "CH"
         }
     },
-    "description": "Aquafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung in drei Schritten — Reinigung, Peeling und Hydrierung — im Premium Kosmetikinstitut Beauty Face Lift an der Bahnhofstrasse in Zürich.",
+    "description": "Aquafacial in Zürich: Reinigung, sanfte Exfoliation und Feuchtigkeit in einer Behandlung – persönlich von Teresa Stimac im Kosmetikinstitut Beauty Face Lift an der Bahnhofstrasse.",
     "areaServed": "Zürich"
-};
-
-const faqData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-        "@type": "Question",
-        "name": "Was kostet ein Aquafacial in Zürich an der Bahnhofstrasse?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich kostet Aquafacial aktuell CHF 180 für Basic Intensiv (60 Min.), CHF 250 für Anti Aging (90 Min.) und CHF 280 für Gesicht, Hals, Dekolletee oder Aquafacial mit coldPLASMA für Akne. Alle Varianten beinhalten persönliche Beratung und Hautanalyse durch Teresa Stimac."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Wie oft sollte man Aquafacial machen?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Für ein gepflegtes und länger anhaltend frisches Hautgefühl empfehlen wir bei Beauty Face Lift in Zürich zu Beginn häufig eine Aquafacial Behandlung alle 4 Wochen. Dieser Rhythmus orientiert sich am natürlichen Hauterneuerungszyklus von circa 28 Tagen und kann die regelmässige Feuchtigkeitsversorgung unterstützen. Nach einer Anfangsphase von 3-4 Sitzungen kann das Intervall auf alle 6 Wochen ausgeweitet werden. Teresa berät Sie individuell, welcher Rhythmus zu Hauttyp, Hautzustand und Ziel passt."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Wie lange dauert eine Aquafacial Behandlung?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Die Behandlungsdauer hängt von der gewählten Variante ab: Aquafacial Basic Intensiv dauert circa 60 Minuten. Anti Aging, Gesicht/Hals/Dekolletee, Aquafacial + coldPLASMA und Aquafacial + Microneedling dauern circa 90 Minuten. Direkt danach sind Sie wieder gesellschaftsfähig — in der Regel ohne Ausfallzeit."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Für welche Hauttypen ist Aquafacial geeignet?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Aquafacial eignet sich für alle Hauttypen und jedes Alter — ob fettig, trocken, empfindlich, Mischhaut oder reife Haut. Die verwendeten Seren werden bei Beauty Face Lift individuell auf Ihren Hautzustand und die aktuelle Saison abgestimmt. Auch bei spezifischen Hautproblemen wie Akne, vergrösserten Poren, Hyperpigmentierung, ersten Fältchen oder Rosacea kann Aquafacial gezielt eingesetzt werden. Nicht empfohlen wird die Behandlung lediglich bei aktiven Herpes-Ausbrüchen, offenen Wunden oder schwerer Rosacea im akuten Schub. Teresa berät Sie im Vorgespräch individuell."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Hat Aquafacial Nebenwirkungen?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Aquafacial gilt als eine der sanftesten professionellen Gesichtsbehandlungen und ist in der Regel gut verträglich. In seltenen Fällen kann eine leichte Rötung auftreten, die meist rasch abklingt. Anders als bei aggressiven chemischen Peelings oder Laserbehandlungen gibt es keine Schälphase und meist keine Ausfallzeit. Sie können direkt nach der Behandlung Make-up auftragen und Ihrem Alltag nachgehen. Bei sehr empfindlicher Haut oder Rosacea stimmt Teresa die Intensität individuell ab, um die Behandlung möglichst verträglich zu gestalten."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Aquafacial oder Microneedling — was ist besser?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Beide Behandlungen haben ihre Stärken und können sich sinnvoll ergänzen. Aquafacial ist eine passende Wahl, wenn Sie frischen Glow, Hydration und eine sanfte Porenreinigung in der Regel ohne Ausfallzeit wünschen. Microneedling passt eher zu Zielen wie Hautstruktur, Porenbild, feinen Linien oder der kosmetischen Verbesserung von Narbenoptik; hier ist eine kurze Regenerationsphase von 1-2 Tagen einzuplanen. Teresa berät Sie gerne persönlich, welche Variante für Ihre Hautbedürfnisse die richtige ist."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Wie viel kostet Aquafacial in Zürich?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Die Kosten für eine Aquafacial Behandlung in Zürich variieren je nach Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse bieten wir aktuell Aquafacial Basic Intensiv für CHF 180, Anti Aging für CHF 250 sowie erweiterte 90-Minuten-Varianten bis CHF 280 an."
-        }
-    }, {
-        "@type": "Question",
-        "name": "Kann man Aquafacial in der Schwangerschaft machen?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Grundsätzlich gilt Aquafacial als eine der sanftesten professionellen Gesichtsbehandlungen und enthält keine invasiven Elemente. Dennoch empfehlen wir Schwangeren, vor der Behandlung Rücksprache mit ihrem Gynäkologen oder ihrer Gynäkologin zu halten. Bestimmte Wirkstoffe wie Salicylsäure oder Retinol, die in einigen Aquafacial-Seren enthalten sein können, werden in der Schwangerschaft häufig gemieden. Bei Beauty Face Lift können wir die Serum-Auswahl entsprechend anpassen und ausschliesslich schwangerschaftsfreundliche Wirkstoffe verwenden. Sprechen Sie uns einfach bei der Buchung darauf an."
-        }
-    }]
 };
 ---
 
 <Base
-    title="Aquafacial Zürich | Beauty Face Lift Zürich"
-    description="Aquafacial / Aquafacial Zürich an der Bahnhofstrasse. Tiefenreinigung für strahlende Haut, Anti-Aging & Glow-Effekt im Premium Kosmetikinstitut. Ab CHF 180."
-    preloadImage={{
-        href: aquafacialHeroPreload.src,
-        imagesrcset: aquafacialHeroPreload.srcSet.attribute,
-        imagesizes: treatmentHeroSizes,
-        type: 'image/webp',
-        fetchpriority: 'high',
-    }}
-    navVariant="treatment"
-    bodyClass="treatment-page"
+    title="Aquafacial Zürich ab CHF 180 | Beauty Face Lift"
+    description="Aquafacial an der Bahnhofstrasse Zürich: Tiefenreinigung, Peeling und Feuchtigkeit für frischen Glow, meist ohne Ausfallzeit. Ab CHF 180 – Termin buchen."
+    preloadImage={heroPreload}
     structuredData={structuredData}
 >
-    <!-- Editorial Hero with Background Image -->
-    <header class="treatment-hero">
-        <div class="treatment-hero-media">
-            <Image
-                src={aquafacialCard}
-                widths={[768, 1024, 1400]}
-                sizes={treatmentHeroSizes}
-                format="webp"
-                quality="high"
-                priority
-                alt="Aquafacial Behandlung Zürich — Tiefenreinigung und Glow im Premium Kosmetikinstitut"
-                id="treatment-hero-img"
-            />
+    <TreatmentHero
+        treatment="Aquafacial"
+        breadcrumb="Aquafacial Zürich"
+        lead="Aquafacial in Zürich: Reinigung, sanfte Exfoliation und Feuchtigkeit in einer Behandlung – persönlich von Teresa Stimac."
+        bookingHref={bookingHref}
+        image={aquafacialCard}
+        alt="Aquafacial Behandlung Zürich – Tiefenreinigung und Glow im Premium Kosmetikinstitut"
+        focus="right"
+        price="ab CHF 180"
+        duration="60–90 Minuten"
+    >Aquafacial <em>Zürich</em></TreatmentHero>
+
+    <!-- What it is & benefits -->
+    <section class="section section--flush-top" aria-labelledby="intro-title">
+        <div class="container">
+            <TreatmentSplit image={glowPortrait} alt="Frau mit frischer, gepflegter Haut nach einer Gesichtsbehandlung">
+                <h2 id="intro-title">Frischer Glow, meist ohne Ausfallzeit</h2>
+                <p class="lead">Aquafacial reinigt, peelt und hydratisiert die Haut in drei Schritten – abgestimmt auf Ihren Hauttyp.</p>
+                <BenefitList items={benefits} />
+            </TreatmentSplit>
         </div>
-        <div class="hero-titles">
-            <div class="sub-display text-reveal-wrapper margin-bottom-sm">
-                <span class="text-reveal" style="color: rgba(237, 235, 230, 0.7);">Premium Behandlung • Zürich</span>
-            </div>
-            <h1 class="sr-only">Aquafacial Zürich — Tiefenreinigung an der Bahnhofstrasse</h1>
-            <div class="title-line text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="color: var(--text-inverse); font-size: clamp(3.5rem, 8vw, 8rem);">Hydra</span>
-            </div>
-            <div class="title-line title-right text-reveal-wrapper" aria-hidden="true">
-                <span class="display-text text-reveal" style="color: var(--gold); font-weight: 300; font-size: clamp(3.5rem, 8vw, 8rem);">Facial</span>
-            </div>
+    </section>
+
+    <!-- Prices -->
+    <section class="section section--shell" id="preise" aria-label="Preise und Dauer">
+        <div class="container">
+            <PriceMenu items={priceItems} note="Inklusive MwSt., persönlicher Beratung und Hautanalyse durch Teresa Stimac.">
+                <Fragment slot="title">Aquafacial Preise</Fragment>
+                <a slot="actions" href={bookingHref} class="btn btn-arrow" data-treatment="Aquafacial" data-button-location="treatment_prices">Termin buchen</a>
+            </PriceMenu>
         </div>
-    </header>
+    </section>
 
-    <div class="container treatment-breadcrumbs">
-        <Breadcrumbs items={[
-            { label: "Home", href: "/" },
-            { label: "Behandlungen", href: "/behandlungen/" },
-            { label: "Aquafacial Zürich" }
-        ]} />
-    </div>
-
-    <TreatmentActionBar treatment="Aquafacial" href={bookingHref} />
-
-    <AiSummary
-        title="Aquafacial / Aquafacial Zürich"
-        intro="Aquafacial ist eine professionelle Gesichtsbehandlung zur Reinigung, sanften Exfoliation und Feuchtigkeitsversorgung der Haut. Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich wird sie nach kurzer Hautanalyse individuell angepasst und von Teresa Stimac persönlich durchgeführt."
-        facts={summaryFacts}
-    />
-
-    <!-- Content Split — design: 120px 58px, 58px gap -->
-    <section class="about-editorial pad-y">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <span class="sub-display">Das Erlebnis</span>
-                <h2 style="font-size: clamp(2rem, 3.5vw, 3.5rem); text-transform: none; margin-bottom: 2rem;">"Frischer Glow.<br>Ohne Downtime."</h2>
-                <p class="margin-bottom-md">Aquafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet und weltweit zu den beliebten Kosmetikinstitut-Behandlungen zählt. Bei Beauty Face Lift an der Bahnhofstrasse in Zürich erleben Sie diese Technologie in einem ruhigen Premium-Ambiente mit persönlicher Betreuung. Jede Behandlung wird von Inhaberin Teresa Stimac persönlich durchgeführt und individuell auf Ihren Hauttyp abgestimmt.</p>
-                <p class="margin-bottom-md">Die Vortex-Technologie unterscheidet sich von klassischen manuellen Gesichtsbehandlungen: Ein spiralförmiger Sog löst Unreinheiten und abgestorbene Hautzellen sanft aus den Poren. Gleichzeitig werden professionelle Antioxidantien, Hyaluronsäure und Peptide auf die vorbereitete Haut aufgetragen und sorgfältig eingearbeitet — für ein frischer, hydratisierter wirkendes Hautbild.</p>
-                <p class="margin-bottom-md">Das Resultat: Sofort sichtbar strahlende, hydratisierte Haut mit verfeinerten Poren und einem ebenmässigen Teint — direkt nach der ersten Sitzung und in der Regel ohne Ausfallzeit. Gut geeignet für das pulsierende Leben in Zürich, ob vor einem wichtigen Business-Meeting, einem besonderen Anlass oder einfach als regelmässige Hautpflege-Routine.</p>
-                <a href={bookingHref} class="pill-btn pill-btn-outline">Termin vereinbaren</a>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 120%;">
-                    <Image
-                        src={spaInterior}
-                        widths={[360, 540, 720, 960]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="mid"
-                        alt="Premium Aquafacial Behandlungsraum bei Beauty Face Lift Zürich Bahnhofstrasse"
-                        class="anim-img"
-                        loading="lazy"
-                    />
+    <!-- Process -->
+    <section class="section" aria-labelledby="process-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2 id="process-title">In drei Schritten zum Glow</h2>
+                    <p class="lead">Jede Behandlung beginnt mit einer kurzen Hautanalyse durch Teresa.</p>
                 </div>
             </div>
+            <TreatmentSteps steps={steps} />
         </div>
     </section>
 
-    <!-- Highlights Grid -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Vorteile</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Sofort sichtbar</h4>
-                <p>Strahlender Glow direkt nach der ersten Sitzung — kein Verstecken, kein Warten. Die Haut wirkt sofort frischer, praller und ebenmässiger. Ideal vor besonderen Anlässen.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Meist keine Ausfallzeit</h4>
-                <p>Zurück in den Alltag innert Minuten. Sie können direkt nach der Behandlung Make-up auftragen und Ihrem Tag nachgehen — ideal für den anspruchsvollen Zürcher Lifestyle.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Individuell abgestimmt</h4>
-                <p>Teresa analysiert Ihre Haut vor jeder Sitzung. Die Seren werden saisonal und auf Ihren Hauttyp massgeschneidert zusammengestellt — für eine gut abgestimmte Pflege bei jedem Besuch.</p>
-            </div>
+    <!-- Suitability -->
+    <section class="section section--flush-top" aria-labelledby="suitability-title">
+        <div class="container">
+            <TreatmentSplit image={consultationTrust} alt="Persönliche Hautanalyse und Aquafacial Beratung bei Beauty Face Lift Zürich" quality="high" reverse>
+                <h2 id="suitability-title">Für wen ist Aquafacial geeignet?</h2>
+                <p class="lead">Für praktisch jeden Hauttyp und jedes Alter – Teresa stimmt die Seren auf Ihren Hautzustand ab.</p>
+                <RuledList items={suitedFor} />
+                <p class="split-note">Nicht empfohlen bei aktiven Herpes-Ausbrüchen, offenen Wunden oder schwerer Rosacea im akuten Schub.</p>
+            </TreatmentSplit>
         </div>
     </section>
 
-    <!-- Treatment Process -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Ablauf</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">01</div>
-                <h4>Reinigung & Peeling</h4>
-                <p>Die Vortex-Technologie öffnet die Poren sanft und entfernt abgestorbene Hautzellen sowie überschüssigen Talg. Gleichzeitig wird ein mildes Glykolsäure-Peeling aufgetragen, das die Haut auf die nächsten Schritte vorbereitet.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">02</div>
-                <h4>Extraktion & Hydration</h4>
-                <p>Durch den Vortex-Sog werden Unreinheiten sanft aus den Poren gelöst. Anschliessend werden professionelle Seren mit Hyaluronsäure und Antioxidantien aufgetragen und sorgfältig eingearbeitet.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <div class="highlight-number">03</div>
-                <h4>Schutz & Glow</h4>
-                <p>Im letzten Schritt werden Peptide und pflegende Wirkstoffe aufgetragen, die die Haut schützen und den Glow-Effekt unterstützen. Optional: LED-Lichttherapie für zusätzliche Anti-Aging-Wirkung.</p>
-            </div>
+    <!-- Review -->
+    <section class="section section--shell" aria-label="Kundenstimme">
+        <div class="container">
+            <ReviewQuote quote="Wie immer eine wunderbare Verwöhnzeit!" author="Emina" detail="Aquafacial Kundin" />
         </div>
     </section>
 
-    <!-- Who Benefits -->
-    <section class="about-editorial" style="padding-bottom: 10vh;">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim">
-                <div class="sub-display margin-bottom-md">Für wen?</div>
-                <h2 style="font-size: clamp(1.5rem, 2.5vw, 2.5rem); text-transform: none; margin-bottom: 2rem;">Für wen ist Aquafacial geeignet?</h2>
-                <p class="margin-bottom-md">Aquafacial eignet sich für praktisch jeden Hauttyp und jedes Alter. Die Behandlung ist häufig geeignet bei fettiger Haut und vergrösserten Poren, ersten Anzeichen der Hautalterung wie feinen Linien, Unreinheiten und Akne, fahlem Teint und Feuchtigkeitsmangel, sowie Sonnenschäden und Hyperpigmentierung. Durch die individuell anpassbaren Seren kann Teresa die Behandlung exakt auf Ihren Hautzustand abstimmen — ob Sie 25 oder 65 sind.</p>
-                <p>Besonders beliebt ist Aquafacial auch als Vorbereitung auf besondere Anlässe wie Hochzeiten, Fotoshootings oder wichtige Events. Nicht empfohlen wird die Behandlung lediglich bei aktiven Herpes-Ausbrüchen, offenen Wunden oder schwerer Rosacea im akuten Schub. Teresa berät Sie im Vorgespräch individuell.</p>
-            </div>
-            <div class="about-image scroll-anim">
-                <div class="service-image-mask" style="padding-bottom: 100%;">
-                    <Image
-                        src={consultationTrust}
-                        widths={[360, 540, 720, 960, 1023]}
-                        sizes={treatmentContentSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Persönliche Hautanalyse und Aquafacial Beratung bei Beauty Face Lift Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-            </div>
+    <!-- FAQ -->
+    <section class="section" aria-label="Häufige Fragen">
+        <div class="container">
+            <FaqBlock items={faqs}>
+                <Fragment slot="title">Fragen zu Aquafacial</Fragment>
+            </FaqBlock>
         </div>
     </section>
 
-    <!-- Pricing Section — design: proper pricing cards -->
-    <section class="container" style="padding-bottom: 80px;">
-        <div class="sub-display" style="text-align: center; margin-bottom: 32px;">Preise</div>
-        <div class="pricing-grid">
-            <div class="pricing-card pricing-card-accent scroll-anim">
-                <div class="pricing-label">Aquafacial Basic Intensiv</div>
-                <div class="pricing-price">CHF 180</div>
-                <div class="pricing-duration">60 Minuten</div>
-                <p style="max-width: none; text-align: center;">Tiefenreinigung, Peeling und Feuchtigkeitsaufbau für sichtbar frische Haut.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Aquafacial Anti Aging</div>
-                <div class="pricing-price">CHF 250</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p style="max-width: none; text-align: center;">Intensive Aquafacial Pflege mit Anti-Aging-Fokus und Glow-Finish.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Gesicht, Hals, Dekolletee</div>
-                <div class="pricing-price">CHF 280</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p style="max-width: none; text-align: center;">Erweiterte Aquafacial Behandlung für ein harmonisches Ergebnis über Gesicht, Hals und Dekolletee.</p>
-            </div>
-            <div class="pricing-card scroll-anim">
-                <div class="pricing-label">Aquafacial + coldPLASMA</div>
-                <div class="pricing-price">CHF 280</div>
-                <div class="pricing-duration">90 Minuten</div>
-                <p style="max-width: none; text-align: center;">Für Akne und unreine Haut: Aquafacial Reinigung kombiniert mit coldPLASMA.</p>
-            </div>
+    <!-- Booking -->
+    <section class="section section--flush-top" id="buchen">
+        <div class="container">
+            <BookingCta treatment="Aquafacial" href={bookingHref} image={consultation} alt="Teresa Stimac bespricht mit einer Kundin die Hautanalyse" />
         </div>
     </section>
 
-    <!-- Testimonial -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="split-layout align-center">
-            <div class="about-text scroll-anim" style="grid-column: 1 / -1; text-align: center; max-width: 700px; margin: 0 auto;">
-                <div class="sub-display margin-bottom-md">Kundenstimmen</div>
-                <h2 style="font-size: clamp(1.5rem, 2.5vw, 2.5rem); text-transform: none; margin-bottom: 1rem; font-weight: 300;">"Wie immer eine wunderbare Verwöhnzeit!"</h2>
-                <p style="max-width: 100%; text-align: center;">— Emina, Aquafacial Kundin</p>
-                <p style="max-width: 100%; text-align: center; margin-top: 1rem; font-size: var(--text-sm);">4.8 von 5 Sternen aus 248+ verifizierten Bewertungen</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section — design: narrower padding for treatment pages -->
-    <section class="faq-section">
-        <div class="faq-label">Häufig gestellte Fragen</div>
-        <div class="faq-list">
-            <details class="faq-item scroll-anim">
-                <summary><h3>Was kostet ein Aquafacial in Zürich an der Bahnhofstrasse?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich bieten wir aktuell mehrere Aquafacial-Varianten an: Basic Intensiv (60 Min.) kostet CHF 180, Anti Aging (90 Min.) CHF 250, Gesicht/Hals/Dekolletee (90 Min.) CHF 280 und Aquafacial + coldPLASMA für Akne (90 Min.) CHF 280. Alle Preise verstehen sich inklusive MwSt., persönlicher Beratung und Hautanalyse durch Teresa Stimac.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Wie oft sollte man Aquafacial machen?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Für ein gepflegtes und länger anhaltend frisches Hautgefühl empfehlen wir bei Beauty Face Lift in Zürich zu Beginn häufig eine Aquafacial Behandlung alle 4 Wochen. Dieser Rhythmus orientiert sich am natürlichen Hauterneuerungszyklus von circa 28 Tagen und kann die regelmässige Feuchtigkeitsversorgung unterstützen. Nach einer Anfangsphase von 3-4 Sitzungen kann das Intervall auf alle 6 Wochen ausgeweitet werden. Teresa berät Sie individuell, welcher Rhythmus zu Hauttyp, Hautzustand und Ziel passt.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Wie lange dauert eine Aquafacial Behandlung?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Die Behandlungsdauer hängt von der gewählten Variante ab: Aquafacial Basic Intensiv dauert circa 60 Minuten. Anti Aging, Gesicht/Hals/Dekolletee, Aquafacial + coldPLASMA und Aquafacial + Microneedling dauern circa 90 Minuten. Jede Behandlung beginnt mit einer kurzen Hautanalyse durch Teresa. Das Besondere: Meist gibt es keine längere Ausfallzeit; bei leichter Rötung sollte die Haut zunächst beruhigt werden.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Für welche Hauttypen ist Aquafacial geeignet?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Aquafacial eignet sich für alle Hauttypen und jedes Alter — ob fettig, trocken, empfindlich, Mischhaut oder reife Haut. Die verwendeten Seren werden bei Beauty Face Lift individuell auf Ihren Hautzustand und die aktuelle Saison abgestimmt. Auch bei spezifischen Hautproblemen wie Akne, vergrösserten Poren, Hyperpigmentierung, ersten Fältchen oder Rosacea kann Aquafacial gezielt eingesetzt werden. Nicht empfohlen wird die Behandlung lediglich bei aktiven Herpes-Ausbrüchen, offenen Wunden oder schwerer Rosacea im akuten Schub. Teresa berät Sie im Vorgespräch individuell zu den passenden Wirkstoffen für Ihre Haut.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Hat Aquafacial Nebenwirkungen?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Aquafacial gilt als eine der sanftesten professionellen Gesichtsbehandlungen und ist in der Regel gut verträglich. In seltenen Fällen kann eine leichte Rötung auftreten, die meist rasch abklingt. Anders als bei aggressiven chemischen Peelings oder Laserbehandlungen gibt es keine Schälphase und meist keine Ausfallzeit. Sie können direkt nach der Behandlung Make-up auftragen und Ihrem Alltag nachgehen. Stärkere Reaktionen sind selten; vorübergehende Rötung oder Empfindlichkeit ist dennoch möglich. Bei sehr empfindlicher Haut oder Rosacea stimmt Teresa die Intensität individuell ab, um die Behandlung möglichst verträglich zu gestalten.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Aquafacial oder Microneedling — was ist besser?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Beide Behandlungen haben ihre Stärken und können sich sinnvoll ergänzen. Aquafacial ist eine passende Wahl, wenn Sie frischen Glow, Hydration und eine sanfte Porenreinigung in der Regel ohne Ausfallzeit wünschen — ideal vor besonderen Anlässen oder als regelmässige Pflege. Microneedling passt eher zu Zielen wie Hautstruktur, Porenbild, feinen Linien oder der kosmetischen Verbesserung von Narbenoptik; hier ist eine kurze Regenerationsphase von 1-2 Tagen einzuplanen. Teresa berät Sie gerne persönlich, welche Variante für Ihre Hautbedürfnisse die richtige ist.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Wie viel kostet Aquafacial in Zürich?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Die Kosten für eine Aquafacial Behandlung in Zürich variieren je nach Behandlungsumfang. Bei Beauty Face Lift an der Bahnhofstrasse kostet Basic Intensiv CHF 180, Anti Aging CHF 250, Gesicht/Hals/Dekolletee CHF 280 und Aquafacial + coldPLASMA für Akne CHF 280. Alle Preise verstehen sich inklusive MwSt., persönlicher Betreuung durch Teresa und einer vorgängigen Hautanalyse.</p>
-                </div></div>
-            </details>
-            <details class="faq-item scroll-anim">
-                <summary><h3>Kann man Aquafacial in der Schwangerschaft machen?</h3></summary>
-                <div class="faq-answer"><div class="faq-answer-inner">
-                    <p>Grundsätzlich gilt Aquafacial als eine der sanftesten professionellen Gesichtsbehandlungen und enthält keine invasiven Elemente. Dennoch empfehlen wir Schwangeren, vor der Behandlung Rücksprache mit ihrem Gynäkologen oder ihrer Gynäkologin zu halten. Bestimmte Wirkstoffe wie Salicylsäure oder Retinol, die in einigen Aquafacial-Seren enthalten sein können, werden in der Schwangerschaft häufig gemieden. Bei Beauty Face Lift können wir die Serum-Auswahl entsprechend anpassen und ausschliesslich schwangerschaftsfreundliche Wirkstoffe verwenden. Sprechen Sie uns einfach bei der Buchung darauf an — Teresa nimmt sich gerne die Zeit für eine individuelle Beratung.</p>
-                </div></div>
-            </details>
-        </div>
-        <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
-    </section>
-
-    <!-- Booking CTA -->
-    <section class="container pad-y" id="buchen">
-        <BookingCta treatment="Aquafacial" href={bookingHref} />
-    </section>
-
-    <!-- Treatment Combinations -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <div class="sub-display margin-bottom-lg" style="text-align: center;">Behandlungs-Kombinationen</div>
-        <div class="highlights-grid">
-            <div class="highlight-item scroll-anim">
-                <h4>Aquafacial + <a href="/behandlungen/microneedling-zuerich/" style="color: var(--accent);">Microneedling</a></h4>
-                <p>Eine sinnvolle Kombination: Aquafacial bereitet die Haut sorgfältig vor, Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen. Empfohlen im Abstand von 2 Wochen.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <h4>Aquafacial + <a href="/behandlungen/coldplasma-zuerich/" style="color: var(--accent);">ColdPlasma</a></h4>
-                <p>ColdPlasma direkt nach dem Aquafacial kann die Wirkstoffaufnahme je nach Hautzustand unterstützen. Ideal für Anti-Aging und Hautverjüngung.</p>
-            </div>
-            <div class="highlight-item scroll-anim">
-                <h4>Aquafacial + <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" style="color: var(--accent);">Fruchtsäure Peeling</a></h4>
-                <p>Bei hartnäckigen Unreinheiten oder Akne-Narben: Fruchtsäure Peeling für die Tiefenwirkung, Aquafacial für die Regeneration. Im Wechsel alle 2-3 Wochen.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- More Treatments -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="more-treatments">
-            <div class="sub-display margin-bottom-lg">Weitere Behandlungen</div>
-            <div class="more-treatments-grid">
-                <TreatmentLinkCard
-                    href="/behandlungen/microneedling-zuerich/"
-                    title="Micro Needling"
-                    description="Kosmetische Hautbildverbesserung ohne OP. Kollagenstimulation für ein verfeinertes Hautbild."
-                />
-                <TreatmentLinkCard
-                    href="/behandlungen/fruchtsaeure-peeling-zuerich/"
-                    title="Fruchtsäure Peeling"
-                    description="Tiefenreinigung und Hauterneuerung für einen kompromisslos klaren Teint."
-                />
-                <TreatmentLinkCard
-                    href="/behandlungen/coldplasma-zuerich/"
-                    title="ColdPlasma"
-                    description="Innovative Plasmatechnologie für ergänzende Wirkstoffpflege und ein ruhiger wirkendes Hautbild."
-                />
-            </div>
-        </div>
-    </section>
+    <RelatedTreatments current={pagePath} />
 </Base>

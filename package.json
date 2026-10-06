@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check && tsc -p worker",
     "smoke:security": "node scripts/security-smoke.mjs",
     "cf:dev": "wrangler dev",
     "cf:build": "astro build",
@@ -24,12 +25,10 @@
     "launch:check": "node scripts/check-domain-launch.mjs"
   },
   "dependencies": {
-    "@astrojs/partytown": "^2.1.5",
     "@astrojs/react": "^6.0.0",
     "@astrojs/sitemap": "^3.7.1",
-    "@fontsource-variable/inter": "^5.2.8",
-    "@fontsource/cormorant-garamond": "^5.2.8",
-    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
     "@stripe/stripe-js": "^8.10.0",
     "@supabase/supabase-js": "^2.99.2",
     "@types/react": "^19.2.14",
@@ -42,13 +41,19 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20261006.1",
     "supabase": "^2.98.2",
+    "typescript": "^6.0.3",
     "wrangler": "^4.83.0"
   },
   "overrides": {
     "ws": "8.21.0",
     "yaml-language-server": {
       "yaml": "2.8.4"
+    },
+    "miniflare": {
+      "sharp": "0.35.5"
     }
   }
 }

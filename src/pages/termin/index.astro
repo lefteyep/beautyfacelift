@@ -37,34 +37,44 @@ const structuredData = {
 
 <Base
     title="Termin buchen | Beauty Face Lift Zürich"
-    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft vorübergehend über Treatwell."
+    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft über Treatwell."
     structuredData={structuredData}
     noindex={true}
 >
-    <section class="booking-forward-page">
-        <span class="sub-display">Online Buchen</span>
-        <h1>Wir leiten Sie zur Buchung weiter.</h1>
-        <p>
-            Beauty Face Lift nutzt vorübergehend Treatwell für die Online-Terminbuchung.
-            Ihre Kampagnen- und Behandlungsangaben werden automatisch übernommen.
-        </p>
-        <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
+    <section class="booking-forward-page" aria-labelledby="booking-forward-title">
+        <div class="container booking-forward-inner">
+            <div class="booking-forward-ring" aria-hidden="true">
+                <svg viewBox="0 0 72 72"><circle class="booking-forward-ring-track" cx="36" cy="36" r="34" /><circle class="booking-forward-ring-fill" cx="36" cy="36" r="34" /></svg>
+                <span class="booking-forward-ring-icon"></span>
+            </div>
+            <h1 id="booking-forward-title">Wir leiten Sie zur <em>Buchung</em> weiter</h1>
+            <p class="lead">
+                Sie werden zur sicheren Online-Buchung bei unserem Partner Treatwell weitergeleitet.
+                Teresa bestätigt Details und Eignung anschliessend persönlich.
+            </p>
+            <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
 
-        <div class="booking-forward-actions">
-            <a
-                id="treatwell-booking-link"
-                href={TREATWELL_BOOKING_URL}
-                class="pill-btn"
-                rel="noopener"
-            >
-                Buchung öffnen
-            </a>
-            <a href="/kontakt/" class="pill-btn pill-btn-outline">Kontakt aufnehmen</a>
+            <div class="btn-row booking-forward-actions">
+                <a
+                    id="treatwell-booking-link"
+                    href={TREATWELL_BOOKING_URL}
+                    class="btn"
+                    rel="noopener"
+                >
+                    Buchung öffnen
+                </a>
+                <a href="/kontakt/" class="btn btn-secondary">Kontakt aufnehmen</a>
+            </div>
+
+            <p id="booking-forward-status" class="booking-forward-note caption" aria-live="polite">
+                Falls die Weiterleitung nicht automatisch startet, nutzen Sie den Buchungsbutton.
+            </p>
+
+            <ul class="booking-forward-proof">
+                <li><span class="stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></li>
+                <li>Erstberatung kostenlos</li>
+            </ul>
         </div>
-
-        <p id="booking-forward-status" class="booking-forward-note" aria-live="polite">
-            Falls die Weiterleitung nicht automatisch startet, nutzen Sie den Buchungsbutton.
-        </p>
     </section>
 </Base>
 
@@ -329,46 +339,152 @@ const structuredData = {
 </script>
 
 <style>
+    /* Calm, centred bridge page: a ring fills while the redirect is prepared. */
     .booking-forward-page {
-        min-height: 68vh;
-        padding: 18vh var(--content-px) 12vh;
-        text-align: center;
+        min-height: 82vh;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        padding-top: calc(var(--nav-h) + clamp(40px, 7vw, 104px));
+        padding-bottom: clamp(64px, 8vw, 120px);
     }
 
-    .booking-forward-page h1 {
-        max-width: 760px;
-        margin: 1rem auto;
-        font-size: clamp(2.3rem, 6vw, 4.8rem);
-        line-height: 1.02;
-        text-transform: none;
+    .booking-forward-inner {
+        display: grid;
+        gap: 22px;
+        justify-items: center;
+        max-width: calc(760px + 2 * var(--gutter));
+        text-align: center;
     }
 
-    .booking-forward-page p {
-        max-width: 620px;
-        margin: 0 auto;
-        color: var(--text-secondary);
+    .booking-forward-inner h1 { max-width: 13ch; }
+    .booking-forward-inner .lead { max-width: 46ch; }
+
+    .booking-forward-ring {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 88px;
+        height: 88px;
+        margin-bottom: 6px;
+    }
+
+    .booking-forward-ring svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+
+    .booking-forward-ring circle {
+        fill: none;
+        stroke-width: 2;
+    }
+
+    .booking-forward-ring-track { stroke: var(--line-strong); }
+
+    .booking-forward-ring-fill {
+        stroke: var(--clay);
+        stroke-linecap: round;
+        stroke-dasharray: 214;
+        stroke-dashoffset: 214;
+    }
+
+    .booking-forward-ring-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--i-arrow-light) center / 18px no-repeat, var(--clay);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .booking-forward-ring-fill { animation: bookingForwardRing 0.65s linear forwards; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .booking-forward-ring-fill { stroke-dashoffset: 0; }
+    }
+
+    @keyframes bookingForwardRing {
+        to { stroke-dashoffset: 0; }
+    }
+
+    /* Offer handed over to Treatwell (text set by the script) */
+    .booking-forward-offer {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 52ch;
+        padding: 12px 18px;
+        border-radius: var(--r);
+        background: var(--shell);
+        font-size: var(--fs-small);
+        font-weight: 500;
+        line-height: 1.45;
+        text-align: left;
+        color: var(--cocoa);
+    }
+
+    .booking-forward-offer[hidden] { display: none; }
+
+    .booking-forward-offer::before {
+        content: '';
+        flex: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--clay) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
     }
 
     .booking-forward-actions {
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    /* The booking link keeps class="btn" (click tracking falls back to the class name);
+       its large arrow-pill look is applied here instead of extra classes. */
+    .booking-forward-actions .btn:not(.btn-secondary) {
+        min-height: 56px;
+        padding: 0 9px 0 32px;
+        gap: 14px;
+        font-size: 1rem;
+    }
+
+    .booking-forward-actions .btn:not(.btn-secondary)::after {
+        content: '';
+        flex: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--i-arrow-clay) center / 13px no-repeat, #FFFFFF;
+        transition: transform 0.45s var(--ease-expo);
+    }
+
+    .booking-forward-actions .btn:not(.btn-secondary):hover::after { transform: rotate(45deg); }
+    .booking-forward-actions .btn-secondary { min-height: 56px; padding: 0 32px; font-size: 1rem; }
+
+    .booking-forward-note { max-width: 46ch; }
+
+    .booking-forward-proof {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 0.75rem;
-        margin: 2rem 0 1rem;
+        gap: 10px 22px;
+        margin-top: 10px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        font-size: 0.92rem;
+        color: var(--text);
     }
 
-    .booking-forward-note {
-        font-size: 0.9rem;
-    }
+    .booking-forward-proof li { display: inline-flex; align-items: center; gap: 10px; }
+    .booking-forward-proof li + li { padding-left: 22px; border-left: 1px solid var(--line-strong); }
+    .booking-forward-proof .stars { color: var(--gold); letter-spacing: 0.1em; font-size: 0.9rem; }
 
-    .booking-forward-offer {
-        margin-top: 1rem !important;
-        color: var(--accent-text) !important;
-        font-size: 0.95rem;
-        font-weight: 600;
+    @media (max-width: 600px) {
+        .booking-forward-actions { flex-direction: column; align-items: stretch; width: 100%; }
+        .booking-forward-actions .btn:not(.btn-secondary) { justify-content: space-between; }
+        .booking-forward-proof { flex-direction: column; align-items: center; }
+        .booking-forward-proof li + li { padding-left: 0; border-left: 0; }
     }
 </style>

@@ -18,7 +18,7 @@ const {
 const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
 ---
 
-<div class="sticky-offer-bar" role="complementary" aria-label="Angebot">
+<div class="sticky-offer-bar on-dark" role="complementary" aria-label="Angebot">
   <div class="sticky-offer-prices">
     {hasDiscount && <span class="sticky-offer-old">{currency} {(oldPrice as number).toFixed(0)}.-</span>}
     <strong class="sticky-offer-new">{currency} {newPrice.toFixed(0)}.-</strong>
@@ -29,9 +29,15 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
 
 <style>
   :global(body) {
-    --lp-sticky-offer-height: 78px;
+    --lp-sticky-offer-height: 68px;
   }
 
+  /* The bar is hidden while the consent banner is open, so the banner can use the bottom edge. */
+  :global(body.bfl-consent-visible) {
+    --lp-sticky-offer-height: 0px;
+  }
+
+  /* Hairline espresso bar (phones/tablets only). Hidden while the consent banner is open. */
   .sticky-offer-bar {
     display: none;
     position: fixed;
@@ -39,44 +45,47 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     right: 0;
     bottom: 0;
     z-index: 39;
-    min-height: var(--lp-sticky-offer-height);
-    padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
-    background: rgba(28, 26, 23, 0.96);
-    color: var(--paper);
-    backdrop-filter: blur(14px) saturate(1.2);
-    -webkit-backdrop-filter: blur(14px) saturate(1.2);
-    border-top: 1px solid rgba(246, 241, 234, 0.16);
-    box-shadow: 0 -10px 32px rgba(18, 18, 18, 0.18);
+    box-sizing: border-box;
+    height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+    padding: 0 var(--gutter) env(safe-area-inset-bottom, 0px);
+    border-top: 1px solid var(--rule-light-strong);
+    box-shadow: var(--shadow-float);
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: 16px;
   }
 
   .sticky-offer-prices {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0;
+    gap: 4px;
     line-height: 1.1;
   }
+
   .sticky-offer-old {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    color: rgba(246, 241, 234, 0.58);
+    color: var(--champagne);
+    font-family: var(--f-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-decoration: line-through;
+    text-decoration-thickness: 1px;
   }
+
   .sticky-offer-new {
-    font-family: var(--font-serif);
-    font-size: 1.45rem;
-    font-weight: 500;
-    color: var(--paper);
+    color: var(--porcelain);
+    font-family: var(--f-display);
+    font-size: 1.4rem;
+    font-weight: 400;
     letter-spacing: 0;
+    font-variant-numeric: lining-nums;
   }
 
   .sticky-offer-cta {
-    padding: 12px 22px;
-    font-size: 11px;
     flex-shrink: 0;
+    min-height: 46px;
+    padding: 0 1.25rem;
   }
 
   .sticky-offer-safe-space {
@@ -112,19 +121,16 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
 
   @media (max-width: 420px) {
     .sticky-offer-bar {
-      padding: 0.6rem 0.85rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
-      gap: 0.5rem;
+      gap: 12px;
     }
-    .sticky-offer-old {
-      font-size: 0.7rem;
-    }
+
     .sticky-offer-new {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
     }
+
     .sticky-offer-cta {
-      padding: 10px 16px;
-      font-size: 10px;
-      letter-spacing: 1.2px;
+      padding: 0 1rem;
+      letter-spacing: 0.12em;
     }
   }
 </style>

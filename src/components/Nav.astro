@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import {
   CONTACT_EMAIL,
   CONTACT_PHONE,
@@ -6,24 +7,41 @@ import {
   FULL_ADDRESS,
   SERVICE_GROUPS,
 } from '../../shared/site';
+import consultationImage from '../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 
 interface Props {
   variant?: 'default' | 'treatment';
 }
 
-const { variant = 'default' } = Astro.props;
-const isTreatment = variant === 'treatment';
+// The luxury system uses one light navigation everywhere; `variant` is kept for API compatibility.
+const path = Astro.url.pathname;
+const isCurrent = (prefix: string) => path.startsWith(prefix);
+
+// Menu shows plain treatment names ("Waxing", not the SEO anchor "Waxing Zürich"):
+// facial treatments in one column, every other service group in the second.
+const menuName = (label: string) => label.replace(/\s+Zürich.*$/, '').replace('Fruchtsäure Peeling', 'Fruchtsäure-Peeling');
+const [faceGroup, ...beautyGroups] = SERVICE_GROUPS;
+const menuColumns = [
+  {
+    title: faceGroup.label,
+    links: faceGroup.services.map((service) => ({ href: service.href, label: menuName(service.label) })),
+  },
+  {
+    title: 'Beauty & Wellness',
+    links: beautyGroups.map((group) => ({ href: group.href, label: group.label })),
+  },
+];
 ---
 
-<nav class={`nav-minimal ${isTreatment ? 'nav-treatment' : ''}`} data-nav-root>
-    <a href="/" class="nav-brand">
+<nav class="nav-minimal" data-nav-root aria-label="Hauptnavigation">
+    <a href="/" class="nav-brand" aria-label="Beauty Face Lift — Startseite">
         <img src="/assets/logo.png" alt="Beauty Face Lift" class="nav-logo" width="224" height="130">
     </a>
 
     <ul class="nav-links">
         <li class="nav-dropdown" data-nav-dropdown>
             <div class="nav-dropdown-header">
-                <a href="/behandlungen/" class="nav-dropdown-link">Behandlungen</a>
+                <a href="/behandlungen/" class="nav-dropdown-link" aria-current={isCurrent('/behandlungen/') ? 'page' : undefined}>Behandlungen</a>
                 <button
                     type="button"
                     class="nav-disclosure"
@@ -34,25 +52,34 @@ const isTreatment = variant === 'treatment';
                     <span class="sr-only">Untermenü Behandlungen öffnen</span>
                 </button>
             </div>
-            <ul class="nav-submenu nav-submenu-grouped" id="nav-submenu-desktop" aria-label="Behandlungen">
-                {SERVICE_GROUPS.map((group) => (
-                    <li class="nav-submenu-group">
-                        <a href={group.href} class="nav-submenu-group-label">{group.label}</a>
-                        <ul class="nav-submenu-group-list">
-                            {group.services.map((service) => (
-                                <li><a href={service.href}>{service.label}</a></li>
-                            ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
+            <div class="nav-submenu" id="nav-submenu-desktop">
+                <div class="nav-menu-grid">
+                    {menuColumns.map((column) => (
+                        <div class="nav-menu-col">
+                            <p class="nav-menu-title">{column.title}</p>
+                            <ul>
+                                {column.links.map((link) => (
+                                    <li><a href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}</a></li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                    <a href="/kontakt/" class="nav-menu-feature" data-button-location="nav_menu_consultation">
+                        <Image src={consultationImage} width={240} height={300} fit="cover" format="webp" quality="high" loading="lazy" alt="" />
+                        <span>Kostenlose Erstberatung</span>
+                    </a>
+                </div>
+                <a href="/behandlungen/" class="nav-menu-all">Übersicht aller Behandlungen</a>
+            </div>
         </li>
-        <li><a href="/ueber-mich/">Über mich</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/kontakt/">Kontakt</a></li>
+        <li><a href="/ueber-mich/" aria-current={isCurrent('/ueber-mich/') ? 'page' : undefined}>Über mich</a></li>
+        <li><a href="/blog/" aria-current={isCurrent('/blog/') ? 'page' : undefined}>Wissen</a></li>
+        <li><a href="/kontakt/" aria-current={isCurrent('/kontakt/') ? 'page' : undefined}>Kontakt</a></li>
     </ul>
 
-    <a href="/termin/" class="pill-btn nav-cta" data-button-location="nav_desktop">Termin buchen</a>
+    <div class="nav-right">
+        <a href="/termin/" class="btn nav-cta" data-button-location="nav_desktop">Termin buchen</a>
+    </div>
 
     <button
         class="nav-hamburger"
@@ -91,25 +118,26 @@ const isTreatment = variant === 'treatment';
                         <span class="sr-only">Behandlungen in der Mobilnavigation anzeigen</span>
                     </button>
                 </div>
-                <ul class="nav-mobile-submenu" id="nav-mobile-treatments" hidden>
-                    {SERVICE_GROUPS.map((group) => (
-                        <li class="nav-mobile-sub nav-mobile-sub-group">
-                            <a href={group.href} class="nav-mobile-sub-heading">{group.label}</a>
+                <div class="nav-mobile-submenu" id="nav-mobile-treatments" hidden>
+                    {menuColumns.map((column) => (
+                        <div class="nav-mobile-sub">
+                            <p class="nav-menu-title">{column.title}</p>
                             <ul>
-                                {group.services.map((service) => (
-                                    <li><a href={service.href}>{service.label}</a></li>
+                                {column.links.map((link) => (
+                                    <li><a href={link.href}>{link.label}</a></li>
                                 ))}
                             </ul>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                    <a href="/behandlungen/" class="nav-menu-all">Übersicht aller Behandlungen</a>
+                </div>
             </li>
             <li><a href="/ueber-mich/">Über mich</a></li>
-            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/blog/">Wissen</a></li>
             <li><a href="/haeufige-fragen/">Häufige Fragen</a></li>
             <li><a href="/kontakt/">Kontakt</a></li>
         </ul>
-        <a href="/termin/" class="pill-btn pill-btn-lg nav-mobile-cta" data-button-location="nav_mobile">Jetzt Termin buchen</a>
+        <a href="/termin/" class="btn btn-lg nav-mobile-cta" data-button-location="nav_mobile">Termin buchen</a>
         <div class="nav-mobile-contact">
             <a href={`tel:${CONTACT_PHONE}`} data-button-location="nav_mobile_phone">{CONTACT_PHONE_DISPLAY}</a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
@@ -120,21 +148,21 @@ const isTreatment = variant === 'treatment';
 
 <script>
     const nav = document.querySelector('[data-nav-root]');
-    const dropdown = nav?.querySelector('[data-nav-dropdown]');
-    const desktopDisclosure = nav?.querySelector('[data-nav-disclosure]');
+    const dropdown = nav?.querySelector<HTMLElement>('[data-nav-dropdown]');
+    const desktopDisclosure = nav?.querySelector<HTMLElement>('[data-nav-disclosure]');
     const desktopSubmenu = nav?.querySelector('#nav-submenu-desktop');
     const desktopFirstLink = desktopSubmenu?.querySelector('a');
 
-    const hamburger = document.querySelector('[data-nav-toggle]');
-    const overlay = document.querySelector('[data-nav-overlay]');
+    const hamburger = document.querySelector<HTMLElement>('[data-nav-toggle]');
+    const overlay = document.querySelector<HTMLElement>('[data-nav-overlay]');
     const mobileDisclosure = overlay?.querySelector('[data-nav-mobile-disclosure]');
-    const mobileSubmenu = overlay?.querySelector('#nav-mobile-treatments');
+    const mobileSubmenu = overlay?.querySelector<HTMLElement>('#nav-mobile-treatments');
     const mobileLinks = overlay?.querySelectorAll('a');
 
     const isDesktop = () => window.matchMedia('(min-width: 901px)').matches;
     const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-    const setDesktopDropdown = (open) => {
+    const setDesktopDropdown = (open: boolean) => {
         if (!dropdown || !desktopDisclosure) return;
         dropdown.classList.toggle('is-open', open);
         desktopDisclosure.setAttribute('aria-expanded', String(open));
@@ -157,7 +185,7 @@ const isTreatment = variant === 'treatment';
             }
         });
 
-        dropdown.querySelector('.nav-dropdown-link')?.addEventListener('keydown', (event) => {
+        dropdown.querySelector<HTMLElement>('.nav-dropdown-link')?.addEventListener('keydown', (event) => {
             if (!isDesktop()) return;
             if (event.key === 'ArrowDown') {
                 event.preventDefault();
@@ -171,7 +199,7 @@ const isTreatment = variant === 'treatment';
         });
 
         dropdown.addEventListener('focusout', (event) => {
-            if (!dropdown.contains(event.relatedTarget)) {
+            if (!dropdown.contains(event.relatedTarget as Node | null)) {
                 setDesktopDropdown(false);
             }
         });
@@ -184,21 +212,21 @@ const isTreatment = variant === 'treatment';
         });
 
         document.addEventListener('pointerdown', (event) => {
-            if (isDesktop() && !dropdown.contains(event.target)) {
+            if (isDesktop() && !dropdown.contains(event.target as Node | null)) {
                 setDesktopDropdown(false);
             }
         });
     }
 
-    const setBodyLock = (locked) => {
+    const setBodyLock = (locked: boolean) => {
         document.documentElement.classList.toggle('nav-lock', locked);
         document.body.classList.toggle('nav-lock', locked);
     };
 
-    const getFocusable = (container) => Array.from(container.querySelectorAll(focusableSelector))
+    const getFocusable = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>(focusableSelector))
         .filter((element) => !element.hasAttribute('hidden') && !element.closest('[hidden]'));
 
-    let closeOverlayTimeout;
+    let closeOverlayTimeout: number | undefined;
 
     const openOverlay = () => {
         if (!hamburger || !overlay) return;

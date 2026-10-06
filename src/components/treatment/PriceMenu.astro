@@ -1,0 +1,172 @@
+---
+/**
+ * Price section: heading column (title slot, optional note, optional
+ * "actions" slot for a CTA) beside slim hairline rows —
+ * name (+ optional note), duration, CHF.
+ */
+import JoinedTitle from './JoinedTitle.astro';
+
+interface PriceItem {
+  name: string;
+  /** Optional booking-system service name, shown quietly under the name. */
+  sub?: string;
+  duration: string;
+  price: string;
+  note?: string;
+}
+
+interface Props {
+  items: PriceItem[];
+  note?: string;
+}
+
+const { items, note } = Astro.props;
+const hasActions = Astro.slots.has('actions');
+---
+
+<div class="price-section">
+  <div class="price-section-head">
+    <h2><slot name="title" /></h2>
+    {note && <p class="price-section-note">{note}</p>}
+    {hasActions && <div class="price-section-actions"><slot name="actions" /></div>}
+  </div>
+  <ul class="price-menu">
+    {items.map((item) => (
+      <li class="price-row">
+        <div class="price-row-main">
+          <h3 class="price-row-name"><JoinedTitle text={item.name} keepHyphens /></h3>
+          {item.note && <p class="price-row-note">{item.note}</p>}
+          {item.sub && <p class="price-row-sub">{item.sub}</p>}
+        </div>
+        <span class="price-row-duration">{item.duration}</span>
+        <span class="price-row-price">{item.price}</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .price-section {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .price-section-head {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+
+  .price-section-head h2 {
+    max-width: 12ch;
+  }
+
+  .price-section-note {
+    max-width: 36ch;
+    font-size: var(--fs-small);
+    color: var(--muted);
+  }
+
+  .price-section-actions {
+    margin-top: 8px;
+  }
+
+  /* Hairline rows (replace the boxed rows from components.css) */
+  .price-menu {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .price-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    gap: 6px clamp(20px, 3vw, 44px);
+    padding: 22px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    border-radius: 0;
+    background: none;
+  }
+
+  .price-row-main {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .price-row-name {
+    font-family: var(--f-serif);
+    font-size: clamp(1.5rem, 2vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .price-row-note,
+  .price-row-sub {
+    max-width: 46ch;
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .price-row-duration {
+    padding: 0;
+    background: none;
+    font-size: var(--fs-small);
+    font-weight: 400;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .price-row-price {
+    font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--cocoa);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 901px) {
+    .price-section-head {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+
+    /* Shared columns so durations and prices align from row to row */
+    .price-menu {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      column-gap: clamp(20px, 3vw, 44px);
+    }
+
+    .price-row {
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+    }
+
+    .price-row-price {
+      text-align: right;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .price-section {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+
+    .price-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding: 20px 0;
+    }
+
+    .price-row-main { grid-column: 1; grid-row: 1; }
+    .price-row-price { grid-column: 2; grid-row: 1; }
+    .price-row-duration { grid-column: 1; grid-row: 2; }
+  }
+</style>

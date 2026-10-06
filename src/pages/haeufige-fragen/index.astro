@@ -1,95 +1,128 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import AiSummary from '../../components/AiSummary.astro';
+import { CONTACT_WHATSAPP_URL } from '../../../shared/site';
 
-const faqs = [
+const link = (href: string, text: string) => `<a href="${href}">${text}</a>`;
+const aquafacial = (text = 'Aquafacial') => link('/behandlungen/aquafacial-zuerich/', text);
+const microneedling = (text = 'Microneedling') => link('/behandlungen/microneedling-zuerich/', text);
+const peeling = (text = 'Fruchtsäure Peeling') => link('/behandlungen/fruchtsaeure-peeling-zuerich/', text);
+const coldplasma = (text = 'ColdPlasma') => link('/behandlungen/coldplasma-zuerich/', text);
+const exosome = (text = 'Exosome Therapie') => link('/behandlungen/exosome-therapie-zuerich/', text);
+
+// Grouped by topic (groups, not a sequence — no numerals). The FAQPage JSON-LD is
+// generated from the same arrays, so visible answers and structured data match.
+const categories = [
     {
-        question: 'Was ist Beauty Face Lift?',
-        answer: 'Beauty Face Lift ist Ihr Premium Kosmetikinstitut an der Bahnhofstrasse 94 in 8001 Zürich. Unter der Leitung von Teresa Stimac bieten wir professionelle, schonende Gesichtsbehandlungen für ein gepflegtes, strahlendes Hautbild. Unser Fokus liegt auf modernen Verfahren wie <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a>, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a>, <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> und <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> — individuell abgestimmt auf Ihren Hauttyp.'
+        id: 'studio',
+        label: 'Studio & Teresa',
+        faqs: [
+            {
+                question: 'Was ist Beauty Face Lift?',
+                answer: `Beauty Face Lift ist Ihr Kosmetikinstitut an der Bahnhofstrasse 94 in 8001 Zürich, geführt von Teresa Stimac. Im Fokus stehen schonende, moderne Gesichtsbehandlungen wie ${aquafacial()}, ${microneedling()}, ${peeling()}, ${coldplasma()} und ${exosome()} – individuell abgestimmt auf Ihren Hauttyp.`,
+            },
+            {
+                question: 'Wo befindet sich das Studio?',
+                answer: `An der Bahnhofstrasse 94, 8001 Zürich – mitten in der Stadt und gut mit öffentlichen Verkehrsmitteln erreichbar. Der Hauptbahnhof Zürich liegt nur wenige Gehminuten entfernt. Mehr über Teresa und das Studio erfahren Sie auf der ${link('/ueber-mich/', 'Über-mich-Seite')}.`,
+            },
+            {
+                question: 'Wer führt die Behandlungen durch?',
+                answer: `Alle Behandlungen führt Teresa Stimac persönlich durch – Inhaberin und erfahrene Kosmetikerin mit langjähriger Expertise in der ästhetischen Hautpflege. Sie nimmt sich für jede Kundin Zeit und erstellt einen individuellen Behandlungsplan. ${link('/ueber-mich/', 'Mehr über Teresa')}.`,
+            },
+        ],
     },
     {
-        question: 'Wo befindet sich das Studio?',
-        answer: 'Das Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich — im Herzen der Stadt und bestens erreichbar mit öffentlichen Verkehrsmitteln. Der Hauptbahnhof Zürich ist nur wenige Gehminuten entfernt. Teresa empfängt Sie in einer ruhigen, stilvollen Atmosphäre, die zum Entspannen einlädt. Mehr über Teresa und Beauty Face Lift erfahren Sie auf der <a href="/ueber-mich/">Über-mich-Seite</a>.'
+        id: 'behandlungen',
+        label: 'Behandlungen',
+        faqs: [
+            {
+                question: 'Welche Behandlungen bieten Sie an?',
+                answer: `Im Mittelpunkt stehen fünf Gesichtsbehandlungen: ${aquafacial()} für Tiefenreinigung und frischen Glow, ${microneedling()} zur Unterstützung der natürlichen Kollagenbildung, ${peeling()} für die Hauterneuerung, ${coldplasma()} als Plasma-Technologie und ${exosome()} als regenerative Wirkstoffpflege. Alle Angebote finden Sie in der ${link('/behandlungen/', 'Übersicht')}.`,
+            },
+            {
+                question: 'Welche Behandlung passt zu meinem Hauttyp?',
+                answer: `Das hängt von Ihrem Hautbild und Ihren Zielen ab. ${aquafacial()} eignet sich für alle Hauttypen, besonders bei fahler, dehydrierter Haut. ${microneedling()} kann bei feinen Linien, Narben und Pigmentflecken sinnvoll sein, ${exosome()} als Wirkstoffpflege bei fahler, trockener oder gestresster Haut. Welche Behandlung oder Kombination passt, bespricht Teresa mit Ihnen persönlich.`,
+            },
+            {
+                question: 'Kann ich mehrere Behandlungen kombinieren?',
+                answer: `Ja, viele Behandlungen lassen sich sinnvoll kombinieren – besonders beliebt ist ${aquafacial()} mit ${microneedling()}. Auch ${exosome()} kann nach der Hautanalyse ergänzend eingeplant werden, etwa im Umfeld von Microneedling. Teresa stimmt die Verfahren in Ihrem Behandlungsplan sorgfältig aufeinander ab.`,
+            },
+            {
+                question: 'Sind die Behandlungen schmerzhaft?',
+                answer: `Die Behandlungen sind so angenehm wie möglich gestaltet. ${aquafacial()} wird meist als entspannend empfunden. Bei ${microneedling()} wird vorab eine betäubende Creme aufgetragen, sodass Sie nur ein leichtes Kribbeln spüren. ${peeling('Fruchtsäure Peelings')} und ${coldplasma()} sind gut verträglich, eine reine ${exosome('Exosome Serumbehandlung')} ist in der Regel angenehm; in Kombination mit Microneedling gelten die Needling-Hinweise.`,
+            },
+            {
+                question: 'Gibt es Gegenanzeigen (Kontraindikationen)?',
+                answer: 'Ja. Bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden, Akne im akuten Stadium oder während der Einnahme blutverdünnender Medikamente können einzelne Behandlungen nicht durchgeführt werden. Teresa bespricht Ihre gesundheitliche Situation im Vorgespräch und empfiehlt nur, was für Sie geeignet ist.',
+            },
+            {
+                question: 'Kann ich Behandlungen in der Schwangerschaft machen?',
+                answer: `Während Schwangerschaft und Stillzeit raten wir von ${microneedling()} und ${peeling('Fruchtsäure Peelings')} ab, da die Haut empfindlicher reagieren kann. Ein sanftes ${aquafacial()} ist in vielen Fällen möglich – bitte informieren Sie Teresa vorab, damit sie die Behandlung anpassen kann.`,
+            },
+        ],
     },
     {
-        question: 'Wer führt die Behandlungen durch?',
-        answer: 'Alle Behandlungen werden persönlich von Teresa Stimac durchgeführt — Inhaberin und erfahrene Kosmetikerin mit langjähriger Expertise in der ästhetischen Hautpflege. Teresa nimmt sich für jede Kundin ausreichend Zeit und erstellt einen individuellen Behandlungsplan. So erhalten Sie eine sorgfältig abgestimmte Pflege. Mehr über Teresa erfahren Sie <a href="/ueber-mich/">hier</a>.'
+        id: 'termin-preise',
+        label: 'Termin & Preise',
+        faqs: [
+            {
+                question: 'Brauche ich einen Termin?',
+                answer: `Ja, wir arbeiten ausschliesslich nach Terminvereinbarung, damit genügend Zeit für Ihre persönliche Behandlung bleibt. Reservieren Sie Ihren Wunschtermin über die ${link('/termin/', 'Online-Buchung')} oder telefonisch.`,
+            },
+            {
+                question: 'Wie buche ich einen Termin?',
+                answer: `Am einfachsten über die ${link('/termin/', 'Online-Terminbuchung')}: Behandlung, Datum und Uhrzeit wählen – die Bestätigung erhalten Sie sofort per E-Mail. Selbstverständlich erreichen Sie uns auch telefonisch.`,
+            },
+            {
+                question: 'Was kosten die Behandlungen?',
+                answer: `Die Preise richten sich nach Art und Dauer der Behandlung: Aquafacial ab CHF 180 (60 Min.), die Anti-Aging Variante CHF 250 (90 Min.), erweiterte Aquafacial Varianten CHF 280. Microneedling ab CHF 210, Fruchtsäure Peeling CHF 150, ColdPlasma ab CHF 180. Umfang und Preis der Exosome Therapie klärt Teresa in der Beratung. Alle Preise inklusive MwSt., Details auf den jeweiligen ${link('/behandlungen/', 'Behandlungsseiten')}.`,
+            },
+            {
+                question: 'Gibt es Paketangebote oder Kuren?',
+                answer: `Ja, Kurpakete oder Behandlungsserien können je nach Hautziel sinnvoll sein, besonders bei Microneedling, Fruchtsäure Peeling und ColdPlasma. Die Einzelpreise stehen auf den Behandlungsseiten; ob ein Paket zu Ihren Hautzielen passt, bespricht Teresa im ${link('/termin/', 'Beratungsgespräch')}.`,
+            },
+            {
+                question: 'Welche Zahlungsmethoden werden akzeptiert?',
+                answer: 'Wir akzeptieren Barzahlung, EC-Karte (Debitkarte) sowie alle gängigen Kreditkarten (Visa, Mastercard). Bezahlt wird nach der Behandlung im Studio an der Bahnhofstrasse. Bei Buchung einer Kur oder eines Pakets ist auch eine Vorauszahlung möglich.',
+            },
+            {
+                question: 'Kann ich einen Termin stornieren?',
+                answer: 'Ja, bis 24 Stunden vor dem vereinbarten Termin kostenlos. Bitte informieren Sie uns rechtzeitig per Telefon oder E-Mail, damit wir den Termin anderweitig vergeben können. Bei kurzfristiger Absage oder Nichterscheinen behalten wir uns vor, eine Ausfallgebühr zu berechnen.',
+            },
+            {
+                question: 'Bieten Sie Gutscheine an?',
+                answer: `Ja, Gutscheine für einzelne Behandlungen oder einen frei wählbaren Betrag erhalten Sie direkt im Studio an der Bahnhofstrasse 94. ${link('/kontakt/', 'Kontaktieren Sie uns')} für weitere Informationen.`,
+            },
+        ],
     },
     {
-        question: 'Brauche ich einen Termin?',
-        answer: 'Ja, wir arbeiten ausschliesslich nach Terminvereinbarung. So können wir ausreichend Zeit für eine persönliche Behandlung einplanen. Jeder Termin wird individuell für Sie reserviert. Sie können Ihren Wunschtermin bequem über unsere <a href="/termin/">Online-Buchung</a> reservieren oder uns telefonisch kontaktieren.'
+        id: 'nachsorge',
+        label: 'Nachsorge & Ergebnisse',
+        faqs: [
+            {
+                question: 'Wie pflege ich meine Haut nach einer Behandlung?',
+                answer: 'In den ersten 24–48 Stunden empfehlen wir milde, parfümfreie Pflegeprodukte und einen hohen Sonnenschutz (mindestens SPF 30). Verzichten Sie auf aggressive Peelings, Retinol und stark parfümierte Produkte. Nach jeder Behandlung gibt Ihnen Teresa individuelle Pflegetipps für Ihren Hauttyp mit.',
+            },
+            {
+                question: 'Darf ich nach der Behandlung Sport machen?',
+                answer: `Nach einem ${aquafacial()} meist sofort – es gibt in der Regel keine Einschränkungen. Nach ${microneedling()} und intensiven ${peeling('Peelings')} empfehlen wir, 24 Stunden auf schweisstreibenden Sport, Sauna und Schwimmbad zu verzichten. Leichte Bewegung wie Spaziergänge ist jederzeit möglich.`,
+            },
+            {
+                question: 'Wann sehe ich die ersten Ergebnisse?',
+                answer: `Nach einem ${aquafacial()} bemerken viele Kundinnen direkt ein frischeres Hautgefühl. Bei ${microneedling()} entwickeln sich Veränderungen meist über 4–6 Wochen, da die Kollagenbildung Zeit braucht. Fruchtsäure Peelings können nach mehreren Sitzungen ein klareres Hautbild unterstützen. Die Ergebnisse sind individuell unterschiedlich.`,
+            },
+            {
+                question: 'Wie oft sollte ich Behandlungen wiederholen?',
+                answer: `Das hängt von Behandlung und Hautziel ab. ${aquafacial()} wird häufig alle 4–6 Wochen geplant, ${microneedling()}-Serien bestehen typischerweise aus 3–5 Sitzungen im Abstand von 4–6 Wochen. Ihren persönlichen Plan erstellt Teresa im ${link('/termin/', 'Beratungstermin')}.`,
+            },
+        ],
     },
-    {
-        question: 'Wie buche ich einen Termin?',
-        answer: 'Am einfachsten buchen Sie direkt über unsere <a href="/termin/">Online-Terminbuchung</a>. Wählen Sie Ihre gewünschte Behandlung, ein passendes Datum und Ihre bevorzugte Uhrzeit — die Bestätigung erhalten Sie sofort per E-Mail. Der gesamte Buchungsprozess dauert nur wenige Klicks. Selbstverständlich können Sie uns auch telefonisch erreichen.'
-    },
-    {
-        question: 'Welche Zahlungsmethoden werden akzeptiert?',
-        answer: 'Bei Beauty Face Lift akzeptieren wir Barzahlung, EC-Karte (Debitkarte) sowie alle gängigen Kreditkarten (Visa, Mastercard). Die Zahlung erfolgt bequem nach der Behandlung vor Ort in unserem Studio an der Bahnhofstrasse. Bei Buchung einer Kur oder eines Pakets ist auch eine Vorauszahlung möglich.'
-    },
-    {
-        question: 'Welche Behandlungen bieten Sie an?',
-        answer: 'Unser Behandlungsspektrum umfasst fünf Kernbereiche: <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> für Tiefenreinigung und frischen Glow, <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> zur Stimulation der natürlichen Kollagenproduktion, <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> für intensive Hauterneuerung, <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> als innovative Plasma-Technologie und <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> als regenerative Wirkstoffpflege. Eine vollständige Übersicht finden Sie auf unserer <a href="/behandlungen/">Behandlungsseite</a>.'
-    },
-    {
-        question: 'Welche Behandlung passt zu meinem Hauttyp?',
-        answer: 'Die passende Behandlung hängt von Ihrem individuellen Hautbild und Ihren Zielen ab. <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> eignet sich hervorragend für alle Hauttypen und ist besonders bei fahler, dehydrierter Haut wirksam. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> kann bei feinen Linien, Narben und Pigmentflecken sinnvoll sein. <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> kann als moderne Wirkstoffpflege bei fahler, trockener oder gestresster Haut eingesetzt werden. Teresa berät Sie gerne im persönlichen Gespräch, welche Behandlung oder Kombination für Sie am besten geeignet ist.'
-    },
-    {
-        question: 'Kann ich mehrere Behandlungen kombinieren?',
-        answer: 'Ja, viele unserer Behandlungen lassen sich sinnvoll kombinieren. Besonders beliebt ist die Kombination aus <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> und <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>. Auch <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Therapie</a> kann nach Hautanalyse als pflegende Wirkstoffanwendung eingeplant werden, zum Beispiel im Umfeld von Microneedling. Teresa erstellt Ihnen einen individuellen Behandlungsplan, der mehrere Verfahren sorgfältig aufeinander abstimmt.'
-    },
-    {
-        question: 'Sind die Behandlungen schmerzhaft?',
-        answer: 'Unsere Behandlungen sind so konzipiert, dass sie möglichst angenehm sind. <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> ist in der Regel angenehm und wird als entspannend empfunden. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> wird vorab eine betäubende Creme aufgetragen, sodass Sie nur ein leichtes Kribbeln spüren. Auch <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peelings</a> und <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma</a> sind gut verträglich. Eine reine <a href="/behandlungen/exosome-therapie-zuerich/">Exosome Serumbehandlung</a> ist in der Regel angenehm; bei Kombination mit Microneedling gelten die Needling-Hinweise. Ihr Wohlbefinden steht bei uns immer an erster Stelle.'
-    },
-    {
-        question: 'Gibt es Gegenanzeigen (Kontraindikationen)?',
-        answer: 'Ja, bei bestimmten Hauterkrankungen, aktiven Entzündungen, offenen Wunden oder während der Einnahme blutverdünnender Medikamente können einzelne Behandlungen nicht durchgeführt werden. Auch bei Akne im akuten Stadium ist Vorsicht geboten. Teresa bespricht im Vorgespräch Ihre gesundheitliche Situation und berät Sie, welche Behandlungen für Sie geeignet sind. Sicherheit und Wohlbefinden haben bei uns oberste Priorität.'
-    },
-    {
-        question: 'Kann ich Behandlungen in der Schwangerschaft machen?',
-        answer: 'Während der Schwangerschaft und Stillzeit raten wir von <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> und <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peelings</a> ab, da die Haut empfindlicher reagieren kann. Ein sanftes <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> ist in vielen Fällen möglich — bitte informieren Sie Teresa vor der Behandlung über eine bestehende Schwangerschaft, damit sie die Behandlung entsprechend anpassen kann.'
-    },
-    {
-        question: 'Was kosten die Behandlungen?',
-        answer: 'Unsere Preise richten sich nach Art und Dauer der Behandlung. Aquafacial beginnt bei CHF 180 (60 Min.), die Anti-Aging Variante liegt bei CHF 250 (90 Min.) und erweiterte Aquafacial Varianten kosten CHF 280. Microneedling beginnt bei CHF 210, Fruchtsäure Peeling kostet CHF 150 und ColdPlasma beginnt bei CHF 180. Umfang und Preis der Exosome Therapie werden in der Beratung geklärt, da Produktwahl und Kombination variieren können. Detaillierte Preisinformationen finden Sie auf den jeweiligen <a href="/behandlungen/">Behandlungsseiten</a>. Alle Preise verstehen sich inklusive MwSt.'
-    },
-    {
-        question: 'Gibt es Paketangebote oder Kuren?',
-        answer: 'Ja, Kurpakete oder Behandlungsserien können je nach Hautziel sinnvoll sein, besonders bei Microneedling, Fruchtsäure Peeling und ColdPlasma. Die offiziellen Einzelpreise stehen auf den Behandlungsseiten; Teresa berät Sie gerne persönlich, ob ein Paket für Ihre Hautziele sinnvoll ist. Buchen Sie ein <a href="/termin/">Beratungsgespräch</a>.'
-    },
-    {
-        question: 'Kann ich einen Termin stornieren?',
-        answer: 'Ja, eine kostenlose Stornierung ist bis 24 Stunden vor dem vereinbarten Termin möglich. Bitte informieren Sie uns rechtzeitig per Telefon oder E-Mail, damit wir den Termin anderweitig vergeben können. Bei kurzfristiger Absage oder Nichterscheinen behalten wir uns vor, eine Ausfallgebühr zu berechnen. Wir bitten um Verständnis — so können wir allen Kundinnen eine zuverlässige Terminplanung bieten.'
-    },
-    {
-        question: 'Bieten Sie Gutscheine an?',
-        answer: 'Ja, Gutscheine für einzelne Behandlungen oder einen frei wählbaren Betrag sind ein ideales Geschenk. Sie können Gutscheine direkt in unserem Studio an der Bahnhofstrasse 94 erwerben. Ob zum Geburtstag, zu Weihnachten oder einfach als besondere Überraschung — schenken Sie strahlend schöne Haut. Kontaktieren Sie uns für weitere Informationen.'
-    },
-    {
-        question: 'Wie pflege ich meine Haut nach einer Behandlung?',
-        answer: 'Die richtige Nachsorge ist entscheidend für möglichst gute Ergebnisse. Generell empfehlen wir: Verwenden Sie in den ersten 24-48 Stunden milde, parfümfreie Pflegeprodukte und einen hohen Sonnenschutz (mindestens SPF 30). Verzichten Sie auf aggressive Peelings, Retinol und stark parfümierte Produkte. Teresa gibt Ihnen nach jeder Behandlung individuelle Pflegetipps für Ihren Hauttyp mit.'
-    },
-    {
-        question: 'Darf ich nach der Behandlung Sport machen?',
-        answer: 'Nach einem <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> können Sie sofort wieder sportlich aktiv werden — es gibt meist keine Einschränkungen. Nach <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> und intensiven <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Peelings</a> empfehlen wir, 24 Stunden auf schweisstreiben Sport, Sauna und Schwimmbad zu verzichten, um Reizungen zu vermeiden. Leichte Bewegung wie Spaziergänge sind jederzeit möglich.'
-    },
-    {
-        question: 'Wann sehe ich die ersten Ergebnisse?',
-        answer: 'Bei <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> bemerken viele Kundinnen direkt nach der Behandlung ein frischeres Hautgefühl. Bei <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> entwickeln sich Veränderungen meist über 4-6 Wochen, da die Kollagenbildung Zeit braucht. Fruchtsäure Peelings können nach mehreren Sitzungen ein klareres Hautbild unterstützen. Die Ergebnisse sind individuell unterschiedlich.'
-    },
-    {
-        question: 'Wie oft sollte ich Behandlungen wiederholen?',
-        answer: 'Die ideale Häufigkeit hängt von der Behandlungsart und Ihren Hautzielen ab. <a href="/behandlungen/aquafacial-zuerich/">Aquafacial</a> wird häufig alle 4-6 Wochen geplant. <a href="/behandlungen/microneedling-zuerich/">Microneedling</a>-Serien bestehen typischerweise aus 3-5 Sitzungen im Abstand von 4-6 Wochen. Teresa erstellt Ihnen gerne einen persönlichen Behandlungsplan. <a href="/termin/">Buchen Sie Ihren Beratungstermin</a> für eine individuelle Empfehlung.'
-    }
 ];
 
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
+    "mainEntity": categories.flatMap((category) => category.faqs).map((faq) => ({
         "@type": "Question",
         "name": faq.question,
         "acceptedAnswer": {
@@ -103,69 +136,300 @@ const breadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'Häufige Fragen' }
 ];
-
-const categories = [
-    { label: '01 / Allgemeine Fragen', start: 0, count: 6 },
-    { label: '02 / Behandlungen', start: 6, count: 6 },
-    { label: '03 / Preise & Buchung', start: 12, count: 4 },
-    { label: '04 / Nachsorge', start: 16, count: 4 }
-];
-
-const summaryFacts = [
-    { label: 'Studio', value: 'Beauty Face Lift, Bahnhofstrasse 94, Zürich' },
-    { label: 'Häufig gefragt', value: 'Preise, Eignung, Downtime, Nachpflege und Terminbuchung' },
-    { label: 'Beratung', value: 'bei Unsicherheit vor der ersten Behandlung empfohlen' },
-    { label: 'Sicherheit', value: 'Gegenanzeigen werden vor intensiven Behandlungen abgeklärt' },
-];
 ---
 
 <Base
-    title="Häufige Fragen | Beauty Face Lift Zürich — FAQ"
-    description="Antworten zu Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Kosmetikinstitut FAQ aus Zürich."
+    title="Häufige Fragen zu Behandlungen | Beauty Face Lift Zürich"
+    description="Antworten zu Aquafacial, Microneedling, Peeling, Preisen, Buchung und Nachsorge – vom Kosmetikstudio an der Bahnhofstrasse Zürich. Jetzt Termin buchen."
     structuredData={structuredData}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <header class="page-hero fq-hero">
+        <div class="container page-hero-inner">
+            <div class="reveal-up">
+                <Breadcrumbs items={breadcrumbs} />
+            </div>
+            <h1 class="reveal-up fd-1">Häufige Fragen zu Ihrer <em>Behandlung</em></h1>
+            <p class="lead reveal-up fd-2">Antworten zu Behandlungen, Preisen, Terminen und Nachsorge bei Beauty Face Lift in Zürich.</p>
+            <div class="btn-row reveal-up fd-3">
+                <a href="/termin/" class="btn btn-lg btn-arrow" data-button-location="faq_hero">Termin buchen</a>
+                <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary btn-lg" target="_blank" rel="noopener" data-button-location="faq_hero_whatsapp" data-source="faq_hero">Frage per WhatsApp</a>
+            </div>
+        </div>
+    </header>
 
-    <!-- Page Header -->
-    <section class="container" style="padding-bottom: 5vh;">
-        <div class="sub-display margin-bottom-md">Wir beantworten Ihre Fragen</div>
-        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Häufige Fragen</h1>
-        <p style="max-width: 700px;">Hier finden Sie Antworten auf die häufigsten Fragen rund um unsere Behandlungen, Preise, Buchung und Nachsorge. Sollte Ihre Frage nicht dabei sein, kontaktieren Sie uns gerne — wir beraten Sie persönlich.</p>
-    </section>
+    <div class="section section--flush-top">
+        <div class="container fq-layout">
+            <aside class="fq-aside">
+                <nav class="fq-nav" aria-label="Fragen nach Thema" data-faq-nav>
+                    <ul>
+                        {categories.map((category) => (
+                            <li>
+                                <a href={`#${category.id}`} data-faq-link={category.id}>
+                                    <span>{category.label}</span>
+                                    <span class="fq-count">{category.faqs.length}</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+                <div class="fq-aside-cta">
+                    <p>Ihre Frage ist nicht dabei?</p>
+                    <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary btn-arrow" target="_blank" rel="noopener" data-button-location="faq_sidebar_whatsapp" data-source="faq_sidebar">Frage per WhatsApp</a>
+                </div>
+            </aside>
 
-    <AiSummary
-        title="FAQ Beauty Face Lift Zürich"
-        intro="Diese FAQ beantwortet die wichtigsten Fragen zu Gesichtsbehandlungen, Preisen, Buchung, Nachpflege und Eignung bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Medizinische oder hautbezogene Unsicherheiten werden vor Ort persönlich abgeklärt."
-        facts={summaryFacts}
-    />
-
-    <!-- FAQ Categories -->
-    {categories.map((category) => (
-        <section class="faq-section pad-y">
-            <div class="sub-display margin-bottom-lg" style="text-align: center;">{category.label}</div>
-            <div class="faq-list">
-                {faqs.slice(category.start, category.start + category.count).map((faq) => (
-                    <details class="faq-item scroll-anim">
-                        <summary><h3>{faq.question}</h3></summary>
-                        <div class="faq-answer"><div class="faq-answer-inner">
-                            <p set:html={faq.answer} />
-                        </div></div>
-                    </details>
+            <div class="fq-groups">
+                {categories.map((category) => (
+                    <section class="fq-group" id={category.id} aria-labelledby={`${category.id}-title`} data-faq-group>
+                        <h2 id={`${category.id}-title`}>{category.label}</h2>
+                        <div class="faq-list">
+                            {category.faqs.map((faq) => (
+                                <details class="faq-item">
+                                    <summary><h3>{faq.question}</h3></summary>
+                                    <div class="faq-answer"><div class="faq-answer-inner">
+                                        <p set:html={faq.answer} />
+                                    </div></div>
+                                </details>
+                            ))}
+                        </div>
+                    </section>
                 ))}
             </div>
-        </section>
-    ))}
+        </div>
+    </div>
 
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Noch Fragen?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie einen unverbindlichen Beratungstermin — Teresa nimmt sich persönlich Zeit für Ihre Anliegen.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="/termin/" class="pill-btn">Termin buchen</a>
-            <a href="/behandlungen/" class="pill-btn pill-btn-outline">Behandlungen ansehen</a>
+    <section class="cta-band fq-cta" aria-labelledby="faq-cta-title">
+        <div class="cta-band-inner">
+            <div>
+                <h2 id="faq-cta-title">Noch Fragen?</h2>
+                <p>Teresa beantwortet sie gerne persönlich – per WhatsApp oder in der kostenlosen Erstberatung.</p>
+            </div>
+            <div class="btn-row">
+                <a href="/termin/" class="btn btn-arrow" data-button-location="faq_cta_band">Termin buchen</a>
+                <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary" target="_blank" rel="noopener" data-button-location="faq_cta_band_whatsapp" data-source="faq_cta_band">Frage per WhatsApp</a>
+            </div>
         </div>
     </section>
 </Base>
+
+<script>
+    // Highlight the topic in view (sidebar on desktop, sticky chips on phones).
+    const links = new Map<string, HTMLAnchorElement>();
+    document.querySelectorAll<HTMLAnchorElement>('[data-faq-link]').forEach((a) => links.set(a.dataset.faqLink!, a));
+    const nav = document.querySelector<HTMLElement>('[data-faq-nav] ul');
+    const groups = document.querySelectorAll<HTMLElement>('[data-faq-group]');
+
+    const setActive = (id: string) => {
+        links.forEach((a, key) => {
+            if (key === id) a.setAttribute('aria-current', 'true');
+            else a.removeAttribute('aria-current');
+        });
+        const active = links.get(id);
+        // Keep the active chip visible in the horizontal mobile bar without moving the page.
+        if (active && nav && nav.scrollWidth > nav.clientWidth) {
+            const left = active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2;
+            nav.scrollTo({ left, behavior: 'smooth' });
+        }
+    };
+
+    let current = '';
+    let queued = false;
+    const update = () => {
+        queued = false;
+        const line = window.innerHeight * 0.45;
+        let id = groups[0]?.id ?? '';
+        groups.forEach((group) => {
+            if (group.getBoundingClientRect().top <= line) id = group.id;
+        });
+        if (id && id !== current) {
+            current = id;
+            setActive(id);
+        }
+    };
+
+    if (groups.length) {
+        window.addEventListener('scroll', () => {
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(update);
+        }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    }
+</script>
+
+<style>
+    .fd-1 { --d: 1; }
+    .fd-2 { --d: 2; }
+    .fd-3 { --d: 3; }
+
+    /* ─── Hero ─────────────────────────────────────────── */
+    .fq-hero .page-hero-inner { justify-items: start; }
+    .fq-hero :global(.breadcrumbs) { padding: 0; }
+    .fq-hero h1 { max-width: 14ch; }
+    .fq-hero .lead { max-width: 46ch; }
+    .fq-hero .btn-row { margin-top: 12px; }
+
+    /* ─── Layout: sticky topic index + grouped questions ─ */
+    .fq-layout {
+        display: grid;
+        grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+        gap: clamp(40px, 6vw, 112px);
+        align-items: start;
+        padding-top: clamp(16px, 2vw, 32px);
+        border-top: 1px solid var(--line);
+    }
+
+    .fq-aside {
+        position: sticky;
+        top: calc(var(--nav-h) + 32px);
+        display: grid;
+        gap: 32px;
+        padding-top: clamp(32px, 4vw, 56px);
+    }
+
+    .fq-nav ul { border-top: 1px solid var(--line-strong); }
+    .fq-nav li { border-bottom: 1px solid var(--line); }
+
+    .fq-nav a {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px 0 16px 0;
+        font-family: var(--f-serif);
+        font-size: 1.45rem;
+        line-height: 1.15;
+        color: var(--cocoa);
+        transition: color 0.3s ease, padding 0.45s var(--ease-expo);
+    }
+
+    .fq-nav a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 14px;
+        height: 1.5px;
+        background: var(--clay);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s var(--ease-expo);
+    }
+
+    .fq-count {
+        display: grid;
+        place-items: center;
+        min-width: 30px;
+        height: 30px;
+        padding: 0 8px;
+        border-radius: var(--r-pill);
+        background: var(--shell);
+        font-family: var(--f-sans);
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--cocoa);
+        font-variant-numeric: tabular-nums;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .fq-nav a:hover,
+    .fq-nav a[aria-current] { color: var(--clay); padding-left: 24px; }
+    .fq-nav a:hover::before,
+    .fq-nav a[aria-current]::before { transform: scaleX(1); }
+    .fq-nav a[aria-current] .fq-count { background: var(--clay); color: #FFFFFF; }
+
+    .fq-aside-cta { display: grid; gap: 14px; justify-items: start; }
+    .fq-aside-cta p { font-size: var(--fs-small); color: var(--muted); }
+
+    .fq-groups { display: grid; gap: clamp(56px, 7vw, 96px); padding-top: clamp(32px, 4vw, 56px); }
+
+    .fq-group { scroll-margin-top: calc(var(--nav-h) + 24px); }
+
+    .fq-group h2 {
+        margin-bottom: clamp(20px, 2.4vw, 28px);
+        font-size: clamp(2rem, 3.2vw, 2.9rem);
+    }
+
+    .fq-group :global(.faq-answer-inner a) {
+        color: var(--cocoa);
+        text-decoration: underline;
+        text-decoration-color: var(--line-strong);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease, text-decoration-color 0.3s ease;
+    }
+
+    .fq-group :global(.faq-answer-inner a:hover) { color: var(--clay); text-decoration-color: currentColor; }
+
+    /* ─── Closing band (dark): outline secondary ───────── */
+    .fq-cta .btn-secondary {
+        --btn-bg: transparent;
+        --btn-fg: var(--cream);
+        --btn-border: rgba(255, 253, 251, 0.32);
+        --btn-bg-hover: rgba(255, 253, 251, 0.1);
+        --btn-fg-hover: var(--cream);
+        --btn-border-hover: rgba(255, 253, 251, 0.5);
+    }
+
+    /* ─── Phones: topics become a sticky chip bar ──────── */
+    @media (max-width: 900px) {
+        /* Block layout so the sticky bar is bounded by the whole list, not a grid row */
+        .fq-layout {
+            display: block;
+            padding-top: 0;
+            border-top: 0;
+        }
+
+        .fq-aside {
+            display: block;
+            top: calc(var(--nav-h) - 6px);
+            z-index: 20;
+            margin-inline: calc(-1 * var(--gutter));
+            padding: 10px 0;
+            background: rgba(250, 246, 241, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .fq-aside-cta { display: none; }
+
+        .fq-nav { min-width: 0; }
+
+        .fq-nav ul {
+            display: flex;
+            min-width: 0;
+            gap: 8px;
+            overflow-x: auto;
+            padding-inline: var(--gutter);
+            border-top: 0;
+            scrollbar-width: none;
+        }
+
+        .fq-nav ul::-webkit-scrollbar { display: none; }
+        .fq-nav li { flex: none; border-bottom: 0; }
+
+        .fq-nav a,
+        .fq-nav a:hover,
+        .fq-nav a[aria-current] {
+            min-height: 44px;
+            padding: 0 8px 0 16px;
+            border: 1px solid var(--line-strong);
+            border-radius: var(--r-pill);
+            background: var(--paper);
+            font-family: var(--f-sans);
+            font-size: 0.92rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .fq-nav a::before { display: none; }
+        .fq-nav a[aria-current] { border-color: var(--cocoa); background: var(--cocoa); color: var(--cream); }
+        .fq-nav a[aria-current] .fq-count { background: rgba(255, 253, 251, 0.16); color: var(--cream); }
+        .fq-count { min-width: 28px; height: 28px; }
+
+        .fq-groups { padding-top: 40px; }
+        .fq-group { scroll-margin-top: calc(var(--nav-h) + 72px); }
+    }
+</style>

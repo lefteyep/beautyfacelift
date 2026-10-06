@@ -1,21 +1,25 @@
 ---
-import { bookingLinkForService, absoluteUrl } from '../../shared/site';
+/**
+ * Service hub template (Gesichtsbehandlung, Laser, Waxing, Wimpern & Brauen,
+ * Make-up, Massage). Hero = breadcrumbs, H1, one lead, CTAs and a small proof
+ * line; then prices, a hairline spec list, related hubs and the booking CTA.
+ * Pages with an honest, fitting photo pass `image` (arched split hero); the
+ * others get an editorial typographic hero.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { bookingLinkForService, absoluteUrl, SERVICE_GROUPS } from '../../shared/site';
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
-import AiSummary from './AiSummary.astro';
 import BookingCta from './BookingCta.astro';
-import TreatmentLinkCard from './TreatmentLinkCard.astro';
-
-interface Fact {
-  label: string;
-  value: string;
-}
+import PriceMenu from './treatment/PriceMenu.astro';
+import LinkList from './treatment/LinkList.astro';
 
 interface PriceItem {
   label: string;
   price: string;
   duration: string;
-  note: string;
+  note?: string;
 }
 
 interface RelatedLink {
@@ -27,15 +31,20 @@ interface RelatedLink {
 interface Props {
   title: string;
   description: string;
-  eyebrow: string;
+  /** "Waxing Zürich – professionelle Haarentfernung …": name (last word in copper) – sub-line. */
   h1: string;
-  intro: string[];
-  summaryTitle: string;
-  summaryIntro: string;
-  facts: Fact[];
+  /** Clean service name for visible UI (breadcrumb, booking CTA), e.g. "Waxing". */
+  name: string;
+  /** One short lead sentence that carries the page keyword. */
+  lead: string;
+  /** Duration range as published on the page, e.g. "20–60 Min.". */
+  duration: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
   serviceType: string;
   bookingService: string;
   priceItems: PriceItem[];
+  priceNote?: string;
   suitedFor: string[];
   process: string[];
   expectations: string;
@@ -46,15 +55,16 @@ interface Props {
 const {
   title,
   description,
-  eyebrow,
   h1,
-  intro,
-  summaryTitle,
-  summaryIntro,
-  facts,
+  name,
+  lead,
+  duration,
+  image,
+  imageAlt = '',
   serviceType,
   bookingService,
   priceItems,
+  priceNote = 'Verbindliche Preise und freie Termine sehen Sie in der Online-Buchung.',
   suitedFor,
   process,
   expectations,
@@ -63,7 +73,10 @@ const {
 } = Astro.props;
 
 const bookingHref = bookingLinkForService(bookingService);
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+// Starting price comes from the same source as the nav, overview and homepage.
+const priceFrom = SERVICE_GROUPS.find((group) => group.href === currentPath)?.priceFrom;
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -87,87 +100,428 @@ const structuredData = {
   },
   description,
 };
+
+// "Waxing Zürich – professionelle Haarentfernung …" → large name with one
+// copper accent (its last word) above a quieter display sub-line.
+const [h1Name, ...h1Rest] = h1.split(' – ');
+const h1Sub = h1Rest.join(' – ');
+const h1Words = h1Name.split(' ');
+const h1Accent = h1Words.pop();
+const h1Lead = h1Words.join(' ');
+
+const prices = priceItems.map((item) => ({
+  name: item.label,
+  duration: item.duration,
+  price: item.price,
+  note: item.note,
+}));
+const relatedLinks = related.map((link) => ({ href: link.href, title: link.title, text: link.description }));
 ---
 
 <Base title={title} description={description} structuredData={structuredData}>
-  <section class="container" style="padding-top: 108px; padding-bottom: 0;">
-    <Breadcrumbs items={[
-      { label: 'Home', href: '/' },
-      { label: 'Behandlungen', href: '/behandlungen/' },
-      { label: h1 },
-    ]} />
-  </section>
-
-  <section class="container" style="padding-top: 28px; padding-bottom: 64px;">
-    <span class="sub-display">{eyebrow}</span>
-    <h1 style="font-size: clamp(2.4rem, 6vw, 5rem); max-width: 980px; margin: 1rem 0; text-transform: none;">{h1}</h1>
-    <div style="display: grid; gap: 1rem; max-width: 760px;">
-      {intro.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
-      <a href={bookingHref} class="pill-btn">Termin buchen</a>
-      <a href="/kontakt/" class="pill-btn pill-btn-outline">Beratung anfragen</a>
-    </div>
-  </section>
-
-  <AiSummary title={summaryTitle} intro={summaryIntro} facts={facts} />
-
-  <section class="container" style="padding-top: 72px; padding-bottom: 88px;">
-    <div class="sub-display margin-bottom-md">Preise & Dauer</div>
-    <div class="pricing-grid">
-      {priceItems.map((item, index) => (
-        <div class:list={['pricing-card', index === 0 && 'pricing-card-accent']}>
-          <div class="pricing-label">{item.label}</div>
-          <div class="pricing-price">{item.price}</div>
-          <div class="pricing-duration">{item.duration}</div>
-          <p style="max-width: none; text-align: center;">{item.note}</p>
+  <header class:list={['page-hero', 'hub-hero', image ? 'hub-hero--media' : 'hub-hero--type']}>
+    <div class="container hub-hero-grid">
+      <div class="hub-hero-head">
+        <div class="reveal-up">
+          <Breadcrumbs items={[
+            { label: 'Home', href: '/' },
+            { label: 'Behandlungen', href: '/behandlungen/' },
+            { label: h1Name, display: name },
+          ]} />
         </div>
-      ))}
+        <h1 class="hub-title reveal-up" style="--d: 1">
+          {h1Lead} <em>{h1Accent}</em>{h1Sub && (
+            <span class="hub-title-sub"><span class="sr-only"> – </span>{h1Sub}</span>
+          )}
+        </h1>
+      </div>
+
+      <div class="hub-hero-body">
+        <p class="lead reveal-up" style="--d: 2">{lead}</p>
+        <div class="btn-row reveal-up" style="--d: 3">
+          <a href={bookingHref} class="btn btn-lg btn-arrow" data-treatment={bookingService} data-button-location="hub_hero">Termin buchen</a>
+          <a href="/kontakt/" class="btn btn-secondary btn-lg" data-treatment={bookingService} data-button-location="hub_hero_consultation">Kostenlose Beratung</a>
+        </div>
+        <ul class="hub-proof reveal-up" style="--d: 4">
+          <li class="hub-proof-meta">{priceFrom ? `${priceFrom} · ${duration}` : duration}</li>
+          <li><span class="stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></li>
+        </ul>
+      </div>
+
+      {image && (
+        <div class="arch hub-arch reveal-media">
+          <Image
+            src={image}
+            widths={[420, 640, 860]}
+            sizes="(min-width: 1280px) 460px, (min-width: 901px) 36vw, 92vw"
+            format="webp"
+            quality="high"
+            priority
+            alt={imageAlt}
+          />
+        </div>
+      )}
+    </div>
+  </header>
+
+  <section class="section section--shell" aria-label="Preise und Dauer">
+    <div class="container">
+      <PriceMenu items={prices} note={priceNote}>
+        <Fragment slot="title">Preise &amp; Dauer</Fragment>
+      </PriceMenu>
     </div>
   </section>
 
-  <section class="container" style="padding-bottom: 88px;">
-    <div class="highlights-grid">
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">01</div>
-        <h4>Geeignet für</h4>
-        <p>{suitedFor.join(', ')}.</p>
+  <section class="section" aria-labelledby="hub-details-title">
+    <div class="container hub-split">
+      <div class="hub-split-head">
+        <h2 id="hub-details-title">Was Sie erwartet</h2>
       </div>
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">02</div>
-        <h4>Ablauf</h4>
-        <p>{process.join(' ')}</p>
-      </div>
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">03</div>
-        <h4>Realistische Erwartungen</h4>
-        <p>{expectations}</p>
-      </div>
-      <div class="highlight-item scroll-anim">
-        <div class="highlight-number">04</div>
-        <h4>Wichtig vor dem Termin</h4>
-        <p>{contraindications}</p>
-      </div>
+      <dl class="hub-specs">
+        <div class="scroll-anim">
+          <dt>Geeignet für</dt>
+          <dd>
+            <ul class="hub-tags">
+              {suitedFor.map((item) => <li>{item}</li>)}
+            </ul>
+          </dd>
+        </div>
+        <div class="scroll-anim">
+          <dt>Ablauf</dt>
+          <dd>
+            <ol class="hub-steps">
+              {process.map((step) => <li>{step}</li>)}
+            </ol>
+          </dd>
+        </div>
+        <div class="scroll-anim">
+          <dt>Ergebnis</dt>
+          <dd><p>{expectations}</p></dd>
+        </div>
+        <div class="scroll-anim">
+          <dt>Vor dem Termin</dt>
+          <dd><p>{contraindications}</p></dd>
+        </div>
+      </dl>
     </div>
   </section>
 
-  <section class="container pad-y" id="buchen">
-    <BookingCta
-      treatment={bookingService}
-      href={bookingHref}
-      title={`${serviceType} Termin buchen`}
-      text="Die Buchung läuft vorübergehend über Treatwell. Ihre Behandlungsangabe wird an die Buchung übergeben; Teresa klärt Details und Eignung bei Bedarf persönlich."
-    />
+  <section class="section section--flush-top" aria-labelledby="hub-related-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="hub-related-title">Passt gut dazu</h2>
+        </div>
+        <a href="/behandlungen/" class="btn btn-secondary btn-arrow" data-button-location="hub_related_all">Alle Behandlungen</a>
+      </div>
+      <LinkList items={relatedLinks} />
+    </div>
   </section>
 
-  <section class="container" style="padding-bottom: 15vh;">
-    <div class="more-treatments">
-      <div class="sub-display margin-bottom-lg">Passende nächste Seiten</div>
-      <div class="more-treatments-grid">
-        {related.map((link) => (
-          <TreatmentLinkCard href={link.href} title={link.title} description={link.description} />
-        ))}
-      </div>
+  <section class="section section--flush-top" id="buchen">
+    <div class="container">
+      <BookingCta
+        treatment={bookingService}
+        href={bookingHref}
+        title={`${name} an der Bahnhofstrasse`}
+        text="Wunschtermin online buchen – Teresa klärt Eignung und Details persönlich mit Ihnen."
+      />
     </div>
   </section>
 </Base>
+
+<style>
+  /* ─── Hero ─────────────────────────────────────────── */
+  .hub-hero .hub-hero-head :global(.breadcrumbs) {
+    padding: 0;
+  }
+
+  .hub-hero-grid {
+    display: grid;
+    gap: 28px clamp(32px, 6vw, 112px);
+  }
+
+  .hub-hero-head,
+  .hub-hero-body {
+    display: grid;
+    gap: 24px;
+    justify-items: start;
+    min-width: 0;
+  }
+
+  .hub-title {
+    max-width: none;
+    overflow-wrap: break-word;
+    hyphens: manual;
+  }
+
+  .hub-title-sub {
+    display: block;
+    max-width: 22ch;
+    margin-top: 16px;
+    font-size: clamp(1.55rem, 2.3vw, 2.2rem);
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+    color: var(--text);
+  }
+
+  .hub-hero-body .lead {
+    max-width: 42ch;
+  }
+
+  .hub-proof {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 22px;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+
+  .hub-proof li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hub-proof li + li {
+    padding-left: 22px;
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .hub-proof-meta {
+    font-weight: 500;
+    color: var(--cocoa);
+  }
+
+  .stars {
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+  }
+
+  /* Typographic hero: one centred, display-scale column */
+  .hub-hero--type .hub-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .hub-hero--type .hub-hero-head,
+  .hub-hero--type .hub-hero-body {
+    justify-items: center;
+  }
+
+  .hub-hero--type .hub-hero-head {
+    gap: 28px;
+  }
+
+  .hub-hero--type .hub-hero-head :global(.breadcrumbs ol) {
+    justify-content: center;
+  }
+
+  .hub-hero--type .hub-title {
+    font-size: clamp(3rem, 6.6vw, 6.25rem);
+    line-height: 0.96;
+    letter-spacing: -0.015em;
+  }
+
+  .hub-hero--type .hub-title-sub {
+    max-width: 30ch;
+    margin-inline: auto;
+    margin-top: 18px;
+  }
+
+  .hub-hero--type .hub-hero-body .lead {
+    max-width: 46ch;
+  }
+
+  .hub-hero--type :is(.btn-row, .hub-proof) {
+    justify-content: center;
+  }
+
+  /* Photo hero: copy left, arch right */
+  .hub-hero--media .hub-hero-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    row-gap: 28px;
+  }
+
+  .hub-hero--media .hub-hero-head {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .hub-hero--media .hub-hero-body {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  .hub-arch {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: min(100%, 460px);
+    aspect-ratio: 4 / 5;
+    justify-self: end;
+  }
+
+  /* ─── Spec list ("Was Sie erwartet") ───────────────── */
+  .hub-split {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(40px, 7vw, 120px);
+    align-items: start;
+  }
+
+  .hub-split-head {
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+  }
+
+  .hub-split-head h2 {
+    max-width: 12ch;
+  }
+
+  .hub-specs {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .hub-specs > div {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.34fr) minmax(0, 1fr);
+    align-items: baseline;
+    gap: 10px 32px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .hub-specs dt {
+    font-family: var(--f-serif);
+    font-size: clamp(1.4rem, 1.8vw, 1.65rem);
+    line-height: 1.1;
+    color: var(--cocoa);
+  }
+
+  .hub-specs dd {
+    margin: 0;
+  }
+
+  .hub-specs dd p {
+    max-width: 52ch;
+  }
+
+  .hub-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    color: var(--text);
+  }
+
+  .hub-tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hub-tags li::before {
+    content: '';
+    flex: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--clay);
+  }
+
+  .hub-steps {
+    display: grid;
+    gap: 10px;
+    counter-reset: hub-step;
+  }
+
+  .hub-steps li {
+    counter-increment: hub-step;
+    display: grid;
+    grid-template-columns: 2.1rem minmax(0, 1fr);
+    align-items: baseline;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .hub-steps li::before {
+    content: counter(hub-step, decimal-leading-zero);
+    font-family: var(--f-serif);
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--clay);
+    font-variant-numeric: lining-nums;
+  }
+
+  @media (min-width: 901px) {
+    .hub-split-head {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+  }
+
+  /* ─── Responsive ───────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hub-hero--type .hub-hero-grid,
+    .hub-hero--media .hub-hero-grid,
+    .hub-split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+
+    .hub-hero--media .hub-hero-head,
+    .hub-hero--media .hub-hero-body {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .hub-arch {
+      grid-column: 1;
+      grid-row: auto;
+      order: -1;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      justify-self: stretch;
+      border-radius: var(--r-xl);
+    }
+
+    .hub-split { gap: 28px; }
+  }
+
+  @media (max-width: 600px) {
+    /* Long single words ("Gesichtsbehandlung", "Bahnhofstrasse") must fit 390px screens */
+    .hub-title,
+    .hub-hero--type .hub-title {
+      font-size: clamp(2.3rem, 10.4vw, 2.75rem);
+      line-height: 1;
+    }
+
+    .hub-title-sub {
+      margin-top: 12px;
+      font-size: 1.5rem;
+    }
+
+    .hub-hero-body .btn-row,
+    .hub-hero-body .btn-row .btn {
+      width: 100%;
+    }
+
+    .hub-proof li + li {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .hub-specs > div {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 22px 0;
+    }
+  }
+</style>

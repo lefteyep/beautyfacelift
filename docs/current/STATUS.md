@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** May 18, 2026
+**Last updated:** October 7, 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -16,7 +16,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 | Production www | https://www.beautyfacelift-zuerich.ch | 301 redirects to apex |
 | Temporary Worker | beautyfacelift.mediapaulo.workers.dev | Not canonical; `workers_dev=false`, live check returned 404 |
 | GitHub | https://github.com/lefteyep/beautyfacelift | Private repo |
-| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Active (EU Frankfurt) |
+| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Unreachable (NXDOMAIN) since 2026-10-06 — see Infrastructure Notes |
 
 Production Worker launch details:
 
@@ -28,42 +28,67 @@ Production Worker launch details:
 - `www` live check: `301 Moved Permanently` to `https://beautyfacelift-zuerich.ch/`
 - Old domain: untouched and not treated as a migration source
 
+## Pending Release (not live yet)
+
+| Branch | Contents | State |
+|--------|----------|-------|
+| `codex/code-health-2026-10` | npm audit fix (0 vulnerabilities, CI gate passes again), restored `trackLead` for the Aquafacial + Microneedling LP (Lead events had silently stopped in June), hashed email/phone on the Aquafacial CAPI Lead, re-openable cookie consent ("Cookie-Einstellungen"), compact mobile consent banner, `npm run check` at 0 errors, `src/api_backup/` removed | Ready for review |
+| `codex/modern-redesign` | "Atelier Glow" redesign on top of code health — see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). It supersedes the rejected "Swiss Quiet Luxury" branch `codex/luxury-redesign`. It includes: |  |
+|  | new navigation with a two-column treatments menu, homepage and `/behandlungen/` overview |  |
+|  | overlines and italics removed site-wide, and "Wissen" instead of "Journal" |  |
+|  | redesigned ad landing pages |  |
+|  | the merged page groups: `codex/glow-hubs` (service hubs), `codex/glow-treatments` (treatment pages, comparison, kit, breadcrumbs), `codex/glow-content` (About, Kontakt, FAQ, utility pages), `codex/glow-wissen` (Wissen section) | All release gates pass; awaiting screenshot review and approval |
+
+Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`). The client wants the redesign to launch as one release, once all page groups are merged, reviewed with desktop and mobile screenshots, and documented.
+
+## Infrastructure Notes (2026-10-06)
+
+- Supabase project `izekwngqjllaqibrwotp` did not resolve (NXDOMAIN) on 2026-10-06, so `/api/services` returns 500 and the admin dashboard / legacy booking widget are unusable. The contact form (Resend) and `/api/track` (Meta CAPI) do not depend on Supabase. Decide: restore the project (needed for lead status tracking) or decommission the legacy booking code.
+- Meta Pixel ID is present in the production build (`PUBLIC_META_PIXEL_ID` GitHub Actions variable). Server-side CAPI token status still needs a Test Events check.
+- The old WordPress site on `beautyfacelift.ch` is still live and indexed separately.
+
 ## Current Key Routes
 
 ### Main Pages
+All main pages use the "Atelier Glow" system (October 2026). There are no overlines, no italics and no facts asides; each hero has one lead sentence. Counts below are FAQPage JSON-LD questions.
+
 | Page | URL | Status |
 |------|-----|--------|
-| Homepage | / | Done — testimonials, 6 FAQs, 4 services, enriched schema |
-| Treatment overview | /behandlungen/ | Done — breadcrumbs, guidance grid, 4 FAQs, comparison link |
-| Gesichtsbehandlung Zürich | /behandlungen/gesichtsbehandlung-zuerich/ | Done — general skin-treatment entry hub, pricing signals, Service schema |
-| Aquafacial | /behandlungen/aquafacial-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
-| Microneedling | /behandlungen/microneedling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
-| Fruchtsaeure Peeling | /behandlungen/fruchtsaeure-peeling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
-| ColdPlasma | /behandlungen/coldplasma-zuerich/ | Done — 3000+ words, pricing, 7 FAQs, process, testimonials |
-| Treatment comparison | /behandlungen/vergleich/ | Done — side-by-side comparison, 5 FAQs |
-| Laser-Haarentfernung Zürich | /behandlungen/laser-haarentfernung-zuerich/ | Done — high-intent hair-removal hub, realistic expectations, Service schema |
-| Waxing Zürich | /behandlungen/waxing-zuerich/ | Done — high-intent waxing hub, visible price/duration signals, Service schema |
-| Wimpern & Brauen Zürich | /behandlungen/wimpern-brauen-zuerich/ | Done — brow and lash hub, local CTA, Service schema |
-| Make-up Zürich | /behandlungen/make-up-zuerich/ | Done — occasion make-up hub, consultation copy, Service schema |
-| Massage Zürich Bahnhofstrasse | /behandlungen/massage-zuerich-bahnhofstrasse/ | Done — local massage hub, suitability copy, Service schema |
-| About | /ueber-mich/ | Done — E-E-A-T bio, credentials, testimonials, Person schema |
-| Booking | /termin/ | Done — noindex Treatwell forwarding bridge with attribution handoff |
+| Homepage | / | Hero with proof line, treatments bento, Teresa, beauty services with starting prices, first-visit steps, reviews, 6 FAQs |
+| Treatment overview | /behandlungen/ | Image cards for facial treatments, price rows for beauty services, guide, 4 FAQs, ItemList schema |
+| Gesichtsbehandlung Zürich | /behandlungen/gesichtsbehandlung-zuerich/ | Service hub (ServiceHubPage) with a photo hero, price rows, a "Was Sie erwartet" spec list and Service schema |
+| Aquafacial | /behandlungen/aquafacial-zuerich/ | Treatment page: hero with price/duration, benefits, price rows, steps, suitability, review, 7 FAQs, booking panel, related treatments |
+| Microneedling | /behandlungen/microneedling-zuerich/ | Same treatment-page structure, 8 FAQs |
+| Fruchtsäure Peeling | /behandlungen/fruchtsaeure-peeling-zuerich/ | Same treatment-page structure, 8 FAQs |
+| ColdPlasma | /behandlungen/coldplasma-zuerich/ | Same treatment-page structure, 7 FAQs |
+| Exosome Therapie | /behandlungen/exosome-therapie-zuerich/ | Same treatment-page structure with cautious wording, 9 FAQs |
+| Treatment comparison | /behandlungen/vergleich/ | Hairline table on desktop, stacked cards below 1000 px, 5 FAQs |
+| Laser-Haarentfernung Zürich | /behandlungen/laser-haarentfernung-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Waxing Zürich | /behandlungen/waxing-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Wimpern & Brauen Zürich | /behandlungen/wimpern-brauen-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Make-up Zürich | /behandlungen/make-up-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Massage Zürich Bahnhofstrasse | /behandlungen/massage-zuerich-bahnhofstrasse/ | Service hub with a typographic hero, price rows and spec list |
+| About | /ueber-mich/ | Portrait hero, story with stats, four principles, three reviews, studio CTA, Person schema |
+| Kontakt | /kontakt/ | Contact tiles; enquiry form with an unchanged field/Turnstile/tracking contract; location and hours; 6 FAQs |
+| Booking | /termin/ | Noindex Treatwell forwarding bridge with attribution handoff (IDs and script unchanged) |
 | Booking confirmation | /buchung-bestaetigt/ | Legacy first-party booking confirmation; not the active Treatwell conversion source |
-| FAQ hub | /haeufige-fragen/ | Done — 20 FAQs in 4 categories |
-| Impressum | /impressum/ | Done |
-| Datenschutz | /datenschutz/ | Done |
-| 404 | /404 | Done |
-| Admin | /admin/ | Done — noindex |
+| FAQ hub | /haeufige-fragen/ | 20 FAQs in 4 groups with a sticky topic index |
+| Impressum | /impressum/ | Layout refresh only; legal text unchanged |
+| Datenschutz | /datenschutz/ | Layout refresh with a sticky table of contents; legal text unchanged |
+| 404 | /404 | Short page with four next-step links |
+| Admin | /admin/ | Noindex |
 
-### Blog (5 articles)
-| Article | URL | Words |
+### Wissen (blog, 5 articles; URL stays /blog/)
+| Article | URL | Notes |
 |---------|-----|-------|
-| Blog index | /blog/ | — |
-| Aquafacial vs. Microneedling | /blog/aquafacial-vs-microneedling/ | 2000+ |
-| Hautpflege-Routine Zürich | /blog/hautpflege-routine-zuerich/ | 2000+ |
-| Was ist Aquafacial? | /blog/was-ist-aquafacial/ | 2000+ |
-| Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ |
-| Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ |
+| Wissen index | /blog/ | Feature card, article rows, consultation panel, CollectionPage schema |
+| Aquafacial vs. Microneedling | /blog/aquafacial-vs-microneedling/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Hautpflege-Routine Zürich | /blog/hautpflege-routine-zuerich/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Was ist Aquafacial? | /blog/was-ist-aquafacial/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+
+Article body copy is unchanged. Its unverified claims are listed in [TODO.md](TODO.md).
 
 ### Ad Landing Pages (noindex)
 | Page | URL |
@@ -71,6 +96,9 @@ Production Worker launch details:
 | Aquafacial LP | /lp/aquafacial/ |
 | Microneedling LP | /lp/microneedling/ |
 | Peeling LP | /lp/peeling/ |
+| Aquafacial Aktion (Meta lead form, CHF 99) | /lp/aquafacial/ |
+| Aquafacial + Microneedling (combo) | /lp/aquafacial-microneedling/ |
+| Carbon Microneedling | /lp/carbon-microneedling/ |
 
 ## SEO & AIO Status
 
@@ -78,7 +106,7 @@ Production Worker launch details:
 |---------|--------|---------|
 | Schema.org (BeautySalon) | Done | Conservative BeautySalon/WebSite schema with canonical URL and address |
 | Schema.org (Service) | Done | Treatment schemas avoid unverified rating/price rich-result claims |
-| Schema.org (FAQPage) | Done | 60+ FAQ items sitewide with JSON-LD |
+| Schema.org (FAQPage) | Done | 105 FAQ items sitewide with JSON-LD (generated from the same data as the visible FAQs) |
 | Schema.org (Article) | Done | All 5 blog articles |
 | Schema.org (Person) | Done | About page — Teresa Stimac |
 | Schema.org (BreadcrumbList) | Done | Treatment pages, blog, FAQ hub |
@@ -119,7 +147,11 @@ Visible architecture updated in:
 
 Copy-risk review completed across treatment pages, comparison pages, blog posts, homepage, about page, and one ad landing page. High-risk phrasing such as `eingeschleust`, `Narbenreduktion`, `stimuliert`, `PRP`, and `medizinisch formulierte Peelings` was removed or softened.
 
-## Design Implementation (March 19, 2026)
+## Design History
+
+The March 2026 ".pen" implementation below is superseded on the redesign branch by the October 2026 "Swiss Quiet Luxury" system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+
+### Design Implementation (March 19, 2026)
 
 Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
 
@@ -151,7 +183,7 @@ Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
 | Stripe deposits | Partial | Components + API created, not wired into booking flow |
 | Email notifications | Created | Edge function written, not deployed |
 | Custom domain | Done | Live on `beautyfacelift-zuerich.ch`; `www` redirects to apex |
-| GTM + Partytown | Ready | Code in place, needs PUBLIC_GTM_ID env var |
+| GTM | Ready | `src/lib/track.ts` loads GTM after marketing consent once PUBLIC_GTM_ID is set (Partytown removed 2026-10-06: no script used it and its sandbox cost requests plus a Lighthouse best-practices failure) |
 | GA4 | Ready | Endpoint ready, needs env vars |
 | Meta Pixel | Ready | Endpoint ready, needs env vars |
 

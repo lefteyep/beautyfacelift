@@ -16,10 +16,10 @@
 - Layout changes: rebuilt the route around hero, trust bar, offer contents, lead form, benefits, trust, request steps, FAQ, final CTA, and mobile sticky CTA.
 - Results section changes: added a locally served Aquafacial before/after results section directly before the lead form.
 - Tracking changes: successful submissions call `trackAquafacialLeadSubmit()`.
-- WhatsApp changes: added a fixed bottom-right floating WhatsApp CTA using the shared Beauty Face Lift phone number, WhatsApp logo, and a prefilled Aquafacial appointment message.
+- WhatsApp changes: added a fixed bottom-right floating WhatsApp CTA using the shared Beauty Face Lift phone number, WhatsApp logo, and a prefilled Aquafacial appointment message. Since the 2026-10-06 redesign it appears only after 25 % scroll depth and steps aside while the consent banner is open or the lead form (fields and submit button) is on screen.
 - WhatsApp tracking: floating CTA clicks use the separate `aquafacial_whatsapp_click` event and do not fire the form Lead event.
 - Treatwell link handling: Treatwell is shown as a secondary direct action after successful form submission.
-- Mobile sticky CTA changes: mobile/tablet sticky button now scrolls to the lead form and hides while consent is visible or after success.
+- Mobile sticky CTA changes: mobile/tablet sticky button scrolls to the lead form, appears only after the hero has left the viewport, steps aside while the lead form is on screen, and hides while consent is visible or after success.
 - SEO/metadata updates: title, meta description, canonical through `LandingPage.astro`, Open Graph description support, and structured data were updated for the lead-generation offer.
 
 ## Lead Form Details
@@ -66,12 +66,12 @@
   - `Gepflegteres und hydratisierter wirkendes Hautbild`
   - `Professionelle Reinigung für ein frisches Hautgefühl`
 - Disclaimer: `Individuelle Ergebnisse können variieren. Die Beispielbilder dienen zur Orientierung und ersetzen keine persönliche Einschätzung vor Ort.`
-- CTA text: `Aquafacial Termin sichern`
+- CTA text: `Unverbindlich Termin anfragen` (was `Aquafacial Termin sichern` until the 2026-10-06 redesign)
 
 ## QA Results
 
-- Desktop: section uses a three-card grid with one approved composite result image per card.
-- Mobile: cards stack in one column with one composite result image per card.
+- Desktop: section uses a three-column ruled grid (no cards) with one approved composite result image per entry.
+- Mobile: entries stack in one column with one composite result image per entry.
 - CTA: scrolls to the existing lead form anchor through the existing `data-aquafacial-scroll` handler.
 - Form: no form fields, submit behavior, or success-only tracking logic were changed by this section.
 - Tracking: no duplicate form Lead event is created from the results CTA.
@@ -182,3 +182,20 @@
 - Added the premium fixed bottom-right WhatsApp CTA, campaign-specific WhatsApp tracking, honeypot accessibility hardening, and extra reassurance copy near the form.
 - Verified locally with static QA, production-style build, Wrangler dry run, in-app responsive browser checks, browser validation/error checks, and a temporary Playwright mocked-success check.
 - This polish has not been merged to `master` or deployed live yet. Per `AGENTS.md`, going live requires a reviewed PR plus explicit approval to merge/deploy.
+
+## 2026-10-06 Swiss Quiet Luxury Redesign
+
+- Branch: `codex/luxury-lps`. Spec, now archived: `docs/archive/specs/2026-10-06-swiss-quiet-luxury-design-rejected.md` (Landing pages section), plus the Jul-31 Meta-ads audit (section F, mobile hero).
+- **Update 2026-10-07:** the client rejected the Swiss visual language. The site-wide system is now "Atelier Glow" ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+  - The LP keeps everything below: structure, copy, CTA wording, floating-UI rules, form contract and tracking.
+  - Its shared tokens now render as Atelier Glow: cream/copper palette, upright Instrument Serif headings, rounded corners, pill buttons.
+  - The LP kickers (`.eyebrow`) stay; the QA script requires them.
+- Layout: rebuilt in the site design system (Bodoni Moda headings, Instrument Sans body, porcelain/ivory/sand/espresso tokens, hairlines, square corners). Section order, form, endpoint, payload, validation texts, success flow, tracking attributes and WhatsApp/Treatwell links are unchanged.
+- Hero: kicker `Aquafacial an der Bahnhofstrasse 94` (replaces `In Zürich nur für kurze Zeit`); H1 unchanged and at most three lines on a 390 px phone; price line `Kennenlernpreis CHF 99.– · statt CHF 180.–`; three benefits (`1 Stunde Behandlung`, `Cleansing, Fruchtsäurepeeling & Hyaluron Booster`, `Persönlich durch Teresa Stimac`); the duplicate offer card/bullet list was removed.
+- Hero image: real treatment photo `src/assets/lp/aquafacial/aquafacial-behandlung-zuerich.webp` (copy left, photo right on desktop; a pre-cropped 2:1 photo band under the price line on phones). The page preloads this photo (media-split mobile band / desktop portrait) instead of the campaign poster.
+- Campaign video card (poster + lazy MP4/WebM, `data-hero-video-*` hooks unchanged) moved next to `Was ist in der Aquafacial Aktion enthalten?`; its poster is now lazy-loaded.
+- CTA copy: every primary CTA, the submit label and the label restored after a failed submit read `Unverbindlich Termin anfragen` (replaces `Jetzt Termin sichern`). The sticky bar keeps `Termin anfragen`.
+- Microcopy under the submit button: `Keine Online-Zahlung. Wir melden uns zur Terminbestätigung.`
+- Floating UI: sticky offer bar (phones/tablets) only after the hero has left the viewport and never while the lead form is on screen; floating WhatsApp only after 25 % scroll depth and never while the lead form is on screen; both hidden while the consent banner is open, so neither covers the banner or the submit button. While the banner is open the page sets `--lp-sticky-offer-height: 0px` so the banner sits at the bottom edge.
+- Form: hairline inputs with 2 px radius, espresso focus ring, bronze/sand invalid state with the unchanged German error messages.
+- Open point for the client: the `statt CHF 180.–` comparison price stays on the page and still needs the documented reference-price proof (audit section F).

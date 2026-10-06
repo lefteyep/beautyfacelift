@@ -1,6 +1,7 @@
 ---
 
 import Base from '../../layouts/Base.astro';
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from '../../../shared/site';
 ---
 
 <Base
@@ -8,24 +9,25 @@ import Base from '../../layouts/Base.astro';
     description="Hinweis zu einer älteren Beauty Face Lift Buchung."
     noindex={true}
 >
-    <section class="container confirmation-page">
-        <div class="confirmation-icon">✓</div>
-        <h1>Buchungshinweis</h1>
-        <p class="confirmation-subtitle">Die Online-Buchung läuft vorübergehend über Treatwell.</p>
+    <section class="confirmation-page" aria-labelledby="confirmation-title">
+        <div class="container confirmation-inner">
+            <span class="confirmation-mark" aria-hidden="true"></span>
+            <h1 id="confirmation-title">Hinweis zu Ihrer <em>Buchung</em></h1>
+            <p class="lead confirmation-subtitle">Neue Termine buchen Sie bequem und sicher online über unseren Partner Treatwell.</p>
 
-        <div id="booking-details" class="booking-summary" style="max-width: 500px; margin: 2rem auto;">
-            <p class="booking-loading" id="details-loading">Buchungsdetails werden geladen...</p>
-        </div>
+            <div id="booking-details" class="confirmation-details">
+                <p class="confirmation-id" id="details-loading">Buchungsdetails werden geladen...</p>
+            </div>
 
-        <div class="confirmation-info">
-            <p>Falls Sie eine ältere Bestätigung geöffnet haben, bleiben die Angaben hier nur zur Orientierung sichtbar.</p>
-            <p>Bei Fragen erreichen Sie uns unter <a href="tel:+41792143462">+41 79 214 34 62</a> oder <a href="mailto:info@beautyfacelift.ch">info@beautyfacelift.ch</a>.</p>
-        </div>
+            <div class="btn-row confirmation-actions">
+                <a href="/termin/" class="btn btn-lg btn-arrow" data-button-location="legacy_confirmation_booking">Zur neuen Buchung</a>
+                <a href="/behandlungen/" class="btn btn-secondary btn-lg">Behandlungen</a>
+            </div>
 
-        <div class="confirmation-actions">
-            <a href="/termin/" class="pill-btn" data-button-location="legacy_confirmation_booking">Zur neuen Buchung</a>
-            <a href="/" class="pill-btn pill-btn-outline">Zur Startseite</a>
-            <a href="/behandlungen/" class="pill-btn pill-btn-outline">Weitere Behandlungen</a>
+            <div class="confirmation-info">
+                <p>Falls Sie eine ältere Bestätigung geöffnet haben, bleiben die Angaben hier nur zur Orientierung sichtbar.</p>
+                <p>Bei Fragen erreichen Sie uns unter <a href={`tel:${CONTACT_PHONE}`}>{CONTACT_PHONE_DISPLAY}</a> oder <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+            </div>
         </div>
     </section>
 </Base>
@@ -37,11 +39,11 @@ import Base from '../../layouts/Base.astro';
         var loadingEl = document.getElementById('details-loading');
 
         if (bookingId && loadingEl) {
-            loadingEl.innerHTML =
-                '<div style="text-align:center;padding:1rem;">' +
-                '<p style="font-family:var(--font-sans);font-size:0.9rem;color:var(--text-secondary);">' +
-                'Buchungs-ID: <strong style="color:var(--text-primary);">' + bookingId.substring(0, 8) + '...</strong>' +
-                '</p></div>';
+            // Built with textContent so the URL parameter is never parsed as HTML.
+            var idValue = document.createElement('strong');
+            idValue.textContent = bookingId.substring(0, 8) + '...';
+            loadingEl.textContent = 'Buchungs-ID: ';
+            loadingEl.appendChild(idValue);
         } else if (loadingEl) {
             loadingEl.textContent = '';
         }
@@ -50,59 +52,84 @@ import Base from '../../layouts/Base.astro';
 
 <style>
     .confirmation-page {
-        padding-top: 18vh;
-        padding-bottom: 10vh;
-        text-align: center;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .confirmation-icon {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: var(--accent);
-        color: #fff;
-        font-size: 2.5rem;
+        min-height: 82vh;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin: 0 auto 2rem;
+        padding-top: calc(var(--nav-h) + clamp(40px, 7vw, 104px));
+        padding-bottom: clamp(64px, 8vw, 120px);
     }
 
-    .confirmation-page h1 {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        margin-bottom: 1rem;
-        text-transform: none;
-    }
-
-    .confirmation-subtitle {
-        font-size: 1.2rem;
-        color: var(--text-primary);
-        max-width: none;
-        margin-bottom: 2rem;
-    }
-
-    .confirmation-info {
-        margin: 2.5rem 0;
-    }
-
-    .confirmation-info p {
-        max-width: none;
+    .confirmation-inner {
+        display: grid;
+        gap: 22px;
+        justify-items: center;
+        max-width: calc(760px + 2 * var(--gutter));
         text-align: center;
-        margin-bottom: 0.5rem;
     }
 
-    .confirmation-info a {
-        color: var(--accent);
-        text-decoration: underline;
-        text-underline-offset: 3px;
+    .confirmation-mark {
+        width: 72px;
+        height: 72px;
+        margin-bottom: 6px;
+        border-radius: 50%;
+        background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238F5A2E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5.5' width='16' height='14.5' rx='2.5'/%3E%3Cpath d='M4 10h16M9 3.5v4M15 3.5v4'/%3E%3C/svg%3E") center / 28px no-repeat;
+    }
+
+    .confirmation-inner h1 { max-width: 13ch; }
+    .confirmation-subtitle { max-width: 44ch; }
+
+    .confirmation-details:has(.confirmation-id:empty) { display: none; }
+
+    .confirmation-id {
+        padding: 10px 18px;
+        border-radius: var(--r-pill);
+        background: var(--shell);
+        font-size: var(--fs-small);
+        color: var(--text);
+    }
+
+    .confirmation-details :global(strong) {
+        font-weight: 600;
+        color: var(--cocoa);
+        font-variant-numeric: tabular-nums;
     }
 
     .confirmation-actions {
-        display: flex;
-        gap: 1rem;
         justify-content: center;
-        flex-wrap: wrap;
+        margin-top: 8px;
+    }
+
+    .confirmation-info {
+        display: grid;
+        gap: 6px;
+        justify-items: center;
+        margin-top: 10px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+    }
+
+    .confirmation-info p {
+        max-width: 52ch;
+        font-size: var(--fs-small);
+        color: var(--muted);
+    }
+
+    .confirmation-info a {
+        color: var(--cocoa);
+        font-weight: 500;
+        text-decoration: underline;
+        text-decoration-color: var(--line-strong);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease, text-decoration-color 0.3s ease;
+    }
+
+    .confirmation-info a:hover {
+        color: var(--clay);
+        text-decoration-color: currentColor;
+    }
+
+    @media (max-width: 600px) {
+        .confirmation-actions { flex-direction: column; align-items: stretch; width: 100%; }
+        .confirmation-actions .btn-arrow { justify-content: space-between; }
     }
 </style>

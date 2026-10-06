@@ -2,50 +2,159 @@
 
 import LandingPage from '../../../layouts/LandingPage.astro';
 import BookingCta from '../../../components/BookingCta.astro';
+import { Image, getImage } from 'astro:assets';
 import { bookingLinkForService } from '../../../../shared/site';
+import { peelingCard } from '../../../lib/site-images';
 
 const bookingHref = bookingLinkForService('Peeling');
+
+const heroSizes = '(min-width: 1320px) 600px, (min-width: 901px) 46vw, 100vw';
+const heroWidths = [640, 960, 1280];
+const heroPreload = await getImage({
+    src: peelingCard,
+    widths: heroWidths,
+    sizes: heroSizes,
+    format: 'webp',
+    quality: 'high',
+});
+
+const benefits = [
+    { title: 'Tiefenwirkung', text: 'AHA-Säuren lösen abgestorbene Zellen für echte Erneuerung.' },
+    { title: 'Anti-Akne', text: 'Kann Unreinheiten reduzieren und Poren längerfristig feiner wirken lassen.' },
+    { title: 'Klarer Teint', text: 'Fahler Teint kann klarer und lebendiger wirken.' },
+];
 ---
 
 <LandingPage
     title="Fruchtsäure Peeling Zürich — Jetzt Termin buchen"
     description="Fruchtsäure Peeling an der Bahnhofstrasse Zürich. Intensive Hauterneuerung für einen klaren Teint."
+    preloadImage={{
+        href: heroPreload.src,
+        imagesrcset: heroPreload.srcSet.attribute,
+        imagesizes: heroSizes,
+        type: 'image/webp',
+        fetchpriority: 'high',
+    }}
 >
-    <section class="container lp-hero">
-        <div class="sub-display margin-bottom-md">Premium Kosmetikinstitut • Zürich</div>
-        <h1 class="lp-title">Fruchtsäure<br><em>Peeling</em></h1>
-        <p class="lp-subtitle">Intensive Hauterneuerung für einen ebenmässigen, strahlenden Teint. AHA-Behandlung an der Bahnhofstrasse.</p>
-    </section>
+    <main class="lp-simple">
+        <section class="lp-simple-hero" aria-labelledby="lp-simple-title">
+            <div class="container lp-simple-hero-grid">
+                <div class="lp-simple-hero-copy">
+                    <p class="eyebrow eyebrow--rule">Premium Kosmetikinstitut · Zürich</p>
+                    <h1 class="lp-simple-title" id="lp-simple-title">Fruchtsäure <em>Peeling</em></h1>
+                    <p class="lead">Intensive Hauterneuerung für einen ebenmässigen, strahlenden Teint. AHA-Behandlung an der Bahnhofstrasse.</p>
+                    <div class="btn-row">
+                        <a href={bookingHref} class="btn" data-treatment="Fruchtsäure Peeling" data-button-location="lp_hero">Termin buchen</a>
+                    </div>
+                </div>
+                <figure class="lp-simple-hero-media">
+                    <Image
+                        src={peelingCard}
+                        widths={heroWidths}
+                        sizes={heroSizes}
+                        format="webp"
+                        quality="high"
+                        priority
+                        alt="Fruchtsäure Peeling wird mit dem Pinsel aufgetragen"
+                    />
+                </figure>
+            </div>
+        </section>
 
-    <section class="container lp-benefits">
-        <div class="highlights-grid">
-            <div class="highlight-item">
-                <div class="highlight-number">01</div>
-                <h4>Tiefenwirkung</h4>
-                <p>AHA-Säuren lösen abgestorbene Zellen für echte Erneuerung.</p>
+        <section class="lp-simple-benefits" aria-label="Vorteile">
+            <div class="container">
+                <ul class="index-grid">
+                    {benefits.map((benefit) => (
+                        <li>
+                            <h2 class="lp-simple-benefit-title">{benefit.title}</h2>
+                            <p>{benefit.text}</p>
+                        </li>
+                    ))}
+                </ul>
             </div>
-            <div class="highlight-item">
-                <div class="highlight-number">02</div>
-                <h4>Anti-Akne</h4>
-                <p>Kann Unreinheiten reduzieren und Poren längerfristig feiner wirken lassen.</p>
-            </div>
-            <div class="highlight-item">
-                <div class="highlight-number">03</div>
-                <h4>Klarer Teint</h4>
-                <p>Fahler Teint kann klarer und lebendiger wirken.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="buchen" class="container" style="padding-bottom: 10vh;">
-        <BookingCta treatment="Fruchtsäure Peeling" href={bookingHref} />
-    </section>
+        <section id="buchen" class="container lp-simple-booking">
+            <BookingCta
+                treatment="Fruchtsäure Peeling"
+                href={bookingHref}
+                text="Buche deinen Wunschtermin bequem online. Teresa klärt Details und Eignung vor der Behandlung persönlich mit dir."
+            />
+        </section>
+    </main>
 </LandingPage>
 
 <style>
-    .lp-hero { padding-top: 16vh; padding-bottom: 6vh; text-align: center; }
-    .lp-title { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 1.5rem; text-transform: uppercase; }
-    .lp-title em { font-style: normal; font-weight: 300; color: var(--gold); }
-    .lp-subtitle { font-size: 1.15rem; max-width: 550px; margin: 0 auto; }
-    .lp-benefits { padding-bottom: 6vh; }
+    .lp-simple-hero {
+        padding-block: clamp(40px, 6vw, 96px) clamp(48px, 6vw, 88px);
+    }
+
+    .lp-simple-hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+        align-items: center;
+        gap: clamp(40px, 6vw, 104px);
+    }
+
+    .lp-simple-hero-copy {
+        display: grid;
+        justify-items: start;
+        gap: 28px;
+    }
+
+    .lp-simple-title {
+        font-size: var(--fs-display);
+        line-height: 0.98;
+        letter-spacing: -0.025em;
+    }
+
+    .lp-simple-hero-media {
+        position: relative;
+        aspect-ratio: 3 / 2;
+        overflow: hidden;
+        margin: 0;
+        background: var(--stone);
+    }
+
+    .lp-simple-hero-media :global(img) {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .lp-simple-benefits {
+        padding-bottom: clamp(56px, 7vw, 104px);
+    }
+
+    .lp-simple-benefit-title {
+        font-size: var(--fs-h3);
+        line-height: 1.15;
+    }
+
+    .lp-simple-booking {
+        padding-bottom: clamp(56px, 8vw, 120px);
+    }
+
+    @media (max-width: 900px) {
+        .lp-simple-hero {
+            padding-top: 0;
+        }
+
+        .lp-simple-hero-grid {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 32px;
+        }
+
+        .lp-simple-hero-media {
+            order: -1;
+            aspect-ratio: 16 / 10;
+            margin-inline: calc(-1 * var(--gutter));
+        }
+
+        .lp-simple-hero-copy .btn-row,
+        .lp-simple-hero-copy .btn {
+            width: 100%;
+        }
+    }
 </style>

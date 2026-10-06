@@ -1,0 +1,151 @@
+---
+/**
+ * "Weitere Behandlungen": the other facial treatments as image cards
+ * (same card language as /behandlungen/). Swipe row on mobile.
+ */
+import { Image } from 'astro:assets';
+import { relatedTreatments } from './catalog';
+import { cardImageSizes, widthsFor } from './images';
+
+interface Props {
+  /** href of the current page, excluded from the list. */
+  current: string;
+  title?: string;
+}
+
+const { current, title = 'Weitere Behandlungen' } = Astro.props;
+const items = relatedTreatments(current);
+---
+
+<section class="section section--flush-top related" aria-labelledby="related-title">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 id="related-title">{title}</h2>
+      </div>
+      <a href="/behandlungen/" class="btn btn-secondary btn-arrow" data-button-location="treatment_related_overview">Alle Behandlungen</a>
+    </div>
+    <ul class="rel-grid" style={`--cols: ${items.length}`}>
+      {items.map((item) => (
+        <li>
+          <a href={item.href} class="rel-card">
+            <span class="rel-media">
+              <Image
+                src={item.image}
+                widths={widthsFor(item.image)}
+                sizes={cardImageSizes(item.image, 5 / 4, 300, 23, 70)}
+                format="webp"
+                quality="mid"
+                loading="lazy"
+                alt={item.alt}
+              />
+            </span>
+            <div class="rel-title">
+              <h3>{item.name}</h3>
+              <span class="rel-go" aria-hidden="true"></span>
+            </div>
+            <p>{item.line}</p>
+            <span class="rel-meta">{item.meta}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: clamp(20px, 2.2vw, 28px);
+  }
+
+  .rel-card {
+    display: grid;
+    gap: 8px;
+    color: inherit;
+  }
+
+  .rel-media {
+    display: block;
+    margin-bottom: 10px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    background: var(--blush);
+  }
+
+  .rel-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-expo);
+  }
+
+  .rel-card:hover .rel-media :global(img) { transform: scale(1.04); }
+
+  .rel-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .rel-title h3 {
+    font-family: var(--f-serif);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 2vw, 1.9rem);
+    line-height: 1.05;
+    transition: color 0.3s ease;
+  }
+
+  .rel-go {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: var(--i-arrow-dark) center / 12px no-repeat;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.45s var(--ease-expo);
+  }
+
+  .rel-card:hover h3 { color: var(--clay); }
+
+  .rel-card:hover .rel-go {
+    border-color: var(--clay);
+    background: var(--i-arrow-light) center / 12px no-repeat, var(--clay);
+    transform: rotate(45deg);
+  }
+
+  .rel-card p {
+    max-width: 30ch;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+  }
+
+  .rel-meta {
+    font-size: var(--fs-label);
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .rel-grid {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+      scroll-padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+
+    .rel-grid::-webkit-scrollbar { display: none; }
+
+    .rel-grid li {
+      flex: 0 0 min(72%, 300px);
+      scroll-snap-align: start;
+    }
+  }
+</style>

@@ -1,33 +1,50 @@
 ---
-import { absoluteUrl, SERVICE_GROUPS } from '../../../shared/site';
+import { absoluteUrl, CONTACT_PHONE_DISPLAY, SERVICE_GROUPS } from '../../../shared/site';
 import Base from '../../layouts/Base.astro';
-import TreatmentLinkCard from '../../components/TreatmentLinkCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import AiSummary from '../../components/AiSummary.astro';
+import FaqBlock from '../../components/treatment/FaqBlock.astro';
+import LinkList from '../../components/treatment/LinkList.astro';
 import { Image } from 'astro:assets';
 import {
-    coldplasmaCard,
     aquafacialCard,
+    coldplasmaCard,
     microneedlingCard,
     peelingCard,
+    spaFacialTreatment,
+    spaInterior,
     spaProducts,
 } from '../../lib/site-images';
-
-const overviewCardSizes = '(min-width: 1240px) 595px, (min-width: 901px) 44vw, 100vw';
 
 const breadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'Behandlungen' }
 ];
 
-const summaryFacts = [
-    { label: 'Ort', value: 'Bahnhofstrasse 94, 8001 Zürich' },
-    { label: 'Bereiche', value: 'Gesicht & Haut, Laser-Haarentfernung, Waxing, Wimpern & Brauen, Make-up, Massage' },
-    { label: 'Preise', value: 'ab CHF 20; Gesichtsbehandlungen ab CHF 150' },
-    { label: 'Durchführung', value: 'persönlich durch Teresa Stimac' },
+// Face first (image cards), every other SERVICE_GROUPS hub as a price row.
+// Group labels (checked by scripts/seo-plan-smoke.mjs): Gesicht & Haut, Laser-Haarentfernung,
+// Waxing, Wimpern & Brauen, Make-up, Massage.
+const [faceGroup, ...beautyGroups] = SERVICE_GROUPS;
+
+// Prices and durations as published on each treatment page.
+const faceTreatments = [
+    { href: '/behandlungen/gesichtsbehandlung-zuerich/', name: 'Gesichtsbehandlung', line: 'Reinigung, Pflege und Hautanalyse – der ideale Einstieg.', meta: `${faceGroup.priceFrom} · 45–120 Min.`, image: spaFacialTreatment, alt: 'Entspannende Gesichtsbehandlung mit Maske' },
+    { href: '/behandlungen/aquafacial-zuerich/', name: 'Aquafacial', line: 'Tiefenreinigung, Peeling und Feuchtigkeit in einer Behandlung.', meta: 'ab CHF 180 · 60–90 Min.', image: aquafacialCard, alt: 'Aquafacial Behandlung mit Handstück an der Wange' },
+    { href: '/behandlungen/microneedling-zuerich/', name: 'Microneedling', line: 'Für feinere Poren, glattere Struktur und feine Linien.', meta: 'ab CHF 210 · 90 Min.', image: microneedlingCard, alt: 'Microneedling Behandlung im Gesicht' },
+    { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', name: 'Fruchtsäure Peeling', line: 'AHA-Peeling für einen klaren, ebenmässigen Teint.', meta: 'CHF 150 · 45–60 Min.', image: peelingCard, alt: 'Fruchtsäure Peeling wird mit dem Pinsel aufgetragen' },
+    { href: '/behandlungen/coldplasma-zuerich/', name: 'ColdPlasma', line: 'Plasma-Technologie als Ergänzung bei unreiner Haut.', meta: 'ab CHF 180 · 90 Min.', image: coldplasmaCard, alt: 'ColdPlasma Handstück an der Schläfe' },
+    { href: '/behandlungen/exosome-therapie-zuerich/', name: 'Exosome Therapie', line: 'Regenerative Wirkstoffpflege für Feuchtigkeit und Glow.', meta: 'Persönliche Beratung', image: spaProducts, alt: 'Serumflaschen mit Pipette auf hellem Stein' },
 ];
 
-const serviceListItems = SERVICE_GROUPS.flatMap((group) => group.services).map((service, index) => ({
+const guide = [
+    { href: '/behandlungen/aquafacial-zuerich/', title: 'Fahle, müde Haut', text: 'Aquafacial für sofortige Frische und Feuchtigkeit, meist ohne Ausfallzeit.', meta: 'Aquafacial' },
+    { href: '/behandlungen/microneedling-zuerich/', title: 'Feine Linien', text: 'Microneedling kann die Hauterneuerung und Kollagenbildung unterstützen.', meta: 'Microneedling' },
+    { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', title: 'Unreinheiten & Poren', text: 'Das Fruchtsäure Peeling erneuert die Haut Schicht für Schicht.', meta: 'Peeling' },
+    { href: '/behandlungen/coldplasma-zuerich/', title: 'Empfindliche Haut', text: 'ColdPlasma ergänzt die Wirkstoffpflege – abgestimmt auf Ihren Hautzustand.', meta: 'ColdPlasma' },
+];
+
+type ServiceGroupService = (typeof SERVICE_GROUPS)[number]['services'][number];
+
+const serviceListItems = SERVICE_GROUPS.flatMap<ServiceGroupService>((group) => group.services).map((service, index) => ({
     "@type": "ListItem",
     "position": index + 1,
     "item": {
@@ -48,19 +65,19 @@ const structuredData = {
 const pageFaqs = [
     {
         question: 'Was kostet eine Gesichtsbehandlung in Zürich?',
-        answer: 'Die Preise variieren je nach Behandlungsart und Dauer. Gesichtsbehandlungen beginnen bei CHF 150, Aquafacial bei CHF 180, Microneedling bei CHF 210, ColdPlasma bei CHF 180. Waxing beginnt bei CHF 35, Laser-Haarentfernung bei CHF 85, Wimpern- und Brauenleistungen bei CHF 20, Make-up bei CHF 100 und Massagen bei CHF 65 beziehungsweise nach Buchungsumfang. Alle veröffentlichten Preise sollten vor dem Termin anhand der aktuellen Buchungsseite geprüft werden.'
+        answer: 'Gesichtsbehandlungen beginnen bei CHF 150, Aquafacial bei CHF 180, Microneedling bei CHF 210 und ColdPlasma bei CHF 180. Waxing gibt es ab CHF 35, Laser-Haarentfernung ab CHF 85, Wimpern und Brauen ab CHF 20, Make-up ab CHF 100 und Massagen ab CHF 65 – verbindlich sind die Preise in der <a href="/termin/">Online-Buchung</a>.'
     },
     {
         question: 'Welche Behandlung passt für den Einstieg?',
-        answer: 'Für viele neue Kundinnen ist eine klassische <a href="/behandlungen/gesichtsbehandlung-zuerich/">Gesichtsbehandlung</a> oder Aquafacial ein sinnvoller Einstieg, weil Teresa dabei Hautzustand, Verträglichkeit und Pflegeziel einschätzen kann. Wer bereits weiss, dass Haarentfernung, Wimpern und Brauen, Make-up oder Massage gefragt sind, kann diese Leistungen direkt über die Buchung wählen.'
+        answer: 'Für die meisten neuen Kundinnen ist eine klassische <a href="/behandlungen/gesichtsbehandlung-zuerich/">Gesichtsbehandlung</a> oder Aquafacial ideal: Teresa lernt dabei Ihre Haut kennen und empfiehlt die nächsten Schritte.'
     },
     {
         question: 'Kann ich Behandlungen kombinieren?',
-        answer: 'Ja, viele Leistungen können sinnvoll kombiniert werden, etwa Gesichtsbehandlung mit Wimpern und Brauen oder abgestimmte Hautbehandlungen wie Aquafacial, Microneedling, Peeling und ColdPlasma. Reihenfolge und Abstand legt Teresa nach Hautzustand, Verträglichkeit und Ziel fest.'
+        answer: 'Ja, zum Beispiel Gesichtsbehandlung mit Wimpern und Brauen oder abgestimmte Hautbehandlungen wie Aquafacial, Microneedling und Peeling. Reihenfolge und Abstand legt Teresa nach Hautzustand und Ziel fest.'
     },
     {
         question: 'Wie buche ich einen Termin?',
-        answer: 'Am einfachsten buchen Sie direkt über unsere <a href="/termin/">Online-Terminbuchung</a>. Wählen Sie Ihre gewünschte Behandlung, ein passendes Datum und Ihre bevorzugte Uhrzeit — die Bestätigung erhalten Sie umgehend per E-Mail. Der gesamte Buchungsprozess dauert nur wenige Klicks und ist rund um die Uhr verfügbar. Selbstverständlich können Sie uns auch telefonisch unter +41 79 214 34 62 oder per E-Mail an info@beautyfacelift.ch erreichen. Unser Studio befindet sich an der Bahnhofstrasse 94, 8001 Zürich.'
+        answer: `Am einfachsten über die <a href="/termin/">Online-Terminbuchung</a> – rund um die Uhr, mit Bestätigung per E-Mail. Telefonisch erreichen Sie uns unter ${CONTACT_PHONE_DISPLAY}.`
     }
 ];
 
@@ -80,223 +97,331 @@ const faqStructuredData = {
 
 <Base
     title="Kosmetische Behandlungen Zürich | Beauty Face Lift Bahnhofstrasse"
-    description="Kosmetische Behandlungen in Zürich an der Bahnhofstrasse: Gesichtsbehandlung, Aquafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage."
+    description="Kosmetische Behandlungen an der Bahnhofstrasse Zürich: Gesichtsbehandlung, Aquafacial, Microneedling, Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage – mit Preisen."
     structuredData={structuredData}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 88px; padding-bottom: 0;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <header class="page-hero page-hero--split ov-hero">
+        <div class="container page-hero-inner">
+            <div class="page-hero-copy">
+                <div class="reveal-up">
+                    <Breadcrumbs items={breadcrumbs} />
+                </div>
+                <h1 class="reveal-up d-1">Kosmetische Behandlungen in <em>Zürich</em></h1>
+                <p class="lead reveal-up d-2">Gesichtsbehandlungen, Haarentfernung und Beauty-Services an der Bahnhofstrasse 94 – jede Behandlung persönlich von Teresa Stimac.</p>
+                <div class="btn-row reveal-up d-3">
+                    <a href="/termin/" class="btn btn-lg btn-arrow" data-button-location="treatments_hero">Termin buchen</a>
+                    <a href="/kontakt/" class="btn btn-secondary btn-lg" data-button-location="treatments_hero_consultation">Kostenlose Beratung</a>
+                </div>
+            </div>
+            <div class="arch ov-arch reveal-media">
+                <Image
+                    src={spaInterior}
+                    widths={[420, 640, 860]}
+                    sizes="(min-width: 1280px) 460px, (min-width: 901px) 36vw, 88vw"
+                    format="webp"
+                    quality="high"
+                    priority
+                    alt="Behandlungsraum von Beauty Face Lift an der Bahnhofstrasse Zürich"
+                />
+            </div>
+        </div>
+    </header>
 
-    <!-- Page Header — design: 100px 58px 60px -->
-    <section class="container" style="padding-top: 16px; padding-bottom: 48px;">
-        <span class="sub-display" style="display: block; margin-bottom: 16px;">Unsere Expertise</span>
-        <h1 style="font-size: 52px; margin-bottom: 16px;">Kosmetische Behandlungen in Zürich</h1>
-        <p style="max-width: 700px;">Professionelle Kosmetik an der Bahnhofstrasse 94: von individueller Gesichtsbehandlung über moderne Hautpflege bis zu Laser-Haarentfernung, Waxing, Wimpern, Brauen, Make-up und Massage.</p>
-        <p style="max-width: 700px; margin-top: 1.25rem;">Teresa Stimac stimmt jede Leistung auf Hautzustand, Ziel, Verträglichkeit und Anlass ab. Hautbehandlungen bleiben der fachliche Schwerpunkt; ergänzende Beauty-Leistungen machen Beauty Face Lift zur persönlichen Adresse für gepflegte Ausstrahlung im Herzen von Zürich.</p>
-    </section>
-
-    <AiSummary
-        title="Behandlungen an der Bahnhofstrasse Zürich"
-        intro="Beauty Face Lift bietet Gesichtsbehandlungen, Haarentfernung und ergänzende Beauty-Leistungen an der Bahnhofstrasse 94 in Zürich. Die Auswahl richtet sich nach Ziel, Hautzustand, Anlass und gewünschter Behandlungsdauer."
-        facts={summaryFacts}
-    />
-
-    <section class="container" style="padding-bottom: 88px;">
-        <div class="sub-display margin-bottom-md">Behandlungsbereiche</div>
-        <h2 style="font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 1rem; text-transform: none;">Von Hautpflege bis Haarentfernung</h2>
-        <p style="max-width: 720px; margin-bottom: 2.25rem;">Die Übersicht ist nach natürlicher Suchintention aufgebaut: zuerst Haut und Gesicht, danach kaufnahe Leistungen wie Laser-Haarentfernung Zürich, Waxing Zürich und präzise Beauty-Details.</p>
-        <div class="highlights-grid highlights-grid--4col">
-            {SERVICE_GROUPS.map((group, index) => (
-                <a href={group.href} class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                    <div class="highlight-number">{String(index + 1).padStart(2, '0')}</div>
-                    <h4>{group.label}</h4>
-                    <p>{group.description}</p>
-                </a>
-            ))}
+    <!-- Face & skin -->
+    <section class="section section--flush-top" aria-labelledby="face-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2 id="face-title">{faceGroup.label}</h2>
+                    <p class="lead">Von der klassischen Pflege bis zur modernen Hautbehandlung – abgestimmt auf Hautzustand und Ziel.</p>
+                </div>
+                <a href="/behandlungen/vergleich/" class="btn btn-secondary btn-arrow" data-button-location="treatments_compare">Behandlungen vergleichen</a>
+            </div>
+            <ul class="bx-grid">
+                {faceTreatments.map((treatment) => (
+                    <li>
+                        <a href={treatment.href} class="bx-card scroll-anim">
+                            <span class="bx-media">
+                                <Image
+                                    src={treatment.image}
+                                    widths={[360, 540, 760]}
+                                    sizes="(min-width: 1280px) 400px, (min-width: 901px) 30vw, (min-width: 601px) 46vw, 88vw"
+                                    format="webp"
+                                    quality="mid"
+                                    loading="lazy"
+                                    alt={treatment.alt}
+                                />
+                            </span>
+                            <span class="bx-title">
+                                <h3>{treatment.name}</h3>
+                                <span class="bx-go" aria-hidden="true"></span>
+                            </span>
+                            <p>{treatment.line}</p>
+                            <span class="bx-meta">{treatment.meta}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     </section>
 
-    <!-- Treatment Grid -->
-    <section class="container" style="padding-bottom: 88px;">
-        <div class="treatments-overview-grid">
-            <a href="/behandlungen/aquafacial-zuerich/" class="treatment-overview-card scroll-anim">
-                <div class="service-image-mask service-image-tall">
-                    <Image
-                        src={aquafacialCard}
-                        widths={[360, 540, 720, 960]}
-                        sizes={overviewCardSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Aquafacial Behandlung Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-                <div class="treatment-overview-content">
-                    <h3>Aquafacial</h3>
-                    <p>Tiefenreinigung, Vitalisierung und Glow. Professionelle Pflege für ein strahlendes Selfie-Hautbild mit patentierter Vortex-Technologie.</p>
-                    <span class="card-arrow">Details erfahren &rarr;</span>
-                </div>
-            </a>
-
-            <a href="/behandlungen/microneedling-zuerich/" class="treatment-overview-card scroll-anim">
-                <div class="service-image-mask service-image-tall">
-                    <Image
-                        src={microneedlingCard}
-                        widths={[360, 540, 720, 960]}
-                        sizes={overviewCardSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Microneedling Behandlung Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-                <div class="treatment-overview-content">
-                    <h3>Micro Needling</h3>
-                    <p>Kosmetische Hautbildverbesserung ohne OP. Microneedling kann die körpereigene Kollagenbildung unterstützen und Poren, Textur und feine Linien verfeinern.</p>
-                    <span class="card-arrow">Details erfahren &rarr;</span>
-                </div>
-            </a>
-
-            <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="treatment-overview-card scroll-anim">
-                <div class="service-image-mask service-image-tall">
-                    <Image
-                        src={peelingCard}
-                        widths={[360, 540, 720, 960]}
-                        sizes={overviewCardSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Fruchtsäure Peeling Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-                <div class="treatment-overview-content">
-                    <h3>Fruchtsäure Peeling</h3>
-                    <p>Intensive Hauterneuerung durch natürliche AHA-Säuren. Für einen ebenmässigen, strahlenden Teint und verfeinerte Poren.</p>
-                    <span class="card-arrow">Details erfahren &rarr;</span>
-                </div>
-            </a>
-
-            <a href="/behandlungen/coldplasma-zuerich/" class="treatment-overview-card scroll-anim">
-                <div class="service-image-mask service-image-tall">
-                    <Image
-                        src={coldplasmaCard}
-                        widths={[360, 540, 720, 960]}
-                        sizes={overviewCardSizes}
-                        format="webp"
-                        quality="high"
-                        alt="ColdPlasma Behandlung Zürich"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-                <div class="treatment-overview-content">
-                    <h3>ColdPlasma</h3>
-                    <p>Kosmetische Plasma-Technologie zur unterstützenden Pflege bei unreiner Haut, Hautbarriere und professionellen Wirkstoffen.</p>
-                    <span class="card-arrow">Details erfahren &rarr;</span>
-                </div>
-            </a>
-
-            <a href="/behandlungen/exosome-therapie-zuerich/" class="treatment-overview-card scroll-anim">
-                <div class="service-image-mask service-image-tall">
-                    <Image
-                        src={spaProducts}
-                        widths={[360, 540, 720, 960]}
-                        sizes={overviewCardSizes}
-                        format="webp"
-                        quality="high"
-                        alt="Exosome Therapie Zürich mit Serum und Hyaluronsäure"
-                        class="anim-img"
-                        loading="lazy"
-                    />
-                </div>
-                <div class="treatment-overview-content">
-                    <h3>Exosome Therapie</h3>
-                    <p>Regenerative Kosmetik mit Exosomen Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie. Für Feuchtigkeit, Hautbarriere, Glow und ein ruhigeres Hautbild.</p>
-                    <span class="card-arrow">Details erfahren &rarr;</span>
-                </div>
-            </a>
+    <!-- Beauty & wellness -->
+    <section class="section section--shell" aria-labelledby="beauty-title">
+        <div class="container bw-grid">
+            <div class="bw-head">
+                <h2 id="beauty-title">Beauty &amp; Wellness</h2>
+                <p class="lead">Haarentfernung, Wimpern, Make-up und Massage – an derselben Adresse, mit derselben Sorgfalt.</p>
+            </div>
+            <ul class="bw-list">
+                {beautyGroups.map((group) => (
+                    <li>
+                        <a href={group.href} class="bw-row">
+                            <span class="bw-text">
+                                <h3>{group.label}</h3>
+                                <span>{group.description}</span>
+                            </span>
+                            <span class="bw-price">{group.priceFrom}</span>
+                            <span class="bw-go" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Welche Behandlung passt zu mir? -->
-    <section class="container" style="padding-top: 76px; padding-bottom: 92px;">
-        <div class="sub-display margin-bottom-md">Ihr persönlicher Guide</div>
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; text-transform: none;">Welche Behandlung passt zu mir?</h2>
-        <p style="max-width: 650px; margin-bottom: 2.25rem;">Jedes Hautbild ist einzigartig. Finden Sie die passende Behandlung für Ihr persönliches Hautpflegeziel.</p>
-
-        <div class="highlights-grid highlights-grid--4col">
-            <a href="/behandlungen/aquafacial-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                <div class="highlight-number">01</div>
-                <h4>Sofortiger Glow</h4>
-                <p>Fahle, müde Haut? Aquafacial kann in 60 Minuten ein frischeres, hydratisiertes Hautgefühl unterstützen — meist ohne Ausfallzeit.</p>
-            </a>
-
-            <a href="/behandlungen/microneedling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                <div class="highlight-number">02</div>
-                <h4>Anti-Aging & Straffung</h4>
-                <p>Feine Linien und Elastizitätsverlust? Microneedling kann die natürliche Hauterneuerung und Kollagenbildung unterstützen und das Hautbild sichtbar verfeinern.</p>
-            </a>
-
-            <a href="/behandlungen/fruchtsaeure-peeling-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                <div class="highlight-number">03</div>
-                <h4>Reine Haut & klarer Teint</h4>
-                <p>Unreinheiten, grosse Poren oder Pigmentflecken? Das Fruchtsäure Peeling erneuert Ihre Haut Schicht für Schicht.</p>
-            </a>
-
-            <a href="/behandlungen/coldplasma-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                <div class="highlight-number">04</div>
-                <h4>Innovation & Regeneration</h4>
-                <p>Unreine oder empfindliche Haut? ColdPlasma kann die professionelle Wirkstoffpflege je nach Hautzustand sinnvoll ergänzen.</p>
-            </a>
-
-            <a href="/behandlungen/exosome-therapie-zuerich/" class="highlight-item scroll-anim" style="text-decoration: none; color: inherit;">
-                <div class="highlight-number">05</div>
-                <h4>Regenerative Wirkstoffpflege</h4>
-                <p>Fahle, gestresste Haut oder Wunsch nach Exosomen Kosmetik? Exosome Therapie kann Feuchtigkeit, Hautbarriere und Glow unterstützen.</p>
-            </a>
-        </div>
-
-        <div style="text-align: center; margin-top: 2.5rem;">
-            <a href="/behandlungen/vergleich/" style="font-family: var(--font-sans); font-weight: 500; color: var(--accent-text); text-decoration: none; border-bottom: 1px solid var(--accent-text); padding-bottom: 2px; transition: opacity 0.2s ease;">Ausführlicher Behandlungsvergleich &rarr;</a>
+    <!-- Guide -->
+    <section class="section" aria-labelledby="guide-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2 id="guide-title">Welche Behandlung passt zu <em>mir</em>?</h2>
+                </div>
+                <a href="/kontakt/" class="btn-link" data-button-location="treatments_guide_consultation">Persönlich beraten lassen</a>
+            </div>
+            <LinkList items={guide} />
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="faq-label" style="text-align: left;">Häufige Fragen</div>
-        <h2 style="font-size: 42px; margin-bottom: 32px; text-transform: none;">Gut zu wissen</h2>
-
-        <div class="faq-list">
-            {pageFaqs.map((faq) => (
-                <details class="faq-item">
-                    <summary><h3>{faq.question}</h3></summary>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">
-                            <p set:html={faq.answer} />
+    <!-- FAQ -->
+    <section class="section section--flush-top ov-faq" aria-label="Häufige Fragen">
+        <div class="container">
+            <FaqBlock>
+                <Fragment slot="title">Gut zu <em>wissen</em></Fragment>
+                {pageFaqs.map((faq) => (
+                    <details class="faq-item">
+                        <summary><h3>{faq.question}</h3></summary>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                <p set:html={faq.answer} />
+                            </div>
                         </div>
-                    </div>
-                </details>
-            ))}
+                    </details>
+                ))}
+            </FaqBlock>
         </div>
     </section>
 
-    <!-- FAQ JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
-    <div class="section-divider"></div>
-
-    <!-- CTA Section — design: 100px 58px padding -->
-    <section class="container" style="padding-bottom: 80px; text-align: center;">
-        <h2 style="font-size: 38px; margin-bottom: 20px; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
-        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    <!-- Closing CTA -->
+    <section class="cta-band" aria-labelledby="cta-title">
+        <div class="cta-band-inner">
+            <div>
+                <h2 id="cta-title">Bereit für Ihr neues <em>Hautbild</em>?</h2>
+                <p>Termin online buchen – die Erstberatung ist kostenlos.</p>
+            </div>
+            <div class="btn-row">
+                <a href="/termin/" class="btn btn-arrow" data-button-location="treatments_cta_band">Termin buchen</a>
+            </div>
+        </div>
     </section>
 </Base>
+
+<style>
+    .d-1 { --d: 1; }
+    .d-2 { --d: 2; }
+    .d-3 { --d: 3; }
+
+    .ov-hero .page-hero-copy :global(.breadcrumbs) { padding: 0; }
+    .ov-hero h1 { max-width: 12ch; }
+    .ov-hero .btn-row { margin-top: 12px; }
+
+    .ov-arch {
+        width: min(100%, 460px);
+        justify-self: end;
+    }
+
+    .ov-faq :global(.faq-answer a) {
+        color: var(--cocoa);
+        text-decoration: underline;
+        text-decoration-color: var(--line-strong);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease, text-decoration-color 0.3s ease;
+    }
+
+    .ov-faq :global(.faq-answer a:hover) {
+        color: var(--clay);
+        text-decoration-color: currentColor;
+    }
+
+    /* Face & skin: 3 x 2 image cards */
+    .bx-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(40px, 4vw, 56px) clamp(20px, 2.4vw, 32px);
+    }
+
+    .bx-card {
+        display: grid;
+        gap: 10px;
+        color: inherit;
+    }
+
+    .bx-media {
+        display: block;
+        margin-bottom: 10px;
+        overflow: hidden;
+        aspect-ratio: 4 / 5;
+        border-radius: var(--r-lg);
+        background: var(--blush);
+    }
+
+    .bx-media :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s var(--ease-expo);
+    }
+
+    .bx-card:hover .bx-media :global(img) { transform: scale(1.04); }
+
+    .bx-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .bx-title h3 {
+        font-family: var(--f-serif);
+        font-weight: 400;
+        font-size: clamp(1.75rem, 2.2vw, 2.1rem);
+        line-height: 1.05;
+        transition: color 0.3s ease;
+    }
+
+    .bx-go,
+    .bw-go {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--line-strong);
+        background: var(--i-arrow-dark) center / 13px no-repeat;
+        transition: background 0.3s ease, border-color 0.3s ease, transform 0.45s var(--ease-expo);
+    }
+
+    .bx-card:hover h3 { color: var(--clay); }
+
+    .bx-card:hover .bx-go,
+    .bw-row:hover .bw-go {
+        border-color: var(--clay);
+        background: var(--i-arrow-light) center / 13px no-repeat, var(--clay);
+        transform: rotate(45deg);
+    }
+
+    .bx-card p {
+        max-width: 34ch;
+        font-size: var(--fs-small);
+        color: var(--text);
+    }
+
+    .bx-meta {
+        font-size: var(--fs-label);
+        font-weight: 500;
+        color: var(--muted);
+    }
+
+    /* Beauty & wellness: heading left, hairline price rows right */
+    .bw-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: clamp(32px, 6vw, 96px);
+        align-items: start;
+    }
+
+    .bw-head {
+        display: grid;
+        gap: 18px;
+        position: sticky;
+        top: calc(var(--nav-h) + 24px);
+    }
+
+    .bw-list { border-top: 1px solid var(--line-strong); }
+    .bw-list li { border-bottom: 1px solid var(--line-strong); }
+
+    .bw-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: center;
+        gap: 24px;
+        padding: 24px 0;
+        color: inherit;
+    }
+
+    .bw-text { display: grid; gap: 6px; }
+
+    .bw-text h3 {
+        font-family: var(--f-serif);
+        font-weight: 400;
+        font-size: clamp(1.6rem, 2.2vw, 2rem);
+        line-height: 1.05;
+        transition: color 0.3s ease;
+    }
+
+    .bw-text span {
+        font-size: var(--fs-small);
+        color: var(--muted);
+    }
+
+    .bw-row:hover h3 { color: var(--clay); }
+
+    .bw-price {
+        padding: 6px 14px;
+        border-radius: var(--r-pill);
+        background: var(--paper);
+        font-size: var(--fs-label);
+        font-weight: 500;
+        color: var(--cocoa);
+        white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+        .ov-arch {
+            width: 100%;
+            justify-self: stretch;
+            aspect-ratio: 4 / 3;
+            border-radius: var(--r-xl);
+            order: -1;
+        }
+
+        .bx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+        .bw-grid { grid-template-columns: minmax(0, 1fr); }
+        .bw-head { position: static; }
+    }
+
+    @media (max-width: 600px) {
+        .bx-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+        .bx-media { aspect-ratio: 4 / 3; }
+
+        .bw-row {
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px 16px;
+            padding: 20px 0;
+        }
+
+        .bw-price { grid-row: 2; justify-self: start; }
+        .bw-go { grid-row: 1; grid-column: 2; }
+    }
+</style>

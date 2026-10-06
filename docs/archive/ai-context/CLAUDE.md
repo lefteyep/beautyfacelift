@@ -1,5 +1,7 @@
 # Beauty Face Lift — Claude Project Context
 
+> **Historical (March 2026).** Not loaded and not current. The active Claude context is [/CLAUDE.md](../../../CLAUDE.md).
+
 ## Project Identity
 
 - **Client:** Beauty Face Lift — Premium Medical Spa, Bahnhofstrasse 94, 8001 Zurich, Switzerland

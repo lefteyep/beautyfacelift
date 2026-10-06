@@ -8,6 +8,7 @@ Use this page to choose the right document quickly.
 |------|----------|
 | Project overview and commands | [../README.md](../README.md) |
 | Codex safety and deployment rules | [../AGENTS.md](../AGENTS.md) |
+| Claude Code context: commands, release gates, client design rules, gotchas (imports AGENTS.md) | [../CLAUDE.md](../CLAUDE.md) |
 | Current launch/status snapshot | [current/STATUS.md](current/STATUS.md) |
 | Open operational work | [current/TODO.md](current/TODO.md) |
 | Local setup and production config | [current/SETUP.md](current/SETUP.md) |

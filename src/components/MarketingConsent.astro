@@ -1,12 +1,11 @@
-<div id="bfl-marketing-consent" class="marketing-consent" hidden>
+<div id="bfl-marketing-consent" class="marketing-consent" role="dialog" aria-label="Cookie-Einstellungen" hidden>
   <p>
     Wir verwenden Marketing-Cookies nur mit Ihrer Einwilligung, um Kampagnen zu messen
-    und relevante Anzeigen auszuspielen.
+    und relevante Anzeigen auszuspielen. <a href="/datenschutz/">Datenschutz</a>
   </p>
   <div class="marketing-consent-actions">
     <button type="button" class="pill-btn" data-bfl-consent-accept>Marketing akzeptieren</button>
     <button type="button" class="pill-btn pill-btn-outline" data-bfl-consent-deny>Ablehnen</button>
-    <a href="/datenschutz/">Datenschutz</a>
   </div>
 </div>
 
@@ -20,35 +19,64 @@
       try { return localStorage.getItem(key) || ''; } catch(e) { return ''; }
     }
 
-    function setChoice(value) {
-      try { localStorage.setItem(key, value); } catch(e) {}
+    function hide() {
       banner.hidden = true;
       document.body.classList.remove('bfl-consent-visible');
       document.body.classList.add('bfl-consent-hidden');
+    }
+
+    function show() {
+      banner.hidden = false;
+      document.body.classList.add('bfl-consent-visible');
+      document.body.classList.remove('bfl-consent-hidden');
+    }
+
+    function clearMetaCookies() {
+      ['_fbp', '_fbc'].forEach(function(name) {
+        document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax';
+      });
+    }
+
+    function setChoice(value) {
+      var previous = choice();
+      try { localStorage.setItem(key, value); } catch(e) {}
+      hide();
+      if (value !== 'granted' && previous === 'granted') {
+        // The Meta pixel cannot be unloaded once running; reload so revocation takes effect immediately.
+        clearMetaCookies();
+        window.location.reload();
+        return;
+      }
       window.dispatchEvent(new CustomEvent(
         value === 'granted' ? 'bfl:marketing-consent-granted' : 'bfl:marketing-consent-denied'
       ));
     }
 
-    if (choice()) {
-      banner.hidden = true;
-      document.body.classList.remove('bfl-consent-visible');
-      document.body.classList.add('bfl-consent-hidden');
-      if (choice() === 'granted') {
-        window.setTimeout(function() {
-          window.dispatchEvent(new CustomEvent('bfl:marketing-consent-granted'));
-        }, 0);
-      }
-      return;
-    }
-
-    banner.hidden = false;
-    document.body.classList.add('bfl-consent-visible');
-    document.body.classList.remove('bfl-consent-hidden');
     var accept = banner.querySelector('[data-bfl-consent-accept]');
     var deny = banner.querySelector('[data-bfl-consent-deny]');
     if (accept) accept.addEventListener('click', function() { setChoice('granted'); });
     if (deny) deny.addEventListener('click', function() { setChoice('denied'); });
+
+    // Any element with data-bfl-consent-open (e.g. the footer "Cookie-Einstellungen" link) reopens the banner.
+    document.addEventListener('click', function(event) {
+      var trigger = event.target instanceof Element ? event.target.closest('[data-bfl-consent-open]') : null;
+      if (!trigger) return;
+      event.preventDefault();
+      show();
+      if (accept) accept.focus();
+    });
+
+    if (!choice()) {
+      show();
+      return;
+    }
+
+    hide();
+    if (choice() === 'granted') {
+      window.setTimeout(function() {
+        window.dispatchEvent(new CustomEvent('bfl:marketing-consent-granted'));
+      }, 0);
+    }
   })();
 </script>
 
@@ -65,11 +93,11 @@
     align-items: center;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 1rem;
-    background: rgba(246, 241, 234, 0.98);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-medium);
+    padding: 1.1rem 1.25rem;
+    background: var(--ivory);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+    box-shadow: var(--shadow-float);
     color: var(--text-primary);
   }
 
@@ -83,6 +111,13 @@
     font-size: 0.92rem;
     line-height: 1.5;
     color: var(--text-secondary);
+  }
+
+  .marketing-consent p a {
+    color: var(--accent-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
   }
 
   .marketing-consent-actions {
@@ -100,13 +135,6 @@
     white-space: nowrap;
   }
 
-  .marketing-consent-actions a {
-    color: var(--accent-text);
-    font-size: 0.84rem;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
   @media (max-width: 900px) {
     .marketing-consent {
       bottom: calc(1rem + var(--lp-sticky-offer-height, 0px) + env(safe-area-inset-bottom, 0px));
@@ -119,11 +147,19 @@
     }
   }
 
+  /* Phones: keep the banner to roughly a quarter of the viewport so the hero price and CTA stay visible. */
   @media (max-width: 560px) {
     .marketing-consent {
-      left: 0.75rem;
-      right: 0.75rem;
-      padding: 0.85rem;
+      left: 0.5rem;
+      right: 0.5rem;
+      bottom: calc(0.5rem + var(--lp-sticky-offer-height, 0px) + env(safe-area-inset-bottom, 0px));
+      gap: 0.65rem;
+      padding: 0.75rem 0.85rem;
+    }
+
+    .marketing-consent p {
+      font-size: 0.8rem;
+      line-height: 1.4;
     }
 
     .marketing-consent-actions {
@@ -132,8 +168,10 @@
       gap: 0.5rem;
     }
 
-    .marketing-consent-actions a {
-      grid-column: 1 / -1;
+    .marketing-consent-actions .pill-btn {
+      min-height: 40px;
+      padding: 8px 10px;
+      font-size: 0.62rem;
     }
   }
 </style>

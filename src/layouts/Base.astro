@@ -6,8 +6,6 @@ import MarketingConsent from '../components/MarketingConsent.astro';
 import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
-import '../styles/admin.css';
-import '../styles/blog.css';
 import { absoluteUrl, SITE_NAME } from '../../shared/site';
 
 interface Props {
@@ -58,88 +56,24 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="facebook-domain-verification" content="61xaasiyh074x1sn3szqej2sf3mzet">
 
-    <!-- Critical layout CSS — inlined to prevent FOUC. Must apply before
-         any external stylesheet / dev-mode JS-injected CSS loads. -->
+    <!-- Critical layout CSS — inlined so the fixed nav and page ground are
+         correct before the bundled stylesheets arrive. -->
     <style>
-        :root { --content-px: max(58px, calc(50vw - 620px)); }
-        body { margin: 0; position: relative; overflow-x: hidden; }
+        :root { --nav-h: 104px; --gutter: clamp(16px, 4vw, 40px); }
+        html, body { background: #FBF7F2; }
+        body { margin: 0; position: relative; overflow-x: hidden; color: #4B3B32; }
         .nav-minimal {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 28px var(--content-px);
-            pointer-events: none;
+            position: fixed; top: 16px; left: 0; right: 0; z-index: 100;
+            width: calc(100% - 2 * var(--gutter)); max-width: 1280px; height: 72px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+            padding: 0 12px 0 30px; border-radius: 999px; background: rgba(255, 253, 251, 0.9);
         }
-        .nav-minimal > * { pointer-events: auto; }
-        .hero-editorial { max-width: 1240px; margin: 0 auto; padding: 12vh 58px 8vh; }
-        .services-section,
-        .about-editorial,
-        .testimonials-section,
-        .faq-section,
-        .rating-line,
-        .trust-strip,
-        .footer-editorial,
-        .treatment-hero { padding-left: var(--content-px); padding-right: var(--content-px); }
-        .marquee-container { padding: 32px 0; overflow: hidden; }
-        .nav-treatment { color: #F6F1EA; }
-        .nav-treatment .nav-logo { filter: brightness(0) invert(1); }
-        body.page-treatment { background: #1C1A17; }
-        body.page-treatment main { background: #F6F1EA; }
-        body.page-treatment .treatment-hero {
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
-            margin-top: 0;
-            padding: 0 var(--content-px) 48px;
-            background: #1C1A17;
-            isolation: isolate;
-        }
-        body.page-treatment .treatment-hero-media {
-            position: absolute;
-            inset: -1px 0 0;
-            overflow: hidden;
-            border-radius: 0 0 22px 22px;
-        }
-        body.page-treatment .treatment-hero-media::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(to bottom, rgba(26,24,22,0.55) 0%, rgba(26,24,22,0.18) 18%, rgba(26,24,22,0) 32%),
-                linear-gradient(to top, rgba(26,24,22,0.88) 0%, rgba(26,24,22,0.32) 46%, rgba(26,24,22,0.06) 72%);
-            z-index: 1;
-        }
-        body.page-treatment .treatment-hero-media img,
-        body.page-treatment .treatment-hero-media picture,
-        body.page-treatment .treatment-hero-media picture > img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        body.page-treatment .treatment-hero .hero-titles {
-            position: relative;
-            z-index: 2;
-        }
+        .nav-logo { height: 36px; width: auto; }
         @media (max-width: 900px) {
-            .nav-minimal { padding: 16px 24px; }
-            .hero-editorial { padding: 80px 24px 48px; }
-            .hero-sub-display { display: none; }
-            .hero-display .display-text { font-size: clamp(2.25rem, 8.8vw, 2.5rem); line-height: 1.08; }
-            .hero-media { width: min(100%, 340px); max-width: 340px; margin-left: auto; margin-right: auto; }
-            .services-section,
-            .about-editorial,
-            .testimonials-section,
-            .faq-section,
-            .rating-line,
-            .trust-strip,
-            .footer-editorial,
-            .treatment-hero { padding-left: 24px; padding-right: 24px; }
-            body.page-treatment .treatment-hero {
-                min-height: 380px;
-                padding: 0 24px 32px;
-            }
-            body.page-treatment .treatment-hero-media { inset: -1px 0 0; border-radius: 0; }
+            :root { --nav-h: 84px; }
+            .nav-minimal { top: 10px; height: 64px; padding: 0 8px 0 20px; grid-template-columns: 1fr auto; }
+            .nav-logo { height: 32px; }
+            .nav-links, .nav-right { display: none; }
         }
     </style>
 
@@ -150,7 +84,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <!-- SEO -->
     {noindex && <meta name="robots" content="noindex, nofollow">}
     {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">}
-    <meta name="theme-color" content="#B98F47">
+    <meta name="theme-color" content="#FBF7F2">
     <meta name="geo.region" content="CH-ZH">
     <meta name="geo.placename" content="Zürich">
     <meta name="geo.position" content="47.3753;8.5385">
@@ -262,68 +196,15 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
             // Global defaults
             gsap.defaults({ ease: "power4.out" });
 
-            // 1. Hero Fade-In — simple, robust, descender-safe.
-            // immediateRender: false keeps elements at their natural CSS state
-            // until the tween actually plays. If the ticker ever stalls (e.g.
-            // tab backgrounded on load) the text stays visible instead of
-            // being stuck at opacity 0.
-            const heroTl = gsap.timeline();
-            const heroSubDisplay = document.querySelector('.hero-sub-display .text-reveal');
-            const heroDisplay = document.querySelector('.hero-display .text-reveal');
-            const heroCta = document.querySelector('.hero-cta');
-
-            if (heroSubDisplay) {
-                heroTl.from(heroSubDisplay,
-                    { opacity: 0, y: 12, duration: 0.9, delay: 0.2, immediateRender: false }
-                );
-            }
-            if (heroDisplay) {
-                heroTl.from(heroDisplay,
-                    { opacity: 0, y: 20, duration: 1.1, immediateRender: false },
-                    heroSubDisplay ? "-=0.6" : 0
-                );
-            }
-            if (heroCta) {
-                heroTl.from(heroCta,
-                    { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", immediateRender: false },
-                    heroDisplay ? "-=0.6" : 0
-                );
-            }
-
-            // 2. Floating image fade up with slight rotation
-            const heroFloat = document.getElementById('hero-float-1');
-            if (heroFloat) {
-                gsap.from(heroFloat,
-                    { y: 36, opacity: 0, rotate: 1.5, duration: 1.4, ease: "power3.out", delay: 0.8, immediateRender: false }
-                );
-            }
+            // 1. Hero entrance is pure CSS (.reveal-up in components.css) so it
+            // never flashes or depends on the GSAP ticker.
 
 
-            // 4. Image Parallax + clip-path curtain reveal
-            document.querySelectorAll('.service-image-mask, .about-image .service-image-mask').forEach(container => {
-                const img = container.querySelector('.anim-img');
-                if (!img) return;
-
-                // Parallax
-                gsap.fromTo(img,
-                    { y: '-10%' },
-                    {
-                        y: '10%',
-                        scrollTrigger: {
-                            trigger: container,
-                            start: 'top bottom',
-                            end: 'bottom top',
-                            scrub: 1.2
-                        }
-                    }
-                );
-            });
-
-            // 5. Fade Up Reveal for blocks — staggered with more finesse
+            // 2. Gentle rise for blocks marked .scroll-anim
             gsap.utils.toArray('.scroll-anim').forEach(element => {
                 gsap.from(element as Element,
                     {
-                        y: 32,
+                        y: 24,
                         duration: 1.1,
                         ease: "expo.out",
                         immediateRender: false,
@@ -336,13 +217,13 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             });
 
-            // 6. Treatment Hero Parallax
+            // 3. Slow zoom on the treatment hero image while scrolling
             const treatmentHeroImg = document.querySelector('#treatment-hero-img');
             if (treatmentHeroImg) {
                 gsap.fromTo(treatmentHeroImg,
-                    { scale: 1.05 },
+                    { scale: 1 },
                     {
-                        scale: 1.15,
+                        scale: 1.06,
                         scrollTrigger: {
                             trigger: '.treatment-hero',
                             start: 'top top',
@@ -353,7 +234,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 7. Footer Text Reveal — cinematic entrance
+            // 4. Footer wordmark entrance
             const footerReveal = document.querySelector('.footer-editorial .text-reveal');
             if (footerReveal) {
                 gsap.from(footerReveal,
@@ -371,45 +252,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 8. Parallax depth on about portrait
-            const aboutPortrait = document.querySelector('.about-portrait img');
-            if (aboutPortrait) {
-                gsap.fromTo(aboutPortrait,
-                    { y: '-5%', scale: 1.08 },
-                    {
-                        y: '5%',
-                        scale: 1.08,
-                        scrollTrigger: {
-                            trigger: '.about-portrait',
-                            start: 'top bottom',
-                            end: 'bottom top',
-                            scrub: 1.5
-                        }
-                    }
-                );
-            }
-
-            // 9. Stagger service cards for sequential reveal
-            const serviceCards = gsap.utils.toArray('.service-card');
-            if (serviceCards.length > 0) {
-                serviceCards.forEach((card, i) => {
-                    gsap.from(card as Element,
-                        {
-                            y: 36,
-                            duration: 1,
-                            ease: "expo.out",
-                            immediateRender: false,
-                            scrollTrigger: {
-                                trigger: card as Element,
-                                start: 'top 90%',
-                                once: true,
-                            }
-                        }
-                    );
-                });
-            }
-
-            // 10. Testimonial cards stagger
+            // 5. Testimonial stagger
             const testimonialCards = gsap.utils.toArray('.testimonial-card');
             if (testimonialCards.length > 0) {
                 gsap.from(testimonialCards as Element[],
@@ -428,7 +271,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 11. FAQ items stagger
+            // 6. FAQ rows stagger
             const faqItems = gsap.utils.toArray('.faq-item');
             if (faqItems.length > 0) {
                 const faqTrigger = document.querySelector('.faq-list') ?? (faqItems[0] as Element).parentElement;
@@ -448,25 +291,6 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 );
             }
 
-            // 12. Highlight/Process grid stagger
-            const highlightItems = gsap.utils.toArray('.highlight-item, .process-step');
-            if (highlightItems.length > 0) {
-                gsap.from(highlightItems as Element[],
-                    {
-                        y: 24,
-                        duration: 0.9,
-                        stagger: 0.1,
-                        ease: "power3.out",
-                        immediateRender: false,
-                        scrollTrigger: {
-                            trigger: (highlightItems[0] as Element).parentElement,
-                            start: 'top 85%',
-                            once: true,
-                        }
-                    }
-                );
-            }
-
         } else {
             // Reduced motion: make everything visible immediately
             document.querySelectorAll('.text-reveal').forEach(el => {
@@ -476,12 +300,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
                 (el as HTMLElement).style.opacity = '1';
                 (el as HTMLElement).style.transform = 'none';
             });
-            const heroFloat = document.getElementById('hero-float-1');
-            if (heroFloat) {
-                heroFloat.style.opacity = '1';
-                heroFloat.style.transform = 'none';
-            }
-            document.querySelectorAll('.service-card, .testimonial-card, .faq-item, .highlight-item, .process-step').forEach(el => {
+            document.querySelectorAll('.testimonial-card, .faq-item').forEach(el => {
                 (el as HTMLElement).style.opacity = '1';
                 (el as HTMLElement).style.transform = 'none';
             });

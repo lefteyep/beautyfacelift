@@ -1,7 +1,16 @@
 ---
 
 import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
 import { absoluteUrl } from '../../shared/site';
+import { heroCenter } from '../lib/site-images';
+
+const destinations = [
+    { href: '/behandlungen/', name: 'Behandlungen' },
+    { href: '/ueber-mich/', name: 'Über Teresa' },
+    { href: '/haeufige-fragen/', name: 'Häufige Fragen' },
+    { href: '/kontakt/', name: 'Kontakt' },
+];
 ---
 
 <Base
@@ -10,57 +19,121 @@ import { absoluteUrl } from '../../shared/site';
     canonical={absoluteUrl('/404')}
     noindex
 >
-    <section class="container error-page">
-        <div class="error-content">
-            <div class="error-number" aria-hidden="true">404</div>
-            <h1>Seite nicht gefunden</h1>
-            <p>Die angeforderte Seite existiert nicht. Vielleicht finden Sie, was Sie suchen, auf unserer Startseite.</p>
-            <a href="/" class="pill-btn pill-btn-outline">Alle ansehen</a>
+    <section class="error-page" aria-labelledby="error-title">
+        <div class="container error-inner">
+            <div class="error-copy">
+                <h1 id="error-title" class="reveal-up">Seite nicht <em>gefunden</em></h1>
+                <p class="lead reveal-up ed-1">Diese Seite gibt es nicht mehr oder sie wurde verschoben. Hier geht es weiter:</p>
+                <ul class="error-links reveal-up ed-2">
+                    {destinations.map((item) => (
+                        <li>
+                            <a href={item.href} class="error-row">
+                                <span class="error-name">{item.name}</span>
+                                <span class="error-go" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+                <div class="btn-row reveal-up ed-3">
+                    <a href="/" class="btn btn-lg btn-arrow" data-button-location="not_found_home">Zur Startseite</a>
+                    <a href="/termin/" class="btn btn-secondary btn-lg" data-button-location="not_found_booking">Termin buchen</a>
+                </div>
+            </div>
+
+            <div class="arch error-arch reveal-media">
+                <Image
+                    src={heroCenter}
+                    widths={[360, 540, 720]}
+                    sizes="(min-width: 1280px) 420px, (min-width: 901px) 32vw, 1px"
+                    format="webp"
+                    quality="mid"
+                    alt="Frau mit gepflegter Haut im Bademantel"
+                />
+            </div>
         </div>
     </section>
 </Base>
 
 <style>
+    .ed-1 { --d: 1; }
+    .ed-2 { --d: 2; }
+    .ed-3 { --d: 3; }
+
     .error-page {
-        min-height: 700px;
-        display: flex;
+        padding-top: calc(var(--nav-h) + clamp(32px, 5vw, 72px));
+        padding-bottom: var(--section-y);
+    }
+
+    .error-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        gap: clamp(40px, 7vw, 120px);
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 0 58px;
     }
 
-    .error-content {
-        display: flex;
-        flex-direction: column;
+    .error-copy {
+        display: grid;
+        gap: 22px;
+        justify-items: start;
+    }
+
+    .error-copy h1 { max-width: 12ch; }
+    .error-copy .lead { max-width: 40ch; }
+
+    .error-links {
+        width: 100%;
+        margin-top: 8px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .error-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 40px;
         align-items: center;
-        gap: 24px;
+        gap: 20px;
+        padding: 18px 4px;
+        border-bottom: 1px solid var(--line);
+        transition: padding 0.45s var(--ease-expo);
     }
 
-    .error-number {
-        font-family: var(--font-serif);
-        font-size: clamp(8rem, 20vw, 16rem);
-        line-height: 1;
-        color: var(--text-primary);
-        opacity: 0.06;
-        letter-spacing: 8px;
+    .error-name {
+        font-family: var(--f-serif);
+        font-size: clamp(1.7rem, 2.4vw, 2.2rem);
+        line-height: 1.05;
+        color: var(--cocoa);
+        transition: color 0.3s ease;
     }
 
-    .error-page h1 {
-        font-family: var(--font-serif);
-        font-size: 38px;
-        text-transform: none;
-        margin: 0;
+    .error-go {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--line-strong);
+        background: var(--i-arrow-dark) center / 13px no-repeat;
+        transition: transform 0.45s var(--ease-expo), background 0.3s ease, border-color 0.3s ease;
     }
 
-    .error-page p {
-        max-width: 500px;
-        margin: 0;
-        text-align: center;
+    .error-row:hover { padding-left: 14px; }
+    .error-row:hover .error-name { color: var(--clay); }
+    .error-row:hover .error-go {
+        border-color: var(--clay);
+        background: var(--i-arrow-light) center / 13px no-repeat, var(--clay);
+        transform: rotate(45deg);
     }
+
+    .error-copy .btn-row { margin-top: 12px; }
+
+    .error-arch {
+        justify-self: end;
+        width: min(100%, 420px);
+        aspect-ratio: 4 / 5;
+        box-shadow: var(--shadow);
+    }
+
+    .error-arch :global(img) { object-position: 50% 30%; }
 
     @media (max-width: 900px) {
-        .error-page { padding: 0 24px; min-height: 500px; }
-        .error-page h1 { font-size: 28px; }
+        .error-inner { grid-template-columns: minmax(0, 1fr); }
+        .error-arch { display: none; }
     }
 </style>

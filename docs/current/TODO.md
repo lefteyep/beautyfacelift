@@ -1,6 +1,51 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** May 18, 2026
+**Last updated:** October 7, 2026
+
+## Priority 0: Release the October work (agency)
+- [x] Fix the CI `npm audit` gate (0 vulnerabilities) — branch `codex/code-health-2026-10`
+- [x] Restore `trackLead` for the Aquafacial + Microneedling LP; hashed email/phone on the Aquafacial CAPI Lead
+- [x] Re-openable cookie consent ("Cookie-Einstellungen"), compact mobile banner
+- [x] `npm run check` at 0 errors; remove `src/api_backup/`
+- [x] ~~Swiss Quiet Luxury redesign~~ — rejected by the client on 2026-10-06 and replaced by "Atelier Glow" (`codex/modern-redesign`)
+- [ ] Release Atelier Glow as one release:
+  - merge `codex/glow-hubs`, `codex/glow-treatments`, `codex/glow-content` and `codex/glow-wissen` into `codex/modern-redesign`;
+  - run all gates;
+  - review desktop and mobile screenshots;
+  - do a final docs pass;
+  - open a PR, and merge to `master` only with explicit approval.
+- [ ] After deploy: Lighthouse mobile on `/` and `/lp/aquafacial/`, Meta Test Events check for Lead + CAPI dedupe
+- [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
+- [ ] Finish `scripts/check-contact-concierge.mjs`:
+  - The page checks pass again; the rating string was updated to "4,8 aus 248+ Bewertungen" on 2026-10-07.
+  - The worker checks still expect fields such as `treatmentInterest` that `worker/routes/contact.ts` no longer has.
+  - Update them to the current payload or remove them.
+- [ ] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders
+
+## Priority 0: Decisions for Teresa
+- [ ] Aquafacial LP: confirm "statt CHF 180" as a provable regular price and an end date for the Kennenlernpreis (Swiss price-indication rules)
+- [ ] Treatwell: create a "Aquafacial Aktion – 60 Min. – CHF 99" service so the post-form link opens the advertised offer
+- [ ] Confirm the review source and current count (site shows 4,8 / 5 from 248+; LP shows 249) and allow linking to it
+- [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
+- [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
+- [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate)
+- [ ] Massage: the price row "Ganzkörpermassage CHF 135–1200" ("Preisspanne laut Treatwell") — CHF 1200 looks like a data error; confirm the real range
+- [ ] Gesichtsbehandlung: pages show "45–120 Min.", but no listed Gesichtsbehandlung takes 120 minutes — confirm the duration range
+- [ ] ColdPlasma page review: the page used to attribute "Stammkundin seit 2008 — Teresa versteht meine Haut …" to Daniel. It now uses the homepage wording "Stammkunde seit 2008, immer wieder begeistert." – Daniel. Confirm the real review text.
+- [ ] Peeling flaking: one source says "2 bis 5 Tage", another "2–3 Tage". The peeling page keeps 2–5 and the comparison page drops the number; confirm.
+- [ ] Wissen articles (body text left unchanged in the redesign; confirm, source or soften with Teresa):
+  - `was-ist-aquafacial`:
+    - lists "Aquafacial + Microneedling (90 Min.): CHF 170", which is cheaper than the CHF 180 basic Aquafacial;
+    - claims "zertifizierte Aquafacial-Spezialistin", "weltweit beliebteste Gesichtsbehandlung" and "Hollywood/Dermatologinnen".
+  - `hautpflege-routine-zuerich`:
+    - describes Aquafacial variants ("30-min Express to 90-min Platinum with LED") that contradict the other article;
+    - uses unsourced statistics (80 % UV ageing, collagen −1 %/year).
+  - `aquafacial-vs-microneedling`:
+    - "Goldstandard", "Aknenarben bis zu 70 Prozent", "6–12 Monate";
+    - "Seren einschleust", the same wording that was removed from the Aquafacial page.
+  - `microneedling-erfahrung`: "diplomierte Kosmetikerin", needle depth up to 2.5 mm with lidocaine, "Resultate 1–2 Jahre".
+  - `anti-aging-behandlungen-zuerich`: "eines der wenigen Studios in der Region" (ColdPlasma), "medizinisches Microneedling-Gerät", "drastisch"/"zellulärer Ebene".
+  - Article `<title>`s are 67–87 characters; shorten to ≤ 60 when the copy is reviewed.
 
 ## Completed (May 7, 2026 — Custom-domain launch)
 - [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS
@@ -91,6 +136,6 @@
 - [ ] Customer reminder emails (24h before appointment)
 - [ ] Multi-language support (English version)
 - [ ] Booking calendar widget on homepage
-- [ ] Decide whether to delete `src/api_backup/**` after confirming git history is sufficient as the archive.
+- [x] Decide whether to delete `src/api_backup/**` after confirming git history is sufficient as the archive. — Deleted 2026-10-06 (git history keeps it).
 - [ ] Decide whether to keep, remove, or revive the legacy first-party BookingWidget after Treatwell/confirmed-booking tracking is settled.
 - [x] ~~Design elevation: Phases 2-7~~ — Replaced by pixel-perfect .pen design implementation (March 19, 2026)

@@ -1,94 +1,476 @@
 ---
-import { absoluteUrl } from '../../../shared/site';
+import { absoluteUrl, CONTACT_WHATSAPP_URL } from '../../../shared/site';
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import '../../styles/blog.css';
+import { Image } from 'astro:assets';
+import consultation from '../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
+import { JOURNAL_POSTS, formatJournalDate } from './_posts';
 
-const blogPosts = [
-    {
-        title: 'Aquafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?',
-        description: 'Beide Behandlungen versprechen ein strahlendes Hautbild — doch welche ist die richtige für Ihren Hauttyp? Ein direkter Vergleich.',
-        href: '/blog/aquafacial-vs-microneedling/'
-    },
-    {
-        title: 'Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin',
-        description: 'Teresa Stimac verrät die wichtigsten Schritte für eine wirksame tägliche Hautpflege — abgestimmt auf das Zürcher Klima.',
-        href: '/blog/hautpflege-routine-zuerich/'
-    },
-    {
-        title: 'Was ist Aquafacial? Alles was Sie wissen müssen',
-        description: 'Von der patentierten Vortex-Technologie bis zum Glow-Effekt — alles Wissenswerte über die beliebteste Gesichtsbehandlung.',
-        href: '/blog/was-ist-aquafacial/'
-    },
-    {
-        title: 'Microneedling Erfahrung: Was erwartet Sie bei Ihrer ersten Behandlung?',
-        description: 'Was passiert während einer Microneedling-Sitzung und wie fühlt sich die Behandlung an? Ein ehrlicher Erfahrungsbericht.',
-        href: '/blog/microneedling-erfahrung/'
-    },
-    {
-        title: 'Anti-Aging Behandlungen in Zürich: Ein Überblick',
-        description: 'Von Aquafacial über ColdPlasma bis Fruchtsäure Peeling — welche Anti-Aging Methoden wirken nachweislich?',
-        href: '/blog/anti-aging-behandlungen-zuerich/'
-    }
-];
+const [featured, ...posts] = JOURNAL_POSTS;
+
+const description = 'Ratgeber zu Hautpflege, Aquafacial, Microneedling und Anti-Aging – erklärt von Kosmetikerin Teresa Stimac, Bahnhofstrasse Zürich. Erstberatung kostenlos.';
 
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Blog — Beauty Face Lift Zürich",
-    "description": "Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac.",
+    "name": "Hautpflege-Wissen — Beauty Face Lift Zürich",
+    "description": description,
     "url": absoluteUrl('/blog/'),
+    "inLanguage": "de-CH",
     "publisher": {
         "@type": "Organization",
         "name": "Beauty Face Lift",
         "url": absoluteUrl('/')
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": JOURNAL_POSTS.map((post, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": absoluteUrl(post.href),
+            "name": post.title
+        }))
     }
 };
 
 const breadcrumbs = [
     { label: 'Home', href: '/' },
-    { label: 'Blog' }
+    { label: 'Wissen' }
 ];
 ---
 
 <Base
-    title="Blog | Hautpflege Tipps & Wissen — Beauty Face Lift Zürich"
-    description="Expertenwissen rund um Hautpflege, Gesichtsbehandlungen und Beauty-Tipps von Teresa Stimac. Ihr Kosmetikinstitut Blog aus Zürich."
+    title="Hautpflege-Wissen & Ratgeber Zürich | Beauty Face Lift"
+    description={description}
     structuredData={structuredData}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <header class="page-hero wx-index-hero">
+        <div class="container wx-index-hero-grid">
+            <div class="wx-index-hero-copy">
+                <div class="reveal-up">
+                    <Breadcrumbs items={breadcrumbs} />
+                </div>
+                <h1 class="reveal-up d-1"><span class="nowrap">Hautpflege-Wissen</span> aus <em>Zürich</em></h1>
+            </div>
+            <div class="wx-index-hero-aside reveal-up d-2">
+                <p class="lead">Ratgeber zu Gesichtsbehandlungen, Anti-Aging und Pflegeroutine – aus der Praxis von Teresa Stimac an der Bahnhofstrasse.</p>
+                <a href="/kontakt/" class="btn btn-secondary btn-arrow" data-button-location="blog_index_hero_consultation">Kostenlose Beratung</a>
+            </div>
+        </div>
+    </header>
 
-    <!-- Page Header -->
-    <section class="container" style="padding-bottom: 5vh;">
-        <div class="sub-display margin-bottom-md">Hautpflege Wissen</div>
-        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Blog</h1>
-        <p style="max-width: 700px;">Aktuelle Beiträge rund um professionelle Hautpflege, Gesichtsbehandlungen und bewährte Beauty-Tipps. Teresa Stimac teilt ihr Expertenwissen aus der täglichen Praxis in unserem Kosmetikinstitut an der Bahnhofstrasse Zürich.</p>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Blog Grid -->
-    <section class="container" style="padding-bottom: 15vh;">
-        <div class="blog-grid">
-            {blogPosts.map((post) => (
-                <a href={post.href} class="blog-card scroll-anim">
-                    <h3>{post.title}</h3>
-                    <p>{post.description}</p>
-                    <span class="card-arrow">Weiterlesen &rarr;</span>
-                </a>
-            ))}
+    <!-- Newest article -->
+    <section class="wx-feature-section" aria-label="Neuester Beitrag">
+        <div class="container">
+            <a href={featured.href} class="wx-feature reveal-media">
+                <Image
+                    src={featured.image}
+                    widths={[640, 960, 1280, 1920]}
+                    sizes="(min-width: 1360px) 1280px, calc(100vw - 32px)"
+                    format="webp"
+                    quality="high"
+                    alt={featured.imageAlt}
+                    priority
+                    class="wx-feature-img"
+                />
+                <span class="wx-feature-go" aria-hidden="true"></span>
+                <div class="wx-feature-copy">
+                    <h2 class="wx-feature-title">{featured.title}</h2>
+                    <p>{featured.excerpt}</p>
+                    <p class="wx-meta wx-meta--light">
+                        <span>{featured.category}</span>
+                        <time datetime={featured.publishDate}>{formatJournalDate(featured.publishDate)}</time>
+                        <span>{featured.readingTime} Lesezeit</span>
+                    </p>
+                </div>
+            </a>
         </div>
     </section>
 
-    <div class="section-divider"></div>
+    <!-- All further articles: hairline rows -->
+    <section class="section wx-archive" aria-labelledby="wx-archive-title">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2 id="wx-archive-title">Weitere Beiträge</h2>
+                </div>
+            </div>
+            <ul class="wx-list">
+                {posts.map((post) => (
+                    <li>
+                        <a href={post.href} class="wx-row">
+                            <span class="wx-row-media">
+                                <Image
+                                    src={post.image}
+                                    widths={[240, 360, 480]}
+                                    sizes="(min-width: 901px) 220px, 104px"
+                                    format="webp"
+                                    quality="mid"
+                                    loading="lazy"
+                                    alt={post.imageAlt}
+                                />
+                            </span>
+                            <div class="wx-row-copy">
+                                <h3>{post.title}</h3>
+                                <p>{post.excerpt}</p>
+                                <p class="wx-meta wx-row-meta">
+                                    <span>{post.category}</span>
+                                    <time datetime={post.publishDate}>{formatJournalDate(post.publishDate)}</time>
+                                    <span>{post.readingTime} Lesezeit</span>
+                                </p>
+                            </div>
+                            <span class="wx-row-go" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
 
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center;">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
-        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    <!-- Consultation -->
+    <section class="wx-consult-band" aria-labelledby="wx-consult-title">
+        <div class="wx-consult-panel">
+            <div class="wx-consult-media">
+                <Image
+                    src={consultation}
+                    widths={[480, 720, 960]}
+                    sizes="(min-width: 1280px) 520px, (min-width: 901px) 42vw, calc(100vw - 56px)"
+                    format="webp"
+                    quality="mid"
+                    loading="lazy"
+                    alt="Teresa bespricht mit einer Kundin die Hautanalyse"
+                />
+            </div>
+            <div class="wx-consult-copy">
+                <h2 id="wx-consult-title">Ihre Haut, persönlich beraten</h2>
+                <p class="lead">In der kostenlosen Erstberatung analysiert Teresa Ihre Haut und empfiehlt, was wirklich passt.</p>
+                <div class="btn-row">
+                    <a href="/termin/" class="btn btn-lg btn-arrow" data-button-location="blog_index_cta">Termin buchen</a>
+                    <a href={CONTACT_WHATSAPP_URL} class="btn btn-secondary btn-lg" target="_blank" rel="noopener" data-button-location="blog_index_whatsapp" data-source="blog_index">Frage per WhatsApp</a>
+                </div>
+                <p class="wx-proof"><span class="wx-stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></p>
+            </div>
+        </div>
     </section>
 </Base>
+
+<style>
+    .d-1 { --d: 1; }
+    .d-2 { --d: 2; }
+
+    /* ─── Hero: title left, lead + consultation right ─────── */
+    .wx-index-hero {
+        padding-bottom: clamp(36px, 4vw, 56px);
+    }
+
+    .wx-index-hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+        align-items: end;
+        gap: 28px clamp(40px, 6vw, 112px);
+    }
+
+    .wx-index-hero-copy {
+        display: grid;
+        gap: 24px;
+        justify-items: start;
+    }
+
+    .wx-index-hero-copy :global(.breadcrumbs) { padding: 0; }
+
+    .wx-index-hero h1 {
+        max-width: 15ch;
+        font-size: clamp(2.75rem, 6vw, 5.5rem);
+        line-height: 0.98;
+    }
+
+    .nowrap { white-space: nowrap; }
+
+    .wx-index-hero-aside {
+        display: grid;
+        gap: 24px;
+        justify-items: start;
+        padding-bottom: 8px;
+    }
+
+    .wx-index-hero-aside .lead { max-width: 40ch; }
+
+    /* ─── Featured article: photo card with copy on a soft gradient ── */
+    .wx-feature {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        min-height: clamp(460px, 44vw, 600px);
+        padding: clamp(24px, 4vw, 56px);
+        overflow: hidden;
+        border-radius: var(--r-xl);
+        background: var(--blush);
+        color: #FFFFFF;
+        isolation: isolate;
+    }
+
+    .wx-feature :global(.wx-feature-img) {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 40%;
+        transition: transform 1.4s var(--ease-expo);
+    }
+
+    .wx-feature::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+            linear-gradient(to top, rgba(30, 20, 14, 0.78) 0%, rgba(30, 20, 14, 0.38) 38%, rgba(30, 20, 14, 0) 64%),
+            linear-gradient(to right, rgba(30, 20, 14, 0.32) 0%, rgba(30, 20, 14, 0) 55%);
+    }
+
+    .wx-feature:hover :global(.wx-feature-img) { transform: scale(1.04); }
+
+    .wx-feature-go {
+        position: absolute;
+        top: clamp(18px, 2.4vw, 28px);
+        right: clamp(18px, 2.4vw, 28px);
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--i-arrow-dark) center / 16px no-repeat, rgba(255, 252, 249, 0.92);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.45s var(--ease-expo), background 0.3s ease;
+    }
+
+    .wx-feature:hover .wx-feature-go {
+        background: var(--i-arrow-light) center / 16px no-repeat, var(--clay);
+        transform: rotate(45deg);
+    }
+
+    .wx-feature-copy {
+        display: grid;
+        gap: 16px;
+        max-width: 640px;
+    }
+
+    .wx-feature-title {
+        max-width: 20ch;
+        font-size: clamp(2.2rem, 3.5vw, 3.35rem);
+        line-height: 1.02;
+        color: #FFFFFF;
+    }
+
+    .wx-feature-copy > p:not(.wx-meta) {
+        max-width: 48ch;
+        margin: 0;
+        color: rgba(255, 252, 249, 0.88);
+    }
+
+    /* Quiet meta: category · date · reading time */
+    .wx-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px 0;
+        margin: 0;
+        max-width: none;
+        font-size: var(--fs-label);
+        font-weight: 500;
+        line-height: 1.5;
+        color: var(--muted);
+    }
+
+    .wx-meta > * + *::before {
+        content: '·';
+        margin-inline: 9px;
+        opacity: 0.7;
+    }
+
+    .wx-meta--light { margin-top: 4px; color: rgba(255, 252, 249, 0.82); }
+
+    /* ─── Archive: hairline rows ─────────────────────────────── */
+    .wx-archive .section-head { margin-bottom: clamp(24px, 3vw, 40px); }
+
+    .wx-list { border-top: 1px solid var(--line-strong); }
+    .wx-list li { border-bottom: 1px solid var(--line-strong); }
+
+    .wx-row {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr) 44px;
+        align-items: center;
+        gap: clamp(24px, 4vw, 56px);
+        padding: 28px 0;
+        color: inherit;
+        transition: padding 0.45s var(--ease-expo);
+    }
+
+    .wx-row-media {
+        display: block;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: var(--r);
+        background: var(--blush);
+    }
+
+    .wx-row-media :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s var(--ease-expo);
+    }
+
+    .wx-row-copy {
+        display: grid;
+        gap: 12px;
+        justify-items: start;
+    }
+
+    .wx-row-copy h3 {
+        max-width: 26ch;
+        font-family: var(--f-serif);
+        font-weight: 400;
+        font-size: clamp(1.6rem, 2.3vw, 2.15rem);
+        line-height: 1.06;
+        letter-spacing: -0.005em;
+        transition: color 0.3s ease;
+    }
+
+    .wx-row-copy p {
+        max-width: 58ch;
+        margin: 0;
+        font-size: var(--fs-small);
+        color: var(--text);
+    }
+
+    .wx-row-copy .wx-row-meta {
+        margin-top: 4px;
+        font-size: var(--fs-label);
+        color: var(--muted);
+    }
+
+    .wx-row-go {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid var(--line-strong);
+        background: var(--i-arrow-dark) center / 14px no-repeat;
+        transition: transform 0.45s var(--ease-expo), background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .wx-row:hover { padding-left: 12px; }
+    .wx-row:hover .wx-row-media :global(img) { transform: scale(1.05); }
+    .wx-row:hover h3 { color: var(--clay); }
+
+    .wx-row:hover .wx-row-go {
+        border-color: var(--clay);
+        background: var(--i-arrow-light) center / 14px no-repeat, var(--clay);
+        transform: rotate(45deg);
+    }
+
+    /* ─── Consultation panel ─────────────────────────────────── */
+    .wx-consult-band {
+        padding: 0 var(--gutter) var(--gutter);
+    }
+
+    .wx-consult-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        align-items: center;
+        gap: clamp(32px, 5vw, 80px);
+        max-width: calc(var(--container) + 2 * var(--gutter));
+        margin-inline: auto;
+        padding: clamp(12px, 1.6vw, 20px);
+        padding-right: clamp(24px, 5vw, 80px);
+        border-radius: var(--r-xl);
+        background: var(--shell);
+    }
+
+    .wx-consult-media {
+        aspect-ratio: 5 / 4;
+        overflow: hidden;
+        border-radius: calc(var(--r-xl) - 10px);
+        background: var(--blush);
+    }
+
+    .wx-consult-media :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .wx-consult-copy {
+        display: grid;
+        gap: 22px;
+        justify-items: start;
+        padding-block: 24px;
+    }
+
+    .wx-consult-copy h2 { max-width: 15ch; }
+    .wx-consult-copy .lead { max-width: 40ch; }
+    .wx-consult-copy .btn-row { margin-top: 6px; }
+
+    .wx-proof {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--text);
+    }
+
+    .wx-stars { color: var(--gold); letter-spacing: 0.1em; font-size: 0.9rem; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+        .wx-row { grid-template-columns: 200px minmax(0, 1fr) 44px; }
+    }
+
+    @media (max-width: 900px) {
+        .wx-index-hero-grid,
+        .wx-consult-panel { grid-template-columns: minmax(0, 1fr); }
+
+        .wx-index-hero-aside { padding-bottom: 0; }
+
+        .wx-consult-panel { padding: 12px 12px 28px; }
+        .wx-consult-copy { padding: 4px 12px 0; }
+        .wx-consult-media { aspect-ratio: 4 / 3; }
+
+        .wx-row { grid-template-columns: 160px minmax(0, 1fr) 40px; gap: 24px; }
+        .wx-row-go { width: 40px; height: 40px; }
+    }
+
+    @media (max-width: 640px) {
+        .wx-index-hero h1 { font-size: clamp(2.6rem, 12vw, 3.25rem); }
+
+        .wx-feature {
+            min-height: 520px;
+            padding: 22px;
+            border-radius: var(--r-lg);
+        }
+
+        .wx-feature-title { font-size: clamp(1.95rem, 8.4vw, 2.35rem); }
+        .wx-feature-go { width: 44px; height: 44px; }
+        .wx-meta--light > :first-child { display: none; }
+        .wx-meta--light > :nth-child(2)::before { display: none; }
+
+        .wx-row {
+            grid-template-columns: 96px minmax(0, 1fr);
+            align-items: start;
+            gap: 18px;
+            padding: 22px 0;
+        }
+
+        .wx-row:hover { padding-left: 0; }
+        .wx-row-media { aspect-ratio: 1; border-radius: var(--r-sm); }
+        .wx-row-copy { gap: 8px; }
+        .wx-row-copy > p:not(.wx-meta) { display: none; }
+        .wx-row-copy h3 { font-size: 1.45rem; line-height: 1.1; }
+        .wx-row-copy .wx-row-meta { margin-top: 0; }
+        .wx-row-meta > :first-child { display: none; }
+        .wx-row-meta > :nth-child(2)::before { display: none; }
+        .wx-row-go { display: none; }
+
+        .wx-consult-copy .btn-row { width: 100%; flex-direction: column; align-items: stretch; }
+    }
+</style>

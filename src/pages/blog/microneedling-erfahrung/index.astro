@@ -1,16 +1,6 @@
 ---
 import { absoluteUrl } from '../../../../shared/site';
-import Base from '../../../layouts/Base.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import { Image } from 'astro:assets';
-import { teresaPortrait } from '../../../lib/site-images';
-import '../../../styles/blog.css';
-
-const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/blog/' },
-    { label: 'Microneedling Erfahrung' }
-];
+import BlogPost from '../../../layouts/BlogPost.astro';
 
 const structuredData = [
     {
@@ -95,350 +85,301 @@ const structuredData = [
         ]
     }
 ];
+
+// Further reading: these first, topped up with the newest article.
+const related = ['aquafacial-vs-microneedling', 'hautpflege-routine-zuerich'];
+
+const cta = {
+    title: 'Bereit für Ihre erste Microneedling-Behandlung?',
+    text: 'Buchen Sie Ihren Termin direkt online – die Erstberatung ist kostenlos.',
+    label: 'Termin buchen',
+};
 ---
 
-<Base
-    title="Microneedling Erfahrung: Was erwartet Sie? | Beauty Face Lift Zürich"
+<BlogPost
+    slug="microneedling-erfahrung"
+    pageTitle="Microneedling Erfahrung: Was erwartet Sie? | Beauty Face Lift Zürich"
     description="Microneedling Erfahrung Zürich: Was passiert bei der Behandlung, wie fühlt es sich an und wie sieht die Heilungsphase aus? Ehrlicher Erfahrungsbericht."
     structuredData={structuredData}
+    breadcrumbLabel="Microneedling Erfahrung"
+    title="Microneedling Erfahrung: Was erwartet Sie bei Ihrer ersten Behandlung?"
+    lead="Ein ehrlicher Einblick in den gesamten Ablauf – von der Vorbereitung bis zur Heilungsphase."
+    related={related}
+    cta={cta}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <!-- Einleitung -->
+    <p>
+        Sie haben sich entschieden, Microneedling auszuprobieren — oder spielen zumindest mit dem Gedanken. Vielleicht haben Sie von beeindruckenden Vorher-Nachher-Ergebnissen gelesen, vielleicht hat Ihnen eine Freundin davon vorgeschwärmt. Doch bevor Sie sich in den Behandlungsstuhl setzen, möchten Sie genau wissen, was auf Sie zukommt. Das ist absolut verständlich, und genau dafür ist dieser Beitrag gedacht.
+    </p>
+    <p>
+        Als Kosmetikerin führe ich in unserem Kosmetikinstitut an der <strong>Bahnhofstrasse in Zürich</strong> täglich Microneedling-Behandlungen durch. Ich weiss aus Erfahrung, dass die erste Sitzung für viele Kundinnen mit einer Mischung aus Neugier und leichter Nervosität verbunden ist. In diesem ausführlichen Beitrag nehme ich Sie mit durch den gesamten Prozess — Schritt für Schritt, ehrlich und transparent.
+    </p>
+    <p>
+        Ob Sie sich für eine <a href="/behandlungen/microneedling-zuerich/">Microneedling-Behandlung bei Beauty Face Lift</a> interessieren oder sich allgemein informieren möchten: Nach der Lektüre wissen Sie genau, was Sie erwartet.
+    </p>
 
-    <!-- Article Header -->
-    <section class="container" style="padding-bottom: 2vh;">
-        <div class="sub-display margin-bottom-md">Erfahrungsbericht</div>
-        <h1 style="font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 2rem; text-transform: none; max-width: 900px;">Microneedling Erfahrung: Was erwartet Sie bei Ihrer ersten Behandlung?</h1>
-        <p style="max-width: 700px; font-size: 1.2rem;">Was passiert wirklich während einer Microneedling-Sitzung? Wie fühlt sich die Behandlung an — und wann sehen Sie erste Ergebnisse? Ein ehrlicher Einblick in den gesamten Ablauf, von der Vorbereitung bis zur Heilungsphase.</p>
-    </section>
+    <!-- Was ist Microneedling genau? -->
+    <h2>Was ist Microneedling genau?</h2>
+    <p>
+        Microneedling, auch als <strong>Kollagen-Induktions-Therapie</strong> (KIT) bekannt, ist ein minimalinvasives Verfahren zur Hautverjüngung. Das Prinzip ist ebenso einfach wie wirkungsvoll: Mit einem speziellen Gerät — dem sogenannten Dermapen — werden feinste Mikroverletzungen in die obere Hautschicht eingebracht. Diese winzigen Nadelstiche sind so klein, dass sie mit blossem Auge kaum sichtbar sind, doch sie setzen einen kraftvollen natürlichen Heilungsprozess in Gang.
+    </p>
+    <p>
+        Der Körper reagiert auf diese kontrollierten Mikroverletzungen mit einer verstärkten Produktion von <strong>Kollagen und Elastin</strong> — den beiden Proteinen, die unserer Haut Struktur, Festigkeit und Elastizität verleihen. Gleichzeitig wird die Zellerneuerung angeregt und die Durchblutung im behandelten Bereich verbessert.
+    </p>
+    <p>
+        Anders als bei aggressiveren Verfahren wie Laserbehandlungen wird beim Microneedling die Hautoberfläche nicht grossflächig zerstört. Die Epidermis bleibt weitgehend intakt, was zu einer deutlich kürzeren Ausfallzeit führt. Genau das macht Microneedling zu einer der beliebtesten Behandlungen in unserer Praxis — es ist wirkungsvoll, aber vergleichsweise schonend.
+    </p>
+    <p>
+        Microneedling wird erfolgreich eingesetzt bei:
+    </p>
+    <ul>
+        <li><strong>Feinen Linien und Falten</strong> — besonders um Augen, Mund und Stirn</li>
+        <li><strong>Aknenarben und Pickelmalen</strong> — durch den Umbau des vernarbten Gewebes</li>
+        <li><strong>Vergrösserten Poren</strong> — die Kollagenneubildung strafft das Porenbild</li>
+        <li><strong>Pigmentflecken und ungleichmässigem Hautton</strong> — durch beschleunigte Zellerneuerung</li>
+        <li><strong>Fahler, müder Haut</strong> — für einen natürlichen Glow und frischeres Aussehen</li>
+        <li><strong>Erschlaffter Haut</strong> — das neue Kollagen sorgt für sichtbare Straffung</li>
+    </ul>
 
-    <!-- Blog Meta -->
-    <section class="container">
-        <div class="blog-article">
-            <div class="blog-meta">
-                <span>Von Teresa Stimac</span>
-                <span>28. Februar 2026</span>
-                <span>Lesezeit: ca. 10 Minuten</span>
-            </div>
+    <!-- Vor der Behandlung: Vorbereitung -->
+    <h2>Vor der Behandlung: Wie Sie sich sorgfältig vorbereiten</h2>
+    <p>
+        Eine gute Vorbereitung ist wichtig für ein möglichst gutes Ergebnis. Bereits in den Tagen vor Ihrem Termin gibt es einige Dinge zu beachten, damit die Behandlung so verträglich und angenehm wie möglich verläuft.
+    </p>
+    <h3>7 Tage vor der Behandlung</h3>
+    <ul>
+        <li><strong>Retinol und Vitamin-A-Produkte absetzen</strong> — diese sensibilisieren die Haut und können nach der Behandlung zu stärkeren Reizungen führen.</li>
+        <li><strong>Chemische Peelings vermeiden</strong> — dazu zählen AHA-, BHA- und <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Produkte</a>. Die Haut sollte vor dem Microneedling nicht bereits vorgereizt sein.</li>
+        <li><strong>Intensive Sonnenbäder meiden</strong> — sonnenverbrannte Haut ist eine Kontraindikation für Microneedling.</li>
+    </ul>
+    <h3>48 Stunden vor der Behandlung</h3>
+    <ul>
+        <li><strong>Kein Alkohol</strong> — Alkohol verdünnt das Blut und kann zu verstärkten Blutungen während der Behandlung führen.</li>
+        <li><strong>Keine entzündungshemmenden Medikamente</strong> — Ibuprofen, Aspirin und ähnliche Wirkstoffe beeinflussen die Blutgerinnung. Sprechen Sie bei regelmässiger Medikamenteneinnahme bitte vorab mit uns.</li>
+    </ul>
+    <h3>Am Tag der Behandlung</h3>
+    <ul>
+        <li><strong>Kommen Sie ungeschminkt</strong> — oder mit minimaler Hautpflege. Wir reinigen die Haut vor der Behandlung ohnehin gründlich, aber eine saubere Ausgangsbasis spart Zeit.</li>
+        <li><strong>Planen Sie genügend Zeit ein</strong> — die erste Sitzung dauert mit Beratung und Nachpflege etwa 60 bis 90 Minuten.</li>
+        <li><strong>Trinken Sie ausreichend Wasser</strong> — gut hydrierte Haut reagiert besser auf die Behandlung.</li>
+    </ul>
 
-            <!-- Einleitung -->
-            <p>
-                Sie haben sich entschieden, Microneedling auszuprobieren — oder spielen zumindest mit dem Gedanken. Vielleicht haben Sie von beeindruckenden Vorher-Nachher-Ergebnissen gelesen, vielleicht hat Ihnen eine Freundin davon vorgeschwärmt. Doch bevor Sie sich in den Behandlungsstuhl setzen, möchten Sie genau wissen, was auf Sie zukommt. Das ist absolut verständlich, und genau dafür ist dieser Beitrag gedacht.
-            </p>
-            <p>
-                Als Kosmetikerin führe ich in unserem Kosmetikinstitut an der <strong>Bahnhofstrasse in Zürich</strong> täglich Microneedling-Behandlungen durch. Ich weiss aus Erfahrung, dass die erste Sitzung für viele Kundinnen mit einer Mischung aus Neugier und leichter Nervosität verbunden ist. In diesem ausführlichen Beitrag nehme ich Sie mit durch den gesamten Prozess — Schritt für Schritt, ehrlich und transparent.
-            </p>
-            <p>
-                Ob Sie sich für eine <a href="/behandlungen/microneedling-zuerich/">Microneedling-Behandlung bei Beauty Face Lift</a> interessieren oder sich allgemein informieren möchten: Nach der Lektüre wissen Sie genau, was Sie erwartet.
-            </p>
+    <!-- Ablauf der Behandlung -->
+    <h2>Ablauf der Behandlung: Schritt für Schritt</h2>
+    <p>
+        Jetzt wird es konkret. Sie sind in unserem Studio an der Bahnhofstrasse angekommen, haben sich auf den bequemen Behandlungsstuhl gesetzt — und was passiert nun? Der Ablauf einer Microneedling-Behandlung bei <strong>Beauty Face Lift</strong> folgt einem erprobten Protokoll, das wir auf Ihre individuellen Bedürfnisse abstimmen.
+    </p>
 
-            <!-- Was ist Microneedling genau? -->
-            <h2>Was ist Microneedling genau?</h2>
-            <p>
-                Microneedling, auch als <strong>Kollagen-Induktions-Therapie</strong> (KIT) bekannt, ist ein minimalinvasives Verfahren zur Hautverjüngung. Das Prinzip ist ebenso einfach wie wirkungsvoll: Mit einem speziellen Gerät — dem sogenannten Dermapen — werden feinste Mikroverletzungen in die obere Hautschicht eingebracht. Diese winzigen Nadelstiche sind so klein, dass sie mit blossem Auge kaum sichtbar sind, doch sie setzen einen kraftvollen natürlichen Heilungsprozess in Gang.
-            </p>
-            <p>
-                Der Körper reagiert auf diese kontrollierten Mikroverletzungen mit einer verstärkten Produktion von <strong>Kollagen und Elastin</strong> — den beiden Proteinen, die unserer Haut Struktur, Festigkeit und Elastizität verleihen. Gleichzeitig wird die Zellerneuerung angeregt und die Durchblutung im behandelten Bereich verbessert.
-            </p>
-            <p>
-                Anders als bei aggressiveren Verfahren wie Laserbehandlungen wird beim Microneedling die Hautoberfläche nicht grossflächig zerstört. Die Epidermis bleibt weitgehend intakt, was zu einer deutlich kürzeren Ausfallzeit führt. Genau das macht Microneedling zu einer der beliebtesten Behandlungen in unserer Praxis — es ist wirkungsvoll, aber vergleichsweise schonend.
-            </p>
-            <p>
-                Microneedling wird erfolgreich eingesetzt bei:
-            </p>
-            <ul>
-                <li><strong>Feinen Linien und Falten</strong> — besonders um Augen, Mund und Stirn</li>
-                <li><strong>Aknenarben und Pickelmalen</strong> — durch den Umbau des vernarbten Gewebes</li>
-                <li><strong>Vergrösserten Poren</strong> — die Kollagenneubildung strafft das Porenbild</li>
-                <li><strong>Pigmentflecken und ungleichmässigem Hautton</strong> — durch beschleunigte Zellerneuerung</li>
-                <li><strong>Fahler, müder Haut</strong> — für einen natürlichen Glow und frischeres Aussehen</li>
-                <li><strong>Erschlaffter Haut</strong> — das neue Kollagen sorgt für sichtbare Straffung</li>
-            </ul>
+    <h3>Schritt 1: Hautanalyse und Beratung</h3>
+    <p>
+        Jede Behandlung beginnt mit einer gründlichen Hautanalyse. Bei Ihrem ersten Besuch nehmen wir uns besonders viel Zeit dafür. Ich betrachte Ihre Haut unter verschiedenen Lichtbedingungen, taste die Hautbeschaffenheit ab und bespreche mit Ihnen Ihre Ziele und Erwartungen.
+    </p>
+    <p>
+        In diesem Gespräch klären wir auch mögliche Kontraindikationen ab: Nehmen Sie bestimmte Medikamente ein? Haben Sie Allergien? Gibt es Hauterkrankungen, die berücksichtigt werden müssen? Transparenz und Sicherheit haben bei uns oberste Priorität.
+    </p>
+    <p>
+        Basierend auf dieser Analyse lege ich die passende Nadeltiefe fest. Je nach Hautzone und Behandlungsziel variiert die Tiefe zwischen 0,25 mm und 2,5 mm. Für feine Linien um die Augen verwende ich geringere Tiefen, für Aknenarben auf den Wangen kommen tiefere Einstellungen zum Einsatz.
+    </p>
 
-            <!-- Vor der Behandlung: Vorbereitung -->
-            <h2>Vor der Behandlung: Wie Sie sich sorgfältig vorbereiten</h2>
-            <p>
-                Eine gute Vorbereitung ist wichtig für ein möglichst gutes Ergebnis. Bereits in den Tagen vor Ihrem Termin gibt es einige Dinge zu beachten, damit die Behandlung so verträglich und angenehm wie möglich verläuft.
-            </p>
-            <h3>7 Tage vor der Behandlung</h3>
-            <ul>
-                <li><strong>Retinol und Vitamin-A-Produkte absetzen</strong> — diese sensibilisieren die Haut und können nach der Behandlung zu stärkeren Reizungen führen.</li>
-                <li><strong>Chemische Peelings vermeiden</strong> — dazu zählen AHA-, BHA- und <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure-Produkte</a>. Die Haut sollte vor dem Microneedling nicht bereits vorgereizt sein.</li>
-                <li><strong>Intensive Sonnenbäder meiden</strong> — sonnenverbrannte Haut ist eine Kontraindikation für Microneedling.</li>
-            </ul>
-            <h3>48 Stunden vor der Behandlung</h3>
-            <ul>
-                <li><strong>Kein Alkohol</strong> — Alkohol verdünnt das Blut und kann zu verstärkten Blutungen während der Behandlung führen.</li>
-                <li><strong>Keine entzündungshemmenden Medikamente</strong> — Ibuprofen, Aspirin und ähnliche Wirkstoffe beeinflussen die Blutgerinnung. Sprechen Sie bei regelmässiger Medikamenteneinnahme bitte vorab mit uns.</li>
-            </ul>
-            <h3>Am Tag der Behandlung</h3>
-            <ul>
-                <li><strong>Kommen Sie ungeschminkt</strong> — oder mit minimaler Hautpflege. Wir reinigen die Haut vor der Behandlung ohnehin gründlich, aber eine saubere Ausgangsbasis spart Zeit.</li>
-                <li><strong>Planen Sie genügend Zeit ein</strong> — die erste Sitzung dauert mit Beratung und Nachpflege etwa 60 bis 90 Minuten.</li>
-                <li><strong>Trinken Sie ausreichend Wasser</strong> — gut hydrierte Haut reagiert besser auf die Behandlung.</li>
-            </ul>
+    <h3>Schritt 2: Reinigung und Desinfektion</h3>
+    <p>
+        Bevor wir beginnen, wird Ihre Haut gründlich gereinigt und desinfiziert. Wir entfernen jegliche Rückstände von Make-up, Sonnenschutz und Hautpflege. Dieser Schritt ist entscheidend, denn während der Behandlung entstehen tausende Mikrokanäle in der Haut — und wir wollen ausschliesslich die hochwertigen Wirkstoffe einschleusen, nicht Reste von Alltagsprodukten.
+    </p>
 
-            <!-- Ablauf der Behandlung -->
-            <h2>Ablauf der Behandlung: Schritt für Schritt</h2>
-            <p>
-                Jetzt wird es konkret. Sie sind in unserem Studio an der Bahnhofstrasse angekommen, haben sich auf den bequemen Behandlungsstuhl gesetzt — und was passiert nun? Der Ablauf einer Microneedling-Behandlung bei <strong>Beauty Face Lift</strong> folgt einem erprobten Protokoll, das wir auf Ihre individuellen Bedürfnisse abstimmen.
-            </p>
+    <h3>Schritt 3: Betäubungscreme auftragen</h3>
+    <p>
+        Auf die gereinigte Haut tragen wir eine topische Betäubungscreme auf. Diese enthält in der Regel Lidocain und braucht etwa 20 bis 30 Minuten, um ihre Wirkung zu entwickeln. In dieser Wartezeit können Sie sich entspannen — viele Kundinnen nutzen die Zeit, um die Augen zu schliessen und zur Ruhe zu kommen.
+    </p>
+    <p>
+        Die Betäubungscreme ist ein wichtiger Bestandteil des Komfort-Protokolls. Sie macht die Behandlung für die grosse Mehrheit unserer Kundinnen sehr gut verträglich. Nach der Einwirkzeit wird die Creme sorgfältig abgewischt.
+    </p>
 
-            <h3>Schritt 1: Hautanalyse und Beratung</h3>
-            <p>
-                Jede Behandlung beginnt mit einer gründlichen Hautanalyse. Bei Ihrem ersten Besuch nehmen wir uns besonders viel Zeit dafür. Ich betrachte Ihre Haut unter verschiedenen Lichtbedingungen, taste die Hautbeschaffenheit ab und bespreche mit Ihnen Ihre Ziele und Erwartungen.
-            </p>
-            <p>
-                In diesem Gespräch klären wir auch mögliche Kontraindikationen ab: Nehmen Sie bestimmte Medikamente ein? Haben Sie Allergien? Gibt es Hauterkrankungen, die berücksichtigt werden müssen? Transparenz und Sicherheit haben bei uns oberste Priorität.
-            </p>
-            <p>
-                Basierend auf dieser Analyse lege ich die passende Nadeltiefe fest. Je nach Hautzone und Behandlungsziel variiert die Tiefe zwischen 0,25 mm und 2,5 mm. Für feine Linien um die Augen verwende ich geringere Tiefen, für Aknenarben auf den Wangen kommen tiefere Einstellungen zum Einsatz.
-            </p>
+    <h3>Schritt 4: Das eigentliche Needling</h3>
+    <p>
+        Nun beginnt die eigentliche Behandlung mit dem Dermapen. Dieses Gerät sieht aus wie ein grosser Stift und enthält an seiner Spitze feine, sterilisierte Nadeln, die mit hoher Geschwindigkeit in die Haut eindringen und sich sofort wieder zurückziehen — mehrere tausend Mal pro Minute.
+    </p>
+    <p>
+        Ich führe den Dermapen in gleichmässigen, sich überlappenden Bahnen über Ihr Gesicht. Dabei arbeite ich systematisch von Zone zu Zone: Stirn, Schläfen, Wangen, Nase, Kinn und — falls gewünscht — Hals und Dekolleté. Die Behandlung des gesamten Gesichts dauert etwa 15 bis 25 Minuten.
+    </p>
+    <p>
+        Während des Needlings achte ich genau auf die Hautreaktion. Eine gleichmässige, leichte Rötung ist das Zeichen, dass die gewünschte Wirktiefe erreicht wird. An besonders empfindlichen Stellen — etwa den Nasenflügeln oder dem Bereich unter den Augen — passe ich den Druck und die Geschwindigkeit entsprechend an.
+    </p>
 
-            <h3>Schritt 2: Reinigung und Desinfektion</h3>
-            <p>
-                Bevor wir beginnen, wird Ihre Haut gründlich gereinigt und desinfiziert. Wir entfernen jegliche Rückstände von Make-up, Sonnenschutz und Hautpflege. Dieser Schritt ist entscheidend, denn während der Behandlung entstehen tausende Mikrokanäle in der Haut — und wir wollen ausschliesslich die hochwertigen Wirkstoffe einschleusen, nicht Reste von Alltagsprodukten.
-            </p>
+    <h3>Schritt 5: Serum-Einschleusung</h3>
+    <p>
+        Unmittelbar nach dem Needling ist die Haut besonders gut auf die anschliessende Pflege vorbereitet. Die temporären Mikrokanäle erleichtern das sorgfältige Einarbeiten professioneller Wirkstoffe. In diesem Schritt trage ich ein speziell abgestimmtes Serum auf.
+    </p>
+    <p>
+        Je nach Hautbedürfnis setzen wir unterschiedliche Seren ein — Hyaluronsäure für intensive Feuchtigkeit, Vitamin C für Aufhellung und Antioxidation, pflegende Wirkstoffe für gezielte Hautpflege oder eine Kombination daraus. Die Wirkstoffaufnahme ist nach Microneedling um ein Vielfaches höher als bei normaler topischer Anwendung.
+    </p>
 
-            <h3>Schritt 3: Betäubungscreme auftragen</h3>
-            <p>
-                Auf die gereinigte Haut tragen wir eine topische Betäubungscreme auf. Diese enthält in der Regel Lidocain und braucht etwa 20 bis 30 Minuten, um ihre Wirkung zu entwickeln. In dieser Wartezeit können Sie sich entspannen — viele Kundinnen nutzen die Zeit, um die Augen zu schliessen und zur Ruhe zu kommen.
-            </p>
-            <p>
-                Die Betäubungscreme ist ein wichtiger Bestandteil des Komfort-Protokolls. Sie macht die Behandlung für die grosse Mehrheit unserer Kundinnen sehr gut verträglich. Nach der Einwirkzeit wird die Creme sorgfältig abgewischt.
-            </p>
+    <h3>Schritt 6: Beruhigung und Abschluss</h3>
+    <p>
+        Zum Abschluss tragen wir eine beruhigende, kühlende Maske oder Creme auf. Sie enthält entzündungshemmende und heilungsfördernde Inhaltsstoffe wie Aloe Vera, Panthenol oder Centella Asiatica. Diese Abschlussschicht beruhigt die Haut sofort spürbar und unterstützt den beginnenden Regenerationsprozess.
+    </p>
+    <p>
+        Danach erhalten Sie eine detaillierte Nachsorge-Anleitung für die kommenden Tage. Wir nehmen uns Zeit, alle Ihre Fragen zu beantworten — denn eine gute Nachpflege ist mindestens ebenso wichtig wie die Behandlung selbst.
+    </p>
 
-            <h3>Schritt 4: Das eigentliche Needling</h3>
-            <p>
-                Nun beginnt die eigentliche Behandlung mit dem Dermapen. Dieses Gerät sieht aus wie ein grosser Stift und enthält an seiner Spitze feine, sterilisierte Nadeln, die mit hoher Geschwindigkeit in die Haut eindringen und sich sofort wieder zurückziehen — mehrere tausend Mal pro Minute.
-            </p>
-            <p>
-                Ich führe den Dermapen in gleichmässigen, sich überlappenden Bahnen über Ihr Gesicht. Dabei arbeite ich systematisch von Zone zu Zone: Stirn, Schläfen, Wangen, Nase, Kinn und — falls gewünscht — Hals und Dekolleté. Die Behandlung des gesamten Gesichts dauert etwa 15 bis 25 Minuten.
-            </p>
-            <p>
-                Während des Needlings achte ich genau auf die Hautreaktion. Eine gleichmässige, leichte Rötung ist das Zeichen, dass die gewünschte Wirktiefe erreicht wird. An besonders empfindlichen Stellen — etwa den Nasenflügeln oder dem Bereich unter den Augen — passe ich den Druck und die Geschwindigkeit entsprechend an.
-            </p>
+    <!-- Wie fühlt sich Microneedling an? -->
+    <h2>Wie fühlt sich Microneedling an? Ein ehrlicher Bericht</h2>
+    <p>
+        Die häufigste Frage, die mir Erstkundinnen stellen, lautet: „Tut das weh?“ Die ehrliche Antwort: Es ist unangenehm, aber nicht schmerzhaft — zumindest nicht im klassischen Sinne.
+    </p>
+    <p>
+        Dank der Betäubungscreme spüren die meisten Kundinnen ein leichtes <strong>Kribbeln oder Vibrieren</strong>, vergleichbar mit einer elektrischen Zahnbürste auf der Haut. Manche beschreiben es als feines Kratzen oder Prickeln. Die Intensität variiert je nach Gesichtszone: An der Stirn und den Wangen ist die Empfindung minimal, während die empfindlichere Haut an den Nasenflügeln oder der Kieferlinie etwas mehr spürbar sein kann.
+    </p>
+    <p>
+        Was viele überrascht: Die eigentliche Behandlung fühlt sich weniger intensiv an als erwartet. Das liegt an der hohen Geschwindigkeit des Dermapens — die Nadeln bewegen sich so schnell, dass das Gehirn die einzelnen Stiche nicht als Schmerz registriert. Stattdessen entsteht ein gleichmässiges Summgefühl.
+    </p>
+    <blockquote>
+        Die allermeisten Kundinnen sagen nach der ersten Sitzung: Es war viel weniger schlimm als gedacht.
+    </blockquote>
+    <p>
+        Dennoch gilt: Jeder Mensch hat eine individuelle Schmerzempfindlichkeit. Sollten Sie an einer Stelle stärkere Beschwerden verspüren, teilen Sie mir das sofort mit. Ich kann den Druck anpassen, die Nadeltiefe reduzieren oder an besonders empfindlichen Stellen langsamer arbeiten. Ihr Wohlbefinden steht an erster Stelle.
+    </p>
 
-            <h3>Schritt 5: Serum-Einschleusung</h3>
-            <p>
-                Unmittelbar nach dem Needling ist die Haut besonders gut auf die anschliessende Pflege vorbereitet. Die temporären Mikrokanäle erleichtern das sorgfältige Einarbeiten professioneller Wirkstoffe. In diesem Schritt trage ich ein speziell abgestimmtes Serum auf.
-            </p>
-            <p>
-                Je nach Hautbedürfnis setzen wir unterschiedliche Seren ein — Hyaluronsäure für intensive Feuchtigkeit, Vitamin C für Aufhellung und Antioxidation, pflegende Wirkstoffe für gezielte Hautpflege oder eine Kombination daraus. Die Wirkstoffaufnahme ist nach Microneedling um ein Vielfaches höher als bei normaler topischer Anwendung.
-            </p>
+    <!-- Direkt nach der Behandlung -->
+    <h2>Direkt nach der Behandlung: Das erste Ergebnis</h2>
+    <p>
+        Unmittelbar nach der Behandlung wird Ihre Haut deutlich gerötet sein — ähnlich wie bei einem leichten Sonnenbrand. Das ist ein vollkommen normaler und gewünschter Effekt, denn die Rötung zeigt, dass die Haut intensiv durchblutet wird und der Heilungsprozess beginnt.
+    </p>
+    <p>
+        Trotz der Rötung bemerken viele Kundinnen bereits jetzt einen <strong>Glow-Effekt</strong>: Die Haut wirkt praller, straffer und irgendwie von innen heraus leuchtend. Das liegt an der verbesserten Durchblutung und der intensiven Serum-Einschleusung.
+    </p>
+    <p>
+        In den ersten Stunden nach der Behandlung sollten Sie folgende Punkte beachten:
+    </p>
+    <ul>
+        <li><strong>Kein Make-up</strong> für mindestens 12 Stunden — die Mikrokanäle sind noch offen und sollten nicht verstopft werden.</li>
+        <li><strong>Nicht anfassen</strong> — vermeiden Sie es, sich ins Gesicht zu fassen, um Infektionen vorzubeugen.</li>
+        <li><strong>Kein Sport</strong> am selben Tag — Schwitzen kann die frisch behandelte Haut reizen.</li>
+        <li><strong>Kein direktes Sonnenlicht</strong> — Ihre Haut ist jetzt besonders empfindlich gegenüber UV-Strahlung.</li>
+        <li><strong>Nur die empfohlenen Pflegeprodukte</strong> verwenden — wir geben Ihnen eine geeignete Nachpflege mit.</li>
+    </ul>
 
-            <h3>Schritt 6: Beruhigung und Abschluss</h3>
-            <p>
-                Zum Abschluss tragen wir eine beruhigende, kühlende Maske oder Creme auf. Sie enthält entzündungshemmende und heilungsfördernde Inhaltsstoffe wie Aloe Vera, Panthenol oder Centella Asiatica. Diese Abschlussschicht beruhigt die Haut sofort spürbar und unterstützt den beginnenden Regenerationsprozess.
-            </p>
-            <p>
-                Danach erhalten Sie eine detaillierte Nachsorge-Anleitung für die kommenden Tage. Wir nehmen uns Zeit, alle Ihre Fragen zu beantworten — denn eine gute Nachpflege ist mindestens ebenso wichtig wie die Behandlung selbst.
-            </p>
+    <!-- Die Heilungsphase -->
+    <h2>Die Heilungsphase: Tag 1 bis Tag 7</h2>
+    <p>
+        Die Tage nach dem Microneedling sind ebenso spannend wie die Behandlung selbst — denn hier passiert die eigentliche Magie. Ihr Körper beginnt, kollagenes Gewebe aufzubauen, und die Haut durchläuft einen faszinierenden Regenerationsprozess.
+    </p>
 
-            <!-- Wie fühlt sich Microneedling an? -->
-            <h2>Wie fühlt sich Microneedling an? Ein ehrlicher Bericht</h2>
-            <p>
-                Die häufigste Frage, die mir Erstkundinnen stellen, lautet: <em>Tut das weh?</em> Die ehrliche Antwort: Es ist unangenehm, aber nicht schmerzhaft — zumindest nicht im klassischen Sinne.
-            </p>
-            <p>
-                Dank der Betäubungscreme spüren die meisten Kundinnen ein leichtes <strong>Kribbeln oder Vibrieren</strong>, vergleichbar mit einer elektrischen Zahnbürste auf der Haut. Manche beschreiben es als feines Kratzen oder Prickeln. Die Intensität variiert je nach Gesichtszone: An der Stirn und den Wangen ist die Empfindung minimal, während die empfindlichere Haut an den Nasenflügeln oder der Kieferlinie etwas mehr spürbar sein kann.
-            </p>
-            <p>
-                Was viele überrascht: Die eigentliche Behandlung fühlt sich weniger intensiv an als erwartet. Das liegt an der hohen Geschwindigkeit des Dermapens — die Nadeln bewegen sich so schnell, dass das Gehirn die einzelnen Stiche nicht als Schmerz registriert. Stattdessen entsteht ein gleichmässiges Summgefühl.
-            </p>
-            <blockquote>
-                Die allermeisten Kundinnen sagen nach der ersten Sitzung: Es war viel weniger schlimm als gedacht.
-            </blockquote>
-            <p>
-                Dennoch gilt: Jeder Mensch hat eine individuelle Schmerzempfindlichkeit. Sollten Sie an einer Stelle stärkere Beschwerden verspüren, teilen Sie mir das sofort mit. Ich kann den Druck anpassen, die Nadeltiefe reduzieren oder an besonders empfindlichen Stellen langsamer arbeiten. Ihr Wohlbefinden steht an erster Stelle.
-            </p>
+    <h3>Tag 1: Rötung und Wärme</h3>
+    <p>
+        Am Tag nach der Behandlung ist die Rötung noch deutlich sichtbar, klingt aber bereits merklich ab. Ihre Haut kann sich warm anfühlen und leicht spannen. Das ist völlig normal. Tragen Sie die empfohlene beruhigende Feuchtigkeitspflege grosszügig auf und vermeiden Sie weiterhin aggressive Pflegeprodukte. Ein hoher Lichtschutzfaktor (mindestens SPF 50) ist ab jetzt Pflicht, sobald Sie das Haus verlassen.
+    </p>
 
-            <!-- Direkt nach der Behandlung -->
-            <h2>Direkt nach der Behandlung: Das erste Ergebnis</h2>
-            <p>
-                Unmittelbar nach der Behandlung wird Ihre Haut deutlich gerötet sein — ähnlich wie bei einem leichten Sonnenbrand. Das ist ein vollkommen normaler und gewünschter Effekt, denn die Rötung zeigt, dass die Haut intensiv durchblutet wird und der Heilungsprozess beginnt.
-            </p>
-            <p>
-                Trotz der Rötung bemerken viele Kundinnen bereits jetzt einen <strong>Glow-Effekt</strong>: Die Haut wirkt praller, straffer und irgendwie von innen heraus leuchtend. Das liegt an der verbesserten Durchblutung und der intensiven Serum-Einschleusung.
-            </p>
-            <p>
-                In den ersten Stunden nach der Behandlung sollten Sie folgende Punkte beachten:
-            </p>
-            <ul>
-                <li><strong>Kein Make-up</strong> für mindestens 12 Stunden — die Mikrokanäle sind noch offen und sollten nicht verstopft werden.</li>
-                <li><strong>Nicht anfassen</strong> — vermeiden Sie es, sich ins Gesicht zu fassen, um Infektionen vorzubeugen.</li>
-                <li><strong>Kein Sport</strong> am selben Tag — Schwitzen kann die frisch behandelte Haut reizen.</li>
-                <li><strong>Kein direktes Sonnenlicht</strong> — Ihre Haut ist jetzt besonders empfindlich gegenüber UV-Strahlung.</li>
-                <li><strong>Nur die empfohlenen Pflegeprodukte</strong> verwenden — wir geben Ihnen eine geeignete Nachpflege mit.</li>
-            </ul>
+    <h3>Tag 2 bis 3: Trockenheit und leichtes Schälen</h3>
+    <p>
+        Die Rötung verschwindet grösstenteils. Stattdessen kann die Haut trocken wirken und an manchen Stellen leicht schälen — ein Zeichen dafür, dass sich die oberste Hautschicht erneuert. Widerstehen Sie der Versuchung, an losen Hautpartikeln zu zupfen. Halten Sie die Haut konsequent feucht mit einer sanften, parfümfreien Feuchtigkeitscreme.
+    </p>
 
-            <!-- Die Heilungsphase -->
-            <h2>Die Heilungsphase: Tag 1 bis Tag 7</h2>
+    <h3>Tag 3 bis 5: Erneuerung wird sichtbar</h3>
+    <p>
+        Jetzt wird es spannend: Die Haut beginnt, sich von innen heraus zu erneuern. Die Trockenheit lässt nach, und darunter kommt frische, rosige Haut zum Vorschein. Viele Kundinnen bemerken bereits jetzt eine deutliche Verbesserung der Hauttextur. Die Poren wirken feiner, das Hautbild ebenmässiger. Ab Tag 3 können Sie in der Regel wieder leichtes, mineralisches Make-up auftragen.
+    </p>
+
+    <h3>Tag 5 bis 7: Volle Gesellschaftsfähigkeit</h3>
+    <p>
+        Nach einer Woche ist die Haut äusserlich vollständig regeneriert. Alle sichtbaren Zeichen der Behandlung sind verschwunden. Was bleibt, ist ein frisches, strahlendes Hautbild, das selbst ohne Make-up beeindruckt. Unter der Oberfläche arbeitet Ihr Körper jedoch weiter: Die Kollagenproduktion läuft auf Hochtouren und wird in den kommenden Wochen noch zunehmen.
+    </p>
+
+    <!-- Langfristige Ergebnisse -->
+    <h2>Langfristige Ergebnisse: Was Sie nach 4 bis 6 Wochen sehen</h2>
+    <p>
+        Die wahre Kraft des Microneedlings zeigt sich erst Wochen nach der Behandlung. Kollagen braucht Zeit, um sich aufzubauen und zu reifen — dieser Prozess dauert durchschnittlich vier bis sechs Wochen. Und genau dann sehen Sie die beeindruckendsten Veränderungen.
+    </p>
+    <p>
+        Nach einer einzigen Sitzung berichten unsere Kundinnen typischerweise über:
+    </p>
+    <ul>
+        <li><strong>Straffere, festere Haut</strong> — besonders spürbar an Wangen und Kieferlinie</li>
+        <li><strong>Feinere Poren</strong> — das neu gebildete Kollagen strafft das Gewebe rund um die Poren</li>
+        <li><strong>Weniger sichtbare Aknenarben</strong> — flache Narben werden spürbar ebenmässiger</li>
+        <li><strong>Gleichmässigerer Hautton</strong> — Pigmentflecken verblassen, Rötungen nehmen ab</li>
+        <li><strong>Natürlicher Glow</strong> — die verbesserte Hautstruktur reflektiert Licht gleichmässiger</li>
+    </ul>
+    <p>
+        Für tiefere Aknenarben, ausgeprägte Falten oder starke Pigmentveränderungen empfehle ich eine <strong>Serie von 3 bis 6 Behandlungen</strong> im Abstand von vier bis sechs Wochen. Mit jeder Sitzung baut sich das Kollagengerüst weiter auf, und die Ergebnisse verstärken sich kumulativ. Nach einer vollständigen Behandlungsserie können die Resultate ein bis zwei Jahre anhalten, bevor eine Auffrischung sinnvoll wird.
+    </p>
+    <p>
+        Für besonders hartnäckige Hautprobleme kann Microneedling auch hervorragend mit anderen Behandlungen kombiniert werden. Eine <a href="/behandlungen/aquafacial-zuerich/">Aquafacial-Behandlung</a> zwei Wochen vor dem Needling bereitet die Haut sorgfältig vor, während ein sanftes <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> zwischen den Sitzungen die Zellerneuerung zusätzlich ankurbeln kann. Auch die innovative <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Therapie</a> lässt sich ideal ergänzen.
+    </p>
+
+    <!-- Für wen ist Microneedling geeignet? -->
+    <h2>Für wen ist Microneedling geeignet?</h2>
+    <p>
+        Microneedling ist eine vielseitige Behandlung, die für nahezu alle Hauttypen und Altersgruppen geeignet ist. Im Gegensatz zu einigen Laserbehandlungen kann Microneedling auch bei dunkleren Hauttönen sicher angewendet werden, da keine Lichtenergie zum Einsatz kommt, die Pigmentstörungen verursachen könnte.
+    </p>
+    <p>
+        <strong>Besonders geeignet ist Microneedling für Sie, wenn:</strong>
+    </p>
+    <ul>
+        <li>Sie erste Zeichen der Hautalterung bemerken und vorbeugen möchten</li>
+        <li>Aknenarben oder Pickelmale Ihr Selbstbewusstsein beeinträchtigen</li>
+        <li>Ihre Haut fahl und müde wirkt und Sie sich einen natürlichen Glow wünschen</li>
+        <li>Sie vergrösserte Poren stören</li>
+        <li>Pigmentflecken oder ein ungleichmässiger Hautton Sie beschäftigen</li>
+        <li>Sie eine effektive, aber schonende Anti-Aging-Methode suchen</li>
+        <li>Sie eine Alternative zu invasiveren Verfahren bevorzugen</li>
+    </ul>
+    <p>
+        <strong>Nicht geeignet ist Microneedling bei:</strong>
+    </p>
+    <ul>
+        <li>Aktiver Akne mit Entzündungen oder Eiteransammlungen</li>
+        <li>Aktiven Hautinfektionen, insbesondere Herpes simplex im Gesichtsbereich</li>
+        <li>Schwangerschaft und Stillzeit</li>
+        <li>Einnahme von blutverdünnenden Medikamenten oder Isotretinoin (Accutane)</li>
+        <li>Bestimmten Autoimmunerkrankungen, die die Wundheilung beeinträchtigen</li>
+        <li>Keloider Narbenbildung in der Vorgeschichte</li>
+        <li>Frischem Sonnenbrand im Behandlungsbereich</li>
+    </ul>
+    <p>
+        Im persönlichen Beratungsgespräch gehen wir alle relevanten Punkte durch und stellen sicher, dass Microneedling die richtige Wahl für Sie ist. Sollte die Behandlung nicht in Frage kommen, empfehle ich Ihnen gerne eine geeignete Alternative aus unserem Behandlungsangebot.
+    </p>
+
+    <!-- FAQ Section -->
+    <h2>Häufig gestellte Fragen zu Microneedling</h2>
+
+    <div class="faq-list">
+        <details class="faq-item">
+            <summary><h3>Ist Microneedling schmerzhaft?</h3></summary>
             <p>
-                Die Tage nach dem Microneedling sind ebenso spannend wie die Behandlung selbst — denn hier passiert die eigentliche Magie. Ihr Körper beginnt, kollagenes Gewebe aufzubauen, und die Haut durchläuft einen faszinierenden Regenerationsprozess.
+                Die meisten Kundinnen beschreiben das Gefühl als leichtes Kribbeln oder Kratzen. Dank der betäubenden Creme, die vor der Behandlung aufgetragen wird, ist Microneedling gut verträglich. Die Empfindlichkeit variiert je nach Gesichtszone — die Stirn und Wangen sind weniger empfindlich als Nase oder Kinnpartie. Sollten Sie an einer Stelle stärkere Beschwerden verspüren, passe ich Druck und Nadeltiefe sofort an.
             </p>
+        </details>
 
-            <h3>Tag 1: Rötung und Wärme</h3>
+        <details class="faq-item">
+            <summary><h3>Wie lange dauert die Heilung nach Microneedling?</h3></summary>
             <p>
-                Am Tag nach der Behandlung ist die Rötung noch deutlich sichtbar, klingt aber bereits merklich ab. Ihre Haut kann sich warm anfühlen und leicht spannen. Das ist völlig normal. Tragen Sie die empfohlene beruhigende Feuchtigkeitspflege grosszügig auf und vermeiden Sie weiterhin aggressive Pflegeprodukte. Ein hoher Lichtschutzfaktor (mindestens SPF 50) ist ab jetzt Pflicht, sobald Sie das Haus verlassen.
+                Die sichtbare Rötung klingt in der Regel innerhalb von 24 bis 48 Stunden ab. Nach 5 bis 7 Tagen ist die Haut vollständig regeneriert und gesellschaftsfähig. Während dieser Zeit ist konsequenter Sonnenschutz mit mindestens SPF 50 besonders wichtig. Ab Tag 3 können Sie in der Regel wieder leichtes Make-up auftragen.
             </p>
+        </details>
 
-            <h3>Tag 2 bis 3: Trockenheit und leichtes Schälen</h3>
+        <details class="faq-item">
+            <summary><h3>Wie viele Microneedling-Sitzungen brauche ich?</h3></summary>
             <p>
-                Die Rötung verschwindet grösstenteils. Stattdessen kann die Haut trocken wirken und an manchen Stellen leicht schälen — ein Zeichen dafür, dass sich die oberste Hautschicht erneuert. Widerstehen Sie der Versuchung, an losen Hautpartikeln zu zupfen. Halten Sie die Haut konsequent feucht mit einer sanften, parfümfreien Feuchtigkeitscreme.
+                Für möglichst gute Ergebnisse empfehlen wir eine Serie von 3 bis 6 Sitzungen im Abstand von 4 bis 6 Wochen. Die genaue Anzahl hängt von Ihrem Hautzustand und Ihren Behandlungszielen ab. Bereits nach der ersten Sitzung sehen Sie eine spürbare Verbesserung der Hauttextur und des Hauttons. Mit jeder weiteren Sitzung verstärken sich die Ergebnisse kumulativ.
             </p>
+        </details>
 
-            <h3>Tag 3 bis 5: Erneuerung wird sichtbar</h3>
+        <details class="faq-item">
+            <summary><h3>Für wen ist Microneedling nicht geeignet?</h3></summary>
             <p>
-                Jetzt wird es spannend: Die Haut beginnt, sich von innen heraus zu erneuern. Die Trockenheit lässt nach, und darunter kommt frische, rosige Haut zum Vorschein. Viele Kundinnen bemerken bereits jetzt eine deutliche Verbesserung der Hauttextur. Die Poren wirken feiner, das Hautbild ebenmässiger. Ab Tag 3 können Sie in der Regel wieder leichtes, mineralisches Make-up auftragen.
+                Microneedling ist nicht geeignet bei aktiver Akne mit Entzündungen, Hautinfektionen wie Herpes simplex, während der Schwangerschaft oder Stillzeit, bei Einnahme von Blutverdünnern oder Isotretinoin sowie bei bestimmten Autoimmunerkrankungen. Im Beratungsgespräch klären wir alle Kontraindikationen individuell ab und empfehlen gegebenenfalls eine alternative Behandlung.
             </p>
+        </details>
 
-            <h3>Tag 5 bis 7: Volle Gesellschaftsfähigkeit</h3>
+        <details class="faq-item">
+            <summary><h3>Was kostet Microneedling in Zürich?</h3></summary>
             <p>
-                Nach einer Woche ist die Haut äusserlich vollständig regeneriert. Alle sichtbaren Zeichen der Behandlung sind verschwunden. Was bleibt, ist ein frisches, strahlendes Hautbild, das selbst ohne Make-up beeindruckt. Unter der Oberfläche arbeitet Ihr Körper jedoch weiter: Die Kollagenproduktion läuft auf Hochtouren und wird in den kommenden Wochen noch zunehmen.
+                Die Kosten für eine professionelle Microneedling-Behandlung in Zürich variieren je nach behandelter Fläche und verwendeten Seren. Bei Beauty Face Lift erhalten Sie eine individuelle Beratung und ein transparentes Angebot ohne versteckte Zusatzkosten. <a href="/termin/">Buchen Sie Ihren Termin online</a> für ein persönliches Beratungsgespräch, in dem wir einen massgeschneiderten Behandlungsplan für Sie erstellen.
             </p>
+        </details>
+    </div>
 
-            <!-- Langfristige Ergebnisse -->
-            <h2>Langfristige Ergebnisse: Was Sie nach 4 bis 6 Wochen sehen</h2>
-            <p>
-                Die wahre Kraft des Microneedlings zeigt sich erst Wochen nach der Behandlung. Kollagen braucht Zeit, um sich aufzubauen und zu reifen — dieser Prozess dauert durchschnittlich vier bis sechs Wochen. Und genau dann sehen Sie die beeindruckendsten Veränderungen.
-            </p>
-            <p>
-                Nach einer einzigen Sitzung berichten unsere Kundinnen typischerweise über:
-            </p>
-            <ul>
-                <li><strong>Straffere, festere Haut</strong> — besonders spürbar an Wangen und Kieferlinie</li>
-                <li><strong>Feinere Poren</strong> — das neu gebildete Kollagen strafft das Gewebe rund um die Poren</li>
-                <li><strong>Weniger sichtbare Aknenarben</strong> — flache Narben werden spürbar ebenmässiger</li>
-                <li><strong>Gleichmässigerer Hautton</strong> — Pigmentflecken verblassen, Rötungen nehmen ab</li>
-                <li><strong>Natürlicher Glow</strong> — die verbesserte Hautstruktur reflektiert Licht gleichmässiger</li>
-            </ul>
-            <p>
-                Für tiefere Aknenarben, ausgeprägte Falten oder starke Pigmentveränderungen empfehle ich eine <strong>Serie von 3 bis 6 Behandlungen</strong> im Abstand von vier bis sechs Wochen. Mit jeder Sitzung baut sich das Kollagengerüst weiter auf, und die Ergebnisse verstärken sich kumulativ. Nach einer vollständigen Behandlungsserie können die Resultate ein bis zwei Jahre anhalten, bevor eine Auffrischung sinnvoll wird.
-            </p>
-            <p>
-                Für besonders hartnäckige Hautprobleme kann Microneedling auch hervorragend mit anderen Behandlungen kombiniert werden. Eine <a href="/behandlungen/aquafacial-zuerich/">Aquafacial-Behandlung</a> zwei Wochen vor dem Needling bereitet die Haut sorgfältig vor, während ein sanftes <a href="/behandlungen/fruchtsaeure-peeling-zuerich/">Fruchtsäure Peeling</a> zwischen den Sitzungen die Zellerneuerung zusätzlich ankurbeln kann. Auch die innovative <a href="/behandlungen/coldplasma-zuerich/">ColdPlasma-Therapie</a> lässt sich ideal ergänzen.
-            </p>
-
-            <!-- Für wen ist Microneedling geeignet? -->
-            <h2>Für wen ist Microneedling geeignet?</h2>
-            <p>
-                Microneedling ist eine vielseitige Behandlung, die für nahezu alle Hauttypen und Altersgruppen geeignet ist. Im Gegensatz zu einigen Laserbehandlungen kann Microneedling auch bei dunkleren Hauttönen sicher angewendet werden, da keine Lichtenergie zum Einsatz kommt, die Pigmentstörungen verursachen könnte.
-            </p>
-            <p>
-                <strong>Besonders geeignet ist Microneedling für Sie, wenn:</strong>
-            </p>
-            <ul>
-                <li>Sie erste Zeichen der Hautalterung bemerken und vorbeugen möchten</li>
-                <li>Aknenarben oder Pickelmale Ihr Selbstbewusstsein beeinträchtigen</li>
-                <li>Ihre Haut fahl und müde wirkt und Sie sich einen natürlichen Glow wünschen</li>
-                <li>Sie vergrösserte Poren stören</li>
-                <li>Pigmentflecken oder ein ungleichmässiger Hautton Sie beschäftigen</li>
-                <li>Sie eine effektive, aber schonende Anti-Aging-Methode suchen</li>
-                <li>Sie eine Alternative zu invasiveren Verfahren bevorzugen</li>
-            </ul>
-            <p>
-                <strong>Nicht geeignet ist Microneedling bei:</strong>
-            </p>
-            <ul>
-                <li>Aktiver Akne mit Entzündungen oder Eiteransammlungen</li>
-                <li>Aktiven Hautinfektionen, insbesondere Herpes simplex im Gesichtsbereich</li>
-                <li>Schwangerschaft und Stillzeit</li>
-                <li>Einnahme von blutverdünnenden Medikamenten oder Isotretinoin (Accutane)</li>
-                <li>Bestimmten Autoimmunerkrankungen, die die Wundheilung beeinträchtigen</li>
-                <li>Keloider Narbenbildung in der Vorgeschichte</li>
-                <li>Frischem Sonnenbrand im Behandlungsbereich</li>
-            </ul>
-            <p>
-                Im persönlichen Beratungsgespräch gehen wir alle relevanten Punkte durch und stellen sicher, dass Microneedling die richtige Wahl für Sie ist. Sollte die Behandlung nicht in Frage kommen, empfehle ich Ihnen gerne eine geeignete Alternative aus unserem Behandlungsangebot.
-            </p>
-
-            <!-- FAQ Section -->
-            <h2>Häufig gestellte Fragen zu Microneedling</h2>
-
-            <details class="faq-item">
-                <summary><h3>Ist Microneedling schmerzhaft?</h3></summary>
-                <p>
-                    Die meisten Kundinnen beschreiben das Gefühl als leichtes Kribbeln oder Kratzen. Dank der betäubenden Creme, die vor der Behandlung aufgetragen wird, ist Microneedling gut verträglich. Die Empfindlichkeit variiert je nach Gesichtszone — die Stirn und Wangen sind weniger empfindlich als Nase oder Kinnpartie. Sollten Sie an einer Stelle stärkere Beschwerden verspüren, passe ich Druck und Nadeltiefe sofort an.
-                </p>
-            </details>
-
-            <details class="faq-item">
-                <summary><h3>Wie lange dauert die Heilung nach Microneedling?</h3></summary>
-                <p>
-                    Die sichtbare Rötung klingt in der Regel innerhalb von 24 bis 48 Stunden ab. Nach 5 bis 7 Tagen ist die Haut vollständig regeneriert und gesellschaftsfähig. Während dieser Zeit ist konsequenter Sonnenschutz mit mindestens SPF 50 besonders wichtig. Ab Tag 3 können Sie in der Regel wieder leichtes Make-up auftragen.
-                </p>
-            </details>
-
-            <details class="faq-item">
-                <summary><h3>Wie viele Microneedling-Sitzungen brauche ich?</h3></summary>
-                <p>
-                    Für möglichst gute Ergebnisse empfehlen wir eine Serie von 3 bis 6 Sitzungen im Abstand von 4 bis 6 Wochen. Die genaue Anzahl hängt von Ihrem Hautzustand und Ihren Behandlungszielen ab. Bereits nach der ersten Sitzung sehen Sie eine spürbare Verbesserung der Hauttextur und des Hauttons. Mit jeder weiteren Sitzung verstärken sich die Ergebnisse kumulativ.
-                </p>
-            </details>
-
-            <details class="faq-item">
-                <summary><h3>Für wen ist Microneedling nicht geeignet?</h3></summary>
-                <p>
-                    Microneedling ist nicht geeignet bei aktiver Akne mit Entzündungen, Hautinfektionen wie Herpes simplex, während der Schwangerschaft oder Stillzeit, bei Einnahme von Blutverdünnern oder Isotretinoin sowie bei bestimmten Autoimmunerkrankungen. Im Beratungsgespräch klären wir alle Kontraindikationen individuell ab und empfehlen gegebenenfalls eine alternative Behandlung.
-                </p>
-            </details>
-
-            <details class="faq-item">
-                <summary><h3>Was kostet Microneedling in Zürich?</h3></summary>
-                <p>
-                    Die Kosten für eine professionelle Microneedling-Behandlung in Zürich variieren je nach behandelter Fläche und verwendeten Seren. Bei Beauty Face Lift erhalten Sie eine individuelle Beratung und ein transparentes Angebot ohne versteckte Zusatzkosten. <a href="/termin/">Buchen Sie Ihren Termin online</a> für ein persönliches Beratungsgespräch, in dem wir einen massgeschneiderten Behandlungsplan für Sie erstellen.
-                </p>
-            </details>
-
-            <!-- Author Bio -->
-            <div class="blog-author-bio">
-                <div class="blog-author-avatar">
-                    <Image
-                        src={teresaPortrait}
-                        widths={[120, 192]}
-                        sizes="96px"
-                        format="webp"
-                        quality="high"
-                        alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
-                        loading="lazy"
-                    />
-                </div>
-                <h3>Über die Autorin</h3>
-                <p>
-                    <strong>Teresa Stimac</strong> ist diplomierte Kosmetikerin und Inhaberin von Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege hat sie sich auf wirkungsvolle Gesichtsbehandlungen spezialisiert, die natürliche Ergebnisse liefern. Ihre Leidenschaft: individuelle Behandlungskonzepte, die auf die einzigartigen Bedürfnisse jeder Kundin abgestimmt sind.
-                </p>
-                <p>
-                    <a href="/ueber-mich/">Mehr über Teresa Stimac erfahren</a>
-                </p>
-            </div>
-
-            <!-- Further Reading -->
-            <div class="blog-further-reading">
-                <h2>Weiterlesen</h2>
-                <p>Entdecken Sie weitere Beiträge rund um professionelle Hautpflege und unsere Behandlungen:</p>
-                <div class="blog-grid" style="margin-top: 2rem;">
-                    <a href="/blog/aquafacial-vs-microneedling/" class="blog-card">
-                        <h3>Aquafacial vs. Microneedling</h3>
-                        <p>Welche Behandlung passt besser zu Ihrem Hauttyp? Ein direkter Vergleich.</p>
-                        <span class="card-arrow">Weiterlesen &rarr;</span>
-                    </a>
-                    <a href="/blog/hautpflege-routine-zuerich/" class="blog-card">
-                        <h3>Die passende Hautpflege-Routine</h3>
-                        <p>Tipps von Ihrer Kosmetikerin für eine wirksame tägliche Pflege.</p>
-                        <span class="card-arrow">Weiterlesen &rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1); margin-top: 5rem;">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihre erste Microneedling-Behandlung?</h2>
-        <p style="max-width: 550px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online und erleben Sie, was professionelles Microneedling für Ihre Haut bewirken kann.</p>
-        <a href="/termin/" class="pill-btn">Termin buchen</a>
-    </section>
-</Base>
+    <Fragment slot="author-bio">
+        <p><strong>Teresa Stimac</strong> ist diplomierte Kosmetikerin und Inhaberin von Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege hat sie sich auf wirkungsvolle Gesichtsbehandlungen spezialisiert, die natürliche Ergebnisse liefern. Ihre Leidenschaft: individuelle Behandlungskonzepte, die auf die einzigartigen Bedürfnisse jeder Kundin abgestimmt sind.</p>
+    </Fragment>
+</BlogPost>

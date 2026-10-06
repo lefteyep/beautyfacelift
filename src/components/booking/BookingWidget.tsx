@@ -5,20 +5,7 @@ import { TreatmentSelect } from './steps/TreatmentSelect';
 import { DateSelect } from './steps/DateSelect';
 import { TimeSelect } from './steps/TimeSelect';
 import { CustomerForm } from './steps/CustomerForm';
-
-interface Service {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  duration_minutes: number;
-  price_chf: number;
-  price_label?: string;
-  price_min_chf?: number;
-  price_max_chf?: number;
-  deposit_chf: number;
-  category: string;
-}
+import type { Service } from './types';
 
 interface Props {
   preselectedCategory?: string;

@@ -30,6 +30,15 @@ assert(
   lp.includes('Hallo Teresa, ich interessiere mich für die Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220.'),
   'WhatsApp prefill must use the promo offer',
 );
+assert(lp.includes('<a href={bookingHref} class="btn lp-hero-primary" data-treatment="Carbon Microneedling" data-button-location="lp_hero">'), 'Carbon LP hero primary CTA must route through the booking bridge');
+assert(lp.includes('CHF {PROMO_PRICE}.–') && lp.includes('statt <s>CHF {REGULAR_PRICE}.–</s>'), 'Carbon LP hero must show the promo price with the struck regular price');
+for (const jargon of ['Tracking-Brücke', 'Kampagnenparameter']) {
+  assert(!lp.includes(jargon), `Carbon LP must not show tracking jargon (${jargon}) to customers`);
+}
+assert(lp.includes('lp-sticky-visible') && lp.includes('heroSection.getBoundingClientRect()'), 'Carbon LP offer bar must only appear once the hero has scrolled away');
+assert(!/#[0-9a-f]{3,8}\b/i.test(lp.split('<style>')[1] ?? ''), 'Carbon LP styles must use design tokens instead of hard-coded colours');
+assert(!/border-radius:\s*(?:[1-9]\d*(?:px|rem)|50%)/.test(lp), 'Carbon LP must not use rounded cards or pills');
+assert(!/\sstyle=["{]/.test(lp), 'Carbon LP markup must not use inline styles');
 
 assert(termin.includes('TREATWELL_BOOKING_URL'), 'Booking bridge must use the Treatwell booking URL constant');
 assert(termin.includes('Treatwell'), 'Booking bridge must mention Treatwell');
