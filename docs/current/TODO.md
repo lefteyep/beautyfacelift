@@ -1,6 +1,25 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** May 18, 2026
+**Last updated:** October 6, 2026
+
+## Priority 0: Release the October work (agency)
+- [x] Fix the CI `npm audit` gate (0 vulnerabilities) — branch `codex/code-health-2026-10`
+- [x] Restore `trackLead` for the Aquafacial + Microneedling LP; hashed email/phone on the Aquafacial CAPI Lead
+- [x] Re-openable cookie consent ("Cookie-Einstellungen"), compact mobile banner
+- [x] `npm run check` at 0 errors; remove `src/api_backup/`
+- [ ] Finish and review the "Swiss Quiet Luxury" redesign (`codex/luxury-redesign`), open PR, merge to `master` only with explicit approval
+- [ ] After deploy: Lighthouse mobile on `/` and `/lp/aquafacial/`, Meta Test Events check for Lead + CAPI dedupe
+- [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
+- [ ] Update or delete the stale `scripts/check-contact-concierge.mjs` (fails on master since the contact redesign)
+- [ ] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders
+
+## Priority 0: Decisions for Teresa
+- [ ] Aquafacial LP: confirm "statt CHF 180" as a provable regular price and an end date for the Kennenlernpreis (Swiss price-indication rules)
+- [ ] Treatwell: create a "Aquafacial Aktion – 60 Min. – CHF 99" service so the post-form link opens the advertised offer
+- [ ] Confirm the review source and current count (site shows 4,8 / 5 from 248+; LP shows 249) and allow linking to it
+- [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
+- [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
+- [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate)
 
 ## Completed (May 7, 2026 — Custom-domain launch)
 - [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS

@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** May 18, 2026
+**Last updated:** October 6, 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -27,6 +27,21 @@ Production Worker launch details:
 - Apex live check: `200 OK`
 - `www` live check: `301 Moved Permanently` to `https://beautyfacelift-zuerich.ch/`
 - Old domain: untouched and not treated as a migration source
+
+## Pending Release (not live yet)
+
+| Branch | Contents | State |
+|--------|----------|-------|
+| `codex/code-health-2026-10` | npm audit fix (0 vulnerabilities, CI gate passes again), restored `trackLead` for the Aquafacial + Microneedling LP (Lead events had silently stopped in June), hashed email/phone on the Aquafacial CAPI Lead, re-openable cookie consent ("Cookie-Einstellungen"), compact mobile consent banner, `npm run check` at 0 errors, `src/api_backup/` removed | Ready for review |
+| `codex/luxury-redesign` | "Swiss Quiet Luxury" redesign on top of code health — see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) and the spec in `docs/superpowers/specs/` | In progress |
+
+Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`).
+
+## Infrastructure Notes (2026-10-06)
+
+- Supabase project `izekwngqjllaqibrwotp` did not resolve (NXDOMAIN) on 2026-10-06, so `/api/services` returns 500 and the admin dashboard / legacy booking widget are unusable. The contact form (Resend) and `/api/track` (Meta CAPI) do not depend on Supabase. Decide: restore the project (needed for lead status tracking) or decommission the legacy booking code.
+- Meta Pixel ID is present in the production build (`PUBLIC_META_PIXEL_ID` GitHub Actions variable). Server-side CAPI token status still needs a Test Events check.
+- The old WordPress site on `beautyfacelift.ch` is still live and indexed separately.
 
 ## Current Key Routes
 
@@ -71,6 +86,9 @@ Production Worker launch details:
 | Aquafacial LP | /lp/aquafacial/ |
 | Microneedling LP | /lp/microneedling/ |
 | Peeling LP | /lp/peeling/ |
+| Aquafacial Aktion (Meta lead form, CHF 99) | /lp/aquafacial/ |
+| Aquafacial + Microneedling (combo) | /lp/aquafacial-microneedling/ |
+| Carbon Microneedling | /lp/carbon-microneedling/ |
 
 ## SEO & AIO Status
 
@@ -119,7 +137,11 @@ Visible architecture updated in:
 
 Copy-risk review completed across treatment pages, comparison pages, blog posts, homepage, about page, and one ad landing page. High-risk phrasing such as `eingeschleust`, `Narbenreduktion`, `stimuliert`, `PRP`, and `medizinisch formulierte Peelings` was removed or softened.
 
-## Design Implementation (March 19, 2026)
+## Design History
+
+The March 2026 ".pen" implementation below is superseded on the redesign branch by the October 2026 "Swiss Quiet Luxury" system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+
+### Design Implementation (March 19, 2026)
 
 Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
 

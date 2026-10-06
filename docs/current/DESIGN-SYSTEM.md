@@ -1,287 +1,98 @@
-# Beauty Face Lift — Design System Documentation
+# Beauty Face Lift — Design System ("Swiss Quiet Luxury")
 
-> Last updated: March 19, 2026
-> Design file: `beautyfacelift.pen`
+> Last updated: 6 October 2026 · Spec: [`docs/superpowers/specs/2026-10-06-luxury-redesign-design.md`](../superpowers/specs/2026-10-06-luxury-redesign-design.md)
+> Source of truth for tokens: `src/styles/main.css` · Shared patterns: `src/styles/components.css`
 
----
+## 1. Principles
 
-## 1. Brand Identity
+Beauty Face Lift is a premium cosmetic studio at Bahnhofstrasse 94, Zürich, built around one person: Teresa Stimac. The interface should feel like a Swiss luxury house, not a salon template.
 
-**Beauty Face Lift** is a premium medical spa on Bahnhofstrasse, Zurich. The design language communicates luxury, trust, and clinical expertise — inspired by brands like Aesop, Augustinus Bader, and editorial beauty publications.
+1. **Restraint carries luxury.** Typography, whitespace and real photography do the work; ornament does not.
+2. **Hairlines, not boxes.** Content is separated by 1px rules and space. No rounded cards, no shadows, no gradients.
+3. **Gold is detail, never fill.** Bronze marks eyebrows, italic accent words, numerals and hover states. Actions are espresso.
+4. **Structure must mean something.** Numerals only for real sequences; grids never leave orphans.
+5. **Write for the client.** No SEO, tracking or agency language in visible copy. German typographic quotes „…“. Main site in "Sie", ad landing pages in "du".
 
-**Keywords:** Premium, editorial, warm, serene, clinical confidence
+## 2. Colour
 
----
+| Token | Hex | Role | Contrast |
+|---|---|---|---|
+| `--porcelain` | `#F7F4EF` | Page background | — |
+| `--ivory` | `#FBF9F5` | Raised surfaces, alternate band, inputs | — |
+| `--sand` | `#ECE4D8` | Alternate section band, booking CTA | — |
+| `--stone` | `#CFC4B4` | Strong rules, image placeholders | — |
+| `--espresso` | `#171411` | Headings, primary buttons, dark bands, footer | 16.7:1 on porcelain |
+| `--umber` | `#3A332C` | Body text | 11.3:1 on porcelain |
+| `--taupe` | `#6B6258` | Muted text, captions, labels | 5.45:1 porcelain · 4.74:1 sand |
+| `--bronze` | `#7A5C34` | Accent text, eyebrows, italic accents | 5.62:1 porcelain · 4.89:1 sand |
+| `--bronze-light` | `#C2A475` | Accent on espresso | 7.7:1 on espresso |
+| `--champagne` | `#D9C6A5` | Body text on espresso | 11:1 on espresso |
+| `--rule` / `--rule-strong` | `rgba(23,20,17,.12/.24)` | Hairlines | decorative |
+| `--rule-light` / `--rule-light-strong` | `rgba(247,244,239,.16/.32)` | Hairlines on espresso | decorative |
 
-## 2. Color Palette
-
-### Core Tokens
-
-| Variable | Hex | Usage |
-|----------|-----|-------|
-| `bg-primary` | `#EDEBE6` | Page background (stone/bone) |
-| `bg-secondary` | `#F7F6F2` | Card backgrounds, lighter surfaces |
-| `bg-cream` | `#F5F3ED` | Pricing cards, subtle containers |
-| `bg-warm` | `#E8E4DD` | Image placeholders, warm accents |
-| `bg-dark` | `#1A1816` | Footer, dark sections, marquee |
-| `text-primary` | `#121212` | Headings, strong text |
-| `text-secondary` | `#5C5A55` | Body text, labels, captions |
-| `text-inverse` | `#EDEBE6` | Text on dark backgrounds |
-| `accent` | `#CFA65E` | Brand gold — gradients, decorative fills |
-| `accent-light` | `#E8D09E` | Gradient start (lighter gold) |
-| `accent-dark` | `#A9803C` | Gradient end (deeper gold) |
-| `accent-text` | `#B8903A` | Gold for text — WCAG AA compliant on light bg |
-| `accent-gradient` | `#CFA65E` | Alias for gradient/decorative use |
-| `border-subtle` | `#12121210` | Hairline dividers, card borders |
-| `border-medium` | `#1212121F` | Stronger dividers, form underlines |
-
-### Accessibility Notes
-
-- **`accent` (#CFA65E) on `bg-primary` (#EDEBE6):** 3.0:1 contrast — FAILS WCAG AA for text. Use `accent-text` (#B8903A) instead for any text on light backgrounds.
-- **`accent-text` (#B8903A) on `bg-primary`:** 4.6:1 — PASSES WCAG AA.
-- **`accent` on `bg-dark`:** 5.2:1 — PASSES WCAG AA.
-- **Rule:** Use `accent` only for gradients, fills, and decorative strokes. Use `accent-text` for any readable text on light backgrounds.
-
-### Gold Gradient (CTA buttons)
-
-```
-linear-gradient(135deg, #E8D09E 0%, #CFA65E 40%, #A9803C 100%)
-```
-
-Used on: Gold CTA buttons, Sticky CTA Mobile, gradient overlays.
-
----
+Legacy aliases (`--bg-*`, `--text-*`, `--accent*`, `--gold*`, `--paper*`, `--ink*`, `--border-*`, `--font-*`, `--radius-*`, `--shadow-*`) still exist and point at these tokens so older markup renders on the new system. New code uses the tokens above.
 
 ## 3. Typography
 
-### Font Families
+- **Display:** Bodoni Moda Variable (`@fontsource-variable/bodoni-moda`, optical sizes 6–96, roman + italic). Weight 400. Its high contrast echoes the gold BFL monogram. Italic is used for one accent word per heading (`<em>` → bronze).
+- **Text / UI:** Instrument Sans Variable (`@fontsource-variable/instrument-sans`). Body 400; labels and buttons 600 uppercase with 0.16–0.18em tracking.
 
-| Font | Role | Weights | Source |
-|------|------|---------|--------|
-| **Cormorant Garamond** | Headings, display, editorial | 300 (light), 400 (regular), 400 italic | @fontsource (latin) |
-| **Outfit** | Body, UI, labels, buttons | 300, 400, 500, 600 | @fontsource (latin) |
-| **Inter** | Dot separators only | 400 | System fallback |
+| Token | Value | Use |
+|---|---|---|
+| `--fs-display` | clamp(3rem, 7vw, 6.25rem) | Homepage masthead, treatment H1 |
+| `--fs-h1` | clamp(2.6rem, 5.2vw, 4.75rem) | Page H1 |
+| `--fs-h2` | clamp(2rem, 3.6vw, 3.25rem) | Section titles |
+| `--fs-h3` | clamp(1.4rem, 1.9vw, 1.75rem) | List titles |
+| `--fs-h4` | clamp(1.15rem, 1.3vw, 1.3rem) | Small headings, price names |
+| `--fs-lead` | clamp(1.125rem, 1.4vw, 1.3rem) | Intro paragraphs |
+| `--fs-body` | 1.0625rem / 1.7 | Running text (max 66ch) |
+| `--fs-small` | 0.9rem | Captions, meta |
+| `--fs-label` | 0.75rem, 600, uppercase | Eyebrows, buttons, nav |
 
-### Type Scale
+## 4. Space, shape, motion
 
-| Element | Font | Size | Weight | Spacing | Example |
-|---------|------|------|--------|---------|---------|
-| Hero Display (desktop) | Cormorant Garamond | 96px | 400 | -2px | "BEAUTY" / "FACE LIFT" |
-| Hero Display (mobile) | Cormorant Garamond | 56px | 400 | -1.5px | "BEAUTY FACE LIFT" |
-| Section Heading | Cormorant Garamond | 48px | 400 | — | "Unsere Expertise" |
-| Card Title | Cormorant Garamond | 36px | 400 | — | "Aquafacial" |
-| Sub Heading | Cormorant Garamond | 24px | 400 | — | FAQ questions |
-| Body Large | Outfit | 17px | 300 | — | Footer contact info |
-| Body | Outfit | 16px | 300 | 1.65 line-height | Paragraphs |
-| Body Small | Outfit | 15px | 300 | 1.6 line-height | Card descriptions |
-| Sub Display / Label | Outfit | 13px | 500 | 1.9px tracking | "UNSERE BEHANDLUNGEN" |
-| Caption | Outfit | 12px | 500 | 1.5px tracking | Trust strip items |
-| Button Label | Outfit | 13px | 600 | 1.5px tracking | "TERMIN BUCHEN" |
-| Button Label Large | Outfit | 14px | 600 | 1.5px tracking | "JETZT TERMIN BUCHEN" |
-| Fine Print | Outfit | 11-12px | 500 | 1.5px tracking | Footer link categories |
+- Container `--container: 1320px` + `--gutter: clamp(20px, 5vw, 72px)`; full-width sections align with `--content-px`.
+- Section rhythm `--section-y: clamp(88px, 11vw, 168px)`, tight `--section-y-tight`.
+- Corners: 0 everywhere; 2px only on form inputs. Shadows: only `--shadow-float` for the nav dropdown and consent banner.
+- Motion: hero entrance is CSS-only (`.reveal-up` with `--d` delay, `.reveal-media`); GSAP adds gentle scroll reveals (≤24px) and parallax (≤4%). All motion respects `prefers-reduced-motion`.
 
-### Typography Rules
+## 5. Components and patterns
 
-1. **Headings** always use Cormorant Garamond in regular weight (400). Italic is used for emphasis or the second line of display text ("FACE LIFT").
-2. **All-caps tracked text** uses Outfit at 500 weight with 1.5-1.9px letter-spacing — for labels, sub-displays, and navigation.
-3. **Body text** uses Outfit 300 weight with generous 1.6-1.65 line-height for readability.
-4. **Never use Cormorant Garamond for body text** — it's reserved for headings and editorial elements.
+| Pattern | Class(es) | Notes |
+|---|---|---|
+| Buttons | `.btn` (primary), `.btn-secondary`, `.btn-link`, `.btn-sm`, `.btn-lg`, `.btn-row` | Inverts automatically inside `.on-dark`, `.section--dark`, `.cta-band`, footer. Legacy `.pill-btn*` map onto these. |
+| Eyebrow | `.eyebrow` (+ `.eyebrow--rule`), legacy `.sub-display` | Bronze label type. |
+| Sections | `.section`, `--tight`, `--sand`, `--ivory`, `--dark`, `--rule` | Vertical rhythm and bands. |
+| Page hero | `.page-hero`, `.page-hero--split`, `.page-hero-copy` | Inner pages. |
+| Treatment hero | `.treatment-hero`, `.treatment-hero-copy`, `.treatment-hero-title`, `.treatment-hero-media` | Copy + 4:5 image. |
+| Section head | `.section-head` (+ `--center`) | Eyebrow + H2 + optional link on the right. |
+| Media | `.media` + `--portrait`, `--tall`, `--square`, `--landscape`, `--wide`; `figure.media-figure` | Square crops, slow hover zoom. |
+| Index list | `.index-list` > `.index-item` (`-title`, `-text`, `-meta`) | Ruled rows with arrow; replaces cards. |
+| Index grid | `.index-grid` (`--2`) | 3/2 columns of ruled entries. |
+| Facts | `dl.facts` | Label/value rows. |
+| Price menu | `.price-menu` > `.price-row` (`-name`, `-note`, `-duration`, `-price`) | Prices in display numerals. |
+| Steps | `ol.steps` | Numbered real sequences only. |
+| Quote | `figure.quote` (+ `--center`) | Italic display with label attribution. |
+| CTA band | `.cta-band` > `.cta-band-inner` | Espresso closing band. |
+| Trust line | `.trust-line` | Ruled row of proof points. |
+| FAQ | `details.faq-item` inside `.faq-list` | Display-serif questions, drawn `+`. |
+| Booking CTA | `<BookingCta />` | Sand band, primary + WhatsApp link. |
 
----
+## 6. Global chrome
 
-## 4. Spacing & Layout
+- **Navigation** (`src/components/Nav.astro`): three zones on desktop — Behandlungen (mega dropdown) · Über mich · Journal | centred monogram | Kontakt · "Termin buchen". Porcelain with blur; compacts on scroll. Mobile: logo left, menu button right, porcelain overlay with display-serif links.
+- **Footer** (`src/components/Footer.astro`): espresso band, large Bodoni wordmark, four columns, legal row with "Cookie-Einstellungen" (`data-bfl-consent-open`).
+- **Consent** (`src/components/MarketingConsent.astro`): ivory panel; re-openable from every footer.
 
-### Border Radius
+## 7. Files
 
-| Variable | Value | Usage |
-|----------|-------|-------|
-| `radius-card` | `24px` | Cards, image frames, containers |
-| `radius-pill` | `100px` | Buttons, tags, pills |
+| File | Contents |
+|---|---|
+| `src/styles/main.css` | Fonts, tokens, base type, layout primitives, buttons, accessibility helpers |
+| `src/styles/components.css` | Navigation, heroes, shared patterns, restyled legacy classes, footer, responsive |
+| `src/styles/kontakt.css` | Kontakt page layout |
+| `src/styles/blog.css` | Journal article typography |
+| `src/styles/booking.css` | Legacy booking widget |
+| Scoped `<style>` in pages/components | Page-specific layout only |
 
-### Section Spacing
-
-| Context | Top/Bottom Padding | Side Padding |
-|---------|-------------------|--------------|
-| Desktop sections | `120px` | `58px` |
-| Desktop sections (tight) | `80px` | `58px` |
-| Mobile sections | `48px` | `24px` |
-| Mobile sections (tight) | `32px` | `24px` |
-
-### Grid
-
-- Desktop: max-width `1440px`, side padding `58px` = `1324px` content width
-- Mobile: `375px` viewport, side padding `24px` = `327px` content width
-- Single responsive breakpoint: `@media (max-width: 900px)`
-
----
-
-## 5. Components
-
-### Buttons (4 variants + 2 hover states)
-
-| Component | ID | Usage |
-|-----------|----|-------|
-| **Gold CTA** | `80A5G` | Primary action — gold gradient, white text, pill shape, shadow |
-| **Gold CTA Large** | `AE2FB` | Emphasized CTA — larger padding (16/40), 14px text |
-| **Outline** | `DS1FW` | Secondary action — gold border, dark text |
-| **Dark Outline** | `Useku` | Action on dark backgrounds — semi-transparent border, inverse text |
-| **Gold CTA Hover** | `EBFSw` | Lighter gradient + deeper shadow on hover |
-| **Outline Hover** | `uFBP0` | Cream fill + darker border on hover |
-
-**Button CSS transitions (for implementation):**
-```css
-.pill-btn { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.pill-btn:hover { transform: translateY(-1px); }
-.pill-btn:active { transform: translateY(0) scale(0.98); }
-```
-
-### Navigation
-
-| Component | ID | Usage |
-|-----------|----|-------|
-| **Nav Desktop** | `WDWFn` | Full nav: brand + 4 links + CTA. Padding: 24/58 |
-| **Nav Mobile** | `bfZob` | Brand + hamburger (44x44 touch target). Padding: 16/24 |
-| **Nav Link Active** | `ahOfL` | Active page indicator: bold text + 20px gold underline bar |
-
-### Content Components
-
-| Component | ID | Usage |
-|-----------|----|-------|
-| **Section Heading** | `3h38v` | Label (caps tracked) + heading (serif 48px) + body (sans 16px) |
-| **Marquee Band** | `vFcNj` | Dark bg, italic serif treatment names, infinite scroll |
-| **Trust Strip** | `6D6B4` | Horizontal trust signals with dot separators |
-| **FAQ Item** | `7iUBb` | Question + expand icon, bottom border |
-| **Highlight Card** | `MspQI` | Number + title + description, subtle border |
-| **Testimonial** | `LB1Ng` | Left-bordered quote card, italic serif |
-| **Pricing Card** | `QcKBX` | Tier label + price + duration + description, cream bg |
-| **Pricing Card Accent** | `TjA1A` | Same as above with gold gradient bg + gold border |
-| **Treatment Overview Card** | `tufpg` | Image + title + description + arrow link |
-| **Sticky CTA Mobile** | `Z51u9` | Full-width gold gradient bar, fixed to bottom |
-
-### Form Components
-
-| Component | ID | Usage |
-|-----------|----|-------|
-| **Form Input** | `pU752` | Label (caps, tracked) + bottom-border input field |
-| **Form Textarea** | `xEqUj` | Label + taller input area with bottom border |
-
-### Layout Components
-
-| Component | ID | Usage |
-|-----------|----|-------|
-| **Footer Desktop** | `8Spdl` | Full footer: display title, 3-col grid, link columns, legal bar |
-
----
-
-## 6. Screens
-
-| Screen | ID | Size | Status |
-|--------|----|------|--------|
-| Homepage — Desktop 1440 | `7uVeb` | 1440 x ~8200 | Complete |
-| Homepage — Mobile 375 | `E0rB1` | 375 x ~6200 | Complete |
-| Behandlungen — Desktop 1440 | `5H8fs` | 1440 x ~5600 | Complete (+ comparison strip) |
-| Behandlungen — Mobile 375 | `Qm36C` | 375 x ~3700 | Complete |
-| Aquafacial — Desktop 1440 | `5MzhG` | 1440 x 3387 | Complete |
-| Aquafacial — Mobile 375 | `Er4c6` | 375 x ~2240 | Complete |
-| Booking Widget — Desktop 1440 | `GbABb` | 1440 x ~1900 | **NEW** — 5-step booking flow |
-| Blog Article — Desktop 1440 | `vzK3J` | 1440 x ~2800 | **NEW** — editorial article layout |
-| 404 — Desktop 1440 | `eyWVB` | 1440 x ~1500 | **NEW** — error page |
-| Mobile Nav — Open State | `GbmbJ` | 375 x 812 | **NEW** — full-screen dark overlay |
-| Design System | `BEMcv` | 2200 x ~3100 | Reference sheet |
-
----
-
-## 7. Image Treatment
-
-### Styles Used
-
-1. **Rounded top corners:** `cornerRadius: [24, 24, 0, 0]` — hero images blending into content below
-2. **Full rounded:** `cornerRadius: 24` — card images, portraits, floating accents
-3. **Floating accent:** Small image with 24px radius + heavy drop shadow (`blur: 60, color: #00000050`) — editorial overlay effect
-
-### Image Guidelines
-
-- Use `mode: "fill"` for all image fills (cover behavior)
-- Hero images: warm interior/spa shots with ambient lighting
-- Treatment images: close-up beauty/skincare application shots
-- Portrait: professional headshot of Teresa with soft natural light
-- **All images must have alt text in implementation** (accessibility)
-
----
-
-## 8. Animation Patterns (GSAP)
-
-| Animation | Trigger | Properties |
-|-----------|---------|------------|
-| Fade-in-up | `ScrollTrigger` on section enter | `opacity: 0→1, y: 30→0, duration: 0.8` |
-| Marquee scroll | Continuous | `x` translation loop |
-| Image clip-path reveal | `ScrollTrigger` | `clip-path: inset(100% 0 0 0) → inset(0)` |
-| Nav blur on scroll | Scroll position > 50px | `backdrop-filter: blur(12px)` |
-| Scroll indicator pulse | Continuous | `opacity` + `y` pulse loop |
-
-**Always respect:** `prefers-reduced-motion: reduce` — disable all animations.
-
----
-
-## 9. Updates Log
-
-### March 19, 2026 — Design System Review & Improvements
-
-**Accessibility (P0):**
-- Added `accent-text` (#B8903A) variable for WCAG AA compliant gold text on light backgrounds
-- Fixed FAQ icon, Highlight Card numbers, and Treatment Card arrows to use `accent-text`
-- Increased mobile hamburger touch target from 28x20 to 44x44 (with padding)
-- Increased trust strip font from 12px to 13px for readability
-
-**New Components:**
-- `component/Section Heading` — reusable label + heading + body pattern
-- `component/Form Input` — bottom-border text input with label
-- `component/Form Textarea` — multi-line variant
-- `component/Footer Desktop` — extracted from homepage, now reusable
-- `component/Button/Gold CTA Hover` — hover state with lighter gradient + deeper shadow
-- `component/Button/Outline Hover` — hover state with cream fill
-- `component/Nav Link Active` — active page indicator with gold underline
-
-**Layout Improvements:**
-- Hero typography reduced from 160px to 96px — more readable, still editorial
-- Added scroll indicator to hero (line + "SCROLL" label)
-- Standardized desktop section spacing to 80-120px
-- Standardized mobile section spacing to 48px
-- Added 56px safe-area spacer in mobile footer for sticky CTA overlap
-- Fixed testimonials section top padding (was 0px, now 48-80px)
-
-**Design System Gaps Identified (for future work):**
-- Breadcrumb component (exists in code, not yet in design file)
-- Loading/skeleton states
-- Error states for form inputs
-- Image overlay/gradient for hero text readability safety
-- Additional image framing variations (full-bleed, asymmetric crop)
-
-### March 19, 2026 — UX/UI Enhancement Pass
-
-**New Screens (4):**
-- `Booking Widget — Desktop 1440` (`GbABb`) — 5-step progress bar, menu-style treatment selection with price/duration, reassurance strip, full footer
-- `Blog Article — Desktop 1440` (`vzK3J`) — breadcrumb, category tag, editorial typography, featured image, pull-quote with gold border, article CTA section, author box with avatar
-- `404 — Desktop 1440` (`eyWVB`) — oversized "404" in warm tone, centered copy, outline CTA, full footer
-- `Mobile Nav — Open State` (`GbmbJ`) — dark overlay, large serif links with arrows, gold CTA, contact info
-
-**New Components (1):**
-- `component/Treatment Timeline` (`suBHe`) — 4-step horizontal timeline with numbered circles, titles, descriptions, connector lines
-
-**Homepage Improvements:**
-- Added hero CTA button ("TERMIN VEREINBAREN") — captures high-intent visitors without scrolling
-- Added star ratings (5 gold stars) + "Treatwell verifiziert" badge to all 3 testimonials
-- Enhanced about section pull-quote with gold left-border frame
-- Reduced services heading from 72px to 52px (was inverting hierarchy vs hero)
-
-**Behandlungen Page Improvements:**
-- Added 4-column comparison strip (Aquafacial / Microneedling / Fruchtsäure / ColdPlasma) with price, duration, and best-for
-- Fixed FAQ section padding from 320px to 160px
-
-**Remaining Gaps:**
-- Booking widget: steps 2-5 detail designs (calendar, time picker, form, confirmation)
-- Blog listing page design
-- Treatment page: "What to Expect" timeline integration
-- Floating WhatsApp/phone button for mobile
-- Blog article mobile layout
-- Booking widget mobile layout
+The live reference page is `/admin/design-system/` (noindex).
