@@ -1,16 +1,5 @@
 import { useMemo, useState } from 'react';
-
-interface Service {
-  id: string;
-  name: string;
-  description: string;
-  duration_minutes: number;
-  price_chf: number;
-  price_label?: string;
-  price_min_chf?: number;
-  price_max_chf?: number;
-  category: string;
-}
+import type { Service } from '../types';
 
 interface Props {
   services: Service[];

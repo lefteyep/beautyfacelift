@@ -91,6 +91,6 @@
 - [ ] Customer reminder emails (24h before appointment)
 - [ ] Multi-language support (English version)
 - [ ] Booking calendar widget on homepage
-- [ ] Decide whether to delete `src/api_backup/**` after confirming git history is sufficient as the archive.
+- [x] Decide whether to delete `src/api_backup/**` after confirming git history is sufficient as the archive. — Deleted 2026-10-06 (git history keeps it).
 - [ ] Decide whether to keep, remove, or revive the legacy first-party BookingWidget after Treatwell/confirmed-booking tracking is settled.
 - [x] ~~Design elevation: Phases 2-7~~ — Replaced by pixel-perfect .pen design implementation (March 19, 2026)

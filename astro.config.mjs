@@ -1,7 +1,7 @@
 // @ts-check
 import { copyFile } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import partytown from '@astrojs/partytown';
 
@@ -15,6 +15,7 @@ const NOINDEX_PATHS = [
   '/termin/',
 ];
 
+/** @returns {import('astro').AstroIntegration} */
 function sitemapXmlAlias() {
   return {
     name: 'sitemap-xml-alias',
@@ -41,13 +42,13 @@ export default defineConfig({
         // Boost homepage and key pages
         if (item.url === `${SITE_URL}/`) {
           item.priority = 1.0;
-          item.changefreq = 'weekly';
+          item.changefreq = ChangeFreqEnum.WEEKLY;
         } else if (item.url.includes('/behandlungen/') && !item.url.includes('/vergleich')) {
           item.priority = 0.9;
-          item.changefreq = 'weekly';
+          item.changefreq = ChangeFreqEnum.WEEKLY;
         } else if (item.url.includes('/blog/')) {
           item.priority = 0.8;
-          item.changefreq = 'monthly';
+          item.changefreq = ChangeFreqEnum.MONTHLY;
         }
         return item;
       },

@@ -120,21 +120,21 @@ const isTreatment = variant === 'treatment';
 
 <script>
     const nav = document.querySelector('[data-nav-root]');
-    const dropdown = nav?.querySelector('[data-nav-dropdown]');
-    const desktopDisclosure = nav?.querySelector('[data-nav-disclosure]');
+    const dropdown = nav?.querySelector<HTMLElement>('[data-nav-dropdown]');
+    const desktopDisclosure = nav?.querySelector<HTMLElement>('[data-nav-disclosure]');
     const desktopSubmenu = nav?.querySelector('#nav-submenu-desktop');
     const desktopFirstLink = desktopSubmenu?.querySelector('a');
 
-    const hamburger = document.querySelector('[data-nav-toggle]');
-    const overlay = document.querySelector('[data-nav-overlay]');
+    const hamburger = document.querySelector<HTMLElement>('[data-nav-toggle]');
+    const overlay = document.querySelector<HTMLElement>('[data-nav-overlay]');
     const mobileDisclosure = overlay?.querySelector('[data-nav-mobile-disclosure]');
-    const mobileSubmenu = overlay?.querySelector('#nav-mobile-treatments');
+    const mobileSubmenu = overlay?.querySelector<HTMLElement>('#nav-mobile-treatments');
     const mobileLinks = overlay?.querySelectorAll('a');
 
     const isDesktop = () => window.matchMedia('(min-width: 901px)').matches;
     const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-    const setDesktopDropdown = (open) => {
+    const setDesktopDropdown = (open: boolean) => {
         if (!dropdown || !desktopDisclosure) return;
         dropdown.classList.toggle('is-open', open);
         desktopDisclosure.setAttribute('aria-expanded', String(open));
@@ -157,7 +157,7 @@ const isTreatment = variant === 'treatment';
             }
         });
 
-        dropdown.querySelector('.nav-dropdown-link')?.addEventListener('keydown', (event) => {
+        dropdown.querySelector<HTMLElement>('.nav-dropdown-link')?.addEventListener('keydown', (event) => {
             if (!isDesktop()) return;
             if (event.key === 'ArrowDown') {
                 event.preventDefault();
@@ -171,7 +171,7 @@ const isTreatment = variant === 'treatment';
         });
 
         dropdown.addEventListener('focusout', (event) => {
-            if (!dropdown.contains(event.relatedTarget)) {
+            if (!dropdown.contains(event.relatedTarget as Node | null)) {
                 setDesktopDropdown(false);
             }
         });
@@ -184,21 +184,21 @@ const isTreatment = variant === 'treatment';
         });
 
         document.addEventListener('pointerdown', (event) => {
-            if (isDesktop() && !dropdown.contains(event.target)) {
+            if (isDesktop() && !dropdown.contains(event.target as Node | null)) {
                 setDesktopDropdown(false);
             }
         });
     }
 
-    const setBodyLock = (locked) => {
+    const setBodyLock = (locked: boolean) => {
         document.documentElement.classList.toggle('nav-lock', locked);
         document.body.classList.toggle('nav-lock', locked);
     };
 
-    const getFocusable = (container) => Array.from(container.querySelectorAll(focusableSelector))
+    const getFocusable = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>(focusableSelector))
         .filter((element) => !element.hasAttribute('hidden') && !element.closest('[hidden]'));
 
-    let closeOverlayTimeout;
+    let closeOverlayTimeout: number | undefined;
 
     const openOverlay = () => {
         if (!hamburger || !overlay) return;

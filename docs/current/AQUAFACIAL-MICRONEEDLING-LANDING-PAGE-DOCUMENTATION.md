@@ -1041,7 +1041,7 @@ Known QA limitations:
 
 - `npm run lint` is not available in this repo.
 - `npm run typecheck` is not available in this repo.
-- `npm run astro -- check` currently fails on existing repo-wide type issues outside this LP.
+- `npm run astro -- check` passes with 0 errors since the 2026-10-06 code-health cleanup (previously failed on repo-wide type issues outside this LP).
 - `npm run qa:worker` has a local `/termin/` 301 issue, but live booking bridge HTML has been verified.
 
 ## 15. Future Optimization Notes

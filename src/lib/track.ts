@@ -178,7 +178,7 @@ function loadMetaPixel(): void {
   ensureMetaClickIdCookie();
 
   /* eslint-disable */
-  !function(f: Window, b: Document, e: string, v: string, n?: any, t?: HTMLScriptElement, s?: Element) {
+  (function(f: Window, b: Document, e: string, v: string, n?: any, t?: HTMLScriptElement, s?: Element) {
     if (f.fbq) return;
     n = f.fbq = function() {
       n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
@@ -193,7 +193,7 @@ function loadMetaPixel(): void {
     t.src = v;
     s = b.getElementsByTagName(e)[0];
     s.parentNode?.insertBefore(t, s);
-  }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
   /* eslint-enable */
 
   window.fbq?.('init', pixelId);

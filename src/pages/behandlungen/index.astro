@@ -27,7 +27,9 @@ const summaryFacts = [
     { label: 'Durchführung', value: 'persönlich durch Teresa Stimac' },
 ];
 
-const serviceListItems = SERVICE_GROUPS.flatMap((group) => group.services).map((service, index) => ({
+type ServiceGroupService = (typeof SERVICE_GROUPS)[number]['services'][number];
+
+const serviceListItems = SERVICE_GROUPS.flatMap<ServiceGroupService>((group) => group.services).map((service, index) => ({
     "@type": "ListItem",
     "position": index + 1,
     "item": {

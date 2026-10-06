@@ -550,6 +550,15 @@ const structuredData = {
   <script>
     import { trackAquafacialLeadSubmit } from '../../../lib/track';
 
+    // Network Information API (incl. vendor prefixes) is not part of lib.dom.
+    declare global {
+      interface Navigator {
+        connection?: { saveData?: boolean };
+        mozConnection?: { saveData?: boolean };
+        webkitConnection?: { saveData?: boolean };
+      }
+    }
+
     const attributionKeys = [
       'utm_source',
       'utm_medium',
@@ -576,15 +585,15 @@ const structuredData = {
       }
     }
 
-    function fieldValue(form, name) {
+    function fieldValue(form: HTMLFormElement, name: string) {
       const field = form.elements.namedItem(name);
       if (!field) return '';
       if (field instanceof RadioNodeList) return String(field.value || '').trim();
-      return String(field.value || '').trim();
+      return String((field as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value || '').trim();
     }
 
-    function setFieldError(form, name, message) {
-      const error = form.querySelector(`[data-field-error="${name}"]`);
+    function setFieldError(form: HTMLFormElement, name: string, message: string) {
+      const error = form.querySelector<HTMLElement>(`[data-field-error="${name}"]`);
       const field = form.elements.namedItem(name);
       if (error) {
         error.textContent = message;
@@ -599,20 +608,20 @@ const structuredData = {
       }
     }
 
-    function clearErrors(form) {
+    function clearErrors(form: HTMLFormElement) {
       Object.keys(fieldMessages).forEach((name) => setFieldError(form, name, ''));
     }
 
-    function isValidEmail(email) {
+    function isValidEmail(email: string) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    function isValidPhone(phone) {
+    function isValidPhone(phone: string) {
       const digits = phone.replace(/\D/g, '');
       return digits.length >= 8 && digits.length <= 15;
     }
 
-    function validateLeadForm(form) {
+    function validateLeadForm(form: HTMLFormElement) {
       clearErrors(form);
       let valid = true;
 
@@ -642,12 +651,12 @@ const structuredData = {
       return valid;
     }
 
-    function setHiddenValue(form, name, value) {
+    function setHiddenValue(form: HTMLFormElement, name: string, value: string) {
       const input = form.elements.namedItem(name);
       if (input instanceof HTMLInputElement) input.value = value || '';
     }
 
-    function fillAttribution(form) {
+    function fillAttribution(form: HTMLFormElement) {
       const params = new URLSearchParams(window.location.search);
       const stored = getStoredAttribution();
       attributionKeys.forEach((key) => {
@@ -658,7 +667,7 @@ const structuredData = {
       setHiddenValue(form, 'referrer', document.referrer);
     }
 
-    function formPayload(form) {
+    function formPayload(form: HTMLFormElement) {
       const data = new FormData(form);
       const payload = Object.fromEntries(data.entries());
       payload.preferredCallbackTime = payload.preferred_time || '';
@@ -751,10 +760,13 @@ const structuredData = {
     }
 
     function initHeroVideo() {
-      const card = document.querySelector('[data-hero-video-card]');
-      const video = document.querySelector('[data-hero-video]');
+      const cardElement = document.querySelector('[data-hero-video-card]');
+      const videoElement = document.querySelector('[data-hero-video]');
       const toggle = document.querySelector('[data-hero-video-toggle]');
-      if (!(card instanceof HTMLElement) || !(video instanceof HTMLVideoElement)) return;
+      if (!(cardElement instanceof HTMLElement) || !(videoElement instanceof HTMLVideoElement)) return;
+      // Narrowed aliases so the nested function declarations below see non-null types.
+      const card = cardElement;
+      const video = videoElement;
 
       const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
@@ -770,7 +782,7 @@ const structuredData = {
         toggle.dataset.state = isPaused ? 'paused' : 'playing';
       }
 
-      function addVideoSource(src, type) {
+      function addVideoSource(src: string | undefined, type: string) {
         if (!src) return;
         const source = document.createElement('source');
         source.src = src;
@@ -809,7 +821,7 @@ const structuredData = {
           if ('requestIdleCallback' in window) {
             window.requestIdleCallback(loadVideoSources, { timeout: 1800 });
           } else {
-            window.setTimeout(loadVideoSources, 450);
+            (window as Window).setTimeout(loadVideoSources, 450);
           }
         };
 
