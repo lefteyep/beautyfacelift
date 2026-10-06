@@ -13,37 +13,33 @@ import {
     description="Vielen Dank — Ihre Anfrage wurde an Beauty Face Lift Zürich gesendet."
     noindex
 >
-    <section class="contact-page" style="padding-bottom: 8rem;">
-        <div class="contact-grid" style="grid-template-columns: 1fr; max-width: 760px; margin: 0 auto;">
-            <article class="contact-form-shell">
-                <div class="contact-status contact-status-success">
-                    Vielen Dank — Ihre Anfrage wurde gesendet.
-                </div>
-                <span class="sub-display">Vielen Dank</span>
-                <h1 style="font-size: clamp(2.4rem, 5vw, 4rem); margin-bottom: 1rem;">Ihre Anfrage wurde gesendet.</h1>
-                <p style="margin-bottom: 1.5rem;">Teresa meldet sich persönlich bei Ihnen. Bei dringenden Terminänderungen erreichen Sie uns schneller telefonisch oder per WhatsApp.</p>
-                <div class="contact-card-grid">
-                    <article class="contact-card">
-                        <span class="sub-display">Telefon</span>
-                        <h2>{CONTACT_PHONE_DISPLAY}</h2>
-                        <a class="contact-card-action" href={`tel:${CONTACT_PHONE}`}>Jetzt anrufen</a>
-                    </article>
-                    <article class="contact-card">
-                        <span class="sub-display">WhatsApp</span>
-                        <h2>Schnelle Rückfrage</h2>
-                        <a class="contact-card-action" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp öffnen</a>
-                    </article>
-                    <article class="contact-card">
-                        <span class="sub-display">E-Mail</span>
-                        <h2>{CONTACT_EMAIL}</h2>
-                        <a class="contact-card-action" href={`mailto:${CONTACT_EMAIL}`}>E-Mail schreiben</a>
-                    </article>
-                    <article class="contact-card">
-                        <span class="sub-display">Buchung</span>
-                        <h2>Termin online buchen</h2>
-                        <a class="contact-card-action" href="/termin/">Zur Buchung</a>
-                    </article>
-                </div>
+    <section class="kontakt-thanks" aria-labelledby="thanks-title">
+        <div class="kontakt-thanks-copy">
+            <p class="eyebrow eyebrow--rule">Vielen Dank</p>
+            <h1 id="thanks-title">Ihre Anfrage wurde <em>gesendet</em>.</h1>
+            <p class="lead">Teresa meldet sich persönlich bei Ihnen. Bei dringenden Terminänderungen erreichen Sie uns schneller telefonisch oder per WhatsApp.</p>
+        </div>
+
+        <div class="kontakt-location-grid">
+            <article class="kontakt-location-card">
+                <span class="label">Telefon</span>
+                <h2 class="kontakt-thanks-value">{CONTACT_PHONE_DISPLAY}</h2>
+                <a class="btn-link" href={`tel:${CONTACT_PHONE}`}>Jetzt anrufen</a>
+            </article>
+            <article class="kontakt-location-card">
+                <span class="label">WhatsApp</span>
+                <h2 class="kontakt-thanks-value">Schnelle Rückfrage</h2>
+                <a class="btn-link" href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp öffnen</a>
+            </article>
+            <article class="kontakt-location-card">
+                <span class="label">E-Mail</span>
+                <h2 class="kontakt-thanks-value">{CONTACT_EMAIL}</h2>
+                <a class="btn-link" href={`mailto:${CONTACT_EMAIL}`}>E-Mail schreiben</a>
+            </article>
+            <article class="kontakt-location-card">
+                <span class="label">Buchung</span>
+                <h2 class="kontakt-thanks-value">Termin online buchen</h2>
+                <a class="btn-link" href="/termin/">Zur Buchung</a>
             </article>
         </div>
     </section>
