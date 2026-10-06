@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import AiSummary from '../../components/AiSummary.astro';
 
 const faqs = [
     {
@@ -104,11 +103,12 @@ const breadcrumbs = [
     { label: 'Häufige Fragen' }
 ];
 
+// Categories are groups, not a sequence, so they carry no numerals.
 const categories = [
-    { label: '01 / Allgemeine Fragen', start: 0, count: 6 },
-    { label: '02 / Behandlungen', start: 6, count: 6 },
-    { label: '03 / Preise & Buchung', start: 12, count: 4 },
-    { label: '04 / Nachsorge', start: 16, count: 4 }
+    { id: 'allgemein', label: 'Allgemeine Fragen', start: 0, count: 6 },
+    { id: 'behandlungen', label: 'Behandlungen', start: 6, count: 6 },
+    { id: 'preise-buchung', label: 'Preise & Buchung', start: 12, count: 4 },
+    { id: 'nachsorge', label: 'Nachsorge', start: 16, count: 4 }
 ];
 
 const summaryFacts = [
@@ -124,48 +124,244 @@ const summaryFacts = [
     description="Antworten zu Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma und Exosome Therapie. Kosmetikinstitut FAQ aus Zürich."
     structuredData={structuredData}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
+    <header class="page-hero page-hero--split faq-hero">
+        <div class="container">
+            <Breadcrumbs items={breadcrumbs} />
+        </div>
+        <div class="container page-hero-inner">
+            <div class="page-hero-copy">
+                <p class="eyebrow eyebrow--rule reveal-up">Wir beantworten Ihre Fragen</p>
+                <h1 class="reveal-up">Häufige <em>Fragen</em></h1>
+                <p class="lead reveal-up">Hier finden Sie Antworten auf die häufigsten Fragen rund um unsere Behandlungen, Preise, Buchung und Nachsorge. Ist Ihre Frage nicht dabei, beraten wir Sie gerne persönlich.</p>
+            </div>
+            <section class="faq-summary reveal-up" aria-labelledby="faq-summary-title">
+                <p class="label">Kurz erklärt</p>
+                <h2 id="faq-summary-title" class="sr-only">FAQ Beauty Face Lift Zürich</h2>
+                <p>Diese FAQ beantwortet die wichtigsten Fragen zu Gesichtsbehandlungen, Preisen, Buchung, Nachpflege und Eignung bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Medizinische oder hautbezogene Unsicherheiten werden vor Ort persönlich abgeklärt.</p>
+                <dl class="facts">
+                    {summaryFacts.map((fact) => (
+                        <div>
+                            <dt>{fact.label}</dt>
+                            <dd>{fact.value}</dd>
+                        </div>
+                    ))}
+                </dl>
+            </section>
+        </div>
+    </header>
 
-    <!-- Page Header -->
-    <section class="container" style="padding-bottom: 5vh;">
-        <div class="sub-display margin-bottom-md">Wir beantworten Ihre Fragen</div>
-        <h1 style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 2rem;">Häufige Fragen</h1>
-        <p style="max-width: 700px;">Hier finden Sie Antworten auf die häufigsten Fragen rund um unsere Behandlungen, Preise, Buchung und Nachsorge. Sollte Ihre Frage nicht dabei sein, kontaktieren Sie uns gerne — wir beraten Sie persönlich.</p>
-    </section>
+    <div class="section section--rule">
+        <div class="container faq-layout">
+            <nav class="faq-index" aria-label="Fragen nach Thema">
+                <p class="label">Themen</p>
+                <ul>
+                    {categories.map((category) => (
+                        <li><a href={`#${category.id}`}>{category.label}</a></li>
+                    ))}
+                </ul>
+                <p class="faq-index-note">Ihre Frage ist nicht dabei? <a href="/kontakt/">Schreiben Sie uns</a></p>
+            </nav>
 
-    <AiSummary
-        title="FAQ Beauty Face Lift Zürich"
-        intro="Diese FAQ beantwortet die wichtigsten Fragen zu Gesichtsbehandlungen, Preisen, Buchung, Nachpflege und Eignung bei Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Medizinische oder hautbezogene Unsicherheiten werden vor Ort persönlich abgeklärt."
-        facts={summaryFacts}
-    />
-
-    <!-- FAQ Categories -->
-    {categories.map((category) => (
-        <section class="faq-section pad-y">
-            <div class="sub-display margin-bottom-lg" style="text-align: center;">{category.label}</div>
-            <div class="faq-list">
-                {faqs.slice(category.start, category.start + category.count).map((faq) => (
-                    <details class="faq-item scroll-anim">
-                        <summary><h3>{faq.question}</h3></summary>
-                        <div class="faq-answer"><div class="faq-answer-inner">
-                            <p set:html={faq.answer} />
-                        </div></div>
-                    </details>
+            <div class="faq-groups">
+                {categories.map((category) => (
+                    <section class="faq-group" id={category.id} aria-labelledby={`${category.id}-title`}>
+                        <h2 id={`${category.id}-title`} class="faq-group-title">{category.label}</h2>
+                        <div class="faq-list">
+                            {faqs.slice(category.start, category.start + category.count).map((faq) => (
+                                <details class="faq-item">
+                                    <summary><h3>{faq.question}</h3></summary>
+                                    <div class="faq-answer"><div class="faq-answer-inner">
+                                        <p set:html={faq.answer} />
+                                    </div></div>
+                                </details>
+                            ))}
+                        </div>
+                    </section>
                 ))}
             </div>
-        </section>
-    ))}
+        </div>
+    </div>
 
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Noch Fragen?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie einen unverbindlichen Beratungstermin — Teresa nimmt sich persönlich Zeit für Ihre Anliegen.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="/termin/" class="pill-btn">Termin buchen</a>
-            <a href="/behandlungen/" class="pill-btn pill-btn-outline">Behandlungen ansehen</a>
+    <section class="cta-band" aria-labelledby="faq-cta-title">
+        <div class="cta-band-inner">
+            <div>
+                <p class="eyebrow eyebrow--rule">Beratung</p>
+                <h2 id="faq-cta-title">Noch <em>Fragen</em>?</h2>
+                <p>Buchen Sie einen unverbindlichen Beratungstermin. Teresa nimmt sich persönlich Zeit für Ihre Anliegen.</p>
+            </div>
+            <div class="btn-row">
+                <a href="/termin/" class="btn" data-button-location="faq_cta_band">Termin buchen</a>
+                <a href="/behandlungen/" class="btn-link">Behandlungen ansehen</a>
+            </div>
         </div>
     </section>
 </Base>
+
+<style>
+    .faq-hero {
+        padding-top: calc(var(--nav-h) + clamp(24px, 4vw, 56px));
+    }
+
+    .faq-hero :global(.breadcrumbs) {
+        padding: 0 0 clamp(24px, 4vw, 48px);
+    }
+
+    .faq-hero .page-hero-inner {
+        align-items: end;
+    }
+
+    .faq-summary {
+        display: grid;
+        gap: 18px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule-strong);
+    }
+
+    .faq-summary > p:not(.label) {
+        font-size: var(--fs-small);
+        line-height: 1.6;
+    }
+
+    .faq-summary .facts {
+        border-top-color: var(--rule);
+    }
+
+    .faq-summary .facts > div {
+        grid-template-columns: minmax(104px, 0.42fr) minmax(0, 1fr);
+        padding-block: 12px;
+    }
+
+    .faq-summary .facts dd {
+        font-size: var(--fs-small);
+        line-height: 1.5;
+    }
+
+    /* Category index + groups */
+    .faq-layout {
+        display: grid;
+        grid-template-columns: minmax(200px, 3fr) minmax(0, 9fr);
+        gap: clamp(40px, 6vw, 112px);
+        align-items: start;
+    }
+
+    .faq-index {
+        position: sticky;
+        top: calc(var(--nav-h) + 40px);
+        display: grid;
+        gap: 18px;
+    }
+
+    .faq-index ul {
+        border-top: 1px solid var(--rule-strong);
+    }
+
+    .faq-index li {
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .faq-index ul a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding-block: 14px;
+        font-family: var(--f-display);
+        font-size: 1.2rem;
+        line-height: 1.25;
+        color: var(--espresso);
+        transition: color 0.3s ease;
+    }
+
+    .faq-index ul a::after {
+        content: '\2193';
+        font-family: var(--f-body);
+        font-size: 0.9rem;
+        color: var(--bronze);
+        transition: transform 0.45s var(--ease-expo);
+    }
+
+    .faq-index ul a:hover {
+        color: var(--bronze);
+    }
+
+    .faq-index ul a:hover::after {
+        transform: translateY(3px);
+    }
+
+    .faq-index-note {
+        font-size: var(--fs-small);
+        color: var(--taupe);
+    }
+
+    .faq-index-note a {
+        color: var(--espresso);
+        border-bottom: 1px solid var(--rule-strong);
+        transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .faq-index-note a:hover {
+        color: var(--bronze);
+        border-color: currentColor;
+    }
+
+    .faq-groups {
+        display: grid;
+        gap: clamp(64px, 8vw, 112px);
+    }
+
+    .faq-group {
+        scroll-margin-top: calc(var(--nav-h) + 32px);
+    }
+
+    .faq-group-title {
+        margin-bottom: clamp(20px, 2.5vw, 32px);
+        font-size: clamp(1.9rem, 3vw, 2.75rem);
+    }
+
+    .faq-group :global(.faq-answer-inner a) {
+        color: var(--espresso);
+        text-decoration: underline;
+        text-decoration-color: var(--bronze-light);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease;
+    }
+
+    .faq-group :global(.faq-answer-inner a:hover) {
+        color: var(--bronze);
+    }
+
+    @media (max-width: 600px) {
+        .faq-summary .facts > div {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 4px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .faq-layout {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 48px;
+        }
+
+        .faq-index {
+            position: static;
+        }
+
+        .faq-index ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 24px;
+            border-top: 0;
+        }
+
+        .faq-index li {
+            border-bottom: 0;
+        }
+
+        .faq-index ul a {
+            padding-block: 6px;
+            border-bottom: 1px solid var(--rule-strong);
+            font-size: 1.1rem;
+        }
+    }
+</style>

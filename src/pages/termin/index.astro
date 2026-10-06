@@ -37,34 +37,38 @@ const structuredData = {
 
 <Base
     title="Termin buchen | Beauty Face Lift Zürich"
-    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft vorübergehend über Treatwell."
+    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft über Treatwell."
     structuredData={structuredData}
     noindex={true}
 >
-    <section class="booking-forward-page">
-        <span class="sub-display">Online Buchen</span>
-        <h1>Wir leiten Sie zur Buchung weiter.</h1>
-        <p>
-            Beauty Face Lift nutzt vorübergehend Treatwell für die Online-Terminbuchung.
-            Ihre Kampagnen- und Behandlungsangaben werden automatisch übernommen.
-        </p>
-        <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
+    <section class="booking-forward-page" aria-labelledby="booking-forward-title">
+        <div class="container container--text booking-forward-inner">
+            <p class="eyebrow eyebrow--rule">Online buchen</p>
+            <h1 id="booking-forward-title">Wir leiten Sie zur <em>Buchung</em> weiter</h1>
+            <p class="lead">
+                Sie werden zur sicheren Online-Buchung bei unserem Partner Treatwell weitergeleitet.
+                Teresa bestätigt Details und Eignung anschliessend persönlich.
+            </p>
+            <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
 
-        <div class="booking-forward-actions">
-            <a
-                id="treatwell-booking-link"
-                href={TREATWELL_BOOKING_URL}
-                class="pill-btn"
-                rel="noopener"
-            >
-                Buchung öffnen
-            </a>
-            <a href="/kontakt/" class="pill-btn pill-btn-outline">Kontakt aufnehmen</a>
+            <div class="booking-forward-progress" aria-hidden="true"><span></span></div>
+
+            <div class="btn-row booking-forward-actions">
+                <a
+                    id="treatwell-booking-link"
+                    href={TREATWELL_BOOKING_URL}
+                    class="btn"
+                    rel="noopener"
+                >
+                    Buchung öffnen
+                </a>
+                <a href="/kontakt/" class="btn-link">Kontakt aufnehmen</a>
+            </div>
+
+            <p id="booking-forward-status" class="booking-forward-note caption" aria-live="polite">
+                Falls die Weiterleitung nicht automatisch startet, nutzen Sie den Buchungsbutton.
+            </p>
         </div>
-
-        <p id="booking-forward-status" class="booking-forward-note" aria-live="polite">
-            Falls die Weiterleitung nicht automatisch startet, nutzen Sie den Buchungsbutton.
-        </p>
     </section>
 </Base>
 
@@ -330,45 +334,74 @@ const structuredData = {
 
 <style>
     .booking-forward-page {
-        min-height: 68vh;
-        padding: 18vh var(--content-px) 12vh;
-        text-align: center;
+        min-height: 78vh;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        padding-top: calc(var(--nav-h) + clamp(48px, 8vw, 120px));
+        padding-bottom: clamp(72px, 9vw, 136px);
     }
 
-    .booking-forward-page h1 {
-        max-width: 760px;
-        margin: 1rem auto;
-        font-size: clamp(2.3rem, 6vw, 4.8rem);
-        line-height: 1.02;
-        text-transform: none;
+    .booking-forward-inner {
+        display: grid;
+        gap: 24px;
+        justify-items: start;
     }
 
-    .booking-forward-page p {
-        max-width: 620px;
-        margin: 0 auto;
-        color: var(--text-secondary);
-    }
-
-    .booking-forward-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.75rem;
-        margin: 2rem 0 1rem;
-    }
-
-    .booking-forward-note {
-        font-size: 0.9rem;
+    .booking-forward-inner h1 {
+        max-width: 14ch;
     }
 
     .booking-forward-offer {
-        margin-top: 1rem !important;
-        color: var(--accent-text) !important;
-        font-size: 0.95rem;
+        width: 100%;
+        max-width: none;
+        padding-block: 16px;
+        border-top: 1px solid var(--rule-strong);
+        font-size: var(--fs-label);
         font-weight: 600;
+        letter-spacing: 0.14em;
+        line-height: 1.6;
+        text-transform: uppercase;
+        color: var(--bronze);
+    }
+
+    /* Quiet hairline that fills while the redirect is prepared */
+    .booking-forward-progress {
+        width: 100%;
+        height: 1px;
+        margin-top: 8px;
+        background: var(--rule);
+        overflow: hidden;
+    }
+
+    .booking-forward-progress span {
+        display: block;
+        height: 100%;
+        background: var(--bronze);
+        transform-origin: left center;
+        transform: scaleX(0);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .booking-forward-progress span {
+            animation: bookingForwardProgress 0.65s linear forwards;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .booking-forward-progress span {
+            transform: scaleX(1);
+        }
+    }
+
+    @keyframes bookingForwardProgress {
+        to { transform: scaleX(1); }
+    }
+
+    .booking-forward-actions {
+        margin-top: 8px;
+    }
+
+    .booking-forward-note {
+        max-width: 52ch;
     }
 </style>

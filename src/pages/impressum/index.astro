@@ -8,9 +8,14 @@ import Base from '../../layouts/Base.astro';
     title="Impressum | Beauty Face Lift Zürich"
     description="Impressum und rechtliche Angaben von Beauty Face Lift — Premium Kosmetikinstitut an der Bahnhofstrasse 94, 8001 Zürich."
 >
-    <section class="container legal-page">
-        <h1>Impressum</h1>
+    <header class="page-hero legal-hero">
+        <div class="container container--text page-hero-inner">
+            <p class="eyebrow eyebrow--rule">Rechtliches</p>
+            <h1>Impressum</h1>
+        </div>
+    </header>
 
+    <section class="container container--text legal-body">
         <h2>Angaben gemäss Art. 3 UWG</h2>
 
         <h3>Unternehmen</h3>
@@ -46,47 +51,51 @@ import Base from '../../layouts/Base.astro';
 </Base>
 
 <style>
-    .legal-page {
-        padding-top: 18vh;
-        padding-bottom: 10vh;
-        max-width: 800px;
+    .legal-hero {
+        padding-bottom: clamp(32px, 5vw, 64px);
     }
 
-    .legal-page h1 {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        margin-bottom: 3rem;
+    .legal-body {
+        padding-bottom: var(--section-y);
     }
 
-    .legal-page h2 {
-        font-size: 1.5rem;
-        margin-top: 3rem;
-        margin-bottom: 1.5rem;
-        text-transform: none;
+    /* Hairline aligned to the text column, not the gutter */
+    .legal-body::before {
+        content: '';
+        display: block;
+        height: 1px;
+        margin-bottom: clamp(40px, 5vw, 72px);
+        background: var(--rule-strong);
     }
 
-    .legal-page h3 {
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-secondary);
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
+    .legal-body h2 {
+        margin: clamp(48px, 5vw, 72px) 0 18px;
+        font-size: clamp(1.5rem, 2.2vw, 2rem);
+        line-height: 1.15;
     }
 
-    .legal-page p {
-        max-width: none;
+    .legal-body h2:first-child {
+        margin-top: 0;
+    }
+
+    .legal-body h3 {
+        margin: 32px 0 8px;
+        font-size: var(--fs-h4);
+    }
+
+    .legal-body p {
         margin-bottom: 1rem;
     }
 
-    .legal-page a {
-        color: var(--accent);
+    .legal-body a {
+        color: var(--espresso);
         text-decoration: underline;
-        text-underline-offset: 3px;
+        text-decoration-color: var(--bronze-light);
+        text-underline-offset: 4px;
+        transition: color 0.3s ease;
     }
 
-    .legal-page a:hover {
-        color: var(--accent-dark);
+    .legal-body a:hover {
+        color: var(--bronze);
     }
 </style>
