@@ -355,6 +355,11 @@ body.page-contact {
   gap: 26px;
 }
 
+/* The page script hides the form after a successful send */
+.kontakt-form[hidden] {
+  display: none;
+}
+
 .kontakt-field-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -640,9 +645,11 @@ body.page-contact {
 
 .kontakt-form-success {
   display: grid;
-  gap: 14px;
+  justify-items: start;
+  gap: 16px;
   margin-bottom: 0;
-  padding: clamp(24px, 3vw, 36px);
+  padding: 0;
+  background: none; /* the panel is already the surface — no box in a box */
 }
 
 .kontakt-form-success::before {
@@ -699,6 +706,10 @@ body.page-contact {
 
 .kontakt-location-copy h2 {
   max-width: none;
+}
+
+@media (min-width: 768px) {
+  .kontakt-location-copy h2 span { white-space: nowrap; }
 }
 
 .kontakt-location-list {
@@ -1035,6 +1046,19 @@ body.kontakt-form-focused .kontakt-mobile-bar {
     gap: 32px;
     padding: 40px 18px 32px;
   }
+
+  /* Phones: heading and lead, then the form, then the reassurance notes */
+  .kontakt-form-intro-block {
+    display: contents;
+  }
+
+  .kontakt-form-intro-block > h2,
+  .kontakt-form-intro-block > .lead { order: 0; }
+  .kontakt-form-panel { order: 1; }
+  .kontakt-intro-item,
+  .kontakt-urgent-note { order: 2; }
+
+  .kontakt-form-intro-block > .lead { margin-top: -16px; }
 
   /* One surface on phones: the form sits straight on the shell panel */
   .kontakt-form-panel {
