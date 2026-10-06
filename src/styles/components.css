@@ -483,6 +483,7 @@ body.nav-lock { overflow: hidden; }
 }
 
 .section-head > :first-child { display: grid; gap: 20px; }
+.section-head > .btn-link { justify-self: end; }
 .section-head h2 { max-width: 20ch; }
 .section-head .lead { margin-top: 4px; }
 .section-head--center { grid-template-columns: 1fr; justify-items: center; text-align: center; }
@@ -1410,6 +1411,7 @@ a.highlight-item:hover h4 { color: var(--bronze); }
   .treatment-hero-media { aspect-ratio: 4 / 3; order: -1; margin-inline: calc(-1 * var(--gutter)); }
 
   .section-head { grid-template-columns: minmax(0, 1fr); }
+  .section-head > .btn-link { justify-self: start; }
 
   .split-layout { grid-template-columns: minmax(0, 1fr); gap: 40px; }
 
