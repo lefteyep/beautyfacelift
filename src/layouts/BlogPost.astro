@@ -1,123 +1,159 @@
 ---
-import { absoluteUrl } from '../../shared/site';
+// Journal article layout. Each article keeps its own <title>, description,
+// canonical and JSON-LD (passed through unchanged); presentation metadata
+// (category, date, reading time, lead image) comes from pages/blog/_posts.ts.
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
 import { teresaPortrait } from '../lib/site-images';
+import { formatJournalDate, getJournalPost } from '../pages/blog/_posts';
 import '../styles/blog.css';
 
-interface Props {
+interface RelatedLink {
+    href: string;
     title: string;
-    description: string;
-    publishDate: string;
-    author?: string;
-    readingTime?: string;
-    ogImage?: string;
+    text: string;
 }
 
-const { title, description, publishDate, author = 'Teresa Stimac', readingTime, ogImage } = Astro.props;
+interface Props {
+    slug: string;
+    pageTitle: string;
+    description: string;
+    canonical?: string;
+    structuredData: object;
+    breadcrumbLabel: string;
+    title: string;
+    lead?: string;
+    related: RelatedLink[];
+    cta: {
+        /** Trusted markup: may contain one <em> accent word. */
+        title: string;
+        text: string;
+        label: string;
+    };
+}
 
-const formattedDate = new Date(publishDate).toLocaleDateString('de-CH', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-});
+const {
+    slug,
+    pageTitle,
+    description,
+    canonical,
+    structuredData,
+    breadcrumbLabel,
+    title,
+    lead,
+    related,
+    cta,
+} = Astro.props;
 
-const articleData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": title,
-    "description": description,
-    "author": {
-        "@type": "Person",
-        "name": author,
-        "jobTitle": "Kosmetikerin",
-        "worksFor": { "@type": "BeautySalon", "name": "Beauty Face Lift" }
-    },
-    "publisher": {
-        "@type": "Organization",
-        "name": "Beauty Face Lift",
-        "url": absoluteUrl('/')
-    },
-    "datePublished": publishDate,
-    "dateModified": publishDate,
-    "mainEntityOfPage": Astro.url.href,
-    ...(ogImage ? { "image": ogImage } : {})
-};
+const post = getJournalPost(slug);
+const dateLabel = formatJournalDate(post.publishDate);
+const leadImageSizes = '(min-width: 1024px) 880px, 100vw';
 
 const breadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'Blog', href: '/blog/' },
-    { label: title }
+    { label: breadcrumbLabel },
 ];
 ---
 
 <Base
-    title={`${title} — Beauty Face Lift Zürich`}
+    title={pageTitle}
     description={description}
-    ogImage={ogImage}
-    structuredData={articleData}
+    canonical={canonical}
+    structuredData={structuredData}
 >
-    <!-- Breadcrumbs -->
-    <section class="container" style="padding-top: 16vh;">
-        <Breadcrumbs items={breadcrumbs} />
-    </section>
-
-    <!-- Article Header -->
-    <section class="container" style="padding-bottom: 4vh;">
-        <div style="max-width: 700px; margin: 0 auto;">
-            <div class="sub-display margin-bottom-md">Blog</div>
-            <h1 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none; line-height: 1.15;">{title}</h1>
-            <div class="blog-meta">
-                <span>Von {author}</span>
-                <span>{formattedDate}</span>
-                {readingTime && <span>{readingTime} Lesezeit</span>}
+    <article class="journal-article">
+        <header class="journal-header">
+            <div class="container container--narrow">
+                <Breadcrumbs items={breadcrumbs} />
+                <div class="journal-header-copy">
+                    <p class="eyebrow eyebrow--rule reveal-up">{post.category}</p>
+                    <h1 class="journal-title reveal-up">{title}</h1>
+                    {lead && <p class="lead journal-lead reveal-up">{lead}</p>}
+                </div>
+                <p class="journal-byline">
+                    <span>Von Teresa Stimac</span>
+                    <span class="journal-byline-meta">
+                        <time datetime={post.publishDate}>{dateLabel}</time>
+                        <span>{post.readingTime} Lesezeit</span>
+                    </span>
+                </p>
             </div>
-        </div>
-    </section>
+            <figure class="container container--narrow journal-figure reveal-media">
+                <div class="media journal-lead-image">
+                    <Image
+                        src={post.image}
+                        widths={[480, 720, 960, 1320, 1760]}
+                        sizes={leadImageSizes}
+                        format="webp"
+                        quality="high"
+                        alt={post.imageAlt}
+                        priority
+                    />
+                </div>
+            </figure>
+        </header>
 
-    <!-- Article Body -->
-    <section class="container" style="padding-bottom: 10vh;">
-        <article class="blog-article">
-            <slot />
-        </article>
+        <div class="container container--text">
+            <div class="blog-article">
+                <slot />
+            </div>
 
-        <!-- Author Bio -->
-        <div class="blog-article">
-            <div class="blog-author-bio">
-                <div class="blog-author-avatar">
+            <aside class="journal-author" aria-label="Über die Autorin">
+                <div class="media journal-author-portrait">
                     <Image
                         src={teresaPortrait}
-                        widths={[120, 192]}
-                        sizes="96px"
+                        widths={[160, 240, 320]}
+                        sizes="120px"
                         format="webp"
                         quality="high"
                         alt="Teresa Stimac, Gründerin von Beauty Face Lift Zürich"
                         loading="lazy"
                     />
                 </div>
-                <h3>Über die Autorin</h3>
-                <p>Teresa Stimac ist Inhaberin und leitende Kosmetikerin bei <strong>Beauty Face Lift</strong> an der Bahnhofstrasse 94 in Zürich. Mit langjähriger Erfahrung in der ästhetischen Hautpflege berät sie ihre Kundinnen individuell zu den besten Behandlungen für ein strahlendes Hautbild.</p>
-                <div style="margin-top: 1.5rem;">
-                    <a href="/ueber-mich/" class="pill-btn-outline pill-btn" style="font-size: 0.8rem; padding: 10px 24px;">Mehr über Teresa</a>
+                <div class="journal-author-copy">
+                    <p class="label">Über die Autorin</p>
+                    <slot name="author-bio" />
+                    <a href="/ueber-mich/" class="btn-link">Mehr über Teresa</a>
                 </div>
-            </div>
+            </aside>
         </div>
+    </article>
 
-        <!-- Further Reading -->
-        <div class="blog-article">
-            <div class="blog-further-reading">
-                <h2>Weitere Artikel</h2>
-                <p style="max-width: 500px; margin: 0 auto 2rem;">Entdecken Sie mehr Expertenwissen rund um Hautpflege und Gesichtsbehandlungen in unserem Blog.</p>
-                <a href="/blog/" class="pill-btn-outline pill-btn" style="font-size: 0.8rem; padding: 10px 24px;">Alle Artikel ansehen</a>
+    <section class="section section--tight journal-related" aria-labelledby="journal-related-title">
+        <div class="container container--narrow">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow eyebrow--rule">Weiterlesen</p>
+                    <h2 id="journal-related-title">Passend zu diesem <em>Beitrag</em></h2>
+                </div>
+                <a href="/blog/" class="btn-link">Alle Beiträge</a>
             </div>
+            <ul class="index-list journal-related-list">
+                {related.map((item) => (
+                    <li>
+                        <a href={item.href} class="index-item">
+                            <h3 class="index-item-title">{item.title}</h3>
+                            <p class="index-item-text">{item.text}</p>
+                        </a>
+                    </li>
+                ))}
+            </ul>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="container pad-y" style="text-align: center; border-top: 1px solid rgba(18, 18, 18, 0.1);">
-        <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; text-transform: none;">Bereit für Ihr neues Hautbild?</h2>
-        <p style="max-width: 500px; margin: 0 auto 2.5rem;">Buchen Sie Ihren Termin direkt online — unkompliziert und in wenigen Klicks.</p>
-        <a href="/termin/" class="pill-btn">Termin buchen</a>
+    <section class="cta-band" aria-labelledby="journal-cta-title">
+        <div class="cta-band-inner">
+            <div>
+                <p class="eyebrow eyebrow--rule">Termin</p>
+                <h2 id="journal-cta-title" set:html={cta.title} />
+                <p>{cta.text}</p>
+            </div>
+            <div class="btn-row">
+                <a href="/termin/" class="btn" data-button-location="blog_article_cta">{cta.label}</a>
+                <a href="/kontakt/" class="btn-link">Persönlich beraten lassen</a>
+            </div>
+        </div>
     </section>
 </Base>
