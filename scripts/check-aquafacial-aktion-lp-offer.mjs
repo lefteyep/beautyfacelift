@@ -147,7 +147,7 @@ const leadSectionIndex = lp.indexOf('<section class="container lp-section lp-lea
 assert(resultSectionIndex !== -1 && leadSectionIndex !== -1 && resultSectionIndex < leadSectionIndex, 'Aquafacial results section must be placed directly before the lead form section');
 assert(lp.includes('Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung'), 'Aquafacial results section must use the approved headline');
 assert(lp.includes('Die Beispiele zeigen, wie die Haut nach einer professionellen Aquafacial Behandlung sichtbar frischer, gepflegter und hydratisierter wirken kann.'), 'Aquafacial results section must use compliant intro copy');
-assert(lp.includes('Aquafacial Termin sichern'), 'Aquafacial results CTA must use the requested copy');
+assert(lp.includes('ctaLabel="Unverbindlich Termin anfragen"'), 'Aquafacial results CTA must use the requested copy');
 assert(resultsComponent.includes('data-button-location="results_section" data-aquafacial-scroll'), 'Aquafacial results CTA must scroll to the existing lead form without creating a lead event');
 assert(lp.includes('image: {'), 'Aquafacial result examples must define single approved composite images');
 assert(resultsComponent.includes('example.image.src'), 'Aquafacial result cards must render one single image from each approved composite');
@@ -204,12 +204,20 @@ assert(lp.includes('Ich habe die') && lp.includes('Datenschutzerklärung') && lp
 assert(lp.includes('href="/datenschutz/"'), 'Privacy consent must link to the existing privacy policy');
 for (const location of ['lp_hero', 'what_section', 'trust_section', 'final_cta']) {
   assert(
-    lp.includes(`data-button-location="${location}" data-aquafacial-scroll>Jetzt Termin sichern</a>`),
+    lp.includes(`data-button-location="${location}" data-aquafacial-scroll>Unverbindlich Termin anfragen</a>`),
     `Aquafacial LP ${location} CTA must use the requested main CTA copy`,
   );
 }
-assert(lp.includes('<span data-submit-label>Jetzt Termin sichern</span>'), 'Aquafacial form submit CTA must use the requested main CTA copy');
-assert(lp.includes("submitLabel.textContent = 'Jetzt Termin sichern'"), 'Aquafacial form submit reset must restore the requested main CTA copy');
+assert(lp.includes('<span data-submit-label>Unverbindlich Termin anfragen</span>'), 'Aquafacial form submit CTA must use the requested main CTA copy');
+assert(lp.includes("submitLabel.textContent = 'Unverbindlich Termin anfragen'"), 'Aquafacial form submit reset must restore the requested main CTA copy');
+assert(!lp.includes('Jetzt Termin sichern'), 'Aquafacial LP must replace the old booking-style CTA copy everywhere');
+assert(lp.includes('Keine Online-Zahlung. Wir melden uns zur Terminbestätigung.'), 'Aquafacial form must show the no-payment microcopy under the submit button');
+assert(lp.includes('Aquafacial an der Bahnhofstrasse 94</p>'), 'Aquafacial hero must use the approved location kicker');
+assert(!lp.includes('In Zürich nur für kurze Zeit'), 'Aquafacial hero must remove the unproven urgency kicker');
+assert(
+  lp.includes('Kennenlernpreis</span>') && lp.includes('CHF {PROMO_PRICE}.–') && lp.includes('statt CHF {REGULAR_PRICE}.–'),
+  'Aquafacial hero must use the approved price line "Kennenlernpreis CHF 99.– · statt CHF 180.–"',
+);
 assert(lp.includes('data-button-location="mobile_sticky_lead" data-aquafacial-scroll>Termin anfragen</a>'), 'Aquafacial floating bar CTA must use the requested sticky CTA copy');
 assert(lp.includes('Anfrage wird gesendet'), 'Aquafacial form must expose a loading state');
 assert(lp.includes('Vielen Dank! Deine Anfrage ist eingegangen.'), 'Aquafacial form must expose the requested success message');

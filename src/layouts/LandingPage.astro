@@ -72,12 +72,18 @@ const preloadImages = Array.isArray(preloadImage) ? preloadImage : preloadImage 
     ))}
 </head>
 <body>
-    <!-- Minimal Nav: Logo only — static in document flow (scrolls with page) -->
-    <nav class="nav-minimal nav-minimal--lp">
-        <a href="/" class="nav-minimal-brand">
-            <img src="/assets/beautyfacelift-zurich-kosmetikstudio-logo.png" alt="Beauty Face Lift Zürich">
+    <!-- Minimal masthead: centred monogram only, no menu. Static, scrolls with the page. -->
+    <header class="lp-masthead">
+        <a href="/" class="lp-masthead-brand">
+            <img
+                src="/assets/beautyfacelift-zurich-kosmetikstudio-logo.png"
+                alt="Beauty Face Lift Zürich"
+                width="224"
+                height="130"
+                decoding="async"
+            >
         </a>
-    </nav>
+    </header>
 
     <slot />
 
@@ -90,55 +96,69 @@ const preloadImages = Array.isArray(preloadImage) ? preloadImage : preloadImage 
     <MarketingConsent />
 
     <style>
-        .nav-minimal--lp {
-            position: static;
-            width: 100%;
-            padding: 1.5rem 2rem;
+        .lp-masthead {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            background: transparent;
-            color: var(--text-primary);
-            mix-blend-mode: normal;
+            min-height: 88px;
+            padding: 16px var(--gutter);
+            border-bottom: 1px solid var(--rule);
+            background: var(--porcelain);
         }
-        .nav-minimal-brand {
+
+        .lp-masthead-brand {
             display: inline-flex;
-            text-decoration: none;
-            pointer-events: auto;
+            line-height: 0;
         }
-        .nav-minimal-brand img {
-            height: 40px;
-            width: auto;
+
+        .lp-masthead-brand img {
             display: block;
+            width: auto;
+            height: 44px;
         }
+
         .lp-legal-strip {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
-            padding: 1.5rem 2rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
-            border-top: 1px solid var(--border-subtle);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            gap: 12px 36px;
+            padding: 28px var(--gutter) calc(28px + env(safe-area-inset-bottom, 0px));
+            border-top: 1px solid var(--rule);
+            background: var(--porcelain);
+            font-family: var(--f-body);
+            font-size: var(--fs-label);
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            line-height: 1.4;
+            text-transform: uppercase;
         }
+
         .lp-legal-strip a {
-            color: inherit;
-            text-decoration: underline;
-            text-underline-offset: 3px;
+            padding-block: 6px;
+            color: var(--taupe);
+            border-bottom: 1px solid transparent;
+            transition: color 0.3s ease, border-color 0.3s ease;
         }
+
         .lp-legal-strip a:hover {
-            color: var(--accent-text);
+            color: var(--espresso);
+            border-bottom-color: currentColor;
         }
+
         @media (max-width: 900px) {
-            .nav-minimal--lp {
-                justify-content: center;
-                padding: 1.25rem 1.5rem;
+            .lp-masthead {
+                min-height: 64px;
+                padding-block: 12px;
             }
-            .nav-minimal-brand img {
+
+            .lp-masthead-brand img {
                 height: 36px;
             }
+
+            /* Pages with a fixed bottom bar set --lp-sticky-offer-height on <body>. */
             .lp-legal-strip {
-                padding-bottom: calc(1.5rem + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
+                gap: 8px 24px;
+                padding-bottom: calc(28px + var(--lp-sticky-offer-height, 0px) + env(safe-area-inset-bottom, 0px));
             }
         }
     </style>

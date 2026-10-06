@@ -50,6 +50,7 @@ const dataSource = source;
 )}
 
 <style>
+  /* Floating affordance: small espresso circle (floating UI may carry the float shadow). */
   .wa-sticky {
     position: fixed;
     right: 20px;
@@ -60,50 +61,71 @@ const dataSource = source;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    background: var(--ink);
-    color: var(--paper);
-    padding: 0;
-    margin: 0;
-    border: 1px solid rgba(246, 241, 234, 0.2);
-    border-radius: 50%;
-    box-shadow: 0 12px 30px rgba(28, 26, 23, 0.24);
-    text-decoration: none;
     box-sizing: border-box;
-    transition: transform 0.2s var(--ease-expo), box-shadow 0.2s var(--ease-expo);
-  }
-  .wa-sticky:hover {
-    transform: translateY(-2px);
-    background: var(--gold-deep);
-    box-shadow: 0 14px 36px rgba(28, 26, 23, 0.28);
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--rule-light-strong);
+    border-radius: 50%;
+    background: var(--espresso);
+    color: var(--porcelain);
+    box-shadow: var(--shadow-float);
+    text-decoration: none;
+    transition: transform 0.45s var(--ease-expo), background-color 0.3s ease;
   }
 
+  .wa-sticky:hover {
+    transform: translateY(-2px);
+    background: var(--bronze);
+  }
+
+  .wa-sticky:focus-visible {
+    outline: 1px solid var(--espresso);
+    outline-offset: 4px;
+  }
+
+  /* Never sit on top of the consent banner. */
+  :global(body.bfl-consent-visible) .wa-sticky {
+    display: none;
+  }
+
+  /* Inline: secondary (hairline) button with the WhatsApp glyph. */
   .wa-inline {
+    --btn-bg: transparent;
+    --btn-fg: var(--espresso);
+    --btn-border: var(--espresso);
+    --btn-bg-hover: var(--espresso);
+    --btn-fg-hover: var(--porcelain);
+    --btn-border-hover: var(--espresso);
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--border-medium);
+    gap: 0.6rem;
     box-shadow: none;
   }
+
   .wa-inline::before {
     display: none;
   }
-  .wa-inline:hover {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-    box-shadow: var(--shadow-1);
+
+  .wa-inline svg {
+    flex-shrink: 0;
+  }
+
+  :global(:is(.on-dark, .section--dark, .cta-band)) .wa-inline {
+    --btn-fg: var(--porcelain);
+    --btn-border: var(--rule-light-strong);
+    --btn-bg-hover: var(--porcelain);
+    --btn-fg-hover: var(--espresso);
+    --btn-border-hover: var(--porcelain);
   }
 
   @media (max-width: 900px) {
     .wa-sticky {
       right: 16px;
-      bottom: calc(90px + env(safe-area-inset-bottom, 0px));
-      width: 52px;
-      height: 52px;
+      bottom: calc(var(--lp-sticky-offer-height, 0px) + 16px + env(safe-area-inset-bottom, 0px));
+      width: 48px;
+      height: 48px;
     }
   }
 

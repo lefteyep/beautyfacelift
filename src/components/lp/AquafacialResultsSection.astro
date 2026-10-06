@@ -49,7 +49,7 @@ const {
           <Image
             src={example.image.src}
             widths={[360, 520, 720, 960, 1200]}
-            sizes="(min-width: 1101px) 27vw, (min-width: 761px) 45vw, 88vw"
+            sizes="(min-width: 1320px) 420px, (min-width: 761px) 31vw, calc(100vw - 40px)"
             format="webp"
             quality="high"
             alt={example.image.alt}
@@ -67,57 +67,67 @@ const {
   <p class="aquafacial-results-disclaimer">{disclaimer}</p>
 
   <div class="lp-section-cta">
-    <a href={ctaTarget} class="pill-btn" data-button-location="results_section" data-aquafacial-scroll>{ctaLabel}</a>
+    <a href={ctaTarget} class="btn" data-button-location="results_section" data-aquafacial-scroll>{ctaLabel}</a>
   </div>
 </section>
 
 <style>
   .aquafacial-results-section {
-    border-block: 1px solid var(--border-subtle);
-    background: linear-gradient(180deg, var(--bone) 0%, var(--paper-2) 100%);
+    padding-top: clamp(72px, 9vw, 136px);
     padding-bottom: clamp(72px, 8vw, 112px);
+    border-top: 1px solid var(--rule);
   }
 
   .aquafacial-results-head {
     display: grid;
     justify-items: center;
-    max-width: min(100%, 1040px);
-    margin: 0 auto 44px;
+    gap: 20px;
+    max-width: min(100%, 880px);
+    margin: 0 auto clamp(40px, 5vw, 72px);
     text-align: center;
   }
 
   .aquafacial-results-head .lp-eyebrow {
     width: 100%;
-    margin-bottom: 14px;
+    margin: 0;
+    color: var(--bronze);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    line-height: 1.4;
+    text-transform: uppercase;
     text-align: center;
   }
 
   .aquafacial-results-head .lp-section-title {
     width: 100%;
-    max-width: 1080px;
+    max-width: 20ch;
     margin-inline: auto;
+    font-size: var(--fs-h2);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
     text-align: center;
   }
 
   .aquafacial-results-head .lp-section-lead {
     width: 100%;
-    max-width: 980px;
+    max-width: 58ch;
     margin-inline: auto;
+    font-size: var(--fs-lead);
+    line-height: 1.6;
     text-align: center;
   }
 
   .aquafacial-results-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 48px clamp(20px, 3vw, 48px);
   }
 
   .aquafacial-result-card {
-    overflow: hidden;
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    background: var(--bone);
-    box-shadow: var(--shadow-1);
+    display: grid;
+    align-content: start;
+    gap: 22px;
   }
 
   .aquafacial-result-image {
@@ -125,7 +135,7 @@ const {
     aspect-ratio: 1.34 / 1;
     margin: 0;
     overflow: hidden;
-    background: #e8ddd8;
+    background: var(--stone);
   }
 
   .aquafacial-result-image :global(img) {
@@ -137,70 +147,55 @@ const {
 
   .aquafacial-result-copy {
     display: grid;
-    gap: 8px;
-    padding: 20px;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-strong);
   }
 
   .aquafacial-result-copy h3 {
     margin: 0;
-    color: var(--ink);
-    font-family: var(--font-serif);
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 1.18;
-    letter-spacing: 0;
-    text-transform: none;
+    font-size: var(--fs-h4);
+    line-height: 1.25;
   }
 
-  .aquafacial-result-copy p,
-  .aquafacial-results-disclaimer {
+  .aquafacial-result-copy p {
     margin: 0;
-    color: var(--ink-2);
-    font-size: 14px;
-    line-height: 1.55;
+    color: var(--umber);
+    font-size: 0.98rem;
+    line-height: 1.6;
   }
 
   .aquafacial-results-disclaimer {
-    max-width: 780px;
-    margin: 24px auto 0;
+    max-width: 72ch;
+    margin: clamp(40px, 5vw, 56px) auto 0;
+    color: var(--taupe);
+    font-size: var(--fs-small);
+    line-height: 1.55;
     text-align: center;
   }
 
   .aquafacial-results-section .lp-section-cta {
     display: flex;
     justify-content: center;
-    margin-top: 28px;
-  }
-
-  @media (max-width: 1100px) {
-    .aquafacial-results-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    margin-top: 32px;
   }
 
   @media (max-width: 760px) {
-    .aquafacial-results-section {
-      border-block: 1px solid var(--border-subtle);
+    .aquafacial-results-head .lp-section-title {
+      font-size: clamp(1.9rem, 8.4vw, 2.4rem);
     }
 
-    .aquafacial-results-head {
-      margin-bottom: 32px;
+    .aquafacial-results-head .lp-section-lead {
+      font-size: 1.05rem;
     }
 
     .aquafacial-results-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
     }
 
-    .aquafacial-result-image {
-      aspect-ratio: 1.34 / 1;
-    }
-
-    .aquafacial-result-copy {
-      padding: 18px;
-    }
-
-    .aquafacial-result-copy h3 {
-      font-size: 22px;
+    .aquafacial-results-section .lp-section-cta .btn {
+      width: 100%;
     }
   }
 </style>
