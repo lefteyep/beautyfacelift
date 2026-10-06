@@ -11,7 +11,7 @@ interface Props {
   reviewCount?: string;
 }
 
-const { testimonials, rating = '4.8', reviewCount = '248+' } = Astro.props;
+const { testimonials, rating = '4,8', reviewCount = '248+' } = Astro.props;
 // Two or four quotes sit in two columns, everything else in three, so no row is left with a single orphan.
 const columns = testimonials.length === 2 || testimonials.length === 4 ? 2 : 3;
 ---
@@ -21,8 +21,8 @@ const columns = testimonials.length === 2 || testimonials.length === 4 ? 2 : 3;
     <div class="testimonials-stars" aria-label={`${rating} von 5 Sternen`}>
       {Array.from({ length: 5 }).map(() => '★').join('')}
     </div>
-    <strong>{rating}</strong>
-    <span>{reviewCount} fünf-Sterne-Bewertungen</span>
+    <strong>{rating} / 5</strong>
+    <span>aus {reviewCount} Bewertungen</span>
   </div>
 
   <div class:list={['testimonials-grid', `testimonials-grid--${columns}`]}>
