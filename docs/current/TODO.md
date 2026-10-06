@@ -28,6 +28,19 @@
 - [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate)
 - [ ] Massage: the price row "Ganzkörpermassage CHF 135–1200" ("Preisspanne laut Treatwell") — CHF 1200 looks like a data error; confirm the real range
 - [ ] Gesichtsbehandlung: pages show "45–120 Min.", but no listed Gesichtsbehandlung takes 120 minutes — confirm the duration range
+- [ ] Wissen articles (body text left unchanged in the redesign; confirm, source or soften with Teresa):
+  - `was-ist-aquafacial`:
+    - lists "Aquafacial + Microneedling (90 Min.): CHF 170", which is cheaper than the CHF 180 basic Aquafacial;
+    - claims "zertifizierte Aquafacial-Spezialistin", "weltweit beliebteste Gesichtsbehandlung" and "Hollywood/Dermatologinnen".
+  - `hautpflege-routine-zuerich`:
+    - describes Aquafacial variants ("30-min Express to 90-min Platinum with LED") that contradict the other article;
+    - uses unsourced statistics (80 % UV ageing, collagen −1 %/year).
+  - `aquafacial-vs-microneedling`:
+    - "Goldstandard", "Aknenarben bis zu 70 Prozent", "6–12 Monate";
+    - "Seren einschleust", the same wording that was removed from the Aquafacial page.
+  - `microneedling-erfahrung`: "diplomierte Kosmetikerin", needle depth up to 2.5 mm with lidocaine, "Resultate 1–2 Jahre".
+  - `anti-aging-behandlungen-zuerich`: "eines der wenigen Studios in der Region" (ColdPlasma), "medizinisches Microneedling-Gerät", "drastisch"/"zellulärer Ebene".
+  - Article `<title>`s are 67–87 characters; shorten to ≤ 60 when the copy is reviewed.
 
 ## Completed (May 7, 2026 — Custom-domain launch)
 - [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS

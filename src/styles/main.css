@@ -446,7 +446,7 @@ ul, ol { list-style: none; }
   --btn-border-hover: #FFFFFF;
 }
 
-:is(.on-dark, .section--dark, .footer-editorial) :is(.btn-secondary, .pill-btn-outline, .pill-btn-ghost) {
+:is(.on-dark, .section--dark, .footer-editorial, .cta-band) :is(.btn-secondary, .pill-btn-outline, .pill-btn-ghost) {
   --btn-bg: transparent;
   --btn-fg: var(--cream);
   --btn-border: rgba(255, 253, 251, 0.32);
