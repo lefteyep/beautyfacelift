@@ -173,7 +173,7 @@ Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
 | Stripe deposits | Partial | Components + API created, not wired into booking flow |
 | Email notifications | Created | Edge function written, not deployed |
 | Custom domain | Done | Live on `beautyfacelift-zuerich.ch`; `www` redirects to apex |
-| GTM + Partytown | Ready | Code in place, needs PUBLIC_GTM_ID env var |
+| GTM | Ready | `src/lib/track.ts` loads GTM after marketing consent once PUBLIC_GTM_ID is set (Partytown removed 2026-10-06: no script used it and its sandbox cost requests plus a Lighthouse best-practices failure) |
 | GA4 | Ready | Endpoint ready, needs env vars |
 | Meta Pixel | Ready | Endpoint ready, needs env vars |
 

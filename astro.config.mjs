@@ -3,7 +3,6 @@ import { copyFile } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import react from '@astrojs/react';
-import partytown from '@astrojs/partytown';
 
 const SITE_URL = 'https://beautyfacelift-zuerich.ch';
 
@@ -55,11 +54,6 @@ export default defineConfig({
     }),
     sitemapXmlAlias(),
     react(),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
-      },
-    }),
   ],
   build: {
     inlineStylesheets: 'auto',
