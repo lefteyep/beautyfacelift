@@ -80,6 +80,11 @@ Branch: `codex/lp-combo-glow`. Same quality bar as the approved `/lp/aquafacial/
   - **Sticky bar:**
     - It steps aside while the lead form is on screen.
     - Its height is reserved only through the layout's `--lp-sticky-offer-height` (legal-strip padding); the spacer div and the body padding are gone.
+  - **Re-verified:**
+    - At 390 px the bar is hidden at the top and while the form is on screen, and shown in between and at the page end.
+    - The legal strip reserves 100 px (28 + 72) and the body adds no padding.
+    - There is no horizontal overflow from 320 to 1440 px.
+    - The H1 keeps four lines.
 - **Open points for the client:**
   - **Infographic text:** the pinned infographic (`aquafacial-microneedling-infografik-zuerich.webp`) still reads "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself. It needs a corrected export that says "Aquafacial" and uses cautious wording.
   - **Booking panel label:** the shared booking panel's WhatsApp button reads "Frage per WhatsApp", while this page uses "Per WhatsApp anfragen". The label lives in `BookingCta.astro` (shared).
