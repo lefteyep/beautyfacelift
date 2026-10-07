@@ -33,6 +33,7 @@ output/playwright/
 
 # git worktrees (superpowers)
 .worktrees/
+.agent-snapshots/
 
 # Claude context (session memory, never push)
 CLAUDE.md

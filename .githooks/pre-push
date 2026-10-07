@@ -1,0 +1,11 @@
+#!/bin/sh
+
+while read local_ref local_sha remote_ref remote_sha
+do
+  if [ "$remote_ref" = "refs/heads/master" ] && [ "${ALLOW_MASTER_PUSH:-}" != "1" ]; then
+    echo "Blocked push to master. Open a PR instead, or set ALLOW_MASTER_PUSH=1 for an explicitly approved emergency push." >&2
+    exit 1
+  fi
+done
+
+exit 0
