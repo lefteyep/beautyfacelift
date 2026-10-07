@@ -147,7 +147,7 @@ const benefits = [
         gap: 14px;
         padding-block: 12px;
         border-bottom: 1px solid var(--line);
-        color: var(--cocoa);
+        color: var(--text);
         font-size: 0.98rem;
         line-height: 1.5;
     }
@@ -188,8 +188,9 @@ const benefits = [
     }
 
     /* Benefits: H2, then three ruled columns */
+    /* Section rhythm of /lp/aquafacial/ (.lp-section). */
     .lp-simple-benefits {
-        padding-block: clamp(56px, 7vw, 104px);
+        padding-block: clamp(72px, 9vw, 136px);
         border-top: 1px solid var(--line);
     }
 
@@ -229,7 +230,7 @@ const benefits = [
     }
 
     .lp-simple-booking {
-        padding-bottom: clamp(56px, 8vw, 120px);
+        padding-bottom: clamp(72px, 9vw, 136px);
     }
 
     @media (max-width: 900px) {
@@ -275,16 +276,8 @@ const benefits = [
             margin-top: 20px;
         }
 
-        .lp-simple-ctas .btn {
-            width: 100%;
-        }
-
         .lp-simple-proof {
             margin-top: 14px;
-        }
-
-        .lp-simple-proof :global(.trust-strip-lp) {
-            justify-content: center;
         }
 
         .lp-simple-lead {
@@ -304,6 +297,22 @@ const benefits = [
     }
 
     @media (max-width: 600px) {
+        .lp-simple-benefits {
+            padding-block: 64px;
+        }
+
+        .lp-simple-booking {
+            padding-bottom: 64px;
+        }
+
+        .lp-simple-ctas .btn {
+            width: 100%;
+        }
+
+        .lp-simple-proof :global(.trust-strip-lp) {
+            justify-content: center;
+        }
+
         .lp-simple-section-title {
             font-size: clamp(1.9rem, 8.4vw, 2.4rem);
         }

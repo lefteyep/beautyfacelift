@@ -3,7 +3,8 @@
  * WhatsApp contact for the Meta ad landing pages (prefilled message, tracked as contact).
  *   variant "inline" — secondary pill with the WhatsApp glyph (.btn-secondary)
  *   variant "link"   — text link with the site's arrow disc (.btn-link), next to a primary pill
- *   variant "sticky" — floating cocoa disc, bottom right; hidden on phones and while the consent banner is open
+ *   variant "sticky" — floating cocoa disc, bottom right. Like /lp/aquafacial/ it appears after 25 % scroll depth,
+ *                      sits above a StickyOfferBar on phones and hides while the consent banner is open.
  */
 interface Props {
   phone?: string;
@@ -65,33 +66,71 @@ const glyph = 'M17.47 14.37c-.3-.15-1.73-.85-2-.95s-.47-.15-.67.15-.77.95-.94 1.
   </a>
 )}
 
+<script>
+  // Floating WhatsApp: revealed after 25 % scroll depth (body.lp-wa-scrolled), as on /lp/aquafacial/.
+  function initFloatingWhatsApp() {
+    if (!document.querySelector('.wa-sticky')) return;
+    let ticking = false;
+    const sync = () => {
+      ticking = false;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      document.body.classList.toggle('lp-wa-scrolled', scrollable > 0 && window.scrollY / scrollable >= 0.25);
+    };
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(sync);
+    }, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+
+  initFloatingWhatsApp();
+</script>
+
 <style>
-  /* Floating disc (floating UI may carry the float shadow). */
+  /* Floating disc (floating UI may carry the float shadow). Hidden until 25 % scroll depth. */
   .wa-sticky {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     left: auto;
     top: auto;
-    z-index: 1000;
+    z-index: 45;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    width: 54px;
-    height: 54px;
+    width: 56px;
+    height: 56px;
     margin: 0;
     padding: 0;
-    border: 0;
+    border: 1px solid var(--rule-light-strong);
     border-radius: var(--r-pill);
     background: var(--cocoa);
     color: var(--cream);
     box-shadow: var(--shadow-float);
     text-decoration: none;
-    transition: transform 0.45s var(--ease-expo), background-color 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.5s var(--ease-expo),
+      background-color 0.3s ease,
+      visibility 0s linear 0.35s;
   }
 
-  .wa-sticky:hover {
+  :global(body.lp-wa-scrolled:not(.bfl-consent-visible)) .wa-sticky {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  :global(body.lp-wa-scrolled:not(.bfl-consent-visible)) .wa-sticky:hover {
     transform: translateY(-2px);
     background: var(--clay);
   }
@@ -101,28 +140,24 @@ const glyph = 'M17.47 14.37c-.3-.15-1.73-.85-2-.95s-.47-.15-.67.15-.77.95-.94 1.
     outline-offset: 4px;
   }
 
-  /* Never sit on top of the consent banner. */
-  :global(body.bfl-consent-visible) .wa-sticky {
-    display: none;
-  }
-
   /* Inline: secondary pill with the glyph. Dark bands get the light hairline pill from main.css. */
   .wa-inline svg {
     flex-shrink: 0;
   }
 
+  /* Phones and tablets: smaller disc, above the offer bar (--lp-sticky-offer-height is 0 without one). */
   @media (max-width: 900px) {
     .wa-sticky {
-      right: 16px;
-      bottom: calc(var(--lp-sticky-offer-height, 0px) + 16px + env(safe-area-inset-bottom, 0px));
-      width: 50px;
-      height: 50px;
+      right: calc(16px + env(safe-area-inset-right, 0px));
+      bottom: calc(var(--lp-sticky-offer-height, 0px) + 14px + env(safe-area-inset-bottom, 0px));
+      width: 52px;
+      height: 52px;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (prefers-reduced-motion: reduce) {
     .wa-sticky {
-      display: none;
+      transition: none;
     }
   }
 </style>
