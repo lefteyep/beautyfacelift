@@ -29,7 +29,7 @@ Branch: `codex/lp-combo-glow`. Same quality bar as the approved `/lp/aquafacial/
   - **Price line:** "KOMBI-ANGEBOT CHF 170.– statt ~~CHF 250.–~~ / 1 Std. 30 Min. inklusive …" → "Kombi-Angebot · 1 Std. 30 Min. CHF 170.– · statt CHF 250.–" (sentence case, like the Aquafacial page).
   - **Bullets (desktop only, tick discs):** four "Für …" lines → "Hautanalyse, Aquafacial, Microneedling und Abschlusspflege", "Für mehr Glow, optisch feinere Poren und glatter wirkende Haut", "Persönlich durch Teresa Stimac, 20+ Jahre Erfahrung".
 - **Copy (old → new):**
-  - **Offer H2:** new "Das ist im Kombi-Angebot enthalten"; it replaces the "Enthalten im Aktionspreis" panel. The OfferBox label "Aktionsangebot Zürich" → "Kombi-Angebot", its note → "1 Std. 30 Min. · Hautanalyse inklusive". The footnote under the OfferBox was removed.
+  - **Offer H2:** new "Das ist im Kombi-Angebot enthalten"; it replaces the "Enthalten im Aktionspreis" panel. The OfferBox is the shared default card, as on the carbon page, without a label above the price. Its offer line reads "Aquafacial + Microneedling Kombi-Angebot" (was "Aktionsangebot Zürich" / "Aquafacial + Microneedling") and its note "1 Std. 30 Min. · Hautanalyse inklusive". The footnote under the OfferBox was removed.
   - **Desire:** the five rows became four (the non-skin-goal row "Ruhige Durchführung" was dropped). The lead is now one sentence.
   - **Steps:** "Professionelle Pflege und Anti-Aging" (image story) is gone. Its three photos now illustrate the three phases under "Warum Aquafacial und Microneedling zusammen sinnvoll sein können".
   - **Two-step focus:** each column keeps its pinned title. The intro is shortened and the lists have four items instead of five; "Gepflegteres Hautgefühl" and "Gezielte kosmetische Hautverfeinerung" were filler.
@@ -44,16 +44,19 @@ Branch: `codex/lp-combo-glow`. Same quality bar as the approved `/lp/aquafacial/
   - **Duration:** visible copy now uses one name, "1 Std. 30 Min." (no more "90 Minuten" in the booking panel, FAQ and final band). The meta description and structured data keep "90 Min." / "90 Minuten".
 - **Atelier Glow consistency:**
   - **Overlines:** every decorative section overline was removed (Behandlungsziel, Die Sitzung, Warum diese Kombination?, Behandlungsablauf, Aquafacial + Microneedling, Realistische Vorteile, Qualität & Vertrauen, Realistische Erwartung, Ablauf, Hautanalyse & Terminwunsch, Häufige Fragen, Direktbuchung and the final-band kicker).
-  - **Labels:** no uppercase or tracked labels remain. This covers the price label, form labels, quote caption, OfferBox label and badge, TrustStrip, sticky bar and legal strip (page-level override, as on `/lp/aquafacial/`).
+  - **Labels:** no uppercase or tracked labels remain. This covers the price label, form labels, quote caption, sticky bar and, through the shared components, the OfferBox, TrustStrip and legal strip.
   - **Lists:** the site's tick-list marker (shell disc carrying a hairline copper tick). The QA-pinned `border-left: 1px solid var(--bronze)` tick sits inside the disc. Dash lists are gone.
   - **Shapes:**
     - the hero is an arch;
     - photos use `.media` (`--r-lg`);
-    - the infographic, map, form card (`--r-xl`) and OfferBox card (`--r-xl`) are rounded;
-    - the WhatsApp buttons are secondary pills;
+    - the infographic, map, form card (`--r-xl`) and the shared OfferBox card are rounded;
+    - the hero WhatsApp is a text link with the arrow disc (as on the reference and carbon pages); the form and closing WhatsApp buttons are the shared secondary pills;
     - the sticky WhatsApp is a round disc with the glyph.
   - **Boxes and bars:** the bordered "included" panel inside an ivory band and the quote's left accent bar are gone. The form error panel no longer uses a left bar either.
-  - **Form messages** follow the contact page: the error summary is an error-tinted rounded panel, and invalid fields, hints and consent use `--error` instead of bronze.
+  - **Form messages:**
+    - The `role="alert"` summary uses the contact page's error-tinted rounded panel, with no left bar.
+    - Invalid fields keep master's states (bronze border and label, consent outline); the unchanged script sets `aria-invalid` and focuses the first invalid field.
+    - The CSS-generated "Bitte ausfüllen" hint was removed. The page has no per-field error elements, so none were invented.
 - **Pinned by `qa:aquafacial-combo-lp` and kept despite the rules:**
   - the hero kicker markup `<p class="eyebrow eyebrow--rule lp-eyebrow">Aktion: Aquafacial + Microneedling in Zürich</p>`. It renders as a sentence-case copper label.
   - the location kicker string "Studio & Anfahrt" (kept as the one remaining section kicker).
@@ -67,7 +70,21 @@ Branch: `codex/lp-combo-glow`. Same quality bar as the approved `/lp/aquafacial/
   - There is no horizontal overflow from 320 to 1440 px. The H1 stays at four lines at every width.
   - The sticky bar fits at 320 px; there it hides the struck regular price.
   - The price and both hero CTAs sit above the consent banner at 390 × 844.
-  - The desktop length dropped from about 15,200 px to about 10,200 px, and mobile from about 21,000 px to about 14,100 px.
+  - The desktop length dropped from about 15,200 px to about 11,400 px, and mobile from about 21,000 px to about 14,500 px, with the reference's section rhythm.
+- **Follow-up after the set comparison with `/lp/aquafacial/`:**
+  - **Rhythm:** section padding `clamp(72px, 9vw, 136px)`, H2 line height 1.06 and letter spacing -0.015em; section-head gaps, hero padding and closing-band padding as on the reference.
+  - **Hero (phones):** a full-width booking pill, with the WhatsApp link and the rating line centred beneath it.
+  - **Closing band:** the reference layout (copy left; CTAs and address right). The title is limited to 16ch, `clamp(2rem, 9vw, 2.6rem)` on phones.
+  - **Address line:** "Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich". The phone number was dropped; it is not QA-pinned.
+  - **Trust photo:** 4:5 (4:4.4 on phones).
+  - **Sticky bar:**
+    - It steps aside while the lead form is on screen.
+    - Its height is reserved only through the layout's `--lp-sticky-offer-height` (legal-strip padding); the spacer div and the body padding are gone.
+  - **Re-verified:**
+    - At 390 px the bar is hidden at the top and while the form is on screen, and shown in between and at the page end.
+    - The legal strip reserves 100 px (28 + 72) and the body adds no padding.
+    - There is no horizontal overflow from 320 to 1440 px.
+    - The H1 keeps four lines.
 - **Open points for the client:**
   - **Infographic text:** the pinned infographic (`aquafacial-microneedling-infografik-zuerich.webp`) still reads "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself. It needs a corrected export that says "Aquafacial" and uses cautious wording.
   - **Booking panel label:** the shared booking panel's WhatsApp button reads "Frage per WhatsApp", while this page uses "Per WhatsApp anfragen". The label lives in `BookingCta.astro` (shared).
@@ -233,7 +250,7 @@ Order since 2026-10-07: hero, offer, desire, steps, two-step focus, trust, expec
 - Subtitle: `Gründliche Aquafacial Pflege, intensive Feuchtigkeit und kontrolliertes Microneedling in einem Termin – ideal, wenn Ihre Haut müde, fahl oder unruhig wirkt.`
 - Price line: `Kombi-Angebot · 1 Std. 30 Min.` · `CHF 170.–` · `statt CHF 250.–`.
 - Bullets (desktop only, hidden ≤ 760px by QA): Hautanalyse, Aquafacial, Microneedling und Abschlusspflege · Für mehr Glow, optisch feinere Poren und glatter wirkende Haut · Persönlich durch Teresa Stimac, 20+ Jahre Erfahrung.
-- CTAs: `Jetzt Termin buchen` (booking bridge, `lp_hero_booking`) and `Per WhatsApp anfragen` (`aquafacial_hero`).
+- CTAs: `Jetzt Termin buchen` (booking bridge, `lp_hero_booking`) and the text link `Per WhatsApp anfragen` (`aquafacial_hero`, WhatsAppButton `variant="link"`). On phones the pill runs full width and the link and rating line are centred beneath it.
 - Proof under the CTAs: `★★★★★ 4,8 aus 248+ Bewertungen`.
 - Visual: one treatment photo (Teresa at work) in the arch frame on desktop; a full-bleed 16:9 band above the copy on phones.
 - Phones: photo band, kicker, H1, price, CTAs and proof come first; the subtitle follows (`.lp-subtitle { order: 1; }`).
@@ -243,7 +260,7 @@ Order since 2026-10-07: hero, offer, desire, steps, two-step focus, trust, expec
 - H2: `Das ist im Kombi-Angebot enthalten`.
 - Lead: `1 Std. 30 Min. professionelle Pflege, Schritt für Schritt auf Ihre Haut abgestimmt – persönlich durchgeführt von Teresa Stimac.`
 - Included items (tick discs, treatment order): Hautanalyse und persönliche Abstimmung · Gründliche Aquafacial Pflege · Intensive Feuchtigkeit für einen gepflegten Glow · Kosmetisches Microneedling mit professionellem Pen · Beruhigende Abschlusspflege · After-Care-Hinweise für die ersten 24–48 Stunden.
-- Price card: the shared `OfferBox` restyled on this page as one rounded paper card. It shows the label "Kombi-Angebot", "Aquafacial + Microneedling", CHF 170 with CHF 250 struck, "1 Std. 30 Min. · Hautanalyse inklusive" and the CTA `Kombi-Behandlung buchen` (`offer_box`).
+- Price card: the shared `OfferBox` default card, unstyled by the page, as on the carbon page. It shows CHF 170.– with "statt CHF 250.–", the offer line "Aquafacial + Microneedling Kombi-Angebot", "1 Std. 30 Min. · Hautanalyse inklusive" and the CTA `Kombi-Behandlung buchen` (`offer_box`).
 - Under the card: `TrustStrip variant="promises"` with Persönliche Hautanalyse · Transparenter Aktionspreis · Zentrale Lage in Zürich · Realistische Beratung.
 
 ### 3. Problem / Desire
@@ -267,7 +284,7 @@ Order since 2026-10-07: hero, offer, desire, steps, two-step focus, trust, expec
 ### 6. Trust
 
 - H2 (QA-pinned): `Persönliche Behandlung statt Standardprogramm`.
-- Hautanalyse photo, Teresa's quote (attribution in sentence case), one short paragraph.
+- Hautanalyse photo (4:5), Teresa's quote (attribution in sentence case), one short paragraph.
 - Proof row: 20+ Jahre Erfahrung · 4,8 Bewertung auf Treatwell · 248+ Bewertungen.
 
 ### 7. Expectations
@@ -318,7 +335,7 @@ Order since 2026-10-07: hero, offer, desire, steps, two-step focus, trust, expec
 
 - H2: `Aquafacial + Microneedling für CHF 170.– statt CHF 250.–`.
 - CTAs: `Jetzt Termin buchen` (`lp_final_booking`), `Per WhatsApp anfragen` (`aquafacial_final`) and `Hautanalyse & Termin anfragen` (`lp_final_lead`).
-- Below: the address line.
+- Below the CTAs: `Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich`.
 
 ## 5. Design Documentation
 
@@ -335,7 +352,7 @@ Calm, personal, premium, trustworthy and professional. The design should feel li
 Colour:
 - Colours come only from tokens. There are no hex literals in page styles; tints use `color-mix()` with tokens.
 - Cream page with shell (`.section--sand`) and paper (`.section--ivory`) bands, and a cocoa closing band (`.on-dark`).
-- Form errors use `--error`, as on the contact page.
+- The form-level error summary uses `--error`, as on the contact page; invalid fields keep master's bronze states.
 
 Typography:
 - Instrument Serif 400 for H1/H2, prices, proof numbers and the quote. Instrument Sans for everything else.
@@ -344,14 +361,18 @@ Typography:
 - Prices use lining numerals and the Swiss format "CHF 170.–"; the regular price reads "statt CHF 250.–".
 
 Buttons:
-- `.btn` copper pill for booking, the paper secondary pill for WhatsApp and `.btn-link` with an arrow disc for the form anchor.
+- `.btn` copper pill for booking.
+- WhatsApp:
+  - in the hero, a `.btn-link` text link with an arrow disc;
+  - elsewhere, the shared secondary pill.
+- `.btn-link` with an arrow disc for the form anchor.
 - On the cocoa band, booking is a cream pill and WhatsApp an outline pill.
 - Labels: `buchen` for the Treatwell bridge, `anfragen`/`senden` for the request form.
 
 Shapes and surfaces:
 - **Hero photo:** arch frame on desktop.
 - **Photos:** `.media` with `--r-lg`.
-- **Cards:** the form card and the OfferBox price card use `--r-xl`.
+- **Cards:** the form card uses `--r-xl`; the OfferBox price card is the shared default card.
 - **Map and infographic:** rounded.
 - **Toggles and discs:** step numbers, tick discs and the sticky WhatsApp button are round (`--r-pill`).
 - Radii only through tokens: QA forbids literal `border-radius: Npx|rem|50%` on this page.
@@ -378,7 +399,8 @@ Mobile layout notes:
 - **Columns:** sections stack into one column, and the step cards become photo-and-copy rows at 600px and below.
 - **Sticky bar:**
   - shows the price, `Jetzt Termin buchen` and a round WhatsApp disc;
-  - appears after the hero and hides while the consent banner is open;
+  - appears after the hero and hides while the lead form is on screen or the consent banner is open;
+  - its height is reserved only through the layout's `--lp-sticky-offer-height`;
   - at 360px and below it drops the struck regular price so everything fits at 320px.
 
 ## 6. UI/UX Documentation
@@ -397,7 +419,7 @@ CTA placement:
 - Mobile sticky bar: booking and WhatsApp after the hero starts leaving the viewport.
 
 Sticky CTA behavior:
-The mobile sticky CTA starts hidden with `aria-hidden="true"`. JavaScript checks `.lp-hero.getBoundingClientRect()` and toggles `body.lp-sticky-visible` only when the hero bottom is below the configured viewport threshold. This prevents the sticky bar from covering first-screen trust content.
+The mobile sticky CTA starts hidden with `aria-hidden="true"`. JavaScript checks `.lp-hero.getBoundingClientRect()` and toggles `body.lp-sticky-visible` only when the hero bottom is above the configured viewport threshold and the lead form is not on screen. This keeps the bar off the first-screen trust content and off the form fields and submit button. The bar height is reserved by the layout (`--lp-sticky-offer-height` adds padding to the legal strip); the page adds no spacer of its own.
 
 Form placement:
 The form is intentionally placed after explanation, proof and process sections. It is not the main hero conversion path.
@@ -623,7 +645,7 @@ Turnstile:
 This LP does not rely on Turnstile rendering.
 
 Error behavior:
-The form keeps `novalidate` (no native browser bubbles). On submit the page checks `form.checkValidity()`; if a required field is empty or the e-mail is malformed, submission is stopped, the fields get `aria-invalid="true"`, an error-coloured border and an inline error-coloured hint (`Bitte ausfüllen` / `Bitte eine gültige E-Mail-Adresse angeben`), a `role="alert"` summary (`Bitte prüfen Sie die markierten Felder.`) appears as the contact page's rounded, error-tinted panel and focus moves to the first invalid field. No lead is tracked for blocked submits. Backend contact errors still route to the existing contact error page copy. If the email service is unavailable, users are directed to call or email the studio.
+The form keeps `novalidate` (no native browser bubbles). On submit the page checks `form.checkValidity()`; if a required field is empty or the e-mail is malformed, submission is stopped, the fields get `aria-invalid="true"` and a bronze border, their labels turn bronze, a `role="alert"` summary (`Bitte prüfen Sie die markierten Felder.`) appears as the contact page's rounded, error-tinted panel and focus moves to the first invalid field. No lead is tracked for blocked submits. Backend contact errors still route to the existing contact error page copy. If the email service is unavailable, users are directed to call or email the studio.
 
 Field styling:
 Cream inputs inside a rounded paper form card. Inputs use the QA-pinned `--radius-input` token (now `--r-sm`, 12px). Labels are sentence case; the focus state is a copper border with a soft copper ring, as on the contact page.

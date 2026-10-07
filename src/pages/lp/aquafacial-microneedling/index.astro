@@ -15,7 +15,7 @@ import hautanalyseBeratungImage from '../../../assets/lp/aquafacial/hautanalyse-
 import abschlusspflegeAftercareImage from '../../../assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp';
 import microneedlingCloseUpImage from '../../../assets/lp/aquafacial/microneedling-close-up-zuerich.webp';
 import personalTreatmentImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';
-import { ADDRESS, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, OPENING_HOURS, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { ADDRESS, CONTACT_PHONE, OPENING_HOURS, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
 const REGULAR_PRICE = 250;
@@ -256,7 +256,7 @@ const structuredData = {
 
           <div class="lp-hero-ctas">
             <a href={bookingHref} class="btn lp-hero-primary" data-treatment="Aquafacial + Microneedling" data-button-location="lp_hero_booking">{PRIMARY_CTA_LABEL}</a>
-            <WhatsAppButton variant="inline" message={whatsappMessage} source="aquafacial_hero" label={SECONDARY_CTA_LABEL} />
+            <WhatsAppButton variant="link" message={whatsappMessage} source="aquafacial_hero" label={SECONDARY_CTA_LABEL} />
           </div>
 
           <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></p>
@@ -296,10 +296,9 @@ const structuredData = {
         <div class="lp-offer-card">
           <OfferBox
             variant="box"
-            eyebrow="Kombi-Angebot"
             oldPrice={REGULAR_PRICE}
             newPrice={PROMO_PRICE}
-            discountLabel="Aquafacial + Microneedling"
+            discountLabel={OFFER_LABEL}
             urgency={`${DURATION_LABEL} · Hautanalyse inklusive`}
             ctaText={BOOKING_CTA_LABEL}
             ctaHref={bookingHref}
@@ -684,7 +683,7 @@ const structuredData = {
 
     <!-- 13 · Closing band -->
     <section class="lp-final-dark on-dark" aria-labelledby="lp-final-title">
-      <div class="container lp-final-inner">
+      <div class="lp-final-inner">
         <div class="lp-final-copy">
           <h2 id="lp-final-title" class="lp-final-title">Aquafacial + Microneedling für CHF&nbsp;{PROMO_PRICE}.– statt CHF&nbsp;{REGULAR_PRICE}.–</h2>
           <p class="lp-final-lead">
@@ -692,12 +691,14 @@ const structuredData = {
             stimmt die Behandlung persönlich auf Ihre Haut ab.
           </p>
         </div>
-        <div class="lp-final-ctas">
-          <a href={bookingHref} class="btn" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_booking">{PRIMARY_CTA_LABEL}</a>
-          <WhatsAppButton variant="inline" message={whatsappMessage} source="aquafacial_final" label={SECONDARY_CTA_LABEL} />
-          <a href={`#${LEAD_FORM_TARGET_ID}`} class="btn-link" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
+        <div class="lp-final-actions">
+          <div class="lp-final-ctas">
+            <a href={bookingHref} class="btn" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_booking">{PRIMARY_CTA_LABEL}</a>
+            <WhatsAppButton variant="inline" message={whatsappMessage} source="aquafacial_final" label={SECONDARY_CTA_LABEL} />
+            <a href={`#${LEAD_FORM_TARGET_ID}`} class="btn-link" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
+          </div>
+          <p class="lp-final-address">Beauty Face Lift · {ADDRESS.street} · {ADDRESS.postalCode}&nbsp;{ADDRESS.city}</p>
         </div>
-        <p class="lp-final-address">Beauty Face Lift Zürich · {ADDRESS.street} · {ADDRESS.postalCode}&nbsp;{ADDRESS.city} · {CONTACT_PHONE_DISPLAY}</p>
       </div>
     </section>
 
@@ -713,7 +714,6 @@ const structuredData = {
         </svg>
       </a>
     </div>
-    <div class="lp-mobile-sticky-space" aria-hidden="true"></div>
   </main>
 
   <script>
@@ -737,7 +737,10 @@ const structuredData = {
 
       const heroRect = heroSection.getBoundingClientRect();
       const heroBottomThreshold = window.innerHeight * 0.92;
-      setMobileStickyVisible(heroRect.bottom <= heroBottomThreshold);
+      // Step aside while the lead form (fields + submit) is on screen, as on /lp/aquafacial/.
+      const formRect = form?.getBoundingClientRect();
+      const formInView = Boolean(formRect && formRect.top < window.innerHeight && formRect.bottom > 0);
+      setMobileStickyVisible(heroRect.bottom <= heroBottomThreshold && !formInView);
     };
 
     if (mobileSticky && heroSection) {
@@ -818,7 +821,7 @@ const structuredData = {
   }
 
   .lp-section {
-    padding-block: var(--section-y-tight);
+    padding-block: clamp(72px, 9vw, 136px);
   }
 
   .lp-section--rule {
@@ -830,13 +833,15 @@ const structuredData = {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     align-items: end;
-    gap: 20px clamp(40px, 6vw, 96px);
-    margin-bottom: clamp(36px, 4.5vw, 64px);
+    gap: 24px clamp(40px, 6vw, 104px);
+    margin-bottom: clamp(40px, 5vw, 72px);
   }
 
   .lp-section-title {
     margin: 0;
     max-width: 18ch;
+    line-height: 1.06;
+    letter-spacing: -0.015em;
   }
 
   .lp-head .lp-section-title {
@@ -852,7 +857,7 @@ const structuredData = {
   }
 
   .lp-section-cta {
-    margin-top: clamp(36px, 4.5vw, 56px);
+    margin-top: clamp(32px, 4vw, 48px);
   }
 
   /* ═══ Shared patterns ════════════════════════════════════════ */
@@ -954,27 +959,10 @@ const structuredData = {
     line-height: 1.6;
   }
 
-  /* WhatsApp button (shared LP component) as the site's secondary pill */
-  .lp-page :global(.wa-inline) {
-    --btn-bg: var(--paper);
-    --btn-fg: var(--cocoa);
-    --btn-border: var(--line-strong);
-    --btn-bg-hover: var(--shell);
-    --btn-fg-hover: var(--cocoa);
-    --btn-border-hover: var(--line-strong);
-    gap: 0.6rem;
-    border-radius: var(--r-pill);
-    box-shadow: none;
-  }
-
-  .lp-page :global(.wa-inline svg) {
-    color: var(--clay);
-  }
-
   /* ═══ 1 · Hero ═══════════════════════════════════════════════ */
   .lp-hero {
-    padding-top: clamp(28px, 3.5vw, 48px);
-    padding-bottom: clamp(56px, 7vw, 104px);
+    padding-top: clamp(40px, 5vw, 72px);
+    padding-bottom: clamp(48px, 6vw, 88px);
   }
 
   .lp-hero-grid {
@@ -1058,7 +1046,7 @@ const structuredData = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px 16px;
+    gap: 16px 32px;
     margin-top: clamp(22px, 2.4vw, 30px);
   }
 
@@ -1127,114 +1115,14 @@ const structuredData = {
     gap: 22px;
   }
 
-  /* Shared OfferBox as one rounded price card: label, name, price, note, CTA. */
-  .lp-offer-card :global(.offer-box) {
-    display: grid;
-    grid-template-areas:
-      "eyebrow"
-      "badge"
-      "prices"
-      "urgency"
-      "cta";
-    justify-items: start;
-    max-width: none;
-    margin: 0;
-    padding: clamp(28px, 3.5vw, 44px);
-    text-align: left;
-    background: var(--ivory);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-xl);
-    box-shadow: none;
-  }
-
-  .lp-offer-card :global(.offer-eyebrow) {
-    grid-area: eyebrow;
-    margin: 0 0 10px;
-    color: var(--clay);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .lp-offer-card :global(.offer-badge) {
-    grid-area: badge;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(1.7rem, 2.4vw, 2.15rem);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    text-transform: none;
-  }
-
-  .lp-offer-card :global(.offer-box-prices) {
-    grid-area: prices;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: flex-start;
-    gap: 4px 14px;
-    width: 100%;
-    margin: 22px 0 0;
-    padding-top: 22px;
-    border-top: 1px solid var(--rule);
-  }
-
-  .lp-offer-card :global(.offer-new) {
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(2.75rem, 4.4vw, 3.75rem);
-    font-weight: 400;
-    line-height: 1;
-    font-variant-numeric: lining-nums;
-  }
-
-  .lp-offer-card :global(.offer-old) {
-    color: var(--taupe);
-    font-family: var(--f-body);
-    font-size: var(--fs-small);
-  }
-
-  .lp-offer-card :global(.offer-urgency) {
-    grid-area: urgency;
-    max-width: none;
-    margin: 12px 0 0;
-    color: var(--muted);
-    font-size: var(--fs-small);
-    line-height: 1.5;
-  }
-
-  .lp-offer-card :global(.offer-cta) {
-    grid-area: cta;
-    width: 100%;
-    margin-top: 26px;
-  }
-
-  /* Shared TrustStrip under the card: four quiet promises, sentence case. */
+  /* Shared TrustStrip under the card: the four promises in two columns. */
   .lp-offer-card :global(.trust-strip-lp) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 20px;
+    gap: 12px 20px;
     padding-inline: 8px;
-    color: var(--text);
-    font-size: var(--fs-small);
-    font-weight: 400;
-    letter-spacing: 0;
-    text-transform: none;
   }
 
-  .lp-offer-card :global(.trust-sep) {
-    display: none;
-  }
-
-  .lp-offer-card :global(.trust-item--check) {
-    gap: 10px;
-    color: var(--text);
-  }
 
   /* ═══ 4 · Steps of the appointment (image cards) ═════════════ */
   .lp-phases-list {
@@ -1356,7 +1244,7 @@ const structuredData = {
 
   .lp-trust-media {
     margin: 0;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
   }
 
   .lp-trust-media :global(img) {
@@ -1641,22 +1529,15 @@ const structuredData = {
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--clay) 14%, transparent);
   }
 
-  /* Field errors: error colour, as on the contact page. */
+  /* Field errors as on master: the script sets aria-invalid, focuses the first invalid
+     field and shows the role="alert" summary; fields and labels turn bronze. */
   .lp-lead-form.is-validated .lp-field :is(input, select, textarea):invalid {
-    border-color: var(--error);
+    border-color: var(--bronze);
+    border-bottom-width: 2px;
   }
 
-  .lp-lead-form.is-validated .lp-field:has(:invalid)::before {
-    content: 'Bitte ausfüllen';
-    order: 3;
-    color: var(--error);
-    font-size: var(--fs-small);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .lp-lead-form.is-validated .lp-field:has(input[type="email"]:invalid)::before {
-    content: 'Bitte eine gültige E-Mail-Adresse angeben';
+  .lp-lead-form.is-validated .lp-field:has(:invalid) label {
+    color: var(--bronze);
   }
 
   .lp-checkbox {
@@ -1680,11 +1561,11 @@ const structuredData = {
   }
 
   .lp-lead-form.is-validated .lp-checkbox:has(:invalid) {
-    color: var(--error);
+    color: var(--bronze);
   }
 
   .lp-lead-form.is-validated .lp-checkbox input:invalid {
-    outline: 2px solid var(--error);
+    outline: 1px solid var(--bronze);
     outline-offset: 2px;
   }
 
@@ -1832,73 +1713,62 @@ const structuredData = {
 
   /* ═══ 13 · Closing band ══════════════════════════════════════ */
   .lp-final-dark {
-    padding-block: clamp(72px, 9vw, 136px);
+    padding: clamp(72px, 9vw, 136px) var(--content-px);
   }
 
   .lp-final-inner {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     align-items: end;
-    gap: 36px clamp(40px, 6vw, 96px);
-  }
-
-  .lp-final-copy {
-    display: grid;
-    justify-items: start;
-    gap: 22px;
+    gap: 40px clamp(40px, 6vw, 104px);
+    max-width: var(--container);
+    margin: 0 auto;
   }
 
   .lp-final-title {
-    max-width: none;
+    max-width: 16ch;
     color: var(--porcelain);
+    font-size: var(--fs-h2);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
   }
 
   .lp-final-lead {
     max-width: 52ch;
-    margin: 0;
+    margin: 24px 0 0;
     color: var(--champagne);
-    font-size: var(--fs-lead);
-    line-height: 1.6;
+  }
+
+  .lp-final-actions {
+    display: grid;
+    justify-items: start;
+    gap: 28px;
   }
 
   .lp-final-ctas {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px 16px;
+    gap: 16px;
   }
 
   .lp-final-ctas .btn-link {
     flex-basis: 100%;
-    margin-top: 6px;
-  }
-
-  .lp-final-dark .lp-final-ctas :global(.wa-inline.wa-inline) {
-    --btn-bg: transparent;
-    --btn-fg: var(--cream);
-    --btn-border: var(--rule-light-strong);
-    --btn-bg-hover: color-mix(in srgb, var(--cream) 10%, transparent);
-    --btn-fg-hover: var(--cream);
-    --btn-border-hover: var(--cream);
-  }
-
-  .lp-final-ctas :global(.wa-inline svg) {
-    color: currentColor;
   }
 
   .lp-final-address {
-    grid-column: 1 / -1;
+    width: 100%;
     max-width: none;
     margin: 0;
-    padding-top: 24px;
+    padding-top: 20px;
     border-top: 1px solid var(--rule-light);
     color: var(--champagne);
     font-size: var(--fs-small);
+    font-weight: 400;
   }
 
   /* ═══ Mobile sticky bar ══════════════════════════════════════ */
-  .lp-mobile-sticky,
-  .lp-mobile-sticky-space {
+  .lp-mobile-sticky {
     display: none;
   }
 
@@ -1940,12 +1810,13 @@ const structuredData = {
 
     .lp-head {
       align-items: start;
+      gap: 20px;
     }
 
     /* Hero stacks: photo band on top, then kicker, H1, price, CTAs, proof, subtitle. */
     .lp-hero {
       padding-top: 0;
-      padding-bottom: 48px;
+      padding-bottom: 40px;
     }
 
     .lp-hero-grid {
@@ -2009,7 +1880,10 @@ const structuredData = {
       align-items: flex-start;
     }
 
-    .lp-trust-media,
+    .lp-trust-media {
+      aspect-ratio: 4 / 4.4;
+    }
+
     .lp-expectation-visual,
     .lp-lead-visual {
       aspect-ratio: 4 / 3;
@@ -2028,9 +1902,15 @@ const structuredData = {
       min-height: 320px;
     }
 
-    .lp-final-ctas .btn,
-    .lp-final-ctas :global(.wa-inline) {
-      flex: 1 1 auto;
+    .lp-final-ctas {
+      display: grid;
+      justify-items: start;
+      width: 100%;
+    }
+
+    /* Booking pill and the shared WhatsApp pill both run full width. */
+    .lp-final-ctas :global(.btn) {
+      width: 100%;
     }
 
     /* Mobile sticky bar — shown once the hero leaves the viewport */
@@ -2040,10 +1920,6 @@ const structuredData = {
 
     :global(body.bfl-consent-visible) {
       --lp-sticky-offer-height: 0px;
-    }
-
-    :global(body.lp-sticky-visible:not(.bfl-consent-visible)) {
-      padding-bottom: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
     }
 
     .lp-mobile-sticky {
@@ -2123,14 +1999,6 @@ const structuredData = {
       width: 20px;
       height: 20px;
     }
-
-    .lp-mobile-sticky-space {
-      height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
-    }
-
-    :global(body.lp-sticky-visible:not(.bfl-consent-visible)) .lp-mobile-sticky-space {
-      display: block;
-    }
   }
 
   @media (min-width: 601px) and (max-width: 900px) {
@@ -2150,13 +2018,6 @@ const structuredData = {
 
     .lp-hero-bullets {
       display: none;
-    }
-
-    .lp-hero-ctas {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      width: 100%;
-      gap: 10px;
     }
 
     .lp-rows > li,
@@ -2188,30 +2049,40 @@ const structuredData = {
       display: grid;
       width: 100%;
     }
-
-    .lp-final-ctas {
-      display: grid;
-      width: 100%;
-    }
   }
 
   @media (max-width: 600px) {
-    .lp-section {
-      padding-block: 56px;
+    /* Full-width booking pill; WhatsApp link and rating line centred beneath. */
+    .lp-hero-ctas {
+      display: grid;
+      justify-items: center;
+      width: 100%;
+      gap: 14px;
     }
 
-    .lp-section-title,
-    .lp-final-title {
+    .lp-hero-primary {
+      width: 100%;
+    }
+
+    .lp-hero-proof {
+      align-self: stretch;
+      justify-content: center;
+    }
+
+    .lp-section {
+      padding-block: 64px;
+    }
+
+    .lp-section-title {
       font-size: clamp(1.9rem, 8.4vw, 2.4rem);
     }
 
-    .lp-section-lead,
-    .lp-final-lead {
-      font-size: 1.05rem;
+    .lp-final-title {
+      font-size: clamp(2rem, 9vw, 2.6rem);
     }
 
-    .lp-offer-card :global(.offer-box) {
-      padding: 28px 22px;
+    .lp-section-lead {
+      font-size: 1.05rem;
     }
 
     .lp-offer-card :global(.trust-strip-lp) {
@@ -2265,7 +2136,7 @@ const structuredData = {
     }
 
     .lp-final-dark {
-      padding-block: 64px;
+      padding-inline: var(--gutter);
     }
   }
 
