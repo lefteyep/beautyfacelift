@@ -8,7 +8,7 @@ import '../styles/components.css';
 import '../styles/booking.css';
 import '../styles/admin.css';
 import '../styles/blog.css';
-import { absoluteUrl, SITE_NAME } from '../../shared/site';
+import { absoluteUrl, CONTACT_WHATSAPP_URL, SITE_NAME } from '../../shared/site';
 
 interface Props {
   title: string;
@@ -49,6 +49,15 @@ const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
+const currentPath = Astro.url.pathname;
+const hideMobileCta = [
+  '/datenschutz/',
+  '/impressum/',
+  '/admin/',
+  '/buchung-bestaetigt/',
+  '/kontakt/',
+  '/kontakt/danke/',
+].some((path) => currentPath.startsWith(path));
 ---
 
 <!DOCTYPE html>
@@ -207,6 +216,12 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     </main>
 
     <Footer />
+    {!hideMobileCta && (
+      <nav class="mobile-conversion-bar" aria-label="Schnelle Terminaktion">
+        <a href="/termin/" class="mobile-conversion-primary" data-button-location="mobile_sticky_booking">Termin buchen</a>
+        <a href={CONTACT_WHATSAPP_URL} class="mobile-conversion-secondary" target="_blank" rel="noopener" data-button-location="mobile_sticky_question" data-source="mobile_sticky">Frage stellen</a>
+      </nav>
+    )}
     <MarketingConsent />
 
     <script is:inline define:vars={{ pixelId, gtmId }}>

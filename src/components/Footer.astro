@@ -6,6 +6,7 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_WHATSAPP_URL,
   FULL_ADDRESS,
+  OPENING_HOURS,
   SERVICE_GROUPS,
   TREATWELL_URL,
 } from '../../shared/site';
@@ -37,6 +38,13 @@ import {
             <h4>Buchung</h4>
             <p>Erstberatung, Rückfragen oder Terminänderungen direkt über unsere Kontaktseite.</p>
             <a href="/termin/" class="pill-btn pill-btn-dark" data-button-location="footer_booking_column">Termin buchen</a>
+        </div>
+        <div class="footer-col">
+            <h4>Öffnungszeiten</h4>
+            {OPENING_HOURS.map((row) => (
+                <p><strong>{row.label}:</strong> {row.value}</p>
+            ))}
+            <p>Kosmetikstudio an der Bahnhofstrasse in Zürich.</p>
         </div>
     </div>
 

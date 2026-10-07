@@ -36,8 +36,8 @@ Recommended model: Flux Pro or Midjourney v6+. DALL-E 3 works but has trouble wi
 
 ### Treatment cards (600×500 each — homepage + /behandlungen/ overview)
 
-**`public/assets/hydrafacial_treatment.png`**
-> A Hydrafacial treatment head (rounded metallic tip with clear vacuum tube) being gently held by a gloved hand against a woman's cheek, water droplets visible, soft glow on the skin, close-up, shallow DOF. Emphasize the distinctive vortex-tip device.
+**`public/assets/aquafacial_treatment.png`**
+> A Aquafacial treatment head (rounded metallic tip with clear vacuum tube) being gently held by a gloved hand against a woman's cheek, water droplets visible, soft glow on the skin, close-up, shallow DOF. Emphasize the distinctive vortex-tip device.
 
 **`public/assets/microneedling_treatment.png`**
 > A microneedling dermaroller or pen device on a white marble surface next to a small glass bottle of hyaluronic serum, overhead shot, single light source, minimal styling. Alternatively: close-up of a microneedling pen being guided across a forehead, soft red micro-dots just visible.
@@ -52,11 +52,11 @@ Recommended model: Flux Pro or Midjourney v6+. DALL-E 3 works but has trouble wi
 
 ### Treatment page heroes (large)
 
-**`public/assets/spa_facial_treatment.png`** — used as hero on Hydrafacial + ColdPlasma, content on Microneedling + Fruchtsäure (ideally split into 2-3 unique images)
+**`public/assets/spa_facial_treatment.png`** — used as hero on Aquafacial + ColdPlasma, content on Microneedling + Fruchtsäure (ideally split into 2-3 unique images)
 > A woman lying on a treatment bed with her eyes closed, a white headband, receiving a facial treatment, gloved hand of the therapist visible applying serum, soft warm light from the side, cream linens, peaceful expression. Cropped tight on the face and hands.
 
 **Consider splitting into:**
-- `hero_hydrafacial.png` (1200×800) — specific to Hydrafacial with the vortex tool visible
+- `hero_aquafacial.png` (1200×800) — specific to Aquafacial with the vortex tool visible
 - `hero_coldplasma.png` (1200×800) — with the plasma glow
 - `content_microneedling.png` (800×960) — with the microneedling device
 - `content_fruchtsaeure.png` (800×960) — with the peel bowl and applicator

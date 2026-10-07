@@ -79,7 +79,7 @@ export const OPENING_HOURS = [
 ] as const;
 
 export const TREATMENTS = [
-  { href: '/behandlungen/hydrafacial-zuerich/', label: 'Hydrofacial' },
+  { href: '/behandlungen/aquafacial-zuerich/', label: 'Aquafacial' },
   { href: '/behandlungen/microneedling-zuerich/', label: 'Microneedling' },
   { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', label: 'Fruchtsäure Peeling' },
   { href: '/behandlungen/coldplasma-zuerich/', label: 'ColdPlasma' },
@@ -99,10 +99,10 @@ export const SERVICE_GROUPS = [
         bookingService: 'Gesichtsbehandlungen',
       },
       {
-        href: '/behandlungen/hydrafacial-zuerich/',
-        label: 'Hydrofacial',
-        description: 'Hydrofacial Tiefenreinigung, sanftes Peeling und Feuchtigkeitspflege.',
-        bookingService: 'Hydrofacial',
+        href: '/behandlungen/aquafacial-zuerich/',
+        label: 'Aquafacial',
+        description: 'Aquafacial Tiefenreinigung, sanftes Peeling und Feuchtigkeitspflege.',
+        bookingService: 'Aquafacial',
       },
       {
         href: '/behandlungen/microneedling-zuerich/',
@@ -133,13 +133,13 @@ export const SERVICE_GROUPS = [
   {
     label: 'Laser-Haarentfernung',
     href: '/behandlungen/laser-haarentfernung-zuerich/',
-    description: 'Professionelle dauerhafte Haarentfernung für viele Zonen, diskret in Zürich.',
+    description: 'Professionelle langfristige Haarreduktion für viele Zonen, diskret in Zürich.',
     services: [
       {
         href: '/behandlungen/laser-haarentfernung-zuerich/',
         label: 'Laser-Haarentfernung Zürich',
-        description: 'Dauerhafte Haarentfernung für Gesicht, Beine, Bikini, Achseln, Rücken und weitere Zonen.',
-        bookingService: 'Dauerhafte Haarentfernung',
+        description: 'Langfristige Haarreduktion für Gesicht, Beine, Bikini, Achseln, Rücken und weitere Zonen.',
+        bookingService: 'Laser-Haarentfernung',
       },
     ],
   },
@@ -199,11 +199,39 @@ export const SERVICE_GROUPS = [
 
 export const CONTACT_TOPICS = [
   'Ich möchte einen Termin buchen',
-  'Ich möchte eine Behandlungsempfehlung',
-  'Frage zu Preisen',
+  'Ich wünsche eine Behandlungsempfehlung',
+  'Ich bin unsicher, welche Behandlung passt',
+  'Frage zu Preisen oder Dauer',
   'Termin verschieben oder absagen',
-  'Anfahrt & Studio',
+  'Frage zur Anfahrt',
   'Allgemeine Frage',
 ] as const;
 
 export type ContactTopic = (typeof CONTACT_TOPICS)[number];
+
+export const CONTACT_TREATMENT_INTERESTS = [
+  'Beratung / Empfehlung',
+  'Noch unsicher',
+  'Gesichtsbehandlung / Hautanalyse',
+  'Aquafacial',
+  'Microneedling',
+  'Fruchtsäure Peeling',
+  'ColdPlasma',
+  'Exosome Therapie',
+  'Laser-Haarentfernung',
+  'Waxing',
+  'Wimpern & Brauen',
+  'Make-up',
+  'Massage',
+] as const;
+
+export type ContactTreatmentInterest = (typeof CONTACT_TREATMENT_INTERESTS)[number];
+
+export const CONTACT_PREFERRED_METHODS = [
+  'E-Mail',
+  'Telefon',
+  'WhatsApp',
+  'Egal, was am schnellsten ist',
+] as const;
+
+export type ContactPreferredMethod = (typeof CONTACT_PREFERRED_METHODS)[number];

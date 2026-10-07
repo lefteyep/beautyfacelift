@@ -1,76 +1,279 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { absoluteUrl, TREATWELL_BOOKING_URL,
-    BOOKING_FORWARD_KEYS, } from '../../../shared/site';
+import {
+    absoluteUrl,
+    ADDRESS,
+    BOOKING_FORWARD_KEYS,
+    CONTACT_EMAIL,
+    CONTACT_PHONE,
+    CONTACT_PHONE_DISPLAY,
+    CONTACT_WHATSAPP_URL,
+    FULL_ADDRESS,
+    TREATWELL_BOOKING_URL,
+} from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
 const treatwellServiceDetailsByService = {
-    'Hydrofacial + Microneedling': 'TR4124140',
+    'Aquafacial + Microneedling': 'TR4124140',
 };
 
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BeautySalon",
-    "name": "Beauty Face Lift",
-    "url": absoluteUrl('/'),
-    "telephone": "+41792143462",
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Bahnhofstrasse 94",
-        "addressLocality": "Zürich",
-        "postalCode": "8001",
-        "addressCountry": "CH"
+const bookingPaths = [
+    {
+        title: 'Ich weiss, was ich buchen möchte',
+        body: 'Öffnen Sie die Online-Buchung und wählen Sie Behandlung, Datum und Uhrzeit direkt bei Treatwell aus.',
+        cta: 'Online-Termin öffnen',
+        href: TREATWELL_BOOKING_URL,
+        primary: true,
+        dataBookingLink: true,
     },
-    "potentialAction": {
-        "@type": "ReserveAction",
-        "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": TREATWELL_BOOKING_URL
+    {
+        title: 'Ich bin unsicher',
+        body: 'Schreiben Sie kurz Ihr Hautziel oder Ihre Frage. Teresa empfiehlt Ihnen den passenden nächsten Schritt.',
+        cta: 'Beratung anfragen',
+        href: '/kontakt/#kontaktformular',
+    },
+    {
+        title: 'Ich habe eine schnelle Frage',
+        body: 'Für kurze Rückfragen, Terminänderungen oder eine schnelle Einschätzung ist WhatsApp meist der direkteste Weg.',
+        cta: 'Frage stellen',
+        href: CONTACT_WHATSAPP_URL,
+        external: true,
+    },
+];
+
+const processSteps = [
+    {
+        title: 'Behandlung oder Anliegen wählen',
+        body: 'Buchen Sie direkt online oder senden Sie zuerst eine kurze Anfrage, wenn Sie eine Empfehlung wünschen.',
+    },
+    {
+        title: 'Termin und Details klären',
+        body: 'Bei der Buchung erhalten Sie die Bestätigung über Treatwell. Bei einer Anfrage meldet sich Teresa persönlich.',
+    },
+    {
+        title: 'Ankommen an der Bahnhofstrasse',
+        body: 'Das Studio befindet sich zentral an der Bahnhofstrasse 94 in Zürich, gut erreichbar beim Paradeplatz.',
+    },
+];
+
+const trustItems = [
+    'Zentral an der Bahnhofstrasse 94 in Zürich',
+    'Persönliche Beratung durch Teresa Stimac',
+    'Professionelle kosmetische Behandlungen',
+    'Direkte Online-Buchung oder ruhige Vorabklärung',
+];
+
+const faqItems = [
+    {
+        question: 'Soll ich direkt buchen oder zuerst eine Beratung anfragen?',
+        answer: 'Wenn Sie bereits wissen, welche Behandlung Sie möchten, können Sie direkt online buchen. Wenn Sie unsicher sind, beschreiben Sie kurz Ihr Hautziel über das Kontaktformular oder WhatsApp.',
+    },
+    {
+        question: 'Wohin führt die Online-Buchung?',
+        answer: 'Die Online-Buchung läuft aktuell über Treatwell. Kampagnen- und Behandlungsangaben werden, soweit vorhanden, an den Buchungslink übergeben.',
+    },
+    {
+        question: 'Kann ich eine Behandlungsempfehlung bekommen?',
+        answer: 'Ja. Teresa prüft Ihre Angaben persönlich und empfiehlt einen passenden nächsten Schritt je nach Hauttyp, Ziel und Verträglichkeit.',
+    },
+    {
+        question: 'Wo findet der Termin statt?',
+        answer: `Beauty Face Lift befindet sich an der ${FULL_ADDRESS}, zentral in Zürich in der Nähe von Paradeplatz und Börsenstrasse.`,
+    },
+];
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'WebPage',
+            '@id': absoluteUrl('/termin/#webpage'),
+            name: 'Termin buchen | Beauty Face Lift Zürich',
+            url: absoluteUrl('/termin/'),
+            description: 'Termin bei Beauty Face Lift Zürich buchen oder persönliche Beratung anfragen. Kosmetische Behandlungen zentral an der Bahnhofstrasse 94.',
+            isPartOf: {
+                '@type': 'WebSite',
+                name: 'Beauty Face Lift Zürich',
+                url: absoluteUrl('/'),
+            },
         },
-        "result": {
-            "@type": "Reservation",
-            "name": "Termin buchen"
-        }
-    }
+        {
+            '@type': 'BeautySalon',
+            '@id': absoluteUrl('/#beauty-salon'),
+            name: 'Beauty Face Lift Zürich',
+            url: absoluteUrl('/'),
+            telephone: CONTACT_PHONE_DISPLAY,
+            email: CONTACT_EMAIL,
+            address: {
+                '@type': 'PostalAddress',
+                streetAddress: ADDRESS.street,
+                addressLocality: ADDRESS.city,
+                postalCode: ADDRESS.postalCode,
+                addressCountry: ADDRESS.country,
+            },
+            potentialAction: {
+                '@type': 'ReserveAction',
+                target: {
+                    '@type': 'EntryPoint',
+                    urlTemplate: TREATWELL_BOOKING_URL,
+                },
+                result: {
+                    '@type': 'Reservation',
+                    name: 'Termin buchen',
+                },
+            },
+        },
+        {
+            '@type': 'FAQPage',
+            '@id': absoluteUrl('/termin/#faq'),
+            mainEntity: faqItems.map((item) => ({
+                '@type': 'Question',
+                name: item.question,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: item.answer,
+                },
+            })),
+        },
+    ],
 };
 ---
 
 <Base
     title="Termin buchen | Beauty Face Lift Zürich"
-    description="Termin buchen bei Beauty Face Lift Zürich. Die Online-Buchung läuft vorübergehend über Treatwell."
+    description="Termin bei Beauty Face Lift Zürich buchen oder persönliche Beratung anfragen. Kosmetische Behandlungen zentral an der Bahnhofstrasse 94."
     structuredData={structuredData}
     noindex={true}
 >
-    <section class="booking-forward-page">
-        <span class="sub-display">Online Buchen</span>
-        <h1>Wir leiten Sie zur Buchung weiter.</h1>
-        <p>
-            Beauty Face Lift nutzt vorübergehend Treatwell für die Online-Terminbuchung.
-            Ihre Kampagnen- und Behandlungsangaben werden automatisch übernommen.
-        </p>
-        <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
+    <main class="booking-hub-page">
+        <section class="booking-hub-hero container" aria-labelledby="booking-heading">
+            <div class="booking-hub-copy">
+                <span class="sub-display">Termin buchen</span>
+                <h1 id="booking-heading">Termin bei Beauty Face Lift Zürich buchen</h1>
+                <p>
+                    Wählen Sie den Weg, der zu Ihrem Anliegen passt: direkte Online-Buchung, persönliche Empfehlung oder eine kurze Frage vorab. Teresa stimmt die Behandlung ruhig und individuell auf Ihr Hautziel ab.
+                </p>
+                <ul class="booking-trust-list" aria-label="Vertrauenssignale">
+                    {trustItems.map((item) => <li>{item}</li>)}
+                </ul>
+                <div class="booking-hero-actions">
+                    <a
+                        id="treatwell-booking-link"
+                        href={TREATWELL_BOOKING_URL}
+                        class="pill-btn"
+                        data-booking-link
+                        data-button-location="booking_hub_hero"
+                    >
+                        Termin buchen
+                    </a>
+                    <a href="/kontakt/#kontaktformular" class="pill-btn pill-btn-outline">
+                        Beratung anfragen
+                    </a>
+                </div>
+                <p id="booking-forward-offer" class="booking-forward-offer" hidden></p>
+                <p id="booking-forward-status" class="booking-forward-note" aria-live="polite">
+                    Die Buchung öffnet Treatwell. Wenn Sie unsicher sind, können Sie zuerst Teresa eine Frage senden.
+                </p>
+            </div>
 
-        <div class="booking-forward-actions">
-            <a
-                id="treatwell-booking-link"
-                href={TREATWELL_BOOKING_URL}
-                class="pill-btn"
-                rel="noopener"
-            >
-                Buchung öffnen
-            </a>
-            <a href="/kontakt/" class="pill-btn pill-btn-outline">Kontakt aufnehmen</a>
-        </div>
+            <aside class="booking-hub-panel" aria-label="Kontakt und Standort">
+                <span class="booking-panel-kicker">Beauty Face Lift</span>
+                <h2>Bahnhofstrasse 94, Zürich</h2>
+                <p>Persönliche Kosmetik, Hautpflege und Beauty-Behandlungen in zentraler Lage.</p>
+                <dl>
+                    <div>
+                        <dt>Telefon</dt>
+                        <dd><a href={`tel:${CONTACT_PHONE}`}>{CONTACT_PHONE_DISPLAY}</a></dd>
+                    </div>
+                    <div>
+                        <dt>E-Mail</dt>
+                        <dd><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></dd>
+                    </div>
+                    <div>
+                        <dt>Adresse</dt>
+                        <dd>{FULL_ADDRESS}</dd>
+                    </div>
+                </dl>
+            </aside>
+        </section>
 
-        <p id="booking-forward-status" class="booking-forward-note" aria-live="polite">
-            Falls die Weiterleitung nicht automatisch startet, nutzen Sie den Buchungsbutton.
-        </p>
-    </section>
+        <section class="booking-hub-section container" aria-labelledby="booking-paths-heading">
+            <div class="booking-section-heading">
+                <span class="sub-display">Ihr nächster Schritt</span>
+                <h2 id="booking-paths-heading">Wählen Sie den passenden Weg</h2>
+                <p>Der schnellste Weg hängt davon ab, ob Ihre Behandlung schon feststeht oder ob Sie zuerst eine persönliche Einschätzung wünschen.</p>
+            </div>
+
+            <div class="booking-path-grid">
+                {bookingPaths.map((path, index) => (
+                    <article class:list={['booking-path-card', path.primary && 'booking-path-card--primary']}>
+                        <span class="booking-path-number">{String(index + 1).padStart(2, '0')}</span>
+                        <h3>{path.title}</h3>
+                        <p>{path.body}</p>
+                        <a
+                            href={path.href}
+                            class:list={['pill-btn', !path.primary && 'pill-btn-outline']}
+                            {...(path.external ? { target: '_blank', rel: 'noopener' } : {})}
+                            {...(path.dataBookingLink ? { 'data-booking-link': true, 'data-button-location': 'booking_hub_path_card' } : {})}
+                        >
+                            {path.cta}
+                        </a>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <section class="booking-hub-section booking-hub-section--soft" aria-labelledby="booking-process-heading">
+            <div class="container">
+                <div class="booking-section-heading">
+                    <span class="sub-display">Ablauf</span>
+                    <h2 id="booking-process-heading">So geht es nach Ihrer Anfrage weiter</h2>
+                    <p>Klarer Ablauf, keine übertriebenen Versprechen: Sie erhalten den passenden Termin oder eine ehrliche Empfehlung für Ihre Haut und Ihr Ziel.</p>
+                </div>
+
+                <div class="booking-process-grid">
+                    {processSteps.map((step, index) => (
+                        <div class="booking-process-step">
+                            <span>{String(index + 1).padStart(2, '0')}</span>
+                            <h3>{step.title}</h3>
+                            <p>{step.body}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        <section class="booking-hub-section container" aria-labelledby="booking-faq-heading">
+            <div class="booking-section-heading">
+                <span class="sub-display">Häufige Fragen</span>
+                <h2 id="booking-faq-heading">Gut zu wissen vor der Buchung</h2>
+            </div>
+
+            <div class="booking-faq-list">
+                {faqItems.map((item) => (
+                    <details>
+                        <summary>{item.question}</summary>
+                        <p>{item.answer}</p>
+                    </details>
+                ))}
+            </div>
+        </section>
+
+        <section class="booking-final-cta container" aria-labelledby="booking-final-heading">
+            <span class="sub-display">Persönliche Empfehlung</span>
+            <h2 id="booking-final-heading">Nicht sicher, welche Behandlung passt?</h2>
+            <p>Schreiben Sie Teresa kurz, was Sie sich für Ihre Haut wünschen. So bleibt der erste Schritt ruhig, passend und realistisch.</p>
+            <div class="booking-final-actions">
+                <a href="/kontakt/#kontaktformular" class="pill-btn">Beratung anfragen</a>
+                <a href={CONTACT_WHATSAPP_URL} class="pill-btn pill-btn-outline" target="_blank" rel="noopener">Frage stellen</a>
+            </div>
+        </section>
+    </main>
 </Base>
 
 <script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys, treatwellServiceDetailsByService }}>
     (function() {
-        var fallbackLink = document.getElementById('treatwell-booking-link');
+        var bookingLinks = Array.prototype.slice.call(document.querySelectorAll('[data-booking-link]'));
         var status = document.getElementById('booking-forward-status');
         var offerNote = document.getElementById('booking-forward-offer');
         var currentParams = new URLSearchParams(window.location.search);
@@ -88,6 +291,7 @@ const structuredData = {
         var metaClickIdPattern = /^[A-Za-z0-9._:-]{1,480}$/;
         var metaTestEventCodeStorageKey = 'bfl_meta_test_event_code';
         var metaTestEventCodePattern = /^TEST[A-Za-z0-9_-]{3,64}$/;
+
         bookingForwardKeys.forEach(function(key) {
             var value = currentParams.get(key);
             if (!value && typeof storedParams[key] === 'string') {
@@ -105,20 +309,18 @@ const structuredData = {
         }
 
         var href = target.toString();
-        if (fallbackLink) {
-            fallbackLink.setAttribute('href', href);
-        }
+        bookingLinks.forEach(function(link) {
+            link.setAttribute('href', href);
+        });
+
         var offer = currentParams.get('offer') || storedParams.offer || '';
         var price = currentParams.get('price') || storedParams.price || '';
         if (offerNote && offer === 'glow-up-aktion' && price === '169') {
             offerNote.hidden = false;
             offerNote.textContent = 'Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220 wird an Treatwell übergeben.';
-        } else if (offerNote && offer === 'hydrofacial-microneedling-aktion' && price === '170') {
+        } else if (offerNote && offer === 'aquafacial-microneedling-aktion' && price === '170') {
             offerNote.hidden = false;
-            offerNote.textContent = 'Aktion: Hydrofacial + Microneedling für CHF 170 statt CHF 250 wird an Treatwell übergeben.';
-        }
-        if (status) {
-            status.textContent = 'Weiterleitung zu Treatwell wird vorbereitet...';
+            offerNote.textContent = 'Aktion: Aquafacial + Microneedling für CHF 170 statt CHF 250 wird an Treatwell übergeben.';
         }
 
         function randomId() {
@@ -247,7 +449,7 @@ const structuredData = {
             } catch(e) {}
         }
 
-        function trackOutbound() {
+        function trackOutbound(buttonLocation) {
             if (!hasMarketingConsent()) return;
             if (trackedOutbound) return;
             trackedOutbound = true;
@@ -259,9 +461,9 @@ const structuredData = {
                 event_id: eventId,
                 treatment_name: service,
                 service: service,
-                button_location: 'booking_forward_auto_redirect',
+                button_location: buttonLocation || 'booking_hub_treatwell_click',
                 page_path: window.location.pathname,
-                page_type: 'booking_forward',
+                page_type: 'booking_hub',
                 destination_url: href,
                 link_domain: target.hostname,
                 value: 10,
@@ -305,70 +507,360 @@ const structuredData = {
             });
         }
 
-        function safeTrackOutbound() {
+        function safeTrackOutbound(buttonLocation) {
             try {
-                trackOutbound();
+                trackOutbound(buttonLocation);
             } catch(e) {}
         }
 
-        if (fallbackLink) {
-            fallbackLink.addEventListener('click', function(event) {
+        bookingLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
                 event.preventDefault();
-                safeTrackOutbound();
+                safeTrackOutbound(link.getAttribute('data-button-location'));
+                if (status) {
+                    status.textContent = 'Treatwell wird geöffnet. Ihre Auswahl bleibt, soweit möglich, im Link erhalten.';
+                }
                 window.setTimeout(function() {
                     window.location.assign(href);
                 }, 250);
             }, { capture: true });
-        }
+        });
 
         window.setTimeout(function() {
-            safeTrackOutbound();
+            safeTrackOutbound('booking_hub_auto_redirect');
             window.location.replace(href);
-        }, 650);
+        }, 900);
     })();
 </script>
 
 <style>
-    .booking-forward-page {
-        min-height: 68vh;
-        padding: 18vh var(--content-px) 12vh;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
+    .booking-hub-page {
+        padding-top: 88px;
+    }
+
+    .booking-hub-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+        gap: clamp(36px, 6vw, 76px);
         align-items: center;
-        justify-content: center;
+        padding-top: clamp(52px, 8vw, 116px);
+        padding-bottom: clamp(58px, 8vw, 106px);
     }
 
-    .booking-forward-page h1 {
-        max-width: 760px;
-        margin: 1rem auto;
-        font-size: clamp(2.3rem, 6vw, 4.8rem);
-        line-height: 1.02;
+    .booking-hub-copy h1,
+    .booking-section-heading h2,
+    .booking-final-cta h2 {
         text-transform: none;
+        letter-spacing: 0;
     }
 
-    .booking-forward-page p {
-        max-width: 620px;
-        margin: 0 auto;
+    .booking-hub-copy h1 {
+        max-width: 920px;
+        margin: 1rem 0 1.25rem;
+        font-size: clamp(2.8rem, 6.4vw, 5.7rem);
+        line-height: 0.98;
+    }
+
+    .booking-hub-copy > p {
+        max-width: 690px;
         color: var(--text-secondary);
+        font-size: clamp(17px, 1.4vw, 20px);
+        line-height: 1.65;
     }
 
-    .booking-forward-actions {
+    .booking-trust-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 18px;
+        max-width: 780px;
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .booking-trust-list li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--ink-2);
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .booking-trust-list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.66em;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold);
+    }
+
+    .booking-hero-actions,
+    .booking-final-actions {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.75rem;
-        margin: 2rem 0 1rem;
+        gap: 12px;
+        margin-top: 2.25rem;
     }
 
-    .booking-forward-note {
-        font-size: 0.9rem;
+    .booking-forward-note,
+    .booking-forward-offer {
+        max-width: 650px;
+        margin-top: 1rem !important;
+        font-size: 14px !important;
+        color: var(--text-muted) !important;
     }
 
     .booking-forward-offer {
-        margin-top: 1rem !important;
         color: var(--accent-text) !important;
-        font-size: 0.95rem;
-        font-weight: 600;
+        font-weight: 650;
+    }
+
+    .booking-hub-panel,
+    .booking-path-card,
+    .booking-process-step,
+    .booking-faq-list details {
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-card);
+        background: var(--bg-cream);
+    }
+
+    .booking-hub-panel {
+        padding: clamp(26px, 3vw, 38px);
+        box-shadow: var(--shadow-1);
+    }
+
+    .booking-panel-kicker,
+    .booking-path-number {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-text);
+        margin-bottom: 14px;
+    }
+
+    .booking-hub-panel h2 {
+        margin: 0 0 12px;
+        font-size: clamp(28px, 3vw, 38px);
+        line-height: 1.1;
+        text-transform: none;
+        letter-spacing: 0;
+    }
+
+    .booking-hub-panel p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .booking-hub-panel dl {
+        display: grid;
+        gap: 16px;
+        margin: 28px 0 0;
+    }
+
+    .booking-hub-panel dt {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .booking-hub-panel dd {
+        margin: 4px 0 0;
+        color: var(--ink);
+    }
+
+    .booking-hub-panel a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+    .booking-hub-section {
+        padding-top: clamp(58px, 7vw, 92px);
+        padding-bottom: clamp(58px, 7vw, 92px);
+    }
+
+    .booking-hub-section--soft {
+        background: var(--paper-2);
+    }
+
+    .booking-section-heading {
+        max-width: 760px;
+        margin-bottom: 34px;
+    }
+
+    .booking-section-heading h2 {
+        margin: 0.85rem 0 1rem;
+        font-size: clamp(2.15rem, 4vw, 3.8rem);
+        line-height: 1.05;
+    }
+
+    .booking-section-heading p {
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .booking-path-grid,
+    .booking-process-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .booking-path-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 320px;
+        padding: clamp(24px, 3vw, 34px);
+    }
+
+    .booking-path-card--primary {
+        background: var(--ink);
+        color: var(--paper);
+    }
+
+    .booking-path-card--primary p,
+    .booking-path-card--primary .booking-path-number {
+        color: rgba(246, 241, 234, 0.76);
+    }
+
+    .booking-path-card h3,
+    .booking-process-step h3 {
+        margin: 0 0 12px;
+        font-size: clamp(24px, 2.3vw, 32px);
+        line-height: 1.12;
+        text-transform: none;
+        letter-spacing: 0;
+    }
+
+    .booking-path-card p,
+    .booking-process-step p,
+    .booking-faq-list p,
+    .booking-final-cta p {
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .booking-path-card--primary p {
+        color: rgba(246, 241, 234, 0.76);
+    }
+
+    .booking-path-card .pill-btn {
+        width: 100%;
+        margin-top: auto;
+    }
+
+    .booking-process-step {
+        padding: clamp(22px, 2.6vw, 32px);
+    }
+
+    .booking-process-step span {
+        display: block;
+        margin-bottom: 16px;
+        font-family: var(--font-serif);
+        font-size: 46px;
+        line-height: 1;
+        color: var(--accent-text);
+    }
+
+    .booking-faq-list {
+        display: grid;
+        gap: 12px;
+        max-width: 920px;
+    }
+
+    .booking-faq-list details {
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .booking-faq-list summary {
+        cursor: pointer;
+        padding: 22px 24px;
+        font-family: var(--font-serif);
+        font-size: clamp(21px, 2vw, 28px);
+        line-height: 1.2;
+        list-style: none;
+    }
+
+    .booking-faq-list summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .booking-faq-list p {
+        margin: 0;
+        padding: 0 24px 24px;
+    }
+
+    .booking-final-cta {
+        margin-bottom: clamp(58px, 8vw, 96px);
+        border-radius: var(--radius-card);
+        background: var(--ink);
+        color: var(--paper);
+        padding-top: clamp(48px, 6vw, 74px);
+        padding-bottom: clamp(48px, 6vw, 74px);
+    }
+
+    .booking-final-cta h2 {
+        max-width: 820px;
+        margin: 0.85rem 0 1rem;
+        color: var(--paper);
+        font-size: clamp(2rem, 4vw, 3.6rem);
+    }
+
+    .booking-final-cta p {
+        max-width: 620px;
+        color: rgba(246, 241, 234, 0.76);
+    }
+
+    .booking-final-cta .pill-btn-outline {
+        border-color: rgba(246, 241, 234, 0.28);
+        color: var(--paper);
+    }
+
+    @media (max-width: 900px) {
+        .booking-hub-page {
+            padding-top: 78px;
+        }
+
+        .booking-hub-hero,
+        .booking-path-grid,
+        .booking-process-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .booking-hub-hero {
+            padding-top: 42px;
+        }
+
+        .booking-trust-list {
+            grid-template-columns: 1fr;
+        }
+
+        .booking-hero-actions,
+        .booking-final-actions {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .booking-hero-actions .pill-btn,
+        .booking-final-actions .pill-btn {
+            width: 100%;
+        }
+
+        .booking-path-card {
+            min-height: auto;
+        }
+
+        .booking-final-cta {
+            border-radius: 0;
+            margin-bottom: 0;
+        }
     }
 </style>

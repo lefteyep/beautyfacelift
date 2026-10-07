@@ -45,7 +45,7 @@ Changes:
 - Microneedling treatment image replaced.
 - Fruchtsaeure Peeling treatment image replaced.
 - ColdPlasma treatment image replaced twice: first with a warmer editorial treatment image, then again on 2026-04-24 after the live URL `/_astro/coldplasma_treatment.ZyMYud8k_ZqWWDH.webp` was flagged for replacement.
-- Hydrafacial primary treatment image was kept because it already fit the visual system better than a speculative replacement.
+- Aquafacial primary treatment image was kept because it already fit the visual system better than a speculative replacement.
 
 ### About / Teresa
 
@@ -99,7 +99,7 @@ Primary integration points:
 - `src/pages/behandlungen/microneedling-zuerich/index.astro`: hero, structured data, and responsive widths updated.
 - `src/pages/behandlungen/fruchtsaeure-peeling-zuerich/index.astro`: hero, support image, structured data, and responsive widths updated.
 - `src/pages/behandlungen/coldplasma-zuerich/index.astro`: hero, structured data, and responsive widths updated.
-- `src/pages/behandlungen/hydrafacial-zuerich/index.astro`: kept primary Hydrafacial treatment image; replaced duplicate/supporting consultation image with the non-identifying trust image.
+- `src/pages/behandlungen/aquafacial-zuerich/index.astro`: kept primary Aquafacial treatment image; replaced duplicate/supporting consultation image with the non-identifying trust image.
 - `src/pages/ueber-uns/index.astro`: replaced fake/founder-like imagery with consultation/trust image and moved raw images into Astro Image where appropriate.
 - `src/pages/admin/design-system.astro`: replaced placeholder imagery tiles with real visual examples that match the system.
 - `src/styles/components.css`: added mobile hero eyebrow wrapping rules to prevent clipping on small screens.
@@ -123,7 +123,7 @@ Primary integration points:
 
 ## Sections Intentionally Left Unchanged
 
-- Hydrafacial primary image: already treatment-relevant and visually compatible.
+- Aquafacial primary image: already treatment-relevant and visually compatible.
 - Studio/interior/product atmosphere images: retained where they supported a real studio feel.
 - Testimonials and trust indicators: stronger as text/social proof than decorative image blocks.
 - FAQ and many conversion sections: left typographic to preserve whitespace and hierarchy.
