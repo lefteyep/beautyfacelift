@@ -113,7 +113,11 @@ All main pages use the "Atelier Glow" system (October 2026). There are no overli
 Article body copy is unchanged. Its unverified claims are listed in [TODO.md](TODO.md).
 
 ### Ad Landing Pages (noindex)
-All five pages share the Atelier Glow ad-page standard (PR #27, #28). The Aquafacial, combo and Carbon pages are locked by their `qa:*-lp` scripts. The Microneedling and Peeling pages have no dedicated QA script.
+All five pages share the Atelier Glow ad-page standard (PR #27, #28). The Aquafacial, combo and Carbon pages are locked by their `qa:*-lp` scripts. The Microneedling and Peeling pages are locked by `npm run qa:simple-lps`, which checks:
+- the booking link and analytics hooks;
+- the 4,8 rating line;
+- "Sie" voice;
+- design tokens only, with no italics or uppercase.
 
 | Page | URL | Voice |
 |------|-----|-------|
