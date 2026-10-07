@@ -8,7 +8,7 @@ import '../styles/components.css';
 import '../styles/booking.css';
 import '../styles/admin.css';
 import '../styles/blog.css';
-import { absoluteUrl, SITE_NAME } from '../../shared/site';
+import { absoluteUrl, BOOKING_ATTRIBUTION_KEYS, SITE_NAME } from '../../shared/site';
 
 interface Props {
   title: string;
@@ -49,6 +49,7 @@ const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
+const attributionKeys = [...BOOKING_ATTRIBUTION_KEYS];
 ---
 
 <!DOCTYPE html>
@@ -217,10 +218,10 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     </script>
 
     <!-- UTM Parameter Persistence -->
-    <script is:inline>
+    <script is:inline define:vars={{ attributionKeys }}>
         (function() {
             var params = new URLSearchParams(window.location.search);
-            var utmKeys = ['utm_id','utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_source_platform','gclid','gbraid','wbraid','fbclid','matchtype','network','device'];
+            var utmKeys = attributionKeys;
             var utm = {};
             var hasUtm = false;
             utmKeys.forEach(function(k) {

@@ -91,8 +91,8 @@ for (const file of [
 }
 
 for (const [file, phrase] of [
-  ['src/pages/behandlungen/hydrafacial-zuerich/index.astro', 'revolutionäre Technologie'],
-  ['src/pages/behandlungen/hydrafacial-zuerich/index.astro', 'tief in die Haut eingeschleust'],
+  ['src/pages/behandlungen/aquafacial-zuerich/index.astro', 'revolutionäre Technologie'],
+  ['src/pages/behandlungen/aquafacial-zuerich/index.astro', 'tief in die Haut eingeschleust'],
   ['src/pages/behandlungen/fruchtsaeure-peeling-zuerich/index.astro', 'medizinisch formulierte Peelings'],
   ['src/pages/behandlungen/microneedling-zuerich/index.astro', 'Infektionsrisiko'],
 ]) {

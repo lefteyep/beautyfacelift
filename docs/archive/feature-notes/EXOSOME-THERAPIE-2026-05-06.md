@@ -31,7 +31,7 @@ The page avoids disease-treatment, stem-cell, permanent rejuvenation, and guaran
 - FAQPage JSON-LD
 - BreadcrumbList JSON-LD
 - Service JSON-LD without misleading medical procedure claims
-- Internal links to Hydrafacial, Microneedling, ColdPlasma, treatment overview, FAQ, and booking
+- Internal links to Aquafacial, Microneedling, ColdPlasma, treatment overview, FAQ, and booking
 - Added to `llms.txt` and `llms-full.txt` for AI crawler context
 
 ## Implementation Touchpoints

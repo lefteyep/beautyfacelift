@@ -26,6 +26,11 @@ export const BOOKING_ATTRIBUTION_KEYS = [
   'utm_content',
   'utm_term',
   'utm_source_platform',
+  'campaign_id',
+  'adset_id',
+  'ad_id',
+  'placement',
+  'creative_angle',
   'gclid',
   'gbraid',
   'wbraid',
@@ -41,6 +46,11 @@ export const BOOKING_FORWARD_KEYS = [
   ...BOOKING_ATTRIBUTION_KEYS,
   ...BOOKING_INTENT_KEYS,
 ] as const;
+
+export const TREATWELL_SERVICE_DETAIL_HASH_BY_OFFER = {
+  'aquafacial-aktion': 'serviceDetails=TR4122487',
+  'aquafacial-microneedling-aktion': 'serviceDetails=TR4124140',
+} as const;
 
 export function bookingLinkForService(service?: string): string {
   if (!service) return '/termin/';
@@ -73,13 +83,13 @@ export const ADDRESS = {
 export const FULL_ADDRESS = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
 
 export const OPENING_HOURS = [
-  { label: 'Montag bis Freitag', value: '09:00 - 18:00' },
+  { label: 'Montag bis Freitag', value: '10:00 - 20:00' },
   { label: 'Samstag', value: '10:00 - 16:00' },
   { label: 'Sonntag', value: 'Nach Vereinbarung geschlossen' },
 ] as const;
 
 export const TREATMENTS = [
-  { href: '/behandlungen/hydrafacial-zuerich/', label: 'Hydrafacial' },
+  { href: '/behandlungen/aquafacial-zuerich/', label: 'Aquafacial' },
   { href: '/behandlungen/microneedling-zuerich/', label: 'Microneedling' },
   { href: '/behandlungen/fruchtsaeure-peeling-zuerich/', label: 'Fruchtsäure Peeling' },
   { href: '/behandlungen/coldplasma-zuerich/', label: 'ColdPlasma' },
@@ -99,10 +109,10 @@ export const SERVICE_GROUPS = [
         bookingService: 'Gesichtsbehandlungen',
       },
       {
-        href: '/behandlungen/hydrafacial-zuerich/',
-        label: 'Hydrafacial',
+        href: '/behandlungen/aquafacial-zuerich/',
+        label: 'Aquafacial',
         description: 'Hydra4Face Tiefenreinigung, sanftes Peeling und Feuchtigkeitspflege.',
-        bookingService: 'Hydrafacial',
+        bookingService: 'Aquafacial',
       },
       {
         href: '/behandlungen/microneedling-zuerich/',

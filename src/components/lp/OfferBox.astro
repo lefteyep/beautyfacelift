@@ -8,6 +8,7 @@ interface Props {
   urgency?: string;
   ctaText?: string;
   ctaHref?: string;
+  treatment?: string;
   variant?: 'chip' | 'box';
 }
 
@@ -20,6 +21,7 @@ const {
   urgency,
   ctaText,
   ctaHref,
+  treatment,
   variant = 'box',
 } = Astro.props;
 
@@ -47,7 +49,7 @@ const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Be
     <div class="offer-badge">{badge}</div>
     {urgency && <p class="offer-urgency">{urgency}</p>}
     {ctaText && ctaHref && (
-      <a href={ctaHref} class="pill-btn offer-cta" data-button-location="offer_box">{ctaText}</a>
+      <a href={ctaHref} class="pill-btn offer-cta" data-treatment={treatment} data-button-location="offer_box">{ctaText}</a>
     )}
   </div>
 )}

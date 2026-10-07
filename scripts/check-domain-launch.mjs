@@ -118,7 +118,7 @@ if (existsSync(join(root, 'dist/index.html'))) {
     'dist/robots.txt',
     'dist/sitemap.xml',
     'dist/sitemap-0.xml',
-    'dist/behandlungen/hydrafacial-zuerich/index.html',
+    'dist/behandlungen/aquafacial-zuerich/index.html',
     'dist/kontakt/index.html',
   ];
 

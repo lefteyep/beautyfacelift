@@ -1,9 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { absoluteUrl, TREATWELL_BOOKING_URL,
-    BOOKING_FORWARD_KEYS, } from '../../../shared/site';
+    BOOKING_FORWARD_KEYS,
+    TREATWELL_SERVICE_DETAIL_HASH_BY_OFFER, } from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
+const treatwellServiceDetailHashByOffer = TREATWELL_SERVICE_DETAIL_HASH_BY_OFFER;
 
 const structuredData = {
     "@context": "https://schema.org",
@@ -65,7 +67,7 @@ const structuredData = {
     </section>
 </Base>
 
-<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys }}>
+<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys, treatwellServiceDetailHashByOffer }}>
     (function() {
         var fallbackLink = document.getElementById('treatwell-booking-link');
         var status = document.getElementById('booking-forward-status');
@@ -95,18 +97,26 @@ const structuredData = {
             }
         });
 
+        var offer = currentParams.get('offer') || storedParams.offer || '';
+        var serviceDetailHash = treatwellServiceDetailHashByOffer[offer];
+        if (serviceDetailHash) {
+            target.hash = serviceDetailHash;
+        }
+
         var href = target.toString();
         if (fallbackLink) {
             fallbackLink.setAttribute('href', href);
         }
-        var offer = currentParams.get('offer') || storedParams.offer || '';
         var price = currentParams.get('price') || storedParams.price || '';
         if (offerNote && offer === 'glow-up-aktion' && price === '169') {
             offerNote.hidden = false;
             offerNote.textContent = 'Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220 wird an Treatwell übergeben.';
-        } else if (offerNote && offer === 'hydrafacial-microneedling-aktion' && price === '170') {
+        } else if (offerNote && offer === 'aquafacial-aktion' && price === '99') {
             offerNote.hidden = false;
-            offerNote.textContent = 'Aktion: Hydrafacial + Microneedling für CHF 170 statt CHF 250 wird an Treatwell übergeben.';
+            offerNote.textContent = 'Aquafacial Aktion: CHF 99 statt CHF 180 wird an Treatwell übergeben.';
+        } else if (offerNote && offer === 'aquafacial-microneedling-aktion' && price === '170') {
+            offerNote.hidden = false;
+            offerNote.textContent = 'Aktion: Aquafacial + Microneedling für CHF 170 statt CHF 250 wird an Treatwell übergeben.';
         }
         if (status) {
             status.textContent = 'Weiterleitung zu Treatwell wird vorbereitet...';
@@ -273,6 +283,7 @@ const structuredData = {
             }
 
             postCapi('TreatwellOutboundClick', eventId, {
+                ...campaignParams(),
                 treatment_name: eventData.treatment_name,
                 service: eventData.service,
                 button_location: eventData.button_location,
@@ -284,6 +295,7 @@ const structuredData = {
                 currency: eventData.currency
             });
             postCapi('Schedule', scheduleEventId, {
+                ...campaignParams(),
                 treatment_name: eventData.treatment_name,
                 service: eventData.service,
                 button_location: eventData.button_location,

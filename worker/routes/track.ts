@@ -1,5 +1,12 @@
 import type { Env } from '../env';
-import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, TREATWELL_BOOKING_URL, WWW_HOST } from '../../shared/site';
+import {
+  BOOKING_ATTRIBUTION_KEYS,
+  BOOKING_INTENT_KEYS,
+  CANONICAL_HOST,
+  TEMP_WORKERS_DEV_HOST,
+  TREATWELL_BOOKING_URL,
+  WWW_HOST,
+} from '../../shared/site';
 
 const TRACK_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const TRACK_RATE_LIMIT_MAX_REQUESTS = 120;
@@ -18,7 +25,9 @@ const ALLOWED_EVENTS = new Set([
   'TimeOnPage30s',
   'HighIntentVisit',
 ]);
-const ALLOWED_EVENT_DATA_KEYS = new Set([
+const ALLOWED_EVENT_DATA_KEYS = new Set<string>([
+  ...BOOKING_ATTRIBUTION_KEYS,
+  ...BOOKING_INTENT_KEYS,
   'value',
   'currency',
   'method',

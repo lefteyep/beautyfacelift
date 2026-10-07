@@ -1,0 +1,69 @@
+
+> astro-v2@0.0.1 dev
+> astro dev --host 127.0.0.1 --port 4327
+
+[vite] connected.
+[2m15:04:58[22m [34m[types][39m Generated [2m1ms[22m
+[2m15:04:58[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.2.1[39m [2mready in[22m 1690 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4327/[39m
+[2m15:04:58[22m [32mwatching for file changes...[39m
+[2m15:05:10[22m [34m[200][39m /lp/aquafacial/ [2m86ms[22m
+[2m15:05:24[22m [34m[200][39m /lp/aquafacial/ [2m6ms[22m
+[2m15:05:24[22m [34m[200][39m /_image [2m98ms[22m
+[2m15:05:24[22m [34m[200][39m /_image [2m100ms[22m
+[2m15:05:24[22m [34m[200][39m /_image [2m108ms[22m
+[2m15:05:24[22m [34m[200][39m /_image [2m148ms[22m
+[2m15:05:24[22m [34m[200][39m /_image [2m150ms[22m
+[2m15:06:29[22m [34m[watch][39m /src/pages/lp/aquafacial/index.astro?astro&type=style&index=0&lang.css
+[2m15:06:29[22m [34m[200][39m /lp/aquafacial/ [2m38ms[22m
+[2m15:06:53[22m [34m[200][39m /lp/aquafacial/ [2m6ms[22m
+[2m15:07:13[22m [34m[watch][39m /src/pages/lp/aquafacial/index.astro?astro&type=style&index=0&lang.css
+[2m15:07:13[22m [34m[watch][39m src/pages/lp/aquafacial/index.astro
+[vite] program reload
+[2m15:07:23[22m [34m[200][39m /lp/aquafacial/ [2m22ms[22m
+[2m15:08:07[22m [34m[200][39m /lp/aquafacial/ [2m7ms[22m
+[2m15:08:07[22m [34m[200][39m /_image [2m40ms[22m
+[2m15:08:07[22m [34m[200][39m /_image [2m49ms[22m
+[2m15:08:07[22m [34m[200][39m /_image [2m74ms[22m
+[2m15:08:38[22m [34m[200][39m /termin/ [2m36ms[22m
+[2m15:08:39[22m [34m[vite][39m [32m✨ new dependencies optimized: [33mgsap, gsap/ScrollTrigger[32m[39m
+[2m15:08:39[22m [34m[vite][39m [32m✨ optimized dependencies changed. reloading[39m
+[2m15:08:39[22m [34m[200][39m /termin/ [2m3ms[22m
+[2m17:57:35[22m [34m[200][39m /lp/aquafacial/ [2m6ms[22m
+[2m17:57:35[22m [34m[200][39m / [2m42ms[22m
+[2m17:57:35[22m [34m[200][39m /lp/aquafacial [2m7ms[22m
+[2m17:57:51[22m [34m[200][39m /_image [2m126ms[22m
+[2m17:57:59[22m [34m[200][39m /_image [2m98ms[22m
+[2m18:19:53[22m [34m[200][39m /lp/aquafacial/ [2m5ms[22m
+[2m18:19:53[22m [34m[200][39m /lp/aquafacial [2m7ms[22m
+[2m18:19:53[22m [34m[200][39m /_image [2m61ms[22m
+[2m18:19:53[22m [34m[200][39m / [2m6ms[22m
+[2m18:19:53[22m [34m[200][39m /lp/aquafacial [2m7ms[22m
+[2m18:19:55[22m [34m[200][39m /lp/aquafacial [2m5ms[22m
+[2m18:19:55[22m [34m[200][39m /lp/aquafacial/ [2m4ms[22m
+[2m18:19:56[22m [34m[200][39m / [2m5ms[22m
+[2m18:19:56[22m [34m[200][39m /lp/aquafacial [2m5ms[22m
+[2m18:35:36[22m [34m[watch][39m /src/pages/lp/aquafacial/index.astro?astro&type=style&index=0&lang.css
+[2m18:35:36[22m [34m[200][39m /lp/aquafacial/ [2m36ms[22m
+[2m18:37:14[22m [34m[200][39m /lp/aquafacial/ [2m4ms[22m
+[2m18:37:41[22m [34m[200][39m /lp/aquafacial/ [2m7ms[22m
+[2m18:37:41[22m [34m[200][39m /_image [2m83ms[22m
+[2m18:37:41[22m [34m[200][39m /_image [2m108ms[22m
+[2m18:37:57[22m [34m[200][39m /_image [2m29ms[22m
+[2m18:37:57[22m [34m[200][39m /_image [2m39ms[22m
+[2m18:38:21[22m [34m[200][39m /termin/ [2m4ms[22m
+[2m18:57:20[22m [34m[200][39m /lp/aquafacial/ [2m7ms[22m
+[2m18:57:20[22m [34m[200][39m /lp/aquafacial [2m8ms[22m
+[2m18:57:21[22m [34m[200][39m / [2m6ms[22m
+[2m18:57:21[22m [34m[200][39m /lp/aquafacial [2m6ms[22m
+[2m18:59:24[22m [34m[200][39m /lp/aquafacial/ [2m4ms[22m
+[2m18:59:25[22m [34m[200][39m /lp/aquafacial/ [2m5ms[22m
+[2m20:04:38[22m [34m[watch][39m /src/pages/lp/aquafacial/index.astro?astro&type=style&index=0&lang.css
+[2m20:06:56[22m [34m[200][39m /lp/aquafacial/ [2m38ms[22m
+[2m20:07:29[22m [34m[200][39m /lp/aquafacial/ [2m6ms[22m
+[2m20:07:29[22m [34m[200][39m /_image [2m44ms[22m
+[2m20:08:12[22m [34m[200][39m /lp/aquafacial/ [2m4ms[22m
+[2m20:08:12[22m [34m[200][39m /_image [2m29ms[22m
+[2m20:08:12[22m [34m[200][39m /_image [2m27ms[22m
+[2m20:08:50[22m [34m[200][39m /termin/ [2m43ms[22m

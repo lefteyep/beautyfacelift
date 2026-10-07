@@ -112,8 +112,8 @@ CREATE POLICY "Admin full access to settings"
 -- ============================================
 
 INSERT INTO services (name, slug, description, duration_minutes, price_chf, deposit_chf, category, sort_order) VALUES
-  ('Hydrafacial Signature', 'hydrafacial-signature', 'Tiefenreinigung, Vitalisierung und Glow mit patentierter Vortex-Technologie.', 60, 250.00, 50.00, 'Hydrafacial', 1),
-  ('Hydrafacial Platinum', 'hydrafacial-platinum', 'Premium Hydrafacial mit zusätzlichen Anti-Aging Seren und LED-Lichttherapie.', 90, 380.00, 80.00, 'Hydrafacial', 2),
+  ('Aquafacial Signature', 'aquafacial-signature', 'Tiefenreinigung, Vitalisierung und Glow mit patentierter Vortex-Technologie.', 60, 250.00, 50.00, 'Aquafacial', 1),
+  ('Aquafacial Platinum', 'aquafacial-platinum', 'Premium Aquafacial mit zusätzlichen Anti-Aging Seren und LED-Lichttherapie.', 90, 380.00, 80.00, 'Aquafacial', 2),
   ('Microneedling Gesicht', 'microneedling-gesicht', 'Kollagenstimulation und Hautverjüngung für das Gesicht.', 60, 290.00, 60.00, 'Microneedling', 3),
   ('Microneedling Gesicht + Hals', 'microneedling-gesicht-hals', 'Erweiterte Microneedling Behandlung für Gesicht und Hals.', 75, 350.00, 70.00, 'Microneedling', 4),
   ('Fruchtsäure Peeling', 'fruchtsaeure-peeling', 'Intensive Hauterneuerung mit AHA-Säuren für einen klaren Teint.', 45, 180.00, 0, 'Peeling', 5),

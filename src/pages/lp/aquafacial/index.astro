@@ -1,0 +1,1738 @@
+---
+import LandingPage from '../../../layouts/LandingPage.astro';
+import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
+import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
+import { Image, getImage } from 'astro:assets';
+import { aquafacialCard, consultationTrust, spaInterior, teresaPortrait } from '../../../lib/site-images';
+import { absoluteUrl } from '../../../../shared/site';
+
+const PROMO_PRICE = 99;
+const REGULAR_PRICE = 180;
+const OFFER_LABEL = 'Aquafacial Aktion';
+const CAMPAIGN = 'aquafacial_aktion';
+const OFFER_SLUG = 'aquafacial_aktion_99';
+const LANDING_PAGE_PATH = '/lp/aquafacial/';
+const DURATION_LABEL = '1 Stunde';
+const SEO_TITLE = 'Aquafacial Aktion Zürich | CHF 99 statt CHF 180 | Beauty Face Lift';
+const META_DESCRIPTION = 'Professionelle Aquafacial Behandlung in Zürich: Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF 99 statt CHF 180. Jetzt unverbindlich anfragen.';
+const OG_DESCRIPTION = '1-stündige Aquafacial Behandlung mit Cleansing, Fruchtsäurepeeling und Hyaluron Booster bei Beauty Face Lift Zürich. Jetzt unverbindlich anfragen.';
+const TREATWELL_SUCCESS_HREF = 'https://buchung.treatwell.ch/ort/beauty-face-lift/?service=Aquafacial+Aktion&offer=aquafacial-aktion&price=99#serviceDetails=TR4122487';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
+const whatsappHref =
+  'https://wa.me/41792143462?text=Guten%20Tag%2C%20ich%20interessiere%20mich%20f%C3%BCr%20die%20Aquafacial%20Aktion%20CHF%2099%20statt%20CHF%20180.';
+
+const lpHeroMainSizes = '(min-width: 1101px) 34vw, (min-width: 601px) 380px, 76vw';
+const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 54vw';
+const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
+const lpHeroPreload = await getImage({
+  src: aquafacialCard,
+  widths: [480, 720, 960, 1200, 1536],
+  sizes: lpHeroMainSizes,
+  format: 'webp',
+  quality: 'high',
+});
+
+const heroBullets = [
+  `CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}`,
+  `${DURATION_LABEL} Behandlung`,
+  'Cleansing, Fruchtsäurepeeling & Hyaluron Booster',
+  'Persönlich bei Beauty Face Lift an der Bahnhofstrasse 94',
+];
+
+const trustItems = [
+  'Beauty Face Lift Zürich',
+  'Bahnhofstrasse 94, 8001 Zürich',
+  'Professionelles Kosmetikinstitut',
+  'Persönliche Behandlung durch Teresa Stimac',
+  '4.8/5 Bewertungsschnitt bei 249 Bewertungen',
+  '20+ Jahre Erfahrung',
+];
+
+const includedItems = [
+  'Cleansing',
+  'Sanftes Fruchtsäurepeeling',
+  'Hyaluron Booster',
+  'Beruhigende Abschlusspflege',
+  'Kurze persönliche Hautabstimmung',
+  'Pflegehinweise nach der Behandlung',
+];
+
+const formReassurance = [
+  'Keine Vorauszahlung auf dieser Seite',
+  'Persönliche Rückmeldung vom Studio',
+  'Du kannst vor der Terminbestätigung Fragen stellen',
+  'CHF 99 Aktionspreis wird in der Anfrage übermittelt',
+];
+
+const benefits = [
+  { icon: 'sun' as const, title: 'Frischer, gepflegter wirkender Glow', text: 'Die Haut kann je nach Hautzustand frischer und wacher wirken.' },
+  { icon: 'target' as const, title: 'Saubereres Hautgefühl', text: 'Professionelle Reinigung unterstützt ein klareres, gepflegteres Hautgefühl.' },
+  { icon: 'droplet' as const, title: 'Hyaluron Booster', text: 'Der Booster kann ein angenehm hydratisierteres Hautgefühl unterstützen.' },
+  { icon: 'leaf' as const, title: 'Pflege vor Events', text: 'Geeignet als ruhiges Pflege-Treatment vor einem Anlass, wenn der Zeitpunkt passt.' },
+  { icon: 'activity' as const, title: 'Ruhiges Studioerlebnis', text: 'Die Behandlung findet in persönlicher Atmosphäre an der Bahnhofstrasse statt.' },
+  { icon: 'trending-up' as const, title: 'Persönliche Einschätzung', text: 'Teresa schätzt vor Ort ehrlich ein, was zu deinem aktuellen Hautzustand passt.' },
+];
+
+const trustProof = [
+  { value: '20+ Jahre', label: 'Kosmetische Erfahrung' },
+  { value: '4.8/5', label: 'Bewertungsschnitt' },
+  { value: '249', label: 'Bewertungen' },
+];
+
+const processSteps = [
+  { title: 'Aktion anfragen', text: 'Fülle das kurze Formular aus und sende deinen Terminwunsch.' },
+  { title: 'Studio meldet sich', text: 'Beauty Face Lift kontaktiert dich per Telefon, WhatsApp oder E-Mail.' },
+  { title: 'Termin abstimmen', text: 'Gemeinsam wird ein passender Termin für die Aquafacial Aktion bestätigt.' },
+  { title: 'Aquafacial geniessen', text: 'Du kommst zur 1-stündigen Behandlung an die Bahnhofstrasse 94 in Zürich.' },
+];
+
+const faqs = [
+  {
+    q: 'Was ist in der CHF 99 Aquafacial Aktion enthalten?',
+    a: 'Enthalten sind Cleansing, ein sanftes Fruchtsäurepeeling, Hyaluron Booster, beruhigende Abschlusspflege und eine kurze persönliche Hautabstimmung. Die Behandlung dauert ca. 1 Stunde.',
+  },
+  {
+    q: 'Muss ich sofort online bezahlen?',
+    a: 'Nein. Auf dieser Landing Page fragst du die Aquafacial Aktion unverbindlich an. Beauty Face Lift meldet sich bei dir, bevor dein Termin final bestätigt wird.',
+  },
+  {
+    q: 'Wie lange dauert die Behandlung?',
+    a: 'Die Aquafacial Behandlung dauert ca. 1 Stunde. Plane beim ersten Besuch ein paar Minuten zusätzlich für Ankommen und kurze Abstimmung ein.',
+  },
+  {
+    q: 'Ist Aquafacial für mich geeignet?',
+    a: 'Aquafacial eignet sich für viele Hauttypen, besonders wenn die Haut fahl, trocken, unruhig oder verstopft wirkt. Vor Ort wird ehrlich eingeschätzt, ob die Behandlung zu deinem aktuellen Hautzustand passt.',
+  },
+  {
+    q: 'Wo befindet sich das Studio?',
+    a: 'Beauty Face Lift befindet sich an der Bahnhofstrasse 94, 8001 Zürich, zentral gelegen in der Nähe von Paradeplatz und Börsenstrasse.',
+  },
+  {
+    q: 'Kann ich vor der Terminbestätigung Fragen stellen?',
+    a: 'Ja. Genau dafür ist die Anfrage gedacht. Du kannst im Formular eine Nachricht hinterlassen oder angeben, wie Beauty Face Lift dich kontaktieren darf.',
+  },
+  {
+    q: 'Wie schnell werde ich kontaktiert?',
+    a: 'Beauty Face Lift meldet sich zeitnah bei dir. Bei sehr kurzfristigen Terminwünschen kannst du zusätzlich WhatsApp nutzen.',
+  },
+  {
+    q: 'Ist die Aktion limitiert?',
+    a: 'Die Aquafacial Aktion ist ein Kampagnenangebot für Zürich und kann zeitlich oder nach Verfügbarkeit begrenzt sein. Sende deine Anfrage, damit das Studio deinen Terminwunsch prüfen kann.',
+  },
+  {
+    q: 'Kann ich auch direkt online buchen?',
+    a: 'Ja. Wenn du bereits sicher bist, kannst du nach dem Absenden deiner Anfrage optional direkt online buchen. Die Hauptempfehlung für neue Kundinnen ist jedoch zuerst die unverbindliche Anfrage.',
+  },
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Product',
+      '@id': absoluteUrl('/lp/aquafacial/#product'),
+      name: OFFER_LABEL,
+      description: `Aquafacial Aktion in Zürich: ${DURATION_LABEL} Behandlung mit Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`,
+      image: absoluteUrl('/assets/aquafacial_treatment.png'),
+      brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'CHF',
+        price: PROMO_PRICE.toFixed(2),
+        availability: 'https://schema.org/InStock',
+        url: absoluteUrl('/lp/aquafacial/'),
+        priceValidUntil: '2026-12-31',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<LandingPage
+  title={SEO_TITLE}
+  description={META_DESCRIPTION}
+  ogDescription={OG_DESCRIPTION}
+  ogImage="/assets/aquafacial_treatment.png"
+  preloadImage={{
+    href: lpHeroPreload.src,
+    imagesrcset: lpHeroPreload.srcSet.attribute,
+    imagesizes: lpHeroMainSizes,
+    type: 'image/webp',
+    fetchpriority: 'high',
+  }}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="lp-page">
+    <section class="container lp-hero">
+      <div class="lp-hero-grid">
+        <div class="lp-hero-content">
+          <p class="lp-eyebrow">In Zürich nur für kurze Zeit</p>
+          <h1 class="lp-title display-text">Aquafacial Aktion in Zürich: Frischer Glow für CHF 99 statt CHF 180</h1>
+          <p class="lp-subtitle">
+            Professionelle 1-stündige Aquafacial Behandlung mit Cleansing, Fruchtsäurepeeling und Hyaluron Booster - jetzt unverbindlich anfragen.
+          </p>
+
+          <div class="lp-hero-offer-card" aria-label="Aktionsangebot">
+            <span>Aktionspreis</span>
+            <strong>CHF {PROMO_PRICE}</strong>
+            <s>statt CHF {REGULAR_PRICE}</s>
+            <em>{DURATION_LABEL} · Cleansing · Fruchtsäurepeeling · Hyaluron Booster</em>
+          </div>
+
+          <ul class="lp-hero-bullets">
+            {heroBullets.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+
+          <div class="lp-hero-ctas">
+            <a href="#aquafacial-lead-form" class="pill-btn lp-hero-primary" data-button-location="lp_hero" data-aquafacial-scroll>Aquafacial Aktion anfragen</a>
+            <a href={whatsappHref} class="pill-btn pill-btn-outline lp-hero-secondary" target="_blank" rel="noopener" data-treatment={OFFER_LABEL} data-button-location="lp_hero_whatsapp" data-source="lp_hero">Frage per WhatsApp</a>
+          </div>
+          <p class="lp-hero-note">Keine Online-Zahlung auf dieser Seite. Beauty Face Lift meldet sich persönlich bei dir.</p>
+        </div>
+
+        <div class="lp-hero-media" aria-label={OFFER_LABEL}>
+          <div class="lp-hero-media-main">
+            <Image
+              src={aquafacialCard}
+              widths={[360, 540, 720, 960, 1122]}
+              sizes={lpHeroMainSizes}
+              format="webp"
+              quality="high"
+              priority
+              alt="Aquafacial Behandlung im Beauty Face Lift Studio Zürich"
+            />
+          </div>
+          <div class="lp-hero-media-overlap">
+            <Image
+              src={spaInterior}
+              widths={[320, 480, 640, 800]}
+              sizes={lpHeroOverlapSizes}
+              format="webp"
+              quality="high"
+              loading="eager"
+              alt="Ruhiges Behandlungszimmer bei Beauty Face Lift Zürich"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-trustbar" aria-label="Vertrauen und Standort">
+      <div class="container lp-trustbar-inner">
+        {trustItems.map((item) => (
+          <span>{item}</span>
+        ))}
+      </div>
+    </section>
+
+    <section class="container lp-section lp-offer-detail">
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">Was ist in der Aquafacial Aktion enthalten?</h2>
+        <p class="lp-section-lead">
+          Die Aktion umfasst eine professionelle 1-stündige Aquafacial Behandlung bei Beauty Face Lift Zürich - sorgfältig abgestimmt auf dein Hautgefühl und dein Behandlungsziel.
+        </p>
+      </div>
+      <div class="lp-offer-grid">
+        <div class="lp-offer-price">
+          <span>Aktionspreis</span>
+          <strong>CHF {PROMO_PRICE}</strong>
+          <s>statt CHF {REGULAR_PRICE}</s>
+          <p>{DURATION_LABEL} bei Beauty Face Lift Zürich</p>
+        </div>
+        <div class="lp-included-panel">
+          <ul class="lp-included-list">
+            {includedItems.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <div class="lp-section-cta lp-section-cta-left">
+            <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="what_section" data-aquafacial-scroll>CHF 99 Aktion sichern</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-lead" id="aquafacial-lead-form">
+      <div class="lp-lead-grid">
+        <div class="lp-lead-copy">
+          <p class="lp-eyebrow">Unverbindlich anfragen</p>
+          <h2 class="lp-section-title">Aquafacial Aktion anfragen</h2>
+          <p>
+            Sende uns kurz deinen Terminwunsch oder deine Frage. Beauty Face Lift meldet sich zeitnah bei dir, um die Aquafacial Aktion persönlich mit dir zu besprechen.
+          </p>
+          <ul class="lp-reassurance-list">
+            {formReassurance.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="lp-form-shell">
+          <div class="lp-form-status" data-aquafacial-status role="alert" aria-live="polite" hidden></div>
+          <div class="lp-form-success" data-aquafacial-success tabindex="-1" hidden>
+            <h3>Vielen Dank! Deine Anfrage ist eingegangen.</h3>
+            <p>Beauty Face Lift meldet sich zeitnah bei dir, um deinen Terminwunsch für die Aquafacial Aktion zu besprechen.</p>
+            <a class="lp-secondary-link" href={TREATWELL_SUCCESS_HREF} target="_blank" rel="noopener" data-treatment={OFFER_LABEL} data-button-location="form_success_treatwell">Direkt online buchen</a>
+          </div>
+
+          <form class="lp-lead-form" action="/api/contact" method="post" novalidate data-aquafacial-lead-form>
+            <input type="hidden" name="topic" value="Ich möchte einen Termin buchen" />
+            <input type="hidden" name="campaign" value={CAMPAIGN} />
+            <input type="hidden" name="offer" value={OFFER_SLUG} />
+            <input type="hidden" name="treatment" value={OFFER_LABEL} />
+            <input type="hidden" name="landing_page" value={LANDING_PAGE_PATH} />
+            <input type="hidden" name="page_path" value={LANDING_PAGE_PATH} />
+            <input type="hidden" name="page_url" value="" />
+            <input type="hidden" name="referrer" value="" />
+            <input type="hidden" name="utm_source" value="" />
+            <input type="hidden" name="utm_medium" value="" />
+            <input type="hidden" name="utm_campaign" value="" />
+            <input type="hidden" name="utm_content" value="" />
+            <input type="hidden" name="utm_term" value="" />
+            <input type="hidden" name="fbclid" value="" />
+            <input type="hidden" name="gclid" value="" />
+            <input type="hidden" name="msclkid" value="" />
+
+            <div class="lp-form-row">
+              <label for="aquafacial-name">Vorname und Name <span aria-hidden="true">*</span></label>
+              <input id="aquafacial-name" name="name" type="text" autocomplete="name" required aria-describedby="aquafacial-name-error" />
+              <p id="aquafacial-name-error" class="lp-field-error" data-field-error="name" hidden></p>
+            </div>
+
+            <div class="lp-form-row-grid">
+              <div class="lp-form-row">
+                <label for="aquafacial-phone">Telefonnummer <span aria-hidden="true">*</span></label>
+                <input id="aquafacial-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+41 79 000 00 00" required aria-describedby="aquafacial-phone-error" />
+                <p id="aquafacial-phone-error" class="lp-field-error" data-field-error="phone" hidden></p>
+              </div>
+              <div class="lp-form-row">
+                <label for="aquafacial-email">E-Mail-Adresse <span aria-hidden="true">*</span></label>
+                <input id="aquafacial-email" name="email" type="email" autocomplete="email" placeholder="name@email.ch" required aria-describedby="aquafacial-email-error" />
+                <p id="aquafacial-email-error" class="lp-field-error" data-field-error="email" hidden></p>
+              </div>
+            </div>
+
+            <fieldset class="lp-form-row lp-radio-group" aria-describedby="aquafacial-contact-error">
+              <legend>Wie dürfen wir dich kontaktieren? <span aria-hidden="true">*</span></legend>
+              <label><input type="radio" name="preferred_contact_method" value="Telefon" required /> Telefon</label>
+              <label><input type="radio" name="preferred_contact_method" value="WhatsApp" /> WhatsApp</label>
+              <label><input type="radio" name="preferred_contact_method" value="E-Mail" /> E-Mail</label>
+              <p id="aquafacial-contact-error" class="lp-field-error" data-field-error="preferred_contact_method" hidden></p>
+            </fieldset>
+
+            <div class="lp-form-row-grid">
+              <div class="lp-form-row">
+                <label for="aquafacial-time">Wann passt es dir ungefähr?</label>
+                <input id="aquafacial-time" name="preferred_time" type="text" placeholder="Vormittag, Nachmittag, Samstag, bestimmte Tage" />
+              </div>
+              <div class="lp-form-row">
+                <label for="aquafacial-skin">Was möchtest du verbessern?</label>
+                <select id="aquafacial-skin" name="skin_concern">
+                  <option value="">Bitte wählen</option>
+                  <option>Frischerer Glow</option>
+                  <option>Trockenheit / Feuchtigkeit</option>
+                  <option>Verstopft wirkende Poren</option>
+                  <option>Unruhige Hautstruktur</option>
+                  <option>Behandlung vor einem Event</option>
+                  <option>Ich bin unsicher</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="lp-form-row">
+              <label for="aquafacial-message">Nachricht, falls du Fragen hast</label>
+              <textarea id="aquafacial-message" name="message" rows="4" placeholder="Optional: Terminwunsch, Frage oder Hautziel"></textarea>
+            </div>
+
+            <div class="lp-honeypot" aria-hidden="true">
+              <label for="aquafacial-company">Firma</label>
+              <input id="aquafacial-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            {turnstileSiteKey && (
+              <div class="lp-turnstile">
+                <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
+                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+              </div>
+            )}
+
+            <label class="lp-checkbox" for="aquafacial-privacy">
+              <input id="aquafacial-privacy" name="privacy_consent" type="checkbox" value="yes" required aria-describedby="aquafacial-privacy-error" />
+              <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Beauty Face Lift meine Angaben zur Kontaktaufnahme bezüglich der Aquafacial Aktion verarbeitet.</span>
+            </label>
+            <p id="aquafacial-privacy-error" class="lp-field-error" data-field-error="privacy_consent" hidden></p>
+
+            <button type="submit" class="pill-btn lp-submit" data-aquafacial-submit>
+              <span data-submit-label>Aquafacial Aktion anfragen</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-benefits-section">
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">Warum Kundinnen die Aquafacial Behandlung anfragen</h2>
+        <p class="lp-section-lead">
+          Die Behandlung verbindet professionelle Pflege mit einer persönlichen Einschätzung - ohne übertriebene Versprechen und ohne Druck zur Sofortentscheidung.
+        </p>
+      </div>
+      <div class="lp-benefits-grid">
+        {benefits.map((b) => (
+          <div class="lp-benefit">
+            <div class="lp-benefit-icon-wrap">
+              <BenefitIcon name={b.icon} size={26} />
+            </div>
+            <strong>{b.title}</strong>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="container lp-section lp-trust">
+      <div class="lp-trust-grid">
+        <div class="lp-trust-media">
+          <Image
+            src={teresaPortrait}
+            widths={[360, 540, 720, 960, 1023]}
+            sizes={lpAboutSizes}
+            format="webp"
+            quality="high"
+            alt="Teresa Stimac von Beauty Face Lift Zürich"
+            loading="lazy"
+          />
+        </div>
+        <div class="lp-trust-content">
+          <h2 class="lp-section-title">Premium Kosmetikstudio an der Bahnhofstrasse 94</h2>
+          <p>
+            Bei Beauty Face Lift wirst du nicht in eine Sofortbuchung gedrängt. Du kannst die Aquafacial Aktion zuerst anfragen, Fragen stellen und deinen Terminwunsch persönlich abstimmen.
+          </p>
+          <p>
+            Teresa Stimac behandelt persönlich, ordnet Erwartungen realistisch ein und achtet auf eine ruhige Studioatmosphäre im Zentrum von Zürich.
+          </p>
+          <div class="lp-proof-grid" aria-label="Vertrauenssignale">
+            {trustProof.map((item) => (
+              <div class="lp-proof-item">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+          <div class="lp-section-cta lp-section-cta-left">
+            <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="trust_section" data-aquafacial-scroll>Terminwunsch senden</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-process">
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">So funktioniert deine Anfrage</h2>
+        <p class="lp-section-lead">
+          Der nächste Schritt ist bewusst niedrigschwellig: Du sendest deine Anfrage, danach wird der Termin persönlich abgestimmt.
+        </p>
+      </div>
+      <div class="lp-process-grid">
+        {processSteps.map((step, index) => (
+          <div class="lp-process-step">
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{step.title}</strong>
+            <p>{step.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="container lp-section lp-studio-detail">
+      <div class="lp-studio-grid">
+        <div class="lp-studio-copy">
+          <h2 class="lp-section-title">Ruhige Pflege statt schneller Rabatt-Abwicklung</h2>
+          <p>
+            Der CHF 99 Aktionspreis macht den Einstieg leichter, die Behandlung bleibt aber eine professionelle Studioleistung: sauber vorbereitet, persönlich abgestimmt und realistisch erklärt.
+          </p>
+          <p>
+            Wenn du unsicher bist, ob Aquafacial aktuell zu deiner Haut passt, kannst du genau das im Formular angeben. Die Eignung wird vor Ort ehrlich eingeschätzt.
+          </p>
+        </div>
+        <div class="lp-studio-media">
+          <Image
+            src={consultationTrust}
+            widths={[360, 540, 720, 960, 1122]}
+            sizes={lpAboutSizes}
+            format="webp"
+            quality="high"
+            alt="Persönliche Aquafacial Hautabstimmung bei Beauty Face Lift Zürich"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="container lp-section lp-faq">
+      <div class="lp-section-head">
+        <h2 class="lp-section-title">Häufige Fragen zur Aquafacial Aktion</h2>
+      </div>
+      <FAQAccordion items={faqs} />
+    </section>
+
+    <section class="lp-final-dark">
+      <div class="lp-final-inner">
+        <h2 class="lp-final-title">Aquafacial Aktion für CHF 99 statt CHF 180 sichern</h2>
+        <p class="lp-final-lead">
+          Sende deinen Terminwunsch unverbindlich. Beauty Face Lift meldet sich persönlich bei dir und bespricht die nächsten Schritte für deine Aquafacial Behandlung in Zürich.
+        </p>
+        <div class="lp-final-ctas">
+          <a href="#aquafacial-lead-form" class="pill-btn" data-button-location="final_cta" data-aquafacial-scroll>Aquafacial Aktion anfragen</a>
+          <a href={whatsappHref} class="pill-btn pill-btn-dark" target="_blank" rel="noopener" data-treatment={OFFER_LABEL} data-button-location="lp_final_whatsapp" data-source="lp_final">Frage per WhatsApp</a>
+        </div>
+        <p class="lp-final-address">Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich</p>
+      </div>
+    </section>
+
+    <div class="aquafacial-sticky-safe-space" aria-hidden="true"></div>
+    <div class="aquafacial-sticky" data-aquafacial-sticky role="complementary" aria-label="Aquafacial Aktion anfragen">
+      <div>
+        <span>CHF {PROMO_PRICE} statt CHF {REGULAR_PRICE}</span>
+        <strong>{OFFER_LABEL}</strong>
+      </div>
+      <a href="#aquafacial-lead-form" class="pill-btn" aria-label="Aquafacial Aktion anfragen" data-button-location="mobile_sticky_lead" data-aquafacial-scroll>Aktion anfragen</a>
+    </div>
+  </main>
+
+  <script>
+    import { trackAquafacialLeadSubmit } from '../../../lib/track';
+
+    const attributionKeys = [
+      'utm_source',
+      'utm_medium',
+      'utm_campaign',
+      'utm_content',
+      'utm_term',
+      'fbclid',
+      'gclid',
+      'msclkid',
+    ];
+
+    const fieldMessages = {
+      name: 'Bitte gib deinen Namen ein.',
+      phone: 'Bitte gib eine gültige Telefonnummer ein.',
+      email: 'Bitte gib eine gültige E-Mail-Adresse ein.',
+      preferred_contact_method: 'Bitte wähle aus, wie wir dich kontaktieren dürfen.',
+      privacy_consent: 'Bitte bestätige die Datenschutzerklärung.',
+    };
+
+    function getStoredAttribution() {
+      try {
+        return JSON.parse(sessionStorage.getItem('bfl_utm') || '{}') || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function fieldValue(form, name) {
+      const field = form.elements.namedItem(name);
+      if (!field) return '';
+      if (field instanceof RadioNodeList) return String(field.value || '').trim();
+      return String(field.value || '').trim();
+    }
+
+    function setFieldError(form, name, message) {
+      const error = form.querySelector(`[data-field-error="${name}"]`);
+      const field = form.elements.namedItem(name);
+      if (error) {
+        error.textContent = message;
+        error.hidden = !message;
+      }
+      if (field instanceof RadioNodeList) {
+        Array.from(field).forEach((input) => {
+          if (input instanceof HTMLElement) input.setAttribute('aria-invalid', message ? 'true' : 'false');
+        });
+      } else if (field instanceof HTMLElement) {
+        field.setAttribute('aria-invalid', message ? 'true' : 'false');
+      }
+    }
+
+    function clearErrors(form) {
+      Object.keys(fieldMessages).forEach((name) => setFieldError(form, name, ''));
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isValidPhone(phone) {
+      const digits = phone.replace(/\D/g, '');
+      return digits.length >= 8 && digits.length <= 15;
+    }
+
+    function validateLeadForm(form) {
+      clearErrors(form);
+      let valid = true;
+
+      if (!fieldValue(form, 'name')) {
+        setFieldError(form, 'name', fieldMessages.name);
+        valid = false;
+      }
+
+      const phone = fieldValue(form, 'phone');
+      if (!phone || !isValidPhone(phone)) {
+        setFieldError(form, 'phone', fieldMessages.phone);
+        valid = false;
+      }
+
+      const email = fieldValue(form, 'email');
+      if (!email || !isValidEmail(email)) {
+        setFieldError(form, 'email', fieldMessages.email);
+        valid = false;
+      }
+
+      if (!fieldValue(form, 'preferred_contact_method')) {
+        setFieldError(form, 'preferred_contact_method', fieldMessages.preferred_contact_method);
+        valid = false;
+      }
+
+      const privacy = form.elements.namedItem('privacy_consent');
+      if (!(privacy instanceof HTMLInputElement) || !privacy.checked) {
+        setFieldError(form, 'privacy_consent', fieldMessages.privacy_consent);
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    function setHiddenValue(form, name, value) {
+      const input = form.elements.namedItem(name);
+      if (input instanceof HTMLInputElement) input.value = value || '';
+    }
+
+    function fillAttribution(form) {
+      const params = new URLSearchParams(window.location.search);
+      const stored = getStoredAttribution();
+      attributionKeys.forEach((key) => {
+        setHiddenValue(form, key, params.get(key) || stored[key] || '');
+      });
+      setHiddenValue(form, 'page_path', window.location.pathname);
+      setHiddenValue(form, 'page_url', window.location.href);
+      setHiddenValue(form, 'referrer', document.referrer);
+    }
+
+    function formPayload(form) {
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+      payload.preferredContactMethod = payload.preferred_contact_method || '';
+      payload.preferredCallbackTime = payload.preferred_time || '';
+      payload.privacyConsent = payload.privacy_consent || '';
+      return payload;
+    }
+
+    function resetTurnstile() {
+      if (typeof window === 'undefined') return;
+      const turnstile = (window as Window & { turnstile?: { reset: () => void } }).turnstile;
+      if (turnstile && typeof turnstile.reset === 'function') turnstile.reset();
+    }
+
+    function initLeadForm() {
+      const form = document.querySelector('[data-aquafacial-lead-form]');
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const status = document.querySelector('[data-aquafacial-status]');
+      const success = document.querySelector('[data-aquafacial-success]');
+      const submit = form.querySelector('[data-aquafacial-submit]');
+      const submitLabel = form.querySelector('[data-submit-label]');
+      let pending = false;
+      let tracked = false;
+
+      fillAttribution(form);
+
+      form.addEventListener('input', () => clearErrors(form));
+      form.addEventListener('change', () => clearErrors(form));
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (pending) return;
+        fillAttribution(form);
+
+        if (!validateLeadForm(form)) {
+          const firstInvalid = form.querySelector('[aria-invalid="true"]');
+          if (firstInvalid instanceof HTMLElement) firstInvalid.focus();
+          return;
+        }
+
+        pending = true;
+        if (status instanceof HTMLElement) status.hidden = true;
+        if (submit instanceof HTMLButtonElement) submit.disabled = true;
+        if (submitLabel instanceof HTMLElement) submitLabel.textContent = 'Anfrage wird gesendet ...';
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify(formPayload(form)),
+          });
+
+          if (!response.ok) {
+            throw new Error('Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.');
+          }
+
+          form.hidden = true;
+          if (success instanceof HTMLElement) {
+            success.hidden = false;
+            success.focus();
+          }
+          document.body.classList.add('aquafacial-lead-success');
+
+          if (!tracked) {
+            tracked = true;
+            trackAquafacialLeadSubmit();
+          }
+        } catch (error) {
+          resetTurnstile();
+          if (status instanceof HTMLElement) {
+            status.textContent = error instanceof Error ? error.message : 'Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.';
+            status.hidden = false;
+          }
+        } finally {
+          pending = false;
+          if (!form.hidden && submit instanceof HTMLButtonElement) submit.disabled = false;
+          if (!form.hidden && submitLabel instanceof HTMLElement) submitLabel.textContent = 'Aquafacial Aktion anfragen';
+        }
+      });
+    }
+
+    function initLeadScroll() {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('[data-aquafacial-scroll]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const target = document.querySelector('#aquafacial-lead-form');
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    initLeadForm();
+    initLeadScroll();
+  </script>
+</LandingPage>
+
+<style>
+  :global(body) {
+    --paper: #faf8f4;
+    --bone: #ffffff;
+    --paper-2: #f5f2ed;
+    --paper-3: #e8e4df;
+    --ink: #2d2926;
+    --ink-2: #6b6660;
+    --ink-3: #817a72;
+    --gold: #8e6a2e;
+    --gold-deep: #765725;
+    --gold-soft: #e8d9b5;
+    --bg-primary: var(--paper);
+    --bg-secondary: var(--bone);
+    --bg-warm: var(--paper-2);
+    --bg-dark: var(--ink);
+    --text-primary: var(--ink);
+    --text-secondary: var(--ink-2);
+    --text-muted: var(--ink-3);
+    --accent: var(--gold);
+    --accent-text: var(--gold-deep);
+    --border-subtle: #e8e4df;
+    --border-medium: #ded8d0;
+    --radius-card: 8px;
+    --radius-sm: 8px;
+    --shadow-1: 0 1px 0 rgba(45, 41, 38, 0.08);
+    --shadow-2: 0 16px 44px rgba(45, 41, 38, 0.12);
+    --lp-sticky-offer-height: 78px;
+  }
+
+  .lp-page {
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  .lp-page :global(.pill-btn) {
+    min-height: 44px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: var(--gold);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: none;
+    box-shadow: none;
+  }
+
+  .lp-page :global(.pill-btn:hover) {
+    background: var(--gold-deep);
+    box-shadow: none;
+  }
+
+  .lp-page :global(.pill-btn-outline),
+  .lp-page :global(.pill-btn-dark) {
+    background: transparent;
+    border: 1px solid currentColor;
+  }
+
+  .lp-page :global(.pill-btn-outline) {
+    color: var(--gold-deep);
+  }
+
+  .lp-page :global(.pill-btn-dark) {
+    color: var(--paper);
+  }
+
+  .lp-page :global(.pill-btn-dark:hover) {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: var(--ink);
+  }
+
+  .lp-eyebrow {
+    margin: 0;
+    color: var(--gold-deep);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .lp-hero {
+    padding-top: clamp(44px, 7vh, 88px);
+    padding-bottom: clamp(56px, 8vh, 96px);
+  }
+
+  .lp-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.98fr) minmax(360px, 0.9fr);
+    gap: clamp(44px, 6vw, 84px);
+    align-items: center;
+  }
+
+  .lp-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    max-width: 720px;
+  }
+
+  .lp-title {
+    max-width: 790px;
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  .lp-subtitle {
+    max-width: 640px;
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .lp-hero-offer-card,
+  .lp-offer-price,
+  .lp-form-shell,
+  .lp-benefit,
+  .lp-process-step {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background: var(--bone);
+    box-shadow: var(--shadow-1);
+  }
+
+  .lp-hero-offer-card {
+    display: grid;
+    gap: 6px;
+    width: min(100%, 430px);
+    margin-top: 4px;
+    padding: 16px 18px;
+  }
+
+  .lp-hero-offer-card span,
+  .lp-offer-price span {
+    color: var(--gold-deep);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .lp-hero-offer-card strong,
+  .lp-offer-price strong {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .lp-hero-offer-card s,
+  .lp-hero-offer-card em,
+  .lp-offer-price s,
+  .lp-offer-price p {
+    color: var(--ink-2);
+    font-size: 13px;
+    font-style: normal;
+    line-height: 1.45;
+  }
+
+  .lp-hero-bullets,
+  .lp-included-list,
+  .lp-reassurance-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lp-hero-bullets {
+    max-width: 640px;
+    width: 100%;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .lp-hero-bullets li,
+  .lp-included-list li,
+  .lp-reassurance-list li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .lp-hero-bullets li::before,
+  .lp-included-list li::before,
+  .lp-reassurance-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--gold);
+  }
+
+  .lp-hero-ctas,
+  .lp-final-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+  }
+
+  .lp-hero-note {
+    max-width: 560px;
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .lp-hero-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 0.92 / 1;
+    max-width: 620px;
+    justify-self: end;
+  }
+
+  .lp-hero-media-main,
+  .lp-hero-media-overlap,
+  .lp-trust-media,
+  .lp-studio-media {
+    overflow: hidden;
+    border-radius: 8px;
+    background: #e8ddd8;
+    box-shadow: 0 16px 44px rgba(45, 41, 38, 0.12);
+  }
+
+  .lp-hero-media-main {
+    position: absolute;
+    left: 0;
+    top: 8%;
+    width: 66%;
+    height: 78%;
+  }
+
+  .lp-hero-media-overlap {
+    position: absolute;
+    right: 0;
+    bottom: 4%;
+    width: 52%;
+    aspect-ratio: 4 / 5;
+    border: 4px solid var(--paper);
+  }
+
+  .lp-hero-media-main img,
+  .lp-hero-media-overlap img,
+  .lp-trust-media img,
+  .lp-studio-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lp-trustbar {
+    border-block: 1px solid var(--border-subtle);
+    background: var(--bone);
+  }
+
+  .lp-trustbar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
+    padding-block: 18px;
+  }
+
+  .lp-trustbar span {
+    position: relative;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .lp-trustbar span:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    top: 0.55em;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--gold-soft);
+  }
+
+  .lp-section {
+    padding-block: clamp(64px, 8vw, 108px);
+  }
+
+  .lp-section-head {
+    max-width: 740px;
+    margin: 0 auto 44px;
+    text-align: center;
+  }
+
+  .lp-section-title {
+    margin: 0 0 16px;
+    color: var(--ink);
+    font-size: clamp(2.2rem, 4.6vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: 0;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  .lp-section-lead,
+  .lp-lead-copy p,
+  .lp-trust-content p,
+  .lp-studio-copy p {
+    color: var(--ink-2);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .lp-section-lead {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .lp-section-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+  }
+
+  .lp-section-cta-left {
+    justify-content: flex-start;
+  }
+
+  .lp-offer-detail,
+  .lp-process {
+    background: var(--paper-2);
+  }
+
+  .lp-offer-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.34fr) minmax(0, 0.66fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .lp-offer-price {
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    padding: 28px;
+  }
+
+  .lp-included-panel {
+    padding: 28px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background: var(--bone);
+  }
+
+  .lp-included-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 22px;
+  }
+
+  .lp-lead {
+    scroll-margin-top: 24px;
+  }
+
+  .lp-lead-grid,
+  .lp-trust-grid,
+  .lp-studio-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+    gap: clamp(36px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .lp-lead-copy {
+    position: sticky;
+    top: 24px;
+    display: grid;
+    gap: 18px;
+  }
+
+  .lp-lead-copy .lp-section-title,
+  .lp-trust-content .lp-section-title,
+  .lp-studio-copy .lp-section-title {
+    text-align: left;
+  }
+
+  .lp-lead-copy p,
+  .lp-trust-content p,
+  .lp-studio-copy p {
+    margin: 0;
+  }
+
+  .lp-form-shell {
+    padding: clamp(22px, 3vw, 34px);
+  }
+
+  .lp-form-status,
+  .lp-form-success {
+    margin-bottom: 18px;
+    padding: 16px;
+    border-radius: 8px;
+    line-height: 1.55;
+  }
+
+  .lp-form-status {
+    border: 1px solid #c58b7f;
+    background: #fff7f4;
+    color: #7b3126;
+  }
+
+  .lp-form-success {
+    border: 1px solid #d9c99f;
+    background: #fbf6ea;
+    color: var(--ink);
+  }
+
+  .lp-form-success h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .lp-form-success p {
+    margin: 0 0 14px;
+    color: var(--ink-2);
+  }
+
+  .lp-secondary-link {
+    color: var(--gold-deep);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .lp-lead-form {
+    display: grid;
+    gap: 18px;
+  }
+
+  .lp-lead-form[hidden] {
+    display: none;
+  }
+
+  .lp-form-row,
+  .lp-radio-group {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .lp-form-row-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .lp-lead-form label,
+  .lp-radio-group legend {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .lp-lead-form input,
+  .lp-lead-form select,
+  .lp-lead-form textarea {
+    width: 100%;
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 16px;
+  }
+
+  .lp-lead-form input,
+  .lp-lead-form select {
+    min-height: 48px;
+    padding: 11px 12px;
+  }
+
+  .lp-lead-form textarea {
+    min-height: 112px;
+    padding: 12px;
+    resize: vertical;
+  }
+
+  .lp-lead-form input:focus,
+  .lp-lead-form select:focus,
+  .lp-lead-form textarea:focus {
+    outline: 2px solid rgba(142, 106, 46, 0.28);
+    outline-offset: 2px;
+    border-color: var(--gold);
+  }
+
+  .lp-lead-form [aria-invalid='true'] {
+    border-color: #a74636;
+  }
+
+  .lp-radio-group {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .lp-radio-group legend,
+  .lp-radio-group .lp-field-error {
+    grid-column: 1 / -1;
+  }
+
+  .lp-radio-group label,
+  .lp-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-height: 44px;
+    padding: 12px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+
+  .lp-radio-group input,
+  .lp-checkbox input {
+    width: auto;
+    min-height: auto;
+    margin-top: 3px;
+    accent-color: var(--gold);
+  }
+
+  .lp-checkbox {
+    line-height: 1.5;
+  }
+
+  .lp-checkbox a {
+    color: var(--gold-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .lp-field-error {
+    margin: 0;
+    color: #a74636;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .lp-submit {
+    width: 100%;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .lp-submit:disabled {
+    cursor: wait;
+    opacity: 0.68;
+  }
+
+  .lp-turnstile {
+    display: flex;
+    justify-content: center;
+    min-height: 65px;
+  }
+
+  .lp-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .lp-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .lp-benefit {
+    padding: 26px;
+  }
+
+  .lp-benefit-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 18px;
+    border-radius: 50%;
+    background: var(--gold-soft);
+    color: var(--gold-deep);
+  }
+
+  .lp-benefit strong,
+  .lp-process-step strong {
+    display: block;
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .lp-benefit p,
+  .lp-process-step p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .lp-trust {
+    background: var(--paper-2);
+  }
+
+  .lp-trust-grid {
+    grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
+    align-items: center;
+  }
+
+  .lp-trust-media {
+    height: 620px;
+  }
+
+  .lp-trust-media img {
+    object-position: center top;
+  }
+
+  .lp-proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 28px;
+    border-block: 1px solid var(--border-subtle);
+  }
+
+  .lp-proof-item {
+    padding: 22px 18px 22px 0;
+    border-right: 1px solid var(--border-subtle);
+  }
+
+  .lp-proof-item:last-child {
+    border-right: none;
+  }
+
+  .lp-proof-item strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gold);
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .lp-proof-item span {
+    display: block;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .lp-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .lp-process-step {
+    padding: 26px;
+  }
+
+  .lp-process-step span {
+    display: block;
+    margin-bottom: 18px;
+    color: rgba(142, 106, 46, 0.42);
+    font-family: var(--font-serif);
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  .lp-studio-grid {
+    align-items: center;
+  }
+
+  .lp-studio-media {
+    min-height: 520px;
+  }
+
+  .lp-faq {
+    padding-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .lp-final-dark {
+    padding: clamp(72px, 10vw, 128px) 58px calc(clamp(82px, 11vw, 148px) + env(safe-area-inset-bottom, 0px));
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+  }
+
+  .lp-final-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .lp-final-title {
+    margin: 0 0 20px;
+    color: var(--paper);
+    font-size: clamp(2.4rem, 5.8vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: 0;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  .lp-final-lead {
+    max-width: 580px;
+    margin: 0 auto 28px;
+    color: rgba(250, 248, 244, 0.78);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .lp-final-ctas {
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .lp-final-address {
+    margin: 0;
+    color: rgba(250, 248, 244, 0.62);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .aquafacial-sticky,
+  .aquafacial-sticky-safe-space {
+    display: none;
+  }
+
+  .aquafacial-sticky {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 39;
+    min-height: var(--lp-sticky-offer-height);
+    padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid rgba(246, 241, 234, 0.16);
+    background: rgba(28, 26, 23, 0.96);
+    color: var(--paper);
+    box-shadow: 0 -10px 32px rgba(18, 18, 18, 0.18);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .aquafacial-sticky span,
+  .aquafacial-sticky strong {
+    display: block;
+    line-height: 1.15;
+  }
+
+  .aquafacial-sticky span {
+    color: rgba(246, 241, 234, 0.68);
+    font-size: 0.75rem;
+  }
+
+  .aquafacial-sticky strong {
+    color: var(--paper);
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .aquafacial-sticky .pill-btn {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 1100px) {
+    .lp-hero-grid,
+    .lp-lead-grid,
+    .lp-trust-grid,
+    .lp-studio-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lp-hero-content {
+      max-width: 760px;
+    }
+
+    .lp-hero-media {
+      justify-self: center;
+      max-width: 560px;
+    }
+
+    .lp-lead-copy {
+      position: static;
+    }
+
+    .lp-trust-media,
+    .lp-studio-media {
+      min-height: 0;
+      height: auto;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .lp-lead-copy,
+    .lp-trust-content,
+    .lp-studio-copy,
+    .lp-lead-copy .lp-section-title,
+    .lp-trust-content .lp-section-title,
+    .lp-studio-copy .lp-section-title {
+      text-align: center;
+    }
+
+    .lp-section-cta-left {
+      justify-content: center;
+    }
+
+    .lp-process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    :global(body:not(.bfl-consent-visible):not(.aquafacial-lead-success)) {
+      padding-bottom: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .aquafacial-sticky {
+      display: flex;
+    }
+
+    .aquafacial-sticky-safe-space {
+      display: block;
+      height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+    }
+
+    :global(body.bfl-consent-visible) .aquafacial-sticky,
+    :global(body.aquafacial-lead-success) .aquafacial-sticky,
+    :global(body.bfl-consent-visible) .aquafacial-sticky-safe-space,
+    :global(body.aquafacial-lead-success) .aquafacial-sticky-safe-space {
+      display: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .lp-hero {
+      padding-top: 28px;
+      padding-bottom: 52px;
+    }
+
+    .lp-section {
+      padding-block: 60px;
+    }
+
+    .lp-section-head {
+      margin-bottom: 32px;
+    }
+
+    .lp-title {
+      font-size: clamp(2.55rem, 11vw, 3.2rem);
+      line-height: 1.02;
+    }
+
+    .lp-subtitle,
+    .lp-section-lead,
+    .lp-lead-copy p,
+    .lp-trust-content p,
+    .lp-studio-copy p,
+    .lp-final-lead {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .lp-section-title {
+      font-size: clamp(2rem, 9vw, 2.6rem);
+    }
+
+    .lp-hero-ctas,
+    .lp-final-ctas {
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .lp-hero-primary,
+    .lp-hero-secondary,
+    .lp-hero-ctas :global(.pill-btn),
+    .lp-final-ctas :global(.pill-btn) {
+      width: 100%;
+    }
+
+    .lp-hero-note {
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .lp-hero-media {
+      max-width: 360px;
+    }
+
+    .lp-trustbar-inner {
+      justify-content: flex-start;
+    }
+
+    .lp-trustbar span {
+      width: 100%;
+    }
+
+    .lp-trustbar span::after {
+      display: none;
+    }
+
+    .lp-offer-grid,
+    .lp-included-list,
+    .lp-form-row-grid,
+    .lp-radio-group,
+    .lp-benefits-grid,
+    .lp-process-grid,
+    .lp-proof-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lp-offer-price,
+    .lp-included-panel,
+    .lp-form-shell,
+    .lp-benefit,
+    .lp-process-step {
+      padding: 22px;
+    }
+
+    .lp-proof-grid {
+      border-bottom: none;
+    }
+
+    .lp-proof-item {
+      padding: 18px 0;
+      border-right: none;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .lp-final-dark {
+      padding: 64px 20px calc(96px + var(--lp-sticky-offer-height, 78px) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .lp-final-ctas {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .aquafacial-sticky {
+      padding: 0.6rem 0.85rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+      gap: 0.5rem;
+    }
+
+    .aquafacial-sticky span {
+      font-size: 0.7rem;
+    }
+
+    .aquafacial-sticky strong {
+      font-size: 1.05rem;
+    }
+
+    .aquafacial-sticky .pill-btn {
+      padding: 10px 14px;
+      font-size: 12px;
+    }
+  }
+</style>

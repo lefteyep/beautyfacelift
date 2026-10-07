@@ -516,7 +516,7 @@ Published beautyfacelift (X.XX sec)
 
 Open the workers.dev URL and verify:
 - [ ] Homepage loads with correct CSS + fonts
-- [ ] `/behandlungen/hydrafacial-zuerich/` loads
+- [ ] `/behandlungen/aquafacial-zuerich/` loads
 - [ ] `/termin/` loads booking widget
 - [ ] `curl <url>/api/services` returns service list (200)
 - [ ] `curl <url>/api/availability?month=2026-05` returns available dates

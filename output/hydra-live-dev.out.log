@@ -1,0 +1,25 @@
+
+> astro-v2@0.0.1 dev
+> astro dev --host 127.0.0.1 --port 4324
+
+[vite] connected.
+[2m13:41:58[22m [34m[types][39m Generated [2m1ms[22m
+[2m13:41:58[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.2.1[39m [2mready in[22m 1666 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4324/[39m
+[2m13:41:59[22m [32mwatching for file changes...[39m
+
+[43m[30m update [39m[49m [33m▶ New version of Astro available: 6.3.7[39m
+  Run [36mnpx @astrojs/upgrade[39m to update
+
+[2m13:42:39[22m [34m[200][39m /lp/aquafacial-microneedling/ [2m82ms[22m
+[2m13:42:40[22m [34m[200][39m /_image [2m123ms[22m
+[2m13:42:40[22m [34m[200][39m /_image [2m58ms[22m
+[2m13:42:40[22m [34m[200][39m /_image [2m61ms[22m
+[2m13:42:42[22m [34m[200][39m /lp/aquafacial-microneedling/ [2m5ms[22m
+[2m13:42:42[22m [34m[200][39m /_image [2m32ms[22m
+[2m13:42:42[22m [34m[200][39m /_image [2m26ms[22m
+[2m13:42:42[22m [34m[200][39m /_image [2m32ms[22m
+[2m13:42:44[22m [34m[200][39m /_image [2m31ms[22m
+[2m13:42:45[22m [34m[200][39m /_image [2m47ms[22m
+[2m13:42:45[22m [34m[200][39m /_image [2m55ms[22m

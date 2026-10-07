@@ -8,6 +8,8 @@ interface Props {
   title?: string;
   text?: string;
   ctaText?: string;
+  whatsappHref?: string;
+  whatsappText?: string;
 }
 
 const {
@@ -17,6 +19,8 @@ const {
   title = treatment ? `${treatment} Termin buchen` : 'Termin buchen',
   text = 'Die Online-Buchung läuft vorübergehend über Treatwell. Ihre Auswahl wird mit Kampagnen- und Behandlungsangaben übergeben.',
   ctaText = 'Termin buchen',
+  whatsappHref = 'https://wa.me/41792143462?text=Guten%20Tag%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Behandlung%20bei%20Beauty%20Face%20Lift.',
+  whatsappText = 'Frage per WhatsApp',
 } = Astro.props;
 
 const bookingHref = href || bookingLinkForService(treatment);
@@ -36,7 +40,7 @@ const bookingHref = href || bookingLinkForService(treatment);
       {ctaText}
     </a>
     <a
-      href="https://wa.me/41792143462?text=Guten%20Tag%2C%20ich%20habe%20eine%20Frage%20zu%20einer%20Behandlung%20bei%20Beauty%20Face%20Lift."
+      href={whatsappHref}
       class="pill-btn pill-btn-outline"
       target="_blank"
       rel="noopener"
@@ -44,7 +48,7 @@ const bookingHref = href || bookingLinkForService(treatment);
       data-button-location="booking_cta_whatsapp"
       data-source="booking_cta"
     >
-      Frage per WhatsApp
+      {whatsappText}
     </a>
   </div>
 </div>

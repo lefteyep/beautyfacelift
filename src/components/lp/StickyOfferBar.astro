@@ -5,6 +5,7 @@ interface Props {
   currency?: string;
   href?: string;
   ctaText?: string;
+  treatment?: string;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   currency = 'CHF',
   href = '/termin/',
   ctaText = 'Jetzt buchen',
+  treatment,
 } = Astro.props;
 
 const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
@@ -23,7 +25,7 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     {hasDiscount && <span class="sticky-offer-old">{currency} {(oldPrice as number).toFixed(0)}.-</span>}
     <strong class="sticky-offer-new">{currency} {newPrice.toFixed(0)}.-</strong>
   </div>
-  <a href={href} class="pill-btn sticky-offer-cta" data-button-location="sticky_offer_bar">{ctaText}</a>
+  <a href={href} class="pill-btn sticky-offer-cta" data-treatment={treatment} data-button-location="sticky_offer_bar">{ctaText}</a>
 </div>
 <div class="sticky-offer-safe-space" aria-hidden="true"></div>
 

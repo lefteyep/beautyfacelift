@@ -10,6 +10,12 @@ https://buchung.treatwell.ch/ort/beauty-face-lift/
 
 All booking links should stay pointed at `/termin/` or `bookingLinkForService(service)`. The final Treatwell redirect fires `treatwell_outbound_click`, which is the launch proxy conversion.
 
+Aquafacial + Microneedling campaign traffic with `offer=aquafacial-microneedling-aktion` is deep-linked into Treatwell's exact service detail modal:
+
+```text
+https://buchung.treatwell.ch/ort/beauty-face-lift/?...&service=Aquafacial+%2B+Microneedling&offer=aquafacial-microneedling-aktion&price=170#serviceDetails=TR4124140
+```
+
 | dataLayer event | Meta browser/CAPI event | Use |
 |---|---|---|
 | `page_view` | `PageView` | Observation |
@@ -25,7 +31,7 @@ All booking links should stay pointed at `/termin/` or `bookingLinkForService(se
 | `time_on_page_30s` | `TimeOnPage30s` | Observation |
 | `high_intent_visit` | `HighIntentVisit` | Retargeting/secondary |
 
-Core parameters include `event_id`, `page_path`, `page_type`, `treatment_name`, `button_location`, `destination_url`, `link_domain`, `value`, `currency`, and campaign parameters such as `utm_source`, `utm_campaign`, `gclid`, and `fbclid`.
+Core parameters include `event_id`, `page_path`, `page_type`, `treatment_name`, `button_location`, `destination_url`, `link_domain`, `value`, `currency`, and campaign parameters such as `utm_source`, `utm_campaign`, `campaign_id`, `adset_id`, `ad_id`, `placement`, `creative_angle`, `gclid`, and `fbclid`.
 
 Meta CAPI matching data is consent-gated. After marketing consent, the site sends IP address and User Agent from the Worker request, `_fbp` from the browser cookie, and `_fbc` from the browser cookie. If `_fbc` is missing but a valid `fbclid` exists in the current URL or stored campaign parameters, the site creates `_fbc` in Meta's `fb.1.<timestamp>.<fbclid>` format before the browser Pixel and CAPI events fire. Do not send email, phone, name, ZIP, DOB, city, state, `fb_login_id`, or `external_id` for PageView events unless that data is actually collected with consent.
 
@@ -97,12 +103,33 @@ npm run cf:deploy
    - `HighIntentVisit`
 3. Create custom conversions:
    - `BFL - Treatwell Booking Intent`: standard event `Schedule`, category `Termin vereinbaren`, with rules `page_path contains /termin/` and `link_domain contains buchung.treatwell.ch`.
+   - `BFL - Aquafacial Treatwell Booking Intent`: event `TreatwellOutboundClick` or `Schedule`, with rules `service equals Aquafacial + Microneedling` and `link_domain contains buchung.treatwell.ch`.
    - `BFL - Booking Button Click`: event `BookingButtonClick`.
    - `BFL - High Intent Visit`: event `HighIntentVisit`.
    - `BFL - Contact Click`: event `Contact`.
 4. Start campaigns with the Leads objective and optimize for `BFL - Treatwell Booking Intent` once event volume is stable.
 5. Use Traffic/Landing Page Views only as a short ramp if the proxy conversion has too little volume.
 6. Do not create Purchase/Schedule optimization until real booking confirmation tracking exists.
+
+## Meta UTM Template
+
+Use this as the ad URL for the Aquafacial + Microneedling campaign:
+
+```text
+https://beautyfacelift-zuerich.ch/lp/aquafacial-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_id={{campaign.id}}&utm_term={{adset.name}}&utm_content={{ad.name}}&utm_source_platform={{site_source_name}}&campaign_id={{campaign.id}}&adset_id={{adset.id}}&ad_id={{ad.id}}&placement={{placement}}&creative_angle=glow_texture
+```
+
+Recommended `creative_angle` values for the first test:
+
+```text
+glow_texture
+bahnhofstrasse_trust
+aquafacial_microneedling_combo
+aktion_170
+teresa_expertise
+```
+
+The `/termin/` bridge preserves these parameters and adds the Treatwell service hash for the Aquafacial offer. Do not place the Treatwell URL directly in ads unless you deliberately want to skip first-party landing page tracking.
 
 ## GTM And GA4
 
@@ -125,6 +152,11 @@ utm_campaign
 utm_content
 utm_term
 utm_source_platform
+campaign_id
+adset_id
+ad_id
+placement
+creative_angle
 gclid
 gbraid
 wbraid
@@ -170,7 +202,8 @@ Recommended launch conversion actions:
 - Open a landing page with UTMs and `fbclid`, then click a booking CTA.
 - After marketing consent, confirm server events include `_fbp` and `_fbc`; `_fbc` should be created from `fbclid` if the cookie was not already present.
 - Confirm `booking_button_click` fires before navigation to `/termin/`.
-- Confirm `/termin/` appends UTMs and `service` to the Treatwell URL.
+- Confirm `/termin/` appends UTMs, `campaign_id`, `adset_id`, `ad_id`, `placement`, `creative_angle`, `service`, `offer`, and `price` to the Treatwell URL.
+- For Aquafacial + Microneedling, confirm the final Treatwell URL ends with `#serviceDetails=TR4124140`.
 - Confirm `treatwell_outbound_click` and `Schedule` fire once before redirect.
 - With consent denied, confirm no Meta Pixel, GTM, or `/api/track` marketing event fires.
 - With consent granted, confirm Meta Pixel browser events and CAPI events fire.
@@ -191,7 +224,7 @@ Use this order after the live deploy:
 5. Open Meta Events Manager Test Events and visit a paid-style URL, for example:
 
    ```text
-   https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_launch_carbon_202605&utm_content=test_ad&fbclid=test&test_event_code=TEST12345
+   https://beautyfacelift-zuerich.ch/lp/aquafacial-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_aquafacial_microneedling_202605&utm_id=TEST_CAMPAIGN&utm_term=test_adset&utm_content=test_ad&utm_source_platform=meta&campaign_id=TEST_CAMPAIGN&adset_id=TEST_ADSET&ad_id=TEST_AD&placement=instagram_stories&creative_angle=glow_texture&fbclid=test&test_event_code=TEST12345
    ```
 
 6. Accept marketing consent, click a booking CTA, and confirm this sequence:
@@ -204,6 +237,7 @@ Use this order after the live deploy:
    - `TreatwellOutboundClick`
 7. Create Meta custom conversions:
    - `BFL - Treatwell Booking Intent`: event `Schedule`, rules `page_path contains /termin/` and `link_domain contains buchung.treatwell.ch`, primary launch optimization.
+   - `BFL - Aquafacial Treatwell Booking Intent`: event `TreatwellOutboundClick` or `Schedule`, rules `service equals Aquafacial + Microneedling` and `link_domain contains buchung.treatwell.ch`, campaign-specific optimization/reporting.
    - `BFL - Booking Button Click`: event `BookingButtonClick`, secondary.
    - `BFL - Contact Click`: event `Contact`, secondary.
    - `BFL - High Intent Visit`: event `HighIntentVisit`, retargeting/secondary.

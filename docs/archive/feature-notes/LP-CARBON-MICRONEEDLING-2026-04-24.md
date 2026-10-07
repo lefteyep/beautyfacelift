@@ -1,7 +1,7 @@
 # Carbon Microneedling Landing Page — Hero + Pricing Refresh
 
 **Date:** 2026-04-24
-**Scope:** `/lp/carbon-microneedling/` only — other LPs (hydrafacial, microneedling, peeling) untouched.
+**Scope:** `/lp/carbon-microneedling/` only — other LPs (aquafacial, microneedling, peeling) untouched.
 **Related:** [HERO-THIRD-CARD-2026-04-24.md](../design-notes/HERO-THIRD-CARD-2026-04-24.md) — parallel homepage hero update using the same Teresa Carbon image.
 
 ## What changed
@@ -48,7 +48,7 @@ Visually closer to Meta-ad offer chips and reads stronger on mobile (prices no l
 
 ## Scope notes
 
-- `TrustStrip.astro` is shared with other LPs — the address `<span>` was unconditionally rendered in the `rating` variant. Removing it means `/lp/hydrafacial/`, `/lp/microneedling/`, `/lp/peeling/` also lose the address line from their rating strip. This is consistent with best practice (the address appears at the bottom of every LP and in the final CTA); if any LP wants the address back, pass `address={null}` and add a conditional, or revive the span with a new variant.
+- `TrustStrip.astro` is shared with other LPs — the address `<span>` was unconditionally rendered in the `rating` variant. Removing it means `/lp/aquafacial/`, `/lp/microneedling/`, `/lp/peeling/` also lose the address line from their rating strip. This is consistent with best practice (the address appears at the bottom of every LP and in the final CTA); if any LP wants the address back, pass `address={null}` and add a conditional, or revive the span with a new variant.
 - `OfferBox.astro`'s `variant="box"` (the offer block lower on the page) is **unchanged** — only the chip variant was restructured.
 
 ## Verified

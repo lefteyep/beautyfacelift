@@ -7,6 +7,7 @@ declare global {
       trackTreatwellOutbound: typeof trackTreatwellOutbound;
       trackBookingButtonClick: typeof trackBookingButtonClick;
       trackContact: typeof trackContact;
+      trackAquafacialLeadSubmit: typeof trackAquafacialLeadSubmit;
     };
     bflTrackingConfig?: {
       metaPixelId?: string;
@@ -24,6 +25,7 @@ type PpcEventName =
   | 'landing_page_view'
   | 'treatment_view'
   | 'booking_button_click'
+  | 'aquafacial_lead_submit'
   | 'treatwell_outbound_click'
   | 'phone_click'
   | 'whatsapp_click'
@@ -82,6 +84,11 @@ const CAMPAIGN_KEYS = [
   'utm_content',
   'utm_term',
   'utm_source_platform',
+  'campaign_id',
+  'adset_id',
+  'ad_id',
+  'placement',
+  'creative_angle',
   'gclid',
   'gbraid',
   'wbraid',
@@ -91,12 +98,16 @@ const CAMPAIGN_KEYS = [
   'device',
 ] as const;
 
-const CAPI_EVENT_DATA_KEYS = new Set([
+const CAPI_EVENT_DATA_KEYS = new Set<string>([
+  ...CAMPAIGN_KEYS,
+  'campaign',
+  'offer',
   'value',
   'currency',
   'method',
   'source',
   'content_name',
+  'content_category',
   'treatment_name',
   'button_location',
   'page_path',
@@ -109,6 +120,13 @@ const CAPI_EVENT_DATA_KEYS = new Set([
 ]);
 
 const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
+  '/lp/aquafacial/': {
+    content_name: 'Aquafacial Aktion',
+    treatment_name: 'Aquafacial Aktion',
+    service: 'Aquafacial Aktion',
+    value: 99,
+    currency: 'CHF',
+  },
   '/lp/carbon-microneedling/': {
     content_name: 'Carbon Microneedling Glow-Up Aktion',
     treatment_name: 'Carbon Microneedling',
@@ -116,10 +134,10 @@ const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
     value: 169,
     currency: 'CHF',
   },
-  '/lp/hydrafacial-microneedling/': {
-    content_name: 'Hydrafacial Microneedling Aktion',
-    treatment_name: 'Hydrafacial + Microneedling',
-    service: 'Hydrafacial + Microneedling',
+  '/lp/aquafacial-microneedling/': {
+    content_name: 'Aquafacial Microneedling Aktion',
+    treatment_name: 'Aquafacial + Microneedling',
+    service: 'Aquafacial + Microneedling',
     value: 170,
     currency: 'CHF',
   },
@@ -128,6 +146,7 @@ const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
 let pageViewTracked = false;
 let metaPixelLoaded = false;
 let gtmLoaded = false;
+let aquafacialLeadTracked = false;
 
 const MARKETING_CONSENT_KEY = 'bfl_marketing_consent';
 const META_COOKIE_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
@@ -515,6 +534,31 @@ export async function trackLead(payload: LeadPayload = {}): Promise<void> {
   });
 }
 
+export function trackAquafacialLeadSubmit(): string {
+  if (typeof window === 'undefined') return '';
+  if (aquafacialLeadTracked) return '';
+
+  const eventId = trackPpcEvent({
+    dataLayerEvent: 'aquafacial_lead_submit',
+    capiEventName: 'Lead',
+    metaEventName: 'Lead',
+    metaTrackMethod: 'track',
+    sendCapi: true,
+    payload: {
+      campaign: 'aquafacial_aktion',
+      offer: 'aquafacial_aktion_99',
+      page_path: window.location.pathname,
+      content_name: 'Aquafacial Aktion',
+      content_category: 'Beauty Treatment',
+      value: 99,
+      currency: 'CHF',
+    },
+  });
+
+  if (eventId) aquafacialLeadTracked = true;
+  return eventId;
+}
+
 export function trackContact(payload: ContactPayload): void {
   if (typeof window === 'undefined') return;
   const { method, source, button_location } = payload;
@@ -776,6 +820,7 @@ export function initPpcTracking(): void {
     trackTreatwellOutbound,
     trackBookingButtonClick,
     trackContact,
+    trackAquafacialLeadSubmit,
   };
 
   const start = () => {
