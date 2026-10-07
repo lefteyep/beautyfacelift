@@ -36,7 +36,7 @@ Production Worker launch details:
 | Homepage | / | Done — testimonials, 6 FAQs, 4 services, enriched schema |
 | Treatment overview | /behandlungen/ | Done — breadcrumbs, guidance grid, 4 FAQs, comparison link |
 | Gesichtsbehandlung Zürich | /behandlungen/gesichtsbehandlung-zuerich/ | Done — general skin-treatment entry hub, pricing signals, Service schema |
-| Hydrafacial | /behandlungen/hydrafacial-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
+| Aquafacial | /behandlungen/aquafacial-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
 | Microneedling | /behandlungen/microneedling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
 | Fruchtsaeure Peeling | /behandlungen/fruchtsaeure-peeling-zuerich/ | Done — 3000+ words, pricing, 8 FAQs, process, testimonials |
 | ColdPlasma | /behandlungen/coldplasma-zuerich/ | Done — 3000+ words, pricing, 7 FAQs, process, testimonials |
@@ -59,16 +59,16 @@ Production Worker launch details:
 | Article | URL | Words |
 |---------|-----|-------|
 | Blog index | /blog/ | — |
-| Hydrafacial vs. Microneedling | /blog/hydrafacial-vs-microneedling/ | 2000+ |
+| Aquafacial vs. Microneedling | /blog/aquafacial-vs-microneedling/ | 2000+ |
 | Hautpflege-Routine Zürich | /blog/hautpflege-routine-zuerich/ | 2000+ |
-| Was ist Hydrafacial? | /blog/was-ist-hydrafacial/ | 2000+ |
+| Was ist Aquafacial? | /blog/was-ist-aquafacial/ | 2000+ |
 | Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ |
 | Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ |
 
 ### Ad Landing Pages (noindex)
 | Page | URL |
 |------|-----|
-| Hydrafacial LP | /lp/hydrafacial/ |
+| Aquafacial LP | /lp/aquafacial/ |
 | Microneedling LP | /lp/microneedling/ |
 | Peeling LP | /lp/peeling/ |
 

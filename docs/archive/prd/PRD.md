@@ -76,7 +76,7 @@ User evaluates one treatment, checks price/FAQ/safety, then books.
 
 Current friction:
 
-- Hydrafacial prices conflict with booking data.
+- Aquafacial prices conflict with booking data.
 - Booking CTA is not strong enough above the fold on mobile.
 - Price/schema/content data are not clearly tied to the same source of truth.
 
@@ -149,7 +149,7 @@ The site previously used live `/api/services` rows as a temporary source of trut
 
 Files:
 
-- `src/pages/behandlungen/hydrafacial-zuerich/index.astro`
+- `src/pages/behandlungen/aquafacial-zuerich/index.astro`
 - `src/pages/index.astro`
 - service data returned by `/api/services`
 
@@ -283,7 +283,7 @@ Requirements:
 
 Acceptance criteria:
 
-- Hydrafacial page no longer contains outdated CHF 190 / 350 / 380 values unless those are confirmed as real active services.
+- Aquafacial page no longer contains outdated CHF 190 / 350 / 380 values unless those are confirmed as real active services.
 - Booking prices, FAQ answers, pricing cards, meta descriptions, and JSON-LD agree.
 - Search snippets do not advertise a price unavailable in booking.
 
@@ -299,7 +299,7 @@ Requirements:
 Recommended copy:
 
 - "Termin buchen"
-- "Hydrafacial buchen"
+- "Aquafacial buchen"
 - "Beratung per WhatsApp"
 
 Acceptance criteria:
@@ -399,7 +399,7 @@ Acceptance criteria:
 
 Scope:
 
-- Capture reference screenshots for live homepage, booking, Hydrafacial, contact, and admin login.
+- Capture reference screenshots for live homepage, booking, Aquafacial, contact, and admin login.
 - Confirm current live `/api/services`, `/api/availability`, and `/api/slots`.
 - Record current price source of truth.
 
@@ -416,7 +416,7 @@ Acceptance criteria:
 
 Scope:
 
-1. Reconcile Hydrafacial and homepage pricing with live booking data.
+1. Reconcile Aquafacial and homepage pricing with live booking data.
 2. Fix primary CTA contrast.
 3. Add booking service card action affordance.
 4. Add booking services error/empty state.
@@ -428,7 +428,7 @@ Scope:
 Primary files:
 
 - `src/pages/index.astro`
-- `src/pages/behandlungen/hydrafacial-zuerich/index.astro`
+- `src/pages/behandlungen/aquafacial-zuerich/index.astro`
 - `src/styles/main.css`
 - `src/styles/components.css`
 - `src/styles/booking.css`
@@ -443,7 +443,7 @@ Acceptance criteria:
 
 - `npm run build` passes.
 - Homepage, treatment, booking, and contact screenshots pass mobile visual review.
-- No price conflict remains for Hydrafacial.
+- No price conflict remains for Aquafacial.
 - Buttons meet contrast.
 - Booking has visible recovery states.
 
@@ -546,10 +546,10 @@ Acceptance criteria:
 ### Epic A: Price Trust
 
 - [x] Confirm final active prices from the official Treatwell catalog supplied by the client on 2026-05-05.
-- [x] Update Hydrafacial pricing content.
-- [x] Update Hydrafacial FAQ answers.
-- [x] Update Hydrafacial JSON-LD `lowPrice` and `highPrice`.
-- [x] Update homepage Hydrafacial teaser price.
+- [x] Update Aquafacial pricing content.
+- [x] Update Aquafacial FAQ answers.
+- [x] Update Aquafacial JSON-LD `lowPrice` and `highPrice`.
+- [x] Update homepage Aquafacial teaser price.
 - [x] Audit Microneedling, Peeling, ColdPlasma, and Carbon Microneedling against Treatwell.
 
 ### Epic B: Mobile Conversion
@@ -623,7 +623,7 @@ Acceptance criteria:
 
 ## 9. Open Decisions
 
-1. Final Hydrafacial prices: keep live booking values or update booking to match existing page content?
+1. Final Aquafacial prices: keep live booking values or update booking to match existing page content?
 2. Should site tone be "Sie" throughout or a warmer "Du" throughout?
 3. Should Carbon Microneedling remain visible in booking if there is no full treatment page?
 4. Should WhatsApp be a primary CTA beside booking, or only a fallback for unsure users?
@@ -638,7 +638,7 @@ Start with Phase 1. It has the best risk/reward profile because it fixes trust, 
 
 Suggested first pull request:
 
-1. Fix Hydrafacial/homepage pricing consistency.
+1. Fix Aquafacial/homepage pricing consistency.
 2. Fix CTA contrast.
 3. Add booking error/empty states.
 4. Add service-card action affordance.
@@ -649,6 +649,6 @@ Suggested first pull request:
 Definition of done:
 
 - Build passes.
-- Mobile homepage, booking, contact, and Hydrafacial look correct at 390px.
+- Mobile homepage, booking, contact, and Aquafacial look correct at 390px.
 - Booking flow still reaches customer form.
 - No changed files outside the agreed scope.

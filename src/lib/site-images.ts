@@ -1,6 +1,6 @@
 import heroCenter from '../assets/marketing/hero_editorial_portrait.png';
 import heroRight from '../assets/marketing/hero_right.png';
-import hydrafacialCard from '../assets/marketing/hydrafacial_treatment.png';
+import aquafacialCard from '../assets/marketing/aquafacial_treatment.png';
 import microneedlingCard from '../assets/marketing/microneedling_treatment_editorial.png';
 import peelingCard from '../assets/marketing/peeling_treatment_editorial.png';
 import coldplasmaCard from '../assets/marketing/coldplasma_treatment_editorial.png';
@@ -18,7 +18,7 @@ export {
   consultationTrust,
   heroCenter,
   heroRight,
-  hydrafacialCard,
+  aquafacialCard,
   microneedlingCard,
   peelingCard,
   peelingTreatment,

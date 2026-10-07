@@ -7,23 +7,23 @@ import BenefitIcon from '../../../components/lp/BenefitIcon.astro';
 import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
 import { Image, getImage } from 'astro:assets';
-import { hydrafacialCard, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
+import { aquafacialCard, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
 const REGULAR_PRICE = 250;
 const DURATION_LABEL = '1 Std. 30 Min.';
-const OFFER_LABEL = 'HydraFacial + Microneedling Aktion';
-const OFFER_SLUG = 'hydrafacial-microneedling-aktion';
+const OFFER_LABEL = 'Aquafacial + Microneedling Aktion';
+const OFFER_SLUG = 'aquafacial-microneedling-aktion';
 const CTA_LABEL = 'Jetzt Termin buchen';
 const SAVINGS_LABEL = 'Sie sparen CHF 80.-';
-const BOOKING_SERVICE = 'Hydrafacial + Microneedling';
+const BOOKING_SERVICE = 'Aquafacial + Microneedling';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
 const lpHeroMainSizes = '(min-width: 1101px) 34vw, (min-width: 601px) 380px, 74vw';
 const lpHeroOverlapSizes = '(min-width: 1101px) 24vw, (min-width: 601px) 260px, 52vw';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
 const lpHeroPreload = await getImage({
-  src: hydrafacialCard,
+  src: aquafacialCard,
   widths: [480, 720, 960, 1200, 1536],
   sizes: lpHeroMainSizes,
   format: 'webp',
@@ -31,14 +31,14 @@ const lpHeroPreload = await getImage({
 });
 
 const heroBullets = [
-  `${DURATION_LABEL} inklusive Hautanalyse, HydraFacial, Microneedling und Abschluss-Pflege`,
+  `${DURATION_LABEL} inklusive Hautanalyse, Aquafacial, Microneedling und Abschluss-Pflege`,
   `Aktionspreis CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–`,
   'Persönlich behandelt von Teresa Stimac an der Bahnhofstrasse 94',
 ];
 
 const includedItems = [
   'Kurze Hautanalyse und persönliche Abstimmung',
-  'HydraFacial Reinigung & Feuchtigkeitspflege',
+  'Aquafacial Reinigung & Feuchtigkeitspflege',
   'Sanfte Vorbereitung der Hautoberfläche',
   'Microneedling mit professionellem Pen',
   'Beruhigende Wirkstoff- und Abschluss-Pflege',
@@ -52,7 +52,7 @@ const desireItems = [
 ];
 
 const benefits = [
-  { icon: 'droplet' as const, title: 'Frischer Glow', text: 'HydraFacial reinigt und hydratisiert die Haut für ein gepflegtes, wacher wirkendes Hautbild.' },
+  { icon: 'droplet' as const, title: 'Frischer Glow', text: 'Aquafacial reinigt und hydratisiert die Haut für ein gepflegtes, wacher wirkendes Hautbild.' },
   { icon: 'activity' as const, title: 'Feiner wirkende Struktur', text: 'Microneedling kann die natürliche Hauterneuerung unterstützen und die Haut optisch glatter wirken lassen.' },
   { icon: 'leaf' as const, title: 'Persönlich abgestimmt', text: 'Intensität, Pflege und After-Care richten sich nach Hautzustand, Empfindlichkeit und Ziel.' },
   { icon: 'target' as const, title: 'Realistische Ergebnisse', text: 'Klare Einschätzung, ruhige Durchführung und keine übertriebenen Ergebnisversprechen.' },
@@ -65,7 +65,7 @@ const phases = [
 ];
 
 const combinationReasons = [
-  { title: 'HydraFacial bereitet vor', text: 'Reinigung und Feuchtigkeitspflege helfen, die Hautoberfläche gepflegt und ruhig in die Behandlung zu führen.' },
+  { title: 'Aquafacial bereitet vor', text: 'Reinigung und Feuchtigkeitspflege helfen, die Hautoberfläche gepflegt und ruhig in die Behandlung zu führen.' },
   { title: 'Microneedling ergänzt gezielt', text: 'Die kontrollierten Mikroimpulse sind auf optische Strukturverfeinerung und Hauterneuerung ausgerichtet.' },
   { title: 'Pflege schliesst ab', text: 'Die Abschluss-Pflege beruhigt und unterstützt ein angenehmes Hautgefühl nach der Sitzung.' },
 ];
@@ -85,30 +85,30 @@ const expectationItems = [
 const processSteps = [
   { title: CTA_LABEL, text: 'Der Button führt zur Buchung. Service, Angebot und Preis sind bereits vorbereitet.' },
   { title: 'Ankommen in Zürich', text: 'Beauty Face Lift befindet sich zentral an der Bahnhofstrasse 94, gut erreichbar in der Innenstadt.' },
-  { title: 'Persönliche Behandlung', text: 'Teresa führt HydraFacial, Microneedling und Abschluss-Pflege persönlich und kontrolliert durch.' },
+  { title: 'Persönliche Behandlung', text: 'Teresa führt Aquafacial, Microneedling und Abschluss-Pflege persönlich und kontrolliert durch.' },
   { title: 'After-Care beachten', text: 'Sie erhalten klare Hinweise zu Pflege, Make-up, Sport, Sonne und möglichen Rötungen.' },
 ];
 
 const faqs = [
   {
-    q: 'Für wen ist HydraFacial + Microneedling geeignet?',
+    q: 'Für wen ist Aquafacial + Microneedling geeignet?',
     a: 'Die Behandlung kann für viele Hauttypen interessant sein, wenn das Ziel ein frischeres, gepflegteres und optisch verfeinertes Hautbild ist. Teresa prüft vor Ort, ob die Kombination zu Ihrem Hautzustand passt.',
   },
   {
     q: 'Wie lange dauert die Behandlung?',
-    a: `Die Behandlung dauert ${DURATION_LABEL}. Darin enthalten sind eine kurze Hautanalyse, HydraFacial Reinigung, Microneedling, Abschluss-Pflege und persönliche After-Care-Hinweise.`,
+    a: `Die Behandlung dauert ${DURATION_LABEL}. Darin enthalten sind eine kurze Hautanalyse, Aquafacial Reinigung, Microneedling, Abschluss-Pflege und persönliche After-Care-Hinweise.`,
   },
   {
     q: 'Was kostet die Aktion?',
     a: `Der Aktionspreis beträgt CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Die Buchung läuft über Treatwell; die Behandlungsangabe wird über unsere Buchungsseite vorbereitet.`,
   },
   {
-    q: 'Warum werden HydraFacial und Microneedling kombiniert?',
-    a: 'HydraFacial reinigt und hydratisiert zuerst. Microneedling setzt danach kontrollierte Mikroimpulse. Zusammen entsteht eine Behandlung, die Pflege, Glow und optische Strukturverfeinerung in einer Sitzung verbindet.',
+    q: 'Warum werden Aquafacial und Microneedling kombiniert?',
+    a: 'Aquafacial reinigt und hydratisiert zuerst. Microneedling setzt danach kontrollierte Mikroimpulse. Zusammen entsteht eine Behandlung, die Pflege, Glow und optische Strukturverfeinerung in einer Sitzung verbindet.',
   },
   {
     q: 'Gibt es Ausfallzeit?',
-    a: 'Nach HydraFacial ist die Haut meist direkt alltagstauglich. Durch das Microneedling kann sie jedoch gerötet oder empfindlich sein. Das beruhigt sich je nach Hauttyp meist innerhalb von Stunden bis 24-48 Stunden.',
+    a: 'Nach Aquafacial ist die Haut meist direkt alltagstauglich. Durch das Microneedling kann sie jedoch gerötet oder empfindlich sein. Das beruhigt sich je nach Hauttyp meist innerhalb von Stunden bis 24-48 Stunden.',
   },
   {
     q: 'Ist Microneedling schmerzhaft?',
@@ -133,17 +133,17 @@ const structuredData = {
   '@graph': [
     {
       '@type': 'Product',
-      '@id': absoluteUrl('/lp/hydrafacial-microneedling/#product'),
-      name: 'Hydrafacial + Microneedling',
-      description: `Aktionsangebot in Zürich: Hydrafacial + Microneedling, ${DURATION_LABEL}, CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`,
-      image: absoluteUrl('/assets/hydrafacial_treatment.png'),
+      '@id': absoluteUrl('/lp/aquafacial-microneedling/#product'),
+      name: 'Aquafacial + Microneedling',
+      description: `Aktionsangebot in Zürich: Aquafacial + Microneedling, ${DURATION_LABEL}, CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}.`,
+      image: absoluteUrl('/assets/aquafacial_treatment.png'),
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
         '@type': 'Offer',
         priceCurrency: 'CHF',
         price: PROMO_PRICE.toFixed(2),
         availability: 'https://schema.org/InStock',
-        url: absoluteUrl('/lp/hydrafacial-microneedling/'),
+        url: absoluteUrl('/lp/aquafacial-microneedling/'),
         priceValidUntil: '2026-12-31',
       },
     },
@@ -160,9 +160,9 @@ const structuredData = {
 ---
 
 <LandingPage
-  title={`Hydrafacial + Microneedling Zürich - CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE} | Beauty Face Lift`}
-  description={`Hydrafacial + Microneedling an der Bahnhofstrasse Zürich. ${DURATION_LABEL}, Aktionspreis CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Frischer Glow und verfeinert wirkendes Hautbild.`}
-  ogImage="/assets/hydrafacial_treatment.png"
+  title={`Aquafacial + Microneedling Zürich - CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE} | Beauty Face Lift`}
+  description={`Aquafacial + Microneedling an der Bahnhofstrasse Zürich. ${DURATION_LABEL}, Aktionspreis CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Frischer Glow und verfeinert wirkendes Hautbild.`}
+  ogImage="/assets/aquafacial_treatment.png"
   preloadImage={{
     href: lpHeroPreload.src,
     imagesrcset: lpHeroPreload.srcSet.attribute,
@@ -177,9 +177,9 @@ const structuredData = {
     <section class="container lp-hero">
       <div class="lp-hero-grid">
         <div class="lp-hero-content">
-          <h1 class="lp-title display-text">HydraFacial + Microneedling in Zürich für frischere, glatter wirkende Haut</h1>
+          <h1 class="lp-title display-text">Aquafacial + Microneedling in Zürich für frischere, glatter wirkende Haut</h1>
           <p class="lp-subtitle">
-            Eine 90-minütige Kombi-Behandlung an der Bahnhofstrasse: gründliche HydraFacial Pflege,
+            Eine 90-minütige Kombi-Behandlung an der Bahnhofstrasse: gründliche Aquafacial Pflege,
             kontrolliertes Microneedling und beruhigende Abschluss-Pflege, persönlich abgestimmt von
             Teresa Stimac.
           </p>
@@ -192,7 +192,7 @@ const structuredData = {
           </div>
 
           <div class="lp-hero-ctas">
-            <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_hero">{CTA_LABEL}</a>
+            <a href={bookingHref} class="pill-btn lp-hero-primary" data-treatment="Aquafacial + Microneedling" data-button-location="lp_hero">{CTA_LABEL}</a>
             <p class="lp-hero-note">CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.– · Beauty Face Lift Zürich</p>
           </div>
 
@@ -210,13 +210,13 @@ const structuredData = {
         <div class="lp-hero-media" aria-label={OFFER_LABEL}>
           <div class="lp-hero-media-main">
             <Image
-              src={hydrafacialCard}
+              src={aquafacialCard}
               widths={[360, 540, 720, 960, 1122]}
               sizes={lpHeroMainSizes}
               format="webp"
               quality="high"
               priority
-              alt="HydraFacial Behandlung im Beauty Face Lift Studio Zürich"
+              alt="Aquafacial Behandlung im Beauty Face Lift Studio Zürich"
             />
           </div>
           <div class="lp-hero-media-overlap">
@@ -258,7 +258,7 @@ const structuredData = {
         <div class="sub-display">Die Sitzung</div>
         <h2 class="lp-section-title">Was passiert in 90 Minuten?</h2>
         <p class="lp-section-lead">
-          Ein ruhiger Ablauf mit Hautanalyse, HydraFacial, Microneedling und klarer Nachpflege.
+          Ein ruhiger Ablauf mit Hautanalyse, Aquafacial, Microneedling und klarer Nachpflege.
           Der Fokus liegt auf einem sichtbar gepflegten Hautbild ohne übertriebene Versprechen.
         </p>
       </div>
@@ -290,7 +290,7 @@ const structuredData = {
           <div class="sub-display margin-bottom-md">Warum diese Kombination?</div>
           <h2 class="lp-section-title">Reinigung, Feuchtigkeit und Mikroimpulse in einem Termin</h2>
           <p>
-            HydraFacial und Microneedling sprechen unterschiedliche Bedürfnisse an. Erst wird die
+            Aquafacial und Microneedling sprechen unterschiedliche Bedürfnisse an. Erst wird die
             Haut gepflegt vorbereitet, danach kann Microneedling die natürliche Hauterneuerung
             kosmetisch unterstützen.
           </p>
@@ -381,13 +381,13 @@ const structuredData = {
         eyebrow="Aktionsangebot Zürich"
         oldPrice={REGULAR_PRICE}
         newPrice={PROMO_PRICE}
-        discountLabel="HydraFacial + Microneedling"
+        discountLabel="Aquafacial + Microneedling"
         urgency={`${DURATION_LABEL} · ${SAVINGS_LABEL} · Buchung über Treatwell`}
         ctaText={CTA_LABEL}
         ctaHref={bookingHref}
       />
       <p class="lp-offer-footnote">
-        HydraFacial + Microneedling für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–.
+        Aquafacial + Microneedling für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–.
         Die Terminbuchung läuft über Treatwell; Service und Angebot sind vorbereitet.
       </p>
     </section>
@@ -430,7 +430,7 @@ const structuredData = {
         ))}
       </div>
       <div class="lp-section-cta">
-        <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="process_section">{CTA_LABEL}</a>
+        <a href={bookingHref} class="pill-btn" data-treatment="Aquafacial + Microneedling" data-button-location="process_section">{CTA_LABEL}</a>
       </div>
     </section>
 
@@ -457,11 +457,11 @@ const structuredData = {
     <section class="container lp-section lp-booking" id="buchen">
       <div class="lp-section-head">
         <div class="sub-display">Termin buchen</div>
-        <h2 class="lp-section-title">Sichern Sie sich Ihre HydraFacial + Microneedling Aktion</h2>
+        <h2 class="lp-section-title">Sichern Sie sich Ihre Aquafacial + Microneedling Aktion</h2>
         <p class="lp-section-lead">Die Buchung läuft über Treatwell. Service, Angebot und Aktionspreis sind vorbereitet.</p>
       </div>
       <BookingCta
-        treatment="Hydrafacial + Microneedling"
+        treatment="Aquafacial + Microneedling"
         href={bookingHref}
         ctaText={CTA_LABEL}
         text={`Aktionspreis CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}. Behandlungsdauer ${DURATION_LABEL}.`}
@@ -470,14 +470,14 @@ const structuredData = {
 
     <section class="lp-final-dark">
       <div class="lp-final-inner">
-        <div class="sub-display lp-final-eyebrow">HydraFacial + Microneedling</div>
+        <div class="sub-display lp-final-eyebrow">Aquafacial + Microneedling</div>
         <h2 class="lp-final-title">Frischer Glow. Ruhige Beratung. Ein klarer Termin.</h2>
         <p class="lp-final-lead">
           Buchen Sie die Kombi-Behandlung für CHF {PROMO_PRICE}.– statt CHF {REGULAR_PRICE}.–,
           persönlich durchgeführt bei Beauty Face Lift an der Bahnhofstrasse.
         </p>
         <div class="lp-final-ctas">
-          <a href={bookingHref} class="pill-btn" data-treatment="Hydrafacial + Microneedling" data-button-location="lp_final_booking">{CTA_LABEL}</a>
+          <a href={bookingHref} class="pill-btn" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_booking">{CTA_LABEL}</a>
           <a href="tel:+41792143462" class="pill-btn pill-btn-dark" data-button-location="lp_final_phone">+41 79 214 34 62</a>
         </div>
         <p class="lp-final-address">Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich</p>
@@ -1070,7 +1070,7 @@ const structuredData = {
   @media (max-width: 340px) {
     .lp-title { font-size: 2.22rem; }
   }
-  /* Approved Hydrafacial/Microneedling conversion redesign overrides. */
+  /* Approved Aquafacial/Microneedling conversion redesign overrides. */
   :global(body) {
     --paper: #faf8f4;
     --bone: #ffffff;

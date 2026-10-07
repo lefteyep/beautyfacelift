@@ -111,7 +111,7 @@ Removed the `container` token from every one of those sections:
 | Page | Sections |
 |------|----------|
 | `ueber-uns/` | 3 (`.about-editorial pad-y`) |
-| `behandlungen/hydrafacial-zuerich/` | 2 |
+| `behandlungen/aquafacial-zuerich/` | 2 |
 | `behandlungen/microneedling-zuerich/` | 4 |
 | `behandlungen/fruchtsaeure-peeling-zuerich/` | 3 |
 | `behandlungen/coldplasma-zuerich/` | 2 |
@@ -122,6 +122,6 @@ Verification at 1920×1080: computed `padding-left` on every fixed section is no
 
 ## Follow-up: Behandlungen nav dropdown (2026-04-20)
 
-Added a CSS-driven dropdown under the "Behandlungen" nav item listing the 4 treatment pages (Hydrafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma). The top-level link continues to navigate to `/behandlungen/` on click; hover or focus reveals the submenu. Keyboard: ArrowDown/Enter/Space on the trigger opens the menu and focuses the first item; Escape closes and restores focus.
+Added a CSS-driven dropdown under the "Behandlungen" nav item listing the 4 treatment pages (Aquafacial, Microneedling, Fruchtsäure Peeling, ColdPlasma). The top-level link continues to navigate to `/behandlungen/` on click; hover or focus reveals the submenu. Keyboard: ArrowDown/Enter/Space on the trigger opens the menu and focuses the first item; Escape closes and restores focus.
 
 On mobile (≤ 900px), the absolute-positioned submenu is hidden and replaced by 4 flat indented sub-items inside the hamburger overlay — always visible, no extra tap. The sub-items are scoped under `.nav-mobile-links .nav-mobile-sub a` to beat the existing `.nav-mobile-links a` rule that zeroes horizontal padding, and the stagger-in animation (`:nth-child(n)` with 0.06s-stepped delays) was extended from 5 items to 9 to account for the new insertions.

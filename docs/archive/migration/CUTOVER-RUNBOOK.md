@@ -108,7 +108,7 @@ Deployed beautyfacelift triggers (X.XX sec)
 Open `WORKERS_URL` in a browser. Verify:
 
 - [ ] Homepage loads — hero visible, gold accent color, Cormorant Garamond headline
-- [ ] `/behandlungen/hydrafacial-zuerich/` — 3000+ word treatment page renders
+- [ ] `/behandlungen/aquafacial-zuerich/` — 3000+ word treatment page renders
 - [ ] `/termin/` — booking widget loads (React island mounts, no console errors)
 - [ ] `/admin/` — login form renders
 - [ ] `/does-not-exist` — serves custom 404 page (not a generic Workers error)
