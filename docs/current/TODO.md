@@ -16,7 +16,8 @@
 - [ ] Next real `/kontakt/` enquiry: confirm the email to the studio now shows the chosen treatment (fix live since PR #28)
 - [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
 - [x] Contact form: the Worker dropped the chosen treatment (`treatment_interest`) since 2026-06-24; fixed and live on 2026-10-07 (PR #28). `scripts/check-contact-concierge.mjs` now checks the current Worker and runs as `npm run qa:contact`
-- [ ] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders
+- [x] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders — done 2026-10-07 (13 worktrees; uncommitted state kept in local `backup/2026-10-07/*` branches; record in `../_archives/2026-10-07-cleanup/README.md`)
+- [ ] Decide on the local `backup/2026-10-07/agent-git-hygiene` branch: unfinished agent-worktree tooling (`scripts/agent-worktree.mjs`, pre-push hook, `build.yml`) from June — finish it in a PR or drop it
 
 ## Priority 0: Decisions for Teresa
 - [ ] Aquafacial LP: confirm "statt CHF 180" as a provable regular price and an end date for the Kennenlernpreis (Swiss price-indication rules)
@@ -25,27 +26,35 @@
 - [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
 - [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
 - [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate)
-- [ ] Ad pages, reference prices: "statt CHF 250.–" (combo) and "statt CHF 220.–" / "Sie sparen CHF 51" (Carbon) need the same reference-price proof and an end date as the Aquafacial "statt CHF 180.–" (Swiss price-indication rules)
+- [ ] Ad pages, reference prices: "statt CHF 250.–" (combo) and "statt CHF 220.–" / "Sie sparen CHF 51" (Carbon) need the same reference-price proof and an end date as the Aquafacial "statt CHF 180.–" (Swiss price-indication rules). There is also a conflict: the Microneedling page, `/behandlungen/vergleich/` and the Microneedling FAQ list "Carbon Laser + Microneedling" at **CHF 250**, while the Carbon ad page uses CHF 220 as its reference price.
+  - Answer from the agency on 2026-10-07: both ad prices are time-limited campaign offers, promoted through the Meta campaigns.
+  - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
 - [ ] Carbon ad page: the three client quotes still carry "TODO: Teresa to supply real testimonials" in the code — confirm they are real, or replace them with verified reviews
 - [ ] Combo ad page: the QA-pinned infographic `aquafacial-microneedling-infografik-zuerich.webp` says "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself; it needs a corrected image (no "Hydro/Hydra", cautious claims)
 - [ ] Opening hours: the Carbon page said "Mo–Fr 10:00–20:00 · Sa 09:00–16:00"; the site (`shared/site.ts`) says Mo–Fr 09:00–18:00 · Sa 10:00–16:00. The Carbon page now uses the shared hours — confirm which hours are correct
 - [ ] Massage: the price row "Ganzkörpermassage CHF 135–1200" ("Preisspanne laut Treatwell") — CHF 1200 looks like a data error; confirm the real range
 - [ ] Gesichtsbehandlung: pages show "45–120 Min.", but no listed Gesichtsbehandlung takes 120 minutes — confirm the duration range
 - [ ] ColdPlasma page review: the page used to attribute "Stammkundin seit 2008 — Teresa versteht meine Haut …" to Daniel. It now uses the homepage wording "Stammkunde seit 2008, immer wieder begeistert." – Daniel. Confirm the real review text.
-- [ ] Peeling flaking: one source says "2 bis 5 Tage", another "2–3 Tage". The peeling page keeps 2–5 and the comparison page drops the number; confirm.
-- [ ] Wissen articles (body text left unchanged in the redesign; confirm, source or soften with Teresa):
-  - `was-ist-aquafacial`:
-    - lists "Aquafacial + Microneedling (90 Min.): CHF 170", which is cheaper than the CHF 180 basic Aquafacial;
-    - claims "zertifizierte Aquafacial-Spezialistin", "weltweit beliebteste Gesichtsbehandlung" and "Hollywood/Dermatologinnen".
-  - `hautpflege-routine-zuerich`:
-    - describes Aquafacial variants ("30-min Express to 90-min Platinum with LED") that contradict the other article;
-    - uses unsourced statistics (80 % UV ageing, collagen −1 %/year).
-  - `aquafacial-vs-microneedling`:
-    - "Goldstandard", "Aknenarben bis zu 70 Prozent", "6–12 Monate";
-    - "Seren einschleust", the same wording that was removed from the Aquafacial page.
-  - `microneedling-erfahrung`: "diplomierte Kosmetikerin", needle depth up to 2.5 mm with lidocaine, "Resultate 1–2 Jahre".
-  - `anti-aging-behandlungen-zuerich`: "eines der wenigen Studios in der Region" (ColdPlasma), "medizinisches Microneedling-Gerät", "drastisch"/"zellulärer Ebene".
-  - Article `<title>`s are 67–87 characters; shorten to ≤ 60 when the copy is reviewed.
+- [ ] Peeling flaking: the peeling page says a fine, barely visible flaking starts about 2–5 days after the treatment. The articles and `llms-full.txt` now follow it (they had said "2–3 Tage" and "2–5 Tage Ausfallzeit"); confirm.
+- [x] Wissen articles: unverifiable, superlative and medical claims removed or softened.
+  - **Facts:** aligned with the treatment pages.
+  - **Titles:** 44–54 characters.
+  - **Also cleaned:** "Vortex"/"patentiert" removed from the Aquafacial page, the Wissen cards and `llms*.txt`.
+  - **Where:** PR #31, 2026-10-07.
+- [x] Aquafacial + Microneedling is one 90-minute session (agency answer, 2026-10-07). The articles now say so. The LP price is a time-limited campaign offer (see the reference-price item above).
+- [x] Microneedling treatment page: the stated "Nadeltiefe (0,5 bis 2,5 mm)" was confirmed by the agency on 2026-10-07, so it stays.
+- [ ] Wissen follow-ups, parked: the agency said on 2026-10-07 the current wording is fine for now. Revisit with Teresa:
+  - **Microneedling preparation:**
+    - **Conflict:** the article says to avoid AHA/BHA/Fruchtsäure products in the days before. The treatment page says a light Fruchtsäure peel a few days before can be useful. Which is right?
+    - **Contraindications:** the articles list more of them than the treatment pages do (Isotretinoin, Stillzeit, Blutverdünner, Autoimmunerkrankungen, Keloide). Add them to the treatment pages, or trim the articles?
+  - **Device details missing from the treatment pages:** the Aquafacial "transparenter Auffangbehälter", ColdPlasma "berührungsfrei", and which Microneedling pen is used. Confirm each before an article mentions it again.
+  - **Offers to confirm:**
+    - Aquafacial packages (the articles now say "auf Anfrage");
+    - Microneedling on Hals/Dekolleté and its price;
+    - "individuelle Jahrespläne";
+    - the quoted recommendation of a skin analysis "alle drei Monate".
+  - **Anti-aging comparison table:** it is down to two rows (Ausfallzeit, Empfindliche Haut) because the other rows contradicted the treatment pages. Rebuild it from treatment-page facts if Teresa wants the comparison.
+  - **`microneedling-erfahrung`:** its description says "Ehrlicher Erfahrungsbericht", but the studio wrote it. Rename it to "Ratgeber"?
 
 ## Completed (May 7, 2026 — Custom-domain launch)
 - [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS
