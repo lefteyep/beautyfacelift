@@ -21,7 +21,7 @@ These rules come straight from client feedback and are not optional:
 7. **No image captions**, except review attributions.
 8. **The blog is called "Wissen"** in the UI. Its URL stays `/blog/`.
 
-Copy is written in Swiss German ("ss", never "ß"). The main site uses "Sie"; the ad landing pages use "du". Never invent prices, results, reviews or claims. Cosmetic claims stay cautious ("kann … unterstützen").
+Copy is written in Swiss German ("ss", never "ß"). The main site uses "Sie". Each ad landing page keeps its own campaign voice: `/lp/aquafacial/` uses "du", the other ad pages use "Sie". Never invent prices, results, reviews or claims. Cosmetic claims stay cautious ("kann … unterstützen").
 
 ## 2. Colour
 
