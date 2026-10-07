@@ -45,7 +45,8 @@ type ContactSubmission = {
 };
 
 const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
-const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion']);
+// Ad-page forms without a Turnstile widget; they keep the honeypot and the rate limit.
+const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion', 'aquafacial_microneedling']);
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';

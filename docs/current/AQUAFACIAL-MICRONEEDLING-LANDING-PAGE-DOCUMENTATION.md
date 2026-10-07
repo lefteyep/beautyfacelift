@@ -601,9 +601,10 @@ The Cloudflare Worker route `/api/contact` sends notification emails through Res
 
 Hidden fields:
 
-- `topic`: `Ich möchte eine Behandlungsempfehlung`
+- `topic`: `Ich möchte einen Termin buchen`. It must be one of `CONTACT_TOPICS` in `shared/site.ts`, or the Worker rejects the form; `npm run qa:contact` checks this.
 - `message`: `Aquafacial + Microneedling Terminwunsch`
 - `source`: `aquafacial-microneedling-lp`
+- `campaign`: `aquafacial_microneedling`. The Worker exempts it from Turnstile (`TURNSTILE_OPTIONAL_CAMPAIGNS`).
 
 Required fields:
 
@@ -642,7 +643,13 @@ Honeypot:
 The hidden `company` field is used as spam protection.
 
 Turnstile:
-This LP does not rely on Turnstile rendering.
+This LP has no Turnstile widget. Its `campaign` value `aquafacial_microneedling` is exempt in the Worker; spam protection is the honeypot plus the rate limit, as on `/lp/aquafacial/`.
+
+Fixed on 2026-10-07. Until then this form could not deliver any lead on the live domain:
+- the hidden topic "Ich möchte eine Behandlungsempfehlung" was not an allowed contact topic;
+- the Worker required a Turnstile token the page never had.
+
+`trackLead` still fired on submit, so Meta counted leads that never arrived.
 
 Error behavior:
 The form keeps `novalidate` (no native browser bubbles). On submit the page checks `form.checkValidity()`; if a required field is empty or the e-mail is malformed, submission is stopped, the fields get `aria-invalid="true"` and a bronze border, their labels turn bronze, a `role="alert"` summary (`Bitte prüfen Sie die markierten Felder.`) appears as the contact page's rounded, error-tinted panel and focus moves to the first invalid field. No lead is tracked for blocked submits. Backend contact errors still route to the existing contact error page copy. If the email service is unavailable, users are directed to call or email the studio.
