@@ -36,6 +36,7 @@ Production Worker launch details:
 | Deploy fix: top-level `sharp` override so npm 10 (CI) accepts the lockfile | PR #26, merge `1ec6b0b` | Live (deploy run 37549633593) |
 | Aquafacial LP conversion and copy pass | PR #27, merge `5e34494` | Live |
 | Same pass for the other ad pages, plus the contact-form fix | PR #28, merge `bbdc22c` | Live (deploy run 37602640573) |
+| Wissen articles claims pass, `qa:simple-lps`, worktree clean-up note | PR #31 | Live |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
@@ -47,6 +48,10 @@ The release covers:
   - The legal strip is in sentence case.
   - Offers, prices, form fields and tracking hooks are unchanged.
 - **Contact form (#28):** the Worker dropped the chosen treatment (`treatment_interest`) from `/kontakt/` enquiries from 2026-06-24 until this release. `npm run qa:contact` now guards every posted field.
+- **Wissen articles (#31):**
+  - Unverifiable, superlative and medical claims were removed from the five articles, the Aquafacial page step, the Wissen cards and `llms*.txt`.
+  - Facts now match the treatment pages, and titles are 60 characters or fewer.
+  - The article schema logo now points to `/assets/logo.png`.
 
 The first deploy of PR #25 failed at `npm ci`, so production stayed on the previous version until PR #26.
 
@@ -110,7 +115,7 @@ All main pages use the "Atelier Glow" system (October 2026). There are no overli
 | Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
 | Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
 
-Article copy was reviewed for claims on 2026-10-07 (branch `codex/wissen-claims`):
+Article copy was reviewed for claims on 2026-10-07 (PR #31):
 - **Claims:** unverifiable, superlative and medical claims were removed or softened.
 - **Facts:** prices, durations, sessions and downtime now match the treatment pages.
 - **Titles:** all are 60 characters or fewer.
