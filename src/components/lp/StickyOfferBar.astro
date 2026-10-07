@@ -1,10 +1,19 @@
 ---
+/**
+ * Cocoa offer bar for phones and tablets (≤ 900 px), fixed to the bottom edge.
+ * With `label` it reads like the Aquafacial page bar: "CHF 169.– statt CHF 220.–"
+ * above the offer name. Without it: struck regular price above the offer price.
+ * The page decides when to show it; the bar hides itself while the consent banner is open.
+ * Space for it is reserved by the legal strip in LandingPage.astro (--lp-sticky-offer-height).
+ */
 interface Props {
   oldPrice?: number;
   newPrice: number;
   currency?: string;
   href?: string;
   ctaText?: string;
+  /** Offer name shown large in the bar, e.g. "Glow-Up Aktion". */
+  label?: string;
 }
 
 const {
@@ -13,19 +22,27 @@ const {
   currency = 'CHF',
   href = '/termin/',
   ctaText = 'Jetzt buchen',
+  label,
 } = Astro.props;
 
 const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
+const formatPrice = (value: number) => `${currency} ${value.toFixed(0)}.–`;
 ---
 
-<div class="sticky-offer-bar on-dark" role="complementary" aria-label="Angebot">
-  <div class="sticky-offer-prices">
-    {hasDiscount && <span class="sticky-offer-old">{currency} {(oldPrice as number).toFixed(0)}.-</span>}
-    <strong class="sticky-offer-new">{currency} {newPrice.toFixed(0)}.-</strong>
-  </div>
+<div class="sticky-offer-bar on-dark" role="complementary" aria-label={label ?? 'Angebot'}>
+  {label ? (
+    <div class="sticky-offer-prices">
+      <span class="sticky-offer-meta">{formatPrice(newPrice)}{hasDiscount && ` statt ${formatPrice(oldPrice as number)}`}</span>
+      <strong class="sticky-offer-label">{label}</strong>
+    </div>
+  ) : (
+    <div class="sticky-offer-prices">
+      {hasDiscount && <span class="sticky-offer-old">statt <s>{formatPrice(oldPrice as number)}</s></span>}
+      <strong class="sticky-offer-new">{formatPrice(newPrice)}</strong>
+    </div>
+  )}
   <a href={href} class="pill-btn sticky-offer-cta" data-button-location="sticky_offer_bar">{ctaText}</a>
 </div>
-<div class="sticky-offer-safe-space" aria-hidden="true"></div>
 
 <style>
   :global(body) {
@@ -37,7 +54,6 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     --lp-sticky-offer-height: 0px;
   }
 
-  /* Hairline espresso bar (phones/tablets only). Hidden while the consent banner is open. */
   .sticky-offer-bar {
     display: none;
     position: fixed;
@@ -52,55 +68,53 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     box-shadow: var(--shadow-float);
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
   }
 
   .sticky-offer-prices {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    line-height: 1.1;
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+    white-space: nowrap;
   }
 
+  .sticky-offer-meta,
   .sticky-offer-old {
-    color: var(--champagne);
-    font-family: var(--f-body);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-decoration: line-through;
+    color: var(--on-dark);
+    font-family: var(--f-sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .sticky-offer-old s {
     text-decoration-thickness: 1px;
   }
 
+  .sticky-offer-label,
   .sticky-offer-new {
-    color: var(--porcelain);
-    font-family: var(--f-display);
-    font-size: 1.4rem;
+    color: var(--cream);
+    font-family: var(--f-serif);
+    font-size: 1.2rem;
     font-weight: 400;
+    line-height: 1.1;
     letter-spacing: 0;
     font-variant-numeric: lining-nums;
   }
 
-  .sticky-offer-cta {
-    flex-shrink: 0;
-    min-height: 46px;
-    padding: 0 1.25rem;
+  .sticky-offer-new {
+    font-size: 1.4rem;
   }
 
-  .sticky-offer-safe-space {
-    display: none;
+  .sticky-offer-cta {
+    flex: none;
+    min-height: 46px;
+    padding: 0 1.1rem;
+    font-size: 0.92rem;
   }
 
   @media (max-width: 900px) {
-    :global(body) {
-      padding-bottom: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
-    }
-
-    :global(body.bfl-consent-visible) {
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
     .sticky-offer-bar {
       display: flex;
     }
@@ -108,29 +122,11 @@ const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
     :global(body.bfl-consent-visible) .sticky-offer-bar {
       display: none;
     }
-
-    .sticky-offer-safe-space {
-      display: block;
-      height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
-    }
-
-    :global(body.bfl-consent-visible) .sticky-offer-safe-space {
-      display: none;
-    }
   }
 
-  @media (max-width: 420px) {
-    .sticky-offer-bar {
-      gap: 12px;
-    }
-
-    .sticky-offer-new {
-      font-size: 1.25rem;
-    }
-
+  @media (max-width: 360px) {
     .sticky-offer-cta {
-      padding: 0 1rem;
-      letter-spacing: 0.12em;
+      padding: 0 0.9rem;
     }
   }
 </style>
