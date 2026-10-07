@@ -13,10 +13,7 @@
 - [ ] Meta Test Events check for Lead + CAPI dedupe on the live LPs
 - [ ] Review and approve `codex/aquafacial-lp-cro` (Aquafacial LP conversion and copy pass)
 - [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
-- [ ] Finish `scripts/check-contact-concierge.mjs`:
-  - The page checks pass again; the rating string was updated to "4,8 aus 248+ Bewertungen" on 2026-10-07.
-  - The worker checks still expect fields such as `treatmentInterest` that `worker/routes/contact.ts` no longer has.
-  - Update them to the current payload or remove them.
+- [x] Contact form: the Worker dropped the chosen treatment (`treatment_interest`) since 2026-06-24; fixed on 2026-10-07. `scripts/check-contact-concierge.mjs` now checks the current Worker and runs as `npm run qa:contact`
 - [ ] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders
 
 ## Priority 0: Decisions for Teresa
