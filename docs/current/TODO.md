@@ -36,7 +36,7 @@
 - [ ] Peeling flaking: the peeling page says a fine, barely visible flaking starts about 2–5 days after the treatment. The articles and `llms-full.txt` now follow it (they had said "2–3 Tage" and "2–5 Tage Ausfallzeit"); confirm.
 - [x] Wissen articles: unverifiable, superlative and medical claims removed or softened.
   - **Facts:** aligned with the treatment pages.
-  - **Titles:** 45–57 characters.
+  - **Titles:** 44–54 characters.
   - **Also cleaned:** "Vortex"/"patentiert" removed from the Aquafacial page, the Wissen cards and `llms*.txt`.
   - **Where:** branch `codex/wissen-claims`, 2026-10-07.
 - [ ] Wissen follow-ups. The pass removed what the site cannot back up; these points need Teresa's answer:
