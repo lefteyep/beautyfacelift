@@ -5,14 +5,14 @@ import BlogPost from '../../../layouts/BlogPost.astro';
 const faqItems = [
     {
         question: 'Ab welchem Alter sollte man mit Anti-Aging Behandlungen beginnen?',
-        answer: 'Grundsätzlich gilt: Prävention ist einfacher als Korrektur. Ab Mitte 20 können präventive Massnahmen wie regelmässige Aquafacial-Behandlungen und konsequenter Sonnenschutz sinnvoll sein. Ab 30 können gezielte Behandlungen wie Microneedling oder Fruchtsäure Peelings sinnvoll sein, um die hauteigene Regeneration zu unterstützen. Bei Beauty Face Lift in Zürich erstellt Teresa Stimac für jede Kundin einen individuellen Behandlungsplan, der auf Hauttyp, Lebensstil und persönliche Ziele abgestimmt ist.'
+        answer: 'Grundsätzlich gilt: Prävention ist einfacher als Korrektur. Ab Mitte 20 können präventive Massnahmen wie regelmässige Aquafacial-Behandlungen und konsequenter Sonnenschutz sinnvoll sein. Ab Mitte 30 können gezielte Behandlungen wie Microneedling oder Fruchtsäure Peelings sinnvoll sein, um die hauteigene Regeneration zu unterstützen. Bei Beauty Face Lift in Zürich erstellt Teresa Stimac für jede Kundin einen individuellen Behandlungsplan, der auf Hauttyp, Lebensstil und persönliche Ziele abgestimmt ist.'
     },
     {
         question: 'Wie oft sollte man Anti-Aging Behandlungen durchführen lassen?',
         answer: 'Die passende Häufigkeit hängt von der gewählten Behandlung ab. Aquafacial empfehlen wir häufig alle 4 bis 6 Wochen, Microneedling alle 4 bis 6 Wochen in einer Serie von 3 bis 5 Sitzungen und Fruchtsäure Peelings alle 2 bis 4 Wochen; bei ColdPlasma richten sich Anzahl und Abstand nach Hautzustand und Verträglichkeit. Nach einer Intensivphase gehen viele Kundinnen in ein Erhaltungsprogramm über, das Teresa individuell für Sie zusammenstellt.'
     },
     {
-        question: 'Sind nicht-invasive Anti-Aging Behandlungen wirklich wirksam?',
+        question: 'Sind nicht-chirurgische Anti-Aging Behandlungen wirklich wirksam?',
         answer: 'Ja, moderne nicht-chirurgische Verfahren können je nach Methode und Hautzustand sichtbare Verbesserungen unterstützen. Microneedling kann die Kollagenbildung unterstützen, Aquafacial kann die Haut bereits nach der ersten Sitzung frischer und praller wirken lassen und ColdPlasma-Technologie kann die kosmetische Hautpflege und ein ruhigeres Hautbild unterstützen. Der Schlüssel zum Erfolg liegt in der richtigen Kombination und Regelmässigkeit der Behandlungen.'
     },
     {
@@ -21,7 +21,7 @@ const faqItems = [
     },
     {
         question: 'Welche Anti-Aging Behandlung eignet sich für empfindliche Haut?',
-        answer: 'Empfindliche Haut braucht besonders sanfte Verfahren. Aquafacial kann hier ein sanfter Einstieg sein, da die Seren individuell auf den Hautzustand abgestimmt und sorgfältig eingearbeitet werden. Auch ColdPlasma kann für empfindliche Haut infrage kommen und die Pflege bei Hautbarriere-Themen unterstützen; die Verträglichkeit prüft Teresa vorher individuell. Bei Microneedling und Fruchtsäure Peelings passen wir Nadeltiefe beziehungsweise Säurekonzentration an den Empfindlichkeitsgrad an. Eine persönliche Hautanalyse bei Teresa Stimac ist der beste Startpunkt.'
+        answer: 'Empfindliche Haut braucht besonders sanfte Verfahren. Aquafacial kann hier ein sanfter Einstieg sein, da die Seren individuell auf den Hautzustand abgestimmt und sorgfältig eingearbeitet werden. Auch ColdPlasma kann für empfindliche Haut infrage kommen und die Pflege bei Hautbarriere-Themen unterstützen; die Verträglichkeit prüft Teresa vorher individuell. Bei Microneedling und Fruchtsäure Peelings passen wir Nadeltiefe beziehungsweise Säurekonzentration an den Empfindlichkeitsgrad an. Eine persönliche Hautanalyse bei Teresa Stimac ist ein guter Startpunkt.'
     }
 ];
 
@@ -47,7 +47,7 @@ const articleSchema = {
         "url": absoluteUrl('/'),
         "logo": {
             "@type": "ImageObject",
-            "url": absoluteUrl('/assets/bfl_logo.svg')
+            "url": absoluteUrl('/assets/logo.png')
         }
     },
     "datePublished": "2026-02-20",
@@ -58,7 +58,7 @@ const articleSchema = {
     },
     "url": absoluteUrl('/blog/anti-aging-behandlungen-zuerich/'),
     "inLanguage": "de-CH",
-    "keywords": "Anti-Aging Behandlungen, Zürich, Aquafacial, Microneedling, ColdPlasma, Fruchtsäure Peeling, Hautverjüngung"
+    "keywords": "Anti-Aging Behandlungen, Zürich, Aquafacial, Microneedling, ColdPlasma, Fruchtsäure Peeling"
 };
 
 const faqSchema = {
@@ -152,9 +152,9 @@ const cta = {
     <p>
         Wenn es um gezielte Hautbildverbesserung geht, ist <a href="/behandlungen/microneedling-zuerich/">Microneedling</a> eine etablierte minimal-invasive Methode. Das Prinzip: Feine Nadeln setzen kontrollierte Mikrokanäle, die die natürliche Hauterneuerung sowie die Kollagen- und Elastinbildung unterstützen können.
     </p>
-    <h3>Die Wissenschaft hinter Microneedling</h3>
+    <h3>So funktioniert Microneedling</h3>
     <p>
-        Bei einer professionellen Microneedling-Behandlung entstehen tausende mikroskopisch kleine Kanäle in der Haut. Studien und Praxiserfahrung sprechen dafür, dass Microneedling die Kollagenbildung unterstützen kann; die individuelle Wirkung variiert.
+        Bei einer professionellen Microneedling-Behandlung entstehen feine, kontrollierte Mikrokanäle in der Haut. Sie können die natürliche Kollagenbildung unterstützen; die individuelle Wirkung variiert.
     </p>
     <h3>Anti-Aging-Ergebnisse von Microneedling</h3>
     <p>
@@ -234,16 +234,16 @@ const cta = {
                 <tr>
                     <th scope="row">Ausfallzeit</th>
                     <td data-label="Aquafacial">Meist keine</td>
-                    <td data-label="Microneedling">1 &ndash; 2 Tage</td>
+                    <td data-label="Microneedling">24 &ndash; 48 Stunden</td>
                     <td data-label="ColdPlasma">Meist keine</td>
-                    <td data-label="Fruchtsäure">2 &ndash; 5 Tage</td>
+                    <td data-label="Fruchtsäure">Meist keine, leichte Schuppung möglich</td>
                 </tr>
                 <tr>
                     <th scope="row">Empfindliche Haut</th>
-                    <td data-label="Aquafacial">Sehr gut</td>
-                    <td data-label="Microneedling">Bedingt</td>
-                    <td data-label="ColdPlasma">Sehr gut</td>
-                    <td data-label="Fruchtsäure">Anpassbar</td>
+                    <td data-label="Aquafacial">In der Regel gut verträglich</td>
+                    <td data-label="Microneedling">Eignung nach Hautanalyse</td>
+                    <td data-label="ColdPlasma">Nach individueller Prüfung</td>
+                    <td data-label="Fruchtsäure">Mit Vorsicht, Konzentration angepasst</td>
                 </tr>
             </tbody>
         </table>
@@ -255,11 +255,11 @@ const cta = {
     <!-- 8. Kombinationen -->
     <h2>Behandlungskombinationen für gezielte Wirkung</h2>
     <p>
-        Einer der grössten Vorteile nicht-invasiver Anti-Aging Behandlungen ist ihre Kombinierbarkeit. Durchdachte Kombinationen können sich dabei sinnvoll ergänzen. Bei Beauty Face Lift in Zürich haben wir aus der täglichen Praxis heraus passende Behandlungsprotokolle entwickelt.
+        Nicht-chirurgische Anti-Aging Behandlungen lassen sich kombinieren. Durchdachte Kombinationen können sich dabei sinnvoll ergänzen; Teresa stimmt sie bei Beauty Face Lift in Zürich individuell ab.
     </p>
     <h3>Aquafacial + Microneedling: Das Power-Duo</h3>
     <p>
-        Diese Kombination kann eine sinnvolle Anti-Aging-Strategie sein. Aquafacial bereitet die Haut sorgfältig vor — Reinigung, Peeling und Feuchtigkeitspflege schaffen eine gute Grundlage. Microneedling kann anschliessend in einer separaten Sitzung die natürliche Hauterneuerung und Kollagenbildung unterstützen. Die empfohlene Abfolge: Aquafacial alle 4 Wochen als Basis, Microneedling alle 4 bis 6 Wochen als Intensivbehandlung, sofern Hautzustand und Verträglichkeit passen.
+        Diese Kombination kann eine sinnvolle Anti-Aging-Strategie sein. Aquafacial bereitet die Haut sorgfältig vor — Reinigung, Peeling und Feuchtigkeitspflege schaffen eine gute Grundlage. Microneedling kann anschliessend in einer separaten Sitzung die natürliche Hauterneuerung und Kollagenbildung unterstützen. Die empfohlene Abfolge: Aquafacial alle 4 bis 6 Wochen als Basis, Microneedling alle 4 bis 6 Wochen als Intensivbehandlung, sofern Hautzustand und Verträglichkeit passen.
     </p>
     <h3>ColdPlasma + Fruchtsäure Peeling: Wirkstoffpflege trifft Hauterneuerung</h3>
     <p>
@@ -275,11 +275,11 @@ const cta = {
     <p>
         Eine der häufigsten Fragen, die Teresa Stimac in der täglichen Praxis hört, ist: Wann ist der richtige Zeitpunkt, mit Anti-Aging Behandlungen zu beginnen? Die ehrliche Antwort: Es ist fast nie zu früh und selten zu spät.
     </p>
-    <h3>Der präventive Ansatz (Mitte 20 bis Anfang 30)</h3>
+    <h3>Mitte 20 bis Anfang 30: Pflege und Schutz</h3>
     <p>
         In dieser Lebensphase verändert sich die Kollagenbildung bereits, auch wenn Zeichen noch kaum sichtbar sind. Präventive Behandlungen wie regelmässige Aquafacial-Sitzungen und sanfte Fruchtsäure Peelings können die Hautpflege sinnvoll ergänzen. Der Fokus liegt auf Schutz, Feuchtigkeit, Sonnenschutz und dem Aufbau einer professionellen Pflegeroutine.
     </p>
-    <h3>Der korrektive Ansatz (Ab Mitte 30)</h3>
+    <h3>Ab Mitte 30: präventive Anti-Aging-Pflege</h3>
     <p>
         Wenn erste Linien, Pigmentveränderungen oder Elastizitätsverlust sichtbar werden, kommen intensivere Verfahren zum Einsatz. Hier können Microneedling und ColdPlasma sinnvoll sein: Microneedling kann die natürliche Kollagenbildung und die Hautstruktur unterstützen, ColdPlasma die Wirkstoffpflege ergänzen. Je nach Hautzustand empfiehlt Teresa eine Kombination aus mehreren Verfahren in einem strukturierten Behandlungsplan.
     </p>

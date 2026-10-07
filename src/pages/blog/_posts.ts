@@ -31,7 +31,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         slug: 'aquafacial-vs-microneedling',
         href: '/blog/aquafacial-vs-microneedling/',
         title: 'Aquafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?',
-        excerpt: 'Beide Behandlungen versprechen ein strahlendes Hautbild, doch welche ist die richtige für Ihren Hauttyp? Ein direkter Vergleich.',
+        excerpt: 'Beide Behandlungen können zu einem frischeren Hautbild beitragen, doch welche passt zu Ihrem Hauttyp? Ein direkter Vergleich.',
         category: 'Behandlungsvergleich',
         publishDate: '2026-03-15',
         readingTime: '10 Min.',
@@ -78,7 +78,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
     {
         slug: 'anti-aging-behandlungen-zuerich',
         href: '/blog/anti-aging-behandlungen-zuerich/',
-        title: 'Anti-Aging Behandlungen in Zürich: Ein Überblick',
+        title: 'Anti-Aging Behandlungen in Zürich: Ein umfassender Überblick',
         excerpt: 'Von Aquafacial über ColdPlasma bis Fruchtsäure Peeling: welche Anti-Aging Methoden sich für welche Haut eignen.',
         category: 'Anti-Aging',
         publishDate: '2026-02-20',
