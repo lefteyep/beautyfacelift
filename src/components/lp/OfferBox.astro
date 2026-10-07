@@ -1,4 +1,12 @@
 ---
+/**
+ * Offer price block for the Meta ad landing pages.
+ *   variant "box"  — soft shell card: label, serif price, "statt" price, offer line, CTA.
+ *     layout "stack" (default) one column: label, price, offer line, CTA
+ *     layout "row"   copy left, price + CTA right; one column on phones
+ *   variant "chip" — inline price line without a card.
+ * Labels are sentence case; prices read "CHF 169.–".
+ */
 interface Props {
   oldPrice?: number;
   newPrice: number;
@@ -9,6 +17,7 @@ interface Props {
   ctaText?: string;
   ctaHref?: string;
   variant?: 'chip' | 'box';
+  layout?: 'row' | 'stack';
 }
 
 const {
@@ -21,28 +30,30 @@ const {
   ctaText,
   ctaHref,
   variant = 'box',
+  layout = 'stack',
 } = Astro.props;
 
 const hasDiscount = typeof oldPrice === 'number' && oldPrice > newPrice;
 const computedPercent = hasDiscount ? Math.round((((oldPrice as number) - newPrice) / (oldPrice as number)) * 100) : 0;
 const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Behandlungspreis');
+const formatPrice = (value: number) => `${currency} ${value.toFixed(0)}.–`;
 ---
 
 {variant === 'chip' ? (
   <div class="offer-chip">
     <span class="offer-chip-badge">{badge}</span>
     <span class="offer-chip-prices">
-      {hasDiscount && <s>{currency} {(oldPrice as number).toFixed(0)}</s>}
-      <strong>{currency} {newPrice.toFixed(0)}</strong>
+      <strong>{formatPrice(newPrice)}</strong>
+      {hasDiscount && <span class="offer-chip-old">statt <s>{formatPrice(oldPrice as number)}</s></span>}
     </span>
     {urgency && <span class="offer-chip-urgency">{urgency}</span>}
   </div>
 ) : (
-  <div class="offer-box">
+  <div class:list={['offer-box', `offer-box--${layout}`]}>
     {eyebrow && <div class="offer-eyebrow">{eyebrow}</div>}
     <div class="offer-box-prices">
-      {hasDiscount && <span class="offer-old">{currency} {(oldPrice as number).toFixed(0)}</span>}
-      <span class="offer-new">{currency} {newPrice.toFixed(0)}</span>
+      <span class="offer-new">{formatPrice(newPrice)}</span>
+      {hasDiscount && <span class="offer-old">statt <s>{formatPrice(oldPrice as number)}</s></span>}
     </div>
     <div class="offer-badge">{badge}</div>
     {urgency && <p class="offer-urgency">{urgency}</p>}
@@ -53,157 +64,209 @@ const badge = discountLabel ?? (hasDiscount ? `${computedPercent}% Rabatt` : 'Be
 )}
 
 <style>
-  /* Elegant price block: label type, display-serif numerals, hairlines — no fills, pills or shadows. */
+  /* ─── Chip: inline price line ─────────────────────────────── */
   .offer-chip {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
     max-width: 100%;
   }
 
   .offer-chip-badge {
-    color: var(--bronze);
-    font-family: var(--f-body);
+    color: var(--clay);
+    font-family: var(--f-sans);
     font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: var(--tracking-label);
-    line-height: 1.3;
-    text-transform: uppercase;
-    white-space: nowrap;
+    font-weight: 500;
+    line-height: 1.4;
   }
 
   .offer-chip-prices {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 4px 14px;
-    white-space: nowrap;
-  }
-
-  .offer-chip-prices s {
-    order: 2;
-    color: var(--taupe);
-    font-family: var(--f-display);
-    font-size: 1.25rem;
-    line-height: 1.1;
-    text-decoration-thickness: 1px;
+    gap: 4px 12px;
   }
 
   .offer-chip-prices strong {
-    color: var(--espresso);
-    font-family: var(--f-display);
+    color: var(--cocoa);
+    font-family: var(--f-serif);
     font-size: clamp(2.2rem, 3.6vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1;
+    font-variant-numeric: lining-nums;
+    white-space: nowrap;
+  }
+
+  .offer-chip-old {
+    color: var(--muted);
+    font-size: var(--fs-small);
+    white-space: nowrap;
+  }
+
+  .offer-chip-urgency {
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+
+  /* ─── Box: soft shell card. Default "stack": label, price, offer line, CTA in one column. ─── */
+  .offer-box {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "eyebrow"
+      "prices"
+      "badge"
+      "urgency"
+      "cta";
+    align-items: start;
+    padding: clamp(28px, 3.4vw, 44px);
+    border-radius: var(--r-xl);
+    background: var(--shell);
+    text-align: left;
+  }
+
+  .offer-eyebrow {
+    grid-area: eyebrow;
+    color: var(--clay);
+    font-family: var(--f-sans);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .offer-box-prices {
+    grid-area: prices;
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .offer-new {
+    color: var(--cocoa);
+    font-family: var(--f-serif);
+    font-size: clamp(2.75rem, 5vw, 4.25rem);
     font-weight: 400;
     line-height: 1;
     letter-spacing: -0.01em;
     font-variant-numeric: lining-nums;
-  }
-
-  .offer-chip-urgency {
-    display: block;
-    max-width: min(100%, 420px);
-    padding-top: 10px;
-    border-top: 1px solid var(--rule);
-    color: var(--taupe);
-    font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    line-height: 1.5;
-    text-transform: uppercase;
-    white-space: normal;
-  }
-
-  .offer-box {
-    display: grid;
-    justify-items: center;
-    max-width: 560px;
-    margin: 0 auto;
-    padding: clamp(36px, 5vw, 56px) clamp(24px, 4vw, 48px);
-    border: 1px solid var(--rule);
-    border-top-color: var(--rule-strong);
-    background: var(--ivory);
-    text-align: center;
-  }
-
-  .offer-eyebrow {
-    margin-bottom: 18px;
-    color: var(--bronze);
-    font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: var(--tracking-label);
-    line-height: 1.4;
-    text-transform: uppercase;
-  }
-
-  .offer-box-prices {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: center;
-    gap: 6px 18px;
-    margin-bottom: 18px;
+    white-space: nowrap;
   }
 
   .offer-old {
     order: 2;
-    color: var(--taupe);
-    font-family: var(--f-display);
-    font-size: 1.5rem;
-    line-height: 1;
-    text-decoration: line-through;
+    color: var(--muted);
+    font-family: var(--f-sans);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .offer-old s {
     text-decoration-thickness: 1px;
   }
 
-  .offer-new {
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(2.75rem, 6vw, 3.75rem);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.015em;
-    font-variant-numeric: lining-nums;
-  }
-
   .offer-badge {
-    padding-top: 16px;
-    margin-bottom: 18px;
-    border-top: 1px solid var(--rule);
-    color: var(--espresso);
-    font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: var(--tracking-label);
-    line-height: 1.4;
-    text-transform: uppercase;
+    grid-area: badge;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-strong);
+    color: var(--cocoa);
+    font-family: var(--f-sans);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.45;
   }
 
   .offer-urgency {
-    max-width: 44ch;
-    margin: 0 auto 28px;
-    color: var(--umber);
+    grid-area: urgency;
+    max-width: 48ch;
+    margin: 4px 0 0;
+    color: var(--muted);
     font-size: var(--fs-small);
     line-height: 1.55;
   }
 
   .offer-cta {
-    display: inline-flex;
+    grid-area: cta;
+    justify-self: stretch;
+    min-height: 54px;
+    margin-top: 28px;
+    padding-inline: 28px;
   }
 
-  @media (max-width: 600px) {
-    .offer-box {
-      padding: 32px 20px;
-    }
+  /* "row" (opt-in): copy left, price + CTA right; one column on phones.
+     Descendant rules sit in :where() so a page can still refine the card with one class. */
+  .offer-box--row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "eyebrow prices"
+      "badge prices"
+      "urgency cta";
+    align-items: end;
+    gap: 12px clamp(32px, 6vw, 96px);
+    padding: clamp(28px, 4.5vw, 64px);
+  }
 
-    .offer-old {
-      font-size: 1.25rem;
+  :where(.offer-box--row) .offer-box-prices {
+    justify-items: end;
+    margin-top: 0;
+  }
+
+  :where(.offer-box--row) .offer-badge {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    font-family: var(--f-serif);
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+
+  :where(.offer-box--row) .offer-urgency {
+    margin: 0;
+  }
+
+  :where(.offer-box--row) .offer-cta {
+    justify-self: end;
+    margin-top: 0;
+  }
+
+  @media (max-width: 760px) {
+    .offer-box {
+      padding: 28px 22px;
+      border-radius: var(--r-lg);
     }
 
     .offer-new {
-      font-size: clamp(2.4rem, 12vw, 3rem);
+      font-size: clamp(2.5rem, 12vw, 3rem);
     }
 
     .offer-cta {
-      width: 100%;
+      padding-inline: 1rem;
+    }
+
+    .offer-box--row {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        "eyebrow"
+        "badge"
+        "prices"
+        "urgency"
+        "cta";
+      align-items: start;
+      gap: 10px;
+    }
+
+    :where(.offer-box--row) .offer-box-prices {
+      justify-items: start;
+    }
+
+    :where(.offer-box--row) .offer-cta {
+      justify-self: stretch;
+      margin-top: 14px;
     }
   }
 </style>

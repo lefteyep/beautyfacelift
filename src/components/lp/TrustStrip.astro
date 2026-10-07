@@ -1,4 +1,10 @@
 ---
+/**
+ * Trust line for the Meta ad landing pages, in the main site's proof style.
+ *   variant "rating"   — ★★★★★ 4,8 aus 248+ Bewertungen (· 20+ Jahre Erfahrung; pass years="" to hide)
+ *   variant "promises" — short promises, each with the clay check disc
+ * Sentence case, no tracking.
+ */
 interface Promise {
   text: string;
 }
@@ -15,9 +21,8 @@ interface Props {
 
 const {
   variant = 'rating',
-  rating = '4.8',
+  rating = '4,8',
   reviewCount = '248+ Bewertungen',
-  address = 'Bahnhofstrasse 94',
   years = '20+ Jahre',
   promises = [
     { text: 'Meist keine Ausfallzeit' },
@@ -30,14 +35,17 @@ const {
 ---
 
 {variant === 'rating' ? (
-  <div class={`trust-strip-lp trust-strip-lp--${align}`} aria-label={`${rating} von 5 Sternen, ${reviewCount}`}>
+  <div class={`trust-strip-lp trust-strip-lp--rating trust-strip-lp--${align}`}>
     <span class="trust-rating-group">
       <span class="trust-stars" aria-hidden="true">★★★★★</span>
-      <strong class="trust-rating-num">{rating}</strong>
-      <span class="trust-rating-label">{reviewCount}</span>
+      <span><strong class="trust-rating-num">{rating}</strong> <span class="trust-rating-label">aus {reviewCount}</span></span>
     </span>
-    <span class="trust-sep" aria-hidden="true"></span>
-    <span class="trust-item">{years} Erfahrung</span>
+    {years && (
+      <>
+        <span class="trust-sep" aria-hidden="true"></span>
+        <span class="trust-item">{years} Erfahrung</span>
+      </>
+    )}
   </div>
 ) : (
   <div class={`trust-strip-lp trust-strip-lp--promises trust-strip-lp--${align}`}>
@@ -45,9 +53,7 @@ const {
       <>
         {i > 0 && <span class="trust-sep" aria-hidden="true"></span>}
         <span class="trust-item trust-item--check">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" width="13" height="13" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+          <span class="trust-check" aria-hidden="true"></span>
           {p.text}
         </span>
       </>
@@ -56,19 +62,18 @@ const {
 )}
 
 <style>
-  /* Trust-line row: label type, hairline separators, bronze accents. */
   .trust-strip-lp {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px 18px;
-    font-family: var(--f-body);
-    font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    line-height: 1.4;
-    text-transform: uppercase;
-    color: var(--taupe);
+    gap: 8px 14px;
+    font-family: var(--f-sans);
+    font-size: 0.92rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.45;
+    text-transform: none;
+    color: var(--text);
   }
 
   .trust-strip-lp--left {
@@ -82,59 +87,65 @@ const {
 
   .trust-rating-group {
     display: inline-flex;
-    align-items: baseline;
-    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
   }
 
   .trust-stars {
-    color: var(--bronze);
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
     line-height: 1;
   }
 
   .trust-rating-num {
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: 1.15rem;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1;
-    text-transform: none;
-    font-variant-numeric: lining-nums;
+    color: var(--cocoa);
+    font-weight: 600;
   }
 
   .trust-rating-label {
-    color: var(--taupe);
+    color: var(--text);
   }
 
   .trust-sep {
-    flex-shrink: 0;
+    flex: none;
     width: 1px;
-    height: 12px;
-    background: var(--rule-strong);
+    height: 14px;
+    background: var(--line-strong);
   }
 
   .trust-item {
-    color: var(--taupe);
+    color: var(--text);
+  }
+
+  /* Promises: the site's tick-list marker, separated by space instead of rules. */
+  .trust-strip-lp--promises {
+    gap: 12px 28px;
+    color: var(--cocoa);
+    font-weight: 500;
+  }
+
+  .trust-strip-lp--promises .trust-sep {
+    display: none;
   }
 
   .trust-item--check {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: var(--umber);
+    gap: 10px;
+    color: var(--cocoa);
   }
 
-  .trust-item--check svg {
-    flex-shrink: 0;
-    color: var(--bronze);
+  .trust-check {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    border-radius: var(--r-pill);
+    background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
   }
 
-  @media (max-width: 600px) {
-    .trust-strip-lp {
-      gap: 8px 14px;
-      letter-spacing: 0.12em;
-    }
+  :global(:is(.section--shell, .section--sand)) .trust-check {
+    background-color: var(--paper);
   }
 </style>

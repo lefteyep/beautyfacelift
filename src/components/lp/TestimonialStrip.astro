@@ -1,4 +1,10 @@
 ---
+/**
+ * Client quotes for the Meta ad landing pages, in the homepage review-card style:
+ * rating line, then paper cards with a serif quote, initial disc, name and stars.
+ * Pass the quote text without quotation marks — „…“ are added here.
+ * Phones get a swipeable row instead of a long stack.
+ */
 interface Testimonial {
   text: string;
   name: string;
@@ -9,30 +15,35 @@ interface Props {
   testimonials: Testimonial[];
   rating?: string;
   reviewCount?: string;
+  /** Rating line above the cards (default true). */
+  showRating?: boolean;
 }
 
-const { testimonials, rating = '4,8', reviewCount = '248+' } = Astro.props;
+const { testimonials, rating = '4,8', reviewCount = '248+', showRating = true } = Astro.props;
 // Two or four quotes sit in two columns, everything else in three, so no row is left with a single orphan.
 const columns = testimonials.length === 2 || testimonials.length === 4 ? 2 : 3;
 ---
 
 <div class="testimonials-wrap">
-  <div class="testimonials-rating">
-    <div class="testimonials-stars" aria-label={`${rating} von 5 Sternen`}>
-      {Array.from({ length: 5 }).map(() => '★').join('')}
-    </div>
-    <strong>{rating} / 5</strong>
-    <span>aus {reviewCount} Bewertungen</span>
-  </div>
+  {showRating && (
+    <p class="testimonials-rating">
+      <span class="testimonials-stars" aria-hidden="true">★★★★★</span>
+      <span><strong>{rating}</strong> aus {reviewCount} Bewertungen</span>
+    </p>
+  )}
 
   <div class:list={['testimonials-grid', `testimonials-grid--${columns}`]}>
     {testimonials.map((t) => (
       <figure class="testimonial-card">
-        <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+        <span class="testimonial-mark" aria-hidden="true">„</span>
         <blockquote>„{t.text}“</blockquote>
         <figcaption>
-          <strong>{t.name}</strong>
-          {t.role && <span>{t.role}</span>}
+          <span class="testimonial-avatar" aria-hidden="true">{t.name.charAt(0)}</span>
+          <span class="testimonial-who">
+            <strong>{t.name}</strong>
+            {t.role && <span>{t.role}</span>}
+          </span>
+          <span class="testimonial-stars" role="img" aria-label="5 von 5 Sternen">★★★★★</span>
         </figcaption>
       </figure>
     ))}
@@ -48,38 +59,30 @@ const columns = testimonials.length === 2 || testimonials.length === 4 ? 2 : 3;
   .testimonials-rating {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: center;
-    gap: 8px 16px;
-    margin-bottom: clamp(36px, 4vw, 56px);
+    gap: 6px 10px;
+    max-width: none;
+    margin: 0 0 clamp(32px, 4vw, 48px);
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .testimonials-stars {
-    color: var(--bronze);
-    font-size: 0.8rem;
-    letter-spacing: 0.3em;
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
   }
 
   .testimonials-rating strong {
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: 1.75rem;
-    font-weight: 400;
-    line-height: 1;
-    font-variant-numeric: lining-nums;
-  }
-
-  .testimonials-rating span {
-    color: var(--taupe);
-    font-size: var(--fs-label);
+    color: var(--cocoa);
     font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
 
   .testimonials-grid {
     display: grid;
-    gap: 40px clamp(24px, 4vw, 64px);
+    gap: 14px;
   }
 
   .testimonials-grid--3 {
@@ -91,56 +94,112 @@ const columns = testimonials.length === 2 || testimonials.length === 4 ? 2 : 3;
   }
 
   .testimonial-card {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    position: relative;
+    display: grid;
+    align-content: space-between;
+    gap: 28px;
+    min-height: 240px;
     margin: 0;
-    padding: 28px 0 0;
-    border-top: 1px solid var(--rule-strong);
+    padding: clamp(26px, 3vw, 36px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--paper);
   }
 
-  .testimonial-stars {
-    color: var(--bronze);
-    font-size: 0.7rem;
-    letter-spacing: 0.35em;
+  /* Decorative low quote, lifted into the card's top padding so it never meets the text. */
+  .testimonial-mark {
+    position: absolute;
+    top: -40px;
+    right: 24px;
+    color: var(--blush);
+    font-family: var(--f-serif);
+    font-size: 5.5rem;
+    line-height: 1;
+    pointer-events: none;
   }
 
   .testimonial-card blockquote {
+    position: relative;
     margin: 0;
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+    padding-right: 32px;
+    color: var(--cocoa);
+    font-family: var(--f-serif);
+    font-size: clamp(1.45rem, 2vw, 1.75rem);
     font-weight: 400;
-    line-height: 1.35;
+    line-height: 1.2;
     letter-spacing: 0;
   }
 
   .testimonial-card figcaption {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 12px;
-    margin-top: auto;
-    font-family: var(--f-body);
-    font-size: var(--fs-label);
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-family: var(--f-sans);
+    font-size: 0.88rem;
     line-height: 1.4;
-    text-transform: uppercase;
   }
 
-  .testimonial-card figcaption strong {
-    color: var(--espresso);
+  .testimonial-avatar {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--r-pill);
+    background: var(--shell);
+    color: var(--clay);
+    font-family: var(--f-serif);
+    font-size: 1.3rem;
+  }
+
+  .testimonial-who {
+    display: grid;
+    min-width: 0;
+  }
+
+  .testimonial-who strong {
+    color: var(--cocoa);
     font-weight: 600;
   }
 
-  .testimonial-card figcaption span {
-    color: var(--taupe);
+  .testimonial-stars {
+    color: var(--gold);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
   }
 
   @media (max-width: 900px) {
     .testimonials-grid--3,
     .testimonials-grid--2 {
-      grid-template-columns: minmax(0, 1fr);
+      display: flex;
+      gap: 12px;
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-padding-inline: var(--gutter);
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .testimonials-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .testimonial-mark {
+      display: none;
+    }
+
+    .testimonial-card blockquote {
+      padding-right: 0;
+    }
+
+    .testimonial-card {
+      flex: 0 0 min(82%, 420px);
+      min-height: 0;
+      scroll-snap-align: start;
     }
   }
 </style>

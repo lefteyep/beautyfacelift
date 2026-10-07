@@ -223,7 +223,7 @@ Branch: `codex/aquafacial-lp-cro`. The offer, form contract, tracking, CTA place
   - **Shapes:** the hero photo is in the arch frame on desktop; photos, the video card and the form card are rounded.
   - **Phones:** compact process steps.
 - **Form messages:** they follow the contact page. A send error shows in an error-coloured panel; success is not boxed and leads with a clay tick disc.
-- **Legal strip:** sentence case on this page only, through a page-level override. The other ad pages still use their older uppercase labels and need the same pass.
+- **Legal strip:** sentence case for all ad pages, set in `LandingPage.astro` since the follow-up pass on the other ad pages.
 - **Verification:** an independent checker reviewed the change, calibrated with a planted difference, and re-checked the fixes. QA, type check, build and audit pass, with no overflow from 320 to 1440 px.
 - **Open points for the client:**
   - the "statt CHF 180.–" reference-price proof;

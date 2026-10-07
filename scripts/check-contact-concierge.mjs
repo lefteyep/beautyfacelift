@@ -109,25 +109,29 @@ for (const requirement of topicRequirements) {
   assertIncludes(site, requirement, 'contact topics');
 }
 
+// The Worker must read every field name the contact page posts (JSON and form posts alike),
+// and keep the validation messages the page relies on.
 const workerRequirements = [
-  'treatmentInterest: string',
-  "treatmentInterest: getString(payload.treatment_interest || payload.treatmentInterest)",
-  "preferredContactMethod: getString(payload.preferred_contact || payload.preferredContactMethod)",
-  "preferredTime: getString(payload.preferred_time || payload.preferredCallbackTime)",
-  "privacyConsent: getString(payload.privacy || payload.privacyConsent)",
-  "treatmentInterest: getString(formData.get('treatment_interest') || formData.get('treatmentInterest'))",
-  "preferredContactMethod: getString(formData.get('preferred_contact') || formData.get('preferredContactMethod'))",
-  "preferredTime: getString(formData.get('preferred_time') || formData.get('preferredCallbackTime'))",
-  "privacyConsent: getString(formData.get('privacy') || formData.get('privacyConsent'))",
-  'Bitte geben Sie Ihren Namen ein.',
-  'Bitte wählen Sie aus, worum es bei Ihrer Anfrage geht.',
-  'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an, damit Teresa Ihnen antworten kann.',
-  'Bitte prüfen Sie die E-Mail-Adresse. Beispiel: name@email.ch',
-  'Bitte beschreiben Sie kurz Ihr Anliegen oder Ihren Terminwunsch.',
-  'Bitte bestätigen Sie die Datenschutzhinweise, damit wir Ihre Anfrage beantworten dürfen.',
-  'Welche Behandlung interessiert Sie',
-  'Wunschtermin oder bevorzugte Zeit',
+  "treatment: getRecordString(payload, 'treatment', 'treatment_interest', 'treatmentInterest')",
+  "treatment: getFormString(formData, 'treatment', 'treatment_interest', 'treatmentInterest')",
+  "getRecordString(payload, 'preferredContactMethod', 'preferred_contact_method', 'preferred_contact')",
+  "getFormString(formData, 'preferredContactMethod', 'preferred_contact_method', 'preferred_contact')",
+  "getRecordString(payload, 'preferredCallbackTime', 'preferred_time')",
+  "getFormString(formData, 'preferredCallbackTime', 'preferred_time')",
+  "['Behandlung', data.treatment]",
+  'Bitte geben Sie Ihren Namen an.',
+  'Bitte geben Sie mindestens eine E-Mail-Adresse oder Telefonnummer an.',
+  'Bitte geben Sie eine gültige E-Mail-Adresse an.',
+  'Bitte wählen Sie ein gültiges Thema aus.',
+  'Bitte schreiben Sie eine Nachricht.',
+  'Bitte bestätigen Sie die Datenschutzerklärung.',
 ];
+
+// Every field the contact form posts must be one the Worker reads.
+for (const field of ['name', 'email', 'phone', 'topic', 'message', 'treatment_interest', 'preferred_contact', 'preferred_time', 'privacy', 'company']) {
+  assertIncludes(page, `name="${field}"`, 'contact page form');
+  assertIncludes(worker, `'${field}'`, 'contact worker field keys');
+}
 
 for (const requirement of workerRequirements) {
   assertIncludes(worker, requirement, 'contact worker');

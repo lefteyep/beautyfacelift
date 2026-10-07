@@ -34,6 +34,7 @@ Production Worker launch details:
 |------|-------|-------|
 | "Atelier Glow" redesign + October code health (see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)) | PR #25, merge `1535d32` | Live |
 | Deploy fix: top-level `sharp` override so npm 10 (CI) accepts the lockfile | PR #26, merge `1ec6b0b` | Live (deploy run 37549633593) |
+| Aquafacial LP conversion and copy pass | PR #27, merge `5e34494` | Live |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
@@ -53,7 +54,7 @@ Live checks on 2026-10-07:
 
 | Branch | Contents | State |
 |--------|----------|-------|
-| `codex/aquafacial-lp-cro` | `/lp/aquafacial/` conversion and copy pass, documented in [AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md](AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md) | Awaiting review and approval |
+| `codex/lp-glow-integration` | Same pass for the other ad pages: `/lp/aquafacial-microneedling/`, `/lp/carbon-microneedling/`, `/lp/microneedling/`, `/lp/peeling/`; shared ad components and a sentence-case legal strip. Also the contact-form fix (the chosen treatment was dropped since 2026-06-24) and `npm run qa:contact` | All gates pass; awaiting review and approval |
 
 Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`).
 

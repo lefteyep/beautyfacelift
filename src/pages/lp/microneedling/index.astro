@@ -2,14 +2,16 @@
 
 import LandingPage from '../../../layouts/LandingPage.astro';
 import BookingCta from '../../../components/BookingCta.astro';
+import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import { Image, getImage } from 'astro:assets';
 import { bookingLinkForService } from '../../../../shared/site';
 import { microneedlingCard } from '../../../lib/site-images';
 
 const bookingHref = bookingLinkForService('Microneedling');
 
-const heroSizes = '(min-width: 1320px) 600px, (min-width: 901px) 46vw, 100vw';
-const heroWidths = [640, 960, 1280];
+// Landscape photo: cover-cropped into the arch (4:5) on desktop, a 2:1 band on phones.
+const heroSizes = '(min-width: 1320px) 940px, (min-width: 901px) 72vw, 100vw';
+const heroWidths = [640, 960, 1280, 1536];
 const heroPreload = await getImage({
     src: microneedlingCard,
     widths: heroWidths,
@@ -18,10 +20,17 @@ const heroPreload = await getImage({
     quality: 'high',
 });
 
+// Facts from the Microneedling treatment page (/behandlungen/microneedling-zuerich/).
+const heroBullets = [
+    '90 Minuten inkl. Hautanalyse und Nachpflege',
+    'Nadeltiefe auf Hautzustand und Ziel abgestimmt',
+    'Persönlich durch Teresa Stimac, 20+ Jahre Erfahrung',
+];
+
 const benefits = [
-    { title: 'Kollagen-Boost', text: 'Stimuliert natürliche Kollagen- und Elastinproduktion.' },
-    { title: 'Narben reduzieren', text: 'Akne-Narben verblassen sichtbar nach wenigen Sitzungen.' },
-    { title: 'Ohne Operation', text: 'Kosmetisch-ästhetisch und individuell dosiert.' },
+    { title: 'Kollagen-Boost', text: 'Kann die natürliche Kollagen- und Elastinbildung unterstützen – Veränderungen bauen sich über Wochen auf.' },
+    { title: 'Narben & Poren verfeinern', text: 'Akne-Narben und vergrösserte Poren können sich nach einer Serie sichtbar verbessern.' },
+    { title: 'Ohne Operation', text: 'Minimal-invasiv, mit kurzer Regenerationszeit von 24 bis 48 Stunden.' },
 ];
 ---
 
@@ -40,11 +49,18 @@ const benefits = [
         <section class="lp-simple-hero" aria-labelledby="lp-simple-title">
             <div class="container lp-simple-hero-grid">
                 <div class="lp-simple-hero-copy">
-                    <p class="eyebrow eyebrow--rule">Premium Kosmetikinstitut · Zürich</p>
-                    <h1 class="lp-simple-title" id="lp-simple-title">Micro<em>needling</em></h1>
-                    <p class="lead">Kosmetische Hautbildverbesserung ohne OP. Kollagenstimulation für ein verfeinertes Hautbild – an der Bahnhofstrasse.</p>
-                    <div class="btn-row">
+                    <h1 class="lp-simple-title" id="lp-simple-title">Microneedling in Zürich</h1>
+                    <p class="lp-simple-lead">Feine Nadeln setzen kontrollierte Mikrokanäle und können Hauterneuerung und Kollagenbildung unterstützen – kosmetisch, ohne Operation.</p>
+                    <ul class="lp-simple-ticks">
+                        {heroBullets.map((item) => (
+                            <li>{item}</li>
+                        ))}
+                    </ul>
+                    <div class="lp-simple-ctas">
                         <a href={bookingHref} class="btn" data-treatment="Microneedling" data-button-location="lp_hero">Termin buchen</a>
+                    </div>
+                    <div class="lp-simple-proof">
+                        <TrustStrip variant="rating" rating="4,8" years="" />
                     </div>
                 </div>
                 <figure class="lp-simple-hero-media">
@@ -61,12 +77,13 @@ const benefits = [
             </div>
         </section>
 
-        <section class="lp-simple-benefits" aria-label="Vorteile">
+        <section class="lp-simple-benefits" aria-labelledby="lp-simple-benefits-title">
             <div class="container">
-                <ul class="index-grid">
+                <h2 class="lp-simple-section-title" id="lp-simple-benefits-title">Was Microneedling unterstützen kann</h2>
+                <ul class="lp-simple-grid">
                     {benefits.map((benefit) => (
                         <li>
-                            <h2 class="lp-simple-benefit-title">{benefit.title}</h2>
+                            <h3>{benefit.title}</h3>
                             <p>{benefit.text}</p>
                         </li>
                     ))}
@@ -78,42 +95,88 @@ const benefits = [
             <BookingCta
                 treatment="Microneedling"
                 href={bookingHref}
-                text="Buche deinen Wunschtermin bequem online. Teresa klärt Details und Eignung vor der Behandlung persönlich mit dir."
             />
         </section>
     </main>
 </LandingPage>
 
 <style>
+    /* Same hero pattern as /lp/aquafacial/: copy left, arched photo right; on phones a photo band under the H1. */
     .lp-simple-hero {
-        padding-block: clamp(40px, 6vw, 96px) clamp(48px, 6vw, 88px);
+        padding-block: clamp(40px, 5vw, 72px) clamp(48px, 6vw, 88px);
     }
 
     .lp-simple-hero-grid {
         display: grid;
-        grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
         align-items: center;
         gap: clamp(40px, 6vw, 104px);
     }
 
     .lp-simple-hero-copy {
-        display: grid;
-        justify-items: start;
-        gap: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .lp-simple-title {
-        font-size: var(--fs-display);
-        line-height: 0.98;
-        letter-spacing: -0.025em;
+        max-width: 14ch;
+        font-size: clamp(2.35rem, 5vw, 4.5rem);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+    }
+
+    .lp-simple-lead {
+        max-width: 44ch;
+        margin: clamp(20px, 2.2vw, 28px) 0 0;
+        font-size: var(--fs-lead);
+        line-height: 1.6;
+    }
+
+    .lp-simple-ticks {
+        display: grid;
+        width: 100%;
+        margin: clamp(28px, 3vw, 40px) 0 0;
+        padding: 0;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .lp-simple-ticks li {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        padding-block: 12px;
+        border-bottom: 1px solid var(--line);
+        color: var(--text);
+        font-size: 0.98rem;
+        line-height: 1.5;
+    }
+
+    .lp-simple-ticks li::before {
+        content: '';
+        flex: none;
+        width: 18px;
+        height: 18px;
+        border-radius: var(--r-pill);
+        background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+        transform: translateY(3px);
+    }
+
+    .lp-simple-ctas {
+        margin-top: clamp(28px, 3vw, 40px);
+    }
+
+    .lp-simple-proof {
+        margin-top: 20px;
     }
 
     .lp-simple-hero-media {
         position: relative;
-        aspect-ratio: 3 / 2;
+        aspect-ratio: 4 / 5;
         overflow: hidden;
         margin: 0;
-        background: var(--stone);
+        border-radius: var(--r-pill) var(--r-pill) var(--r-lg) var(--r-lg);
+        background: var(--blush);
     }
 
     .lp-simple-hero-media :global(img) {
@@ -121,40 +184,137 @@ const benefits = [
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: 38% 50%;
     }
 
+    /* Benefits: H2, then three ruled columns */
+    /* Section rhythm of /lp/aquafacial/ (.lp-section). */
     .lp-simple-benefits {
-        padding-bottom: clamp(56px, 7vw, 104px);
+        padding-block: clamp(72px, 9vw, 136px);
+        border-top: 1px solid var(--line);
     }
 
-    .lp-simple-benefit-title {
-        font-size: var(--fs-h3);
-        line-height: 1.15;
+    .lp-simple-section-title {
+        max-width: 22ch;
+        margin-bottom: clamp(36px, 4.5vw, 64px);
+        font-size: var(--fs-h2);
+        line-height: 1.06;
+        letter-spacing: -0.015em;
+    }
+
+    .lp-simple-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 32px clamp(24px, 4vw, 64px);
+        margin: 0;
+        padding: 0;
+    }
+
+    .lp-simple-grid li {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .lp-simple-grid h3 {
+        font-size: var(--fs-h4);
+        line-height: 1.25;
+    }
+
+    .lp-simple-grid p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.65;
     }
 
     .lp-simple-booking {
-        padding-bottom: clamp(56px, 8vw, 120px);
+        padding-bottom: clamp(72px, 9vw, 136px);
     }
 
     @media (max-width: 900px) {
         .lp-simple-hero {
-            padding-top: 0;
+            padding-block: 20px 40px;
         }
 
         .lp-simple-hero-grid {
-            grid-template-columns: minmax(0, 1fr);
-            gap: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .lp-simple-hero-copy {
+            display: contents;
+        }
+
+        .lp-simple-title { order: 1; }
+        .lp-simple-hero-media { order: 2; }
+        .lp-simple-ctas { order: 3; }
+        .lp-simple-proof { order: 4; }
+        .lp-simple-lead { order: 5; }
+        .lp-simple-ticks { order: 6; }
+
+        .lp-simple-title {
+            max-width: none;
+            font-size: clamp(2.3rem, 9.4vw, 3.4rem);
+            line-height: 1.04;
         }
 
         .lp-simple-hero-media {
-            order: -1;
-            aspect-ratio: 16 / 10;
-            margin-inline: calc(-1 * var(--gutter));
+            aspect-ratio: 2 / 1;
+            margin: 16px calc(-1 * var(--gutter)) 0;
+            border-radius: 0;
         }
 
-        .lp-simple-hero-copy .btn-row,
-        .lp-simple-hero-copy .btn {
+        .lp-simple-hero-media :global(img) {
+            object-position: 50% 40%;
+        }
+
+        .lp-simple-ctas {
+            margin-top: 20px;
+        }
+
+        .lp-simple-proof {
+            margin-top: 14px;
+        }
+
+        .lp-simple-lead {
+            max-width: none;
+            margin-top: 28px;
+            font-size: 1.05rem;
+        }
+
+        .lp-simple-ticks {
+            margin-top: 16px;
+            border-top-color: var(--line);
+        }
+
+        .lp-simple-grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .lp-simple-benefits {
+            padding-block: 64px;
+        }
+
+        .lp-simple-booking {
+            padding-bottom: 64px;
+        }
+
+        .lp-simple-ctas .btn {
             width: 100%;
+        }
+
+        .lp-simple-proof :global(.trust-strip-lp) {
+            justify-content: center;
+        }
+
+        .lp-simple-section-title {
+            font-size: clamp(1.9rem, 8.4vw, 2.4rem);
         }
     }
 </style>
