@@ -110,7 +110,11 @@ All main pages use the "Atelier Glow" system (October 2026). There are no overli
 | Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
 | Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
 
-Article body copy is unchanged. Its unverified claims are listed in [TODO.md](TODO.md).
+Article copy was reviewed for claims on 2026-10-07 (branch `codex/wissen-claims`):
+- **Claims:** unverifiable, superlative and medical claims were removed or softened.
+- **Facts:** prices, durations, sessions and downtime now match the treatment pages.
+- **Titles:** all are 60 characters or fewer.
+- **Open questions:** listed under "Wissen follow-ups" in [TODO.md](TODO.md).
 
 ### Ad Landing Pages (noindex)
 All five pages share the Atelier Glow ad-page standard (PR #27, #28). The Aquafacial, combo and Carbon pages are locked by their `qa:*-lp` scripts. The Microneedling and Peeling pages are locked by `npm run qa:simple-lps`, which checks:
