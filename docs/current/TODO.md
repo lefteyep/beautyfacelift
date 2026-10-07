@@ -11,9 +11,11 @@
 - [x] Release Atelier Glow as one release — live since 2026-10-07 (PR #25; deploy fixed by PR #26)
 - [x] After deploy: Lighthouse mobile on `/` (98/100/100/100) and `/lp/aquafacial/` (98/100/100, noindex)
 - [ ] Meta Test Events check for Lead + CAPI dedupe on the live LPs
-- [ ] Review and approve `codex/aquafacial-lp-cro` (Aquafacial LP conversion and copy pass)
+- [x] Aquafacial LP conversion and copy pass — live since 2026-10-07 (PR #27)
+- [x] Same pass for the combo, Carbon, Microneedling and Peeling ad pages — live since 2026-10-07 (PR #28)
+- [ ] Next real `/kontakt/` enquiry: confirm the email to the studio now shows the chosen treatment (fix live since PR #28)
 - [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
-- [x] Contact form: the Worker dropped the chosen treatment (`treatment_interest`) since 2026-06-24; fixed on 2026-10-07. `scripts/check-contact-concierge.mjs` now checks the current Worker and runs as `npm run qa:contact`
+- [x] Contact form: the Worker dropped the chosen treatment (`treatment_interest`) since 2026-06-24; fixed and live on 2026-10-07 (PR #28). `scripts/check-contact-concierge.mjs` now checks the current Worker and runs as `npm run qa:contact`
 - [ ] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders
 
 ## Priority 0: Decisions for Teresa

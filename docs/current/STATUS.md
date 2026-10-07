@@ -35,12 +35,18 @@ Production Worker launch details:
 | "Atelier Glow" redesign + October code health (see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)) | PR #25, merge `1535d32` | Live |
 | Deploy fix: top-level `sharp` override so npm 10 (CI) accepts the lockfile | PR #26, merge `1ec6b0b` | Live (deploy run 37549633593) |
 | Aquafacial LP conversion and copy pass | PR #27, merge `5e34494` | Live |
+| Same pass for the other ad pages, plus the contact-form fix | PR #28, merge `bbdc22c` | Live (deploy run 37602640573) |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
 - **Site-wide clean-up:** no overlines or italics, and "Wissen" instead of "Journal".
 - **Page groups:** service hubs, treatment pages and comparison, About/Kontakt/FAQ/utility pages, the Wissen section, and the redesigned ad landing pages.
 - **October code health:** restored LP lead tracking, hashed CAPI data, re-openable consent and 0 audit findings.
+- **Ad pages (#27, #28):**
+  - All five `/lp/*` pages now follow one standard: shorter section flow, conversion copy, the rating line "4,8 aus 248+ Bewertungen" under the hero CTAs, and the shared ad components (OfferBox, TrustStrip, TestimonialStrip, StickyOfferBar, WhatsAppButton).
+  - The legal strip is in sentence case.
+  - Offers, prices, form fields and tracking hooks are unchanged.
+- **Contact form (#28):** the Worker dropped the chosen treatment (`treatment_interest`) from `/kontakt/` enquiries from 2026-06-24 until this release. `npm run qa:contact` now guards every posted field.
 
 The first deploy of PR #25 failed at `npm ci`, so production stayed on the previous version until PR #26.
 
@@ -49,14 +55,13 @@ Live checks on 2026-10-07:
 - Lighthouse mobile scores:
   - `/`: 98 / 100 / 100 / 100 (performance / accessibility / best practices / SEO; LCP 2.1 s, CLS 0).
   - `/lp/aquafacial/`: 98 / 100 / 100, LCP 2.3 s. Its SEO score is 69 because the page is noindex on purpose.
+- After PR #28:
+  - All 30 sitemap and `/lp/*` URLs return 200.
+  - Their live HTML matches the tested build except for two values CI injects at build time: the Meta Pixel ID and, on `/kontakt/`, the Turnstile site key.
 
-## Pending Release (not live yet)
+## Pending Release
 
-| Branch | Contents | State |
-|--------|----------|-------|
-| `codex/lp-glow-integration` | Same pass for the other ad pages: `/lp/aquafacial-microneedling/`, `/lp/carbon-microneedling/`, `/lp/microneedling/`, `/lp/peeling/`; shared ad components and a sentence-case legal strip. Also the contact-form fix (the chosen treatment was dropped since 2026-06-24) and `npm run qa:contact` | All gates pass; awaiting review and approval |
-
-Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`).
+None. New work goes on a `codex/*` branch and goes live only after a reviewed PR and explicit approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 
@@ -108,14 +113,15 @@ All main pages use the "Atelier Glow" system (October 2026). There are no overli
 Article body copy is unchanged. Its unverified claims are listed in [TODO.md](TODO.md).
 
 ### Ad Landing Pages (noindex)
-| Page | URL |
-|------|-----|
-| Aquafacial LP | /lp/aquafacial/ |
-| Microneedling LP | /lp/microneedling/ |
-| Peeling LP | /lp/peeling/ |
-| Aquafacial Aktion (Meta lead form, CHF 99) | /lp/aquafacial/ |
-| Aquafacial + Microneedling (combo) | /lp/aquafacial-microneedling/ |
-| Carbon Microneedling | /lp/carbon-microneedling/ |
+All five pages share the Atelier Glow ad-page standard (PR #27, #28). The Aquafacial, combo and Carbon pages are locked by their `qa:*-lp` scripts. The Microneedling and Peeling pages have no dedicated QA script.
+
+| Page | URL | Voice |
+|------|-----|-------|
+| Aquafacial Aktion (Meta lead form, CHF 99) | /lp/aquafacial/ | du |
+| Aquafacial + Microneedling (combo) | /lp/aquafacial-microneedling/ | Sie |
+| Carbon Microneedling | /lp/carbon-microneedling/ | Sie |
+| Microneedling LP | /lp/microneedling/ | Sie |
+| Peeling LP | /lp/peeling/ | Sie |
 
 ## SEO & AIO Status
 

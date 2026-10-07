@@ -202,7 +202,7 @@
 
 ## 2026-10-07 Conversion and Copy Refinement
 
-Branch: `codex/aquafacial-lp-cro`. The offer, form contract, tracking, CTA placements and all client-approved copy pinned by `qa:aquafacial-lp` are unchanged. That covers the H1, the subheadline, the CTA labels, the results texts, the lead-section kicker and title, the form labels, and the success, error and payment microcopy.
+Live since 2026-10-07 (PR #27, merge `5e34494`; legal-strip clean-up in PR #28). The offer, form contract, tracking, CTA placements and all client-approved copy pinned by `qa:aquafacial-lp` are unchanged. That covers the H1, the subheadline, the CTA labels, the results texts, the lead-section kicker and title, the form labels, and the success, error and payment microcopy.
 
 - **Section order:**
   - **Before:** hero, trust bar, offer, results, form, benefits, trust, process, studio, FAQ, final.
