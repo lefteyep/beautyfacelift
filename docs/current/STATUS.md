@@ -28,18 +28,34 @@ Production Worker launch details:
 - `www` live check: `301 Moved Permanently` to `https://beautyfacelift-zuerich.ch/`
 - Old domain: untouched and not treated as a migration source
 
+## Latest Release (live since 2026-10-07)
+
+| What | Where | State |
+|------|-------|-------|
+| "Atelier Glow" redesign + October code health (see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)) | PR #25, merge `1535d32` | Live |
+| Deploy fix: top-level `sharp` override so npm 10 (CI) accepts the lockfile | PR #26, merge `1ec6b0b` | Live (deploy run 37549633593) |
+
+The release covers:
+- **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
+- **Site-wide clean-up:** no overlines or italics, and "Wissen" instead of "Journal".
+- **Page groups:** service hubs, treatment pages and comparison, About/Kontakt/FAQ/utility pages, the Wissen section, and the redesigned ad landing pages.
+- **October code health:** restored LP lead tracking, hashed CAPI data, re-openable consent and 0 audit findings.
+
+The first deploy of PR #25 failed at `npm ci`, so production stayed on the previous version until PR #26.
+
+Live checks on 2026-10-07:
+- All main routes, the LPs, `sitemap.xml` and `robots.txt` return 200; `www` returns 301.
+- Lighthouse mobile scores:
+  - `/`: 98 / 100 / 100 / 100 (performance / accessibility / best practices / SEO; LCP 2.1 s, CLS 0).
+  - `/lp/aquafacial/`: 98 / 100 / 100, LCP 2.3 s. Its SEO score is 69 because the page is noindex on purpose.
+
 ## Pending Release (not live yet)
 
 | Branch | Contents | State |
 |--------|----------|-------|
-| `codex/code-health-2026-10` | npm audit fix (0 vulnerabilities, CI gate passes again), restored `trackLead` for the Aquafacial + Microneedling LP (Lead events had silently stopped in June), hashed email/phone on the Aquafacial CAPI Lead, re-openable cookie consent ("Cookie-Einstellungen"), compact mobile consent banner, `npm run check` at 0 errors, `src/api_backup/` removed | Ready for review |
-| `codex/modern-redesign` | "Atelier Glow" redesign on top of code health — see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). It supersedes the rejected "Swiss Quiet Luxury" branch `codex/luxury-redesign`. It includes: |  |
-|  | new navigation with a two-column treatments menu, homepage and `/behandlungen/` overview |  |
-|  | overlines and italics removed site-wide, and "Wissen" instead of "Journal" |  |
-|  | redesigned ad landing pages |  |
-|  | the merged page groups: `codex/glow-hubs` (service hubs), `codex/glow-treatments` (treatment pages, comparison, kit, breadcrumbs), `codex/glow-content` (About, Kontakt, FAQ, utility pages), `codex/glow-wissen` (Wissen section) | All release gates pass; awaiting screenshot review and approval |
+| `codex/aquafacial-lp-cro` | `/lp/aquafacial/` conversion and copy pass, documented in [AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md](AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md) | Awaiting review and approval |
 
-Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`). The client wants the redesign to launch as one release, once all page groups are merged, reviewed with desktop and mobile screenshots, and documented.
+Nothing above is deployed until merged to `master` with explicit approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 

@@ -8,13 +8,10 @@
 - [x] Re-openable cookie consent ("Cookie-Einstellungen"), compact mobile banner
 - [x] `npm run check` at 0 errors; remove `src/api_backup/`
 - [x] ~~Swiss Quiet Luxury redesign~~ — rejected by the client on 2026-10-06 and replaced by "Atelier Glow" (`codex/modern-redesign`)
-- [ ] Release Atelier Glow as one release:
-  - merge `codex/glow-hubs`, `codex/glow-treatments`, `codex/glow-content` and `codex/glow-wissen` into `codex/modern-redesign`;
-  - run all gates;
-  - review desktop and mobile screenshots;
-  - do a final docs pass;
-  - open a PR, and merge to `master` only with explicit approval.
-- [ ] After deploy: Lighthouse mobile on `/` and `/lp/aquafacial/`, Meta Test Events check for Lead + CAPI dedupe
+- [x] Release Atelier Glow as one release — live since 2026-10-07 (PR #25; deploy fixed by PR #26)
+- [x] After deploy: Lighthouse mobile on `/` (98/100/100/100) and `/lp/aquafacial/` (98/100/100, noindex)
+- [ ] Meta Test Events check for Lead + CAPI dedupe on the live LPs
+- [ ] Review and approve `codex/aquafacial-lp-cro` (Aquafacial LP conversion and copy pass)
 - [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
 - [ ] Finish `scripts/check-contact-concierge.mjs`:
   - The page checks pass again; the rating string was updated to "4,8 aus 248+ Bewertungen" on 2026-10-07.

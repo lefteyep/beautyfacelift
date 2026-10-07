@@ -199,3 +199,33 @@
 - Floating UI: sticky offer bar (phones/tablets) only after the hero has left the viewport and never while the lead form is on screen; floating WhatsApp only after 25 % scroll depth and never while the lead form is on screen; both hidden while the consent banner is open, so neither covers the banner or the submit button. While the banner is open the page sets `--lp-sticky-offer-height: 0px` so the banner sits at the bottom edge.
 - Form: hairline inputs with 2 px radius, espresso focus ring, bronze/sand invalid state with the unchanged German error messages.
 - Open point for the client: the `statt CHF 180.–` comparison price stays on the page and still needs the documented reference-price proof (audit section F).
+
+## 2026-10-07 Conversion and Copy Refinement
+
+Branch: `codex/aquafacial-lp-cro`. The offer, form contract, tracking, CTA placements and all client-approved copy pinned by `qa:aquafacial-lp` are unchanged. That covers the H1, the subheadline, the CTA labels, the results texts, the lead-section kicker and title, the form labels, and the success, error and payment microcopy.
+
+- **Section order:**
+  - **Before:** hero, trust bar, offer, results, form, benefits, trust, process, studio, FAQ, final.
+  - **Now:** hero, offer, "So funktioniert deine Anfrage", results, form, benefits, trust, FAQ, final.
+  - **Why:** the visitor learns how easy the request is before reaching the form. Results stay directly before the form, as required.
+- **Hero:** the rating proof "★★★★★ 4,8 aus 248+ Bewertungen auf Treatwell" now sits directly under the CTAs. It replaces the uppercase trust bar and fixes the inconsistent "4.8/5 … 249". The third bullet now reads "Persönlich durch Teresa Stimac, 20+ Jahre Erfahrung".
+- **Removed:** the "Ruhige Pflege statt schneller Rabatt-Abwicklung" section. Its "discount" framing undercut the offer, and it told visitors to leave a note in the form, which no longer has a message field.
+- **Copy:**
+  - The offer lead and the "included" list now follow treatment order: Hautabstimmung, then Cleansing, Peeling, Booster, Abschlusspflege, and finally Pflegehinweise für zu Hause.
+  - **Benefits:** four outcome-led items replace six hedged ones: Glow; Reinigung; Feuchtigkeit; "Meist keine Ausfallzeit", which is sourced from the Aquafacial treatment page.
+  - **Process steps:** tighter, with lower friction.
+  - **Trust section:** "20+ Jahre, 4,8, 248+".
+  - **FAQ:** nine questions became seven, ordered as visitors raise them (content, fit, payment, next steps, location, limits, online booking). This fixed the answer that promised a form message field and removed the "Landing Page" jargon.
+- **Atelier Glow consistency:**
+  - **Labels:** sentence-case copper text instead of uppercase tracked labels; this includes the form labels, price label, proof labels and the LP footer in `LandingPage.astro`.
+  - **Section overlines:** removed except the QA-required kickers.
+  - **Lists:** clay check discs instead of dash markers.
+  - **Shapes:** the hero photo is in the arch frame on desktop; photos, the video card and the form card are rounded.
+  - **Phones:** compact process steps.
+- **Form messages:** they follow the contact page. A send error shows in an error-coloured panel; success is not boxed and leads with a clay tick disc.
+- **Legal strip:** sentence case on this page only, through a page-level override. The other ad pages still use their older uppercase labels and need the same pass.
+- **Verification:** an independent checker reviewed the change, calibrated with a planted difference, and re-checked the fixes. QA, type check, build and audit pass, with no overflow from 320 to 1440 px.
+- **Open points for the client:**
+  - the "statt CHF 180.–" reference-price proof;
+  - an end date for the Kennenlernpreis;
+  - confirming the review count (the page now says "248+", which stays true at 249).
