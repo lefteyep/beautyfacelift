@@ -186,7 +186,7 @@ const structuredData = {
 
 <Base
     title="Kontakt & Beratung | Beauty Face Lift Zürich"
-    description="Kontaktieren Sie Beauty Face Lift in Zürich für persönliche Hautberatung, Terminwünsche und Behandlungsfragen. Teresa Stimac berät Sie direkt an der Bahnhofstrasse 94."
+    description="Hautberatung, Terminwünsche und Fragen zu Behandlungen: Teresa Stimac berät Sie persönlich an der Bahnhofstrasse 94 in Zürich."
     preloadImage={{
         href: heroImage.src,
         imagesrcset: heroImage.srcSet.attribute,
@@ -472,15 +472,16 @@ const structuredData = {
                 </div>
             </div>
 
-            <div class="kontakt-map">
+            <!-- Click-to-load: Google Maps (≈500 KB of scripts, data to Google) loads only on request. -->
+            <div class="kontakt-map" data-map-embed={mapEmbedUrl}>
                 <h3 class="sr-only">Anfahrt auf der Karte</h3>
-                <iframe
-                    title="Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich"
-                    src={mapEmbedUrl}
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    allowfullscreen
-                ></iframe>
+                <div class="kontakt-map-placeholder" data-map-placeholder>
+                    <span class="kontakt-option-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" /><circle cx="12" cy="10" r="2.4" /></svg>
+                    </span>
+                    <button type="button" class="btn btn-secondary" data-map-load data-contact-event="contact_map_load" data-cta-location="location_section" data-cta-label="Karte laden">Karte laden</button>
+                    <p class="kontakt-map-note">Beim Laden der Karte werden Daten an Google übertragen.</p>
+                </div>
             </div>
         </section>
 
@@ -844,6 +845,21 @@ const structuredData = {
                         cta_location: 'faq',
                         cta_label: details.querySelector('summary')?.textContent.trim() || ''
                     });
+                });
+            });
+
+            document.querySelectorAll('[data-map-load]').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var panel = button.closest('[data-map-embed]');
+                    if (!panel) return;
+                    var frame = document.createElement('iframe');
+                    frame.title = 'Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich';
+                    frame.src = panel.dataset.mapEmbed || '';
+                    frame.referrerPolicy = 'no-referrer-when-downgrade';
+                    frame.allowFullscreen = true;
+                    panel.querySelector('[data-map-placeholder]')?.remove();
+                    panel.appendChild(frame);
+                    frame.focus();
                 });
             });
 

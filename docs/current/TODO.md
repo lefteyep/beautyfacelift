@@ -146,7 +146,15 @@
   - "Kosmetikerin Zürich Bahnhofstrasse"
   - "ColdPlasma Behandlung Erfahrung"
 - [ ] Add verified reviews/testimonials only when permission and source are available
-- [ ] Run Lighthouse audit and fix any issues below 95
+- [x] Run Lighthouse audit and fix any issues below 95. Results of the 2026-10-07 mobile run on 16 live page types:
+  - **13 page types:** 97–100 in every category.
+  - **Ad pages:** SEO 69, because they are noindex on purpose.
+  - **`/termin/`:** it redirects to Treatwell, so Lighthouse measures Treatwell's page.
+  - **`/kontakt/`:** performance 79 and best practices 92. The causes were the auto-loading Google Maps embed (17 requests, about 470 KB) and the Turnstile error. Now fixed:
+    - the map loads only on click (PR #33);
+    - the CSP allows the map frame (PR #32);
+    - Turnstile still needs the hostname fix (see the top of this file).
+  - **Static SEO audit of all 36 pages:** only one title over 60 characters and three descriptions over 160; all four are fixed in PR #33.
 
 ## Priority 7: Future Features
 - [ ] WhatsApp Business API for booking notifications

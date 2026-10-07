@@ -82,6 +82,8 @@ const pageRequirements = [
   'contact_booking_click',
   'contact_route_click',
   'contact_address_copy',
+  'contact_map_load',
+  'data-map-embed',
   'faq_open',
   '"@type": "BeautySalon"',
   'openingHoursSpecification',
