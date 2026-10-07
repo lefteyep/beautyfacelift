@@ -825,15 +825,6 @@ const structuredData = {
     border-top: 1px solid var(--rule);
   }
 
-  /* Legal strip (LandingPage.astro, scoped there): sentence case on this page, like the
-     main site's legal row. Doubled class + body to outrank the layout's scoped rule. */
-  :global(body .lp-legal-strip.lp-legal-strip) {
-    font-size: 0.88rem;
-    font-weight: 400;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
   /* Section head: H2 left, one short lead right */
   .lp-head {
     display: grid;
@@ -1243,10 +1234,6 @@ const structuredData = {
   .lp-offer-card :global(.trust-item--check) {
     gap: 10px;
     color: var(--text);
-  }
-
-  .lp-offer-card :global(.trust-item--check svg) {
-    color: var(--clay);
   }
 
   /* ═══ 4 · Steps of the appointment (image cards) ═════════════ */
