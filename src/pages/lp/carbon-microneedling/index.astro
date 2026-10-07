@@ -9,14 +9,14 @@ import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import StickyOfferBar from '../../../components/lp/StickyOfferBar.astro';
 import { Image, getImage } from 'astro:assets';
 import { carbonTreatmentTeresa, microneedlingCard, teresaPortrait } from '../../../lib/site-images';
-import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { ADDRESS, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, OPENING_HOURS, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 169;
 const REGULAR_PRICE = 220;
 const OFFER_LABEL = 'Glow-Up Aktion';
 const SAVINGS_LABEL = 'Sie sparen CHF 51.–';
 const bookingHref = `${bookingLinkForService('Carbon Microneedling')}&offer=glow-up-aktion&price=${PROMO_PRICE}`;
-// The square hero photo sits in the arch frame (4:5) on desktop and in a 16:10 band on phones.
+// The square hero photo sits in the arch frame (4:5) on desktop and in a 2:1 band on phones.
 const lpHeroWidths = [480, 720, 960, 1254];
 const lpHeroSizes = '(min-width: 1320px) 540px, (min-width: 901px) 40vw, 100vw';
 const lpHalfSizes = '(min-width: 1440px) 560px, (min-width: 901px) 42vw, 100vw';
@@ -27,6 +27,11 @@ const lpHeroPreload = await getImage({
   format: 'webp',
   quality: 'high',
 });
+
+// Opening days only (entries with a time), formatted like /kontakt/: "Montag bis Freitag 09:00–18:00".
+const openingHours = OPENING_HOURS
+  .filter((item) => /\d{1,2}:\d{2}/.test(item.value))
+  .map((item) => `${item.label} ${item.value.replace(' - ', '–')}`);
 
 const whatsappMessage = 'Hallo Teresa, ich interessiere mich für die Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220.';
 
@@ -315,8 +320,13 @@ const structuredData = {
     <!-- 6 · Client quotes -->
     <section class="lp-section lp-testimonials" aria-labelledby="lp-testimonials-title">
       <div class="container">
-        <h2 class="lp-section-title lp-testimonials-title" id="lp-testimonials-title">Das sagen unsere Kundinnen</h2>
-        <TestimonialStrip testimonials={testimonials} rating="4,8" />
+        <div class="lp-head">
+          <h2 class="lp-section-title" id="lp-testimonials-title">Das sagen unsere Kundinnen</h2>
+          <div class="lp-testimonials-proof">
+            <TrustStrip variant="rating" rating="4,8" years="" />
+          </div>
+        </div>
+        <TestimonialStrip testimonials={testimonials} rating="4,8" showRating={false} />
       </div>
     </section>
 
@@ -391,9 +401,11 @@ const structuredData = {
             <WhatsAppButton variant="link" message={whatsappMessage} source="final" label="Frage per WhatsApp" />
           </div>
           <p class="lp-final-address">
-            Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich<br>
-            Mo–Fr 10:00–20:00 · Sa 09:00–16:00<br>
-            <a href="tel:+41792143462" class="lp-final-phone" data-button-location="lp_final_phone">+41 79 214 34 62</a>
+            Beauty Face Lift · {ADDRESS.street} · {ADDRESS.postalCode}&nbsp;{ADDRESS.city}<br>
+            {openingHours.map((line, i) => (
+              <>{i > 0 && <>&nbsp;· </>}<span class="lp-nowrap">{line}</span></>
+            ))}<br>
+            <a href={`tel:${CONTACT_PHONE}`} class="lp-final-phone" data-button-location="lp_final_phone">{CONTACT_PHONE_DISPLAY}</a>
           </p>
         </div>
       </div>
@@ -570,9 +582,10 @@ const structuredData = {
     align-items: flex-start;
   }
 
+  /* Reference scale; a wider measure keeps this longer H1 to three balanced lines. */
   .lp-title {
-    max-width: 15ch;
-    font-size: clamp(2.35rem, 4.6vw, 4.1rem);
+    max-width: 20ch;
+    font-size: clamp(2.35rem, 5vw, 4.5rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
   }
@@ -647,6 +660,7 @@ const structuredData = {
 
   .lp-hero-bullets > li {
     padding-block: 12px;
+    color: var(--text);
     font-size: 0.98rem;
   }
 
@@ -758,10 +772,8 @@ const structuredData = {
   }
 
   /* ═══ 6 · Testimonials ═══════════════════════════════════════ */
-  .lp-testimonials-title {
-    max-width: none;
-    margin-bottom: 20px;
-    text-align: center;
+  .lp-testimonials-proof {
+    padding-bottom: 6px;
   }
 
   /* ═══ 7 · Booking panel ══════════════════════════════════════ */
@@ -965,7 +977,7 @@ const structuredData = {
 
     .lp-title {
       max-width: none;
-      font-size: clamp(2.2rem, 9vw, 3.4rem);
+      font-size: clamp(2.3rem, 9.4vw, 3.4rem);
       line-height: 1.04;
     }
 
@@ -996,13 +1008,13 @@ const structuredData = {
     }
 
     .lp-hero-media {
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 2 / 1;
       margin: 16px calc(-1 * var(--gutter)) 0;
       border-radius: 0;
     }
 
     .lp-hero-media :global(img) {
-      object-position: 50% 18%;
+      object-position: 50% 24%;
     }
 
     .lp-hero-ctas {
@@ -1113,27 +1125,6 @@ const structuredData = {
     .lp-steps {
       grid-template-columns: minmax(0, 1fr);
       row-gap: 32px;
-    }
-
-    /* Compact steps: number disc beside the title. */
-    .lp-steps {
-      row-gap: 12px;
-    }
-
-    .lp-steps > li {
-      grid-template-columns: 40px minmax(0, 1fr);
-      column-gap: 16px;
-      row-gap: 6px;
-      padding: 20px;
-    }
-
-    .lp-steps > li::before {
-      grid-row: 1 / span 2;
-      margin: 0;
-    }
-
-    .lp-steps h3 {
-      align-self: center;
     }
 
     .lp-section-cta .btn {
