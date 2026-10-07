@@ -28,7 +28,10 @@ const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen';
 const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen';
 const FORM_CTA_LABEL = 'Terminwunsch senden';
 const BOOKING_SERVICE = 'Aquafacial + Microneedling';
-const CONTACT_TOPIC = 'Ich möchte eine Behandlungsempfehlung';
+// Must be one of CONTACT_TOPICS (shared/site.ts), or the Worker rejects the form (checked by qa:contact).
+const CONTACT_TOPIC = 'Ich möchte einen Termin buchen';
+// Exempt from Turnstile in worker/routes/contact.ts: this page has no Turnstile widget.
+const CONTACT_CAMPAIGN = 'aquafacial_microneedling';
 const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
@@ -532,6 +535,7 @@ const structuredData = {
           <input type="hidden" name="topic" value={CONTACT_TOPIC} />
           <input type="hidden" name="message" value="Aquafacial + Microneedling Terminwunsch" data-lead-message />
           <input type="hidden" name="source" value="aquafacial-microneedling-lp" />
+          <input type="hidden" name="campaign" value={CONTACT_CAMPAIGN} />
 
           <p class="lp-form-title">Terminwunsch</p>
           <p class="lp-form-error" role="alert" hidden>Bitte prüfen Sie die markierten Felder.</p>

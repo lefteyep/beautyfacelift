@@ -137,4 +137,29 @@ for (const requirement of workerRequirements) {
   assertIncludes(worker, requirement, 'contact worker');
 }
 
+// Every ad form that posts to /api/contact must be accepted by the Worker on the live host:
+// its hidden topic must be an allowed contact topic, and without a Turnstile widget on the page
+// its campaign must be one the Worker exempts from Turnstile (otherwise every lead is rejected).
+const allowedTopics = [...site.slice(site.indexOf('export const CONTACT_TOPICS')).split('] as const')[0].matchAll(/'([^']+)'/g)].map((m) => m[1]);
+const optionalCampaigns = [...(worker.match(/TURNSTILE_OPTIONAL_CAMPAIGNS = new Set\(\[([^\]]*)\]\)/)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]);
+for (const file of ['src/pages/lp/aquafacial/index.astro', 'src/pages/lp/aquafacial-microneedling/index.astro']) {
+  const lp = readFileSync(file, 'utf8');
+  if (!lp.includes('action="/api/contact"')) continue;
+  const constant = (name) => lp.match(new RegExp(`const ${name} = '([^']*)'`))?.[1];
+  const hidden = (name) => {
+    const m = lp.match(new RegExp(`<input type="hidden" name="${name}" value=(?:"([^"]*)"|\\{([A-Z_]+)\\})`));
+    return m ? m[1] ?? constant(m[2]) : undefined;
+  };
+  const topic = hidden('topic');
+  if (topic !== undefined && !allowedTopics.includes(topic)) {
+    throw new Error(`${file}: hidden topic "${topic}" is not in CONTACT_TOPICS, so the Worker rejects the form`);
+  }
+  if (!lp.includes('cf-turnstile')) {
+    const campaign = hidden('campaign');
+    if (!campaign || !optionalCampaigns.includes(campaign)) {
+      throw new Error(`${file}: posts to /api/contact without a Turnstile widget, so its campaign ("${campaign ?? ''}") must be in TURNSTILE_OPTIONAL_CAMPAIGNS`);
+    }
+  }
+}
+
 console.log('Contact page source checks passed.');

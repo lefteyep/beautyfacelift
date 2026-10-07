@@ -3,6 +3,14 @@
 **Last updated:** October 7, 2026
 
 ## Priority 0: Release the October work (agency)
+- [ ] **URGENT — Cloudflare Turnstile hostname.** On 2026-10-07 the `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`) returned error 110200, "domain not allowed". It never gets a token, so the Worker rejects every `/kontakt/` enquiry ("Bitte bestätigen Sie die Sicherheitsprüfung.").
+  - **Fix:** in the Cloudflare dashboard, go to Turnstile, open this widget, choose Hostname management, and add `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch`.
+  - **Verify:** the widget shows a check instead of "Verbinden zur Website nicht möglich". Then send one real test enquiry.
+- [x] Combo ad form `/lp/aquafacial-microneedling/` fixed on 2026-10-07. Since 2026-05-26 every submission had been rejected for two reasons:
+  - its hidden topic was not an allowed contact topic;
+  - the Worker required Turnstile, but the page has no widget.
+
+  It now sends topic "Ich möchte einen Termin buchen" and the Turnstile-exempt campaign `aquafacial_microneedling`. `qa:contact` checks both for every ad form.
 - [x] Fix the CI `npm audit` gate (0 vulnerabilities) — branch `codex/code-health-2026-10`
 - [x] Restore `trackLead` for the Aquafacial + Microneedling LP; hashed email/phone on the Aquafacial CAPI Lead
 - [x] Re-openable cookie consent ("Cookie-Einstellungen"), compact mobile banner

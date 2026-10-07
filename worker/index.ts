@@ -23,7 +23,8 @@ const CSP_REPORT_ONLY = [
   "style-src 'self' 'unsafe-inline'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
   "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.facebook.com https://graph.facebook.com",
-  "frame-src 'self' https://challenges.cloudflare.com",
+  // www.google.com: the map embed on /kontakt/.
+  "frame-src 'self' https://challenges.cloudflare.com https://www.google.com",
 ].join('; ');
 
 router.get('/api/services', (req: Request, env: Env) => servicesRoute(req, env));
