@@ -69,7 +69,7 @@ Spezialisierungen: Gesicht & Haut, Gesichtsbehandlung, Aquafacial, Microneedling
 ### 1. Aquafacial Zürich
 
 **Was ist Aquafacial?**
-Aquafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet und weltweit zu den beliebtesten Kosmetikinstitut-Behandlungen zählt. Die Vortex-Technologie entfernt Unreinheiten aus den Poren und schleust gleichzeitig professionelle Seren mit Hyaluronsäure, Antioxidantien und Peptiden tief in die Haut ein.
+Aquafacial ist eine nicht-invasive Gesichtsbehandlung, die in drei Schritten — Reinigung, Peeling und Hydrierung — arbeitet. Unreinheiten werden sanft aus den Poren gelöst, und Seren mit Hyaluronsäure und Antioxidantien werden eingearbeitet.
 
 - **URL:** https://beautyfacelift-zuerich.ch/behandlungen/aquafacial-zuerich/
 - **Dauer:** 60 Min (Basic Intensiv), 90 Min (erweiterte Varianten)
@@ -80,11 +80,11 @@ Aquafacial ist eine patentierte, nicht-invasive Gesichtsbehandlung, die in drei 
 - **Frequenz:** Alle 4–6 Wochen häufig empfohlen, abhängig von Hautzustand
 - **Geeignet für:** Alle Hauttypen, besonders bei fahlem Teint, Unreinheiten, Feuchtigkeitsmangel, ersten Zeichen der Hautalterung
 - **Ergebnis:** Frischeres Hautbild nach der ersten Sitzung
-- **Besonders geeignet für Einsteigerinnen:** Ja — die ideale erste professionelle Gesichtsbehandlung
+- **Besonders geeignet für Einsteigerinnen:** Ja — eine gute erste professionelle Gesichtsbehandlung
 
 **Ablauf:**
-1. Reinigung & Peeling: Vortex-Technologie öffnet Poren, entfernt abgestorbene Zellen
-2. Extraktion & Hydration: Unreinheiten werden schmerzlos extrahiert, Seren eingeschleust
+1. Reinigung & Peeling: eine sanfte Reinigung öffnet die Poren, ein mildes Glykolsäure-Peeling entfernt abgestorbene Hautzellen
+2. Extraktion & Hydration: Unreinheiten werden sanft aus den Poren gelöst, Seren mit Hyaluronsäure und Antioxidantien eingearbeitet
 3. Schutz & Glow: Peptide und pflegende Wirkstoffe schützen und unterstützen den Glow-Effekt
 
 ### 2. Microneedling Zürich
@@ -294,7 +294,7 @@ Aquafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 - **Häufige Fragen:** https://beautyfacelift-zuerich.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
 
 ### Behandlungsseiten (mit Online-Buchung)
-- **Aquafacial Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/aquafacial-zuerich/ — Detailseite zur Aquafacial-Behandlung: Vortex-Technologie, Ablauf, Preise (ab CHF 180), FAQ, Bewertungen. Mit integrierter Terminbuchung.
+- **Aquafacial Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/aquafacial-zuerich/ — Detailseite zur Aquafacial-Behandlung: Ablauf, Preise (ab CHF 180), FAQ, Bewertungen. Mit integrierter Terminbuchung.
 - **Microneedling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Kollagenaufbau, Ablauf, Preise (ab CHF 210), FAQ, Ergebnisse. Mit integrierter Terminbuchung.
 - **Fruchtsäure Peeling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Mit integrierter Terminbuchung.
 - **ColdPlasma Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 180), FAQ. Mit integrierter Terminbuchung.

@@ -55,7 +55,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         slug: 'was-ist-aquafacial',
         href: '/blog/was-ist-aquafacial/',
         title: 'Was ist Aquafacial? Alles was Sie wissen müssen',
-        excerpt: 'Von der patentierten Vortex-Technologie bis zum Glow-Effekt: alles Wissenswerte über die beliebte Gesichtsbehandlung.',
+        excerpt: 'Vom 3-Schritte-Ablauf bis zum Glow-Effekt: alles Wissenswerte über die Gesichtsbehandlung, ihre Varianten und Kosten.',
         category: 'Behandlungswissen',
         publishDate: '2026-03-05',
         readingTime: '12 Min.',
