@@ -79,6 +79,8 @@ The public website, landing page, route, asset names, metadata, CTAs, FAQ, struc
 
 ## 8. 2026-10-06 Shared LP Layout And Component Restyle
 
+> Superseded: the Swiss Quiet Luxury direction was rejected. The layout and these components were restyled to "Atelier Glow" and are live since 2026-10-07 (PR #25, #27, #28). See [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). The behaviour notes below (consent-aware sticky bar and WhatsApp, legal strip with `Cookie-Einstellungen`) still apply.
+
 - `src/layouts/LandingPage.astro` and the shared `src/components/lp/*` components (OfferBox, StickyOfferBar, TrustStrip, TestimonialStrip, FAQAccordion, WhatsAppButton, BenefitIcon, AquafacialResultsSection) were restyled to the Swiss Quiet Luxury system on branch `codex/luxury-lps`. Component props, class names and `data-*` attributes are unchanged, so this page keeps working without markup changes; its own page redesign runs separately.
-- LandingPage: centred monogram masthead (no menu) and a label-type legal strip that keeps `Cookie-Einstellungen` (`data-bfl-consent-open`). The legal strip now only reserves bottom space for a sticky bar when the page sets `--lp-sticky-offer-height`.
+- LandingPage: centred monogram masthead (no menu) and a legal strip (sentence case since PR #28) that keeps `Cookie-Einstellungen` (`data-bfl-consent-open`). The legal strip now only reserves bottom space for a sticky bar when the page sets `--lp-sticky-offer-height`.
 - WhatsAppButton (sticky variant) is hidden while the consent banner is open; StickyOfferBar sets `--lp-sticky-offer-height: 0px` while the banner is open (the bar is hidden then), so the banner sits at the bottom edge.

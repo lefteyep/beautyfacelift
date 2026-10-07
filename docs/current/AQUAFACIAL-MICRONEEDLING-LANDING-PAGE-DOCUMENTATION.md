@@ -16,7 +16,7 @@ October 7, 2026 — conversion and copy pass on top of the site-wide "Atelier Gl
 
 ## 2026-10-07 Conversion and Copy Refinement
 
-Branch: `codex/lp-combo-glow`. Same quality bar as the approved `/lp/aquafacial/` pass (PR #27). The offer (CHF 170 statt CHF 250, 1 Std. 30 Min.), the form contract, every `data-button-location` / `data-treatment` / `data-source` hook, the sticky-bar gating and the tracking script are unchanged. The page still addresses visitors with "Sie".
+Live since 2026-10-07 (PR #28, merge `bbdc22c`). Same quality bar as the approved `/lp/aquafacial/` pass (PR #27). The offer (CHF 170 statt CHF 250, 1 Std. 30 Min.), the form contract, every `data-button-location` / `data-treatment` / `data-source` hook, the sticky-bar gating and the tracking script are unchanged. The page still addresses visitors with "Sie".
 
 - **Section order:**
   - **Before (17):** hero, desire, treatment plan + included panel, combination + infographic, image story, two-step focus, benefits, trust, OfferBox, expectations, process, form, FAQ, location, reassurance strip, booking panel, final.
