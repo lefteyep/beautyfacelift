@@ -1863,7 +1863,8 @@ body.page-treatment main {
 /* ── DIALOG: guidance + form ───────────────────────────────── */
 
 .kontakt-dialog {
-  padding: 0 var(--content-px);
+  width: calc(100% - var(--content-px) - var(--content-px));
+  padding: 0;
   max-width: 1240px;
   margin: 0 auto;
   display: grid;
@@ -1959,6 +1960,12 @@ body.page-treatment main {
 /* Form panel */
 .kontakt-form-panel {
   position: relative;
+  padding: clamp(32px, 4vw, 56px);
+  background: rgba(251, 248, 243, 0.88);
+  border: 1px solid var(--border-medium);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
 }
 
 .kontakt-form-heading {
@@ -1977,7 +1984,7 @@ body.page-treatment main {
   line-height: 1.6;
   color: var(--ink-3);
   font-weight: 300;
-  margin: 0 0 48px;
+  margin: 0 0 36px;
   max-width: 56ch;
 }
 
@@ -1990,8 +1997,8 @@ body.page-treatment main {
 .kontakt-field-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
-  row-gap: 28px;
+  column-gap: 24px;
+  row-gap: 22px;
 }
 
 .kontakt-field {
@@ -2018,17 +2025,16 @@ body.page-treatment main {
 .kontakt-field select,
 .kontakt-field textarea {
   width: 100%;
-  border: none;
-  border-bottom: 1px solid rgba(28, 26, 23, 0.28);
-  border-radius: 0;
-  background: transparent;
+  border: 1px solid rgba(28, 26, 23, 0.18);
+  border-radius: var(--r-sm);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 17px;
   font-weight: 300;
   line-height: 1.5;
-  padding: 10px 0 14px;
-  transition: border-color 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo);
+  padding: 13px 14px;
+  transition: border-color 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo), background-color 0.3s var(--ease-expo);
   appearance: none;
   -webkit-appearance: none;
 }
@@ -2036,7 +2042,7 @@ body.page-treatment main {
 .kontakt-field textarea {
   min-height: 180px;
   resize: vertical;
-  padding-top: 14px;
+  padding-top: 13px;
 }
 
 .kontakt-field input::placeholder,
@@ -2050,8 +2056,9 @@ body.page-treatment main {
 .kontakt-field select:focus,
 .kontakt-field textarea:focus {
   outline: none;
-  border-bottom-color: var(--gold);
-  box-shadow: 0 1px 0 0 var(--gold);
+  background: var(--bone);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(185, 143, 71, 0.14);
 }
 
 .kontakt-select {
@@ -2059,15 +2066,15 @@ body.page-treatment main {
 }
 
 .kontakt-select select {
-  padding-right: 28px;
+  padding-right: 42px;
   cursor: pointer;
 }
 
 .kontakt-select-caret {
   position: absolute;
-  right: 2px;
+  right: 14px;
   top: 50%;
-  transform: translateY(-30%);
+  transform: translateY(-50%);
   color: var(--ink-3);
   pointer-events: none;
 }
@@ -2099,8 +2106,10 @@ body.page-treatment main {
   font-weight: 300;
   color: var(--ink-2);
   cursor: pointer;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-subtle);
+  padding: 16px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--r-sm);
+  background: rgba(246, 241, 234, 0.72);
 }
 
 .kontakt-checkbox input {
@@ -2735,8 +2744,9 @@ body.page-treatment main {
   .kontakt-studio.full-bleed::after { left: 24px; right: 24px; }
   .kontakt-studio-heading { position: static; }
   .kontakt-studio-grid { grid-template-columns: 1fr; row-gap: 40px; }
-  .kontakt-dialog { padding: 0 24px; }
+  .kontakt-dialog { width: calc(100% - 48px); padding: 0; }
   .kontakt-guidance { position: static; }
+  .kontakt-form-panel { padding: 28px 22px; }
   .kontakt-field-grid { grid-template-columns: 1fr; column-gap: 0; row-gap: 24px; }
   .kontakt-display { font-size: clamp(2.4rem, 10vw, 3.2rem); max-width: 100%; }
   .kontakt-form-heading,

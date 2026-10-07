@@ -1,13 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
-import AiSummary from '../../components/AiSummary.astro';
 import { absoluteUrl, ADDRESS,
     CONTACT_EMAIL,
     CONTACT_PHONE,
     CONTACT_PHONE_DISPLAY,
     CONTACT_TOPICS,
     CONTACT_WHATSAPP_URL,
-    FULL_ADDRESS,
     OPENING_HOURS, } from '../../../shared/site';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
@@ -75,13 +73,6 @@ const studioFacts = [
     },
 ];
 
-const summaryFacts = [
-    { label: 'Adresse', value: FULL_ADDRESS },
-    { label: 'Telefon', value: CONTACT_PHONE_DISPLAY },
-    { label: 'E-Mail', value: CONTACT_EMAIL },
-    { label: 'Erreichbarkeit', value: 'Paradeplatz und Börsenstrasse in wenigen Minuten zu Fuss' },
-];
-
 const guidance = [
     {
         index: '01',
@@ -129,12 +120,6 @@ const structuredData = {
     description="Kontaktieren Sie Beauty Face Lift an der Bahnhofstrasse 94 in Zürich. Telefon, WhatsApp, E-Mail und Kontaktformular für Erstberatung, Terminfragen und Studioanfragen."
     structuredData={structuredData}
 >
-    <AiSummary
-        title="Beauty Face Lift Kontakt Zürich"
-        intro="Beauty Face Lift ist ein Kosmetikinstitut an der Bahnhofstrasse 94 in Zürich. Für Erstberatung, Terminfragen und Behandlungsabklärung erreichen Sie Teresa Stimac telefonisch, per WhatsApp, per E-Mail oder über das Kontaktformular."
-        facts={summaryFacts}
-    />
-
     <section class="kontakt" aria-labelledby="kontakt-heading">
 
         <!-- MASTHEAD -->
