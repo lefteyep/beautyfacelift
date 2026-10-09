@@ -28,7 +28,7 @@ const lpHeroPreload = await getImage({
   quality: 'high',
 });
 
-// Opening days only (entries with a time), formatted like /kontakt/: "Montag bis Freitag 09:00–18:00".
+// Opening days only (entries with a time), formatted like /kontakt/: "Montag bis Freitag 10:00–20:00".
 const openingHours = OPENING_HOURS
   .filter((item) => /\d{1,2}:\d{2}/.test(item.value))
   .map((item) => `${item.label} ${item.value.replace(' - ', '–')}`);

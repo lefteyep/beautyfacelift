@@ -39,7 +39,8 @@ Production Worker launch details:
 | Wissen articles claims pass, `qa:simple-lps`, worktree clean-up note | PR #31 | Live |
 | Combo ad form fix (topic + Turnstile exemption) | PR #32, merge `5516b12` | Live (deploy run 37647740706) |
 | `/kontakt/` click-to-load map, SEO snippet trims, lead delivery hardening | PR #33 + #34, merge `356824b` | Live 2026-10-09 (deploy run 37980686988); `/kontakt/` mobile Lighthouse performance 79 → 95 |
-| Copy fixes from the site audit (directions, aftercare facts, claims, naming, llms-full) | PR #35 | Pending approval |
+| Copy fixes from the site audit (directions, aftercare facts, claims, naming, llms-full) | PR #35, merge `09d918f` | Live 2026-10-09 (deploy run 37982303967) |
+| Treatwell alignment: opening hours, massage price, Caviar + Maske Soin Initiale, Aquafacial + Microneedling row | PR #36 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.

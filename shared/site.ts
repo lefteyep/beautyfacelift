@@ -73,9 +73,9 @@ export const ADDRESS = {
 export const FULL_ADDRESS = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
 
 export const OPENING_HOURS = [
-  { label: 'Montag bis Freitag', value: '09:00 - 18:00' },
+  { label: 'Montag bis Freitag', value: '10:00 - 20:00' },
   { label: 'Samstag', value: '10:00 - 16:00' },
-  { label: 'Sonntag', value: 'Nach Vereinbarung geschlossen' },
+  { label: 'Sonntag', value: 'Geschlossen' },
 ] as const;
 
 export const TREATMENTS = [
