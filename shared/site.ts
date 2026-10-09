@@ -137,12 +137,12 @@ export const SERVICE_GROUPS = [
     href: '/behandlungen/laser-haarentfernung-zuerich/',
     /** Starting price as published on the hub page. */
     priceFrom: 'ab CHF 85',
-    description: 'Professionelle dauerhafte Haarentfernung für viele Zonen, diskret in Zürich.',
+    description: 'Laser-Haarentfernung für eine langfristige Haarreduktion, diskret in Zürich.',
     services: [
       {
         href: '/behandlungen/laser-haarentfernung-zuerich/',
         label: 'Laser-Haarentfernung Zürich',
-        description: 'Dauerhafte Haarentfernung für Gesicht, Beine, Bikini, Achseln, Rücken und weitere Zonen.',
+        description: 'Langfristige Haarreduktion für Gesicht, Beine, Bikini, Achseln, Rücken und weitere Zonen.',
         bookingService: 'Dauerhafte Haarentfernung',
       },
     ],
