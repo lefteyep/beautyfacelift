@@ -82,7 +82,12 @@
   - **Combo reference price:** Treatwell confirms "Hydra4Face + Microneedling" at a regular CHF 250, which backs the combo ad's "statt CHF 250".
   - **Reviews:** Treatwell now shows 4.8 from **260** reviews. "248+" on the site is still true; update it with the next ad-page change, since the ad pages pin the string in QA.
   - **Teresa's title:** Treatwell describes her as "dipl. Visagistin & Kosmetikerin". The site states no diploma (the Wissen pass removed "diplomierte Kosmetikerin" as unsourced). If Teresa confirms it, "dipl. Kosmetikerin" could go back on /ueber-mich/.
-  - **Naming:** Treatwell calls Aquafacial "Hydra4Face". The site deliberately says "Aquafacial" (client rule: no "Hydra").
+  - **Naming:** Treatwell's "Hydra4Face …" services *are* the site's Aquafacial treatments. hydra4face is the brand of the device. The site says "Aquafacial" (client rule: no "Hydra"); prices and durations match one to one:
+    - Basic Intensiv: 60 Min., CHF 180
+    - Anti Aging: 90 Min., CHF 250
+    - Gesicht/Hals/Dekolletee: 90 Min., CHF 280
+    - + coldPLASMA: 90 Min., CHF 280
+    - + Microneedling: 90 Min., CHF 250
 - [ ] ColdPlasma page review: the page used to attribute "Stammkundin seit 2008 — Teresa versteht meine Haut …" to Daniel. It now uses the homepage wording "Stammkunde seit 2008, immer wieder begeistert." – Daniel. Confirm the real review text.
 - [ ] Peeling flaking: the peeling page says a fine, barely visible flaking starts about 2–5 days after the treatment. The articles and `llms-full.txt` now follow it (they had said "2–3 Tage" and "2–5 Tage Ausfallzeit"); confirm.
 - [x] Wissen articles: unverifiable, superlative and medical claims removed or softened.
