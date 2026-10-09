@@ -11,6 +11,19 @@
   - the Worker required Turnstile, but the page has no widget.
 
   It now sends topic "Ich möchte einen Termin buchen" and the Turnstile-exempt campaign `aquafacial_microneedling`. `qa:contact` checks both for every ad form.
+- [x] Lead delivery hardening, 2026-10-09 (PR #34, from the site audit's form-contract findings):
+  - **`/kontakt/` "Egal, was am schnellsten ist":** the Worker rejected this contact option. It now takes the list from `shared/site.ts`, and `qa:contact` guards it.
+  - **Turnstile outage:** a failing siteverify call now returns a clean 503 instead of crashing the Worker. An API safety net catches any other error.
+  - **Error messages:** they now scroll into view and take focus on `/kontakt/` and `/lp/aquafacial/`. `/kontakt/` also gets a fresh Turnstile token after an error.
+  - **Combo form:**
+    - client checks now match the server's (email, phone);
+    - the campaign data reaches the email (offer, UTM, fbclid, page);
+    - the skin goal reaches the email;
+    - the honeypot is inert and inputs have maxlength.
+  - **`/kontakt/`:** inert honeypot and maxlength.
+  - **Email:** the time is labelled "Zeitwunsch" (the Aquafacial campaign keeps "Telefonisch erreichbar"), and there is no empty "Terminwunsch" row.
+  - **Worker error page:** it is in Atelier Glow style with no overline label, and its back button returns to the form the visitor came from.
+  - **`/lp/aquafacial/`:** the date picker blocks past dates.
 - [x] Fix the CI `npm audit` gate (0 vulnerabilities) — branch `codex/code-health-2026-10`
 - [x] Restore `trackLead` for the Aquafacial + Microneedling LP; hashed email/phone on the Aquafacial CAPI Lead
 - [x] Re-openable cookie consent ("Cookie-Einstellungen"), compact mobile banner

@@ -334,7 +334,7 @@ const structuredData = {
                         <div class="kontakt-field-grid">
                             <div class="kontakt-field">
                                 <label for="contact-name">Ihr Name <span aria-hidden="true">*</span></label>
-                                <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required aria-describedby="contact-name-error" />
+                                <input id="contact-name" name="name" type="text" maxlength="120" autocomplete="name" placeholder="Vor- und Nachname" required aria-describedby="contact-name-error" />
                                 <p id="contact-name-error" class="kontakt-field-error" data-field-error="name" hidden></p>
                             </div>
 
@@ -389,19 +389,19 @@ const structuredData = {
 
                             <div class="kontakt-field kontakt-field--full">
                                 <label for="contact-preferred-time">Wunschtermin oder bevorzugte Zeit</label>
-                                <input id="contact-preferred-time" name="preferred_time" type="text" placeholder="z. B. Dienstagabend, Freitagvormittag oder nächstmöglich" />
+                                <input id="contact-preferred-time" name="preferred_time" type="text" maxlength="160" placeholder="z. B. Dienstagabend, Freitagvormittag oder nächstmöglich" />
                             </div>
 
                             <div class="kontakt-field kontakt-field--full">
                                 <label for="contact-message">Ihre Nachricht <span aria-hidden="true">*</span></label>
-                                <textarea id="contact-message" name="message" required placeholder="Beschreiben Sie kurz Ihr Anliegen, Ihr Hautziel oder Ihren gewünschten Termin." aria-describedby="contact-message-error"></textarea>
+                                <textarea id="contact-message" name="message" maxlength="4000" required placeholder="Beschreiben Sie kurz Ihr Anliegen, Ihr Hautziel oder Ihren gewünschten Termin." aria-describedby="contact-message-error"></textarea>
                                 <p id="contact-message-error" class="kontakt-field-error" data-field-error="message" hidden></p>
                             </div>
                         </div>
 
                         <p id="contact-method-error" class="kontakt-field-error kontakt-field-error--wide" data-field-error="contact" hidden></p>
 
-                        <div class="kontakt-honeypot" aria-hidden="true">
+                        <div class="kontakt-honeypot" aria-hidden="true" inert>
                             <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" />
                         </div>
 
@@ -766,6 +766,14 @@ const structuredData = {
                         }
                     }).catch(function(error) {
                         showStatus(error.message || 'Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 'error');
+                        if (statusBox) {
+                            statusBox.tabIndex = -1;
+                            statusBox.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+                            statusBox.focus({ preventScroll: true });
+                        }
+                        if (window.turnstile) {
+                            try { window.turnstile.reset(); } catch (resetError) {}
+                        }
                         pushContactEvent('contact_form_submit_error', {
                             cta_location: 'form',
                             error_type: 'server',

@@ -536,6 +536,20 @@ const structuredData = {
           <input type="hidden" name="message" value="Aquafacial + Microneedling Terminwunsch" data-lead-message />
           <input type="hidden" name="source" value="aquafacial-microneedling-lp" />
           <input type="hidden" name="campaign" value={CONTACT_CAMPAIGN} />
+          <input type="hidden" name="offer" value={OFFER_SLUG} />
+          <input type="hidden" name="treatment" value={BOOKING_SERVICE} />
+          <input type="hidden" name="landing_page" value="/lp/aquafacial-microneedling/" />
+          <input type="hidden" name="page_path" value="/lp/aquafacial-microneedling/" />
+          <input type="hidden" name="page_url" value="" />
+          <input type="hidden" name="referrer" value="" />
+          <input type="hidden" name="utm_source" value="" />
+          <input type="hidden" name="utm_medium" value="" />
+          <input type="hidden" name="utm_campaign" value="" />
+          <input type="hidden" name="utm_content" value="" />
+          <input type="hidden" name="utm_term" value="" />
+          <input type="hidden" name="fbclid" value="" />
+          <input type="hidden" name="gclid" value="" />
+          <input type="hidden" name="msclkid" value="" />
 
           <p class="lp-form-title">Terminwunsch</p>
           <p class="lp-form-error" role="alert" hidden>Bitte prüfen Sie die markierten Felder.</p>
@@ -543,7 +557,7 @@ const structuredData = {
           <div class="lp-field-grid">
             <div class="lp-field">
               <label for="aqua-lead-name">Name <span aria-hidden="true">*</span></label>
-              <input id="aqua-lead-name" name="name" type="text" autocomplete="name" required />
+              <input id="aqua-lead-name" name="name" type="text" maxlength="120" autocomplete="name" required />
             </div>
             <div class="lp-field">
               <label for="aqua-lead-phone">Telefon / WhatsApp <span aria-hidden="true">*</span></label>
@@ -585,11 +599,11 @@ const structuredData = {
             </div>
             <div class="lp-field lp-field--full">
               <label for="aqua-lead-note">Kurze Nachricht, optional</label>
-              <textarea id="aqua-lead-note" name="leadNote" data-lead-note placeholder="z. B. empfindliche Haut, wichtige Termine, bisherige Erfahrungen"></textarea>
+              <textarea id="aqua-lead-note" name="leadNote" maxlength="3800" data-lead-note placeholder="z. B. empfindliche Haut, wichtige Termine, bisherige Erfahrungen"></textarea>
             </div>
           </div>
 
-          <div class="lp-field lp-honeypot" aria-hidden="true">
+          <div class="lp-field lp-honeypot" aria-hidden="true" inert>
             <label for="aqua-lead-company">Firma</label>
             <input id="aqua-lead-company" name="company" type="text" tabindex="-1" autocomplete="off" />
           </div>
@@ -768,6 +782,32 @@ const structuredData = {
       const formError = form.querySelector<HTMLElement>('.lp-form-error');
       const validatedFields = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input:not([type="hidden"]), select, textarea');
 
+      const emailInput = form.querySelector<HTMLInputElement>('#aqua-lead-email');
+      const phoneInput = form.querySelector<HTMLInputElement>('#aqua-lead-phone');
+      // Same rules as the Worker, so the browser never accepts what the server would reject.
+      const applyServerRules = () => {
+        const email = emailInput?.value.trim() ?? '';
+        emailInput?.setCustomValidity(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ?'Bitte geben Sie eine gültige E-Mail-Adresse an.' : '');
+        const phone = phoneInput?.value.trim() ?? '';
+        const digits = phone.replace(/\D/g, '');
+        phoneInput?.setCustomValidity(phone && (digits.length < 8 || digits.length > 15) ? 'Bitte geben Sie eine gültige Telefonnummer an.' : '');
+      };
+
+      const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'msclkid'];
+      const setHidden = (name: string, value: string) => {
+        const input = form.elements.namedItem(name);
+        if (input instanceof HTMLInputElement) input.value = value || '';
+      };
+      const fillAttribution = () => {
+        const params = new URLSearchParams(window.location.search);
+        let stored: Record<string, string> = {};
+        try { stored = JSON.parse(sessionStorage.getItem('bfl_utm') || '{}') || {}; } catch { stored = {}; }
+        attributionKeys.forEach((key) => setHidden(key, params.get(key) || stored[key] || ''));
+        setHidden('page_url', window.location.href);
+        setHidden('referrer', document.referrer);
+      };
+      fillAttribution();
+
       // The form keeps `novalidate` (no native bubbles); invalid fields are marked inline instead.
       const markInvalidFields = () => {
         validatedFields.forEach((field) => {
@@ -778,6 +818,7 @@ const structuredData = {
       };
 
       form.addEventListener('input', () => {
+        applyServerRules();
         if (form.classList.contains('is-validated')) markInvalidFields();
       });
       form.addEventListener('change', () => {
@@ -785,6 +826,8 @@ const structuredData = {
       });
 
       form.addEventListener('submit', (event) => {
+        applyServerRules();
+        fillAttribution();
         if (!form.checkValidity()) {
           event.preventDefault();
           form.classList.add('is-validated');
