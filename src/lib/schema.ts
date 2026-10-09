@@ -63,3 +63,64 @@ export function beautySalonRef() {
     address: postalAddress(),
   };
 }
+
+/**
+ * Offers built from a page's visible price rows, so the schema can never show a price the page
+ * does not. "CHF 180" becomes a price, "ab CHF 135" a minimum price; any other text is left out.
+ */
+export function serviceOffers(rows: Array<{ name: string; price: string }>, url: string) {
+  return rows.flatMap((row) => {
+    const match = row.price.trim().match(/^(ab )?CHF (\d+(?:\.\d{2})?)$/);
+    if (!match) return [];
+    const [, from, amount] = match;
+    const offer = { '@type': 'Offer', name: row.name, url, priceCurrency: 'CHF' };
+    return [from
+      ? { ...offer, priceSpecification: { '@type': 'PriceSpecification', minPrice: amount, priceCurrency: 'CHF' } }
+      : { ...offer, price: amount }];
+  });
+}
+
+/** Teresa as the author of every Wissen article; her profile page is /ueber-mich/. */
+function teresaAuthor() {
+  return {
+    '@type': 'Person',
+    name: 'Teresa Stimac',
+    url: absoluteUrl('/ueber-mich/'),
+    jobTitle: 'Gründerin & Kosmetikerin',
+    worksFor: { '@id': BUSINESS_ID },
+  };
+}
+
+interface ArticleInput {
+  url: string;
+  headline: string;
+  description: string;
+  /** Absolute URLs of the article's own picture, cropped 16:9, 4:3 and 1:1. */
+  images: string[];
+  datePublished: string;
+  dateModified: string;
+  section: string;
+  about?: string[];
+  keywords?: string;
+}
+
+/** The Article node for a Wissen article (built once, in the BlogPost layout). */
+export function article(input: ArticleInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    image: input.images,
+    datePublished: input.datePublished,
+    dateModified: input.dateModified,
+    inLanguage: 'de-CH',
+    articleSection: input.section,
+    author: teresaAuthor(),
+    publisher: { ...beautySalonRef(), logo: { '@type': 'ImageObject', url: absoluteUrl('/assets/logo.png') } },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': input.url },
+    url: input.url,
+    ...(input.about && { about: input.about.map((name) => ({ '@type': 'Thing', name })) }),
+    ...(input.keywords && { keywords: input.keywords }),
+  };
+}

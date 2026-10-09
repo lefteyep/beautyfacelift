@@ -7,7 +7,7 @@ import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
 import { absoluteUrl, SITE_NAME } from '../../shared/site';
-import { getImage } from 'astro:assets';
+import { cropImage, OG_RATIO } from '../lib/og-image';
 import ogFallback from '../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 
 interface Props {
@@ -30,6 +30,8 @@ interface Props {
   noindex?: boolean;
   articleDate?: string;
   articleModified?: string;
+  /** article:section for articles (the post category). */
+  articleSection?: string;
   bodyClass?: string;
 }
 
@@ -45,6 +47,7 @@ const {
   noindex = false,
   articleDate,
   articleModified,
+  articleSection,
   bodyClass,
 } = Astro.props;
 const canonicalUrl = canonical || absoluteUrl(Astro.url.pathname);
@@ -56,12 +59,10 @@ let ogImageSize: { width: number; height: number } | null = null;
 if (typeof ogSource === 'string') {
   ogImageUrl = absoluteUrl(ogSource);
 } else {
-  // Never upscale: a narrower source keeps the 1.91:1 ratio at its own width.
-  const width = Math.min(1200, ogSource.width);
-  const height = Math.round((width * 630) / 1200);
-  const og = await getImage({ src: ogSource, width, height, fit: 'cover', position: ogImagePosition, format: 'jpg', quality: 80 });
+  // Never upscaled: a narrower source keeps the 1.91:1 ratio at its own width.
+  const og = await cropImage(ogSource, OG_RATIO, ogImagePosition);
   ogImageUrl = absoluteUrl(og.src);
-  ogImageSize = { width, height };
+  ogImageSize = { width: og.width, height: og.height };
 }
 const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
@@ -125,7 +126,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     {articleDate && <meta property="article:published_time" content={articleDate}>}
     {articleModified && <meta property="article:modified_time" content={articleModified}>}
     {articleDate && <meta property="article:author" content="Teresa Stimac">}
-    {articleDate && <meta property="article:section" content="Hautpflege">}
+    {articleSection && <meta property="article:section" content={articleSection}>}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">

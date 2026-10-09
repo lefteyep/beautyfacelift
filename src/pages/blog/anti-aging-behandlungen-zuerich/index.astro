@@ -1,5 +1,4 @@
 ---
-import { absoluteUrl } from '../../../../shared/site';
 import BlogPost from '../../../layouts/BlogPost.astro';
 
 const faqItems = [
@@ -25,42 +24,6 @@ const faqItems = [
     }
 ];
 
-const articleSchema = {
-    "@type": "Article",
-    "@context": "https://schema.org",
-    "headline": "Anti-Aging Behandlungen in Zürich: Ein umfassender Überblick",
-    "description": "Entdecken Sie kosmetische Anti-Aging Behandlungen in Zürich: Aquafacial, Microneedling, ColdPlasma & Fruchtsäure Peeling im Vergleich.",
-    "image": absoluteUrl('/assets/spa_interior.png'),
-    "author": {
-        "@type": "Person",
-        "name": "Teresa Stimac",
-        "jobTitle": "Inhaberin & Kosmetikerin",
-        "worksFor": {
-            "@type": "BeautySalon",
-            "name": "Beauty Face Lift",
-            "url": absoluteUrl('/')
-        }
-    },
-    "publisher": {
-        "@type": "Organization",
-        "name": "Beauty Face Lift",
-        "url": absoluteUrl('/'),
-        "logo": {
-            "@type": "ImageObject",
-            "url": absoluteUrl('/assets/logo.png')
-        }
-    },
-    "datePublished": "2026-02-20",
-    "dateModified": "2026-10-07",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": absoluteUrl('/blog/anti-aging-behandlungen-zuerich/')
-    },
-    "url": absoluteUrl('/blog/anti-aging-behandlungen-zuerich/'),
-    "inLanguage": "de-CH",
-    "keywords": "Anti-Aging Behandlungen, Zürich, Aquafacial, Microneedling, ColdPlasma, Fruchtsäure Peeling"
-};
-
 const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -74,7 +37,7 @@ const faqSchema = {
     }))
 };
 
-const structuredData = [articleSchema, faqSchema];
+const structuredData = faqSchema;
 
 // Further reading: these first, topped up with the newest articles. The
 // treatment comparison is offered as a button in the consultation block.
@@ -92,6 +55,7 @@ const cta = {
     pageTitle="Anti-Aging Behandlungen in Zürich | Beauty Face Lift"
     description="Entdecken Sie kosmetische Anti-Aging Behandlungen in Zürich: Aquafacial, Microneedling, ColdPlasma & Fruchtsäure Peeling im Vergleich."
     structuredData={structuredData}
+    keywords="Anti-Aging Behandlungen, Zürich, Aquafacial, Microneedling, ColdPlasma, Fruchtsäure Peeling"
     breadcrumbLabel="Anti-Aging Behandlungen"
     title="Anti-Aging Behandlungen in Zürich: Ein umfassender Überblick"
     related={related}

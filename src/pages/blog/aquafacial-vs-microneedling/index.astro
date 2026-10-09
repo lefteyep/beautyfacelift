@@ -2,45 +2,6 @@
 import { absoluteUrl } from '../../../../shared/site';
 import BlogPost from '../../../layouts/BlogPost.astro';
 
-const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Aquafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?",
-    "description": "Aquafacial vs. Microneedling in Zürich: Wirkung, Ablauf, Kosten und Downtime im direkten Vergleich. Finden Sie die passende Behandlung für Ihren Hauttyp.",
-    "image": absoluteUrl('/assets/spa_facial_treatment.png'),
-    "datePublished": "2026-03-15",
-    "dateModified": "2026-10-07",
-    "author": {
-        "@type": "Person",
-        "name": "Teresa Stimac",
-        "jobTitle": "Inhaberin & Kosmetikerin",
-        "worksFor": {
-            "@type": "BeautySalon",
-            "name": "Beauty Face Lift",
-            "url": absoluteUrl('/')
-        }
-    },
-    "publisher": {
-        "@type": "Organization",
-        "name": "Beauty Face Lift",
-        "url": absoluteUrl('/'),
-        "logo": {
-            "@type": "ImageObject",
-            "url": absoluteUrl('/assets/logo.png')
-        }
-    },
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": absoluteUrl('/blog/aquafacial-vs-microneedling/')
-    },
-    "inLanguage": "de-CH",
-    "about": [
-        { "@type": "Thing", "name": "Aquafacial" },
-        { "@type": "Thing", "name": "Microneedling" },
-        { "@type": "Thing", "name": "Gesichtsbehandlung" }
-    ]
-};
-
 const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -88,7 +49,7 @@ const faqSchema = {
     ]
 };
 
-const structuredData = [articleSchema, faqSchema];
+const structuredData = faqSchema;
 
 // Further reading: these first, topped up with the newest article.
 const related = ['was-ist-aquafacial', 'microneedling-erfahrung'];
@@ -106,6 +67,7 @@ const cta = {
     description="Aquafacial vs. Microneedling in Zürich: Wirkung, Ablauf, Kosten und Downtime im direkten Vergleich. Finden Sie die passende Behandlung für Ihren Hauttyp."
     canonical={absoluteUrl('/blog/aquafacial-vs-microneedling/')}
     structuredData={structuredData}
+    about={['Aquafacial', 'Microneedling', 'Gesichtsbehandlung']}
     breadcrumbLabel="Aquafacial vs. Microneedling"
     title="Aquafacial vs. Microneedling: Welche Behandlung passt zu Ihnen?"
     related={related}

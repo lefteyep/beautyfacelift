@@ -18,6 +18,8 @@ export interface JournalPost {
     excerpt: string;
     category: string;
     publishDate: string;
+    /** Last editorial change: Article dateModified and the sitemap lastmod. */
+    modifiedDate: string;
     readingTime: string;
     image: ImageMetadata;
     imageAlt: string;
@@ -34,6 +36,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         excerpt: 'Beide Behandlungen können zu einem frischeren Hautbild beitragen, doch welche passt zu Ihrem Hauttyp? Ein direkter Vergleich.',
         category: 'Behandlungsvergleich',
         publishDate: '2026-03-15',
+        modifiedDate: '2026-10-07',
         readingTime: '10 Min.',
         image: spaFacialTreatment,
         imageAlt: 'Pflegeserum wird mit der Pipette auf die Wange aufgetragen',
@@ -46,6 +49,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         excerpt: 'Teresa Stimac zeigt die wichtigsten Schritte für eine wirksame tägliche Hautpflege, abgestimmt auf das Zürcher Klima.',
         category: 'Hautpflege',
         publishDate: '2026-03-10',
+        modifiedDate: '2026-10-07',
         readingTime: '10 Min.',
         image: spaProducts,
         imageAlt: 'Serumflaschen mit Pipette auf hellem Stein',
@@ -58,6 +62,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         excerpt: 'Vom 3-Schritte-Ablauf bis zum Glow-Effekt: alles Wissenswerte über die Gesichtsbehandlung, ihre Varianten und Kosten.',
         category: 'Behandlungswissen',
         publishDate: '2026-03-05',
+        modifiedDate: '2026-10-07',
         readingTime: '12 Min.',
         image: aquafacialCard,
         imageAlt: 'Aquafacial Behandlung mit Handstück an der Wange',
@@ -70,6 +75,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         excerpt: 'Was passiert während einer Microneedling-Sitzung und wie fühlt sich die Behandlung an? Ein ehrlicher Erfahrungsbericht.',
         category: 'Erfahrungsbericht',
         publishDate: '2026-02-28',
+        modifiedDate: '2026-10-07',
         readingTime: '10 Min.',
         image: microneedlingCard,
         imageAlt: 'Microneedling Behandlung im Gesicht',
@@ -82,6 +88,7 @@ export const JOURNAL_POSTS: JournalPost[] = [
         excerpt: 'Von Aquafacial über ColdPlasma bis Fruchtsäure Peeling: welche Anti-Aging Methoden sich für welche Haut eignen.',
         category: 'Anti-Aging',
         publishDate: '2026-02-20',
+        modifiedDate: '2026-10-07',
         readingTime: '12 Min.',
         image: spaInterior,
         imageAlt: 'Ruhiger Behandlungsraum mit Liege, Leinen und warmem Licht',
@@ -89,7 +96,8 @@ export const JOURNAL_POSTS: JournalPost[] = [
     },
 ];
 
-// The Wissen article a page's FAQ block links to (page → article). The way back is each
+// The Wissen article a page links to: from the FAQ block of a treatment or comparison page,
+// from the details head of a service hub (page → article). The way back is each
 // post's own `treatment` field above.
 const WISSEN_FOR_PAGE: Record<string, { slug: string; label: string }> = {
     '/behandlungen/aquafacial-zuerich/': { slug: 'was-ist-aquafacial', label: 'Aquafacial erklärt' },
@@ -97,6 +105,7 @@ const WISSEN_FOR_PAGE: Record<string, { slug: string; label: string }> = {
     '/behandlungen/vergleich/': { slug: 'aquafacial-vs-microneedling', label: 'Aquafacial vs. Microneedling' },
     '/behandlungen/coldplasma-zuerich/': { slug: 'anti-aging-behandlungen-zuerich', label: 'Anti-Aging Behandlungen' },
     '/behandlungen/fruchtsaeure-peeling-zuerich/': { slug: 'anti-aging-behandlungen-zuerich', label: 'Anti-Aging Behandlungen' },
+    '/behandlungen/gesichtsbehandlung-zuerich/': { slug: 'hautpflege-routine-zuerich', label: 'Hautpflege-Routine' },
 };
 
 export function wissenLinkFor(pathname: string): { href: string; label: string } | undefined {

@@ -1,5 +1,5 @@
 // @ts-check
-import { copyFile } from 'node:fs/promises';
+import { copyFile, readFile, writeFile } from 'node:fs/promises';
 import { defineConfig } from 'astro/config';
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import react from '@astrojs/react';
@@ -14,13 +14,39 @@ const NOINDEX_PATHS = [
   '/termin/',
 ];
 
-/** @returns {import('astro').AstroIntegration} */
-function sitemapXmlAlias() {
+/**
+ * After @astrojs/sitemap: adds <lastmod> for pages that state their own modified date
+ * (Wissen articles, via article:modified_time), then copies sitemap-0.xml to sitemap.xml.
+ * Pages without such a date get no lastmod rather than a guessed one.
+ * @returns {import('astro').AstroIntegration}
+ */
+function sitemapLastmodAndAlias() {
   return {
-    name: 'sitemap-xml-alias',
+    name: 'sitemap-lastmod-and-alias',
     hooks: {
       'astro:build:done': async ({ dir }) => {
-        await copyFile(new URL('sitemap-0.xml', dir), new URL('sitemap.xml', dir));
+        const sitemapFile = new URL('sitemap-0.xml', dir);
+        let xml = await readFile(sitemapFile, 'utf8');
+        let articles = 0;
+        let dated = 0;
+        for (const [, loc] of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+          const { pathname } = new URL(loc);
+          if (/^\/blog\/[^/]+\/$/.test(pathname)) articles++;
+          const pageFile = new URL(`.${pathname}index.html`, dir);
+          const html = await readFile(pageFile, 'utf8').catch(() => '');
+          const modified = html.match(/<meta property="article:modified_time" content="([^"]+)"/)?.[1];
+          if (modified) {
+            xml = xml.replace(`<loc>${loc}</loc>`, `<loc>${loc}</loc><lastmod>${modified}</lastmod>`);
+            dated++;
+          }
+        }
+        // Every article has a modified date (_posts.ts), so a shortfall means the lookup broke
+        // (page path, file layout or meta markup changed): fail instead of losing lastmod silently.
+        if (dated < articles) {
+          throw new Error(`sitemap lastmod: ${dated} of ${articles} Wissen articles got a date`);
+        }
+        await writeFile(sitemapFile, xml);
+        await copyFile(sitemapFile, new URL('sitemap.xml', dir));
       },
     },
   };
@@ -52,7 +78,7 @@ export default defineConfig({
         return item;
       },
     }),
-    sitemapXmlAlias(),
+    sitemapLastmodAndAlias(),
     react(),
   ],
   build: {

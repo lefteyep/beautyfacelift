@@ -3,9 +3,9 @@
 **Last updated:** October 7, 2026
 
 ## Priority 0: Release the October work (agency)
-- [ ] **URGENT — Cloudflare Turnstile hostname.** On 2026-10-07 the `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`) returned error 110200, "domain not allowed". It never gets a token, so the Worker rejects every `/kontakt/` enquiry ("Bitte bestätigen Sie die Sicherheitsprüfung.").
-  - **Fix:** in the Cloudflare dashboard, go to Turnstile, open this widget, choose Hostname management, and add `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch`.
-  - **Verify:** the widget shows a check instead of "Verbinden zur Website nicht möglich". Then send one real test enquiry.
+- [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
+  - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").
+  - [ ] **Still to do:** send one real test enquiry. The Worker has a `TURNSTILE_SECRET_KEY` secret, but only a real submission proves it belongs to this widget.
 - [x] Combo ad form `/lp/aquafacial-microneedling/` fixed on 2026-10-07. Since 2026-05-26 every submission had been rejected for two reasons:
   - its hidden topic was not an allowed contact topic;
   - the Worker required Turnstile, but the page has no widget.
@@ -52,11 +52,11 @@
   - **Social share images:** every page now gets a real 1200×630 JPG cropped from its own photo (Teresa's portrait is cropped from the top). Before, one portrait PNG was declared as 1200×630 and previews cut her face off.
   - **Internal links:** the FAQ block of the Aquafacial, Microneedling, ColdPlasma and Fruchtsäure pages and of /behandlungen/vergleich/ has a button to its Wissen article. The map is in `src/pages/blog/_posts.ts`. Both FAQ buttons now carry `data-button-location`.
   - **Soft 404:** `/404/` and `/404.html` answered 200; the Worker now sends 404.
-- [ ] SEO follow-ups from the audit:
-  - **Gesichtsbehandlung hub:** no link to the Hautpflege-Routine article yet (hubs have no FAQ block).
-  - **Price offers:** Service schema has no `offers`; map the visible price rows.
-  - **Article schema:** its image differs from the hero; `author.url` is missing on 4 of 5 articles.
-  - **Sitemap:** no `lastmod`.
+- [x] Structured data and sitemap follow-ups (PR #39, 2026-10-09):
+  - **Gesichtsbehandlung hub:** "Was Sie erwartet" has a button to the Hautpflege-Routine article.
+  - **Price offers:** the Service schema of the four treatment pages with prices and of the six hubs lists the visible price rows as offers, built from the same arrays as the price list. Exosome shows no price and has no offers.
+  - **Article schema:** built once in `BlogPost.astro` from `_posts.ts`. It uses the article's own picture (16:9, 4:3 and 1:1 crops), Teresa with her /ueber-mich/ link, the business as publisher, and one modified date.
+  - **Sitemap:** articles carry `lastmod` from their modified date. Other pages have none rather than a guessed one.
 
 ## Priority 0: Decisions for Teresa
 - [ ] Aquafacial LP: confirm "statt CHF 180" as a provable regular price and an end date for the Kennenlernpreis (Swiss price-indication rules)
@@ -217,7 +217,7 @@
   - **`/kontakt/`:** performance 79 and best practices 92. The causes were the auto-loading Google Maps embed (17 requests, about 470 KB) and the Turnstile error. Now fixed:
     - the map loads only on click (PR #33);
     - the CSP allows the map frame (PR #32);
-    - Turnstile still needs the hostname fix (see the top of this file).
+    - the Turnstile hostname was fixed on 2026-10-09 (see the top of this file).
   - **Static SEO audit of all 36 pages:** only one title over 60 characters and three descriptions over 160; all four are fixed in PR #33.
 
 ## Priority 7: Future Features

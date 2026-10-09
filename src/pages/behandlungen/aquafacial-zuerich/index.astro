@@ -15,7 +15,7 @@ import { aquafacialCard, consultationTrust } from '../../../lib/site-images';
 import glowPortrait from '../../../assets/lp/aquafacial/post-treatment-glow-zuerich.webp';
 import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
-import { beautySalonRef } from '../../../lib/schema';
+import { beautySalonRef, serviceOffers } from '../../../lib/schema';
 
 const pagePath = '/behandlungen/aquafacial-zuerich/';
 const bookingHref = bookingLinkForService('Aquafacial');
@@ -90,6 +90,7 @@ const structuredData = {
     "url": absoluteUrl(pagePath),
     "image": absoluteUrl('/assets/aquafacial_treatment.png'),
     "provider": beautySalonRef(),
+    "offers": serviceOffers(priceItems, absoluteUrl(pagePath)),
     "description": "Aquafacial in Zürich: Reinigung, sanfte Exfoliation und Feuchtigkeit in einer Behandlung – persönlich von Teresa Stimac im Kosmetikinstitut Beauty Face Lift an der Bahnhofstrasse.",
     "areaServed": "Zürich"
 };
