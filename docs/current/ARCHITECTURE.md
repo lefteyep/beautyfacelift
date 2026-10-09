@@ -4,16 +4,18 @@
 
 ```
 [Browser] → [Cloudflare CDN] → Static HTML/CSS/JS (pre-rendered pages)
-                              → /api/* → Cloudflare Worker routes → Supabase (Postgres)
+                              → /api/contact → Cloudflare Worker → Resend (enquiry email)
+                              → /api/track   → Cloudflare Worker → Meta Conversions API
+                              → legacy /api/services|slots|availability|bookings → Supabase (unreachable since 2026-10-06)
 ```
 
-All pages are static HTML served by Cloudflare Workers Static Assets. API routes run in the same Cloudflare Worker (`worker/index.ts`) through `itty-router`. Database is Supabase Postgres in EU Frankfurt.
+All pages are static HTML served by Cloudflare Workers Static Assets. API routes run in the same Cloudflare Worker (`worker/index.ts`) through `itty-router`. Bookings run on Treatwell. The legacy first-party booking system (Supabase Postgres, EU Frankfurt) is disabled. Its project has been unreachable since 2026-10-06, and removing it is recommended (see TODO).
 
 ## Why This Architecture
 
-- **Astro static** over SSR: Pages ship zero JS by default. Only booking widget and admin load React. Treatment pages = pure HTML. Faster LCP = lower Google Ads CPC.
+- **Astro static** over SSR: Pages ship zero JS by default. Only the legacy admin page loads React; public pages ship no framework JavaScript. Treatment pages = pure HTML. Faster LCP = lower Google Ads CPC.
 - **Cloudflare** over Vercel: Unlimited bandwidth (no surprise bills from ad traffic), 100K requests/day free, 330+ edge cities, 0ms cold starts.
-- **Supabase** over custom backend: Free Postgres, built-in auth, real-time, edge functions. 500MB = tens of thousands of bookings.
+- **Supabase** (legacy): chosen for the first-party booking flow (Postgres, auth, edge functions). The public site has not used it since bookings moved to Treatwell.
 - **React islands** over full SPA: JavaScript only loads where interaction is needed.
 - **Vanilla CSS** over Tailwind: Client's existing design system, no framework overhead.
 
@@ -33,7 +35,7 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 5. Confirmed appointment completion happens on Treatwell, so the site measures booking intent, not confirmed bookings.
 ```
 
-### Admin Dashboard
+### Admin Dashboard (legacy; not working while Supabase is unreachable)
 ```
 1. Browser loads /admin/ (static HTML + React island)
 2. AdminDashboard mounts → checks Supabase auth session

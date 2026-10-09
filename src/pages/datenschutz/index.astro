@@ -17,7 +17,7 @@ const breadcrumbs = [
         <div class="container legal-head">
             <Breadcrumbs items={breadcrumbs} />
             <h1>Datenschutzerklärung</h1>
-            <p class="caption">Stand: April 2026</p>
+            <p class="caption">Stand: Oktober 2026</p>
         </div>
     </header>
 
@@ -49,20 +49,18 @@ const breadcrumbs = [
             </p>
 
             <h2 id="abschnitt-2">2. Erhebung und Verarbeitung personenbezogener Daten</h2>
-            <p>Wir erheben personenbezogene Daten nur dann, wenn Sie uns diese im Rahmen einer Terminbuchung, Kontaktaufnahme oder Anfrage freiwillig mitteilen. Dies umfasst:</p>
+            <p>Wir erheben personenbezogene Daten nur dann, wenn Sie uns diese im Rahmen einer Kontaktaufnahme oder Anfrage freiwillig mitteilen. Dies umfasst:</p>
             <ul>
                 <li>Name</li>
                 <li>E-Mail-Adresse</li>
                 <li>Telefonnummer</li>
-                <li>Angaben aus dem Kontaktformular (Thema, Nachricht, gewünschter Rückrufzeitpunkt)</li>
-                <li>Buchungsdaten (gewählte Behandlung, Datum, Uhrzeit)</li>
-                <li>Optionale Anmerkungen zur Buchung</li>
+                <li>Angaben aus dem Kontaktformular (Thema, gewünschte Behandlung, bevorzugter Kontaktweg, Wunschtermin, Nachricht)</li>
             </ul>
 
             <h2 id="abschnitt-3">3. Zweck der Datenverarbeitung</h2>
             <p>Ihre Daten werden ausschliesslich für folgende Zwecke verwendet:</p>
             <ul>
-                <li>Bearbeitung und Bestätigung Ihrer Terminbuchung</li>
+                <li>Bearbeitung Ihrer Termin- und Beratungsanfragen</li>
                 <li>Kommunikation bezüglich Ihres Termins (Bestätigung, Erinnerung, Änderung, Stornierung)</li>
                 <li>Beantwortung Ihrer Anfragen</li>
                 <li>Spam- und Missbrauchsschutz für unser Kontaktformular</li>
@@ -70,9 +68,8 @@ const breadcrumbs = [
             </ul>
 
             <h2 id="abschnitt-4">4. Datenspeicherung</h2>
-            <p>Ihre Buchungsdaten werden in einer Datenbank bei <strong>Supabase</strong> (EU-Region, Frankfurt) gespeichert. Die Daten werden verschlüsselt übertragen (TLS) und in einer EU-konformen Infrastruktur gehostet.</p>
-            <p>Zahlungsdaten für optionale Anzahlungen werden direkt von <strong>Stripe</strong> verarbeitet. Wir speichern keine Kreditkartendaten auf unseren Servern.</p>
-            <p>Kontaktanfragen werden serverseitig verarbeitet. Dabei werden Ihre Formularangaben, die IP-Adresse, der User-Agent sowie der Zeitpunkt der Anfrage zur Missbrauchsprävention und Bearbeitung der Nachricht verarbeitet.</p>
+            <p>Online-Termine buchen Sie über die Plattform <strong>Treatwell</strong>. Wenn Sie über unsere Website zur Buchung wechseln, gelten für die Buchung die Datenschutzbestimmungen von Treatwell. Auf dieser Website betreiben wir keine eigene Buchungsdatenbank und verarbeiten keine Zahlungsdaten.</p>
+            <p>Kontaktanfragen werden serverseitig verarbeitet und per E-Mail an uns zugestellt. Dabei werden Ihre Formularangaben, die IP-Adresse, der User-Agent sowie der Zeitpunkt der Anfrage zur Missbrauchsprävention und Bearbeitung der Nachricht verarbeitet.</p>
 
             <h2 id="abschnitt-5">5. Cookies und Tracking</h2>
             <p>Unsere Website verwendet technisch notwendige Funktionen für Betrieb, Sicherheit und Formularschutz. Marketing- und Analyse-Technologien laden wir erst nach Ihrer Einwilligung:</p>
@@ -82,6 +79,7 @@ const breadcrumbs = [
                 <li><strong>Meta Pixel (Facebook/Instagram):</strong> Conversion-Tracking und Erstellung von Zielgruppen für Werbeanzeigen.</li>
                 <li><strong>Google Tag Manager:</strong> Verwaltung der oben genannten Tracking-Skripte.</li>
             </ul>
+            <p>Für Google Analytics ist «Google Signals» aktiviert: Sind Sie bei Google angemeldet und haben personalisierte Werbung erlaubt, kann Google die Daten Ihrer Besuche mit Ihrem Google-Konto verknüpfen. Daraus können geräteübergreifende Statistiken und Zielgruppen für Werbung entstehen. Ihre bei Google gespeicherten Aktivitäten können Sie unter <a href="https://myactivity.google.com/" target="_blank" rel="noopener">myactivity.google.com</a> einsehen und löschen.</p>
             <p>Sie können die Nutzung von Cookies in Ihrem Browser deaktivieren oder Ihre Marketing-Einwilligung auf der Website ablehnen. Ohne Einwilligung werden Meta Pixel, Google Tag Manager und serverseitige Marketing-Events nicht aktiviert.</p>
 
             <h2 id="abschnitt-6">6. Server-seitige Datenverarbeitung</h2>
@@ -92,8 +90,7 @@ const breadcrumbs = [
             <ul>
                 <li><strong>Cloudflare:</strong> Hosting und Bereitstellung der Website (USA/EU)</li>
                 <li><strong>Cloudflare Turnstile:</strong> Bot- und Missbrauchsschutz für das Kontaktformular</li>
-                <li><strong>Supabase:</strong> Datenbank und Authentifizierung (EU — Frankfurt)</li>
-                <li><strong>Stripe:</strong> Zahlungsabwicklung für Anzahlungen (EU/USA)</li>
+                <li><strong>Treatwell:</strong> Online-Terminbuchung (es gelten die Datenschutzbestimmungen von Treatwell)</li>
                 <li><strong>Resend:</strong> Versand von E-Mail-Benachrichtigungen und Kontaktanfragen (USA)</li>
                 <li><strong>Google:</strong> Analytics, Ads, Tag Manager (USA)</li>
                 <li><strong>Google Maps:</strong> Karten auf der Kontaktseite und auf Kampagnenseiten. Auf der Kontaktseite wird die Karte erst geladen, wenn Sie auf «Karte laden» klicken; dabei werden unter anderem Ihre IP-Adresse und technische Browserdaten an Google übertragen (USA).</li>

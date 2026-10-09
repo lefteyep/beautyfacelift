@@ -39,7 +39,7 @@ The server-side GA4 path in `/api/track` (`GA4_MEASUREMENT_ID` + `GA4_API_SECRET
 
 ## Still to do
 
-- [ ] **Google signals:** turn it on (GA4 → Admin → Data collection → Google signals → "Aktivieren"). It enables remarketing audiences and demographics. The agent's tool blocked this click, so a person has to make it.
+- [x] **Google signals:** switched on 2026-10-10 at the user's request. It is allowed in all regions, and the privacy policy discloses it, with myactivity.google.com.
 - [ ] **Key events:** mark them once the events have arrived (GA4 → Admin → Events → "Letzte Ereignisse", star icon). Mark `generate_lead`, `aquafacial_lead_submit`, `treatwell_outbound_click`, `booking_button_click`, `whatsapp_click` and `phone_click`.
 - [ ] **Google Ads:** once a Google Ads account runs for the studio, link it (GA4 → Admin → Product links → Google Ads). Then import the key events as conversions.
 - [ ] **Verification:** after the first live deploy with `PUBLIC_GTM_ID`, check GA4 Realtime and DebugView.

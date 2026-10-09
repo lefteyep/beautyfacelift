@@ -129,71 +129,29 @@
   - **Anti-aging comparison table:** it is down to two rows (Ausfallzeit, Empfindliche Haut) because the other rows contradicted the treatment pages. Rebuild it from treatment-page facts if Teresa wants the comparison.
   - **`microneedling-erfahrung`:** its description says "Ehrlicher Erfahrungsbericht", but the studio wrote it. Rename it to "Ratgeber"?
 
-## Completed (May 7, 2026 — Custom-domain launch)
-- [x] Connect `beautyfacelift-zuerich.ch` in Cloudflare DNS
-- [x] Switch all-inkl nameservers to Cloudflare (`ezra.ns.cloudflare.com`, `ryleigh.ns.cloudflare.com`)
-- [x] Preserve all-inkl MX/SPF/DKIM/DMARC records in Cloudflare
-- [x] Remove new-domain all-inkl website records from Cloudflare DNS
-- [x] Deploy Worker custom domains for apex and `www`
-- [x] Confirm `www.beautyfacelift-zuerich.ch` redirects to the apex with path/query preserved
-- [x] Confirm `workers_dev=false`; temporary workers.dev host returned 404
-- [x] Confirm sitemap and robots use `https://beautyfacelift-zuerich.ch`
-
-## ✅ Completed (March 19, 2026 — Pixel-Perfect Design Implementation)
-- [x] Implement pixel-perfect design from .pen design file across all 24 pages
-- [x] Homepage: hero typography, service cards, testimonials, editorial grid
-- [x] Navigation: refined spacing, logo sizing, pill CTA
-- [x] Footer: 3-column layout, newsletter input, proper padding
-- [x] Treatment pages: pricing cards with accent variant, FAQ section styling
-- [x] Blog: card grid with hover effects, article typography with drop caps
-- [x] 404 page: centered layout with design-system typography
-- [x] Termin page: booking section styling
-- [x] CSS: comprehensive design token updates (spacing, colors, typography, radii, shadows)
-- [x] All pages verified against .pen design file via browser inspector
-
-## ✅ Completed (March 18, 2026 — SEO/AIO Overhaul)
-- [x] Expand all 4 treatment pages to 3000+ words (pricing, FAQs, process, testimonials)
-- [x] Create treatment comparison page (/behandlungen/vergleich/)
-- [x] Create FAQ hub page (/haeufige-fragen/) with 20 categorized FAQs
-- [x] Write 5 blog articles (2000+ words each)
-- [x] Expand homepage with testimonials, FAQs, ColdPlasma section
-- [x] Expand about page with E-E-A-T credentials
-- [x] Expand treatment overview with breadcrumbs, guidance, FAQ
-- [x] Add llms.txt + llms-full.txt for AI platform discoverability
-- [x] Add robots.txt with AI crawler rules; Cloudflare Managed Content Signals should be reviewed separately if AI crawler access is intended
-- [x] Improve sitemap (priority-weighted, filtered)
-- [x] Add geo meta tags, max-image-preview, OG image dimensions
-- [x] Add image width/height to all img tags
-- [x] Schema.org coverage for BeautySalon, WebSite, Service, FAQPage, Article, Person, BreadcrumbList, and ItemList; unverified rating/review/price-rich-result claims removed from production SEO metadata
-- [x] Fix canonical URLs to resolve against beautyfacelift-zuerich.ch
-- [x] Add blog CSS and infrastructure
+Finished work from March to May 2026, and the items dropped on 2026-10-10, are in [../archive/TODO-history-2026.md](../archive/TODO-history-2026.md).
 
 ## Priority 1: Go Live (blocking everything else)
 - [x] Google Search Console, 2026-10-10: domain property `beautyfacelift-zuerich.ch` verified by DNS TXT record in Cloudflare (Google login `mediapaulo@gmail.com`), `sitemap.xml` submitted. Google had not fetched it yet on the day of submission; check the status again.
 - [ ] Google Business Profile: the profile "Beauty Face Lift" (4,2 from 46 Google reviews) exists, but another Google account manages it, most likely Teresa's. Its website link still points to the old `beautyfacelift.ch`. Teresa should add `mediapaulo@gmail.com` as a manager, or change the website to `https://beautyfacelift-zuerich.ch/` herself.
-- [ ] Rotate the Supabase `service_role` key if any previous chat, local file, or deployment log exposed it.
-- [ ] Replace weak/test admin credentials before exposing production customer data.
-- [ ] Verify `/api/services` on production returns 200 or intentionally document why it may return 500 while Treatwell is active.
-- [ ] Replace placeholder images with real Teresa/studio photos
-- [ ] Get real treatment prices from Teresa and update pages + Supabase
+- [ ] **Legacy booking system (decision):** the first-party booking widget, the admin page, `/api/services|slots|availability|bookings` and the Supabase project `izekwngqjllaqibrwotp` have been dead since 2026-10-06 (NXDOMAIN). Bookings run on Treatwell.
+  - The agency recommends removing them, and the user agreed on 2026-10-10. The agent's tool blocked deleting the files, so the removal needs the user's go first, or a person does it.
+  - After removal, delete:
+    - the Worker secrets `SUPABASE_SERVICE_ROLE_KEY` and `PUBLIC_SUPABASE_ANON_KEY`;
+    - the GitHub variable `PUBLIC_SUPABASE_URL` and the GitHub secret `PUBLIC_SUPABASE_ANON_KEY`;
+    - the Supabase project.
+  - If the system is kept instead, rotate the `service_role` key and replace the admin credentials (see SECURITY.md).
+- [x] Prices and durations match Treatwell (PR #36, 2026-10-09)
 
 ## Priority 2: Tracking & Analytics (before running ads)
 - [x] GTM container `GTM-NVC9QKGS` and GA4 property `G-4C9M8KMFQY`, created 2026-10-10. The GitHub variable `PUBLIC_GTM_ID` is set. Setup and open items are in [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md). Server-side GA4 (`GA4_API_SECRET`) stays off on purpose.
 - [x] Meta Pixel and CAPI live (see the Meta check above)
-- [ ] Verify GA4 after the GTM release (Realtime/DebugView), switch on Google signals, and mark the key events
+- [ ] Verify GA4 after the GTM release (Realtime/DebugView) and mark the key events once they have arrived. Google signals has been on since 2026-10-10.
 - [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools
 
-## Priority 3: Email & Notifications
-- [ ] Set up Resend account + RESEND_API_KEY
-- [ ] Deploy or verify Supabase Edge Function: `supabase functions deploy notify-booking`
-- [ ] Test full booking flow with real email notification
-
-## Priority 4: Stripe Deposits
-- [ ] Set up Stripe account + configure env vars (STRIPE_SECRET_KEY, etc.)
-- [ ] Wire DepositStep into BookingWidget flow (component exists, not integrated)
-- [ ] Set up Stripe webhook endpoint
-- [ ] Test deposit payment flow in Stripe test mode
+## Priority 3: Email
+- [x] Resend sends the form emails. `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` and `TURNSTILE_SECRET_KEY` are Worker secrets, and the test enquiry on 2026-10-10 arrived. Still open: the sender domain and the recipient, see "Where enquiries land" at the top.
 
 ## Priority 5: Backlinks & Off-Page SEO
 - [ ] Submit to local.ch, search.ch, Swiss Yellow Pages
@@ -221,10 +179,7 @@
   - **Static SEO audit of all 36 pages:** only one title over 60 characters and three descriptions over 160; all four are fixed in PR #33.
 
 ## Priority 7: Future Features
-- [ ] WhatsApp Business API for booking notifications
-- [ ] Customer reminder emails (24h before appointment)
 - [ ] Multi-language support (English version)
-- [ ] Booking calendar widget on homepage
 - [x] Decide whether to delete `src/api_backup/**` after confirming git history is sufficient as the archive. — Deleted 2026-10-06 (git history keeps it).
-- [ ] Decide whether to keep, remove, or revive the legacy first-party BookingWidget after Treatwell/confirmed-booking tracking is settled.
+- [ ] Legacy BookingWidget: covered by the "Legacy booking system (decision)" item in Priority 1.
 - [x] ~~Design elevation: Phases 2-7~~ — Replaced by pixel-perfect .pen design implementation (March 19, 2026)
