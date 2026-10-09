@@ -20,11 +20,11 @@
 - **Koordinaten:** 47.3760, 8.5397
 
 ### Öffnungszeiten
-- Montag: 09:00–18:00 Uhr
-- Dienstag: 09:00–18:00 Uhr
-- Mittwoch: 09:00–18:00 Uhr
-- Donnerstag: 09:00–18:00 Uhr
-- Freitag: 09:00–18:00 Uhr
+- Montag: 10:00–20:00 Uhr
+- Dienstag: 10:00–20:00 Uhr
+- Mittwoch: 10:00–20:00 Uhr
+- Donnerstag: 10:00–20:00 Uhr
+- Freitag: 10:00–20:00 Uhr
 - Samstag: 10:00–16:00 Uhr
 - Sonntag: Geschlossen
 - Feiertage: Geschlossen (nach Vereinbarung möglich)

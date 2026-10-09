@@ -52,10 +52,8 @@
   - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
 - [ ] Carbon ad page: the three client quotes still carry "TODO: Teresa to supply real testimonials" in the code — confirm they are real, or replace them with verified reviews
 - [ ] Combo ad page: the QA-pinned infographic `aquafacial-microneedling-infografik-zuerich.webp` says "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself; it needs a corrected image (no "Hydro/Hydra", cautious claims)
-- [ ] Opening hours: the Carbon page said "Mo–Fr 10:00–20:00 · Sa 09:00–16:00"; the site (`shared/site.ts`) says Mo–Fr 09:00–18:00 · Sa 10:00–16:00. The Carbon page now uses the shared hours — confirm which hours are correct.
-  - **New evidence (2026-10-07):** the Treatwell venue page shows Mo–Fr 10:00–20:00, Sa 10:00–16:00, So geschlossen. The old beautyfacelift.ch shows Mo–Fr 10:00–20:00, Sa 9:00–16:00. The site and its `openingHoursSpecification` (sent to Google) say Mo–Fr 09:00–18:00.
-  - **Is Sunday closed?** The site says "Nach Vereinbarung geschlossen".
-  - **When answered:** build the kontakt JSON-LD from `OPENING_HOURS`, so the two can't drift.
+- [x] Opening hours aligned with Treatwell (the agency's source of truth) on 2026-10-09 (PR #36): Mo–Fr 10:00–20:00, Sa 10:00–16:00, So geschlossen. The /kontakt/ `openingHoursSpecification` is now built from `OPENING_HOURS`, so they can't drift.
+  - **Still to do:** check that the Google Business Profile shows the same hours.
 - [ ] Testimonials: the same reviewers are quoted with different wording on different pages.
   - **Daniel:** homepage and ColdPlasma page "Stammkunde seit 2008, immer wieder begeistert." vs. /ueber-mich/ "Seit 2008 bei Teresa, absolute Vertrauenssache …".
   - **Andreas:** homepage "Teresa ist charmant, warm und absolut professionell." vs. /ueber-mich/ a longer text labelled "Verifizierter Kunde".
@@ -68,8 +66,23 @@
     - The Microneedling FAQ says a light peel "einige Tage vorher" can be useful.
   - "Für jedes Alter" (Aquafacial) vs. "Mindestalter 18 Jahre" (llms-full).
   - Which car parks to recommend (Urania, Globus?). The directions now name the Hauptbahnhof and the tram stop Bahnhofstrasse/HB instead of Paradeplatz.
-- [ ] Massage: the price row "Ganzkörpermassage CHF 135–1200" ("Preisspanne laut Treatwell") — CHF 1200 looks like a data error; confirm the real range
-- [ ] Gesichtsbehandlung: pages show "45–120 Min.", but no listed Gesichtsbehandlung takes 120 minutes — confirm the duration range
+- [x] Massage: Treatwell lists the Klassische Ganzkörpermassage "ab CHF 135", 1 Std. The site row now says so; "CHF 135–1200" was a data error (PR #36).
+- [x] Gesichtsbehandlung "45–120 Min." is correct: Treatwell's "Maske Soin Initiale" takes 2 Std. The hub now lists it and "Caviar" (CHF 235, 90 Min.) next to the other classic facials (PR #36).
+- [ ] Treatwell comparison, 2026-10-09: every price and duration on the site matches Treatwell. Open points:
+  - **Exosome Therapie:** it has its own page and a booking button, but Treatwell has no such service, so the button lands on the general Treatwell page. Add the service on Treatwell, or change the page's CTA to the contact form or WhatsApp.
+  - **Not shown on the site:**
+    - Treatwell "BDR Stimulationsbehandlung intensiv" (CHF 210, 90 Min.);
+    - "Carbon Laser Peeling + Maske" (CHF 200, 60 Min.);
+    - "Augenbrauen & Wimpern färben" (CHF 65 / CHF 55 during a facial);
+    - "Brauenlifting RefectoCil" (CHF 65).
+
+    Decide whether the treatment pages should list them (they need a short description from Teresa).
+  - **Campaign price vs. booking price:** Treatwell shows sale prices "Hydra4Face Basic Intensiv CHF 144 statt 180" and "Hydra4Face + Microneedling CHF 200 statt 250". The ads promise CHF 99 (Aquafacial) and CHF 170 (combo). A visitor who books through Treatwell from the ad sees a different price. Align the Treatwell sale prices with the campaign prices, or create the campaign services (see the CHF 99 item above).
+  - **Carbon reference price:** Treatwell confirms "Carbon Laser Peeling + Microneedling" at CHF 250. The Carbon ad's "statt CHF 220" is therefore not the regular price; use CHF 250 or another price Teresa can document.
+  - **Combo reference price:** Treatwell confirms "Hydra4Face + Microneedling" at a regular CHF 250, which backs the combo ad's "statt CHF 250".
+  - **Reviews:** Treatwell now shows 4.8 from **260** reviews. "248+" on the site is still true; update it with the next ad-page change, since the ad pages pin the string in QA.
+  - **Teresa's title:** Treatwell describes her as "dipl. Visagistin & Kosmetikerin". The site states no diploma (the Wissen pass removed "diplomierte Kosmetikerin" as unsourced). If Teresa confirms it, "dipl. Kosmetikerin" could go back on /ueber-mich/.
+  - **Naming:** Treatwell calls Aquafacial "Hydra4Face". The site deliberately says "Aquafacial" (client rule: no "Hydra").
 - [ ] ColdPlasma page review: the page used to attribute "Stammkundin seit 2008 — Teresa versteht meine Haut …" to Daniel. It now uses the homepage wording "Stammkunde seit 2008, immer wieder begeistert." – Daniel. Confirm the real review text.
 - [ ] Peeling flaking: the peeling page says a fine, barely visible flaking starts about 2–5 days after the treatment. The articles and `llms-full.txt` now follow it (they had said "2–3 Tage" and "2–5 Tage Ausfallzeit"); confirm.
 - [x] Wissen articles: unverifiable, superlative and medical claims removed or softened.
