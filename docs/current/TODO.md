@@ -52,7 +52,22 @@
   - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
 - [ ] Carbon ad page: the three client quotes still carry "TODO: Teresa to supply real testimonials" in the code — confirm they are real, or replace them with verified reviews
 - [ ] Combo ad page: the QA-pinned infographic `aquafacial-microneedling-infografik-zuerich.webp` says "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself; it needs a corrected image (no "Hydro/Hydra", cautious claims)
-- [ ] Opening hours: the Carbon page said "Mo–Fr 10:00–20:00 · Sa 09:00–16:00"; the site (`shared/site.ts`) says Mo–Fr 09:00–18:00 · Sa 10:00–16:00. The Carbon page now uses the shared hours — confirm which hours are correct
+- [ ] Opening hours: the Carbon page said "Mo–Fr 10:00–20:00 · Sa 09:00–16:00"; the site (`shared/site.ts`) says Mo–Fr 09:00–18:00 · Sa 10:00–16:00. The Carbon page now uses the shared hours — confirm which hours are correct.
+  - **New evidence (2026-10-07):** the Treatwell venue page shows Mo–Fr 10:00–20:00, Sa 10:00–16:00, So geschlossen. The old beautyfacelift.ch shows Mo–Fr 10:00–20:00, Sa 9:00–16:00. The site and its `openingHoursSpecification` (sent to Google) say Mo–Fr 09:00–18:00.
+  - **Is Sunday closed?** The site says "Nach Vereinbarung geschlossen".
+  - **When answered:** build the kontakt JSON-LD from `OPENING_HOURS`, so the two can't drift.
+- [ ] Testimonials: the same reviewers are quoted with different wording on different pages.
+  - **Daniel:** homepage and ColdPlasma page "Stammkunde seit 2008, immer wieder begeistert." vs. /ueber-mich/ "Seit 2008 bei Teresa, absolute Vertrauenssache …".
+  - **Andreas:** homepage "Teresa ist charmant, warm und absolut professionell." vs. /ueber-mich/ a longer text labelled "Verifizierter Kunde".
+  - **Next step:** find the verbatim texts on Treatwell/Google (agency task), then keep one `REVIEWS` source used by all pages. Ask Teresa only about quotes that can't be found, together with the permission to quote them.
+- [ ] Facts to confirm with Teresa (2026-10-09 audit):
+  - Is "LED-Lichttherapie" offered? The Aquafacial page mentions it as an option, but no price row or Treatwell service lists it.
+  - The Aquafacial page says only pregnancy-friendly active ingredients are used: confirm, or replace with "please discuss with your gynaecologist first".
+  - The interval between Microneedling and Fruchtsäure Peeling:
+    - `/behandlungen/vergleich/` says "mindestens 2–4 Wochen Abstand".
+    - The Microneedling FAQ says a light peel "einige Tage vorher" can be useful.
+  - "Für jedes Alter" (Aquafacial) vs. "Mindestalter 18 Jahre" (llms-full).
+  - Which car parks to recommend (Urania, Globus?). The directions now name the Hauptbahnhof and the tram stop Bahnhofstrasse/HB instead of Paradeplatz.
 - [ ] Massage: the price row "Ganzkörpermassage CHF 135–1200" ("Preisspanne laut Treatwell") — CHF 1200 looks like a data error; confirm the real range
 - [ ] Gesichtsbehandlung: pages show "45–120 Min.", but no listed Gesichtsbehandlung takes 120 minutes — confirm the duration range
 - [ ] ColdPlasma page review: the page used to attribute "Stammkundin seit 2008 — Teresa versteht meine Haut …" to Daniel. It now uses the homepage wording "Stammkunde seit 2008, immer wieder begeistert." – Daniel. Confirm the real review text.
