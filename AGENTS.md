@@ -41,7 +41,7 @@ without a reviewed pull request.
 
 ### Save as you go
 
-- Commit and push after every completed step. Never end a session or a turn with uncommitted or unpushed work on a task branch. Use a `WIP:` prefix when a step is unfinished. Claude Code backs this up with two hooks in `.claude/settings.json`: a checkpoint reminder after edits once work has been unsaved for more than ten minutes, and a Stop hook that refuses to end a turn with unsaved work. Neither hook runs when a turn is interrupted or fails, so the habit is the protection and the hooks only catch forgetting.
+- Commit and push after every completed step. Never end a session or a turn with uncommitted or unpushed work on a task branch. Use a `WIP:` prefix when a step is unfinished. Claude Code backs this up with two hooks in `.claude/settings.json`: a checkpoint reminder after edits once work has been unsaved for more than ten minutes, and a Stop hook that refuses to end a turn with unsaved work. The hooks compare against a snapshot taken when the session starts and only flag work made in that session; pre-existing changes by somebody else are left alone and must never be committed by a session that did not make them. Neither hook runs when a turn is interrupted or fails, so the habit is the protection and the hooks only catch forgetting.
 - Open a draft pull request as soon as the first commit exists. Fill in the template from `.github/pull_request_template.md`: What this changes / Done / Left to do / How to test / Screenshots.
 - Update the pull request checklist with every push. The pull request is the handover note. Do not create separate handover files in the repository.
 - The pull request does not contain the conversation. Put decisions, open questions and anything agreed with the user that is not visible in the code into the Handover section of the pull request.
@@ -49,7 +49,7 @@ without a reviewed pull request.
 
 ### The pull request number is the handle
 
-- **"Continue PR N"**: find the head branch of pull request N, fetch and check it out, read the checklist and the latest commits, finish the open items one at a time, commit and push to the same branch after each item, keep the checklist current. In Claude Code: `/continue-pr N`.
+- **"Continue PR N"**: find the head branch of pull request N, fetch it and check it out at the latest remote commit (`git pull --ff-only` on an existing local branch; if it has diverged, stop and ask), read the checklist and the latest commits, finish the open items one at a time, commit and push to the same branch after each item, keep the checklist current. In Claude Code: `/continue-pr N`.
 - **"Review PR N"**: read-only. Fetch the branch, read the diff against `master` and the pull request description, run the build and the relevant checks, and report in plain language for a non-developer: a verdict (safe to merge / fix first / do not merge) and findings ordered by severity, each with where and why. Look especially for a broken build, wrong business facts (prices, hours, treatments, claims), SEO regressions, changes to forms, the worker or security headers, and edits to shared files. Change nothing. In Claude Code: `/review-pr N`.
 - **"Fix PR N"**: only after an explicit instruction. Push fixes to the same branch so the existing pull request updates. Never open a second pull request for the same change.
 
