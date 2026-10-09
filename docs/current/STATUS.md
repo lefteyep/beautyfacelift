@@ -44,7 +44,9 @@ Production Worker launch details:
 | Technical SEO: one URL per page (301 for /path and /index.html), one business schema for all pages, robots.txt groups, hub H2s, FAQ combination answers, llms | PR #37, merge `6425f73` | Live 2026-10-09 (deploy run 37991328990) |
 | Social share images cropped to 1200×630 per page, Wissen buttons in the treatment FAQs, a real 404 status for /404/ and /404.html | PR #38, merge `7c2dc42` | Live 2026-10-09 (deploy run 37994226911) |
 | `/kontakt/` Turnstile hostname (Cloudflare dashboard, no code): live domain added to the widget | — | Fixed 2026-10-09; one real test enquiry still to send |
-| Price offers in the Service schema, one Article schema builder, sitemap `lastmod` for articles, Hautpflege button on the Gesichtsbehandlung hub | PR #39 | Pending approval |
+| Price offers in the Service schema, one Article schema builder, sitemap `lastmod` for articles, Hautpflege button on the Gesichtsbehandlung hub | PR #39, merge `b874fcb` | Live 2026-10-10 (deploy run 37996520012) |
+| Google Search Console (domain verified by DNS, sitemap submitted) and contact-form test enquiry (accounts, no code) | — | Done 2026-10-10 |
+| Google Tag Manager `GTM-NVC9QKGS` + GA4 `G-4C9M8KMFQY`, Consent Mode v2, consent-gated (see [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md)) | PR #40 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.

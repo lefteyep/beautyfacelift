@@ -14,6 +14,7 @@ Use this page to choose the right document quickly.
 | Local setup and production config | [current/SETUP.md](current/SETUP.md) |
 | Architecture and request flow | [current/ARCHITECTURE.md](current/ARCHITECTURE.md) |
 | Tracking and paid ads setup | [current/PPC-TRACKING.md](current/PPC-TRACKING.md) |
+| Google Tag Manager and GA4 (IDs, container as code, consent) | [current/tracking/GOOGLE-ANALYTICS-GTM.md](current/tracking/GOOGLE-ANALYTICS-GTM.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
 | Domain launch record | [current/DOMAIN-LAUNCH.md](current/DOMAIN-LAUNCH.md) |

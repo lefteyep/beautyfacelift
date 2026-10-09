@@ -5,7 +5,8 @@
 ## Priority 0: Release the October work (agency)
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
   - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").
-  - [ ] **Still to do:** send one real test enquiry. The Worker has a `TURNSTILE_SECRET_KEY` secret, but only a real submission proves it belongs to this widget.
+  - [x] **Test enquiry, 2026-10-10:** the form showed "Erfolg!", the Worker accepted the enquiry, and the email arrived with the chosen treatment.
+- [ ] **Where enquiries land:** every form email goes to `mediapaulo@gmail.com` (the agency), sent from Resend's shared test sender `onboarding@resend.dev`. Decide whether Teresa should get them directly. Then verify `beautyfacelift-zuerich.ch` in Resend (its DNS records `send.` and `resend._domainkey` already exist in Cloudflare) and set `CONTACT_FROM_EMAIL` to an address on that domain and `CONTACT_TO_EMAIL` to the chosen inbox.
 - [x] Combo ad form `/lp/aquafacial-microneedling/` fixed on 2026-10-07. Since 2026-05-26 every submission had been rejected for two reasons:
   - its hidden topic was not an allowed contact topic;
   - the Worker required Turnstile, but the page has no widget.
@@ -31,10 +32,10 @@
 - [x] ~~Swiss Quiet Luxury redesign~~ — rejected by the client on 2026-10-06 and replaced by "Atelier Glow" (`codex/modern-redesign`)
 - [x] Release Atelier Glow as one release — live since 2026-10-07 (PR #25; deploy fixed by PR #26)
 - [x] After deploy: Lighthouse mobile on `/` (98/100/100/100) and `/lp/aquafacial/` (98/100/100, noindex)
-- [ ] Meta Test Events check for Lead + CAPI dedupe on the live LPs
+- [x] Meta check, 2026-10-10 (Events Manager, Pixel `1147246982373946`): 30 Leads in the last 28 days (latest 12 hours before), every event from browser and server, no active diagnostics errors, match quality 6.1/10. Meta suggests sending `fbc` with PageView.
 - [x] Aquafacial LP conversion and copy pass — live since 2026-10-07 (PR #27)
 - [x] Same pass for the combo, Carbon, Microneedling and Peeling ad pages — live since 2026-10-07 (PR #28)
-- [ ] Next real `/kontakt/` enquiry: confirm the email to the studio now shows the chosen treatment (fix live since PR #28)
+- [x] `/kontakt/` email shows the chosen treatment (test enquiry 2026-10-10)
 - [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
 - [x] Contact form: the Worker dropped the chosen treatment (`treatment_interest`) since 2026-06-24; fixed and live on 2026-10-07 (PR #28). `scripts/check-contact-concierge.mjs` now checks the current Worker and runs as `npm run qa:contact`
 - [x] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders — done 2026-10-07 (13 worktrees; uncommitted state kept in local `backup/2026-10-07/*` branches; record in `../_archives/2026-10-07-cleanup/README.md`)
@@ -168,8 +169,8 @@
 - [x] Add blog CSS and infrastructure
 
 ## Priority 1: Go Live (blocking everything else)
-- [ ] Verify domain in Google Search Console + submit sitemap
-- [ ] Claim/verify Google Business Profile (Bahnhofstrasse 94, 8001 Zürich)
+- [x] Google Search Console, 2026-10-10: domain property `beautyfacelift-zuerich.ch` verified by DNS TXT record in Cloudflare (Google login `mediapaulo@gmail.com`), `sitemap.xml` submitted. Google had not fetched it yet on the day of submission; check the status again.
+- [ ] Google Business Profile: the profile "Beauty Face Lift" (4,2 from 46 Google reviews) exists, but another Google account manages it, most likely Teresa's. Its website link still points to the old `beautyfacelift.ch`. Teresa should add `mediapaulo@gmail.com` as a manager, or change the website to `https://beautyfacelift-zuerich.ch/` herself.
 - [ ] Rotate the Supabase `service_role` key if any previous chat, local file, or deployment log exposed it.
 - [ ] Replace weak/test admin credentials before exposing production customer data.
 - [ ] Verify `/api/services` on production returns 200 or intentionally document why it may return 500 while Treatwell is active.
@@ -177,10 +178,9 @@
 - [ ] Get real treatment prices from Teresa and update pages + Supabase
 
 ## Priority 2: Tracking & Analytics (before running ads)
-- [ ] Create GTM container + set PUBLIC_GTM_ID in Cloudflare
-- [ ] Create GA4 property + set GA4_MEASUREMENT_ID and GA4_API_SECRET
-- [ ] Create Meta Pixel + set PUBLIC_META_PIXEL_ID, META_PIXEL_ID, and META_ACCESS_TOKEN
-- [ ] Verify conversion tracking (GA4 DebugView + Meta Test Events)
+- [x] GTM container `GTM-NVC9QKGS` and GA4 property `G-4C9M8KMFQY`, created 2026-10-10. The GitHub variable `PUBLIC_GTM_ID` is set. Setup and open items are in [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md). Server-side GA4 (`GA4_API_SECRET`) stays off on purpose.
+- [x] Meta Pixel and CAPI live (see the Meta check above)
+- [ ] Verify GA4 after the GTM release (Realtime/DebugView), switch on Google signals, and mark the key events
 - [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools
 

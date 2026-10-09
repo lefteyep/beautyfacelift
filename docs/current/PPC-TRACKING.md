@@ -2,6 +2,8 @@
 
 ## Implemented Site Events
 
+Google Tag Manager (`GTM-NVC9QKGS`) forwards these dataLayer events to GA4 (`G-4C9M8KMFQY`) since 2026-10-10. The setup is in [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md).
+
 The site now uses `/termin/` as the owned booking-forward page before sending users to:
 
 ```text
