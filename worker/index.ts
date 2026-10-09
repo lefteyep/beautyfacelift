@@ -42,6 +42,8 @@ router.post('/api/bookings', (req: Request, env: Env) => bookingsRoute(req, env)
 router.post('/api/track', (req: Request, env: Env) => trackRoute(req, env));
 router.post('/api/contact', (req: Request, env: Env) => contactRoute(req, env));
 
+const ERROR_PAGE_PATHS = new Set(['/404/', '/404.html']);
+
 const REDIRECT_TO_CANONICAL_HOSTS = new Set([
   WWW_HOST,
   TEMP_WORKERS_DEV_HOST,
@@ -211,6 +213,10 @@ export default {
     }
 
     const response = await fetchStaticAsset(request, env);
+    // The error page's own URLs must not answer 200 (soft 404).
+    if (ERROR_PAGE_PATHS.has(url.pathname) && response.status === 200) {
+      return withSecurityHeaders(new Response(response.body, { status: 404, headers: response.headers }), request);
+    }
     return withSecurityHeaders(response, request);
   },
 };

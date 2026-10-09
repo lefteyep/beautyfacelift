@@ -89,6 +89,22 @@ export const JOURNAL_POSTS: JournalPost[] = [
     },
 ];
 
+// The Wissen article a page's FAQ block links to (page → article). The way back is each
+// post's own `treatment` field above.
+const WISSEN_FOR_PAGE: Record<string, { slug: string; label: string }> = {
+    '/behandlungen/aquafacial-zuerich/': { slug: 'was-ist-aquafacial', label: 'Aquafacial erklärt' },
+    '/behandlungen/microneedling-zuerich/': { slug: 'microneedling-erfahrung', label: 'Microneedling Erfahrung' },
+    '/behandlungen/vergleich/': { slug: 'aquafacial-vs-microneedling', label: 'Aquafacial vs. Microneedling' },
+    '/behandlungen/coldplasma-zuerich/': { slug: 'anti-aging-behandlungen-zuerich', label: 'Anti-Aging Behandlungen' },
+    '/behandlungen/fruchtsaeure-peeling-zuerich/': { slug: 'anti-aging-behandlungen-zuerich', label: 'Anti-Aging Behandlungen' },
+};
+
+export function wissenLinkFor(pathname: string): { href: string; label: string } | undefined {
+    // Keys end in "/"; the dev server can also be asked for the path without it.
+    const entry = WISSEN_FOR_PAGE[pathname.endsWith('/') ? pathname : `${pathname}/`];
+    return entry && { href: getJournalPost(entry.slug).href, label: entry.label };
+}
+
 export function getJournalPost(slug: string): JournalPost {
     const post = JOURNAL_POSTS.find((item) => item.slug === slug);
     if (!post) throw new Error(`Unknown Wissen post: ${slug}`);

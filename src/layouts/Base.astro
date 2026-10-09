@@ -7,6 +7,8 @@ import '../styles/main.css';
 import '../styles/components.css';
 import '../styles/booking.css';
 import { absoluteUrl, SITE_NAME } from '../../shared/site';
+import { getImage } from 'astro:assets';
+import ogFallback from '../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 
 interface Props {
   title: string;
@@ -19,7 +21,10 @@ interface Props {
     type?: string;
     fetchpriority?: 'high' | 'low' | 'auto';
   };
-  ogImage?: string;
+  /** A photo (cropped to a 1200×630 JPG at build time) or a ready-made URL. */
+  ogImage?: string | ImageMetadata;
+  /** Crop focus for ogImage, as CSS object-position (e.g. 'top' for portraits). */
+  ogImagePosition?: string;
   navVariant?: 'default' | 'treatment';
   structuredData?: object;
   noindex?: boolean;
@@ -34,6 +39,7 @@ const {
   canonical,
   preloadImage,
   ogImage,
+  ogImagePosition = 'center',
   navVariant = 'default',
   structuredData,
   noindex = false,
@@ -42,7 +48,21 @@ const {
   bodyClass,
 } = Astro.props;
 const canonicalUrl = canonical || absoluteUrl(Astro.url.pathname);
-const ogImageUrl = ogImage || absoluteUrl('/assets/hero_editorial_portrait.png');
+// Social previews are 1.91:1. Crop a real 1200×630 JPG from the page's own photo instead of
+// declaring a portrait PNG as 1200×630 (Facebook/WhatsApp cropped Teresa's face off).
+const ogSource = ogImage ?? ogFallback;
+let ogImageUrl: string;
+let ogImageSize: { width: number; height: number } | null = null;
+if (typeof ogSource === 'string') {
+  ogImageUrl = absoluteUrl(ogSource);
+} else {
+  // Never upscale: a narrower source keeps the 1.91:1 ratio at its own width.
+  const width = Math.min(1200, ogSource.width);
+  const height = Math.round((width * 630) / 1200);
+  const og = await getImage({ src: ogSource, width, height, fit: 'cover', position: ogImagePosition, format: 'jpg', quality: 80 });
+  ogImageUrl = absoluteUrl(og.src);
+  ogImageSize = { width, height };
+}
 const isTreatment = navVariant === 'treatment';
 const preloadImageLink = typeof preloadImage === 'string' ? { href: preloadImage } : preloadImage;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
@@ -99,8 +119,8 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <meta property="og:type" content={articleDate ? "article" : "website"}>
     <meta property="og:locale" content="de_CH">
     <meta property="og:image" content={ogImageUrl}>
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    {ogImageSize && <meta property="og:image:width" content={String(ogImageSize.width)}>}
+    {ogImageSize && <meta property="og:image:height" content={String(ogImageSize.height)}>}
     <meta property="og:site_name" content={SITE_NAME}>
     {articleDate && <meta property="article:published_time" content={articleDate}>}
     {articleModified && <meta property="article:modified_time" content={articleModified}>}

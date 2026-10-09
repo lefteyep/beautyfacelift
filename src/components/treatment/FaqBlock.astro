@@ -6,6 +6,7 @@
  * rows and keep their text in sync with the page's own JSON-LD.
  * Slot "title" = h2 content.
  */
+import { wissenLinkFor } from '../../pages/blog/_posts';
 interface FaqItem {
   question: string;
   answer: string;
@@ -18,6 +19,18 @@ interface Props {
 }
 
 const { allLink = true, items } = Astro.props;
+// The matching Wissen article for this page, if there is one (see _posts.ts).
+const wissen = wissenLinkFor(Astro.url.pathname);
+// data-button-location marks the position, as on the other section-head buttons. It is named after the
+// component because FaqBlock renders on several page types ("faq_" alone is the FAQ page's
+// own prefix). The click tracker does not send internal links today (src/lib/track.ts).
+const links = [
+  allLink && { href: '/haeufige-fragen/', label: 'Alle Fragen', location: 'faq_block_all' },
+  wissen && { href: wissen.href, label: wissen.label, location: 'faq_block_article' },
+].filter((link): link is { href: string; label: string; location: string } => Boolean(link));
+// One button sits bare in the head, like every other section head; two share a .btn-row.
+const LinkRow = links.length > 1 ? 'div' : Fragment;
+const linkRowProps = links.length > 1 ? { class: 'btn-row' } : {};
 
 const faqData = items && {
   "@context": "https://schema.org",
@@ -36,7 +49,9 @@ const faqData = items && {
 <div class="faq-block">
   <div class="faq-block-head">
     <h2><slot name="title" /></h2>
-    {allLink && <a href="/haeufige-fragen/" class="btn btn-secondary">Alle Fragen</a>}
+    <LinkRow {...linkRowProps}>
+      {links.map((link) => <a href={link.href} class="btn btn-secondary btn-arrow" data-button-location={link.location}>{link.label}</a>)}
+    </LinkRow>
   </div>
   <div class="faq-list">
     {items ? items.map((item) => (

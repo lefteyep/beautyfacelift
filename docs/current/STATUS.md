@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** October 7, 2026
+**Last updated:** October 9, 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -41,7 +41,8 @@ Production Worker launch details:
 | `/kontakt/` click-to-load map, SEO snippet trims, lead delivery hardening | PR #33 + #34, merge `356824b` | Live 2026-10-09 (deploy run 37980686988); `/kontakt/` mobile Lighthouse performance 79 → 95 |
 | Copy fixes from the site audit (directions, aftercare facts, claims, naming, llms-full) | PR #35, merge `09d918f` | Live 2026-10-09 (deploy run 37982303967) |
 | Treatwell alignment: opening hours, massage price, Caviar + Maske Soin Initiale, Aquafacial + Microneedling row | PR #36, merge `e193b15` | Live 2026-10-09 (deploy run 37990053747) |
-| Technical SEO: one URL per page (301 for /path and /index.html), one business schema for all pages, robots.txt groups, hub H2s, FAQ combination answers, llms | PR #37 | Pending approval |
+| Technical SEO: one URL per page (301 for /path and /index.html), one business schema for all pages, robots.txt groups, hub H2s, FAQ combination answers, llms | PR #37, merge `6425f73` | Live 2026-10-09 (deploy run 37991328990) |
+| Social share images cropped to 1200×630 per page, Wissen buttons in the treatment FAQs, a real 404 status for /404/ and /404.html | PR #38 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
