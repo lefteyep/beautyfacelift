@@ -5,7 +5,7 @@ import HeadIcons from '../components/HeadIcons.astro';
 import MarketingConsent from '../components/MarketingConsent.astro';
 import '../styles/main.css';
 import '../styles/components.css';
-import '../styles/booking.css';
+import FontPreloads from '../components/FontPreloads.astro';
 import { absoluteUrl, SITE_NAME } from '../../shared/site';
 import { cropImage, OG_RATIO } from '../lib/og-image';
 import ogFallback from '../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
@@ -75,10 +75,10 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <FontPreloads />
     <meta name="facebook-domain-verification" content="61xaasiyh074x1sn3szqej2sf3mzet">
 
-    <!-- Critical layout CSS — inlined so the fixed nav and page ground are
-         correct before the bundled stylesheets arrive. -->
+    {/* Critical layout for the fixed nav and page ground; Astro merges it into the page's inline <style>. */}
     <style>
         :root { --nav-h: 104px; --gutter: clamp(16px, 4vw, 40px); }
         html, body { background: #FBF7F2; }

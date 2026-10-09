@@ -159,7 +159,6 @@
 }
 
 .nav-dropdown:hover .nav-disclosure::before,
-.nav-dropdown:focus-within .nav-disclosure::before,
 .nav-dropdown.is-open .nav-disclosure::before { transform: translateY(1px) rotate(225deg); }
 
 .nav-submenu {
@@ -180,14 +179,22 @@
   z-index: 110;
 }
 
+/* Opened by hover, or by the disclosure button / ArrowDown on "Behandlungen" (.is-open).
+   Not by :focus-within: tabbing past "Behandlungen" must not walk through the hidden menu
+   links. Escape sets .is-dismissed, which also closes a hover-opened menu until the pointer leaves. */
 .nav-dropdown:hover .nav-submenu,
-.nav-dropdown:focus-within .nav-submenu,
 .nav-dropdown.is-open .nav-submenu {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translate(-50%, 0);
   transition-delay: 0s;
+}
+
+.nav-dropdown.is-dismissed:not(.is-open) .nav-submenu {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .nav-menu-grid {
