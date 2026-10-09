@@ -14,6 +14,7 @@ import Breadcrumbs from './Breadcrumbs.astro';
 import BookingCta from './BookingCta.astro';
 import PriceMenu from './treatment/PriceMenu.astro';
 import LinkList from './treatment/LinkList.astro';
+import { beautySalonRef } from '../lib/schema';
 
 interface PriceItem {
   label: string;
@@ -85,19 +86,7 @@ const structuredData = {
   category: 'Kosmetische Behandlung',
   url: absoluteUrl(currentPath),
   areaServed: 'Zürich',
-  provider: {
-    '@type': 'BeautySalon',
-    name: 'Beauty Face Lift Zürich',
-    url: absoluteUrl('/'),
-    telephone: '+41792143462',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Bahnhofstrasse 94',
-      addressLocality: 'Zürich',
-      postalCode: '8001',
-      addressCountry: 'CH',
-    },
-  },
+  provider: beautySalonRef(),
   description,
 };
 
@@ -167,7 +156,7 @@ const relatedLinks = related.map((link) => ({ href: link.href, title: link.title
   <section class="section section--shell" aria-label="Preise und Dauer">
     <div class="container">
       <PriceMenu items={prices} note={priceNote}>
-        <Fragment slot="title">Preise &amp; Dauer</Fragment>
+        <Fragment slot="title">{name} Preise</Fragment>
       </PriceMenu>
     </div>
   </section>

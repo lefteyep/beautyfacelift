@@ -84,7 +84,7 @@ assertNotIncludes(robots, 'workers.dev', 'robots.txt');
 
 assert(!existsSync(join(root, 'public/sitemap-public-draft.xml')), 'stale public/sitemap-public-draft.xml must be removed');
 
-for (const path of ['README.md', 'docs/SETUP.md', 'docs/SITEMAP.md', 'docs/domain-launch-beautyfacelift-zuerich.md']) {
+for (const path of ['README.md', 'docs/current/SETUP.md', 'docs/current/SITEMAP.md', 'docs/current/DOMAIN-LAUNCH.md']) {
   assert(existsSync(join(root, path)), `${path} must exist`);
   if (!existsSync(join(root, path))) continue;
   const text = read(path);
@@ -101,9 +101,9 @@ const sourceFiles = [
   '.env.example',
   '.dev.vars.example',
   'README.md',
-  'docs/SETUP.md',
-  'docs/SITEMAP.md',
-  'docs/domain-launch-beautyfacelift-zuerich.md',
+  'docs/current/SETUP.md',
+  'docs/current/SITEMAP.md',
+  'docs/current/DOMAIN-LAUNCH.md',
 ].flatMap((path) => collectFiles(path));
 
 for (const file of sourceFiles) {

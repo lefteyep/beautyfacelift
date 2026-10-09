@@ -1,4 +1,4 @@
-# Beauty Face Lift — Premium Kosmetikinstitut Zürich
+# Beauty Face Lift — Kosmetikstudio Zürich
 # https://beautyfacelift-zuerich.ch
 
 User-agent: *
@@ -6,42 +6,22 @@ Allow: /
 Disallow: /admin/
 Disallow: /buchung-bestaetigt/
 
-# AI crawlers — public content may be crawled. This is not a ranking or citation guarantee.
+# Search engines and AI crawlers: public content may be crawled (no ranking or citation guarantee).
+# A crawler follows only its most specific group (RFC 9309), so the named group repeats the Disallow lines.
+User-agent: Googlebot
+User-agent: Bingbot
 User-agent: GPTBot
-Allow: /
-
 User-agent: ChatGPT-User
-Allow: /
-
 User-agent: ClaudeBot
-Allow: /
-
 User-agent: PerplexityBot
-Allow: /
-
 User-agent: Google-Extended
-Allow: /
-
 User-agent: Amazonbot
-Allow: /
-
 User-agent: Applebot-Extended
-Allow: /
-
 User-agent: Meta-ExternalAgent
-Allow: /
-
 User-agent: Bytespider
-Allow: /
-
 User-agent: cohere-ai
 Allow: /
-
-# Search Engine Crawlers
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
+Disallow: /admin/
+Disallow: /buchung-bestaetigt/
 
 Sitemap: https://beautyfacelift-zuerich.ch/sitemap.xml

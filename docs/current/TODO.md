@@ -40,6 +40,21 @@
 - [x] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders — done 2026-10-07 (13 worktrees; uncommitted state kept in local `backup/2026-10-07/*` branches; record in `../_archives/2026-10-07-cleanup/README.md`)
 - [ ] Decide on the local `backup/2026-10-07/agent-git-hygiene` branch: unfinished agent-worktree tooling (`scripts/agent-worktree.mjs`, pre-push hook, `build.yml`) from June — finish it in a PR or drop it
 
+- [x] Technical SEO from the site audit (PR #37, 2026-10-09):
+  - **Duplicate URLs:** `/path` and `/path/index.html` now 301 to `/path/` (they answered 200), and www takes one hop.
+  - **Business schema:** one shared builder (`src/lib/schema.ts`) for the homepage, /kontakt/, /ueber-mich/, /termin/ and every Service provider. It carries the same @id, phone, hours, geo and sameAs everywhere.
+  - **robots.txt:** the Disallow lines now also apply to Googlebot, Bingbot and the AI bots.
+  - **Hubs:** the H2 is now "<Name> Preise".
+  - **FAQ:** the combination answers no longer contradict each other.
+  - **llms:** the booking lines are fixed and the Wissen articles are listed.
+  - **launch:check:** it now reads the docs from `docs/current/`.
+- [ ] SEO follow-ups from the audit:
+  - **Social share images:** `og:image` is a portrait PNG declared as 1200×630; Teresa's face is cropped off in previews. This is visible, so it needs renders first.
+  - **Internal links:** treatment pages don't link to their Wissen articles. Add one button per page; also visible.
+  - **Price offers:** Service schema has no `offers`; map the visible price rows.
+  - **Article schema:** its image differs from the hero; `author.url` is missing on 4 of 5 articles.
+  - **Sitemap:** no `lastmod`.
+
 ## Priority 0: Decisions for Teresa
 - [ ] Aquafacial LP: confirm "statt CHF 180" as a provable regular price and an end date for the Kennenlernpreis (Swiss price-indication rules)
 - [ ] Treatwell: create a "Aquafacial Aktion – 60 Min. – CHF 99" service so the post-form link opens the advertised offer

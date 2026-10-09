@@ -14,6 +14,7 @@ import { treatmentHeroPreload } from '../../../components/treatment/images';
 import { coldplasmaCard, consultationTrust, teresaPortrait } from '../../../lib/site-images';
 import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { beautySalonRef } from '../../../lib/schema';
 
 const pagePath = '/behandlungen/coldplasma-zuerich/';
 const bookingHref = bookingLinkForService('ColdPlasma');
@@ -87,18 +88,7 @@ const structuredData = {
     "image": absoluteUrl('/assets/coldplasma_treatment_editorial.png'),
     "serviceType": "ColdPlasma",
     "category": "Gesichtsbehandlung",
-    "provider": {
-        "@type": "BeautySalon",
-        "name": "Beauty Face Lift Zürich",
-        "url": absoluteUrl('/'),
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Bahnhofstrasse 94",
-            "addressLocality": "Zürich",
-            "postalCode": "8001",
-            "addressCountry": "CH"
-        }
-    },
+    "provider": beautySalonRef(),
     "description": "ColdPlasma ist eine kosmetisch-ästhetische Behandlung mit ionisiertem Gas bei niedriger Temperatur. Bei Beauty Face Lift an der Bahnhofstrasse Zürich wird jede Behandlung von Inhaberin Teresa Stimac persönlich durchgeführt.",
     "areaServed": "Zürich"
 };

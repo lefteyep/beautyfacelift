@@ -47,6 +47,16 @@ const REDIRECT_TO_CANONICAL_HOSTS = new Set([
   TEMP_WORKERS_DEV_HOST,
 ]);
 
+// Pages live at "/path/". Without this, "/path" and "/path/index.html" answered 200 as duplicates.
+// API routes and files with an extension (".txt", ".png", ...) keep their path.
+function canonicalPath(pathname: string): string | null {
+  if (pathname.startsWith('/api/')) return null;
+  if (pathname.endsWith('/index.html')) return pathname.slice(0, -'index.html'.length);
+  const lastSegment = pathname.slice(pathname.lastIndexOf('/') + 1);
+  if (lastSegment && !lastSegment.includes('.')) return `${pathname}/`;
+  return null;
+}
+
 function canonicalHostRedirect(request: Request): Response | null {
   const url = new URL(request.url);
   const hostname = url.hostname.toLowerCase();
@@ -57,6 +67,8 @@ function canonicalHostRedirect(request: Request): Response | null {
     return null;
   }
 
+  // One hop: host, protocol and path are fixed together.
+  url.pathname = canonicalPath(url.pathname) ?? url.pathname;
   url.protocol = 'https:';
   url.hostname = CANONICAL_HOST;
   url.port = '';
@@ -73,6 +85,15 @@ function legacyPathRedirect(request: Request): Response | null {
   }
 
   url.pathname = '/ueber-mich/';
+  return Response.redirect(url.toString(), 301);
+}
+
+function trailingSlashRedirect(request: Request): Response | null {
+  if (request.method !== 'GET' && request.method !== 'HEAD') return null;
+  const url = new URL(request.url);
+  const path = canonicalPath(url.pathname);
+  if (!path) return null;
+  url.pathname = path;
   return Response.redirect(url.toString(), 301);
 }
 
@@ -166,7 +187,7 @@ function isDocumentPath(pathname: string): boolean {
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const redirect = canonicalHostRedirect(request) ?? legacyPathRedirect(request);
+    const redirect = canonicalHostRedirect(request) ?? legacyPathRedirect(request) ?? trailingSlashRedirect(request);
     if (redirect) return redirect;
 
     const url = new URL(request.url);
