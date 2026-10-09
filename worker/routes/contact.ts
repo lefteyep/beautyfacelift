@@ -3,6 +3,7 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
+  CONTACT_PREFERRED_METHODS,
   CONTACT_TOPICS,
   CONTACT_TO_EMAIL_FALLBACK,
   TURNSTILE_ALLOWED_HOSTS,
@@ -44,7 +45,6 @@ type ContactSubmission = {
   msclkid: string;
 };
 
-const PREFERRED_CONTACT_METHODS = ['WhatsApp', 'Telefon', 'E-Mail'] as const;
 // Ad-page forms without a Turnstile widget; they keep the honeypot and the rate limit.
 const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion', 'aquafacial_microneedling']);
 
@@ -126,8 +126,22 @@ function redirectResponse(location: string): Response {
   });
 }
 
-function htmlErrorResponse(message: string, status = 400): Response {
+// Back link for the error page: the same-origin page the form was posted from, else /kontakt/.
+function formPathFromReferer(request?: Request): string {
+  const referer = request?.headers.get('referer');
+  if (!request || !referer) return '/kontakt/';
+  try {
+    const from = new URL(referer);
+    if (from.host !== new URL(request.url).host || !from.pathname.startsWith('/')) return '/kontakt/';
+    return from.pathname;
+  } catch {
+    return '/kontakt/';
+  }
+}
+
+function htmlErrorResponse(message: string, status = 400, backPath = '/kontakt/'): Response {
   const safeMessage = escapeHtml(message);
+  const safeBackPath = escapeHtml(backPath);
   const html = `<!doctype html>
 <html lang="de">
   <head>
@@ -135,27 +149,28 @@ function htmlErrorResponse(message: string, status = 400): Response {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kontaktanfrage konnte nicht gesendet werden</title>
     <style>
-      body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #F6F1EA; color: #1C1A17; line-height: 1.6; }
+      /* Atelier Glow values (src/styles/main.css): cream, paper, text, cocoa, clay. */
+      body { margin: 0; font-family: "Instrument Sans", system-ui, sans-serif; background: #FAF6F1; color: #4A3B33; line-height: 1.6; }
       main { max-width: 720px; margin: 0 auto; padding: 56px 24px; }
-      .card { background: #FBF8F3; border: 1px solid rgba(28, 26, 23, 0.08); border-radius: 22px; padding: 32px; box-shadow: 0 4px 14px rgba(28, 26, 23, 0.06); }
-      h1 { font-family: "Cormorant Garamond", "Times New Roman", serif; font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 16px; line-height: 1.08; }
+      .card { background: #FFFCF9; border: 1px solid rgba(42, 30, 24, 0.1); border-radius: 24px; padding: 32px; }
+      h1 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; font-size: clamp(2rem, 5vw, 3rem); color: #2A1E18; margin: 0 0 16px; line-height: 1.08; }
       p { margin: 0 0 16px; max-width: 60ch; }
-      a { color: #1C1A17; }
+      a { color: #2A1E18; }
       .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-      .pill { display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; border-radius: 999px; background: #B98F47; color: #fff; text-decoration: none; font-weight: 600; }
-      .muted { color: #6E665B; font-size: 0.95rem; }
+      .pill { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; border-radius: 999px; background: #8F5A2E; color: #fff; text-decoration: none; font-weight: 600; }
+      .pill-secondary { background: transparent; color: #2A1E18; border: 1px solid rgba(42, 30, 24, 0.25); }
+      .muted { font-size: 0.9375rem; }
     </style>
   </head>
   <body>
     <main>
       <div class="card">
-        <p class="muted">Kontaktformular</p>
         <h1>Die Anfrage konnte nicht gesendet werden.</h1>
         <p>${safeMessage}</p>
         <p class="muted">Wenn Ihr Anliegen dringend ist, erreichen Sie uns direkt unter <a href="tel:${CONTACT_PHONE}">${CONTACT_PHONE_DISPLAY}</a> oder per E-Mail an <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
         <div class="actions">
-          <a class="pill" href="/kontakt/">Zurück zum Formular</a>
-          <a href="/termin/">Termin buchen</a>
+          <a class="pill" href="${safeBackPath}">Zurück zum Formular</a>
+          <a class="pill pill-secondary" href="/termin/">Termin buchen</a>
         </div>
       </div>
     </main>
@@ -198,7 +213,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         pagePath: getRecordString(payload, 'pagePath', 'page_path'),
         pageUrl: getRecordString(payload, 'pageUrl', 'page_url'),
         referrer: getRecordString(payload, 'referrer'),
-        skinConcern: getRecordString(payload, 'skinConcern', 'skin_concern'),
+        skinConcern: getRecordString(payload, 'skinConcern', 'skin_concern', 'skinGoal'),
         utmSource: getRecordString(payload, 'utmSource', 'utm_source'),
         utmMedium: getRecordString(payload, 'utmMedium', 'utm_medium'),
         utmCampaign: getRecordString(payload, 'utmCampaign', 'utm_campaign'),
@@ -235,7 +250,7 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       pagePath: getFormString(formData, 'pagePath', 'page_path'),
       pageUrl: getFormString(formData, 'pageUrl', 'page_url'),
       referrer: getFormString(formData, 'referrer'),
-      skinConcern: getFormString(formData, 'skinConcern', 'skin_concern'),
+      skinConcern: getFormString(formData, 'skinConcern', 'skin_concern', 'skinGoal'),
       utmSource: getFormString(formData, 'utmSource', 'utm_source'),
       utmMedium: getFormString(formData, 'utmMedium', 'utm_medium'),
       utmCampaign: getFormString(formData, 'utmCampaign', 'utm_campaign'),
@@ -278,7 +293,7 @@ function isAllowedTopic(topic: string): boolean {
 }
 
 function isAllowedPreferredContactMethod(method: string): boolean {
-  return PREFERRED_CONTACT_METHODS.includes(method as (typeof PREFERRED_CONTACT_METHODS)[number]);
+  return CONTACT_PREFERRED_METHODS.includes(method as (typeof CONTACT_PREFERRED_METHODS)[number]);
 }
 
 function validateSubmission(data: ContactSubmission): string | null {
@@ -381,6 +396,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     .join('');
   const messageText = data.message || 'Keine zusätzliche Nachricht.';
 
+  const timeLabel = aquafacialLead ? 'Telefonisch erreichbar' : 'Zeitwunsch';
   const text = [
     aquafacialLead ? 'Neue Aquafacial Aktion Anfrage' : `Neue Kontaktanfrage: ${data.topic}`,
     '',
@@ -388,8 +404,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
     ...(data.preferredContactMethod ? [`Bevorzugter Kontaktweg: ${data.preferredContactMethod}`] : []),
-    `Telefonisch erreichbar: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
-    `Terminwunsch: ${data.preferredDate || 'Nicht angegeben'}`,
+    `${timeLabel}: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
+    ...(data.preferredDate ? [`Terminwunsch: ${data.preferredDate}`] : []),
     `Thema: ${data.topic}`,
     ...(leadDetailText ? ['', 'Kampagnendaten:', leadDetailText] : []),
     '',
@@ -410,8 +426,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
         ${data.preferredContactMethod ? `<tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod)}</td></tr>` : ''}
-        <tr><td style="padding: 8px 0; font-weight: 600;">Telefonisch erreichbar</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
-        <tr><td style="padding: 8px 0; font-weight: 600;">Terminwunsch</td><td style="padding: 8px 0;">${escapeHtml(data.preferredDate || 'Nicht angegeben')}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: 600;">${timeLabel}</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        ${data.preferredDate ? `<tr><td style="padding: 8px 0; font-weight: 600;">Terminwunsch</td><td style="padding: 8px 0;">${escapeHtml(data.preferredDate)}</td></tr>` : ''}
         ${leadDetailRows}
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">User-Agent</td><td style="padding: 8px 0;">${escapeHtml(userAgent)}</td></tr>
@@ -444,8 +460,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   }
 }
 
-function respondError(message: string, status: number, expectsHtml: boolean): Response {
-  return expectsHtml ? htmlErrorResponse(message, status) : jsonResponse({ error: message }, status);
+function respondError(message: string, status: number, expectsHtml: boolean, request?: Request): Response {
+  return expectsHtml ? htmlErrorResponse(message, status, formPathFromReferer(request)) : jsonResponse({ error: message }, status);
 }
 
 export async function contactRoute(request: Request, env: Env): Promise<Response> {
@@ -454,38 +470,45 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
   try {
     parsed = await parseSubmission(request);
   } catch {
-    return respondError('Die Anfrage konnte nicht gelesen werden.', 400, true);
+    const sentJson = (request.headers.get('content-type') || '').includes('application/json');
+    return respondError('Die Anfrage konnte nicht gelesen werden.', 400, !sentJson, request);
   }
 
   const { data, expectsHtml } = parsed;
 
   if (data.company) {
-    return respondError('Ungültige Anfrage.', 400, expectsHtml);
+    return respondError('Ungültige Anfrage.', 400, expectsHtml, request);
   }
 
   const validationError = validateSubmission(data);
   if (validationError) {
-    return respondError(validationError, 400, expectsHtml);
+    return respondError(validationError, 400, expectsHtml, request);
   }
 
   const ip = getClientIp(request);
   if (!checkRateLimit(ip)) {
-    return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml);
+    return respondError('Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.', 429, expectsHtml, request);
   }
 
   const turnstileRequired = shouldRequireTurnstile(request, env, data);
   if (turnstileRequired && !env.TURNSTILE_SECRET_KEY) {
-    return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml);
+    return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml, request);
   }
 
   if (turnstileRequired) {
     if (!data.turnstileToken) {
-      return respondError('Bitte bestätigen Sie die Sicherheitsprüfung.', 400, expectsHtml);
+      return respondError('Bitte bestätigen Sie die Sicherheitsprüfung.', 400, expectsHtml, request);
     }
 
-    const isHuman = await verifyTurnstile(data.turnstileToken, ip, env.TURNSTILE_SECRET_KEY || '');
+    let isHuman = false;
+    try {
+      isHuman = await verifyTurnstile(data.turnstileToken, ip, env.TURNSTILE_SECRET_KEY || '');
+    } catch (error) {
+      console.error('Turnstile verification failed:', error instanceof Error ? error.message : 'unknown error');
+      return respondError('Die Sicherheitsprüfung ist derzeit nicht verfügbar. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 503, expectsHtml, request);
+    }
     if (!isHuman) {
-      return respondError('Die Sicherheitsprüfung konnte nicht bestätigt werden. Bitte versuchen Sie es erneut.', 400, expectsHtml);
+      return respondError('Die Sicherheitsprüfung konnte nicht bestätigt werden. Bitte versuchen Sie es erneut.', 400, expectsHtml, request);
     }
   }
 
@@ -498,6 +521,7 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
       'Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.',
       isConfigError ? 503 : 502,
       expectsHtml,
+      request,
     );
   }
 

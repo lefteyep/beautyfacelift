@@ -82,6 +82,8 @@ const pageRequirements = [
   'contact_booking_click',
   'contact_route_click',
   'contact_address_copy',
+  'contact_map_load',
+  'data-map-embed',
   'faq_open',
   '"@type": "BeautySalon"',
   'openingHoursSpecification',
@@ -136,6 +138,11 @@ for (const field of ['name', 'email', 'phone', 'topic', 'message', 'treatment_in
 for (const requirement of workerRequirements) {
   assertIncludes(worker, requirement, 'contact worker');
 }
+
+// The contact methods the form offers must be the ones the Worker accepts: one list, in shared/site.ts.
+// (Until 2026-10-09 the Worker kept its own list without "Egal, was am schnellsten ist" and rejected it.)
+assertIncludes(worker, 'CONTACT_PREFERRED_METHODS.includes(', 'contact worker (contact methods from shared/site.ts)');
+assertNotIncludes(worker, 'const PREFERRED_CONTACT_METHODS', 'contact worker (no separate contact-method list)');
 
 // Every ad form that posts to /api/contact must be accepted by the Worker on the live host:
 // its hidden topic must be an allowed contact topic, and without a Turnstile widget on the page

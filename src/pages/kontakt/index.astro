@@ -186,7 +186,7 @@ const structuredData = {
 
 <Base
     title="Kontakt & Beratung | Beauty Face Lift Zürich"
-    description="Kontaktieren Sie Beauty Face Lift in Zürich für persönliche Hautberatung, Terminwünsche und Behandlungsfragen. Teresa Stimac berät Sie direkt an der Bahnhofstrasse 94."
+    description="Hautberatung, Terminwünsche und Fragen zu Behandlungen: Teresa Stimac berät Sie persönlich an der Bahnhofstrasse 94 in Zürich."
     preloadImage={{
         href: heroImage.src,
         imagesrcset: heroImage.srcSet.attribute,
@@ -334,7 +334,7 @@ const structuredData = {
                         <div class="kontakt-field-grid">
                             <div class="kontakt-field">
                                 <label for="contact-name">Ihr Name <span aria-hidden="true">*</span></label>
-                                <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Vor- und Nachname" required aria-describedby="contact-name-error" />
+                                <input id="contact-name" name="name" type="text" maxlength="120" autocomplete="name" placeholder="Vor- und Nachname" required aria-describedby="contact-name-error" />
                                 <p id="contact-name-error" class="kontakt-field-error" data-field-error="name" hidden></p>
                             </div>
 
@@ -389,19 +389,19 @@ const structuredData = {
 
                             <div class="kontakt-field kontakt-field--full">
                                 <label for="contact-preferred-time">Wunschtermin oder bevorzugte Zeit</label>
-                                <input id="contact-preferred-time" name="preferred_time" type="text" placeholder="z. B. Dienstagabend, Freitagvormittag oder nächstmöglich" />
+                                <input id="contact-preferred-time" name="preferred_time" type="text" maxlength="160" placeholder="z. B. Dienstagabend, Freitagvormittag oder nächstmöglich" />
                             </div>
 
                             <div class="kontakt-field kontakt-field--full">
                                 <label for="contact-message">Ihre Nachricht <span aria-hidden="true">*</span></label>
-                                <textarea id="contact-message" name="message" required placeholder="Beschreiben Sie kurz Ihr Anliegen, Ihr Hautziel oder Ihren gewünschten Termin." aria-describedby="contact-message-error"></textarea>
+                                <textarea id="contact-message" name="message" maxlength="4000" required placeholder="Beschreiben Sie kurz Ihr Anliegen, Ihr Hautziel oder Ihren gewünschten Termin." aria-describedby="contact-message-error"></textarea>
                                 <p id="contact-message-error" class="kontakt-field-error" data-field-error="message" hidden></p>
                             </div>
                         </div>
 
                         <p id="contact-method-error" class="kontakt-field-error kontakt-field-error--wide" data-field-error="contact" hidden></p>
 
-                        <div class="kontakt-honeypot" aria-hidden="true">
+                        <div class="kontakt-honeypot" aria-hidden="true" inert>
                             <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" />
                         </div>
 
@@ -472,15 +472,16 @@ const structuredData = {
                 </div>
             </div>
 
-            <div class="kontakt-map">
+            <!-- Click-to-load: Google Maps (≈500 KB of scripts, data to Google) loads only on request. -->
+            <div class="kontakt-map" data-map-embed={mapEmbedUrl}>
                 <h3 class="sr-only">Anfahrt auf der Karte</h3>
-                <iframe
-                    title="Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich"
-                    src={mapEmbedUrl}
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    allowfullscreen
-                ></iframe>
+                <div class="kontakt-map-placeholder" data-map-placeholder>
+                    <span class="kontakt-option-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" /><circle cx="12" cy="10" r="2.4" /></svg>
+                    </span>
+                    <button type="button" class="btn btn-secondary" data-map-load data-contact-event="contact_map_load" data-cta-location="location_section" data-cta-label="Karte laden">Karte laden</button>
+                    <p class="kontakt-map-note">Beim Laden der Karte werden Daten an Google übertragen.</p>
+                </div>
             </div>
         </section>
 
@@ -765,6 +766,14 @@ const structuredData = {
                         }
                     }).catch(function(error) {
                         showStatus(error.message || 'Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns direkt an oder schreiben Sie uns per E-Mail.', 'error');
+                        if (statusBox) {
+                            statusBox.tabIndex = -1;
+                            statusBox.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+                            statusBox.focus({ preventScroll: true });
+                        }
+                        if (window.turnstile) {
+                            try { window.turnstile.reset(); } catch (resetError) {}
+                        }
                         pushContactEvent('contact_form_submit_error', {
                             cta_location: 'form',
                             error_type: 'server',
@@ -844,6 +853,21 @@ const structuredData = {
                         cta_location: 'faq',
                         cta_label: details.querySelector('summary')?.textContent.trim() || ''
                     });
+                });
+            });
+
+            document.querySelectorAll('[data-map-load]').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var panel = button.closest('[data-map-embed]');
+                    if (!panel) return;
+                    var frame = document.createElement('iframe');
+                    frame.title = 'Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich';
+                    frame.src = panel.dataset.mapEmbed || '';
+                    frame.referrerPolicy = 'no-referrer-when-downgrade';
+                    frame.allowFullscreen = true;
+                    panel.querySelector('[data-map-placeholder]')?.remove();
+                    panel.appendChild(frame);
+                    frame.focus();
                 });
             });
 

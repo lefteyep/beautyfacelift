@@ -663,6 +663,11 @@ Backend contact success uses the existing contact flow. Recommended follow-up ex
 Tracking event:
 On a valid submit, the LP calls `window.bflTracking?.trackLead` with email, phone, value `170`, currency `CHF` and source `aquafacial_microneedling_lp_form`, subject to marketing consent.
 
+Since 2026-10-09:
+- **Client checks:** the form applies the Worker's own email and phone rules (a dot in the email domain, 8–15 phone digits) before it submits. The Lead event therefore no longer fires for input the server would reject; it can still fire on rare server errors such as rate limits or email outages, because the form posts natively.
+- **Attribution:** the form sends `offer`, `treatment`, `landing_page`, `page_path`, `page_url`, `referrer`, `utm_*`, `fbclid`, `gclid` and `msclkid`. They are filled from the URL or the `bfl_utm` session store, as on `/lp/aquafacial/`.
+- **Hautziel:** the Worker reads `skinGoal`, so the skin goal appears in the email as "Hautziel".
+
 ## 10. SEO Documentation
 
 SEO title:

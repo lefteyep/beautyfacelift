@@ -11,6 +11,19 @@
   - the Worker required Turnstile, but the page has no widget.
 
   It now sends topic "Ich möchte einen Termin buchen" and the Turnstile-exempt campaign `aquafacial_microneedling`. `qa:contact` checks both for every ad form.
+- [x] Lead delivery hardening, 2026-10-09 (PR #34, from the site audit's form-contract findings):
+  - **`/kontakt/` "Egal, was am schnellsten ist":** the Worker rejected this contact option. It now takes the list from `shared/site.ts`, and `qa:contact` guards it.
+  - **Turnstile outage:** a failing siteverify call now returns a clean 503 instead of crashing the Worker. An API safety net catches any other error.
+  - **Error messages:** they now scroll into view and take focus on `/kontakt/` and `/lp/aquafacial/`. `/kontakt/` also gets a fresh Turnstile token after an error.
+  - **Combo form:**
+    - client checks now match the server's (email, phone);
+    - the campaign data reaches the email (offer, UTM, fbclid, page);
+    - the skin goal reaches the email;
+    - the honeypot is inert and inputs have maxlength.
+  - **`/kontakt/`:** inert honeypot and maxlength.
+  - **Email:** the time is labelled "Zeitwunsch" (the Aquafacial campaign keeps "Telefonisch erreichbar"), and there is no empty "Terminwunsch" row.
+  - **Worker error page:** it is in Atelier Glow style with no overline label, and its back button returns to the form the visitor came from.
+  - **`/lp/aquafacial/`:** the date picker blocks past dates.
 - [x] Fix the CI `npm audit` gate (0 vulnerabilities) — branch `codex/code-health-2026-10`
 - [x] Restore `trackLead` for the Aquafacial + Microneedling LP; hashed email/phone on the Aquafacial CAPI Lead
 - [x] Re-openable cookie consent ("Cookie-Einstellungen"), compact mobile banner
@@ -146,7 +159,15 @@
   - "Kosmetikerin Zürich Bahnhofstrasse"
   - "ColdPlasma Behandlung Erfahrung"
 - [ ] Add verified reviews/testimonials only when permission and source are available
-- [ ] Run Lighthouse audit and fix any issues below 95
+- [x] Run Lighthouse audit and fix any issues below 95. Results of the 2026-10-07 mobile run on 16 live page types:
+  - **13 page types:** 97–100 in every category.
+  - **Ad pages:** SEO 69, because they are noindex on purpose.
+  - **`/termin/`:** it redirects to Treatwell, so Lighthouse measures Treatwell's page.
+  - **`/kontakt/`:** performance 79 and best practices 92. The causes were the auto-loading Google Maps embed (17 requests, about 470 KB) and the Turnstile error. Now fixed:
+    - the map loads only on click (PR #33);
+    - the CSP allows the map frame (PR #32);
+    - Turnstile still needs the hostname fix (see the top of this file).
+  - **Static SEO audit of all 36 pages:** only one title over 60 characters and three descriptions over 160; all four are fixed in PR #33.
 
 ## Priority 7: Future Features
 - [ ] WhatsApp Business API for booking notifications
