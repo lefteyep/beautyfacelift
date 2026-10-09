@@ -1,5 +1,6 @@
 ---
 import { absoluteUrl, CONTACT_WHATSAPP_URL, SERVICE_GROUPS, TREATWELL_URL } from '../../shared/site';
+import { beautySalon } from '../lib/schema';
 import Base from '../layouts/Base.astro';
 import { Image, getImage } from 'astro:assets';
 import {
@@ -64,20 +65,7 @@ const reviews = [
 
 const businessStructuredData = {
     "@context": "https://schema.org",
-    "@type": "BeautySalon",
-    "name": "Beauty Face Lift Zürich",
-    "url": absoluteUrl('/'),
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Bahnhofstrasse 94",
-        "addressLocality": "Zürich",
-        "postalCode": "8001",
-        "addressCountry": "CH"
-    },
-    "areaServed": [
-        "Zürich",
-        "Switzerland"
-    ],
+    ...beautySalon(),
     "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Kosmetische Behandlungen",
@@ -115,7 +103,7 @@ const faqs = [
     },
     {
         q: 'Kann ich mehrere Behandlungen kombinieren?',
-        a: 'Ja. Beliebt ist Aquafacial mit ColdPlasma, weil die Tiefenreinigung die Haut auf die Plasma-Pflege vorbereitet. Auch Microneedling und Fruchtsäure Peeling lassen sich in einen abgestimmten Behandlungsplan integrieren.',
+        a: 'Ja. Aquafacial gibt es zum Beispiel als 90-minütige Kombination mit ColdPlasma oder mit Microneedling. Auch Fruchtsäure Peeling lässt sich in einen abgestimmten Behandlungsplan integrieren.',
     },
     {
         q: 'Sind die Behandlungen für empfindliche Haut geeignet?',

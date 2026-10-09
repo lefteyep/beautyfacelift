@@ -1,5 +1,6 @@
 ---
 import { absoluteUrl, TREATWELL_URL } from '../../../shared/site';
+import { BUSINESS_ID, beautySalon } from '../../lib/schema';
 
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -45,20 +46,7 @@ const testimonials = [
 
 const structuredData = {
     "@context": "https://schema.org",
-    "@type": "BeautySalon",
-    "name": "Beauty Face Lift Zürich",
-    "url": absoluteUrl('/'),
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Bahnhofstrasse 94",
-        "addressLocality": "Zürich",
-        "postalCode": "8001",
-        "addressCountry": "CH"
-    },
-    "areaServed": [
-        "Zürich",
-        "Switzerland"
-    ],
+    ...beautySalon(),
     "founder": {
         "@type": "Person",
         "name": "Teresa Stimac",
@@ -66,10 +54,7 @@ const structuredData = {
         "jobTitle": "Gründerin & Kosmetikerin",
         "description": "Selbstständige Kosmetikerin mit über 20 Jahren Erfahrung in Zürich",
         "knowsAbout": ["Aquafacial", "Microneedling", "Fruchtsäure Peeling", "ColdPlasma", "Hautpflege", "Anti-Aging"],
-        "worksFor": {
-            "@type": "BeautySalon",
-            "name": "Beauty Face Lift Zürich"
-        }
+        "worksFor": { "@id": BUSINESS_ID }
     },
 };
 ---

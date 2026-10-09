@@ -18,10 +18,10 @@ import {
     OPENING_HOURS,
     TREATWELL_URL,
 } from '../../../shared/site';
+import { BUSINESS_ID, beautySalon } from '../../lib/schema';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const bookingHref = '/termin/';
-const instagramUrl = 'https://www.instagram.com/beautyfacelift.zh/';
 const addressLines = ['Beauty Face Lift', ADDRESS.street, `${ADDRESS.postalCode} ${ADDRESS.city}`];
 const routeDestination = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}, Schweiz`;
 const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(routeDestination)}`;
@@ -124,18 +124,6 @@ const faqItems = [
     },
 ];
 
-// Built from OPENING_HOURS (shared/site.ts), the same source as the visible table.
-const schemaDays: Record<string, string | string[]> = {
-    'Montag bis Freitag': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    'Samstag': 'Saturday',
-};
-const openingHoursSpecification = OPENING_HOURS
-    .filter((item) => schemaDays[item.label] && /\d{1,2}:\d{2} - \d{1,2}:\d{2}/.test(item.value))
-    .map((item) => {
-        const [opens, closes] = item.value.split(' - ');
-        return { "@type": "OpeningHoursSpecification", "dayOfWeek": schemaDays[item.label], "opens": opens, "closes": closes };
-    });
-
 const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -144,27 +132,10 @@ const structuredData = {
             "@id": absoluteUrl('/kontakt/#contact-page'),
             "name": "Kontakt & Beratung | Beauty Face Lift Zürich",
             "url": absoluteUrl('/kontakt/'),
-            "description": "Kontaktieren Sie Beauty Face Lift in Zürich für persönliche Hautberatung, Terminwünsche und Behandlungsfragen. Teresa Stimac berät Sie direkt an der Bahnhofstrasse 94.",
-            "mainEntity": { "@id": absoluteUrl('/#beauty-salon') },
+            "description": "Hautberatung, Terminwünsche und Fragen zu Behandlungen: Teresa Stimac berät Sie persönlich an der Bahnhofstrasse 94 in Zürich.",
+            "mainEntity": { "@id": BUSINESS_ID },
         },
-        {
-            "@type": "BeautySalon",
-            "@id": absoluteUrl('/#beauty-salon'),
-            "name": "Beauty Face Lift Zürich",
-            "url": absoluteUrl('/'),
-            "telephone": CONTACT_PHONE_DISPLAY,
-            "email": CONTACT_EMAIL,
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": ADDRESS.street,
-                "addressLocality": ADDRESS.city,
-                "postalCode": ADDRESS.postalCode,
-                "addressCountry": ADDRESS.country,
-            },
-            "areaServed": ["Zürich", "Switzerland"],
-            "openingHoursSpecification": openingHoursSpecification,
-            "sameAs": [instagramUrl, TREATWELL_URL],
-        },
+        beautySalon(),
         {
             "@type": "FAQPage",
             "@id": absoluteUrl('/kontakt/#faq'),

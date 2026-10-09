@@ -294,10 +294,10 @@ Aquafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 - **Häufige Fragen:** https://beautyfacelift-zuerich.ch/haeufige-fragen/ — Antworten auf über 20 häufig gestellte Fragen zu Behandlungen, Preisen, Buchung und Nachsorge.
 
 ### Behandlungsseiten (mit Online-Buchung)
-- **Aquafacial Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/aquafacial-zuerich/ — Detailseite zur Aquafacial-Behandlung: Ablauf, Preise (ab CHF 180), FAQ, Bewertungen. Mit integrierter Terminbuchung.
-- **Microneedling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Ablauf, Preise (ab CHF 210), FAQ, Ergebnisse. Mit integrierter Terminbuchung.
-- **Fruchtsäure Peeling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Mit integrierter Terminbuchung.
-- **ColdPlasma Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 180), FAQ. Mit integrierter Terminbuchung.
+- **Aquafacial Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/aquafacial-zuerich/ — Detailseite zur Aquafacial-Behandlung: Ablauf, Preise (ab CHF 180), FAQ, Bewertungen. Buchung online über Treatwell.
+- **Microneedling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/microneedling-zuerich/ — Detailseite zum Microneedling: Ablauf, Preise (ab CHF 210), FAQ, Ergebnisse. Buchung online über Treatwell.
+- **Fruchtsäure Peeling Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/fruchtsaeure-peeling-zuerich/ — Detailseite zum Fruchtsäure Peeling: AHA-Säuren, Hauterneuerung, Preise (ab CHF 150), FAQ. Buchung online über Treatwell.
+- **ColdPlasma Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/coldplasma-zuerich/ — Detailseite zur ColdPlasma-Behandlung: Plasma-Technologie, Ablauf, Preise (ab CHF 180), FAQ. Buchung online über Treatwell.
 - **Exosome Therapie Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/exosome-therapie-zuerich/ — Detailseite zur Exosome Gesichtsbehandlung: Exosomen Serum, regenerative Hautpflege, Microneedling mit Exosomen, Sicherheit, realistische Erwartungen und FAQ.
 - **Behandlungsvergleich:** https://beautyfacelift-zuerich.ch/behandlungen/vergleich/ — Behandlungen im direkten Vergleich: Dauer, Preis, Schmerz, Ausfallzeit, ideale Kandidaten.
 - **Gesichtsbehandlung Zürich:** https://beautyfacelift-zuerich.ch/behandlungen/gesichtsbehandlung-zuerich/ — Einstieg für klassische Gesichtsbehandlung, Hautanalyse und passende Empfehlung.
@@ -309,6 +309,11 @@ Aquafacial: alle 4–6 Wochen. Microneedling: 3–5 Sitzungen im Abstand von 4�
 
 ### Wissen
 - **Wissen:** https://beautyfacelift-zuerich.ch/blog/ — Ratgeber zu Hautpflege und Behandlungen.
+- **Was ist Aquafacial?:** https://beautyfacelift-zuerich.ch/blog/was-ist-aquafacial/
+- **Aquafacial vs. Microneedling:** https://beautyfacelift-zuerich.ch/blog/aquafacial-vs-microneedling/
+- **Microneedling Erfahrung:** https://beautyfacelift-zuerich.ch/blog/microneedling-erfahrung/
+- **Hautpflege-Routine:** https://beautyfacelift-zuerich.ch/blog/hautpflege-routine-zuerich/
+- **Anti-Aging Behandlungen in Zürich:** https://beautyfacelift-zuerich.ch/blog/anti-aging-behandlungen-zuerich/
 
 ### Rechtliches
 - **Impressum:** https://beautyfacelift-zuerich.ch/impressum/ — Rechtliche Angaben gemäss Schweizer Recht.

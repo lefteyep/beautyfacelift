@@ -15,6 +15,7 @@ import { consultationTrust, microneedlingCard } from '../../../lib/site-images';
 import microneedlingStill from '../../../assets/marketing/microneedling_treatment.png';
 import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { beautySalonRef } from '../../../lib/schema';
 
 const pagePath = '/behandlungen/microneedling-zuerich/';
 const bookingHref = bookingLinkForService('Microneedling');
@@ -89,18 +90,7 @@ const structuredData = {
     "category": "Gesichtsbehandlung",
     "url": absoluteUrl(pagePath),
     "image": absoluteUrl('/assets/microneedling_treatment_editorial.png'),
-    "provider": {
-        "@type": "BeautySalon",
-        "name": "Beauty Face Lift Zürich",
-        "url": absoluteUrl('/'),
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Bahnhofstrasse 94",
-            "addressLocality": "Zürich",
-            "postalCode": "8001",
-            "addressCountry": "CH"
-        }
-    },
+    "provider": beautySalonRef(),
     "description": "Microneedling in Zürich an der Bahnhofstrasse: Feine Nadeln setzen kontrollierte Mikrokanäle und können Hauterneuerung und Kollagenbildung unterstützen – bei feinen Linien, Narbenoptik und vergrösserten Poren.",
     "areaServed": "Zürich"
 };

@@ -12,6 +12,7 @@ import RelatedTreatments from '../../../components/treatment/RelatedTreatments.a
 import { treatmentHeroPreload } from '../../../components/treatment/images';
 import { consultationTrust, spaFacialTreatment, spaProducts } from '../../../lib/site-images';
 import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
+import { beautySalonRef } from '../../../lib/schema';
 
 const pagePath = '/behandlungen/exosome-therapie-zuerich/';
 const bookingHref = bookingLinkForService('Exosome Therapie');
@@ -103,18 +104,7 @@ const structuredData = {
             "url": canonicalUrl,
             "image": absoluteUrl('/assets/spa_products.png'),
             "description": "Kosmetisch-ästhetische Exosome Therapie in Zürich mit Exosomen-Serum beziehungsweise exosomenähnlicher Wirkstofftechnologie, Hyaluronsäure und persönlicher Hautanalyse. Ziel ist ein frischer, hydratisierter und ebenmässiger wirkendes Hautbild ohne übertriebene medizinische Versprechen.",
-            "provider": {
-                "@type": "BeautySalon",
-                "name": "Beauty Face Lift Zürich",
-                "url": absoluteUrl('/'),
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Bahnhofstrasse 94",
-                    "addressLocality": "Zürich",
-                    "postalCode": "8001",
-                    "addressCountry": "CH"
-                }
-            },
+            "provider": beautySalonRef(),
             "areaServed": [
                 "Zürich",
                 "Kanton Zürich",

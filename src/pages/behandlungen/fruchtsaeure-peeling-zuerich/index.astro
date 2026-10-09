@@ -15,6 +15,7 @@ import { peelingCard, spaFacialTreatment } from '../../../lib/site-images';
 import peelingStill from '../../../assets/marketing/peeling_treatment_new.png';
 import consultation from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { beautySalonRef } from '../../../lib/schema';
 
 const pagePath = '/behandlungen/fruchtsaeure-peeling-zuerich/';
 const bookingHref = bookingLinkForService('Peeling');
@@ -90,18 +91,7 @@ const structuredData = {
     "category": "Gesichtsbehandlung",
     "url": absoluteUrl(pagePath),
     "image": absoluteUrl('/assets/peeling_treatment_editorial.png'),
-    "provider": {
-        "@type": "BeautySalon",
-        "name": "Beauty Face Lift Zürich",
-        "url": absoluteUrl('/'),
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Bahnhofstrasse 94",
-            "addressLocality": "Zürich",
-            "postalCode": "8001",
-            "addressCountry": "CH"
-        }
-    },
+    "provider": beautySalonRef(),
     "description": "Professionelles Fruchtsäure Peeling (AHA-Peeling) in Zürich. Kosmetische Hautbildpflege bei Unreinheiten, Pigmentflecken und Grauschleier an der Bahnhofstrasse.",
     "areaServed": "Zürich"
 };

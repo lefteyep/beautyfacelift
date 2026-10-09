@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 const page = readFileSync('src/pages/kontakt/index.astro', 'utf8');
 const site = readFileSync('shared/site.ts', 'utf8');
 const worker = readFileSync('worker/routes/contact.ts', 'utf8');
+const schema = readFileSync('src/lib/schema.ts', 'utf8');
 
 function assertIncludes(source, needle, label) {
   if (!source.includes(needle)) {
@@ -40,7 +41,7 @@ assertOrdered(page, [
 
 const pageRequirements = [
   'Kontakt & Beratung | Beauty Face Lift Zürich',
-  'Kontaktieren Sie Beauty Face Lift in Zürich für persönliche Hautberatung, Terminwünsche und Behandlungsfragen. Teresa Stimac berät Sie direkt an der Bahnhofstrasse 94.',
+  'Hautberatung, Terminwünsche und Fragen zu Behandlungen: Teresa Stimac berät Sie persönlich an der Bahnhofstrasse 94 in Zürich.',
   'Persönliche Hautberatung &amp; Termine in Zürich',
   'Sie möchten einen Termin buchen, eine Behandlung abklären oder sind unsicher, was zu Ihrer Haut passt?',
   '4,8 aus 248+ Bewertungen',
@@ -85,10 +86,13 @@ const pageRequirements = [
   'contact_map_load',
   'data-map-embed',
   'faq_open',
-  '"@type": "BeautySalon"',
-  'openingHoursSpecification',
-  'sameAs',
+  'beautySalon()',
 ];
+
+// The business node comes from the shared builder (one @id, phone, hours and profiles for every page).
+for (const needle of ["'@type': 'BeautySalon'", 'openingHoursSpecification', 'sameAs', 'OPENING_HOURS']) {
+  assertIncludes(schema, needle, 'business schema (src/lib/schema.ts)');
+}
 
 for (const requirement of pageRequirements) {
   assertIncludes(page, requirement, 'contact page');

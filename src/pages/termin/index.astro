@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { absoluteUrl, TREATWELL_BOOKING_URL,
+import { beautySalon } from '../../lib/schema';
+import { TREATWELL_BOOKING_URL,
     BOOKING_FORWARD_KEYS, } from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
@@ -10,17 +11,7 @@ const treatwellServiceDetailsByService = {
 
 const structuredData = {
     "@context": "https://schema.org",
-    "@type": "BeautySalon",
-    "name": "Beauty Face Lift",
-    "url": absoluteUrl('/'),
-    "telephone": "+41792143462",
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Bahnhofstrasse 94",
-        "addressLocality": "Zürich",
-        "postalCode": "8001",
-        "addressCountry": "CH"
-    },
+    ...beautySalon(),
     "potentialAction": {
         "@type": "ReserveAction",
         "target": {
