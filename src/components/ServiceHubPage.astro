@@ -107,7 +107,7 @@ const prices = priceItems.map((item) => ({
 const relatedLinks = related.map((link) => ({ href: link.href, title: link.title, text: link.description }));
 ---
 
-<Base title={title} description={description} structuredData={structuredData}>
+<Base title={title} description={description} structuredData={structuredData} ogImage={image}>
   <header class:list={['page-hero', 'hub-hero', image ? 'hub-hero--media' : 'hub-hero--type']}>
     <div class="container hub-hero-grid">
       <div class="hub-hero-head">

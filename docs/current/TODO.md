@@ -48,9 +48,12 @@
   - **FAQ:** the combination answers no longer contradict each other.
   - **llms:** the booking lines are fixed and the Wissen articles are listed.
   - **launch:check:** it now reads the docs from `docs/current/`.
+- [x] Visible SEO follow-ups (PR #38, 2026-10-09):
+  - **Social share images:** every page now gets a real 1200×630 JPG cropped from its own photo (Teresa's portrait is cropped from the top). Before, one portrait PNG was declared as 1200×630 and previews cut her face off.
+  - **Internal links:** the FAQ block of the Aquafacial, Microneedling, ColdPlasma and Fruchtsäure pages and of /behandlungen/vergleich/ has a button to its Wissen article. The map is in `src/pages/blog/_posts.ts`. Both FAQ buttons now carry `data-button-location`.
+  - **Soft 404:** `/404/` and `/404.html` answered 200; the Worker now sends 404.
 - [ ] SEO follow-ups from the audit:
-  - **Social share images:** `og:image` is a portrait PNG declared as 1200×630; Teresa's face is cropped off in previews. This is visible, so it needs renders first.
-  - **Internal links:** treatment pages don't link to their Wissen articles. Add one button per page; also visible.
+  - **Gesichtsbehandlung hub:** no link to the Hautpflege-Routine article yet (hubs have no FAQ block).
   - **Price offers:** Service schema has no `offers`; map the visible price rows.
   - **Article schema:** its image differs from the hero; `author.url` is missing on 4 of 5 articles.
   - **Sitemap:** no `lastmod`.

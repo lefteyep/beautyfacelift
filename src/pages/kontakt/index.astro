@@ -19,6 +19,7 @@ import {
     TREATWELL_URL,
 } from '../../../shared/site';
 import { BUSINESS_ID, beautySalon } from '../../lib/schema';
+import { teresaPortrait } from '../../lib/site-images';
 
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
 const bookingHref = '/termin/';
@@ -162,7 +163,8 @@ const structuredData = {
         type: 'image/webp',
         fetchpriority: 'high',
     }}
-    ogImage={absoluteUrl('/assets/teresa_portrait.jpg')}
+    ogImage={teresaPortrait}
+    ogImagePosition="top"
     structuredData={structuredData}
     bodyClass="page-contact"
 >
