@@ -364,6 +364,14 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   }
 
   const to = env.CONTACT_TO_EMAIL || env.OWNER_EMAIL || CONTACT_TO_EMAIL_FALLBACK;
+  // Blind copies, e.g. the agency while Teresa receives the enquiries. BCC, not CC: "Reply all" to
+  // the customer must not carry the agency address. Resend's shared test sender
+  // (onboarding@resend.dev) only delivers to the account owner, so set this only once
+  // CONTACT_FROM_EMAIL uses the verified domain.
+  const bcc = (env.CONTACT_BCC_EMAIL || '')
+    .split(',')
+    .map((address) => address.trim())
+    .filter((address) => isValidEmail(address) && address !== to);
   const from = env.CONTACT_FROM_EMAIL || 'Beauty Face Lift <onboarding@resend.dev>';
   const replyTo = isValidEmail(data.email) ? data.email : undefined;
   const userAgent = request.headers.get('user-agent') || 'Unbekannt';
@@ -448,6 +456,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     body: JSON.stringify({
       from,
       to: [to],
+      bcc: bcc.length > 0 ? bcc : undefined,
       reply_to: replyTo ? [replyTo] : undefined,
       subject,
       text,
