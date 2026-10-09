@@ -172,7 +172,16 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname.startsWith('/api/')) {
-      const response = await router.fetch(request, env, ctx);
+      let response: Response | undefined;
+      try {
+        response = await router.fetch(request, env, ctx);
+      } catch (error) {
+        console.error('API route failed:', error instanceof Error ? error.message : 'unknown error');
+        response = new Response(JSON.stringify({ error: 'Interner Fehler. Bitte versuchen Sie es später erneut.' }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
       if (response) return withSecurityHeaders(response, request);
       return withSecurityHeaders(new Response(JSON.stringify({ error: 'Not found' }), {
         status: 404,

@@ -701,6 +701,12 @@ const structuredData = {
 
       fillAttribution(form);
 
+      const dateInput = form.querySelector('#aquafacial-date');
+      if (dateInput instanceof HTMLInputElement) {
+        const today = new Date();
+        dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+      }
+
       form.addEventListener('input', () => clearErrors(form));
       form.addEventListener('change', () => clearErrors(form));
 
@@ -750,6 +756,9 @@ const structuredData = {
           if (status instanceof HTMLElement) {
             status.textContent = error instanceof Error ? error.message : 'Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.';
             status.hidden = false;
+            status.tabIndex = -1;
+            status.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+            status.focus({ preventScroll: true });
           }
         } finally {
           pending = false;
