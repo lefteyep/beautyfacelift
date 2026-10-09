@@ -2,6 +2,10 @@
 // Claude Code Stop hook: refuse to end a turn while work is uncommitted or unpushed.
 // See AGENTS.md, "Working Protocol / Save as you go".
 //
+// Limits: the Stop hook only runs when Claude ends a turn normally. A turn that is interrupted
+// by the user, hits a rate limit or fails with an error never reaches it. The checkpoint hook
+// (checkpoint-reminder.mjs) covers long turns; the habit of pushing after every step covers the rest.
+//
 // Behaviour:
 // - Clean tree and nothing to push        -> exit 0, Claude stops normally.
 // - Uncommitted or unpushed work          -> prints {"decision":"block","reason":...}, Claude

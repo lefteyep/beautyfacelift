@@ -9,6 +9,7 @@ reaches a cloud session, so do not rely on it.
 - `master` is the live deploy branch. Pushing to `master` triggers Cloudflare deployment through `.github/workflows/deploy.yml`.
 - Do not edit directly on `master`.
 - Do not run `npm run cf:deploy`, `wrangler deploy`, or push to `master` without explicit user approval.
+- Do not start the deploy workflow manually (GitHub Actions, "Run workflow") without explicit user approval. A manual run deploys whatever branch is selected.
 - The live production URL is `https://beautyfacelift-zuerich.ch`.
 - The temporary workers.dev hostname is not canonical and should remain disabled or redirected by production config.
 - The GitHub remote must be `https://github.com/lefteyep/beautyfacelift.git`.
@@ -40,9 +41,10 @@ without a reviewed pull request.
 
 ### Save as you go
 
-- Commit and push after every completed step. Never end a session or a turn with uncommitted or unpushed work on a task branch. Use a `WIP:` prefix when a step is unfinished. (Claude Code enforces this with the Stop hook in `.claude/settings.json`.)
+- Commit and push after every completed step. Never end a session or a turn with uncommitted or unpushed work on a task branch. Use a `WIP:` prefix when a step is unfinished. Claude Code backs this up with two hooks in `.claude/settings.json`: a checkpoint reminder after edits once work has been unsaved for more than ten minutes, and a Stop hook that refuses to end a turn with unsaved work. Neither hook runs when a turn is interrupted or fails, so the habit is the protection and the hooks only catch forgetting.
 - Open a draft pull request as soon as the first commit exists. Fill in the template from `.github/pull_request_template.md`: What this changes / Done / Left to do / How to test / Screenshots.
 - Update the pull request checklist with every push. The pull request is the handover note. Do not create separate handover files in the repository.
+- The pull request does not contain the conversation. Put decisions, open questions and anything agreed with the user that is not visible in the code into the Handover section of the pull request.
 - End every session by reporting the pull request number and the branch name.
 
 ### The pull request number is the handle
