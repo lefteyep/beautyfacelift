@@ -8,7 +8,7 @@
   - [x] **Test enquiry, 2026-10-10:** the form showed "Erfolg!", the Worker accepted the enquiry, and the email arrived with the chosen treatment.
 - [ ] **Where enquiries land:** every form email goes to `mediapaulo@gmail.com` (the agency), sent from Resend's shared test sender `onboarding@resend.dev`.
   - **Decided (user, 2026-10-10):** Teresa receives the enquiries, and the agency gets a blind copy (BCC), so "Reply all" to a customer never shows the agency address.
-  - The Worker supports blind copies through `CONTACT_BCC_EMAIL` (comma-separated, PR #43).
+  - The Worker supports blind copies through `CONTACT_BCC_EMAIL` (comma-separated, PR #44).
   - **Order of the switch:** it matters, because Resend's test sender only delivers to the Resend account owner.
     1. Verify `beautyfacelift-zuerich.ch` in Resend. Its DNS records `send.` and `resend._domainkey` already exist in Cloudflare.
     2. Set `CONTACT_FROM_EMAIL` to an address on that domain, then send a test enquiry.

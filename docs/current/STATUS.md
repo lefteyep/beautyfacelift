@@ -49,7 +49,7 @@ Production Worker launch details:
 | Google Tag Manager `GTM-NVC9QKGS` + GA4 `G-4C9M8KMFQY`, Consent Mode v2, consent-gated (see [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md)) | PR #40, merge `9e27f9c` | Live 2026-10-10 (deploy run 38003841259) |
 | Docs clean-up; privacy policy says bookings run on Treatwell and discloses Google signals | PR #41, merge `171d30c` | Live 2026-10-10 (deploy run 38003958605) |
 | Keyboard fixes (menu, mobile contact bar), CSS inlined, font preloads, email link labels | PR #42, merge `6c5043e` | Live 2026-10-10 (deploy run 38004062741) |
-| Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #43 | Pending approval |
+| Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #44 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
