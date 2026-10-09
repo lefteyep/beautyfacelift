@@ -1,44 +1,8 @@
 ---
-import { absoluteUrl } from '../../../../shared/site';
 import BlogPost from '../../../layouts/BlogPost.astro';
 
 const title = 'Die passende Hautpflege-Routine: Tipps von Ihrer Kosmetikerin';
 const description = 'Die passende Hautpflege-Routine für Zürich: Morgen- & Abendpflege, Wirkstoffe und Profi-Tipps von Kosmetikerin Teresa Stimac bei Beauty Face Lift.';
-const publishDate = '2026-03-10';
-const author = 'Teresa Stimac';
-
-const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": title,
-    "description": description,
-    "author": {
-        "@type": "Person",
-        "name": author,
-        "jobTitle": "Inhaberin & Kosmetikerin",
-        "worksFor": {
-            "@type": "BeautySalon",
-            "name": "Beauty Face Lift",
-            "url": absoluteUrl('/'),
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Bahnhofstrasse 94",
-                "addressLocality": "Zürich",
-                "postalCode": "8001",
-                "addressCountry": "CH"
-            }
-        }
-    },
-    "publisher": {
-        "@type": "Organization",
-        "name": "Beauty Face Lift",
-        "url": absoluteUrl('/')
-    },
-    "datePublished": publishDate,
-    "dateModified": "2026-10-07",
-    "mainEntityOfPage": absoluteUrl('/blog/hautpflege-routine-zuerich/'),
-    "image": absoluteUrl('/assets/spa_interior.png')
-};
 
 const faqSchema = {
     "@context": "https://schema.org",
@@ -87,7 +51,7 @@ const faqSchema = {
     ]
 };
 
-const structuredData = [articleSchema, faqSchema];
+const structuredData = faqSchema;
 
 // Further reading: these first, topped up with the newest article.
 const related = ['anti-aging-behandlungen-zuerich', 'was-ist-aquafacial'];

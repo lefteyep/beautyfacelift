@@ -1,8 +1,8 @@
 ---
 // "Wissen" article layout (URL /blog/…). Each article keeps its own <title>,
-// description, canonical and JSON-LD (passed through unchanged); presentation
-// metadata (category, date, reading time, image, treatment link) comes from
-// pages/blog/_posts.ts.
+// description, canonical and further JSON-LD (its FAQPage). The Article node is
+// built here, and the presentation metadata (category, dates, reading time, image,
+// treatment link) comes from pages/blog/_posts.ts.
 //
 // The article body is rendered once as HTML so every <h2> gets an anchor id:
 // that feeds the table of contents and places the consultation block before
@@ -11,7 +11,9 @@ import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
 import { teresaPortrait } from '../lib/site-images';
-import { CONTACT_WHATSAPP_URL } from '../../shared/site';
+import { absoluteUrl, CONTACT_WHATSAPP_URL } from '../../shared/site';
+import { article } from '../lib/schema';
+import { ARTICLE_IMAGE_RATIOS, cropImage } from '../lib/og-image';
 import { formatJournalDate, getJournalPost, getRelatedPosts } from '../pages/blog/_posts';
 import '../styles/blog.css';
 
@@ -20,7 +22,12 @@ interface Props {
     pageTitle: string;
     description: string;
     canonical?: string;
-    structuredData: object;
+    /** The page's further JSON-LD nodes (e.g. its FAQPage); the Article node is built here. */
+    structuredData?: object | object[];
+    /** Article schema `about` topics. */
+    about?: string[];
+    /** Article schema keywords. */
+    keywords?: string;
     breadcrumbLabel: string;
     title: string;
     lead?: string;
@@ -42,6 +49,8 @@ const {
     description,
     canonical,
     structuredData,
+    about,
+    keywords,
     breadcrumbLabel,
     title,
     lead,
@@ -51,6 +60,23 @@ const {
 } = Astro.props;
 
 const post = getJournalPost(slug);
+// Article schema from one place: the article's own picture (Google's 16:9, 4:3 and 1:1 crops),
+// its dates from _posts.ts, and Teresa as the author.
+const articleImages = await Promise.all(ARTICLE_IMAGE_RATIOS.map((ratio) => cropImage(post.image, ratio)));
+const pageSchema = [
+    article({
+        url: absoluteUrl(post.href),
+        headline: title,
+        description,
+        images: articleImages.map((image) => absoluteUrl(image.src)),
+        datePublished: post.publishDate,
+        dateModified: post.modifiedDate,
+        section: post.category,
+        about,
+        keywords,
+    }),
+    ...(structuredData ? [structuredData].flat() : []),
+];
 const dateLabel = formatJournalDate(post.publishDate);
 const relatedPosts = getRelatedPosts(slug, related);
 
@@ -111,8 +137,10 @@ const bodyEnd = body.slice(splitAt);
     title={pageTitle}
     description={description}
     canonical={canonical}
-    structuredData={structuredData}
+    structuredData={pageSchema}
     articleDate={post.publishDate}
+    articleModified={post.modifiedDate}
+    articleSection={post.category}
     ogImage={post.image}
 >
     <article class="wx-article">

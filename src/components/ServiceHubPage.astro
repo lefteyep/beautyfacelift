@@ -14,7 +14,8 @@ import Breadcrumbs from './Breadcrumbs.astro';
 import BookingCta from './BookingCta.astro';
 import PriceMenu from './treatment/PriceMenu.astro';
 import LinkList from './treatment/LinkList.astro';
-import { beautySalonRef } from '../lib/schema';
+import { beautySalonRef, serviceOffers } from '../lib/schema';
+import { wissenLinkFor } from '../pages/blog/_posts';
 
 interface PriceItem {
   label: string;
@@ -77,6 +78,8 @@ const bookingHref = bookingLinkForService(bookingService);
 const currentPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
 // Starting price comes from the same source as the nav, overview and homepage.
 const priceFrom = SERVICE_GROUPS.find((group) => group.href === currentPath)?.priceFrom;
+// The matching Wissen article, if there is one (see _posts.ts), as a button under "Was Sie erwartet".
+const wissen = wissenLinkFor(currentPath);
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -87,6 +90,7 @@ const structuredData = {
   url: absoluteUrl(currentPath),
   areaServed: 'Zürich',
   provider: beautySalonRef(),
+  offers: serviceOffers(priceItems.map((item) => ({ name: item.label, price: item.price })), absoluteUrl(currentPath)),
   description,
 };
 
@@ -165,6 +169,7 @@ const relatedLinks = related.map((link) => ({ href: link.href, title: link.title
     <div class="container hub-split">
       <div class="hub-split-head">
         <h2 id="hub-details-title">Was Sie erwartet</h2>
+        {wissen && <a href={wissen.href} class="btn btn-secondary btn-arrow" data-button-location="hub_details_article">{wissen.label}</a>}
       </div>
       <dl class="hub-specs">
         <div class="scroll-anim">

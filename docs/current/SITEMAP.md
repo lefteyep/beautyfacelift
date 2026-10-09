@@ -6,7 +6,7 @@ Public sitemap entry point:
 https://beautyfacelift-zuerich.ch/sitemap.xml
 ```
 
-Astro generates `sitemap-index.xml` and `sitemap-0.xml`; the build copies `sitemap-0.xml` to `sitemap.xml` so the public robots directive and Search Console submission use the canonical production URL.
+Astro generates `sitemap-index.xml` and `sitemap-0.xml`. A build step (`sitemapLastmodAndAlias` in `astro.config.mjs`) then adds `<lastmod>` to every Wissen article from its modified date in `src/pages/blog/_posts.ts`, and copies `sitemap-0.xml` to `sitemap.xml` so the public robots directive and Search Console submission use the canonical production URL. Other pages carry no `lastmod`; the build fails if an article misses its date.
 
 ## Indexable Routes
 

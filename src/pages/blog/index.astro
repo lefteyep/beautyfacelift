@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
 import consultation from '../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import { JOURNAL_POSTS, formatJournalDate } from './_posts';
+import { beautySalonRef } from '../../lib/schema';
 
 const [featured, ...posts] = JOURNAL_POSTS;
 
@@ -17,11 +18,7 @@ const structuredData = {
     "description": description,
     "url": absoluteUrl('/blog/'),
     "inLanguage": "de-CH",
-    "publisher": {
-        "@type": "Organization",
-        "name": "Beauty Face Lift",
-        "url": absoluteUrl('/')
-    },
+    "publisher": beautySalonRef(),
     "mainEntity": {
         "@type": "ItemList",
         "itemListElement": JOURNAL_POSTS.map((post, index) => ({

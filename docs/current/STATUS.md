@@ -42,7 +42,9 @@ Production Worker launch details:
 | Copy fixes from the site audit (directions, aftercare facts, claims, naming, llms-full) | PR #35, merge `09d918f` | Live 2026-10-09 (deploy run 37982303967) |
 | Treatwell alignment: opening hours, massage price, Caviar + Maske Soin Initiale, Aquafacial + Microneedling row | PR #36, merge `e193b15` | Live 2026-10-09 (deploy run 37990053747) |
 | Technical SEO: one URL per page (301 for /path and /index.html), one business schema for all pages, robots.txt groups, hub H2s, FAQ combination answers, llms | PR #37, merge `6425f73` | Live 2026-10-09 (deploy run 37991328990) |
-| Social share images cropped to 1200×630 per page, Wissen buttons in the treatment FAQs, a real 404 status for /404/ and /404.html | PR #38 | Pending approval |
+| Social share images cropped to 1200×630 per page, Wissen buttons in the treatment FAQs, a real 404 status for /404/ and /404.html | PR #38, merge `7c2dc42` | Live 2026-10-09 (deploy run 37994226911) |
+| `/kontakt/` Turnstile hostname (Cloudflare dashboard, no code): live domain added to the widget | — | Fixed 2026-10-09; one real test enquiry still to send |
+| Price offers in the Service schema, one Article schema builder, sitemap `lastmod` for articles, Hautpflege button on the Gesichtsbehandlung hub | PR #39 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
