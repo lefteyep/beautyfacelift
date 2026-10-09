@@ -69,23 +69,21 @@ Run `npm run cf:deploy` only as an intentional production release command. The 2
 
 ## Environment Variables
 
-Required locally for full Worker/API checks:
+Contact form (production values are Cloudflare Worker secrets):
 
-- `PUBLIC_SUPABASE_URL`
-- `PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `TURNSTILE_SECRET_KEY` for production-equivalent contact form checks
+- `TURNSTILE_SECRET_KEY` for production-equivalent contact form checks. The site key, `PUBLIC_TURNSTILE_SITE_KEY`, is a GitHub Actions variable.
+- `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` and `CONTACT_TO_EMAIL` for the enquiry emails.
 
-Optional integrations:
+Tracking (everything loads only after marketing consent):
 
-- `PUBLIC_GTM_ID`
-- `PUBLIC_META_PIXEL_ID`
-- `META_PIXEL_ID`
-- `META_ACCESS_TOKEN`
-- `GA4_MEASUREMENT_ID`
-- `GA4_API_SECRET`
-- Stripe keys if deposit payments are enabled
-- Resend keys if email sending is enabled from this Worker
+- `PUBLIC_GTM_ID`: a GitHub Actions variable, `GTM-NVC9QKGS`. See [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md).
+- `PUBLIC_META_PIXEL_ID` (build), plus `META_PIXEL_ID` and `META_ACCESS_TOKEN` (Worker, Conversions API).
+- `GA4_MEASUREMENT_ID` and `GA4_API_SECRET`: server-side GA4 in `/api/track`. Leave them unset. GA4 runs through GTM, and both together would count events twice.
+
+Legacy booking system only. The public site does not need these; Supabase has been unreachable since 2026-10-06, and removal is pending (see TODO):
+
+- `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+- Stripe keys: deposits were never enabled.
 
 ## Manual Launch
 
