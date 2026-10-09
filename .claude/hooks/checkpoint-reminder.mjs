@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 // Claude Code PostToolUse hook: remind Claude to checkpoint during long tasks.
-// See AGENTS.md, "Working Protocol / Save as you go".
+// See AGENTS.md, "Working Protocol / Save as you go", and lib/git-state.mjs for how this
+// session's work is told apart from somebody else's.
 //
-// Runs after every Edit/Write/Bash call. If *this session's* work has been uncommitted or
-// unpushed for more than REMIND_AFTER_MS, it adds a short reminder to Claude's context: commit
-// (WIP if unfinished) and push now. Then it stays quiet for another REMIND_AFTER_MS.
-// Pre-existing changes by somebody else (see session-baseline.mjs) never trigger it.
+// Runs after every Edit/Write/Bash call. Once *this session's* work has been uncommitted or
+// unpushed for more than REMIND_AFTER_MS, it adds a reminder to Claude's context with the same
+// instructions the Stop hook gives (stage own files, hunk-by-hunk for mixed files, push only when
+// no foreign commits would ride along). Then it stays quiet for another REMIND_AFTER_MS.
 // State lives in .git/claude-checkpoint-<session_id>.json (never tracked).
 //
 // This covers the gap the Stop hook cannot: a turn that is interrupted, hits a rate limit or
-// fails never reaches the Stop hook. Work pushed ten minutes ago survives that; work that was
-// never pushed does not. Fails open: any error -> exit 0 silently.
+// fails never reaches the Stop hook. Fails open: any error -> exit 0 silently.
 
 import fs from 'node:fs';
-import { readInput, openRepo, assess, checkpointFile, listSome, saveAdvice, foreignNote } from './lib/git-state.mjs';
+import { readInput, openRepo, assess, summarize, advice, checkpointFile, readJson } from './lib/git-state.mjs';
 
 const REMIND_AFTER_MS = 10 * 60 * 1000;
 
@@ -23,7 +23,7 @@ try {
   const a = assess(repo, input.session_id);
   const stateFile = checkpointFile(repo, input.session_id);
 
-  if (a.ownDirty.length === 0 && a.ownUnpushed === 0) {
+  if (!a.needsSaving) {
     try {
       fs.unlinkSync(stateFile);
     } catch {
@@ -33,12 +33,7 @@ try {
   }
 
   const now = Date.now();
-  let state = {};
-  try {
-    state = JSON.parse(fs.readFileSync(stateFile, 'utf8'));
-  } catch {
-    state = {};
-  }
+  const state = readJson(stateFile) || {};
   if (!state.firstUnsavedAt) {
     fs.writeFileSync(stateFile, JSON.stringify({ firstUnsavedAt: now }));
     process.exit(0);
@@ -46,13 +41,9 @@ try {
   if (now - Math.max(state.firstUnsavedAt, state.lastReminderAt || 0) < REMIND_AFTER_MS) process.exit(0);
   fs.writeFileSync(stateFile, JSON.stringify({ ...state, lastReminderAt: now }));
 
-  const what = [];
-  if (a.ownDirty.length > 0) what.push(`uncommitted changes in ${listSome(a.ownDirty)}`);
-  if (a.ownUnpushed > 0) what.push(`${a.ownUnpushed} unpushed commit(s)`);
-
   const additionalContext =
-    `Checkpoint reminder (AGENTS.md Working Protocol): this session has had ${what.join(' and ')} for more than ten minutes. ` +
-    `${saveAdvice(a)}${foreignNote(a)} This keeps the work safe if this session is cut off.`;
+    `Checkpoint reminder (AGENTS.md Working Protocol): for more than ten minutes there have been ${summarize(a).join('; ')}. ` +
+    `${advice(a)} This keeps the work safe if this session is cut off.`;
 
   process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext } }));
 } catch {
