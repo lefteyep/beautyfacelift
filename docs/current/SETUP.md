@@ -73,6 +73,7 @@ Contact form (production values are Cloudflare Worker secrets):
 
 - `TURNSTILE_SECRET_KEY` for production-equivalent contact form checks. The site key, `PUBLIC_TURNSTILE_SITE_KEY`, is a GitHub Actions variable.
 - `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` and `CONTACT_TO_EMAIL` for the enquiry emails.
+- `CONTACT_BCC_EMAIL` (optional): blind-copy recipients, comma-separated. Set it only once `CONTACT_FROM_EMAIL` uses the domain verified in Resend. Resend's test sender `onboarding@resend.dev` only delivers to the account owner, and the whole email would fail.
 
 Tracking (everything loads only after marketing consent):
 

@@ -13,6 +13,8 @@ export interface Env {
   OWNER_EMAIL?: string;
   CONTACT_FROM_EMAIL?: string;
   CONTACT_TO_EMAIL?: string;
+  /** Optional blind-copy recipients for enquiry emails, comma-separated (e.g. the agency). */
+  CONTACT_BCC_EMAIL?: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_ALLOWED_HOSTS?: string;
   ENABLE_LEGACY_BOOKING?: string;

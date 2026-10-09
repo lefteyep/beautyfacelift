@@ -6,7 +6,14 @@
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
   - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").
   - [x] **Test enquiry, 2026-10-10:** the form showed "Erfolg!", the Worker accepted the enquiry, and the email arrived with the chosen treatment.
-- [ ] **Where enquiries land:** every form email goes to `mediapaulo@gmail.com` (the agency), sent from Resend's shared test sender `onboarding@resend.dev`. Decide whether Teresa should get them directly. Then verify `beautyfacelift-zuerich.ch` in Resend (its DNS records `send.` and `resend._domainkey` already exist in Cloudflare) and set `CONTACT_FROM_EMAIL` to an address on that domain and `CONTACT_TO_EMAIL` to the chosen inbox.
+- [ ] **Where enquiries land:** every form email goes to `mediapaulo@gmail.com` (the agency), sent from Resend's shared test sender `onboarding@resend.dev`.
+  - **Decided (user, 2026-10-10):** Teresa receives the enquiries, and the agency gets a blind copy (BCC), so "Reply all" to a customer never shows the agency address.
+  - The Worker supports blind copies through `CONTACT_BCC_EMAIL` (comma-separated, PR #43).
+  - **Order of the switch:** it matters, because Resend's test sender only delivers to the Resend account owner.
+    1. Verify `beautyfacelift-zuerich.ch` in Resend. Its DNS records `send.` and `resend._domainkey` already exist in Cloudflare.
+    2. Set `CONTACT_FROM_EMAIL` to an address on that domain, then send a test enquiry.
+    3. Set `CONTACT_TO_EMAIL` to Teresa's inbox and `CONTACT_BCC_EMAIL` to `mediapaulo@gmail.com`, then send a second test.
+  - **Needs:** the user's Resend login, and the address Teresa reads.
 - [x] Combo ad form `/lp/aquafacial-microneedling/` fixed on 2026-10-07. Since 2026-05-26 every submission had been rejected for two reasons:
   - its hidden topic was not an allowed contact topic;
   - the Worker required Turnstile, but the page has no widget.
@@ -60,13 +67,13 @@
   - **Sitemap:** articles carry `lastmod` from their modified date. Other pages have none rather than a guessed one.
 
 ## Priority 0: Decisions for Teresa
-- [ ] Aquafacial LP: confirm "statt CHF 180" as a provable regular price and an end date for the Kennenlernpreis (Swiss price-indication rules)
+- [x] Aquafacial LP "statt CHF 180": the user decided on 2026-10-10 to keep the "statt" prices as they are.
 - [ ] Treatwell: create a "Aquafacial Aktion – 60 Min. – CHF 99" service so the post-form link opens the advertised offer
 - [ ] Confirm the review source and current count (site shows 4,8 / 5 from 248+; LP shows 249) and allow linking to it
 - [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
 - [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
 - [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate)
-- [ ] Ad pages, reference prices: "statt CHF 250.–" (combo) and "statt CHF 220.–" / "Sie sparen CHF 51" (Carbon) need the same reference-price proof and an end date as the Aquafacial "statt CHF 180.–" (Swiss price-indication rules). There is also a conflict: the Microneedling page, `/behandlungen/vergleich/` and the Microneedling FAQ list "Carbon Laser + Microneedling" at **CHF 250**, while the Carbon ad page uses CHF 220 as its reference price.
+- [x] Ad pages, reference prices, decided by the user on 2026-10-10: the "statt" prices stay as they are. Earlier note: "statt CHF 250.–" (combo) and "statt CHF 220.–" / "Sie sparen CHF 51" (Carbon) need the same reference-price proof and an end date as the Aquafacial "statt CHF 180.–" (Swiss price-indication rules). There is also a conflict: the Microneedling page, `/behandlungen/vergleich/` and the Microneedling FAQ list "Carbon Laser + Microneedling" at **CHF 250**, while the Carbon ad page uses CHF 220 as its reference price.
   - Answer from the agency on 2026-10-07: both ad prices are time-limited campaign offers, promoted through the Meta campaigns.
   - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
 - [ ] Carbon ad page: the three client quotes still carry "TODO: Teresa to supply real testimonials" in the code — confirm they are real, or replace them with verified reviews
@@ -135,7 +142,10 @@ Finished work from March to May 2026, and the items dropped on 2026-10-10, are i
 - [x] Google Search Console, 2026-10-10: domain property `beautyfacelift-zuerich.ch` verified by DNS TXT record in Cloudflare (Google login `mediapaulo@gmail.com`), `sitemap.xml` submitted. Google had not fetched it yet on the day of submission; check the status again.
 - [ ] Google Business Profile: the profile "Beauty Face Lift" (4,2 from 46 Google reviews) exists, but another Google account manages it, most likely Teresa's. Its website link still points to the old `beautyfacelift.ch`. Teresa should add `mediapaulo@gmail.com` as a manager, or change the website to `https://beautyfacelift-zuerich.ch/` herself.
 - [ ] **Legacy booking system (decision):** the first-party booking widget, the admin page, `/api/services|slots|availability|bookings` and the Supabase project `izekwngqjllaqibrwotp` have been dead since 2026-10-06 (NXDOMAIN). Bookings run on Treatwell.
-  - The agency recommends removing them, and the user agreed on 2026-10-10. The agent's tool blocked deleting the files, so the removal needs the user's go first, or a person does it.
+  - **Decided (user, 2026-10-10):** keep it for now.
+    - Nobody has the admin login, and the login cannot work anyway: the Supabase project no longer resolves.
+    - The local backup folder `_archives/supabase-backup-2026-05-05` is empty.
+    - To check the data first, log in at supabase.com with the account that created the project, to see whether it was paused or deleted. Removal stays the recommendation.
   - After removal, delete:
     - the Worker secrets `SUPABASE_SERVICE_ROLE_KEY` and `PUBLIC_SUPABASE_ANON_KEY`;
     - the GitHub variable `PUBLIC_SUPABASE_URL` and the GitHub secret `PUBLIC_SUPABASE_ANON_KEY`;
