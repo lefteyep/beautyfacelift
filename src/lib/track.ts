@@ -199,6 +199,25 @@ function loadMetaPixel(): void {
   window.fbq?.('init', pixelId);
 }
 
+type ConsentState = 'granted' | 'denied';
+
+/** gtag() as Google defines it: a command must reach the dataLayer as the arguments object. */
+function gtag(..._args: unknown[]): void {
+  window.dataLayer = window.dataLayer || [];
+  // eslint-disable-next-line prefer-rest-params
+  window.dataLayer.push(arguments as unknown as Record<string, unknown>);
+}
+
+/** Consent Mode v2 signals for the Google tags (GA4 now, Google Ads later). */
+function googleConsent(command: 'default' | 'update', state: ConsentState): void {
+  gtag('consent', command, {
+    ad_storage: state,
+    analytics_storage: state,
+    ad_user_data: state,
+    ad_personalization: state,
+  });
+}
+
 function loadGtm(): void {
   if (typeof window === 'undefined') return;
   if (gtmLoaded) return;
@@ -208,6 +227,9 @@ function loadGtm(): void {
   if (!gtmId) return;
   gtmLoaded = true;
 
+  // GTM only loads after marketing consent, so the Google tags start with consent granted.
+  // Google Ads needs these signals in CH/EU for conversions and remarketing.
+  googleConsent('default', 'granted');
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
   const firstScript = document.getElementsByTagName('script')[0];
@@ -886,6 +908,10 @@ export function initPpcTracking(): void {
   };
 
   window.addEventListener('bfl:marketing-consent-granted', start);
+  // Consent withdrawn on this page: tell the already loaded Google tags to stop.
+  window.addEventListener('bfl:marketing-consent-denied', () => {
+    if (gtmLoaded) googleConsent('update', 'denied');
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start, { once: true });
