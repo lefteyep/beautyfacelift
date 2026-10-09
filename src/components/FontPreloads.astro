@@ -1,0 +1,10 @@
+---
+// The two fonts every page shows above the fold (body text and headings). Preloading them lets the
+// browser fetch both with the HTML instead of only after it has read the @font-face rules.
+// The ?url imports resolve to the same hashed files the Fontsource CSS points to.
+import sansLatin from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-standard-normal.woff2?url';
+import serifLatin from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+---
+
+<link rel="preload" href={sansLatin} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />

@@ -1,7 +1,7 @@
 ---
 import '../styles/main.css';
 import '../styles/components.css';
-import '../styles/booking.css';
+import FontPreloads from '../components/FontPreloads.astro';
 import HeadIcons from '../components/HeadIcons.astro';
 import MarketingConsent from '../components/MarketingConsent.astro';
 import { absoluteUrl, BOOKING_ATTRIBUTION_KEYS, SITE_NAME } from '../../shared/site';
@@ -38,6 +38,7 @@ const preloadImages = Array.isArray(preloadImage) ? preloadImage : preloadImage 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <FontPreloads />
     <meta name="description" content={description}>
     <meta name="robots" content="noindex, nofollow">
     <meta name="facebook-domain-verification" content="61xaasiyh074x1sn3szqej2sf3mzet">

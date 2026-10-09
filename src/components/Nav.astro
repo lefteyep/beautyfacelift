@@ -140,7 +140,7 @@ const menuColumns = [
         <a href="/termin/" class="btn btn-lg nav-mobile-cta" data-button-location="nav_mobile">Termin buchen</a>
         <div class="nav-mobile-contact">
             <a href={`tel:${CONTACT_PHONE}`} data-button-location="nav_mobile_phone">{CONTACT_PHONE_DISPLAY}</a>
-            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+            <a href={`mailto:${CONTACT_EMAIL}`} data-button-location="nav_mobile_email">{CONTACT_EMAIL}</a>
             <span>{FULL_ADDRESS}</span>
         </div>
     </div>
@@ -194,7 +194,9 @@ const menuColumns = [
             }
         });
 
-        dropdown.addEventListener('focusin', () => {
+        desktopSubmenu?.addEventListener('focusin', () => {
+            // A link inside the visible menu got focus (menu open by hover or still fading out):
+            // keep it open, so focus is not dropped when the pointer leaves.
             if (isDesktop()) setDesktopDropdown(true);
         });
 
@@ -207,9 +209,12 @@ const menuColumns = [
         dropdown.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 setDesktopDropdown(false);
+                dropdown.classList.add('is-dismissed');
                 desktopDisclosure.focus();
             }
         });
+
+        dropdown.addEventListener('pointerleave', () => dropdown.classList.remove('is-dismissed'));
 
         document.addEventListener('pointerdown', (event) => {
             if (isDesktop() && !dropdown.contains(event.target as Node | null)) {

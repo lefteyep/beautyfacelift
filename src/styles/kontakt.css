@@ -872,21 +872,26 @@ body.page-contact {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   opacity: 0;
+  visibility: hidden; /* hidden bar: its links leave the tab order */
   pointer-events: none;
   transform: translateY(140%);
-  transition: opacity 0.25s ease, transform 0.45s var(--ease-expo);
+  transition: opacity 0.25s ease, transform 0.45s var(--ease-expo), visibility 0s linear 0.45s;
 }
 
 body.kontakt-sticky-visible .kontakt-mobile-bar {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: none;
+  transition-delay: 0s; /* visible at once; the base rule keeps the timing */
 }
 
 body.kontakt-form-focused .kontakt-mobile-bar {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(140%);
+  transition-delay: 0s, 0s, 0.45s; /* both body classes can be set at once */
 }
 
 .kontakt-mobile-bar a {

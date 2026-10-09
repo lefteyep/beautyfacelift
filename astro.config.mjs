@@ -82,7 +82,9 @@ export default defineConfig({
     react(),
   ],
   build: {
-    inlineStylesheets: 'auto',
+    // Ad visitors arrive on their first page view: inline CSS renders without waiting for
+    // separate render-blocking stylesheet requests (Lighthouse: 0.5–0.75 s each on mobile).
+    inlineStylesheets: 'always',
   },
   vite: {
     build: {
