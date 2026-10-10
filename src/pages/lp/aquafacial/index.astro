@@ -4,7 +4,7 @@ import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
 import AquafacialResultsSection from '../../../components/lp/AquafacialResultsSection.astro';
 import { Image, getImage } from 'astro:assets';
 import { teresaPortrait } from '../../../lib/site-images';
-import { absoluteUrl, CONTACT_PHONE } from '../../../../shared/site';
+import { absoluteUrl, CONTACT_PHONE, TREATWELL_URL } from '../../../../shared/site';
 import heroTreatmentPhoto from '../../../assets/lp/aquafacial/aquafacial-behandlung-zuerich.webp';
 import resultGlowFace from '../../../assets/lp/aquafacial/results/aquafacial-result-glow-face.jpg';
 import resultHydratedSkin from '../../../assets/lp/aquafacial/results/aquafacial-result-hydrated-skin.jpg';
@@ -17,6 +17,7 @@ const CAMPAIGN = 'aquafacial_aktion';
 const OFFER_SLUG = 'aquafacial_aktion_99';
 const LANDING_PAGE_PATH = '/lp/aquafacial/';
 const DURATION_LABEL = '1 Stunde';
+const PRIMARY_CTA_LABEL = 'Unverbindlich Termin anfragen';
 const SEO_TITLE = 'Aquafacial Aktion Zürich | CHF 99 statt CHF 180 | Beauty Face Lift';
 const META_DESCRIPTION = 'Professionelle Aquafacial Behandlung in Zürich: Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF 99 statt CHF 180. Jetzt unverbindlich anfragen.';
 const OG_DESCRIPTION = '1-stündige Aquafacial Behandlung mit Cleansing, Fruchtsäurepeeling und Hyaluron Booster bei Beauty Face Lift Zürich. Jetzt unverbindlich anfragen.';
@@ -29,11 +30,11 @@ const HERO_VIDEO_POSTER_MOBILE = '/assets/lp-aquafacial/hero-poster-720.webp';
 const HERO_VIDEO_MP4 = '/assets/lp-aquafacial/hero-video.mp4';
 const HERO_VIDEO_MOBILE_MP4 = '/assets/lp-aquafacial/hero-video-mobile.mp4';
 const HERO_VIDEO_WEBM = '/assets/lp-aquafacial/hero-video.webm';
-const lpHeroPosterSizes = '(min-width: 1320px) 520px, (min-width: 901px) 40vw, calc(100vw - 40px)';
+const lpHeroPosterSizes = '(min-width: 1320px) 400px, (min-width: 901px) 32vw, calc(100vw - 40px)';
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
 
-// Hero photo: Teresa at an Aquafacial treatment. Desktop shows the full 4:5 frame,
-// phones get a pre-cropped slim band (treatment + face) so it fits the first viewport.
+// Hero photo: Teresa at an Aquafacial treatment. Desktop shows the full 4:5 frame in the arch,
+// phones get a pre-cropped 2:1 band under the CTAs so the first viewport holds the message and the action.
 const heroPortraitSizes = '(min-width: 1320px) 540px, 40vw';
 const heroPortrait = await getImage({
   src: heroTreatmentPhoto,
@@ -52,9 +53,9 @@ const heroBand = await getImage({
   quality: 'mid',
 });
 
-// Hero facts: what you get, who treats you. Rating proof sits under the CTAs.
+// Hero facts: how long, what you get, who treats you. Rating proof sits under the CTAs.
 const heroBullets = [
-  `${DURATION_LABEL} Behandlung`,
+  `${DURATION_LABEL} an der Bahnhofstrasse 94, Zürich`,
   'Cleansing, Fruchtsäurepeeling & Hyaluron Booster',
   'Persönlich durch Teresa Stimac, 20+ Jahre Erfahrung',
 ];
@@ -77,17 +78,17 @@ const benefits = [
   { title: 'Meist keine Ausfallzeit', text: 'Make-up kannst du direkt danach auftragen – ideal vor einem besonderen Anlass.' },
 ];
 
-const trustProof = [
-  { value: '20+', label: 'Jahre Erfahrung' },
-  { value: '4,8', label: 'Bewertung auf Treatwell' },
-  { value: '248+', label: 'Bewertungen' },
+// Studio facts in one hairline row; the review line links to its source.
+const studioFacts = [
+  { text: '20+ Jahre Erfahrung' },
+  { text: '4,8 aus 248+ Bewertungen auf Treatwell', href: TREATWELL_URL },
+  { text: 'Bahnhofstrasse 94, 8001 Zürich' },
 ];
 
-const processSteps = [
-  { title: 'Anfrage senden', text: 'Kurzes Formular ausfüllen – Name und Kontaktdaten genügen.' },
-  { title: 'Studio meldet sich', text: 'Beauty Face Lift kontaktiert dich persönlich per Telefon, WhatsApp oder E-Mail.' },
-  { title: 'Termin abstimmen', text: 'Gemeinsam wird ein passender Termin gefunden – deine Fragen klärst du direkt dabei.' },
-  { title: 'Aquafacial geniessen', text: '1 Stunde Pflege an der Bahnhofstrasse 94 in Zürich.' },
+// What happens after the request: two lines, shown right above the fields.
+const nextSteps = [
+  'Du sendest deinen Terminwunsch – ohne Online-Zahlung.',
+  'Beauty Face Lift meldet sich persönlich per Telefon, WhatsApp oder E-Mail und bestätigt den Termin mit dir.',
 ];
 
 const resultExamples = [
@@ -117,7 +118,7 @@ const resultExamples = [
   },
 ];
 
-// Objections in the order people raise them: content, fit, payment, contact, place, limits.
+// Objections in the order people raise them: content, fit, sensation, payment, next steps, place, limits, when to postpone, online booking.
 const faqs = [
   {
     q: 'Was ist in der CHF 99 Aquafacial Aktion enthalten?',
@@ -126,6 +127,10 @@ const faqs = [
   {
     q: 'Ist Aquafacial für meine Haut geeignet?',
     a: 'Aquafacial eignet sich für viele Hauttypen, besonders wenn die Haut fahl, trocken, unruhig oder verstopft wirkt. Teresa schätzt vor der Behandlung ehrlich ein, ob sie zu deinem aktuellen Hautzustand passt.',
+  },
+  {
+    q: 'Tut Aquafacial weh oder wird die Haut rot?',
+    a: 'Die Behandlung wird meist als angenehm empfunden. Eine leichte Rötung direkt danach ist möglich und klingt in der Regel schnell ab. Make-up kannst du danach auftragen.',
   },
   {
     q: 'Muss ich jetzt schon bezahlen?',
@@ -142,6 +147,10 @@ const faqs = [
   {
     q: 'Ist die Aktion limitiert?',
     a: 'Die Aquafacial Aktion kann zeitlich oder nach freien Terminen begrenzt sein. Sende deine Anfrage, dann prüft das Studio deinen Wunschtermin.',
+  },
+  {
+    q: 'Wann sollte ich den Termin verschieben?',
+    a: 'Bei stark gereizter Haut, frischem Sonnenbrand, akuten Entzündungen oder Unsicherheit zu Hautreaktionen besprichst du den Termin am besten vorher mit Teresa.',
   },
   {
     q: 'Kann ich auch direkt online buchen?',
@@ -206,7 +215,7 @@ const structuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-  <main class="lp-page">
+  <main class="lp-page" id="main-content">
     <a
       href={whatsappHref}
       class="lp-floating-whatsapp wa-sticky"
@@ -224,14 +233,14 @@ const structuredData = {
       </svg>
     </a>
 
-    <!-- 1 · Hero: copy left, treatment photo right (phones: slim photo band under the price line) -->
+    <!-- 1 · Hero: copy left, treatment photo in the arch right (phones: message, price and CTA first, then the photo band) -->
     <section class="lp-hero" aria-labelledby="lp-hero-title" data-aquafacial-hero>
       <div class="container lp-hero-grid">
         <div class="lp-hero-copy">
-          <p class="lp-hero-kicker eyebrow eyebrow--rule">Aquafacial an der Bahnhofstrasse 94</p>
-          <h1 class="lp-title" id="lp-hero-title">Aquafacial in Zürich: frischer Glow in 60 Minuten</h1>
+          <p class="lp-hero-kicker eyebrow eyebrow--rule">Aquafacial Aktion · Bahnhofstrasse 94, Zürich</p>
+          <h1 class="lp-title" id="lp-hero-title">Aquafacial in Zürich: frischer <em>Glow</em> in 60 Minuten</h1>
           <p class="lp-subtitle">
-            Premium Aquafacial Behandlung für ein sichtbar frisches, gepflegtes und hydratisiertes Hautgefühl.
+            Cleansing, sanftes Fruchtsäurepeeling und Hyaluron Booster – persönlich von Teresa Stimac, für Haut, die fahl, trocken oder unruhig wirkt.
           </p>
 
           <p class="lp-hero-price">
@@ -247,11 +256,11 @@ const structuredData = {
           </ul>
 
           <div class="lp-hero-ctas">
-            <a href="#aquafacial-lead-form" class="btn lp-hero-primary" data-button-location="lp_hero" data-aquafacial-scroll>Unverbindlich Termin anfragen</a>
-            <a href={whatsappHref} class="btn-link lp-hero-secondary" target="_blank" rel="noopener noreferrer" data-treatment={OFFER_LABEL} data-button-location="lp_hero_whatsapp" data-source="lp_hero">Frage per WhatsApp</a>
+            <a href="#aquafacial-lead-form" class="btn lp-hero-primary" data-button-location="lp_hero" data-aquafacial-scroll>{PRIMARY_CTA_LABEL}</a>
+            <a href={whatsappHref} class="btn-link lp-hero-secondary" target="_blank" rel="noopener noreferrer" data-treatment={OFFER_LABEL} data-button-location="lp_hero_whatsapp" data-source="lp_hero">Kurze Frage? Per WhatsApp</a>
           </div>
 
-          <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen auf Treatwell</span></p>
+          <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><a href={TREATWELL_URL} target="_blank" rel="noopener noreferrer" data-button-location="lp_hero_reviews"><strong>4,8</strong> aus 248+ Bewertungen auf Treatwell</a></p>
         </div>
 
         <figure class="lp-hero-media">
@@ -278,7 +287,7 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- 2 · What the offer includes, next to the campaign video card -->
+    <!-- 2 · What the offer includes, with the campaign video card beside it -->
     <section class="lp-section lp-section--rule lp-offer-detail" aria-labelledby="lp-offer-title">
       <div class="container lp-offer-grid">
         <div class="lp-offer-media">
@@ -327,7 +336,7 @@ const structuredData = {
         </div>
 
         <div class="lp-offer-copy">
-          <h2 class="lp-section-title" id="lp-offer-title">Was ist in der Aquafacial Aktion enthalten?</h2>
+          <h2 class="lp-section-title" id="lp-offer-title">Das ist in deiner Aquafacial Aktion enthalten</h2>
           <p class="lp-section-lead">
             1 Stunde professionelle Pflege, Schritt für Schritt auf deine Haut abgestimmt – persönlich von Teresa Stimac.
           </p>
@@ -337,33 +346,75 @@ const structuredData = {
             ))}
           </ul>
           <div class="lp-section-cta">
-            <a href="#aquafacial-lead-form" class="btn" data-button-location="what_section" data-aquafacial-scroll>Unverbindlich Termin anfragen</a>
+            <a href="#aquafacial-lead-form" class="btn" data-button-location="what_section" data-aquafacial-scroll>{PRIMARY_CTA_LABEL}</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="lp-section lp-process" aria-labelledby="lp-process-title">
+    <!-- 3 · Benefits: four outcomes in one ruled row -->
+    <section class="lp-section lp-benefits-section" aria-labelledby="lp-benefits-title">
       <div class="container">
         <div class="lp-section-head">
           <div class="lp-section-head-title">
-            <h2 class="lp-section-title" id="lp-process-title">So funktioniert deine Anfrage</h2>
+            <h2 class="lp-section-title" id="lp-benefits-title">Was deine Haut davon hat</h2>
           </div>
           <p class="lp-section-lead">
-            Kurz anfragen, persönlich abstimmen – ohne Online-Zahlung und ohne Verpflichtung.
+            Für Haut, die fahl, trocken oder unruhig wirkt – Teresa stimmt die Behandlung auf dich ab.
           </p>
         </div>
-        <ol class="steps lp-process-grid">
-          {processSteps.map((step) => (
-            <li class="lp-process-step">
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
+        <ul class="lp-benefits-grid">
+          {benefits.map((b) => (
+            <li class="lp-benefit">
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     </section>
 
+    <!-- 4 · Teresa / trust -->
+    <section class="lp-section lp-trust" aria-labelledby="lp-trust-title">
+      <div class="container lp-trust-grid">
+        <div class="lp-trust-media">
+          <Image
+            src={teresaPortrait}
+            widths={[360, 540, 720, 960, 1023]}
+            sizes={lpAboutSizes}
+            format="webp"
+            quality="high"
+            alt="Teresa Stimac von Beauty Face Lift Zürich"
+            loading="lazy"
+          />
+        </div>
+        <div class="lp-trust-content">
+          <h2 class="lp-section-title" id="lp-trust-title">Persönlich behandelt von Teresa Stimac</h2>
+          <p>
+            Teresa Stimac behandelt seit über 20 Jahren selbst und schätzt ehrlich ein, was zu deiner Haut passt.
+          </p>
+          <p>
+            Kein Druck, keine Sofortbuchung: Du kannst die Aquafacial Aktion zuerst anfragen, Fragen stellen und deinen Terminwunsch persönlich abstimmen.
+          </p>
+          <ul class="lp-facts" aria-label="Studio und Bewertungen">
+            {studioFacts.map((item) => (
+              <li>
+                {item.href ? (
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" data-button-location="trust_reviews">{item.text}</a>
+                ) : (
+                  <span>{item.text}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div class="lp-section-cta">
+            <a href="#aquafacial-lead-form" class="btn" data-button-location="trust_section" data-aquafacial-scroll>{PRIMARY_CTA_LABEL}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Results, directly before the form -->
     <AquafacialResultsSection
       eyebrow="Aquafacial Ergebnisse"
       headline="Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung"
@@ -374,11 +425,12 @@ const structuredData = {
       ctaTarget="#aquafacial-lead-form"
     />
 
+    <!-- 6 · Lead form -->
     <section class="container lp-section lp-lead" id="aquafacial-lead-form">
       <div class="lp-lead-grid">
         <div class="lp-lead-header">
           <p class="lp-eyebrow">Termin unverbindlich anfragen</p>
-          <h2 class="lp-section-title">Sichere dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>
+          <h2 class="lp-section-title">Aquafacial zum Kennenlernpreis anfragen</h2>
         </div>
 
         <div class="lp-form-shell">
@@ -407,6 +459,12 @@ const structuredData = {
             <input type="hidden" name="gclid" value="" />
             <input type="hidden" name="msclkid" value="" />
 
+            <ol class="lp-next-steps" aria-label="So geht es weiter">
+              {nextSteps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+
             <div class="lp-form-row">
               <label for="aquafacial-name">Vor- und Nachname<span aria-hidden="true">*</span></label>
               <input id="aquafacial-name" name="name" type="text" autocomplete="name" required aria-describedby="aquafacial-name-error" />
@@ -428,7 +486,7 @@ const structuredData = {
 
             <div class="lp-form-row-grid">
               <div class="lp-form-row">
-                <label for="aquafacial-time">Wann erreichen wir dich telefonisch?</label>
+                <label for="aquafacial-time">Wann erreichen wir dich telefonisch? <span class="lp-optional">(optional)</span></label>
                 <div class="lp-select">
                   <select id="aquafacial-time" name="preferred_time">
                     <option value="">Bitte wählen</option>
@@ -439,7 +497,7 @@ const structuredData = {
                 </div>
               </div>
               <div class="lp-form-row">
-                <label for="aquafacial-date">Terminwunsch</label>
+                <label for="aquafacial-date">Terminwunsch <span class="lp-optional">(optional)</span></label>
                 <input id="aquafacial-date" name="preferred_date" type="date" />
               </div>
             </div>
@@ -451,7 +509,7 @@ const structuredData = {
 
             <label class="lp-checkbox" for="aquafacial-privacy">
               <input id="aquafacial-privacy" name="privacy_consent" type="checkbox" value="yes" required aria-describedby="aquafacial-privacy-error" />
-              <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Beauty Face Lift meine Angaben zur Kontaktaufnahme bezüglich der Aquafacial Aktion verarbeitet.</span>
+              <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Beauty Face Lift mich zu meiner Anfrage kontaktiert.</span>
             </label>
             <p id="aquafacial-privacy-error" class="lp-field-error" data-field-error="privacy_consent" hidden></p>
 
@@ -459,70 +517,14 @@ const structuredData = {
               <button type="submit" class="btn lp-submit" data-aquafacial-submit>
                 <span data-submit-label>Unverbindlich Termin anfragen</span>
               </button>
-              <p class="lp-form-note">Keine Online-Zahlung. Wir melden uns zur Terminbestätigung.</p>
+              <p class="lp-form-note">Keine Online-Zahlung, keine Verpflichtung. Wir melden uns zur Terminbestätigung.</p>
             </div>
           </form>
         </div>
       </div>
     </section>
 
-    <section class="lp-section lp-benefits-section" aria-labelledby="lp-benefits-title">
-      <div class="container">
-        <div class="lp-section-head">
-          <div class="lp-section-head-title">
-            <h2 class="lp-section-title" id="lp-benefits-title">Warum Aquafacial so beliebt ist</h2>
-          </div>
-          <p class="lp-section-lead">
-            Professionelle Pflege in einer Stunde – abgestimmt auf deine Haut.
-          </p>
-        </div>
-        <ul class="lp-benefits-grid">
-          {benefits.map((b) => (
-            <li class="lp-benefit">
-              <h3>{b.title}</h3>
-              <p>{b.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <section class="lp-section lp-trust" aria-labelledby="lp-trust-title">
-      <div class="container lp-trust-grid">
-        <div class="lp-trust-media">
-          <Image
-            src={teresaPortrait}
-            widths={[360, 540, 720, 960, 1023]}
-            sizes={lpAboutSizes}
-            format="webp"
-            quality="high"
-            alt="Teresa Stimac von Beauty Face Lift Zürich"
-            loading="lazy"
-          />
-        </div>
-        <div class="lp-trust-content">
-          <h2 class="lp-section-title" id="lp-trust-title">Premium Kosmetikstudio an der Bahnhofstrasse 94</h2>
-          <p>
-            Teresa Stimac behandelt seit über 20 Jahren selbst und schätzt ehrlich ein, was zu deiner Haut passt.
-          </p>
-          <p>
-            Kein Druck, keine Sofortbuchung: Du kannst die Aquafacial Aktion zuerst anfragen, Fragen stellen und deinen Terminwunsch persönlich abstimmen.
-          </p>
-          <ul class="lp-proof-grid" aria-label="Vertrauenssignale">
-            {trustProof.map((item) => (
-              <li class="lp-proof-item">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </li>
-            ))}
-          </ul>
-          <div class="lp-section-cta">
-            <a href="#aquafacial-lead-form" class="btn" data-button-location="trust_section" data-aquafacial-scroll>Unverbindlich Termin anfragen</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- 7 · FAQ -->
     <section class="lp-section lp-faq" aria-labelledby="lp-faq-title">
       <div class="container lp-faq-grid">
         <div class="lp-faq-head">
@@ -532,18 +534,19 @@ const structuredData = {
       </div>
     </section>
 
+    <!-- 8 · Closing band -->
     <section class="lp-final-dark on-dark" aria-labelledby="lp-final-title">
       <div class="lp-final-inner">
         <div class="lp-final-copy">
-          <h2 class="lp-final-title" id="lp-final-title">Aquafacial Aktion für CHF 99 statt CHF 180 sichern</h2>
+          <h2 class="lp-final-title" id="lp-final-title">Bereit für frischen Glow?</h2>
           <p class="lp-final-lead">
-            Sende deinen Terminwunsch unverbindlich – Beauty Face Lift meldet sich persönlich bei dir und stimmt den Termin mit dir ab.
+            Aquafacial zum Kennenlernpreis von CHF {PROMO_PRICE} statt CHF {REGULAR_PRICE} – unverbindlich anfragen, Beauty Face Lift meldet sich persönlich bei dir.
           </p>
         </div>
         <div class="lp-final-actions">
           <div class="lp-final-ctas">
-            <a href="#aquafacial-lead-form" class="btn" data-button-location="final_cta" data-aquafacial-scroll>Unverbindlich Termin anfragen</a>
-            <a href={whatsappHref} class="btn-link" target="_blank" rel="noopener noreferrer" data-treatment={OFFER_LABEL} data-button-location="lp_final_whatsapp" data-source="lp_final">Frage per WhatsApp</a>
+            <a href="#aquafacial-lead-form" class="btn" data-button-location="final_cta" data-aquafacial-scroll>{PRIMARY_CTA_LABEL}</a>
+            <a href={whatsappHref} class="btn-link" target="_blank" rel="noopener noreferrer" data-treatment={OFFER_LABEL} data-button-location="lp_final_whatsapp" data-source="lp_final">Kurze Frage? Per WhatsApp</a>
           </div>
           <p class="lp-final-address">Beauty Face Lift · Bahnhofstrasse 94 · 8001 Zürich</p>
         </div>
@@ -982,16 +985,11 @@ const structuredData = {
   }
 
   .lp-section {
-    padding-block: clamp(72px, 9vw, 136px);
+    padding-block: var(--section-y);
   }
 
   .lp-section--rule {
     border-top: 1px solid var(--rule);
-  }
-
-  /* The steps band ends where the results begin: no extra hairline on the band edge. */
-  .lp-process + :global(.aquafacial-results-section) {
-    border-top: 0;
   }
 
   .lp-section-title {
@@ -1072,8 +1070,8 @@ const structuredData = {
 
   /* ─── 1 · Hero ───────────────────────────────────────────── */
   .lp-hero {
-    padding-top: clamp(40px, 5vw, 72px);
-    padding-bottom: clamp(48px, 6vw, 88px);
+    padding-top: clamp(40px, 4vw, 56px);
+    padding-bottom: clamp(48px, 6vw, 80px);
   }
 
   .lp-hero-grid {
@@ -1095,16 +1093,16 @@ const structuredData = {
 
   .lp-title {
     max-width: 15ch;
-    font-size: clamp(2.35rem, 5vw, 4.5rem);
+    font-size: clamp(2.35rem, 4.6vw, 4.1rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
   }
 
   .lp-subtitle {
-    max-width: 44ch;
-    margin-top: clamp(20px, 2.2vw, 28px);
+    max-width: 46ch;
+    margin-top: clamp(16px, 1.8vw, 22px);
     font-size: var(--fs-lead);
-    line-height: 1.6;
+    line-height: 1.55;
   }
 
   .lp-hero-price {
@@ -1113,8 +1111,8 @@ const structuredData = {
     align-items: baseline;
     gap: 4px 14px;
     max-width: none;
-    margin-top: clamp(28px, 3vw, 40px);
-    padding-block: 18px;
+    margin-top: clamp(24px, 2.4vw, 32px);
+    padding-block: 14px;
     width: 100%;
     border-top: 1px solid var(--rule-strong);
     border-bottom: 1px solid var(--rule);
@@ -1153,7 +1151,7 @@ const structuredData = {
     display: flex;
     align-items: baseline;
     gap: 14px;
-    padding-block: 12px;
+    padding-block: 10px;
     border-bottom: 1px solid var(--rule);
     color: var(--umber);
     font-size: 0.98rem;
@@ -1175,7 +1173,7 @@ const structuredData = {
     flex-wrap: wrap;
     align-items: center;
     gap: 16px 32px;
-    margin-top: clamp(28px, 3vw, 40px);
+    margin-top: clamp(24px, 2.4vw, 32px);
   }
 
   .lp-hero-media {
@@ -1198,6 +1196,23 @@ const structuredData = {
   }
 
   .lp-hero-proof strong { color: var(--cocoa); font-weight: 600; }
+
+  .lp-hero-proof a {
+    color: var(--text);
+    border-bottom: 1px solid var(--line-strong);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .lp-hero-proof a:hover {
+    color: var(--clay);
+    border-color: currentColor;
+  }
+
+  /* Optional field marker: muted, never copper like the required asterisk. */
+  .lp-optional {
+    color: var(--muted);
+    font-weight: 400;
+  }
   .lp-stars { color: var(--gold); letter-spacing: 0.1em; font-size: 0.9rem; }
 
   .lp-hero-media picture,
@@ -1214,7 +1229,7 @@ const structuredData = {
   /* ─── 2 · Offer contents + campaign video ────────────────── */
   .lp-offer-grid {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
     align-items: center;
     gap: clamp(40px, 6vw, 104px);
   }
@@ -1372,6 +1387,47 @@ const structuredData = {
     border-top: 1px solid var(--rule);
   }
 
+  /* What happens after the request: two numbered lines above the fields. */
+  .lp-next-steps {
+    display: grid;
+    gap: 0;
+    margin: 0 0 4px;
+    padding: 0;
+    border-bottom: 1px solid var(--rule);
+    counter-reset: lp-step;
+  }
+
+  .lp-next-steps li {
+    counter-increment: lp-step;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 12px;
+    padding: 0 0 14px;
+    color: var(--text);
+    font-size: var(--fs-small);
+    line-height: 1.55;
+  }
+
+  .lp-next-steps li + li {
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .lp-next-steps li::before {
+    content: counter(lp-step);
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--shell);
+    color: var(--clay);
+    font-family: var(--f-serif);
+    font-size: 0.95rem;
+    line-height: 1;
+    transform: translateY(1px);
+  }
+
   .lp-lead-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1522,7 +1578,7 @@ const structuredData = {
     line-height: 1.4;
   }
 
-  .lp-form-row label span {
+  .lp-form-row label span[aria-hidden] {
     color: var(--bronze);
   }
 
@@ -1723,14 +1779,12 @@ const structuredData = {
     border-top: 1px solid var(--rule-strong);
   }
 
-  .lp-benefit h3,
-  .lp-process-step h3 {
+  .lp-benefit h3 {
     font-size: var(--fs-h4);
     line-height: 1.25;
   }
 
-  .lp-benefit p,
-  .lp-process-step p {
+  .lp-benefit p {
     margin: 0;
     color: var(--umber);
     font-size: 1rem;
@@ -1770,57 +1824,48 @@ const structuredData = {
     margin: 0;
   }
 
-  .lp-proof-grid {
+  .lp-facts {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
     margin: 12px 0 0;
     padding: 0;
     border-top: 1px solid var(--rule-strong);
+  }
+
+  .lp-facts li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-block: 12px;
     border-bottom: 1px solid var(--rule);
+    color: var(--text);
+    font-size: var(--fs-small);
+    line-height: 1.5;
   }
 
-  .lp-proof-item {
-    display: grid;
-    gap: 8px;
-    padding: 22px 18px 22px 0;
+  .lp-facts li::before {
+    content: '';
+    flex: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+    transform: translateY(3px);
   }
 
-  .lp-proof-item + .lp-proof-item {
-    padding-left: 22px;
-    border-left: 1px solid var(--rule);
+  .lp-facts a {
+    color: var(--cocoa);
+    border-bottom: 1px solid var(--line-strong);
+    transition: color 0.3s ease, border-color 0.3s ease;
   }
 
-  .lp-proof-item strong {
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
-    font-weight: 400;
-    line-height: 1;
-    font-variant-numeric: lining-nums;
-  }
-
-  .lp-proof-item span {
-    color: var(--muted);
-    font-size: var(--fs-label);
-    font-weight: 400;
-    line-height: 1.4;
+  .lp-facts a:hover {
+    color: var(--clay);
+    border-color: currentColor;
   }
 
   .lp-trust-content .lp-section-cta {
     margin-top: 12px;
-  }
-
-  /* ─── 7 · Process — numbered steps (a real sequence) ─────── */
-  .lp-process {
-    background: var(--sand);
-  }
-
-  .lp-process-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    row-gap: 40px;
-    margin: 0;
-    padding: 0;
   }
 
   /* ─── 9 · FAQ ────────────────────────────────────────────── */
@@ -1968,10 +2013,6 @@ const structuredData = {
     .lp-benefits-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .lp-process-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
   @media (max-width: 900px) {
@@ -1987,7 +2028,7 @@ const structuredData = {
       height: 26px;
     }
 
-    /* Hero becomes one column: kicker, H1, price, photo band, CTA, then the supporting copy. */
+    /* Hero becomes one column: kicker, H1, lead, price, CTA and rating first, then the photo band and the facts. */
     .lp-hero {
       padding-top: 20px;
       padding-bottom: 40px;
@@ -2006,12 +2047,12 @@ const structuredData = {
 
     .lp-hero-kicker { order: 1; margin-bottom: 14px; }
     .lp-title { order: 2; }
-    .lp-hero-price { order: 3; }
-    .lp-hero-media { order: 4; }
+    .lp-subtitle { order: 3; }
+    .lp-hero-price { order: 4; }
     .lp-hero-ctas { order: 5; }
-    .lp-hero-proof { order: 5; margin-top: 14px; }
-    .lp-subtitle { order: 6; }
-    .lp-hero-benefits { order: 7; }
+    .lp-hero-proof { order: 6; margin-top: 14px; }
+    .lp-hero-media { order: 7; }
+    .lp-hero-benefits { order: 8; }
 
     .lp-title {
       max-width: none;
@@ -2020,7 +2061,7 @@ const structuredData = {
     }
 
     .lp-hero-price {
-      margin-top: 16px;
+      margin-top: 20px;
       padding-block: 0;
       border: 0;
       gap: 6px 10px;
@@ -2036,7 +2077,7 @@ const structuredData = {
 
     .lp-hero-media {
       aspect-ratio: 2 / 1;
-      margin: 16px calc(-1 * var(--gutter)) 0;
+      margin: 28px calc(-1 * var(--gutter)) 0;
       border-radius: 0;
     }
 
@@ -2046,12 +2087,12 @@ const structuredData = {
 
     .lp-subtitle {
       max-width: none;
-      margin-top: 28px;
+      margin-top: 16px;
       font-size: 1.05rem;
     }
 
     .lp-hero-benefits {
-      margin-top: 16px;
+      margin-top: 20px;
       border-top: 1px solid var(--rule);
     }
 
@@ -2097,10 +2138,6 @@ const structuredData = {
       justify-content: center;
     }
 
-    .lp-process-grid {
-      row-gap: 32px;
-    }
-
     .lp-hero-ctas {
       display: grid;
       justify-items: center;
@@ -2125,8 +2162,7 @@ const structuredData = {
 
     .lp-included-list,
     .lp-form-row-grid,
-    .lp-benefits-grid,
-    .lp-process-grid {
+    .lp-benefits-grid {
       grid-template-columns: minmax(0, 1fr);
     }
 
@@ -2140,24 +2176,6 @@ const structuredData = {
 
     .lp-form-row-grid {
       gap: 24px;
-    }
-
-    .lp-proof-grid {
-      grid-template-columns: minmax(0, 1fr);
-      border-bottom: 0;
-    }
-
-    .lp-proof-item,
-    .lp-proof-item + .lp-proof-item {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: baseline;
-      padding: 16px 0;
-      border-left: 0;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .lp-proof-item strong {
-      order: 2;
     }
 
     .lp-final-dark {
