@@ -163,7 +163,7 @@ Finished work from March to May 2026, and the items dropped on 2026-10-10, are i
 - [x] GTM container `GTM-NVC9QKGS` and GA4 property `G-4C9M8KMFQY`, created 2026-10-10. The GitHub variable `PUBLIC_GTM_ID` is set. Setup and open items are in [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md). Server-side GA4 (`GA4_API_SECRET`) stays off on purpose.
 - [x] Meta Pixel and CAPI live (see the Meta check above)
 - [ ] Verify GA4 after the GTM release (Realtime/DebugView) and mark the key events once they have arrived. Google signals has been on since 2026-10-10.
-- [x] GTM version 3 forwards the `/kontakt/` form funnel to GA4: `contact_form_start`, `contact_form_submit_success`, `contact_form_submit_error`.
+- [x] GTM version 3 (published 2026-10-10) forwards the `/kontakt/` form funnel to GA4: `contact_form_start`, `contact_form_submit_success`, `contact_form_submit_error`. GA4 has matching custom dimensions for topic, treatment interest and error type.
 - [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools
 

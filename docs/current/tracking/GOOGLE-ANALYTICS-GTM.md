@@ -22,7 +22,7 @@ The site reads the container ID from `PUBLIC_GTM_ID` at build time. CI takes it 
 
 ## What the container does
 
-The container is versioned as code in [gtm-container-GTM-NVC9QKGS.json](gtm-container-GTM-NVC9QKGS.json). To rebuild it, use GTM → Admin → Import container, then publish. Version 2 ("v1 – GA4 Google-Tag + Website-Events") was published on 2026-10-10. Version 3 adds the contact-form funnel.
+The container is versioned as code in [gtm-container-GTM-NVC9QKGS.json](gtm-container-GTM-NVC9QKGS.json). To rebuild it, use GTM → Admin → Import container, then publish. Version 2 ("v1 – GA4 Google-Tag + Website-Events") was published on 2026-10-10. Version 3 ("v3 – Kontaktformular-Funnel") adds the contact-form funnel and was published on 2026-10-10. A live check that day showed `contact_form_start` reaching the GA4 tag with its parameters; the hit was blocked, so nothing was counted.
 
 - **Google-Tag – GA4 (G-4C9M8KMFQY):** fires on Initialization – All Pages and sends the page views.
 - **GA4-Ereignis – Website-Events:** forwards the site's own dataLayer events under the same name. The trigger is "CE – Website-Events" ("CE" stands for Custom Event).
@@ -36,7 +36,7 @@ The server-side GA4 path in `/api/track` (`GA4_MEASUREMENT_ID` + `GA4_API_SECRET
 ## GA4 property settings
 
 - **Data retention:** 14 months for event and user data. The default was 2 months.
-- **Custom dimensions (event scope):** Button Position (`button_location`), Behandlung (`treatment_name`), Seitentyp (`page_type`), Kontaktweg (`method`), Service (`service`), Angebot (`offer`).
+- **Custom dimensions (event scope):** Button Position (`button_location`), Behandlung (`treatment_name`), Seitentyp (`page_type`), Kontaktweg (`method`), Service (`service`), Angebot (`offer`), Anfrage Thema (`form_topic`), Behandlungsinteresse (`treatment_interest`), Fehlerart (`error_type`).
 
 ## Still to do
 
