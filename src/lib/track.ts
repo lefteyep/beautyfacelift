@@ -8,6 +8,7 @@ declare global {
       trackBookingButtonClick: typeof trackBookingButtonClick;
       trackContact: typeof trackContact;
       trackLead: typeof trackLead;
+      queueLead: typeof queueLead;
       trackAquafacialLeadSubmit: typeof trackAquafacialLeadSubmit;
       trackAquafacialWhatsappClick: typeof trackAquafacialWhatsappClick;
     };
@@ -547,6 +548,41 @@ export function trackPageView(): void {
   });
 }
 
+const PENDING_LEAD_KEY = 'bfl_pending_lead';
+const PENDING_LEAD_MAX_AGE_MS = 30 * 60 * 1000;
+
+/**
+ * For forms that post natively and leave the page (the combo ad page): remember the lead in this
+ * tab instead of counting it on submit. /kontakt/danke/ — reached only after the server accepted
+ * the enquiry — sends it (settleQueuedLead), so failed submissions are never counted as leads.
+ */
+export function queueLead(payload: LeadPayload = {}): void {
+  if (typeof window === 'undefined') return;
+  if (!hasMarketingConsent()) return;
+  try {
+    window.sessionStorage.setItem(PENDING_LEAD_KEY, JSON.stringify({ ...payload, queuedAt: Date.now() }));
+  } catch { /* storage blocked: the lead is simply not counted */ }
+}
+
+/**
+ * Runs on every tracked page load. The thank-you page sends the queued lead. Any other page means
+ * the post never got there (the visitor came back from the error page), so the entry is dropped
+ * and cannot be counted by a later, unrelated visit to the thank-you page.
+ */
+function settleQueuedLead(): void {
+  let raw: string | null = null;
+  try {
+    raw = window.sessionStorage.getItem(PENDING_LEAD_KEY);
+    window.sessionStorage.removeItem(PENDING_LEAD_KEY);
+  } catch { return; }
+  if (!raw || !window.location.pathname.startsWith('/kontakt/danke/')) return;
+  try {
+    const { queuedAt, ...payload } = JSON.parse(raw) as LeadPayload & { queuedAt?: number };
+    if (typeof queuedAt !== 'number' || Date.now() - queuedAt > PENDING_LEAD_MAX_AGE_MS) return;
+    void trackLead(payload);
+  } catch { /* malformed entry: ignore */ }
+}
+
 export async function trackLead(payload: LeadPayload = {}): Promise<void> {
   if (typeof window === 'undefined') return;
   if (!hasMarketingConsent()) return;
@@ -892,6 +928,7 @@ export function initPpcTracking(): void {
     trackBookingButtonClick,
     trackContact,
     trackLead,
+    queueLead,
     trackAquafacialLeadSubmit,
     trackAquafacialWhatsappClick,
   };
@@ -903,6 +940,7 @@ export function initPpcTracking(): void {
     loadMarketingLibraries();
     trackPageView();
     trackLandingOrTreatmentView();
+    settleQueuedLead();
     initClickTracking();
     initScrollAndTimerTracking();
   };

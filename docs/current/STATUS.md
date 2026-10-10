@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** October 9, 2026
+**Last updated:** October 10, 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -43,13 +43,15 @@ Production Worker launch details:
 | Treatwell alignment: opening hours, massage price, Caviar + Maske Soin Initiale, Aquafacial + Microneedling row | PR #36, merge `e193b15` | Live 2026-10-09 (deploy run 37990053747) |
 | Technical SEO: one URL per page (301 for /path and /index.html), one business schema for all pages, robots.txt groups, hub H2s, FAQ combination answers, llms | PR #37, merge `6425f73` | Live 2026-10-09 (deploy run 37991328990) |
 | Social share images cropped to 1200×630 per page, Wissen buttons in the treatment FAQs, a real 404 status for /404/ and /404.html | PR #38, merge `7c2dc42` | Live 2026-10-09 (deploy run 37994226911) |
-| `/kontakt/` Turnstile hostname (Cloudflare dashboard, no code): live domain added to the widget | — | Fixed 2026-10-09; one real test enquiry still to send |
+| `/kontakt/` Turnstile hostname (Cloudflare dashboard, no code): live domain added to the widget | — | Fixed 2026-10-09; test enquiry arrived 2026-10-10 |
 | Price offers in the Service schema, one Article schema builder, sitemap `lastmod` for articles, Hautpflege button on the Gesichtsbehandlung hub | PR #39, merge `b874fcb` | Live 2026-10-10 (deploy run 37996520012) |
 | Google Search Console (domain verified by DNS, sitemap submitted) and contact-form test enquiry (accounts, no code) | — | Done 2026-10-10 |
 | Google Tag Manager `GTM-NVC9QKGS` + GA4 `G-4C9M8KMFQY`, Consent Mode v2, consent-gated (see [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md)) | PR #40, merge `9e27f9c` | Live 2026-10-10 (deploy run 38003841259) |
 | Docs clean-up; privacy policy says bookings run on Treatwell and discloses Google signals | PR #41, merge `171d30c` | Live 2026-10-10 (deploy run 38003958605) |
 | Keyboard fixes (menu, mobile contact bar), CSS inlined, font preloads, email link labels | PR #42, merge `6c5043e` | Live 2026-10-10 (deploy run 38004062741) |
-| Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #44 | Pending approval |
+| Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #44, merge `94cd393` | Live 2026-10-10 (deploy run 38005397603) |
+| Enquiry emails from `anfragen@beautyfacelift-zuerich.ch` (verified in Resend) to Teresa, blind copy to the agency (Worker secrets, no code) | — | Done 2026-10-10, two test enquiries arrived |
+| Combo ad form counts its Lead only after the server accepted it; `/kontakt/` funnel in GTM version 3; security smoke repaired | PR #45 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.

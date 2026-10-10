@@ -1,6 +1,6 @@
 {
   "exportFormatVersion": 2,
-  "exportTime": "2026-10-10 02:00:00",
+  "exportTime": "2026-10-10 03:15:00",
   "containerVersion": {
     "path": "accounts/6381624605/containers/266658438/versions/0",
     "accountId": "6381624605",
@@ -278,6 +278,66 @@
                     "value": "{{DLV – currency}}"
                   }
                 ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "form_topic"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{DLV – form_topic}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "treatment_interest"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{DLV – treatment_interest}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "error_type"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{DLV – error_type}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "cta_location"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{DLV – cta_location}}"
+                  }
+                ]
               }
             ]
           }
@@ -314,7 +374,7 @@
               {
                 "type": "TEMPLATE",
                 "key": "arg1",
-                "value": "^(generate_lead|aquafacial_lead_submit|booking_button_click|treatwell_outbound_click|whatsapp_click|aquafacial_whatsapp_click|phone_click|email_click|view_content|landing_page_view|treatment_view|high_intent_visit)$"
+                "value": "^(generate_lead|aquafacial_lead_submit|booking_button_click|treatwell_outbound_click|whatsapp_click|aquafacial_whatsapp_click|phone_click|email_click|view_content|landing_page_view|treatment_view|high_intent_visit|contact_form_start|contact_form_submit_success|contact_form_submit_error)$"
               }
             ]
           }
@@ -669,6 +729,106 @@
             "type": "TEMPLATE",
             "key": "name",
             "value": "currency"
+          }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "6381624605",
+        "containerId": "266658438",
+        "variableId": "24",
+        "name": "DLV – form_topic",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "form_topic"
+          }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "6381624605",
+        "containerId": "266658438",
+        "variableId": "25",
+        "name": "DLV – treatment_interest",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "treatment_interest"
+          }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "6381624605",
+        "containerId": "266658438",
+        "variableId": "26",
+        "name": "DLV – error_type",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "error_type"
+          }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "6381624605",
+        "containerId": "266658438",
+        "variableId": "27",
+        "name": "DLV – cta_location",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "setDefaultValue",
+            "value": "false"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "cta_location"
           }
         ],
         "fingerprint": "0"

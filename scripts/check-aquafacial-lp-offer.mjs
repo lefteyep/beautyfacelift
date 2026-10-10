@@ -159,10 +159,11 @@ assert(lp.includes('OPENING_HOURS'), 'Aquafacial LP location section must reuse 
 assert(lp.includes('TrustStrip variant="promises"'), 'Aquafacial LP must include a trust/quality strip');
 assert(lp.includes("bookingLinkForService(BOOKING_SERVICE)"), 'Aquafacial LP must route booking through the existing /termin/ bridge');
 assert(lp.includes("data-treatment=\"Aquafacial + Microneedling\""), 'Aquafacial LP CTAs must expose the treatment for tracking');
-assert(lp.includes('window.bflTracking?.trackLead'), 'Aquafacial LP must track lead form submits when analytics consent allows it');
+assert(lp.includes('window.bflTracking?.queueLead'), 'Aquafacial LP must queue the lead on submit; /kontakt/danke/ counts it once the server accepted the form');
+assert(!lp.includes('window.bflTracking?.trackLead'), 'Aquafacial LP must not count a lead before the server accepted the form');
 assert(
-  /if \(!form\.checkValidity\(\)\) \{[\s\S]*?event\.preventDefault\(\);[\s\S]*?return;[\s\S]*?window\.bflTracking\?\.trackLead/.test(lp),
-  'Aquafacial LP must block and mark invalid form submits before tracking a lead',
+  /if \(!form\.checkValidity\(\)\) \{[\s\S]*?event\.preventDefault\(\);[\s\S]*?return;[\s\S]*?window\.bflTracking\?\.queueLead/.test(lp),
+  'Aquafacial LP must block and mark invalid form submits before queueing a lead',
 );
 assert(lp.includes('role="alert"'), 'Aquafacial LP form must announce validation errors');
 assert(/\.lp-field input,[\s\S]*?border-radius:\s*var\(--radius-input\)/.test(lp), 'Aquafacial LP form fields must use the 2px input radius token');
@@ -192,6 +193,12 @@ assert(tracking.includes("'/lp/aquafacial-microneedling/'"), 'Tracking must regi
 assert(tracking.includes("content_name: 'Aquafacial Microneedling Aktion'"), 'Tracking must name the Aquafacial ViewContent event');
 assert(tracking.includes('value: 170'), 'Tracking must send CHF 170 as the ViewContent value');
 assert(tracking.includes('trackLead: typeof trackLead'), 'Tracking helper must expose trackLead for the LP form');
+assert(tracking.includes('queueLead: typeof queueLead'), 'Tracking helper must expose queueLead for natively posted forms');
+assert(
+  /function settleQueuedLead\(\)[\s\S]*?removeItem\(PENDING_LEAD_KEY\)[\s\S]*?!window\.location\.pathname\.startsWith\('\/kontakt\/danke\/'\)\) return;[\s\S]*?trackLead\(payload\)/.test(tracking)
+    && /trackLandingOrTreatmentView\(\);\s*settleQueuedLead\(\);/.test(tracking),
+  'Every page load must settle the queued lead: only /kontakt/danke/ sends it, any other page drops it',
+);
 assert(!tracking.includes(["'/lp/", 'hydro', "facial-microneedling/'"].join('')), 'Tracking must not keep the old campaign route');
 assert(!tracking.includes(["'/lp/", 'hydra', "facial-microneedling/'"].join('')), 'Tracking must not keep the old campaign route');
 

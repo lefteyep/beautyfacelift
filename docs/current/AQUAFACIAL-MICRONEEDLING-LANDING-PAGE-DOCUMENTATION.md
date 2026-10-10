@@ -661,10 +661,13 @@ Success behavior:
 Backend contact success uses the existing contact flow. Recommended follow-up expectation is personal studio response, not instant automated consultation.
 
 Tracking event:
-On a valid submit, the LP calls `window.bflTracking?.trackLead` with email, phone, value `170`, currency `CHF` and source `aquafacial_microneedling_lp_form`, subject to marketing consent.
+On a valid submit, the LP calls `window.bflTracking?.queueLead` with email, phone, value `170`, currency `CHF` and source `aquafacial_microneedling_lp_form`, subject to marketing consent. The lead is only remembered in the tab (`sessionStorage`, 30 minutes).
+
+- The Worker answers an accepted enquiry with a redirect to `/kontakt/danke/`. That page sends the remembered lead (`generate_lead`, the Meta Lead and its CAPI copy).
+- A rejected enquiry ends on the Worker's error page. When the visitor returns to the form, the remembered lead is dropped, so a later visit to `/kontakt/danke/` counts nothing.
 
 Since 2026-10-09:
-- **Client checks:** the form applies the Worker's own email and phone rules (a dot in the email domain, 8–15 phone digits) before it submits. The Lead event therefore no longer fires for input the server would reject; it can still fire on rare server errors such as rate limits or email outages, because the form posts natively.
+- **Client checks:** the form applies the Worker's own email and phone rules (a dot in the email domain, 8–15 phone digits) before it submits. The Lead event therefore no longer fires for input the server would reject. Since PR #45 it is counted only on `/kontakt/danke/`, so server errors such as rate limits or email outages no longer count either.
 - **Attribution:** the form sends `offer`, `treatment`, `landing_page`, `page_path`, `page_url`, `referrer`, `utm_*`, `fbclid`, `gclid` and `msclkid`. They are filled from the URL or the `bfl_utm` session store, as on `/lp/aquafacial/`.
 - **Hautziel:** the Worker reads `skinGoal`, so the skin goal appears in the email as "Hautziel".
 
@@ -781,7 +784,7 @@ LinkedIn Insight Tag:
 Not currently documented as active for this page. Add only if LinkedIn traffic becomes part of the campaign.
 
 Form submit tracking:
-Form submit calls `trackLead` with value `170`, currency `CHF` and source `aquafacial_microneedling_lp_form`, subject to marketing consent.
+See "Tracking event" above: the submit queues the lead, and `/kontakt/danke/` counts it once the server accepted the enquiry.
 
 Button click tracking:
 LP CTAs use `data-button-location`, including:
@@ -844,7 +847,7 @@ Open tracking questions:
 - Which GTM tags fire for `booking_button_click`, `treatwell_outbound_click`, `generate_lead`, `whatsapp_click`, `scroll_50` and `scroll_90`?
 - Is Google Ads conversion tracking mapped to direct booking or only to form leads?
 - Is Treatwell confirmation imported back into analytics, or is outbound click the final measurable onsite event?
-- Should the lead form success route trigger a dedicated thank-you page event?
+- Answered: the lead is now counted on the thank-you page `/kontakt/danke/`, see "Tracking event".
 
 ## 12. Campaign Message Match
 
