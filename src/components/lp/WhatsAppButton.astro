@@ -122,7 +122,8 @@ const glyph = 'M17.47 14.37c-.3-.15-1.73-.85-2-.95s-.47-.15-.67.15-.77.95-.94 1.
       visibility 0s linear 0.35s;
   }
 
-  :global(body.lp-wa-scrolled:not(.bfl-consent-visible)) .wa-sticky {
+  /* Pages that flag body.lp-form-in-view keep the disc away from their form (see /lp/aquafacial-microneedling/). */
+  :global(body.lp-wa-scrolled:not(.bfl-consent-visible):not(.lp-form-in-view)) .wa-sticky {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -130,7 +131,7 @@ const glyph = 'M17.47 14.37c-.3-.15-1.73-.85-2-.95s-.47-.15-.67.15-.77.95-.94 1.
     transition-delay: 0s;
   }
 
-  :global(body.lp-wa-scrolled:not(.bfl-consent-visible)) .wa-sticky:hover {
+  :global(body.lp-wa-scrolled:not(.bfl-consent-visible):not(.lp-form-in-view)) .wa-sticky:hover {
     transform: translateY(-2px);
     background: var(--clay);
   }

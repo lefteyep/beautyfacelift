@@ -552,9 +552,11 @@ const PENDING_LEAD_KEY = 'bfl_pending_lead';
 const PENDING_LEAD_MAX_AGE_MS = 30 * 60 * 1000;
 
 /**
- * For forms that post natively and leave the page (the combo ad page): remember the lead in this
- * tab instead of counting it on submit. /kontakt/danke/ — reached only after the server accepted
- * the enquiry — sends it (settleQueuedLead), so failed submissions are never counted as leads.
+ * For forms that post natively and leave the page: remember the lead in this tab instead of
+ * counting it on submit. /kontakt/danke/ — reached only after the server accepted the enquiry —
+ * sends it (settleQueuedLead), so failed submissions are never counted as leads.
+ * Since 2026-10-10 no page uses it (the combo ad form sends JSON and calls trackLead after the
+ * server accepted the request); it stays for any future natively posted form.
  */
 export function queueLead(payload: LeadPayload = {}): void {
   if (typeof window === 'undefined') return;

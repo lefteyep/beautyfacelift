@@ -229,3 +229,19 @@ Live since 2026-10-07 (PR #27, merge `5e34494`; legal-strip clean-up in PR #28).
   - the "statt CHF 180.–" reference-price proof;
   - an end date for the Kennenlernpreis;
   - confirming the review count (the page now says "248+", which stays true at 249).
+
+## 2026-10-10 Conversion and design pass (plan approved by the user)
+
+Branch `claude/elegant-davinci-xom06l`. The offer, form contract (field names, hidden attribution, `/api/contact` JSON, Turnstile exemption, honeypot), tracking (`aquafacial_lead_submit` after `response.ok`, `aquafacial_whatsapp_click`), WhatsApp and Treatwell links, the campaign video card and the results component are unchanged. `qa:aquafacial-lp` pins the new copy.
+
+- **Why:** the page spent half of the phone fold on the photo, asked for the form before the benefits and the trust section, repeated the proof numbers twice, and used the one boxed pattern (four step cards) the design system rules out.
+- **Section order:** hero → included (video card smaller, 4/12) → benefits → Teresa / trust → results → form → FAQ → closing band. Results stay directly before the form.
+- **Hero:** H1 keeps its words and gets the copper accent word (`frischer <em>Glow</em>`); new lead "Cleansing, sanftes Fruchtsäurepeeling und Hyaluron Booster – persönlich von Teresa Stimac, für Haut, die fahl, trocken oder unruhig wirkt."; kicker "Aquafacial Aktion · Bahnhofstrasse 94, Zürich"; WhatsApp link "Kurze Frage? Per WhatsApp"; the rating line links to Treatwell. On phones the order is kicker, H1, lead, price, CTA, rating, photo band, facts, so the primary CTA sits at about 290 px on a 390 px phone and at about 780 px on a 1440×900 desktop.
+- **Copy:** included H2 "Das ist in deiner Aquafacial Aktion enthalten"; benefits "Was deine Haut davon hat" with a fit sentence as lead; trust H2 "Persönlich behandelt von Teresa Stimac" with one hairline facts row (20+ Jahre, 4,8 aus 248+ Bewertungen auf Treatwell as a link, address) instead of the second proof grid; lead-section H2 "Aquafacial zum Kennenlernpreis anfragen" (no exclamation mark); closing band "Bereit für frischen Glow?".
+- **Form:** a two-line "So geht es weiter" list sits above the fields (replaces the four process cards); callback time and date are labelled "(optional)"; the consent sentence reads "… dass Beauty Face Lift mich zu meiner Anfrage kontaktiert."; the note under the button reads "Keine Online-Zahlung, keine Verpflichtung. Wir melden uns zur Terminbestätigung."
+- **FAQ:** nine questions; added "Tut Aquafacial weh oder wird die Haut rot?" and "Wann sollte ich den Termin verschieben?" (same cautious wording as the combo page).
+- **Accessibility:** skip link in `LandingPage.astro`, `id="main-content"` on every ad page; the request CTAs scroll to the form section and move keyboard focus into it; a failed send shows the Worker's own message when it sends one; typing in a field clears only that field's error.
+- **Results component:** the CSS zoom on the first result image was removed so no example is cropped by code.
+- **Verification:** `qa:aquafacial-lp`, `qa:contact`, `qa:marketing`, `npm run check`, `npm run build`; headless screenshots at 320 / 390 / 768 / 1440 px with no horizontal overflow; mocked `/api/contact` 201 and 500 (inline success with focus, error keeps the form); page height on a 390 px phone 10 238 px → about 9 300 px.
+- **Open for the client:** the review count (Treatwell shows 260, the page says 248+ until confirmed).
+

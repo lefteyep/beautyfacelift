@@ -129,8 +129,8 @@ assert(heroAssetSizes.desktopWebm > 500_000 && heroAssetSizes.desktopWebm <= 2_3
 assert(worker.includes("const AQUAFACIAL_HERO_ASSET_PREFIX = '/assets/lp-aquafacial/'"), 'Worker must define a stable cache scope for Aquafacial hero assets');
 assert(worker.includes("const LONG_LIVED_STATIC_ASSET_CACHE = 'public, max-age=31536000, immutable'"), 'Worker must define long-lived cache headers for optimized Aquafacial hero assets');
 assert(worker.includes('isAquafacialHeroAssetRequest(request)') && worker.includes("headers.set('Cache-Control', LONG_LIVED_STATIC_ASSET_CACHE)"), 'Worker must apply long-lived cache headers to Aquafacial hero assets');
-assert(lp.includes('Aquafacial in Zürich: frischer Glow in 60 Minuten'), 'Aquafacial LP must use the approved H1');
-assert(lp.includes('Premium Aquafacial Behandlung für ein sichtbar frisches, gepflegtes und hydratisiertes Hautgefühl.'), 'Aquafacial LP must use the approved hero subheadline');
+assert(lp.includes('Aquafacial in Zürich: frischer <em>Glow</em> in 60 Minuten'), 'Aquafacial LP must use the approved H1 with the copper accent word');
+assert(lp.includes('Cleansing, sanftes Fruchtsäurepeeling und Hyaluron Booster – persönlich von Teresa Stimac, für Haut, die fahl, trocken oder unruhig wirkt.'), 'Aquafacial LP hero lead must say what is included, who treats and whom it is for');
 assert(!lp.includes('Aquafacial Aktion in Zürich: Frischer Glow für CHF 99 statt CHF 180'), 'Aquafacial LP must remove the old price-led H1');
 assert(lp.includes('Aquafacial Aktion Zürich | CHF 99 statt CHF 180 | Beauty Face Lift'), 'Aquafacial LP must set the requested SEO/OG title');
 assert(lp.includes('Professionelle Aquafacial Behandlung in Zürich: Cleansing, Fruchtsäurepeeling und Hyaluron Booster für CHF 99 statt CHF 180. Jetzt unverbindlich anfragen.'), 'Aquafacial LP must set the requested meta description');
@@ -143,7 +143,7 @@ assert(lp.includes('const resultExamples = ['), 'Aquafacial LP must define multi
 assert(lp.includes('<AquafacialResultsSection'), 'Aquafacial LP must render the Aquafacial results section');
 assert(resultsComponent.includes('id="aquafacial-results"'), 'Aquafacial results section must expose a stable section id');
 const resultSectionIndex = lp.indexOf('<AquafacialResultsSection');
-const leadSectionIndex = lp.indexOf('<section class="container lp-section lp-lead" id="aquafacial-lead-form">');
+const leadSectionIndex = lp.indexOf('<section class="container lp-section lp-lead" id="aquafacial-lead-form" tabindex="-1">');
 assert(resultSectionIndex !== -1 && leadSectionIndex !== -1 && resultSectionIndex < leadSectionIndex, 'Aquafacial results section must be placed directly before the lead form section');
 assert(lp.includes('Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung'), 'Aquafacial results section must use the approved headline');
 assert(lp.includes('Die Beispiele zeigen, wie die Haut nach einer professionellen Aquafacial Behandlung sichtbar frischer, gepflegter und hydratisierter wirken kann.'), 'Aquafacial results section must use compliant intro copy');
@@ -167,7 +167,8 @@ for (const caption of [
 assert(lp.includes('Individuelle Ergebnisse können variieren'), 'Aquafacial results section must include a result-variation disclaimer');
 assert(lp.includes('<div class="lp-lead-header">'), 'Aquafacial lead section must use a centered heading above the form');
 assert(lp.includes('<p class="lp-eyebrow">Termin unverbindlich anfragen</p>'), 'Aquafacial lead section must use the requested overline');
-assert(lp.includes('<h2 class="lp-section-title">Sichere dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!</h2>'), 'Aquafacial lead section must use the requested title');
+assert(lp.includes('<h2 class="lp-section-title">Aquafacial zum Kennenlernpreis anfragen</h2>'), 'Aquafacial lead section must use the calm request title (no exclamation mark)');
+assert(!lp.includes('Sichere dir jetzt einen Aquafacial-Termin zum Kennenlernpreis!'), 'Aquafacial lead section must drop the old exclamation title');
 assert(!lp.includes('<h2 class="lp-section-title">Aquafacial Aktion anfragen</h2>'), 'Aquafacial lead section must remove the old side-column title');
 assert(!lp.includes('Sende uns kurz deinen Terminwunsch oder deine Frage.'), 'Aquafacial lead section must remove the old side-column intro copy');
 assert(!lp.includes('formReassurance'), 'Aquafacial lead section must remove the old reassurance-list data');
@@ -192,7 +193,8 @@ assert(lp.includes('<select id="aquafacial-time" name="preferred_time">'), 'Aqua
 for (const option of ['Vormittags', 'Mittags', 'Nachmittags']) {
   assert(lp.includes(`<option>${option}</option>`), `Aquafacial callback-time dropdown must include ${option}`);
 }
-assert(lp.includes('<label for="aquafacial-date">Terminwunsch</label>'), 'Aquafacial lead form must include the requested appointment-date label');
+assert(lp.includes('<label for="aquafacial-date">Terminwunsch <span class="lp-optional">(optional)</span></label>'), 'Aquafacial lead form must label the appointment date as optional');
+assert(lp.includes('Wann erreichen wir dich telefonisch? <span class="lp-optional">(optional)</span>'), 'Aquafacial lead form must label the callback time as optional');
 assert(lp.includes('id="aquafacial-date" name="preferred_date" type="date"'), 'Aquafacial appointment preference must use a native date calendar field');
 assert(!lp.includes('Was möchtest du verbessern?'), 'Aquafacial lead form must remove the skin concern question');
 assert(!lp.includes('Nachricht, falls du Fragen hast'), 'Aquafacial lead form must remove the message question');
@@ -202,17 +204,19 @@ assert(lp.includes('Fragen stellen und deinen Terminwunsch persönlich abstimmen
 assert(lp.includes('Termin unverbindlich anfragen'), 'Aquafacial LP must clarify the form request is non-binding');
 assert(lp.includes('Ich habe die') && lp.includes('Datenschutzerklärung') && lp.includes('gelesen und bin einverstanden'), 'Aquafacial LP must include privacy consent copy');
 assert(lp.includes('href="/datenschutz/"'), 'Privacy consent must link to the existing privacy policy');
+assert(lp.includes("const PRIMARY_CTA_LABEL = 'Unverbindlich Termin anfragen'"), 'Aquafacial LP must define one primary CTA label');
 for (const location of ['lp_hero', 'what_section', 'trust_section', 'final_cta']) {
   assert(
-    lp.includes(`data-button-location="${location}" data-aquafacial-scroll>Unverbindlich Termin anfragen</a>`),
-    `Aquafacial LP ${location} CTA must use the requested main CTA copy`,
+    lp.includes(`data-button-location="${location}" data-aquafacial-scroll>{PRIMARY_CTA_LABEL}</a>`),
+    `Aquafacial LP ${location} CTA must use the one primary CTA label`,
   );
 }
+assert(!lp.includes('Jetzt Termin buchen'), 'Aquafacial LP must not mix in a booking-style CTA');
 assert(lp.includes('<span data-submit-label>Unverbindlich Termin anfragen</span>'), 'Aquafacial form submit CTA must use the requested main CTA copy');
 assert(lp.includes("submitLabel.textContent = 'Unverbindlich Termin anfragen'"), 'Aquafacial form submit reset must restore the requested main CTA copy');
 assert(!lp.includes('Jetzt Termin sichern'), 'Aquafacial LP must replace the old booking-style CTA copy everywhere');
-assert(lp.includes('Keine Online-Zahlung. Wir melden uns zur Terminbestätigung.'), 'Aquafacial form must show the no-payment microcopy under the submit button');
-assert(lp.includes('Aquafacial an der Bahnhofstrasse 94</p>'), 'Aquafacial hero must use the approved location kicker');
+assert(lp.includes('Keine Online-Zahlung, keine Verpflichtung. Wir melden uns zur Terminbestätigung.'), 'Aquafacial form must show the no-payment microcopy under the submit button');
+assert(lp.includes('Aquafacial Aktion · Bahnhofstrasse 94, Zürich</p>'), 'Aquafacial hero kicker must name the offer and the location');
 assert(!lp.includes('In Zürich nur für kurze Zeit'), 'Aquafacial hero must remove the unproven urgency kicker');
 assert(
   lp.includes('Kennenlernpreis</span>') && lp.includes('CHF {PROMO_PRICE}.–') && lp.includes('statt CHF {REGULAR_PRICE}.–'),
@@ -267,16 +271,29 @@ assert(lp.includes('href="#aquafacial-lead-form"'), 'Primary CTAs must scroll to
 assert(!lp.includes('lp-hero-primary" href={bookingHref}'), 'Hero primary CTA must not point to Treatwell/booking');
 assert(!lp.includes('Buchung über Treatwell'), 'Main page copy must not promote Treatwell as the primary flow');
 assert(!lp.includes('So funktioniert Ihre Buchung'), 'Old Treatwell-first booking flow must be replaced');
-assert(lp.includes('So funktioniert deine Anfrage'), 'Aquafacial LP must explain the lead request flow');
-assert(lp.includes('Warum Aquafacial so beliebt ist'), 'Aquafacial LP must include the updated benefits headline');
+assert(!lp.includes('So funktioniert deine Anfrage'), 'Aquafacial LP must not carry the old four-card process section');
+assert(lp.includes('<ol class="lp-next-steps"') && lp.includes('Du sendest deinen Terminwunsch'), 'Aquafacial LP must explain the next steps in two lines inside the form');
+assert(!lp.includes('class="steps'), 'Aquafacial LP must not use the boxed step cards');
+assert(lp.includes('Was deine Haut davon hat'), 'Aquafacial LP must include the visitor-led benefits headline');
+assert(!lp.includes('Warum Aquafacial so beliebt ist'), 'Aquafacial LP must drop the popularity benefits headline');
 assert(!lp.includes('Warum Kundinnen die Aquafacial Behandlung anfragen'), 'Aquafacial LP must remove the old benefits headline');
 assert(!lp.includes('ohne übertriebene Versprechen und ohne Druck zur Sofortentscheidung'), 'Aquafacial LP must remove the requested benefits subheadline phrase');
-assert(lp.includes('Premium Kosmetikstudio an der Bahnhofstrasse 94'), 'Aquafacial LP must include the trust/location section');
+assert(lp.includes('Persönlich behandelt von Teresa Stimac'), 'Aquafacial LP must include the Teresa trust section');
+assert(lp.includes('<ul class="lp-facts"') && lp.includes('href={TREATWELL_URL}'), 'Aquafacial trust facts must link the review line to its Treatwell source');
+assert(!lp.includes('lp-proof-grid'), 'Aquafacial LP must not repeat the proof numbers in a second grid');
+assert(lp.includes('Bereit für frischen Glow?'), 'Aquafacial closing band must lead with the outcome, not the price');
+assert(lp.includes('Tut Aquafacial weh oder wird die Haut rot?') && lp.includes('Wann sollte ich den Termin verschieben?'), 'Aquafacial FAQ must answer the sensation and postponement objections');
+assert(lp.includes('<main class="lp-page" id="main-content">') && landingPage.includes('class="skip-link"'), 'Aquafacial LP must be reachable through the layout skip link');
+const benefitsIndex = lp.indexOf('id="lp-benefits-title"');
+const trustIndex = lp.indexOf('id="lp-trust-title"');
+assert(benefitsIndex !== -1 && trustIndex !== -1 && benefitsIndex < trustIndex && trustIndex < resultSectionIndex, 'Aquafacial LP must run benefits, then trust, then results, then the form');
 assert(!lp.includes("'Beauty Face Lift Zürich',"), 'Aquafacial proof strip must remove the generic studio label');
 assert(!lp.includes("'Bahnhofstrasse 94, 8001 Zürich',"), 'Aquafacial proof strip must remove the address label');
 assert(!lp.includes("'Professionelles Kosmetikinstitut',"), 'Aquafacial proof strip must remove the generic institute label');
 assert(!lp.includes('class="lp-offer-price"'), 'Aquafacial included-treatment section must not render a duplicate price box');
 assert(!lp.includes('Keine Online-Zahlung auf dieser Seite'), 'Aquafacial hero must remove the note below the CTA buttons');
+assert(lp.includes('.lp-hero-media { order: 7; }'), 'Aquafacial stacked hero must show the photo band after the CTA and rating line');
+assert(lp.includes('target.focus({ preventScroll: true })') && lp.includes('id="aquafacial-lead-form" tabindex="-1"'), 'Request CTAs must move keyboard focus into the form section after scrolling');
 assert(!lp.includes('Du hast eine kurze Frage oder möchtest schneller'), 'Aquafacial hero must remove the WhatsApp note below the CTA buttons');
 assert(lp.includes('Häufige Fragen zur Aquafacial Aktion'), 'Aquafacial LP must include the requested FAQ heading');
 assert(lp.includes('data-aquafacial-sticky'), 'Aquafacial LP must include a mobile sticky lead CTA');
