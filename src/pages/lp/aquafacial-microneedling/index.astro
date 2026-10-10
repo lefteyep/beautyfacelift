@@ -1,50 +1,47 @@
 ---
 import LandingPage from '../../../layouts/LandingPage.astro';
-import BookingCta from '../../../components/BookingCta.astro';
-import OfferBox from '../../../components/lp/OfferBox.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
-import TrustStrip from '../../../components/lp/TrustStrip.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image, getImage } from 'astro:assets';
 import heroAquafacialMicroneedlingImage from '../../../assets/lp/aquafacial/hero-aquafacial-microneedling-zuerich.webp';
 import heroAquafacialMicroneedlingUrl from '../../../assets/lp/aquafacial/hero-aquafacial-microneedling-zuerich.webp?url';
 import aquafacialCloseUpImage from '../../../assets/lp/aquafacial/aquafacial-close-up-zuerich.webp';
-import aquafacialMicroneedlingInfographicImage from '../../../assets/lp/aquafacial/aquafacial-microneedling-infografik-zuerich.webp';
-import postTreatmentGlowImage from '../../../assets/lp/aquafacial/post-treatment-glow-zuerich.webp';
-import hautanalyseBeratungImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
-import abschlusspflegeAftercareImage from '../../../assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp';
 import microneedlingCloseUpImage from '../../../assets/lp/aquafacial/microneedling-close-up-zuerich.webp';
+import abschlusspflegeAftercareImage from '../../../assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp';
+import hautanalyseBeratungImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
+import postTreatmentGlowImage from '../../../assets/lp/aquafacial/post-treatment-glow-zuerich.webp';
 import personalTreatmentImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';
-import { ADDRESS, CONTACT_PHONE, OPENING_HOURS, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
 const REGULAR_PRICE = 250;
 const DURATION_LABEL = '1 Std. 30 Min.';
 const OFFER_LABEL = 'Aquafacial + Microneedling Kombi-Angebot';
 const OFFER_SLUG = 'aquafacial-microneedling-aktion';
-const PRIMARY_CTA_LABEL = 'Jetzt Termin buchen';
-const LEAD_CTA_LABEL = 'Hautanalyse & Termin anfragen';
+// One primary action on the whole page: the request form. WhatsApp is the secondary path,
+// Treatwell booking the tertiary one (after success, in the FAQ and in the closing band).
+const PRIMARY_CTA_LABEL = 'Unverbindlich Termin anfragen';
+const STICKY_CTA_LABEL = 'Termin anfragen';
 const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen';
-const BOOKING_CTA_LABEL = 'Kombi-Behandlung buchen';
-const FORM_CTA_LABEL = 'Terminwunsch senden';
+const BOOKING_CTA_LABEL = 'Direkt online buchen';
 const BOOKING_SERVICE = 'Aquafacial + Microneedling';
 // Must be one of CONTACT_TOPICS (shared/site.ts), or the Worker rejects the form (checked by qa:contact).
 const CONTACT_TOPIC = 'Ich möchte einen Termin buchen';
 // Exempt from Turnstile in worker/routes/contact.ts: this page has no Turnstile widget.
 const CONTACT_CAMPAIGN = 'aquafacial_microneedling';
+const CONTACT_SOURCE = 'aquafacial-microneedling-lp';
+const LANDING_PAGE_PATH = '/lp/aquafacial-microneedling/';
 const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
 const whatsappMessage = 'Hallo Teresa, ich interessiere mich für Aquafacial + Microneedling in Zürich. Ist die Kombi-Behandlung für mein Hautziel geeignet?';
-const whatsappHref = `https://wa.me/${CONTACT_PHONE.replace('+', '')}?text=${encodeURIComponent(whatsappMessage)}`;
 // Desktop: the landscape photo is cover-cropped into a 4:5 arch, so the requested width
 // follows the frame height (≈ 1.78 × its width). Stacked (≤ 900px) it is a full-bleed 16:9 band.
 const lpHeroWidths = [480, 720, 960, 1200, 1440, 1672];
 const lpHeroSizes = '(min-width: 1320px) 1100px, (min-width: 901px) 80vw, 100vw';
 const lpHeroQuality = 86;
 const lpHalfSizes = '(min-width: 1440px) 640px, (min-width: 901px) 46vw, 100vw';
-const lpThirdSizes = '(min-width: 1440px) 420px, (min-width: 901px) 31vw, 40vw';
-const lpInfographicSizes = '(min-width: 1440px) 400px, (min-width: 1101px) 30vw, (min-width: 761px) 440px, 100vw';
+const lpStepSizes = '(min-width: 1320px) 300px, (min-width: 901px) 24vw, (min-width: 421px) 38vw, 100vw';
 // Word joiner after the en dash keeps "24–48" on one line.
 const HOURS_24_48 = '24–⁠48 Stunden';
 const studioAddress = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
@@ -59,7 +56,7 @@ const lpHeroPreload = await getImage({
   quality: lpHeroQuality,
 });
 
-// Desktop only (hidden on phones by QA): what is included, the outcome, who treats you.
+// What is included, the outcome, who treats you. Shown on every screen size.
 const heroBullets = [
   'Hautanalyse, Aquafacial, Microneedling und Abschlusspflege',
   'Für mehr Glow, optisch feinere Poren und glatter wirkende Haut',
@@ -76,18 +73,13 @@ const includedItems = [
   `After-Care-Hinweise für die ersten ${HOURS_24_48}`,
 ];
 
-const desireItems = [
-  { title: 'Frischerer Glow', text: 'Die Haut soll wieder gepflegter, wacher und besser versorgt wirken.' },
-  { title: 'Glatter wirkendes Hautbild', text: 'Unebenheiten und unruhige Struktur sollen optisch feiner erscheinen.' },
-  { title: 'Optisch feinere Poren', text: 'Poren wirken sichtbarer und Sie wünschen sich eine professionelle Einschätzung.' },
-  { title: 'Mehr Feuchtigkeit', text: 'Die Haut fühlt sich trocken an oder Make-up liegt nicht mehr gleichmässig.' },
-];
-
-// The three steps of the appointment, each with its photo.
-const phases = [
+// The three steps of the appointment, each with its photo and, for the two treatment steps,
+// the skin situations it is meant for.
+const steps = [
   {
     title: 'Aquafacial bereitet vor',
     text: 'Sanfte Reinigung und intensive Feuchtigkeit schaffen eine frische, ruhige Basis für den zweiten Schritt.',
+    fit: ['Müde oder fahl wirkende Haut', 'Trockene oder feuchtigkeitsarme Haut', 'Wunsch nach mehr Glow'],
     image: aquafacialCloseUpImage,
     alt: 'Aquafacial Behandlung zur Reinigung und Feuchtigkeitspflege',
     crop: 'lp-crop-aquafacial',
@@ -95,6 +87,7 @@ const phases = [
   {
     title: 'Microneedling setzt Mikroimpulse',
     text: 'Der professionelle Pen arbeitet kontrolliert und individuell dosiert. Das kann die natürliche Hauterneuerung kosmetisch unterstützen.',
+    fit: ['Unruhige Hautstruktur', 'Optisch vergrössert wirkende Poren', 'Erste Linien und müde wirkendes Hautbild'],
     image: microneedlingCloseUpImage,
     alt: 'Kosmetisches Microneedling mit professionellem Pen',
     crop: 'lp-crop-needling',
@@ -102,29 +95,11 @@ const phases = [
   {
     title: 'Abschlusspflege beruhigt',
     text: `Eine abgestimmte Pflege beruhigt die Haut. Dazu erhalten Sie klare Hinweise für die nächsten ${HOURS_24_48}.`,
+    fit: [],
     image: abschlusspflegeAftercareImage,
     alt: 'Beruhigende Abschlusspflege nach der Behandlung',
     crop: 'lp-crop-aftercare',
   },
-];
-
-const treatmentFocus = [
-  {
-    title: 'Aquafacial: reinigen, hydratisieren, Glow aufbauen',
-    text: 'Der pflegende Teil: Die Haut wird gründlich gereinigt, mit Feuchtigkeit versorgt und auf das Microneedling vorbereitet.',
-    items: ['Müde oder fahl wirkende Haut', 'Trockene oder feuchtigkeitsarme Haut', 'Wunsch nach mehr Glow', 'Sanfte Vorbereitung vor dem Microneedling'],
-  },
-  {
-    title: 'Microneedling: gezielte Mikroimpulse für feinere Hautstruktur',
-    text: 'Kontrollierte Mikroimpulse, deren Intensität individuell angepasst wird – besonders bei empfindlicher Haut oder der ersten Needling-Erfahrung.',
-    items: ['Unruhige Hautstruktur', 'Optisch vergrössert wirkende Poren', 'Unebenheiten', 'Erste Linien und müde wirkendes Hautbild'],
-  },
-];
-
-const trustProof = [
-  { value: '20+', label: 'Jahre Erfahrung' },
-  { value: '4,8', label: 'Bewertung auf Treatwell' },
-  { value: '248+', label: 'Bewertungen' },
 ];
 
 const expectationItems = [
@@ -133,30 +108,31 @@ const expectationItems = [
   { title: 'Weitere Sitzungen', text: 'Für Glow kann eine einzelne Sitzung interessant sein. Bei Strukturthemen wird eine Serie vor Ort realistisch eingeordnet.' },
 ];
 
-const processSteps = [
-  { title: 'Termin anfragen oder buchen', text: 'Direkt online einen freien Termin wählen oder zuerst Ihren Terminwunsch senden.' },
-  { title: 'Hautanalyse vor Ort', text: 'Hautzustand, Empfindlichkeit und Ziel werden vor der Behandlung kurz eingeschätzt.' },
-  { title: 'Aquafacial + Microneedling', text: 'Die Haut wird gereinigt, hydratisiert und danach mit kontrollierten Mikroimpulsen behandelt.' },
-  { title: 'Abschlusspflege und After-Care', text: 'Die Haut wird beruhigt. Sie erhalten klare Hinweise zu Make-up, Sonne, Sport, Sauna und Pflegeprodukten.' },
+// Studio facts in one hairline row; the review line links to its source.
+const studioFacts = [
+  { text: '20+ Jahre Erfahrung' },
+  { text: '4,8 aus 248+ Bewertungen auf Treatwell', href: TREATWELL_URL },
+  { text: `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}` },
 ];
 
-const locationItems = [
-  {
-    title: 'Mit dem ÖV',
-    text: 'Vom Zürich HB sind es wenige Gehminuten; die Tram-Haltestelle Bahnhofstrasse/HB liegt direkt in der Nähe.',
-  },
-  {
-    title: 'Mit dem Auto',
-    text: 'Parkhäuser gibt es in der Umgebung. Planen Sie für die Anfahrt etwas Puffer ein.',
-  },
+// What happens after the request: two lines, shown right above the fields.
+const nextSteps = [
+  'Sie senden Ihren Terminwunsch – ohne Online-Zahlung.',
+  'Teresa Stimac meldet sich persönlich per Telefon, WhatsApp oder E-Mail, klärt Ihre Fragen und bestätigt den Termin.',
 ];
 
-// Objections in the order people raise them: content and price, fit, sensation, downtime,
-// after-care, results, sessions, when to postpone.
+const skinGoals = ['Glow', 'Poren', 'Hautstruktur', 'Trockenheit', 'Frischer aussehen', 'Ich bin unsicher'];
+
+// Objections in the order people raise them: content and price, payment, fit, sensation, downtime,
+// after-care, results, sessions, when to postpone, online booking.
 const faqs = [
   {
     q: 'Was ist im Kombi-Angebot enthalten?',
     a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Hautanalyse, Aquafacial, Microneedling, beruhigender Abschlusspflege und After-Care-Hinweisen.`,
+  },
+  {
+    q: 'Muss ich jetzt schon bezahlen?',
+    a: 'Nein. Sie fragen unverbindlich an, ohne Online-Zahlung. Das Studio meldet sich bei Ihnen, bevor der Termin bestätigt wird.',
   },
   {
     q: 'Muss ich schon wissen, ob Aquafacial oder Microneedling besser für mich ist?',
@@ -185,6 +161,10 @@ const faqs = [
   {
     q: 'Wann sollte ich den Termin verschieben?',
     a: 'Bei stark gereizter Haut, frischem Sonnenbrand, akuten Entzündungen oder Unsicherheit zu Hautreaktionen sollte die Behandlung vorher besprochen oder verschoben werden.',
+  },
+  {
+    q: 'Kann ich auch direkt online buchen?',
+    a: 'Ja, über Treatwell. Für den ersten Besuch empfehlen wir die unverbindliche Anfrage, damit die Behandlung vorab auf Ihre Haut abgestimmt wird.',
   },
 ];
 
@@ -233,16 +213,16 @@ const structuredData = {
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-  <main class="lp-page">
-    <!-- 1 · Hero: copy left, treatment photo in the arch right (phones: full-bleed band on top) -->
-    <section class="lp-hero" aria-labelledby="lp-hero-title">
+  <main class="lp-page" id="main-content">
+    <!-- 1 · Hero: copy left, treatment photo in the arch right (phones: message, price and CTA first, then the photo band) -->
+    <section class="lp-hero" aria-labelledby="lp-hero-title" data-lp-hero>
       <div class="container lp-hero-grid">
         <div class="lp-hero-content">
           <p class="eyebrow eyebrow--rule lp-eyebrow">Aktion: Aquafacial + Microneedling in Zürich</p>
-          <h1 id="lp-hero-title" class="lp-title">Ganzheitliche Kombi-Behandlung für sichtbar strahlende, straffere und regenerierte Haut.</h1>
+          <h1 id="lp-hero-title" class="lp-title">Aquafacial + Microneedling: frischer <em>Glow</em>, glatter wirkende Haut</h1>
           <p class="lp-subtitle">
-            Gründliche Aquafacial Pflege, intensive Feuchtigkeit und kontrolliertes Microneedling
-            in einem Termin – ideal, wenn Ihre Haut müde, fahl oder unruhig wirkt.
+            {DURATION_LABEL} mit Hautanalyse, Aquafacial, kosmetischem Microneedling und Abschlusspflege –
+            persönlich von Teresa Stimac in Zürich.
           </p>
 
           <p class="lp-hero-offer">
@@ -258,11 +238,11 @@ const structuredData = {
           </ul>
 
           <div class="lp-hero-ctas">
-            <a href={bookingHref} class="btn lp-hero-primary" data-treatment="Aquafacial + Microneedling" data-button-location="lp_hero_booking">{PRIMARY_CTA_LABEL}</a>
+            <a href={`#${LEAD_FORM_ID}`} class="btn lp-hero-primary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
             <WhatsAppButton variant="link" message={whatsappMessage} source="aquafacial_hero" label={SECONDARY_CTA_LABEL} />
           </div>
 
-          <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><span><strong>4,8</strong> aus 248+ Bewertungen</span></p>
+          <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><a href={TREATWELL_URL} target="_blank" rel="noopener noreferrer" data-button-location="lp_hero_reviews"><strong>4,8</strong> aus 248+ Bewertungen auf Treatwell</a></p>
         </div>
 
         <figure class="lp-hero-media" aria-label={OFFER_LABEL}>
@@ -281,9 +261,20 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- 2 · Offer: what is included, the price card and the booking CTA -->
+    <!-- 2 · What is included -->
     <section class="lp-section lp-section--rule lp-offer" aria-labelledby="lp-offer-title">
       <div class="container lp-offer-grid">
+        <figure class="lp-offer-media">
+          <Image
+            src={personalTreatmentImage}
+            widths={[360, 540, 720, 960, 1122]}
+            sizes={lpStepSizes}
+            format="webp"
+            quality={82}
+            alt="Persönliche Behandlung im Beauty Face Lift Studio Zürich"
+            loading="lazy"
+          />
+        </figure>
         <div class="lp-offer-copy">
           <h2 class="lp-section-title" id="lp-offer-title">Das ist im Kombi-Angebot enthalten</h2>
           <p class="lp-section-lead">
@@ -295,79 +286,48 @@ const structuredData = {
               <li>{item}</li>
             ))}
           </ul>
-        </div>
-        <div class="lp-offer-card">
-          <OfferBox
-            variant="box"
-            oldPrice={REGULAR_PRICE}
-            newPrice={PROMO_PRICE}
-            discountLabel={OFFER_LABEL}
-            urgency={`${DURATION_LABEL} · Hautanalyse inklusive`}
-            ctaText={BOOKING_CTA_LABEL}
-            ctaHref={bookingHref}
-          />
-          <TrustStrip variant="promises"
-            align="left"
-            promises={[
-              { text: 'Persönliche Hautanalyse' },
-              { text: 'Transparenter Aktionspreis' },
-              { text: 'Zentrale Lage in Zürich' },
-              { text: 'Realistische Beratung' },
-            ]}
-          />
+          <div class="lp-section-cta">
+            <a href={`#${LEAD_FORM_ID}`} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="offer_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 3 · Desire -->
-    <section class="lp-section section--sand lp-desire" id="details" aria-labelledby="lp-desire-title">
+    <!-- 3 · Why the combination works: the three steps of the appointment, with the skin situations each one is for -->
+    <section class="lp-section lp-steps-section" aria-labelledby="lp-steps-title">
       <div class="container">
-        <div class="lp-head">
-          <h2 class="lp-section-title" id="lp-desire-title">Wenn Ihre Haut mehr braucht als Pflege zu Hause</h2>
+        <div class="lp-section-head">
+          <h2 class="lp-section-title" id="lp-steps-title">Warum Aquafacial und Microneedling zusammen sinnvoll sein können</h2>
           <p class="lp-section-lead">
-            Trotz guter Routine wirkt die Haut müde, trocken oder unruhig? Genau hier setzt die
-            Kombination aus Aquafacial und Microneedling an.
+            Aquafacial reinigt und hydratisiert, Microneedling setzt kontrollierte Mikroimpulse, die
+            Abschlusspflege beruhigt – drei Schritte in einem Termin.
           </p>
         </div>
-        <ul class="lp-grid lp-grid--4">
-          {desireItems.map((item) => (
-            <li>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <!-- 4 · Why the combination works: the three steps of the appointment -->
-    <section class="lp-section lp-phases" aria-labelledby="lp-phases-title">
-      <div class="container">
-        <div class="lp-head">
-          <h2 class="lp-section-title" id="lp-phases-title">Warum Aquafacial und Microneedling zusammen sinnvoll sein können</h2>
-          <p class="lp-section-lead">
-            Aquafacial pflegt und bereitet vor, Microneedling verfeinert gezielt – drei Schritte in
-            einem ruhigen Termin.
-          </p>
-        </div>
-        <ol class="lp-phases-list">
-          {phases.map((phase) => (
-            <li class="lp-phase">
-              <div class="media lp-phase-media">
+        <ol class="lp-steps">
+          {steps.map((step) => (
+            <li class="lp-step">
+              <figure class="lp-step-media">
                 <Image
-                  src={phase.image}
+                  src={step.image}
                   widths={[360, 540, 720, 960, 1122]}
-                  sizes={lpThirdSizes}
+                  sizes={lpStepSizes}
                   format="webp"
                   quality={82}
-                  alt={phase.alt}
+                  alt={step.alt}
                   loading="lazy"
-                  class={phase.crop}
+                  class={step.crop}
                 />
-              </div>
-              <div class="lp-phase-copy">
-                <h3>{phase.title}</h3>
-                <p>{phase.text}</p>
+              </figure>
+              <div class="lp-step-copy">
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+                {step.fit.length > 0 && (
+                  <ul class="lp-checks lp-step-fit" aria-label={`Geeignet bei – ${step.title}`}>
+                    {step.fit.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </li>
           ))}
@@ -375,47 +335,42 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- 5 · Two-step focus with the infographic -->
-    <section class="lp-section section--ivory lp-treatment-focus" aria-labelledby="lp-focus-title">
-      <div class="container">
-        <div class="lp-head">
-          <h2 class="lp-section-title" id="lp-focus-title">Zwei Behandlungsschritte, ein klares Hautziel</h2>
+    <!-- 4 · What to expect -->
+    <section class="lp-section lp-expectation" aria-labelledby="lp-expectation-title">
+      <div class="container lp-expectation-grid">
+        <div class="lp-expectation-copy">
+          <h2 id="lp-expectation-title" class="lp-section-title">Realistische Ergebnisse statt übertriebener Versprechen</h2>
           <p class="lp-section-lead">
-            Aquafacial pflegt, Microneedling verfeinert. Wie intensiv die Behandlung sein soll,
-            wird vor Ort nach der Hautanalyse festgelegt.
+            Die Haut kann frischer, glatter und gepflegter wirken. Weil jede Haut anders reagiert,
+            wird das Ergebnis vor Ort ehrlich eingeordnet.
           </p>
+          <ul class="lp-rows">
+            {expectationItems.map((item) => (
+              <li>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div class="lp-focus-grid">
-          <figure class="media lp-combination-infographic">
-            <Image
-              src={aquafacialMicroneedlingInfographicImage}
-              widths={[360, 540, 720, 960, 1122]}
-              sizes={lpInfographicSizes}
-              format="webp"
-              quality={82}
-              alt="Infografik zur Wirkung von Aquafacial und Microneedling"
-              loading="lazy"
-            />
-          </figure>
-          {treatmentFocus.map((item) => (
-            <article class="lp-focus-item">
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-              <ul class="lp-checks">
-                {item.items.map((focusItem) => (
-                  <li>{focusItem}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+        <figure class="lp-expectation-visual">
+          <Image
+            src={postTreatmentGlowImage}
+            widths={[480, 720, 960, 1200, 1448]}
+            sizes={lpHalfSizes}
+            format="webp"
+            quality={82}
+            alt="Frisch gepflegte Haut nach kosmetischer Gesichtsbehandlung"
+            loading="lazy"
+          />
+        </figure>
       </div>
     </section>
 
-    <!-- 6 · Trust -->
-    <section class="lp-section section--sand lp-trust" aria-labelledby="lp-trust-title">
+    <!-- 5 · Trust -->
+    <section class="lp-section lp-trust" aria-labelledby="lp-trust-title">
       <div class="container lp-trust-grid">
-        <figure class="media lp-trust-media">
+        <figure class="lp-trust-media">
           <Image
             src={hautanalyseBeratungImage}
             widths={[360, 540, 720, 960, 1200, 1448]}
@@ -436,192 +391,133 @@ const structuredData = {
             Teresa Stimac führt die Kombi-Behandlung an der Bahnhofstrasse&nbsp;94 persönlich durch – mit
             ruhiger Beratung, klarer After-Care und realistischen Erwartungen.
           </p>
-          <ul class="lp-proof-grid" aria-label="Vertrauenssignale">
-            {trustProof.map((item) => (
-              <li class="lp-proof-item">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7 · Expectation -->
-    <section class="lp-section lp-expectation" aria-labelledby="lp-expectation-title">
-      <div class="container lp-expectation-grid">
-        <div class="lp-expectation-copy">
-          <h2 id="lp-expectation-title" class="lp-section-title">Realistische Ergebnisse statt übertriebener Versprechen</h2>
-          <p class="lp-section-lead">
-            Die Haut kann frischer, glatter und gepflegter wirken. Weil jede Haut anders reagiert,
-            wird das Ergebnis vor Ort ehrlich eingeordnet.
-          </p>
-          <ul class="lp-rows">
-            {expectationItems.map((item) => (
+          <ul class="lp-checks lp-facts" aria-label="Studio und Bewertungen">
+            {studioFacts.map((item) => (
               <li>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+                {item.href ? (
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" data-button-location="trust_reviews">{item.text}</a>
+                ) : (
+                  <span>{item.text}</span>
+                )}
               </li>
             ))}
           </ul>
+          <div class="lp-section-cta">
+            <a href={`#${LEAD_FORM_ID}`} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="trust_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+          </div>
         </div>
-        <figure class="media lp-expectation-visual">
-          <Image
-            src={postTreatmentGlowImage}
-            widths={[480, 720, 960, 1200, 1448]}
-            sizes={lpHalfSizes}
-            format="webp"
-            quality={82}
-            alt="Frisch gepflegte Haut nach kosmetischer Gesichtsbehandlung"
-            loading="lazy"
-          />
-        </figure>
       </div>
     </section>
 
-    <!-- 8 · Process -->
-    <section class="lp-section section--sand lp-process" aria-labelledby="lp-process-title">
-      <div class="container">
-        <div class="lp-head">
-          <h2 id="lp-process-title" class="lp-section-title">So läuft Ihr Termin in Zürich ab</h2>
+    <!-- 6 · Lead form -->
+    <section class="container lp-section lp-lead" id={LEAD_FORM_ID} aria-labelledby="lp-lead-title">
+      <div class="lp-lead-grid">
+        <div class="lp-lead-header">
+          <p class="lp-eyebrow">Termin unverbindlich anfragen</p>
+          <h2 id="lp-lead-title" class="lp-section-title">Termin für Aquafacial + Microneedling anfragen</h2>
           <p class="lp-section-lead">
-            Direkt online buchen, wenn der Termin passt – oder zuerst per WhatsApp oder Formular
-            nachfragen.
+            Kurz ausfüllen – Teresa Stimac meldet sich persönlich, klärt Ihre Fragen und bestätigt den Termin.
           </p>
         </div>
-        <ol class="steps lp-steps">
-          {processSteps.map((step) => (
-            <li>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </li>
-          ))}
-        </ol>
-        <div class="btn-row lp-section-cta">
-          <a href={bookingHref} class="btn" data-treatment="Aquafacial + Microneedling" data-button-location="process_section_booking">{PRIMARY_CTA_LABEL}</a>
-          <a href={`#${LEAD_FORM_TARGET_ID}`} class="btn-link" data-treatment="Aquafacial + Microneedling" data-button-location="process_section_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
+
+        <div class="lp-form-shell">
+          <div class="lp-form-status" data-lead-status role="alert" aria-live="polite" hidden></div>
+          <div class="lp-form-success" data-lead-success tabindex="-1" hidden>
+            <h3>Vielen Dank! Ihre Anfrage ist eingegangen.</h3>
+            <p>Teresa Stimac meldet sich zeitnah bei Ihnen, um den Termin für Aquafacial + Microneedling abzustimmen.</p>
+            <a class="lp-secondary-link" href={bookingHref} data-treatment={BOOKING_SERVICE} data-button-location="form_success_booking">{BOOKING_CTA_LABEL}</a>
+          </div>
+
+          <form id={LEAD_FORM_TARGET_ID} class="lp-lead-form" action="/api/contact" method="post" data-lead-form novalidate>
+            <input type="hidden" name="topic" value={CONTACT_TOPIC} />
+            <input type="hidden" name="source" value={CONTACT_SOURCE} />
+            <input type="hidden" name="campaign" value={CONTACT_CAMPAIGN} />
+            <input type="hidden" name="offer" value={OFFER_SLUG} />
+            <input type="hidden" name="treatment" value={BOOKING_SERVICE} />
+            <input type="hidden" name="landing_page" value={LANDING_PAGE_PATH} />
+            <input type="hidden" name="page_path" value={LANDING_PAGE_PATH} />
+            <input type="hidden" name="page_url" value="" />
+            <input type="hidden" name="referrer" value="" />
+            <input type="hidden" name="utm_source" value="" />
+            <input type="hidden" name="utm_medium" value="" />
+            <input type="hidden" name="utm_campaign" value="" />
+            <input type="hidden" name="utm_content" value="" />
+            <input type="hidden" name="utm_term" value="" />
+            <input type="hidden" name="fbclid" value="" />
+            <input type="hidden" name="gclid" value="" />
+            <input type="hidden" name="msclkid" value="" />
+
+            <ol class="lp-next-steps" aria-label="So geht es weiter">
+              {nextSteps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+
+            <div class="lp-form-row">
+              <label for="aqua-lead-name">Vor- und Nachname <span aria-hidden="true">*</span></label>
+              <input id="aqua-lead-name" name="name" type="text" maxlength="120" autocomplete="name" required aria-describedby="aqua-lead-name-error" />
+              <p id="aqua-lead-name-error" class="lp-field-error" data-field-error="name" hidden></p>
+            </div>
+
+            <div class="lp-form-row-grid">
+              <div class="lp-form-row">
+                <label for="aqua-lead-phone">Telefon / WhatsApp <span aria-hidden="true">*</span></label>
+                <input id="aqua-lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+41 79 000 00 00" required aria-describedby="aqua-lead-phone-error" />
+                <p id="aqua-lead-phone-error" class="lp-field-error" data-field-error="phone" hidden></p>
+              </div>
+              <div class="lp-form-row">
+                <label for="aqua-lead-email">E-Mail <span class="lp-optional">(optional)</span></label>
+                <input id="aqua-lead-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@email.ch" aria-describedby="aqua-lead-email-error" />
+                <p id="aqua-lead-email-error" class="lp-field-error" data-field-error="email" hidden></p>
+              </div>
+            </div>
+
+            <div class="lp-form-row-grid">
+              <div class="lp-form-row">
+                <label for="aqua-lead-goal">Was möchten Sie verbessern? <span class="lp-optional">(optional)</span></label>
+                <div class="lp-select">
+                  <select id="aqua-lead-goal" name="skinGoal">
+                    <option value="">Bitte auswählen</option>
+                    {skinGoals.map((goal) => (
+                      <option value={goal}>{goal}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div class="lp-form-row">
+                <label for="aqua-lead-date">Terminwunsch <span class="lp-optional">(optional)</span></label>
+                <input id="aqua-lead-date" name="preferred_date" type="date" />
+              </div>
+            </div>
+
+            <div class="lp-form-row">
+              <label for="aqua-lead-note">Kurze Nachricht <span class="lp-optional">(optional)</span></label>
+              <textarea id="aqua-lead-note" name="leadNote" maxlength="3800" rows="3" placeholder="z. B. empfindliche Haut, wichtige Termine, bisherige Erfahrungen"></textarea>
+            </div>
+
+            <div class="lp-honeypot" aria-hidden="true" inert>
+              <label for="aqua-lead-company">Firma</label>
+              <input id="aqua-lead-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            </div>
+
+            <label class="lp-checkbox" for="aqua-lead-privacy">
+              <input id="aqua-lead-privacy" name="privacyConsent" type="checkbox" value="yes" required aria-describedby="aqua-lead-privacy-error" />
+              <span>Ich habe die <a href="/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass Beauty Face Lift mich zu meiner Anfrage kontaktiert.</span>
+            </label>
+            <p id="aqua-lead-privacy-error" class="lp-field-error" data-field-error="privacyConsent" hidden></p>
+
+            <div class="lp-form-submit">
+              <button type="submit" class="btn lp-submit" data-lead-submit data-button-location="lead_form_submit">
+                <span data-submit-label>{PRIMARY_CTA_LABEL}</span>
+              </button>
+              <p class="lp-form-note">Keine Online-Zahlung. Das Studio meldet sich persönlich bei Ihnen.</p>
+            </div>
+          </form>
         </div>
       </div>
     </section>
 
-    <!-- 9 · Lead form -->
-    <section class="lp-section lp-lead-form-section" id={LEAD_FORM_ID} aria-labelledby="lp-lead-title">
-      <div class="container lp-lead-grid">
-        <div class="lp-lead-copy">
-          <h2 id="lp-lead-title" class="lp-section-title">Unsicher, ob die Kombi-Behandlung zu Ihrer Haut passt?</h2>
-          <p class="lp-section-lead">
-            Senden Sie kurz Ihr Hautziel und Ihren Terminwunsch. Teresa Stimac prüft vor Ort Ihren
-            Hautzustand und stimmt die Behandlung darauf ab.
-          </p>
-          <div class="lp-lead-actions">
-            <WhatsAppButton variant="inline" message={whatsappMessage} source="aquafacial_form" label={SECONDARY_CTA_LABEL} />
-            <a href={bookingHref} class="btn-link" data-treatment="Aquafacial + Microneedling" data-button-location="lead_section_booking">{BOOKING_CTA_LABEL}</a>
-          </div>
-          <figure class="media lp-lead-visual">
-            <Image
-              src={personalTreatmentImage}
-              widths={[360, 540, 720, 960, 1122]}
-              sizes={lpHalfSizes}
-              format="webp"
-              quality={82}
-              alt="Persönliche Behandlung im Beauty Face Lift Studio Zürich"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-
-        <form id={LEAD_FORM_TARGET_ID} class="lp-lead-form" action="/api/contact" method="post" data-lead-form novalidate>
-          <input type="hidden" name="topic" value={CONTACT_TOPIC} />
-          <input type="hidden" name="message" value="Aquafacial + Microneedling Terminwunsch" data-lead-message />
-          <input type="hidden" name="source" value="aquafacial-microneedling-lp" />
-          <input type="hidden" name="campaign" value={CONTACT_CAMPAIGN} />
-          <input type="hidden" name="offer" value={OFFER_SLUG} />
-          <input type="hidden" name="treatment" value={BOOKING_SERVICE} />
-          <input type="hidden" name="landing_page" value="/lp/aquafacial-microneedling/" />
-          <input type="hidden" name="page_path" value="/lp/aquafacial-microneedling/" />
-          <input type="hidden" name="page_url" value="" />
-          <input type="hidden" name="referrer" value="" />
-          <input type="hidden" name="utm_source" value="" />
-          <input type="hidden" name="utm_medium" value="" />
-          <input type="hidden" name="utm_campaign" value="" />
-          <input type="hidden" name="utm_content" value="" />
-          <input type="hidden" name="utm_term" value="" />
-          <input type="hidden" name="fbclid" value="" />
-          <input type="hidden" name="gclid" value="" />
-          <input type="hidden" name="msclkid" value="" />
-
-          <p class="lp-form-title">Terminwunsch</p>
-          <p class="lp-form-error" role="alert" hidden>Bitte prüfen Sie die markierten Felder.</p>
-
-          <div class="lp-field-grid">
-            <div class="lp-field">
-              <label for="aqua-lead-name">Name <span aria-hidden="true">*</span></label>
-              <input id="aqua-lead-name" name="name" type="text" maxlength="120" autocomplete="name" required />
-            </div>
-            <div class="lp-field">
-              <label for="aqua-lead-phone">Telefon / WhatsApp <span aria-hidden="true">*</span></label>
-              <input id="aqua-lead-phone" name="phone" type="tel" autocomplete="tel" required />
-            </div>
-            <div class="lp-field">
-              <label for="aqua-lead-email">E-Mail</label>
-              <input id="aqua-lead-email" name="email" type="email" autocomplete="email" />
-            </div>
-            <div class="lp-field lp-field--select">
-              <label for="aqua-lead-contact">Kontaktweg</label>
-              <select id="aqua-lead-contact" name="preferredContactMethod">
-                <option value="WhatsApp">WhatsApp</option>
-                <option value="Telefon">Telefon</option>
-                <option value="E-Mail">E-Mail</option>
-              </select>
-            </div>
-            <div class="lp-field lp-field--select lp-field--full">
-              <label for="aqua-lead-goal">Was möchten Sie verbessern? <span aria-hidden="true">*</span></label>
-              <select id="aqua-lead-goal" name="skinGoal" data-lead-goal required>
-                <option value="">Bitte auswählen</option>
-                <option value="Glow">Glow</option>
-                <option value="Poren">Poren</option>
-                <option value="Hautstruktur">Hautstruktur</option>
-                <option value="Trockenheit">Trockenheit</option>
-                <option value="Frischer aussehen">Frischer aussehen</option>
-                <option value="Ich bin unsicher">Ich bin unsicher</option>
-              </select>
-            </div>
-            <div class="lp-field lp-field--select lp-field--full">
-              <label for="aqua-lead-time">Wann passt Ihnen ein Termin? <span aria-hidden="true">*</span></label>
-              <select id="aqua-lead-time" name="preferredCallbackTime" data-lead-time required>
-                <option value="">Bitte auswählen</option>
-                <option value="Möglichst bald">Möglichst bald</option>
-                <option value="Vormittag">Vormittag</option>
-                <option value="Nachmittag">Nachmittag</option>
-                <option value="Abend">Abend</option>
-              </select>
-            </div>
-            <div class="lp-field lp-field--full">
-              <label for="aqua-lead-note">Kurze Nachricht, optional</label>
-              <textarea id="aqua-lead-note" name="leadNote" maxlength="3800" data-lead-note placeholder="z. B. empfindliche Haut, wichtige Termine, bisherige Erfahrungen"></textarea>
-            </div>
-          </div>
-
-          <div class="lp-field lp-honeypot" aria-hidden="true" inert>
-            <label for="aqua-lead-company">Firma</label>
-            <input id="aqua-lead-company" name="company" type="text" tabindex="-1" autocomplete="off" />
-          </div>
-
-          <label class="lp-checkbox" for="aqua-lead-privacy">
-            <input id="aqua-lead-privacy" name="privacyConsent" type="checkbox" required />
-            <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Beantwortung meiner Anfrage einverstanden. <span aria-hidden="true">*</span></span>
-          </label>
-
-          <button type="submit" class="btn btn-block lp-lead-submit" data-button-location="lead_form_submit">
-            {FORM_CTA_LABEL}
-          </button>
-          <p class="lp-form-note">Keine Online-Zahlung. Das Studio meldet sich persönlich bei Ihnen.</p>
-        </form>
-      </div>
-    </section>
-
-    <!-- 10 · FAQ -->
+    <!-- 7 · FAQ -->
     <section class="lp-section lp-section--rule lp-faq" aria-labelledby="lp-faq-title">
       <div class="container lp-faq-grid">
         <div class="lp-faq-head">
@@ -631,36 +527,20 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- 11 · Direct booking -->
-    <section class="lp-section lp-booking" id="buchen">
-      <div class="container">
-        <BookingCta
-          treatment="Aquafacial + Microneedling"
-          href={bookingHref}
-          ctaText={BOOKING_CTA_LABEL}
-          title="Direkt einen freien Termin wählen"
-          text="Service und Aktionspreis sind in der Online-Buchung bereits vorbereitet."
-        />
-      </div>
-    </section>
-
-    <!-- 12 · Location -->
+    <!-- 8 · Studio and directions; the map loads only on request (≈500 KB of scripts, data to Google) -->
     <section class="lp-section lp-section--rule lp-location" id="anfahrt" aria-labelledby="lp-location-title">
       <div class="container lp-location-grid">
         <div class="lp-location-copy">
-          <p class="eyebrow lp-location-kicker">Studio & Anfahrt</p>
           <h2 id="lp-location-title" class="lp-section-title">Bahnhofstrasse 94 · Zürich</h2>
           <p class="lp-section-lead">
             Beauty Face Lift liegt zentral in {ADDRESS.postalCode} {ADDRESS.city}, wenige Gehminuten vom
             Hauptbahnhof entfernt.
           </p>
           <dl class="lp-location-info" aria-label="Anfahrt und Öffnungszeiten">
-            {locationItems.map((item) => (
-              <div class="lp-location-item">
-                <dt>{item.title}</dt>
-                <dd>{item.text}</dd>
-              </div>
-            ))}
+            <div class="lp-location-item">
+              <dt>Anreise</dt>
+              <dd>Vom Zürich HB sind es wenige Gehminuten; die Tram-Haltestelle Bahnhofstrasse/HB liegt direkt in der Nähe. Parkhäuser gibt es in der Umgebung.</dd>
+            </div>
             <div class="lp-location-item lp-location-hours">
               <dt>Öffnungszeiten</dt>
               <dd>
@@ -687,197 +567,379 @@ const structuredData = {
           </a>
         </div>
 
-        <div class="lp-map-panel" id="studio-map">
-          <iframe
-            title="Google Maps Karte zu Beauty Face Lift Zürich, Bahnhofstrasse 94"
-            src={googleMapsEmbedUrl}
-            loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+        <div class="lp-map-panel" id="studio-map" data-map-embed={googleMapsEmbedUrl}>
+          <div class="lp-map-placeholder" data-map-placeholder>
+            <button type="button" class="btn btn-secondary" data-map-load data-button-location="location_map_load">Karte laden</button>
+            <p class="lp-map-note">Beim Laden der Karte werden Daten an Google übertragen.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 13 · Closing band -->
+    <!-- 9 · Closing band -->
     <section class="lp-final-dark on-dark" aria-labelledby="lp-final-title">
       <div class="lp-final-inner">
         <div class="lp-final-copy">
           <h2 id="lp-final-title" class="lp-final-title">Aquafacial + Microneedling für CHF&nbsp;{PROMO_PRICE}.– statt CHF&nbsp;{REGULAR_PRICE}.–</h2>
           <p class="lp-final-lead">
-            Buchen Sie direkt online oder senden Sie zuerst Ihren Terminwunsch – Teresa Stimac
-            stimmt die Behandlung persönlich auf Ihre Haut ab.
+            Senden Sie Ihren Terminwunsch unverbindlich – Teresa Stimac stimmt die Behandlung persönlich
+            auf Ihre Haut ab.
           </p>
         </div>
         <div class="lp-final-actions">
           <div class="lp-final-ctas">
-            <a href={bookingHref} class="btn" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_booking">{PRIMARY_CTA_LABEL}</a>
-            <WhatsAppButton variant="inline" message={whatsappMessage} source="aquafacial_final" label={SECONDARY_CTA_LABEL} />
-            <a href={`#${LEAD_FORM_TARGET_ID}`} class="btn-link" data-treatment="Aquafacial + Microneedling" data-button-location="lp_final_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
+            <a href={`#${LEAD_FORM_ID}`} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="lp_final_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+            <WhatsAppButton variant="link" message={whatsappMessage} source="aquafacial_final" label={SECONDARY_CTA_LABEL} />
           </div>
+          <a href={bookingHref} class="lp-final-booking" data-treatment={BOOKING_SERVICE} data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>
           <p class="lp-final-address">Beauty Face Lift · {ADDRESS.street} · {ADDRESS.postalCode}&nbsp;{ADDRESS.city}</p>
         </div>
       </div>
     </section>
 
-    <div class="lp-mobile-sticky on-dark" role="complementary" aria-label="Schnellanfrage" aria-hidden="true" data-mobile-sticky>
-      <div class="lp-mobile-sticky-price">
-        <s>CHF {REGULAR_PRICE}.–</s>
-        <strong>CHF {PROMO_PRICE}.–</strong>
+    <div class="lp-mobile-sticky on-dark" role="complementary" aria-label="Aquafacial + Microneedling anfragen" data-mobile-sticky inert>
+      <div class="lp-mobile-sticky-offer">
+        <span>CHF {PROMO_PRICE} statt CHF {REGULAR_PRICE}</span>
+        <strong>Aquafacial + Microneedling</strong>
       </div>
-      <a href={bookingHref} class="btn" data-treatment="Aquafacial + Microneedling" data-button-location="sticky_booking">{PRIMARY_CTA_LABEL}</a>
-      <a class="lp-sticky-whatsapp" href={whatsappHref} target="_blank" rel="noopener" data-track-contact="whatsapp" data-source="aquafacial_sticky" aria-label="WhatsApp schreiben">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M17.47 14.37c-.3-.15-1.73-.85-2-.95s-.47-.15-.67.15-.77.95-.94 1.15-.35.22-.64.07a8.11 8.11 0 0 1-2.4-1.48 8.89 8.89 0 0 1-1.66-2.06c-.17-.3 0-.47.13-.62s.3-.35.45-.52a2 2 0 0 0 .3-.5.55.55 0 0 0 0-.52c-.07-.15-.67-1.62-.92-2.22s-.49-.5-.67-.51h-.57a1.1 1.1 0 0 0-.8.37 3.33 3.33 0 0 0-1 2.48 5.77 5.77 0 0 0 1.23 3.09 13.23 13.23 0 0 0 5.09 4.49 17.08 17.08 0 0 0 1.7.63 4.1 4.1 0 0 0 1.88.12 3.08 3.08 0 0 0 2-1.42 2.49 2.49 0 0 0 .18-1.42c-.08-.13-.27-.2-.57-.35ZM12 2a10 10 0 0 0-8.55 15.15L2 22l4.97-1.42A10 10 0 1 0 12 2Zm0 18.21a8.17 8.17 0 0 1-4.18-1.14l-.3-.18-3.08.88.9-3-.2-.31a8.21 8.21 0 1 1 6.86 3.75Z"/>
-        </svg>
-      </a>
+      <a href={`#${LEAD_FORM_ID}`} class="btn lp-mobile-sticky-cta" data-treatment={BOOKING_SERVICE} data-button-location="sticky_lead" data-lead-cta>{STICKY_CTA_LABEL}</a>
     </div>
+
+    <WhatsAppButton variant="sticky" message={whatsappMessage} source="aquafacial_floating_whatsapp" label="Per WhatsApp anfragen" />
   </main>
 
   <script>
-    const form = document.querySelector('[data-lead-form]');
-    const messageInput = document.querySelector('[data-lead-message]');
-    const leadCtas = document.querySelectorAll('[data-lead-cta]');
-    const mobileSticky = document.querySelector('[data-mobile-sticky]');
-    const heroSection = document.querySelector('.lp-hero');
-    const stickyQuery = window.matchMedia('(max-width: 900px)');
+    const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'msclkid'];
 
-    const setMobileStickyVisible = (visible: boolean) => {
-      document.body.classList.toggle('lp-sticky-visible', visible);
-      mobileSticky?.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    const fieldMessages = {
+      name: 'Bitte geben Sie Ihren Namen an.',
+      phone: 'Bitte geben Sie eine gültige Telefonnummer an.',
+      email: 'Bitte geben Sie eine gültige E-Mail-Adresse an.',
+      privacyConsent: 'Bitte bestätigen Sie die Datenschutzerklärung.',
     };
+    const SEND_ERROR = 'Ihre Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt per WhatsApp.';
 
-    const updateMobileSticky = () => {
-      if (!heroSection || !stickyQuery.matches) {
-        setMobileStickyVisible(false);
-        return;
+    function getStoredAttribution(): Record<string, string> {
+      try {
+        return JSON.parse(sessionStorage.getItem('bfl_utm') || '{}') || {};
+      } catch {
+        return {};
       }
-
-      const heroRect = heroSection.getBoundingClientRect();
-      const heroBottomThreshold = window.innerHeight * 0.92;
-      // Step aside while the lead form (fields + submit) is on screen, as on /lp/aquafacial/.
-      const formRect = form?.getBoundingClientRect();
-      const formInView = Boolean(formRect && formRect.top < window.innerHeight && formRect.bottom > 0);
-      setMobileStickyVisible(heroRect.bottom <= heroBottomThreshold && !formInView);
-    };
-
-    if (mobileSticky && heroSection) {
-      updateMobileSticky();
-      window.addEventListener('scroll', updateMobileSticky, { passive: true });
-      window.addEventListener('resize', updateMobileSticky);
-      stickyQuery.addEventListener('change', updateMobileSticky);
     }
 
-    leadCtas.forEach((link) => {
-      link.addEventListener('click', () => {
-        window.dataLayer?.push({
-          event: 'cta_click_lead_form',
-          button_location: link.getAttribute('data-button-location') || 'aquafacial_lp',
-          treatment_name: 'Aquafacial + Microneedling',
-        });
+    function fieldValue(form: HTMLFormElement, name: string) {
+      const field = form.elements.namedItem(name);
+      if (!field) return '';
+      if (field instanceof RadioNodeList) return String(field.value || '').trim();
+      return String((field as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value || '').trim();
+    }
+
+    function setFieldError(form: HTMLFormElement, name: string, message: string) {
+      const error = form.querySelector<HTMLElement>(`[data-field-error="${name}"]`);
+      const field = form.elements.namedItem(name);
+      if (error) {
+        error.textContent = message;
+        error.hidden = !message;
+      }
+      if (field instanceof HTMLElement) field.setAttribute('aria-invalid', message ? 'true' : 'false');
+    }
+
+    function clearErrors(form: HTMLFormElement) {
+      Object.keys(fieldMessages).forEach((name) => setFieldError(form, name, ''));
+    }
+
+    // Same rules as the Worker, so the browser never accepts what the server would reject.
+    function isValidEmail(email: string) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isValidPhone(phone: string) {
+      const digits = phone.replace(/\D/g, '');
+      return digits.length >= 8 && digits.length <= 15;
+    }
+
+    function validateLeadForm(form: HTMLFormElement) {
+      clearErrors(form);
+      let valid = true;
+
+      if (!fieldValue(form, 'name')) {
+        setFieldError(form, 'name', fieldMessages.name);
+        valid = false;
+      }
+
+      const phone = fieldValue(form, 'phone');
+      if (!phone || !isValidPhone(phone)) {
+        setFieldError(form, 'phone', fieldMessages.phone);
+        valid = false;
+      }
+
+      const email = fieldValue(form, 'email');
+      if (email && !isValidEmail(email)) {
+        setFieldError(form, 'email', fieldMessages.email);
+        valid = false;
+      }
+
+      const privacy = form.elements.namedItem('privacyConsent');
+      if (!(privacy instanceof HTMLInputElement) || !privacy.checked) {
+        setFieldError(form, 'privacyConsent', fieldMessages.privacyConsent);
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    function setHiddenValue(form: HTMLFormElement, name: string, value: string) {
+      const input = form.elements.namedItem(name);
+      if (input instanceof HTMLInputElement) input.value = value || '';
+    }
+
+    function fillAttribution(form: HTMLFormElement) {
+      const params = new URLSearchParams(window.location.search);
+      const stored = getStoredAttribution();
+      attributionKeys.forEach((key) => {
+        setHiddenValue(form, key, params.get(key) || stored[key] || '');
       });
-    });
+      setHiddenValue(form, 'page_path', window.location.pathname);
+      setHiddenValue(form, 'page_url', window.location.href);
+      setHiddenValue(form, 'referrer', document.referrer);
+    }
 
-    if (form instanceof HTMLFormElement && messageInput instanceof HTMLInputElement) {
-      const formError = form.querySelector<HTMLElement>('.lp-form-error');
-      const validatedFields = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input:not([type="hidden"]), select, textarea');
-
-      const emailInput = form.querySelector<HTMLInputElement>('#aqua-lead-email');
-      const phoneInput = form.querySelector<HTMLInputElement>('#aqua-lead-phone');
-      // Same rules as the Worker, so the browser never accepts what the server would reject.
-      const applyServerRules = () => {
-        const email = emailInput?.value.trim() ?? '';
-        emailInput?.setCustomValidity(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ?'Bitte geben Sie eine gültige E-Mail-Adresse an.' : '');
-        const phone = phoneInput?.value.trim() ?? '';
-        const digits = phone.replace(/\D/g, '');
-        phoneInput?.setCustomValidity(phone && (digits.length < 8 || digits.length > 15) ? 'Bitte geben Sie eine gültige Telefonnummer an.' : '');
-      };
-
-      const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'msclkid'];
-      const setHidden = (name: string, value: string) => {
-        const input = form.elements.namedItem(name);
-        if (input instanceof HTMLInputElement) input.value = value || '';
-      };
-      const fillAttribution = () => {
-        const params = new URLSearchParams(window.location.search);
-        let stored: Record<string, string> = {};
-        try { stored = JSON.parse(sessionStorage.getItem('bfl_utm') || '{}') || {}; } catch { stored = {}; }
-        attributionKeys.forEach((key) => setHidden(key, params.get(key) || stored[key] || ''));
-        setHidden('page_url', window.location.href);
-        setHidden('referrer', document.referrer);
-      };
-      fillAttribution();
-
-      // The form keeps `novalidate` (no native bubbles); invalid fields are marked inline instead.
-      const markInvalidFields = () => {
-        validatedFields.forEach((field) => {
-          if (field.validity.valid) field.removeAttribute('aria-invalid');
-          else field.setAttribute('aria-invalid', 'true');
-        });
-        if (formError) formError.hidden = form.checkValidity();
-      };
-
-      form.addEventListener('input', () => {
-        applyServerRules();
-        if (form.classList.contains('is-validated')) markInvalidFields();
+    // The Worker reads the JSON keys below; the free-text fields are folded into one message.
+    function formPayload(form: HTMLFormElement) {
+      const data = new FormData(form);
+      const payload: Record<string, string> = {};
+      data.forEach((value, key) => {
+        payload[key] = typeof value === 'string' ? value : '';
       });
-      form.addEventListener('change', () => {
-        if (form.classList.contains('is-validated')) markInvalidFields();
-      });
+      const skinGoal = (payload.skinGoal || '').trim();
+      const note = (payload.leadNote || '').trim();
+      payload.message = [
+        'Aquafacial + Microneedling Terminwunsch',
+        skinGoal ? `Hautziel: ${skinGoal}` : '',
+        note ? `Nachricht: ${note}` : '',
+      ].filter(Boolean).join('\n');
+      payload.preferredDate = payload.preferred_date || '';
+      payload.skinConcern = skinGoal;
+      return payload;
+    }
 
-      form.addEventListener('submit', (event) => {
-        applyServerRules();
-        fillAttribution();
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          form.classList.add('is-validated');
-          markInvalidFields();
-          form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+    function initLeadForm() {
+      const form = document.querySelector('[data-lead-form]');
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const status = document.querySelector('[data-lead-status]');
+      const success = document.querySelector('[data-lead-success]');
+      const submit = form.querySelector('[data-lead-submit]');
+      const submitLabel = form.querySelector('[data-submit-label]');
+      const idleLabel = submitLabel?.textContent || '';
+      let pending = false;
+      let tracked = false;
+
+      fillAttribution(form);
+
+      const dateInput = form.querySelector('#aqua-lead-date');
+      if (dateInput instanceof HTMLInputElement) {
+        const today = new Date();
+        dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+      }
+
+      form.addEventListener('input', () => clearErrors(form));
+      form.addEventListener('change', () => clearErrors(form));
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (pending) return;
+        fillAttribution(form);
+
+        if (!validateLeadForm(form)) {
+          const firstInvalid = form.querySelector('[aria-invalid="true"]');
+          if (firstInvalid instanceof HTMLElement) firstInvalid.focus();
           return;
         }
 
-        const data = new FormData(form);
-        const skinGoal = String(data.get('skinGoal') || '').trim();
-        const preferredTime = String(data.get('preferredCallbackTime') || '').trim();
-        const note = String(data.get('leadNote') || '').trim();
-        const parts = [
-          'Aquafacial + Microneedling Terminwunsch',
-          skinGoal ? `Hautziel: ${skinGoal}` : '',
-          preferredTime ? `Terminpräferenz: ${preferredTime}` : '',
-          note ? `Nachricht: ${note}` : '',
-        ].filter(Boolean);
+        pending = true;
+        if (status instanceof HTMLElement) status.hidden = true;
+        if (submit instanceof HTMLButtonElement) submit.disabled = true;
+        if (submitLabel instanceof HTMLElement) submitLabel.textContent = 'Anfrage wird gesendet ...';
 
-        messageInput.value = parts.join('\n');
-        // The form posts natively; /kontakt/danke/ counts the lead once the server accepted it.
-        window.bflTracking?.queueLead?.({
-          source: 'aquafacial_microneedling_lp_form',
-          value: 170,
-          currency: 'CHF',
-          email: String(data.get('email') || ''),
-          phone: String(data.get('phone') || ''),
+        try {
+          const payload = formPayload(form);
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error(SEND_ERROR);
+          }
+
+          form.hidden = true;
+          if (success instanceof HTMLElement) {
+            success.hidden = false;
+            success.focus();
+          }
+          document.body.classList.add('lp-lead-success');
+
+          // The lead counts only once the server accepted the enquiry.
+          if (!tracked) {
+            tracked = true;
+            void window.bflTracking?.trackLead?.({
+              source: 'aquafacial_microneedling_lp_form',
+              value: 170,
+              currency: 'CHF',
+              email: payload.email || '',
+              phone: payload.phone || '',
+            });
+          }
+        } catch (error) {
+          if (status instanceof HTMLElement) {
+            status.textContent = error instanceof Error ? error.message : SEND_ERROR;
+            status.hidden = false;
+            status.tabIndex = -1;
+            status.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+            status.focus({ preventScroll: true });
+          }
+        } finally {
+          pending = false;
+          if (!form.hidden && submit instanceof HTMLButtonElement) submit.disabled = false;
+          if (!form.hidden && submitLabel instanceof HTMLElement) submitLabel.textContent = idleLabel;
+        }
+      });
+    }
+
+    function initLeadScroll() {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll<HTMLAnchorElement>('[data-lead-cta]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          window.dataLayer?.push({
+            event: 'cta_click_lead_form',
+            button_location: link.getAttribute('data-button-location') || 'aquafacial_lp',
+            treatment_name: 'Aquafacial + Microneedling',
+          });
+          const target = document.querySelector('#anfrage');
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
         });
       });
     }
+
+    // Floating UI rules, as on /lp/aquafacial/: the sticky bar appears once the hero has left the
+    // viewport; the floating WhatsApp disc after 25 % scroll depth (WhatsAppButton). Both step aside
+    // while the lead form is on screen and stay hidden while the consent banner is open (CSS).
+    function initFloatingUi() {
+      const body = document.body;
+      const hero = document.querySelector('[data-lp-hero]');
+      const leadSection = document.querySelector('#anfrage');
+      const sticky = document.querySelector('[data-mobile-sticky]');
+      let pastHero = false;
+      let formInView = false;
+
+      function syncSticky() {
+        const visible = pastHero && !formInView;
+        body.classList.toggle('lp-sticky-visible', visible);
+        if (sticky instanceof HTMLElement) sticky.inert = !visible;
+      }
+
+      if (!('IntersectionObserver' in window)) return;
+      if (hero) {
+        new IntersectionObserver(([entry]) => {
+          pastHero = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          syncSticky();
+        }).observe(hero);
+      }
+      if (leadSection) {
+        new IntersectionObserver(([entry]) => {
+          formInView = entry.isIntersecting;
+          body.classList.toggle('lp-form-in-view', formInView);
+          syncSticky();
+        }).observe(leadSection);
+      }
+    }
+
+    // Click-to-load map, as on /kontakt/.
+    function initMap() {
+      document.querySelectorAll<HTMLButtonElement>('[data-map-load]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const panel = button.closest<HTMLElement>('[data-map-embed]');
+          if (!panel) return;
+          const frame = document.createElement('iframe');
+          frame.title = 'Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich';
+          frame.src = panel.dataset.mapEmbed || '';
+          frame.referrerPolicy = 'no-referrer-when-downgrade';
+          frame.allowFullscreen = true;
+          frame.loading = 'lazy';
+          panel.querySelector('[data-map-placeholder]')?.remove();
+          panel.appendChild(frame);
+          frame.focus();
+        });
+      });
+    }
+
+    initLeadForm();
+    initLeadScroll();
+    initFloatingUi();
+    initMap();
   </script>
 </LandingPage>
 
 <style>
-  /* ═══ Page frame ═════════════════════════════════════════════ */
+  :global(body) {
+    --lp-sticky-offer-height: 68px;
+  }
+
+  /* The sticky bar never shows while the consent banner is open, so the banner can sit at the bottom edge. */
+  :global(body.bfl-consent-visible) {
+    --lp-sticky-offer-height: 0px;
+  }
+
   .lp-page {
     color: var(--text);
-    background: var(--porcelain);
+    background: var(--cream);
+  }
+
+  /* ─── Shared LP type ─────────────────────────────────────── */
+  .lp-eyebrow {
+    display: block;
+    margin: 0 0 clamp(18px, 2.2vw, 28px);
+    color: var(--clay);
+    font-family: var(--f-sans);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.4;
   }
 
   .lp-section {
-    padding-block: clamp(72px, 9vw, 136px);
+    padding-block: var(--section-y);
   }
 
   .lp-section--rule {
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--line);
+  }
+
+  .lp-section-title {
+    margin: 0;
+    max-width: 18ch;
+    color: var(--cocoa);
+    font-size: var(--fs-h2);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+  }
+
+  .lp-section-lead {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--text);
+    font-size: var(--fs-lead);
+    line-height: 1.6;
   }
 
   /* Section head: H2 left, one short lead right */
-  .lp-head {
+  .lp-section-head {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     align-items: end;
@@ -885,132 +947,52 @@ const structuredData = {
     margin-bottom: clamp(40px, 5vw, 72px);
   }
 
-  .lp-section-title {
-    margin: 0;
-    max-width: 18ch;
-    line-height: 1.06;
-    letter-spacing: -0.015em;
-  }
-
-  .lp-head .lp-section-title {
+  .lp-section-head .lp-section-title {
     max-width: 20ch;
-  }
-
-  .lp-section-lead {
-    margin: 0;
-    max-width: 48ch;
-    color: var(--umber);
-    font-size: var(--fs-lead);
-    line-height: 1.6;
   }
 
   .lp-section-cta {
     margin-top: clamp(32px, 4vw, 48px);
   }
 
-  /* ═══ Shared patterns ════════════════════════════════════════ */
-
-  /* Tick list: the site marker, a shell disc (::after) carrying a hairline copper tick (::before). */
+  /* Check list: copper tick in a shell disc, hairline rows. */
   .lp-checks {
+    display: grid;
     margin: 0;
     padding: 0;
-    list-style: none;
   }
 
   .lp-checks > li {
-    position: relative;
-    padding: var(--lp-check-pad, 13px) 0 var(--lp-check-pad, 13px) 32px;
-    border-bottom: 1px solid var(--rule);
-    color: var(--espresso);
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-block: 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+    font-size: 0.98rem;
     line-height: 1.5;
   }
 
   .lp-checks > li::before {
     content: '';
-    position: absolute;
-    z-index: 1;
-    left: 5px;
-    top: calc(var(--lp-check-pad, 13px) + 0.75em - 3.5px);
-    width: 8px;
-    height: 4px;
-    border-left: 1px solid var(--bronze);
-    border-bottom: 1px solid var(--bronze);
-    transform: rotate(-45deg);
-  }
-
-  .lp-checks > li::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: calc(var(--lp-check-pad, 13px) + 0.75em - 9px);
+    flex: none;
     width: 18px;
     height: 18px;
-    border-radius: var(--r-pill);
-    background: var(--shell);
+    border-radius: 50%;
+    background: var(--shell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238F5A2E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 11px no-repeat;
+    transform: translateY(3px);
   }
 
-  /* Ruled column grid */
-  .lp-grid {
-    display: grid;
-    column-gap: clamp(24px, 3.5vw, 56px);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  /* Optional field marker: muted, never copper like the required asterisk. */
+  .lp-optional {
+    color: var(--muted);
+    font-weight: 400;
   }
 
-  .lp-grid--4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .lp-grid > li {
-    display: grid;
-    align-content: start;
-    gap: 10px;
-    padding-top: 22px;
-    border-top: 1px solid var(--rule-strong);
-  }
-
-  .lp-grid h3 {
-    font-size: var(--fs-h4);
-  }
-
-  .lp-grid p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  /* Ruled rows: title left, text right */
-  .lp-rows {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid var(--rule-strong);
-  }
-
-  .lp-rows > li {
-    display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-    align-items: baseline;
-    gap: 6px clamp(20px, 3vw, 40px);
-    padding-block: 20px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .lp-rows h3 {
-    font-size: var(--fs-h4);
-  }
-
-  .lp-rows p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  /* ═══ 1 · Hero ═══════════════════════════════════════════════ */
+  /* ─── 1 · Hero ───────────────────────────────────────────── */
   .lp-hero {
-    padding-top: clamp(40px, 5vw, 72px);
-    padding-bottom: clamp(48px, 6vw, 88px);
+    padding-top: clamp(40px, 4vw, 56px);
+    padding-bottom: clamp(48px, 6vw, 80px);
   }
 
   .lp-hero-grid {
@@ -1026,23 +1008,19 @@ const structuredData = {
     align-items: flex-start;
   }
 
-  .lp-eyebrow {
-    margin: 0 0 clamp(18px, 2.2vw, 28px);
-  }
-
   .lp-title {
-    max-width: 22ch;
-    font-size: clamp(2.4rem, 3.9vw, 3.6rem);
+    max-width: 20ch;
+    font-size: clamp(2.3rem, 4vw, 3.6rem);
     line-height: 1.04;
     letter-spacing: -0.02em;
   }
 
   .lp-subtitle {
-    max-width: 48ch;
-    margin: clamp(18px, 2vw, 24px) 0 0;
-    color: var(--umber);
+    max-width: 46ch;
+    margin: clamp(16px, 1.8vw, 22px) 0 0;
+    color: var(--text);
     font-size: var(--fs-lead);
-    line-height: 1.6;
+    line-height: 1.55;
   }
 
   .lp-hero-offer {
@@ -1052,42 +1030,35 @@ const structuredData = {
     gap: 4px 14px;
     width: 100%;
     max-width: none;
-    margin: clamp(22px, 2.4vw, 30px) 0 0;
+    margin: clamp(24px, 2.4vw, 32px) 0 0;
     padding-block: 14px;
-    border-top: 1px solid var(--rule-strong);
-    border-bottom: 1px solid var(--rule);
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
   }
 
   .lp-hero-offer-label {
-    color: var(--clay);
     font-size: var(--fs-label);
     font-weight: 500;
-    line-height: 1.4;
+    color: var(--clay);
   }
 
   .lp-hero-offer-price {
-    color: var(--espresso);
-    font-family: var(--f-display);
+    font-family: var(--f-serif);
     font-size: clamp(1.9rem, 2.6vw, 2.5rem);
     line-height: 1;
+    color: var(--cocoa);
     font-variant-numeric: lining-nums;
     white-space: nowrap;
   }
 
   .lp-hero-offer-old {
-    color: var(--taupe);
+    color: var(--muted);
     font-size: var(--fs-small);
     white-space: nowrap;
   }
 
   .lp-hero-bullets {
-    --lp-check-pad: 11px;
     width: 100%;
-  }
-
-  .lp-hero-bullets > li {
-    color: var(--umber);
-    font-size: 0.98rem;
   }
 
   .lp-hero-ctas {
@@ -1095,7 +1066,7 @@ const structuredData = {
     flex-wrap: wrap;
     align-items: center;
     gap: 16px 32px;
-    margin-top: clamp(22px, 2.4vw, 30px);
+    margin-top: clamp(24px, 2.4vw, 32px);
   }
 
   .lp-hero-proof {
@@ -1103,31 +1074,38 @@ const structuredData = {
     flex-wrap: wrap;
     align-items: center;
     gap: 6px 10px;
-    max-width: none;
-    margin: 18px 0 0;
+    margin: 20px 0 0;
     color: var(--text);
     font-size: 0.92rem;
   }
 
-  .lp-hero-proof strong {
+  .lp-hero-proof strong { color: var(--cocoa); font-weight: 600; }
+  .lp-stars { color: var(--gold); letter-spacing: 0.1em; font-size: 0.9rem; }
+
+  .lp-hero-proof a,
+  .lp-facts a {
+    color: var(--text);
+    border-bottom: 1px solid var(--line-strong);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .lp-facts a {
     color: var(--cocoa);
-    font-weight: 600;
   }
 
-  .lp-stars {
-    color: var(--gold);
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
+  .lp-hero-proof a:hover,
+  .lp-facts a:hover {
+    color: var(--clay);
+    border-color: currentColor;
   }
 
-  /* Treatment photo in the site's arch frame */
   .lp-hero-media {
     position: relative;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     margin: 0;
     border-radius: var(--r-pill) var(--r-pill) var(--r-lg) var(--r-lg);
-    background: var(--stone);
+    background: var(--blush);
   }
 
   .lp-hero-media :global(img) {
@@ -1138,151 +1116,186 @@ const structuredData = {
     object-position: 70% 50%;
   }
 
-  /* ═══ 2 · Offer ══════════════════════════════════════════════ */
+  /* ─── 2 · Offer ──────────────────────────────────────────── */
   .lp-offer-grid {
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: start;
-    gap: clamp(40px, 6vw, 96px);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    align-items: center;
+    gap: clamp(40px, 6vw, 104px);
+  }
+
+  .lp-offer-media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    margin: 0;
+    border-radius: var(--r-lg);
+    background: var(--blush);
+  }
+
+  .lp-offer-media :global(img),
+  .lp-step-media :global(img),
+  .lp-expectation-visual :global(img),
+  .lp-trust-media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .lp-offer-copy .lp-section-lead {
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   .lp-included-list {
-    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: clamp(24px, 3vw, 48px);
     margin-top: clamp(28px, 3vw, 40px);
-    border-top: 1px solid var(--rule-strong);
+    border-top: 1px solid var(--line-strong);
   }
 
-  .lp-offer-card {
-    display: grid;
-    gap: 22px;
+  .lp-included-list > li {
+    padding-block: 14px;
+    color: var(--cocoa);
+    font-size: 1rem;
   }
 
-  /* Shared TrustStrip under the card: the four promises in two columns. */
-  .lp-offer-card :global(.trust-strip-lp) {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 20px;
-    padding-inline: 8px;
+  /* ─── 3 · Steps: photo rows with hairlines ───────────────── */
+  .lp-steps-section {
+    background: var(--shell);
   }
 
-
-  /* ═══ 4 · Steps of the appointment (image cards) ═════════════ */
-  .lp-phases-list {
+  /* Desktop: three columns, photo above copy. Below 900px: hairline rows, photo beside copy. */
+  .lp-steps {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 40px clamp(24px, 3vw, 48px);
     margin: 0;
     padding: 0;
-    list-style: none;
-    counter-reset: lp-phase;
+    counter-reset: lp-step;
   }
 
-  .lp-phase {
-    counter-increment: lp-phase;
+  .lp-step {
+    counter-increment: lp-step;
     display: grid;
     align-content: start;
-    gap: 20px;
+    gap: 22px;
   }
 
-  .lp-phase-media {
+  .lp-step-media {
     aspect-ratio: 4 / 5;
+    overflow: hidden;
+    margin: 0;
+    border-radius: var(--r-lg);
+    background: var(--blush);
   }
 
-  .lp-phase-copy {
+  .lp-step-media :global(.lp-crop-aquafacial) { object-position: 50% 30%; }
+  .lp-step-media :global(.lp-crop-needling) { object-position: 55% 35%; }
+  .lp-step-media :global(.lp-crop-aftercare) { object-position: 50% 40%; }
+
+  .lp-step-copy {
     display: grid;
-    gap: 10px;
+    gap: 12px;
+    max-width: 60ch;
   }
 
-  .lp-phase h3 {
+  .lp-step-copy h3 {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: var(--fs-h4);
+    gap: 14px;
+    font-size: var(--fs-h3);
+    line-height: 1.22;
   }
 
-  .lp-phase h3::before {
-    content: counter(lp-phase);
-    flex: none;
+  .lp-step-copy h3::before {
+    content: counter(lp-step);
     display: inline-grid;
+    flex: none;
     place-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: var(--r-pill);
-    background: var(--clay);
-    color: var(--paper);
-    font-size: 0.85rem;
-    font-weight: 600;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--clay);
+    font-family: var(--f-serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1;
   }
 
-  .lp-phase p {
+  .lp-step-copy p {
     margin: 0;
+    color: var(--text);
     font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .lp-step-fit {
+    margin-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+
+  .lp-step-fit > li {
+    padding-block: 8px;
+    font-size: var(--fs-small);
+  }
+
+  .lp-step-fit > li:last-child {
+    border-bottom: 0;
+  }
+
+  /* ─── 4 · Expectation ────────────────────────────────────── */
+  .lp-expectation-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+    gap: clamp(40px, 6vw, 104px);
+  }
+
+  .lp-expectation-copy .lp-section-lead {
+    margin-top: 24px;
+  }
+
+  .lp-rows {
+    display: grid;
+    margin: clamp(28px, 3vw, 40px) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .lp-rows > li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 8px 24px;
+    padding-block: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lp-rows h3 {
+    font-size: var(--fs-h4);
+    line-height: 1.3;
+  }
+
+  .lp-rows p {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--fs-small);
     line-height: 1.6;
   }
 
-  .lp-phases-list :global(img.lp-crop-aquafacial) {
-    object-position: 50% 40%;
-  }
-
-  .lp-phases-list :global(img.lp-crop-needling) {
-    object-position: 56% 50%;
-  }
-
-  .lp-phases-list :global(img.lp-crop-aftercare) {
-    object-position: 48% 50%;
-  }
-
-  /* ═══ 5 · Two-step focus ═════════════════════════════════════ */
-  .lp-focus-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
-    gap: 40px clamp(28px, 3.5vw, 56px);
-  }
-
-  .lp-combination-infographic {
+  .lp-expectation-visual {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
     margin: 0;
-    aspect-ratio: 1122 / 1402;
+    border-radius: var(--r-lg);
+    background: var(--blush);
+  }
+
+  /* ─── 5 · Trust ──────────────────────────────────────────── */
+  .lp-trust {
     background: var(--paper);
   }
 
-  .lp-combination-infographic :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .lp-focus-item {
-    display: grid;
-    align-content: start;
-    gap: 14px;
-    padding-top: 22px;
-    border-top: 1px solid var(--rule-strong);
-  }
-
-  .lp-focus-item h3 {
-    max-width: 24ch;
-    font-size: var(--fs-h4);
-  }
-
-  .lp-focus-item p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .lp-focus-item .lp-checks {
-    margin-top: 6px;
-    border-top: 1px solid var(--rule);
-  }
-
-  /* ═══ 6 · Trust ══════════════════════════════════════════════ */
   .lp-trust-grid {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -1291,37 +1304,35 @@ const structuredData = {
   }
 
   .lp-trust-media {
-    margin: 0;
     aspect-ratio: 4 / 5;
-  }
-
-  .lp-trust-media :global(img) {
-    object-position: 50% 45%;
+    overflow: hidden;
+    margin: 0;
+    border-radius: var(--r-lg);
+    background: var(--blush);
   }
 
   .lp-trust-content {
     display: grid;
     justify-items: start;
-    gap: 24px;
+    gap: 20px;
   }
 
-  .lp-trust-content > p {
-    max-width: 52ch;
+  .lp-trust-content p {
     margin: 0;
   }
 
   .lp-quote {
-    display: grid;
-    gap: 12px;
     margin: 0;
+    display: grid;
+    gap: 10px;
   }
 
   .lp-quote blockquote {
-    max-width: 30ch;
     margin: 0;
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    max-width: 30ch;
+    color: var(--cocoa);
+    font-family: var(--f-serif);
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
     line-height: 1.25;
   }
 
@@ -1331,309 +1342,383 @@ const structuredData = {
     font-weight: 500;
   }
 
-  .lp-proof-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .lp-facts {
     width: 100%;
-    margin: 4px 0 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid var(--rule-strong);
-    border-bottom: 1px solid var(--rule);
+    margin-top: 4px;
+    border-top: 1px solid var(--line-strong);
   }
 
-  .lp-proof-item {
-    display: grid;
-    gap: 8px;
-    padding: 20px 18px 20px 0;
+  .lp-facts > li {
+    font-size: var(--fs-small);
   }
 
-  .lp-proof-item + .lp-proof-item {
-    padding-left: 22px;
-    border-left: 1px solid var(--rule);
+  .lp-trust-content .lp-section-cta {
+    margin-top: 12px;
   }
 
-  .lp-proof-item strong {
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
-    font-weight: 400;
-    line-height: 1;
-    font-variant-numeric: lining-nums;
+  /* ─── 6 · Lead form ──────────────────────────────────────── */
+  .lp-lead {
+    scroll-margin-top: 24px;
+    border-top: 1px solid var(--line);
   }
 
-  .lp-proof-item span {
-    color: var(--muted);
-    font-size: var(--fs-label);
-    line-height: 1.4;
-  }
-
-  /* ═══ 7 · Expectation ════════════════════════════════════════ */
-  .lp-expectation-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    align-items: center;
-    gap: clamp(40px, 7vw, 120px);
-  }
-
-  .lp-expectation-copy {
-    display: grid;
-    justify-items: start;
-    gap: 22px;
-  }
-
-  .lp-expectation-copy .lp-rows {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .lp-expectation-visual {
-    margin: 0;
-    aspect-ratio: 4 / 5;
-  }
-
-  .lp-expectation-visual :global(img) {
-    object-position: 58% 40%;
-  }
-
-  /* ═══ 8 · Process ════════════════════════════════════════════ */
-  .lp-steps {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin: 0;
-    padding: 0;
-  }
-
-  /* ═══ 9 · Lead form ══════════════════════════════════════════ */
   .lp-lead-grid {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-columns: 1fr;
+    gap: clamp(32px, 4vw, 56px);
     align-items: start;
-    gap: clamp(40px, 6vw, 96px);
   }
 
-  .lp-lead-copy {
+  .lp-lead-header {
+    display: grid;
+    justify-items: center;
+    gap: 20px;
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .lp-lead-header .lp-eyebrow {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  .lp-lead-header .lp-section-title {
+    width: 100%;
+    max-width: 22ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .lp-lead-header .lp-section-lead {
+    max-width: 56ch;
+    text-align: center;
+  }
+
+  .lp-form-shell {
+    width: min(100%, 860px);
+    margin: 0 auto;
+    padding: clamp(24px, 4.5vw, 64px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
+    background: var(--paper);
+  }
+
+  .lp-form-status,
+  .lp-form-success {
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+
+  .lp-form-status {
+    padding: 20px 22px;
+    border-radius: var(--r);
+    background: rgba(155, 44, 31, 0.08);
+    color: var(--error);
+    font-weight: 500;
+  }
+
+  .lp-form-success {
     display: grid;
     justify-items: start;
-    gap: 24px;
+    gap: 12px;
+    color: var(--cocoa);
   }
 
-  .lp-lead-copy .lp-section-title {
-    max-width: 16ch;
+  .lp-form-success::before {
+    content: '';
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--clay) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FFFFFF' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E") center / 22px no-repeat;
   }
 
-  .lp-lead-actions {
-    display: flex;
-    flex-wrap: wrap;
+  .lp-form-status[hidden],
+  .lp-form-success[hidden] {
+    display: none;
+  }
+
+  .lp-form-success:focus {
+    outline: none;
+  }
+
+  .lp-form-success:focus-visible {
+    outline: 1px solid var(--clay);
+    outline-offset: 4px;
+  }
+
+  .lp-form-success h3 {
+    font-size: var(--fs-h3);
+  }
+
+  .lp-form-success p {
+    margin: 0;
+  }
+
+  .lp-secondary-link {
+    display: inline-flex;
     align-items: center;
-    gap: 12px 24px;
+    gap: 0.6rem;
+    margin-top: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid currentColor;
+    color: var(--cocoa);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    transition: color 0.3s ease;
   }
 
-  .lp-lead-visual {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    margin: 8px 0 0;
+  .lp-secondary-link::after {
+    content: '\2192';
+    font-size: 1rem;
+    letter-spacing: 0;
+    transition: transform 0.45s var(--ease-expo);
   }
 
-  .lp-lead-visual :global(img) {
-    object-position: 50% 30%;
+  .lp-secondary-link:hover {
+    color: var(--clay);
+  }
+
+  .lp-secondary-link:hover::after {
+    transform: translateX(4px);
   }
 
   .lp-lead-form {
     display: grid;
-    gap: 20px;
-    padding: clamp(24px, 4vw, 52px);
-    background: var(--ivory);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-xl);
-    scroll-margin-top: 24px;
+    gap: 24px;
   }
 
-  .lp-form-title {
-    margin: 0;
-    color: var(--espresso);
-    font-family: var(--f-display);
-    font-size: clamp(1.7rem, 2.4vw, 2.1rem);
-    line-height: 1.1;
-  }
-
-  /* Form-level error: the contact page's error panel. */
-  .lp-form-error {
-    max-width: none;
-    margin: 0;
-    padding: 16px 20px;
-    border-radius: var(--r);
-    background: color-mix(in srgb, var(--error) 8%, transparent);
-    color: var(--error);
-    font-size: var(--fs-small);
-    font-weight: 500;
-    line-height: 1.5;
-  }
-
-  .lp-form-error[hidden] {
+  .lp-lead-form[hidden] {
     display: none;
   }
 
-  .lp-field-grid {
+  /* What happens after the request: two numbered lines above the fields. */
+  .lp-next-steps {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    margin: 0 0 4px;
+    padding: 0;
+    border-bottom: 1px solid var(--line);
+    counter-reset: lp-next;
   }
 
-  .lp-field {
-    position: relative;
+  .lp-next-steps li {
+    counter-increment: lp-next;
     display: grid;
-    gap: 8px;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 12px;
+    padding: 0 0 14px;
+    color: var(--text);
+    font-size: var(--fs-small);
+    line-height: 1.55;
+  }
+
+  .lp-next-steps li + li {
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .lp-next-steps li::before {
+    content: counter(lp-next);
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--shell);
+    color: var(--clay);
+    font-family: var(--f-serif);
+    font-size: 0.95rem;
+    line-height: 1;
+    transform: translateY(1px);
+  }
+
+  .lp-form-row {
+    display: grid;
+    gap: 10px;
     align-content: start;
   }
 
-  .lp-field--full {
-    grid-column: 1 / -1;
+  .lp-form-row-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
   }
 
-  .lp-field label {
+  .lp-form-row label {
     color: var(--cocoa);
     font-size: var(--fs-small);
     font-weight: 500;
     line-height: 1.4;
-    letter-spacing: 0;
-    text-transform: none;
   }
 
-  .lp-field label span,
-  .lp-checkbox > span > span {
+  .lp-form-row label span[aria-hidden] {
     color: var(--clay);
   }
 
-  .lp-field input,
-  .lp-field select,
-  .lp-field textarea {
+  .lp-lead-form input:not([type='checkbox']),
+  .lp-lead-form select,
+  .lp-lead-form textarea {
+    display: block;
     width: 100%;
     min-height: 52px;
-    padding: 13px 16px;
-    color: var(--espresso);
-    font: inherit;
-    font-size: 1rem;
-    line-height: 1.4;
-    background: var(--porcelain);
-    border: 1px solid var(--rule-strong);
+    padding: 12px 16px;
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-input);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    background: var(--cream);
+    color: var(--cocoa);
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.4;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
   }
 
-  .lp-field select {
-    appearance: none;
+  .lp-lead-form textarea {
+    min-height: 112px;
+    resize: vertical;
+  }
+
+  .lp-lead-form input::placeholder,
+  .lp-lead-form textarea::placeholder {
+    color: var(--muted);
+    opacity: 1;
+  }
+
+  .lp-lead-form input:not([type='checkbox']):hover,
+  .lp-lead-form select:hover,
+  .lp-lead-form textarea:hover {
+    border-color: var(--muted);
+  }
+
+  .lp-lead-form input:not([type='checkbox']):focus,
+  .lp-lead-form select:focus,
+  .lp-lead-form textarea:focus {
+    border-color: var(--cocoa);
+    outline: 1px solid var(--cocoa);
+    outline-offset: 0;
+    background: var(--paper);
+  }
+
+  .lp-lead-form input[aria-invalid='true']:not([type='checkbox']) {
+    border-color: var(--clay);
+    background: var(--shell);
+  }
+
+  .lp-lead-form input[aria-invalid='true']:not([type='checkbox']):focus {
+    outline-color: var(--clay);
+  }
+
+  .lp-select {
+    position: relative;
+  }
+
+  .lp-select select {
     padding-right: 44px;
     cursor: pointer;
   }
 
-  /* Chevron shares the select's grid cell so inline error text never displaces it. */
-  .lp-field--select label {
-    grid-row: 1;
-  }
-
-  .lp-field--select select {
-    grid-row: 2;
-    grid-column: 1;
-  }
-
-  .lp-field--select::after {
+  .lp-select::after {
     content: '';
-    grid-row: 2;
-    grid-column: 1;
-    justify-self: end;
-    align-self: center;
+    position: absolute;
+    top: 50%;
+    right: 18px;
     width: 7px;
     height: 7px;
-    margin-right: 20px;
-    border-right: 1px solid var(--espresso);
-    border-bottom: 1px solid var(--espresso);
-    transform: translateY(-2px) rotate(45deg);
+    border-right: 1px solid var(--cocoa);
+    border-bottom: 1px solid var(--cocoa);
+    transform: translateY(-70%) rotate(45deg);
     pointer-events: none;
   }
 
-  .lp-field textarea {
-    min-height: 120px;
-    resize: vertical;
+  .lp-lead-form input[type='date'] {
+    min-width: 0;
   }
 
-  .lp-field input::placeholder,
-  .lp-field textarea::placeholder {
-    color: var(--muted);
-    opacity: 0.8;
-  }
-
-  .lp-field input:hover,
-  .lp-field select:hover,
-  .lp-field textarea:hover {
-    border-color: var(--taupe);
-  }
-
-  .lp-field input:focus-visible,
-  .lp-field select:focus-visible,
-  .lp-field textarea:focus-visible {
-    border-color: var(--clay);
-    outline: none;
-    background: var(--ivory);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--clay) 14%, transparent);
-  }
-
-  /* Field errors as on master: the script sets aria-invalid, focuses the first invalid
-     field and shows the role="alert" summary; fields and labels turn bronze. */
-  .lp-lead-form.is-validated .lp-field :is(input, select, textarea):invalid {
-    border-color: var(--bronze);
-    border-bottom-width: 2px;
-  }
-
-  .lp-lead-form.is-validated .lp-field:has(:invalid) label {
-    color: var(--bronze);
+  .lp-lead-form input[type='date']::-webkit-date-and-time-value {
+    text-align: left;
   }
 
   .lp-checkbox {
     display: grid;
-    grid-template-columns: 20px minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
-    gap: 12px;
-    padding-top: 18px;
-    border-top: 1px solid var(--rule);
-    color: var(--umber);
-    font-size: var(--fs-small);
-    line-height: 1.5;
+    gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.55;
     cursor: pointer;
   }
 
   .lp-checkbox input {
     width: 18px;
     height: 18px;
-    margin-top: 2px;
-    accent-color: var(--clay);
+    margin: 2px 0 0;
+    accent-color: var(--cocoa);
+    cursor: pointer;
   }
 
-  .lp-lead-form.is-validated .lp-checkbox:has(:invalid) {
-    color: var(--bronze);
-  }
-
-  .lp-lead-form.is-validated .lp-checkbox input:invalid {
-    outline: 1px solid var(--bronze);
+  .lp-checkbox input[aria-invalid='true'] {
+    outline: 1px solid var(--clay);
     outline-offset: 2px;
   }
 
   .lp-checkbox a {
-    color: var(--espresso);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: var(--cocoa);
+    border-bottom: 1px solid var(--clay);
+    transition: color 0.25s ease;
   }
 
-  .lp-honeypot {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
+  .lp-checkbox a:hover {
+    color: var(--clay);
+  }
+
+  .lp-field-error {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    color: var(--clay);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .lp-field-error::before {
+    content: '';
+    flex: none;
+    width: 12px;
     height: 1px;
-    overflow: hidden;
+    background: currentColor;
+    transform: translateY(-4px);
   }
 
-  .lp-lead-submit {
-    min-height: 54px;
+  .lp-field-error[hidden] {
+    display: none;
+  }
+
+  .lp-checkbox + .lp-field-error {
+    margin-top: -12px;
+  }
+
+  .lp-form-submit {
+    display: grid;
+    gap: 14px;
     margin-top: 4px;
+  }
+
+  .lp-submit {
+    width: 100%;
+    min-height: 56px;
+    padding-inline: 1rem;
+  }
+
+  .lp-submit:disabled {
+    cursor: wait;
+    opacity: 0.68;
   }
 
   .lp-form-note {
@@ -1645,7 +1730,18 @@ const structuredData = {
     text-align: center;
   }
 
-  /* ═══ 10 · FAQ (shared accordion keeps its own look) ═════════ */
+  .lp-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* ─── 7 · FAQ ────────────────────────────────────────────── */
   .lp-faq-grid {
     display: grid;
     grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
@@ -1658,110 +1754,99 @@ const structuredData = {
     top: 40px;
   }
 
-  .lp-faq :global(.faq-accordion-lp) {
-    max-width: none;
-    margin: 0;
-  }
-
-  /* ═══ 11 · Booking ═══════════════════════════════════════════ */
-  .lp-booking {
-    padding-top: 0;
-  }
-
-  .lp-booking :global(.booking-cta) {
-    margin: 0;
-  }
-
-  /* ═══ 12 · Location ══════════════════════════════════════════ */
+  /* ─── 8 · Location ───────────────────────────────────────── */
   .lp-location-grid {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    align-items: stretch;
-    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    gap: clamp(40px, 6vw, 104px);
   }
 
   .lp-location-copy {
     display: grid;
-    align-content: start;
     justify-items: start;
-    gap: 20px;
-  }
-
-  .lp-location-kicker {
-    margin: 0;
-  }
-
-  .lp-location-copy .lp-section-title {
-    max-width: none;
-    text-wrap: wrap;
+    gap: 24px;
   }
 
   .lp-location-info {
     width: 100%;
-    margin: 8px 0 0;
-    border-top: 1px solid var(--rule-strong);
+    margin: 0;
+    border-top: 1px solid var(--line-strong);
   }
 
   .lp-location-item {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-    gap: 6px 24px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 8px 24px;
     padding-block: 16px;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid var(--line);
   }
 
   .lp-location-item > dt {
     color: var(--cocoa);
+    font-size: var(--fs-body);
     font-weight: 500;
   }
 
   .lp-location-item > dd {
     margin: 0;
-    color: var(--umber);
-    font-size: 0.98rem;
-    line-height: 1.55;
+    color: var(--text);
+    font-size: var(--fs-small);
+    line-height: 1.6;
   }
 
-  .lp-location-hours dd dl {
+  .lp-location-hours dl {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 4px 16px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 16px;
     margin: 0;
   }
 
-  .lp-location-hours dd dt {
-    white-space: nowrap;
-  }
-
-  .lp-location-hours dd dd {
+  .lp-location-hours dl dd {
     margin: 0;
-    color: var(--espresso);
     text-align: right;
-  }
-
-  .lp-location-route {
-    margin-top: 8px;
+    font-variant-numeric: tabular-nums;
   }
 
   .lp-map-panel {
+    position: relative;
     min-height: 420px;
     overflow: hidden;
-    border-radius: var(--r-lg);
-    background: var(--stone);
+    border-radius: var(--r-xl);
+    background: var(--blush);
   }
 
   .lp-map-panel iframe {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 420px;
     border: 0;
-    filter: grayscale(0.35) contrast(0.96);
+    filter: grayscale(0.4) sepia(0.12);
   }
 
-  /* ═══ 13 · Closing band ══════════════════════════════════════ */
+  .lp-map-placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .lp-map-note {
+    max-width: 30ch;
+    margin: 0;
+    font-size: var(--fs-small);
+    color: var(--text);
+  }
+
+  /* ─── 9 · Closing band ───────────────────────────────────── */
   .lp-final-dark {
-    padding: clamp(72px, 9vw, 136px) var(--content-px);
+    padding: var(--section-y) var(--content-px);
   }
 
   .lp-final-inner {
@@ -1775,7 +1860,7 @@ const structuredData = {
 
   .lp-final-title {
     max-width: 16ch;
-    color: var(--porcelain);
+    color: var(--cream);
     font-size: var(--fs-h2);
     line-height: 1.06;
     letter-spacing: -0.015em;
@@ -1783,98 +1868,197 @@ const structuredData = {
 
   .lp-final-lead {
     max-width: 52ch;
-    margin: 24px 0 0;
-    color: var(--champagne);
+    margin-top: 24px;
+    color: var(--on-dark);
   }
 
   .lp-final-actions {
     display: grid;
+    gap: 20px;
     justify-items: start;
-    gap: 28px;
   }
 
   .lp-final-ctas {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
+    gap: 16px 32px;
   }
 
-  .lp-final-ctas .btn-link {
-    flex-basis: 100%;
+  .lp-final-booking {
+    color: var(--on-dark);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    border-bottom: 1px solid var(--line-light);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .lp-final-booking:hover {
+    color: var(--cream);
+    border-color: currentColor;
   }
 
   .lp-final-address {
-    width: 100%;
-    max-width: none;
     margin: 0;
     padding-top: 20px;
-    border-top: 1px solid var(--rule-light);
-    color: var(--champagne);
+    width: 100%;
+    border-top: 1px solid var(--line-light);
+    color: var(--on-dark);
     font-size: var(--fs-small);
     font-weight: 400;
   }
 
-  /* ═══ Mobile sticky bar ══════════════════════════════════════ */
+  /* ─── Sticky bar (phones/tablets, after the hero) ────────── */
   .lp-mobile-sticky {
     display: none;
   }
 
-  /* ═══ Responsive ═════════════════════════════════════════════ */
-  @media (max-width: 1100px) {
-    .lp-grid--4,
-    .lp-steps {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      row-gap: 36px;
-    }
-
-    .lp-focus-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .lp-combination-infographic {
-      grid-column: 1 / -1;
-      width: min(100%, 440px);
-    }
-
-    .lp-included-list,
-    .lp-offer-card :global(.trust-strip-lp) {
-      grid-template-columns: minmax(0, 1fr);
-    }
+  /* The floating WhatsApp disc (WhatsAppButton) steps aside while the form is on screen. */
+  :global(body.lp-form-in-view .wa-sticky) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   @media (max-width: 900px) {
-    .lp-head,
-    .lp-hero-grid,
-    .lp-offer-grid,
-    .lp-trust-grid,
-    .lp-expectation-grid,
-    .lp-lead-grid,
-    .lp-faq-grid,
-    .lp-location-grid,
-    .lp-final-inner {
+    .lp-mobile-sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 39;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-sizing: border-box;
+      height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+      padding: 0 var(--gutter) env(safe-area-inset-bottom, 0px);
+      border-top: 1px solid var(--rule-light-strong);
+      box-shadow: var(--shadow-float);
+      visibility: hidden;
+      transform: translateY(100%);
+      transition: transform 0.5s var(--ease-expo), visibility 0s linear 0.5s;
+    }
+
+    :global(body.lp-sticky-visible:not(.bfl-consent-visible):not(.lp-lead-success)) .lp-mobile-sticky {
+      visibility: visible;
+      transform: none;
+      transition-delay: 0s;
+    }
+
+    .lp-mobile-sticky-offer {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .lp-mobile-sticky-offer span {
+      color: var(--on-dark);
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    .lp-mobile-sticky-offer strong {
+      overflow: hidden;
+      color: var(--cream);
+      font-family: var(--f-serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.1;
+      text-overflow: ellipsis;
+    }
+
+    .lp-mobile-sticky-cta {
+      flex: none;
+      min-height: 46px;
+      padding: 0 1.1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lp-mobile-sticky {
+      transition: none;
+    }
+  }
+
+  /* ─── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .lp-steps {
       grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line-strong);
     }
 
-    .lp-head {
-      align-items: start;
-      gap: 20px;
+    .lp-step {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 5fr);
+      align-items: center;
+      gap: clamp(20px, 4vw, 40px);
+      padding-block: 28px;
+      border-bottom: 1px solid var(--line);
     }
 
-    /* Hero stacks: photo band on top, then kicker, H1, price, CTAs, proof, subtitle. */
+    /* Hero becomes one column: kicker, H1, lead, price, CTA and rating first, then the photo band and the facts. */
     .lp-hero {
-      padding-top: 0;
+      padding-top: 20px;
       padding-bottom: 40px;
     }
 
     .lp-hero-grid {
-      gap: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .lp-hero-content {
+      display: contents;
+    }
+
+    .lp-hero .lp-eyebrow { order: 1; margin-bottom: 14px; }
+    .lp-title { order: 2; }
+    .lp-subtitle { order: 3; }
+    .lp-hero-offer { order: 4; }
+    .lp-hero-ctas { order: 5; }
+    .lp-hero-proof { order: 6; margin-top: 14px; }
+    .lp-hero-media { order: 7; }
+    .lp-hero-bullets { order: 8; }
+
+    .lp-title {
+      max-width: none;
+      font-size: clamp(2rem, 7.6vw, 3rem);
+      line-height: 1.06;
+    }
+
+    .lp-subtitle {
+      max-width: none;
+      margin-top: 16px;
+      font-size: 1.05rem;
+    }
+
+    .lp-hero-offer {
+      margin-top: 20px;
+      padding-block: 0;
+      border: 0;
+      gap: 6px 10px;
+    }
+
+    .lp-hero-offer-label {
+      flex-basis: 100%;
+    }
+
+    .lp-hero-offer-price {
+      font-size: 1.75rem;
+    }
+
+    .lp-hero-ctas {
+      margin-top: 20px;
     }
 
     .lp-hero-media {
-      order: -1;
       aspect-ratio: 16 / 9;
-      margin-inline: calc(-1 * var(--gutter));
+      margin: 28px calc(-1 * var(--gutter)) 0;
       border-radius: 0;
     }
 
@@ -1882,72 +2066,44 @@ const structuredData = {
       object-position: 60% 40%;
     }
 
-    .lp-subtitle {
-      order: 1;
-      margin-top: 22px;
-    }
-
     .lp-hero-bullets {
-      order: 3;
-      margin-top: 12px;
+      margin-top: 20px;
+      border-top: 1px solid var(--line);
     }
 
-    .lp-hero-offer {
-      margin-top: 16px;
-      padding-block: 0;
-      border: 0;
-      gap: 4px 10px;
+    .lp-section-head,
+    .lp-offer-grid,
+    .lp-expectation-grid,
+    .lp-trust-grid,
+    .lp-faq-grid,
+    .lp-location-grid,
+    .lp-final-inner {
+      grid-template-columns: minmax(0, 1fr);
     }
 
-    .lp-hero-offer-label {
-      flex-basis: 100%;
+    .lp-section-head {
+      align-items: start;
+      gap: 20px;
     }
 
-    .lp-hero-ctas {
-      margin-top: 18px;
-    }
-
-    .lp-hero-proof {
-      margin-top: 14px;
-    }
-
-    .lp-offer-card {
-      max-width: 560px;
-    }
-
-    .lp-included-list,
-    .lp-offer-card :global(.trust-strip-lp) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .lp-phases-list {
-      column-gap: 20px;
-    }
-
-    .lp-phase h3 {
-      align-items: flex-start;
-    }
-
-    .lp-trust-media {
-      aspect-ratio: 4 / 4.4;
-    }
-
-    .lp-expectation-visual,
-    .lp-lead-visual {
+    .lp-offer-media {
+      order: 2;
+      width: 100%;
+      max-width: 520px;
       aspect-ratio: 4 / 3;
     }
 
     .lp-expectation-visual {
-      order: 2;
+      max-width: 520px;
+      aspect-ratio: 4 / 3;
+    }
+
+    .lp-trust-media {
+      aspect-ratio: 4 / 3;
     }
 
     .lp-faq-head {
       position: static;
-    }
-
-    .lp-map-panel,
-    .lp-map-panel iframe {
-      min-height: 320px;
     }
 
     .lp-final-ctas {
@@ -1956,167 +2112,12 @@ const structuredData = {
       width: 100%;
     }
 
-    /* Booking pill and the shared WhatsApp pill both run full width. */
-    .lp-final-ctas :global(.btn) {
-      width: 100%;
-    }
-
-    /* Mobile sticky bar — shown once the hero leaves the viewport */
-    :global(body) {
-      --lp-sticky-offer-height: 72px;
-    }
-
-    :global(body.bfl-consent-visible) {
-      --lp-sticky-offer-height: 0px;
-    }
-
-    .lp-mobile-sticky {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 39;
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 10px;
-      min-height: var(--lp-sticky-offer-height);
-      padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom, 0px));
-      border-top: 1px solid var(--rule-light-strong);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(calc(100% + 16px));
-      transition: transform 0.35s var(--ease-expo), opacity 0.25s ease;
-    }
-
-    :global(body.lp-sticky-visible) .lp-mobile-sticky {
-      opacity: 1;
-      pointer-events: auto;
-      transform: none;
-    }
-
-    :global(body.bfl-consent-visible) .lp-mobile-sticky {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(calc(100% + 16px));
-    }
-
-    .lp-mobile-sticky-price {
-      display: grid;
-      line-height: 1.1;
-      white-space: nowrap;
-    }
-
-    .lp-mobile-sticky-price s {
-      color: var(--champagne);
-      font-size: 0.75rem;
-    }
-
-    .lp-mobile-sticky-price strong {
-      color: var(--porcelain);
-      font-family: var(--f-display);
-      font-size: 1.4rem;
-      font-weight: 400;
-      font-variant-numeric: lining-nums;
-    }
-
-    .lp-mobile-sticky .btn {
-      min-height: 46px;
-      padding: 0 16px;
-      font-size: 0.92rem;
-      white-space: nowrap;
-    }
-
-    .lp-sticky-whatsapp {
-      display: inline-grid;
-      place-items: center;
-      width: 46px;
-      height: 46px;
-      border: 1px solid var(--rule-light-strong);
-      border-radius: var(--r-pill);
-      color: var(--porcelain);
-      transition: background-color 0.3s ease;
-    }
-
-    .lp-sticky-whatsapp:hover {
-      background: color-mix(in srgb, var(--cream) 10%, transparent);
-    }
-
-    .lp-sticky-whatsapp svg {
-      display: block;
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  @media (min-width: 601px) and (max-width: 900px) {
-    .lp-mobile-sticky .btn {
-      justify-self: end;
-      min-width: 240px;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .lp-title {
-      font-size: clamp(1.75rem, 7.4vw, 2.1rem);
-      line-height: 1.08;
-      letter-spacing: -0.015em;
-      max-width: 19ch;
-    }
-
-    .lp-hero-bullets {
-      display: none;
-    }
-
-    .lp-rows > li,
-    .lp-location-item {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .lp-grid--4,
-    .lp-steps,
-    .lp-field-grid,
-    .lp-focus-grid {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .lp-grid--4,
-    .lp-steps {
-      row-gap: 28px;
-    }
-
-    .lp-combination-infographic {
-      width: 100%;
-    }
-
-    .lp-lead-visual {
-      display: none;
-    }
-
-    .lp-lead-actions {
-      display: grid;
+    .lp-final-ctas .btn {
       width: 100%;
     }
   }
 
   @media (max-width: 600px) {
-    /* Full-width booking pill; WhatsApp link and rating line centred beneath. */
-    .lp-hero-ctas {
-      display: grid;
-      justify-items: center;
-      width: 100%;
-      gap: 14px;
-    }
-
-    .lp-hero-primary {
-      width: 100%;
-    }
-
-    .lp-hero-proof {
-      align-self: stretch;
-      justify-content: center;
-    }
-
     .lp-section {
       padding-block: 64px;
     }
@@ -2125,107 +2126,74 @@ const structuredData = {
       font-size: clamp(1.9rem, 8.4vw, 2.4rem);
     }
 
-    .lp-final-title {
-      font-size: clamp(2rem, 9vw, 2.6rem);
-    }
-
     .lp-section-lead {
       font-size: 1.05rem;
     }
 
-    .lp-offer-card :global(.trust-strip-lp) {
-      padding-inline: 0;
+    .lp-hero-proof {
+      justify-content: center;
     }
 
-    .lp-included-list {
+    .lp-hero-ctas {
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+    }
+
+    .lp-hero-primary {
+      width: 100%;
+    }
+
+    .lp-included-list,
+    .lp-form-row-grid {
       grid-template-columns: minmax(0, 1fr);
-    }
-
-    /* Steps become compact rows: photo left, copy right. */
-    .lp-phases-list {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 24px;
-    }
-
-    .lp-phase {
-      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-      align-items: center;
-      gap: 0 16px;
-    }
-
-    .lp-phase h3 {
-      align-items: center;
-    }
-
-    .lp-proof-grid {
-      grid-template-columns: minmax(0, 1fr);
-      border-bottom: 0;
-    }
-
-    .lp-proof-item,
-    .lp-proof-item + .lp-proof-item {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: baseline;
-      padding: 14px 0;
-      border-left: 0;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .lp-proof-item strong {
-      order: 2;
-    }
-
-    .lp-lead-form {
-      padding: 24px 20px;
     }
 
     .lp-section-cta .btn {
       width: 100%;
     }
 
+    .lp-step {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      padding-block: 32px;
+    }
+
+    .lp-step-media {
+      max-width: 100%;
+      aspect-ratio: 4 / 3;
+    }
+
+    .lp-rows > li,
+    .lp-location-item {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lp-form-shell {
+      padding: 24px 20px;
+    }
+
+    .lp-map-panel {
+      min-height: 320px;
+    }
+
     .lp-final-dark {
       padding-inline: var(--gutter);
     }
-  }
 
-  @media (max-width: 430px) {
-    .lp-mobile-sticky {
-      gap: 8px;
-      padding-inline: 14px;
-    }
-
-    .lp-mobile-sticky-price strong {
-      font-size: 1.25rem;
-    }
-
-    .lp-mobile-sticky .btn {
-      padding-inline: 12px;
-      font-size: 0.88rem;
-    }
-
-    .lp-offer-card :global(.trust-strip-lp) {
-      grid-template-columns: minmax(0, 1fr);
+    .lp-final-title {
+      font-size: clamp(2rem, 9vw, 2.6rem);
     }
   }
 
-  @media (max-width: 360px) {
-    .lp-mobile-sticky {
-      padding-inline: 12px;
+  @media (min-width: 421px) and (max-width: 600px) {
+    .lp-step {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      align-items: start;
     }
 
-    .lp-mobile-sticky-price s {
-      display: none;
-    }
-
-    .lp-mobile-sticky .btn {
-      padding-inline: 10px;
-      font-size: 0.84rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .lp-mobile-sticky {
-      transition: none;
+    .lp-step-media {
+      aspect-ratio: 4 / 5;
     }
   }
 </style>

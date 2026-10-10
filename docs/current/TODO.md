@@ -75,6 +75,7 @@
 ## Priority 0: Decisions for Teresa
 - [x] Aquafacial LP "statt CHF 180": the user decided on 2026-10-10 to keep the "statt" prices as they are.
 - [ ] Treatwell: create a "Aquafacial Aktion – 60 Min. – CHF 99" service so the post-form link opens the advertised offer
+- [ ] Treatwell: create the "Aquafacial + Microneedling – 90 Min. – CHF 170" offer. Since the 2026-10-10 lead-first rebuild the combo ad page only links to Treatwell after a request ("Direkt online buchen"); until the offer exists that link shows Treatwell's CHF 200 sale price. The user takes this on (2026-10-10).
 - [ ] Confirm the review source and current count (site shows 4,8 / 5 from 248+; LP shows 249) and allow linking to it
 - [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
 - [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
@@ -83,7 +84,7 @@
   - Answer from the agency on 2026-10-07: both ad prices are time-limited campaign offers, promoted through the Meta campaigns.
   - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
 - [ ] Carbon ad page: the three client quotes still carry "TODO: Teresa to supply real testimonials" in the code — confirm they are real, or replace them with verified reviews
-- [ ] Combo ad page: the QA-pinned infographic `aquafacial-microneedling-infografik-zuerich.webp` says "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself; it needs a corrected image (no "Hydro/Hydra", cautious claims)
+- [ ] Combo ad page infographic `aquafacial-microneedling-infografik-zuerich.webp`: it says "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself. Since 2026-10-10 the page no longer renders it (QA now asserts its absence); the file stays in `src/assets/lp/aquafacial/` until a corrected image exists (no "Hydro/Hydra", cautious claims), or it can be deleted.
 - [x] Opening hours aligned with Treatwell (the agency's source of truth) on 2026-10-09 (PR #36): Mo–Fr 10:00–20:00, Sa 10:00–16:00, So geschlossen. The /kontakt/ `openingHoursSpecification` is now built from `OPENING_HOURS`, so they can't drift.
   - **Still to do:** check that the Google Business Profile shows the same hours.
 - [ ] Testimonials: the same reviewers are quoted with different wording on different pages.
