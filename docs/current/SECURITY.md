@@ -1,6 +1,6 @@
 # Security Status
 
-Last updated: 2026-05-07
+Last updated: 2026-10-10
 
 Production URL: https://beautyfacelift-zuerich.ch/
 
@@ -17,9 +17,23 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 - Customer CSV export now quotes cells safely and prevents spreadsheet formula injection.
 - Worker responses now include baseline security headers.
 
+## Headers and Content Security Policy
+
+- Every Worker response carries `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options: DENY` and `Strict-Transport-Security: max-age=31536000` (`withSecurityHeaders` in `worker/index.ts`).
+- HSTS has no `includeSubDomains` on purpose: other subdomains of the domain (mail records, future tools) are not all known to serve HTTPS, and a browser keeps the rule for a year.
+- The CSP is report-only (`CSP_REPORT_ONLY`). On 2026-10-10, 9 live pages were loaded with marketing consent (GTM, GA4, Meta Pixel, Turnstile, map) and showed no violation; measurement hits were blocked during the test.
+- It stays report-only for now: every new GTM tag (for example Google Ads) needs its hosts added first, or the enforced policy would block it without notice.
+
+## Security smoke
+
+`npm run smoke:security` (and the manual "Security smoke" GitHub workflow) checks the live headers and that the APIs reject bad input. Its default target is `https://beautyfacelift-zuerich.ch`.
+
+- It sends requests to `/api/contact` and `/api/track` that must be rejected (no Turnstile token, unknown event, raw personal data). Nothing is delivered.
+- While the Supabase backend of the legacy booking system is offline, the `/api/services` checks print SKIP and only check the security headers. The Supabase anon check prints SKIP when the project host does not resolve.
+
 ## Manual production actions still required
 
-Steps 1–4 apply only if the legacy booking system is kept. If it is removed (recommended, see TODO), delete the Supabase secrets and the Supabase project instead.
+Steps 1–4 apply only while the legacy booking system is kept (the decision on 2026-10-10 was to keep it for now). If it is removed later, delete the Supabase secrets and the Supabase project instead.
 
 1. Rotate the Supabase `service_role` key, then update Cloudflare:
    ```powershell
@@ -40,5 +54,6 @@ Steps 1–4 apply only if the legacy booking system is kept. If it is removed (r
    npx wrangler secret put CONTACT_FROM_EMAIL --name beautyfacelift
    npx wrangler secret put CONTACT_TO_EMAIL --name beautyfacelift
    ```
+   `CONTACT_BCC_EMAIL` (the agency's blind copy) was added as a dashboard Secret on 2026-10-10.
 6. Done: `PUBLIC_TURNSTILE_SITE_KEY` is a GitHub Actions repository variable.
 7. Stripe deposits were never enabled and are dropped, because Treatwell handles payment.

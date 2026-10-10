@@ -848,7 +848,8 @@ const structuredData = {
         ].filter(Boolean);
 
         messageInput.value = parts.join('\n');
-        window.bflTracking?.trackLead?.({
+        // The form posts natively; /kontakt/danke/ counts the lead once the server accepted it.
+        window.bflTracking?.queueLead?.({
           source: 'aquafacial_microneedling_lp_form',
           value: 170,
           currency: 'CHF',

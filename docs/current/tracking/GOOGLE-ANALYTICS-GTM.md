@@ -22,13 +22,14 @@ The site reads the container ID from `PUBLIC_GTM_ID` at build time. CI takes it 
 
 ## What the container does
 
-The container is versioned as code in [gtm-container-GTM-NVC9QKGS.json](gtm-container-GTM-NVC9QKGS.json). To rebuild it, use GTM → Admin → Import container, then publish. Version 2 ("v1 – GA4 Google-Tag + Website-Events") was published on 2026-10-10.
+The container is versioned as code in [gtm-container-GTM-NVC9QKGS.json](gtm-container-GTM-NVC9QKGS.json). To rebuild it, use GTM → Admin → Import container, then publish. Version 2 ("v1 – GA4 Google-Tag + Website-Events") was published on 2026-10-10. Version 3 adds the contact-form funnel.
 
 - **Google-Tag – GA4 (G-4C9M8KMFQY):** fires on Initialization – All Pages and sends the page views.
 - **GA4-Ereignis – Website-Events:** forwards the site's own dataLayer events under the same name. The trigger is "CE – Website-Events" ("CE" stands for Custom Event).
   - Events: `generate_lead`, `aquafacial_lead_submit`, `booking_button_click`, `treatwell_outbound_click`, `whatsapp_click`, `aquafacial_whatsapp_click`, `phone_click`, `email_click`, `view_content`, `landing_page_view`, `treatment_view`, `high_intent_visit`.
+  - Contact-form funnel on /kontakt/: `contact_form_start` (first input), `contact_form_submit_success`, `contact_form_submit_error` (`error_type` `validation` or `server`). `contact_form_view` is not forwarded: the page fires it on scroll and on several buttons, so it would only add noise.
   - Not forwarded: `scroll_50`, `scroll_90` and `time_on_page_30s`, because GA4 measures scrolling and engagement itself.
-  - Parameters come from the "DLV – …" variables ("DLV" stands for Data Layer Variable): `page_type`, `treatment_name`, `button_location`, `source`, `destination_url`, `link_domain`, `method`, `content_name`, `content_category`, `service`, `campaign`, `offer`, `value`, `currency`.
+  - Parameters come from the "DLV – …" variables ("DLV" stands for Data Layer Variable): `page_type`, `treatment_name`, `button_location`, `source`, `destination_url`, `link_domain`, `method`, `content_name`, `content_category`, `service`, `campaign`, `offer`, `value`, `currency`, `form_topic`, `treatment_interest`, `error_type`, `cta_location`.
 
 The server-side GA4 path in `/api/track` (`GA4_MEASUREMENT_ID` + `GA4_API_SECRET`) stays off on purpose. It would send events under a different client ID than the browser tag and count them twice.
 

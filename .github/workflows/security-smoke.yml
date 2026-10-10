@@ -6,7 +6,7 @@ on:
       base_url:
         description: Live or staging base URL to verify
         required: false
-        default: https://beautyfacelift.mediapaulo.workers.dev
+        default: https://beautyfacelift-zuerich.ch
 
 jobs:
   smoke:

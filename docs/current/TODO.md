@@ -1,19 +1,16 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** October 7, 2026
+**Last updated:** October 10, 2026
 
 ## Priority 0: Release the October work (agency)
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
   - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").
   - [x] **Test enquiry, 2026-10-10:** the form showed "Erfolg!", the Worker accepted the enquiry, and the email arrived with the chosen treatment.
-- [ ] **Where enquiries land:** every form email goes to `mediapaulo@gmail.com` (the agency), sent from Resend's shared test sender `onboarding@resend.dev`.
-  - **Decided (user, 2026-10-10):** Teresa receives the enquiries, and the agency gets a blind copy (BCC), so "Reply all" to a customer never shows the agency address.
-  - The Worker supports blind copies through `CONTACT_BCC_EMAIL` (comma-separated, PR #44).
-  - **Order of the switch:** it matters, because Resend's test sender only delivers to the Resend account owner.
-    1. Verify `beautyfacelift-zuerich.ch` in Resend. Its DNS records `send.` and `resend._domainkey` already exist in Cloudflare.
-    2. Set `CONTACT_FROM_EMAIL` to an address on that domain, then send a test enquiry.
-    3. Set `CONTACT_TO_EMAIL` to Teresa's inbox and `CONTACT_BCC_EMAIL` to `mediapaulo@gmail.com`, then send a second test.
-  - **Needs:** the user's Resend login, and the address Teresa reads.
+- [x] **Where enquiries land, switched on 2026-10-10:**
+  - **Sender:** `anfragen@beautyfacelift-zuerich.ch`. The domain is verified in Resend.
+  - **Recipients:** Teresa (`info@beautyfacelift.ch`) receives the enquiries. The agency gets a blind copy through `CONTACT_BCC_EMAIL` (`mediapaulo@gmail.com`, PR #44), so "Reply all" never shows the agency address.
+  - **Before:** every enquiry went only to the agency, from Resend's test sender `onboarding@resend.dev`.
+  - **Tests:** two labelled test enquiries arrived.
 - [x] Combo ad form `/lp/aquafacial-microneedling/` fixed on 2026-10-07. Since 2026-05-26 every submission had been rejected for two reasons:
   - its hidden topic was not an allowed contact topic;
   - the Worker required Turnstile, but the page has no widget.
@@ -40,10 +37,19 @@
 - [x] Release Atelier Glow as one release — live since 2026-10-07 (PR #25; deploy fixed by PR #26)
 - [x] After deploy: Lighthouse mobile on `/` (98/100/100/100) and `/lp/aquafacial/` (98/100/100, noindex)
 - [x] Meta check, 2026-10-10 (Events Manager, Pixel `1147246982373946`): 30 Leads in the last 28 days (latest 12 hours before), every event from browser and server, no active diagnostics errors, match quality 6.1/10. Meta suggests sending `fbc` with PageView.
+  - **Ads, checked read-only in Ads Manager on 2026-10-10:**
+    - All 64 campaigns are inactive, so the new site gets no paid traffic.
+    - The Aquafacial campaign had 35 results from 10 to 19 September, 8 from 20 to 30 September, and none in October.
+  - **Where the Pixel Leads come from:** mostly the old WordPress site `beautyfacelift.ch`, which fires the same Pixel (PixelYourSite + Contact Form 7).
+    - In the 15 days before 2026-10-10, Resend shows no real enquiry from the new site.
+    - In the 7 days before, the Cloudflare logs show only bot POSTs to `/api/contact`.
+    - Until the old site is redirected or loses the Pixel, filter Leads by URL in Events Manager.
+- [x] Combo ad form counted its Lead on submit, even when the server then rejected the enquiry. It now counts it on `/kontakt/danke/`, which only follows an accepted enquiry (branch `codex/tracking-fixes`).
+- [x] Security smoke repaired (branch `codex/tracking-fixes`). It targeted the disabled workers.dev host, expected a CSP part browsers ignore in report-only mode, and sent a contact topic the Worker no longer accepts. See SECURITY.md.
 - [x] Aquafacial LP conversion and copy pass — live since 2026-10-07 (PR #27)
 - [x] Same pass for the combo, Carbon, Microneedling and Peeling ad pages — live since 2026-10-07 (PR #28)
 - [x] `/kontakt/` email shows the chosen treatment (test enquiry 2026-10-10)
-- [ ] Decide Supabase: restore project `izekwngqjllaqibrwotp` (needed for lead status / Confirmed-Attended events) or decommission the legacy booking widget, admin and `/api/services|slots|bookings|availability`
+- [x] Decide Supabase: decided on 2026-10-10 to keep the legacy booking system for now. See "Legacy booking system (decision)" in Priority 1.
 - [x] Contact form: the Worker dropped the chosen treatment (`treatment_interest`) since 2026-06-24; fixed and live on 2026-10-07 (PR #28). `scripts/check-contact-concierge.mjs` now checks the current Worker and runs as `npm run qa:contact`
 - [x] Remove merged/abandoned worktrees under `astro-v2-worktrees/` and the old `astro-v2-*` sibling folders — done 2026-10-07 (13 worktrees; uncommitted state kept in local `backup/2026-10-07/*` branches; record in `../_archives/2026-10-07-cleanup/README.md`)
 - [ ] Decide on the local `backup/2026-10-07/agent-git-hygiene` branch: unfinished agent-worktree tooling (`scripts/agent-worktree.mjs`, pre-push hook, `build.yml`) from June — finish it in a PR or drop it
@@ -72,7 +78,7 @@
 - [ ] Confirm the review source and current count (site shows 4,8 / 5 from 248+; LP shows 249) and allow linking to it
 - [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
 - [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
-- [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate)
+- [ ] Decide the future of the old WordPress site on `beautyfacelift.ch` (301 to the new domain vs. keep separate). The user takes this on (2026-10-10). It still sends Leads to the same Meta Pixel (see the Meta check).
 - [x] Ad pages, reference prices, decided by the user on 2026-10-10: the "statt" prices stay as they are. Earlier note: "statt CHF 250.–" (combo) and "statt CHF 220.–" / "Sie sparen CHF 51" (Carbon) need the same reference-price proof and an end date as the Aquafacial "statt CHF 180.–" (Swiss price-indication rules). There is also a conflict: the Microneedling page, `/behandlungen/vergleich/` and the Microneedling FAQ list "Carbon Laser + Microneedling" at **CHF 250**, while the Carbon ad page uses CHF 220 as its reference price.
   - Answer from the agency on 2026-10-07: both ad prices are time-limited campaign offers, promoted through the Meta campaigns.
   - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
@@ -140,7 +146,7 @@ Finished work from March to May 2026, and the items dropped on 2026-10-10, are i
 
 ## Priority 1: Go Live (blocking everything else)
 - [x] Google Search Console, 2026-10-10: domain property `beautyfacelift-zuerich.ch` verified by DNS TXT record in Cloudflare (Google login `mediapaulo@gmail.com`), `sitemap.xml` submitted. Google had not fetched it yet on the day of submission; check the status again.
-- [ ] Google Business Profile: the profile "Beauty Face Lift" (4,2 from 46 Google reviews) exists, but another Google account manages it, most likely Teresa's. Its website link still points to the old `beautyfacelift.ch`. Teresa should add `mediapaulo@gmail.com` as a manager, or change the website to `https://beautyfacelift-zuerich.ch/` herself.
+- [ ] Google Business Profile: the profile "Beauty Face Lift" (4,2 from 46 Google reviews) exists, but another Google account manages it, most likely Teresa's. Its website link still points to the old `beautyfacelift.ch`. Teresa should add `mediapaulo@gmail.com` as a manager, or change the website to `https://beautyfacelift-zuerich.ch/` herself. The user takes this on (2026-10-10).
 - [ ] **Legacy booking system (decision):** the first-party booking widget, the admin page, `/api/services|slots|availability|bookings` and the Supabase project `izekwngqjllaqibrwotp` have been dead since 2026-10-06 (NXDOMAIN). Bookings run on Treatwell.
   - **Decided (user, 2026-10-10):** keep it for now.
     - Nobody has the admin login, and the login cannot work anyway: the Supabase project no longer resolves.
@@ -157,11 +163,12 @@ Finished work from March to May 2026, and the items dropped on 2026-10-10, are i
 - [x] GTM container `GTM-NVC9QKGS` and GA4 property `G-4C9M8KMFQY`, created 2026-10-10. The GitHub variable `PUBLIC_GTM_ID` is set. Setup and open items are in [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md). Server-side GA4 (`GA4_API_SECRET`) stays off on purpose.
 - [x] Meta Pixel and CAPI live (see the Meta check above)
 - [ ] Verify GA4 after the GTM release (Realtime/DebugView) and mark the key events once they have arrived. Google signals has been on since 2026-10-10.
+- [x] GTM version 3 forwards the `/kontakt/` form funnel to GA4: `contact_form_start`, `contact_form_submit_success`, `contact_form_submit_error`.
 - [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools
 
 ## Priority 3: Email
-- [x] Resend sends the form emails. `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` and `TURNSTILE_SECRET_KEY` are Worker secrets, and the test enquiry on 2026-10-10 arrived. Still open: the sender domain and the recipient, see "Where enquiries land" at the top.
+- [x] Resend sends the form emails. `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL` and `TURNSTILE_SECRET_KEY` are Worker secrets, and the test enquiry on 2026-10-10 arrived. The branded sender and Teresa as recipient have been live since 2026-10-10, see "Where enquiries land" at the top.
 
 ## Priority 5: Backlinks & Off-Page SEO
 - [ ] Submit to local.ch, search.ch, Swiss Yellow Pages
