@@ -410,10 +410,9 @@ const structuredData = {
     </section>
 
     <!-- 6 · Lead form -->
-    <section class="container lp-section lp-lead" id={LEAD_FORM_ID} aria-labelledby="lp-lead-title">
+    <section class="container lp-section lp-lead" id={LEAD_FORM_ID} aria-labelledby="lp-lead-title" tabindex="-1">
       <div class="lp-lead-grid">
         <div class="lp-lead-header">
-          <p class="lp-eyebrow">Termin unverbindlich anfragen</p>
           <h2 id="lp-lead-title" class="lp-section-title">Termin für Aquafacial + Microneedling anfragen</h2>
           <p class="lp-section-lead">
             Kurz ausfüllen – Teresa Stimac meldet sich persönlich, klärt Ihre Fragen und bestätigt den Termin.
@@ -421,7 +420,7 @@ const structuredData = {
         </div>
 
         <div class="lp-form-shell">
-          <div class="lp-form-status" data-lead-status role="alert" aria-live="polite" hidden></div>
+          <div class="lp-form-status" data-lead-status role="alert" hidden></div>
           <div class="lp-form-success" data-lead-success tabindex="-1" hidden>
             <h3>Vielen Dank! Ihre Anfrage ist eingegangen.</h3>
             <p>Teresa Stimac meldet sich zeitnah bei Ihnen, um den Termin für Aquafacial + Microneedling abzustimmen.</p>
@@ -743,8 +742,15 @@ const structuredData = {
         dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
       }
 
-      form.addEventListener('input', () => clearErrors(form));
-      form.addEventListener('change', () => clearErrors(form));
+      // Typing in a field clears only that field's message; the others stay until fixed.
+      const clearOwnError = (event: Event) => {
+        const target = event.target;
+        if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement) {
+          if (target.name in fieldMessages) setFieldError(form, target.name, '');
+        }
+      };
+      form.addEventListener('input', clearOwnError);
+      form.addEventListener('change', clearOwnError);
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -774,7 +780,13 @@ const structuredData = {
           });
 
           if (!response.ok) {
-            throw new Error(SEND_ERROR);
+            // The Worker answers with its own German message (validation, rate limit); show it when present.
+            let serverMessage = '';
+            try {
+              const body = await response.json();
+              if (body && typeof body.error === 'string') serverMessage = body.error.trim();
+            } catch { /* no JSON body */ }
+            throw new Error(serverMessage || SEND_ERROR);
           }
 
           form.hidden = true;
@@ -821,9 +833,11 @@ const structuredData = {
             treatment_name: 'Aquafacial + Microneedling',
           });
           const target = document.querySelector('#anfrage');
-          if (!target) return;
+          if (!(target instanceof HTMLElement)) return;
           event.preventDefault();
           target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          // Keyboard and screen-reader users continue inside the form, not from the button they left.
+          target.focus({ preventScroll: true });
         });
       });
     }
@@ -847,13 +861,15 @@ const structuredData = {
 
       if (!('IntersectionObserver' in window)) return;
       if (hero) {
-        new IntersectionObserver(([entry]) => {
+        new IntersectionObserver((entries) => {
+          const entry = entries[entries.length - 1];
           pastHero = !entry.isIntersecting && entry.boundingClientRect.top < 0;
           syncSticky();
         }).observe(hero);
       }
       if (leadSection) {
-        new IntersectionObserver(([entry]) => {
+        new IntersectionObserver((entries) => {
+          const entry = entries[entries.length - 1];
           formInView = entry.isIntersecting;
           body.classList.toggle('lp-form-in-view', formInView);
           syncSticky();
@@ -1362,6 +1378,10 @@ const structuredData = {
     border-top: 1px solid var(--line);
   }
 
+  .lp-lead:focus {
+    outline: none;
+  }
+
   .lp-lead-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1375,12 +1395,6 @@ const structuredData = {
     gap: 20px;
     max-width: 820px;
     margin: 0 auto;
-    text-align: center;
-  }
-
-  .lp-lead-header .lp-eyebrow {
-    width: 100%;
-    margin: 0;
     text-align: center;
   }
 
@@ -1414,7 +1428,7 @@ const structuredData = {
   .lp-form-status {
     padding: 20px 22px;
     border-radius: var(--r);
-    background: rgba(155, 44, 31, 0.08);
+    background: color-mix(in srgb, var(--error) 8%, transparent);
     color: var(--error);
     font-weight: 500;
   }
@@ -1911,13 +1925,6 @@ const structuredData = {
   /* ─── Sticky bar (phones/tablets, after the hero) ────────── */
   .lp-mobile-sticky {
     display: none;
-  }
-
-  /* The floating WhatsApp disc (WhatsAppButton) steps aside while the form is on screen. */
-  :global(body.lp-form-in-view .wa-sticky) {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
   }
 
   @media (max-width: 900px) {

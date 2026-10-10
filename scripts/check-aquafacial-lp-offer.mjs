@@ -6,6 +6,7 @@ const files = {
   landingPage: new URL('../src/layouts/LandingPage.astro', import.meta.url),
   marketingConsent: new URL('../src/components/MarketingConsent.astro', import.meta.url),
   tracking: new URL('../src/lib/track.ts', import.meta.url),
+  whatsappButton: new URL('../src/components/lp/WhatsAppButton.astro', import.meta.url),
 };
 
 function assert(condition, message) {
@@ -25,12 +26,13 @@ async function readNamedFile(name) {
   }
 }
 
-const [lp, termin, landingPage, marketingConsent, tracking] = await Promise.all([
+const [lp, termin, landingPage, marketingConsent, tracking, whatsappButton] = await Promise.all([
   readNamedFile('lp'),
   readNamedFile('termin'),
   readNamedFile('landingPage'),
   readNamedFile('marketingConsent'),
   readNamedFile('tracking'),
+  readNamedFile('whatsappButton'),
 ]);
 
 const previousTreatmentSpellings = [
@@ -80,7 +82,7 @@ assert(!lp.includes('data-button-location="lp_hero_booking"'), 'Aquafacial LP he
 assert(lp.includes('data-button-location="form_success_booking">{BOOKING_CTA_LABEL}</a>'), 'Treatwell booking must be offered after a successful request');
 assert(lp.includes('data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>'), 'Treatwell booking must stay available as a text link in the closing band');
 assert(lp.includes('Kann ich auch direkt online buchen?'), 'Aquafacial LP FAQ must explain the online booking path');
-assert((lp.match(/data-lead-cta/g) || []).length >= 5, 'Every section must end with the primary request CTA');
+assert((lp.match(/data-lead-cta/g) || []).length >= 5, 'Hero, included, trust, closing band and sticky bar must each carry the request CTA');
 
 // Hero: outcome-led H1 with the copper accent word, lead with duration and contents, price line, bullets on every screen.
 assert(lp.includes('Aktion: Aquafacial + Microneedling in Zürich'), 'Aquafacial LP hero eyebrow must use the requested action-focused copy');
@@ -184,6 +186,13 @@ assert(lp.includes('lp-sticky-visible'), 'Aquafacial LP sticky CTA must be revea
 assert(lp.includes("sticky.inert = !visible"), 'Aquafacial LP sticky CTA must leave the tab order while hidden');
 assert(lp.includes('body.lp-sticky-visible:not(.bfl-consent-visible):not(.lp-lead-success)'), 'Aquafacial LP sticky bar must hide while consent is open and after success');
 assert(lp.includes('lp-form-in-view'), 'Aquafacial LP floating UI must step aside while the form is on screen');
+assert(
+  whatsappButton.includes(':global(body.lp-wa-scrolled:not(.bfl-consent-visible):not(.lp-form-in-view)) .wa-sticky {'),
+  'The shared floating WhatsApp disc must hide itself while body.lp-form-in-view is set (its scoped reveal rule outranks any page rule)',
+);
+assert(lp.includes('target.focus({ preventScroll: true })'), 'Request CTAs must move keyboard focus into the form section after scrolling');
+assert(lp.includes('id={LEAD_FORM_ID} aria-labelledby="lp-lead-title" tabindex="-1"'), 'The form section must be focusable for the request CTAs');
+assert(!lp.includes('<p class="lp-eyebrow">Termin unverbindlich anfragen</p>'), 'Aquafacial LP form heading must not carry a decorative overline (design-system rule 1)');
 assert(lp.includes('<WhatsAppButton variant="sticky"'), 'Aquafacial LP must use the shared floating WhatsApp disc');
 assert(lp.includes('WhatsAppButton'), 'Aquafacial LP must use the reusable WhatsApp CTA component');
 

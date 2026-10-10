@@ -426,7 +426,7 @@ const structuredData = {
     />
 
     <!-- 6 · Lead form -->
-    <section class="container lp-section lp-lead" id="aquafacial-lead-form">
+    <section class="container lp-section lp-lead" id="aquafacial-lead-form" tabindex="-1">
       <div class="lp-lead-grid">
         <div class="lp-lead-header">
           <p class="lp-eyebrow">Termin unverbindlich anfragen</p>
@@ -434,7 +434,7 @@ const structuredData = {
         </div>
 
         <div class="lp-form-shell">
-          <div class="lp-form-status" data-aquafacial-status role="alert" aria-live="polite" hidden></div>
+          <div class="lp-form-status" data-aquafacial-status role="alert" hidden></div>
           <div class="lp-form-success" data-aquafacial-success tabindex="-1" hidden>
             <h3>Vielen Dank! Deine Anfrage ist eingegangen.</h3>
             <p>Beauty Face Lift meldet sich zeitnah bei dir, um deinen Terminwunsch für die Aquafacial Aktion zu besprechen.</p>
@@ -710,8 +710,15 @@ const structuredData = {
         dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
       }
 
-      form.addEventListener('input', () => clearErrors(form));
-      form.addEventListener('change', () => clearErrors(form));
+      // Typing in a field clears only that field's message; the others stay until fixed.
+      const clearOwnError = (event: Event) => {
+        const target = event.target;
+        if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement) {
+          if (target.name in fieldMessages) setFieldError(form, target.name, '');
+        }
+      };
+      form.addEventListener('input', clearOwnError);
+      form.addEventListener('change', clearOwnError);
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -741,7 +748,13 @@ const structuredData = {
           });
 
           if (!response.ok) {
-            throw new Error('Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.');
+            // The Worker answers with its own German message (validation, rate limit); show it when present.
+            let serverMessage = '';
+            try {
+              const body = await response.json();
+              if (body && typeof body.error === 'string') serverMessage = body.error.trim();
+            } catch { /* no JSON body */ }
+            throw new Error(serverMessage || 'Leider konnte deine Anfrage gerade nicht gesendet werden. Bitte versuche es erneut oder kontaktiere uns direkt per WhatsApp.');
           }
 
           form.hidden = true;
@@ -776,9 +789,11 @@ const structuredData = {
       document.querySelectorAll('[data-aquafacial-scroll]').forEach((link) => {
         link.addEventListener('click', (event) => {
           const target = document.querySelector('#aquafacial-lead-form');
-          if (!target) return;
+          if (!(target instanceof HTMLElement)) return;
           event.preventDefault();
           target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          // Keyboard and screen-reader users continue inside the form, not from the button they left.
+          target.focus({ preventScroll: true });
         });
       });
     }
@@ -800,13 +815,15 @@ const structuredData = {
 
       if ('IntersectionObserver' in window) {
         if (hero) {
-          new IntersectionObserver(([entry]) => {
+          new IntersectionObserver((entries) => {
+            const entry = entries[entries.length - 1];
             pastHero = !entry.isIntersecting && entry.boundingClientRect.top < 0;
             syncSticky();
           }).observe(hero);
         }
         if (leadSection) {
-          new IntersectionObserver(([entry]) => {
+          new IntersectionObserver((entries) => {
+            const entry = entries[entries.length - 1];
             formInView = entry.isIntersecting;
             body.classList.toggle('aquafacial-form-in-view', formInView);
             syncSticky();
@@ -1387,6 +1404,10 @@ const structuredData = {
     border-top: 1px solid var(--rule);
   }
 
+  .lp-lead:focus {
+    outline: none;
+  }
+
   /* What happens after the request: two numbered lines above the fields. */
   .lp-next-steps {
     display: grid;
@@ -1474,7 +1495,7 @@ const structuredData = {
   .lp-form-status {
     padding: 20px 22px;
     border-radius: var(--r);
-    background: rgba(155, 44, 31, 0.08);
+    background: color-mix(in srgb, var(--error) 8%, transparent);
     color: var(--error);
     font-weight: 500;
   }

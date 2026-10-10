@@ -143,7 +143,7 @@ assert(lp.includes('const resultExamples = ['), 'Aquafacial LP must define multi
 assert(lp.includes('<AquafacialResultsSection'), 'Aquafacial LP must render the Aquafacial results section');
 assert(resultsComponent.includes('id="aquafacial-results"'), 'Aquafacial results section must expose a stable section id');
 const resultSectionIndex = lp.indexOf('<AquafacialResultsSection');
-const leadSectionIndex = lp.indexOf('<section class="container lp-section lp-lead" id="aquafacial-lead-form">');
+const leadSectionIndex = lp.indexOf('<section class="container lp-section lp-lead" id="aquafacial-lead-form" tabindex="-1">');
 assert(resultSectionIndex !== -1 && leadSectionIndex !== -1 && resultSectionIndex < leadSectionIndex, 'Aquafacial results section must be placed directly before the lead form section');
 assert(lp.includes('Sichtbar frischeres Hautgefühl nach der Aquafacial Behandlung'), 'Aquafacial results section must use the approved headline');
 assert(lp.includes('Die Beispiele zeigen, wie die Haut nach einer professionellen Aquafacial Behandlung sichtbar frischer, gepflegter und hydratisierter wirken kann.'), 'Aquafacial results section must use compliant intro copy');
@@ -293,6 +293,7 @@ assert(!lp.includes("'Professionelles Kosmetikinstitut',"), 'Aquafacial proof st
 assert(!lp.includes('class="lp-offer-price"'), 'Aquafacial included-treatment section must not render a duplicate price box');
 assert(!lp.includes('Keine Online-Zahlung auf dieser Seite'), 'Aquafacial hero must remove the note below the CTA buttons');
 assert(lp.includes('.lp-hero-media { order: 7; }'), 'Aquafacial stacked hero must show the photo band after the CTA and rating line');
+assert(lp.includes('target.focus({ preventScroll: true })') && lp.includes('id="aquafacial-lead-form" tabindex="-1"'), 'Request CTAs must move keyboard focus into the form section after scrolling');
 assert(!lp.includes('Du hast eine kurze Frage oder möchtest schneller'), 'Aquafacial hero must remove the WhatsApp note below the CTA buttons');
 assert(lp.includes('Häufige Fragen zur Aquafacial Aktion'), 'Aquafacial LP must include the requested FAQ heading');
 assert(lp.includes('data-aquafacial-sticky'), 'Aquafacial LP must include a mobile sticky lead CTA');

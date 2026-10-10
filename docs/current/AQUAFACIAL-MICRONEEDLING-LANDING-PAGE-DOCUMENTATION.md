@@ -7,7 +7,7 @@ Final URL:
 `https://beautyfacelift-zuerich.ch/lp/aquafacial-microneedling/`
 
 Document status:
-Production documentation for the live campaign landing page.
+Historical production documentation. **Superseded on 2026-10-10** by the lead-first rebuild: see [AQUAFACIAL-LANDING-PAGE-UPDATE.md, section 9](AQUAFACIAL-LANDING-PAGE-UPDATE.md#9-2026-10-10-lead-first-rebuild-plan-approved-by-the-user). The CTAs ("Jetzt Termin buchen", "Terminwunsch senden", "Hautanalyse & Termin anfragen"), the "Kontaktweg" field, the OfferBox, the infographic and the native POST to `/kontakt/danke/` described below are no longer on the page.
 
 Last documented:
 October 7, 2026 — conversion and copy pass on top of the site-wide "Atelier Glow" system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)). See "2026-10-07 Conversion and Copy Refinement" below.
