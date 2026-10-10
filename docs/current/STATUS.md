@@ -51,7 +51,7 @@ Production Worker launch details:
 | Keyboard fixes (menu, mobile contact bar), CSS inlined, font preloads, email link labels | PR #42, merge `6c5043e` | Live 2026-10-10 (deploy run 38004062741) |
 | Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #44, merge `94cd393` | Live 2026-10-10 (deploy run 38005397603) |
 | Enquiry emails from `anfragen@beautyfacelift-zuerich.ch` (verified in Resend) to Teresa, blind copy to the agency (Worker secrets, no code) | — | Done 2026-10-10, two test enquiries arrived |
-| Combo ad form counts its Lead only after the server accepted it; `/kontakt/` funnel in GTM version 3; security smoke repaired | branch `codex/tracking-fixes` | Pending approval |
+| Combo ad form counts its Lead only after the server accepted it; `/kontakt/` funnel in GTM version 3; security smoke repaired | PR #45 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.

@@ -44,8 +44,8 @@
     - In the 15 days before 2026-10-10, Resend shows no real enquiry from the new site.
     - In the 7 days before, the Cloudflare logs show only bot POSTs to `/api/contact`.
     - Until the old site is redirected or loses the Pixel, filter Leads by URL in Events Manager.
-- [x] Combo ad form counted its Lead on submit, even when the server then rejected the enquiry. It now counts it on `/kontakt/danke/`, which only follows an accepted enquiry (branch `codex/tracking-fixes`).
-- [x] Security smoke repaired (branch `codex/tracking-fixes`). It targeted the disabled workers.dev host, expected a CSP part browsers ignore in report-only mode, and sent a contact topic the Worker no longer accepts. See SECURITY.md.
+- [x] Combo ad form counted its Lead on submit, even when the server then rejected the enquiry. It now counts it on `/kontakt/danke/`, which only follows an accepted enquiry (PR #45).
+- [x] Security smoke repaired (PR #45). It targeted the disabled workers.dev host, expected a CSP part browsers ignore in report-only mode, and sent a contact topic the Worker no longer accepts. See SECURITY.md.
 - [x] Aquafacial LP conversion and copy pass — live since 2026-10-07 (PR #27)
 - [x] Same pass for the combo, Carbon, Microneedling and Peeling ad pages — live since 2026-10-07 (PR #28)
 - [x] `/kontakt/` email shows the chosen treatment (test enquiry 2026-10-10)

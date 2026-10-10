@@ -667,7 +667,7 @@ On a valid submit, the LP calls `window.bflTracking?.queueLead` with email, phon
 - A rejected enquiry ends on the Worker's error page. When the visitor returns to the form, the remembered lead is dropped, so a later visit to `/kontakt/danke/` counts nothing.
 
 Since 2026-10-09:
-- **Client checks:** the form applies the Worker's own email and phone rules (a dot in the email domain, 8–15 phone digits) before it submits. The Lead event therefore no longer fires for input the server would reject. Since `codex/tracking-fixes` it is counted only on `/kontakt/danke/`, so server errors such as rate limits or email outages no longer count either.
+- **Client checks:** the form applies the Worker's own email and phone rules (a dot in the email domain, 8–15 phone digits) before it submits. The Lead event therefore no longer fires for input the server would reject. Since PR #45 it is counted only on `/kontakt/danke/`, so server errors such as rate limits or email outages no longer count either.
 - **Attribution:** the form sends `offer`, `treatment`, `landing_page`, `page_path`, `page_url`, `referrer`, `utm_*`, `fbclid`, `gclid` and `msclkid`. They are filled from the URL or the `bfl_utm` session store, as on `/lp/aquafacial/`.
 - **Hautziel:** the Worker reads `skinGoal`, so the skin goal appears in the email as "Hautziel".
 
