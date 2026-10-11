@@ -122,3 +122,12 @@ Deliberately kept byte-for-byte: Teresa's real portrait and real Aquafacial trea
 
 Verified `npm ci`, `qa:aquafacial-lp`, `qa:aquafacial-combo-lp`, `qa:marketing`, `npm run check` and `npm run build`. Both pages were captured at 390 and 1440 px; faces and treatment contact points remain visible in their crops, all images load, and no horizontal overflow or browser errors were found. No merge or deployment was performed.
 
+## 2026-10 Imagery — Teresa identity revision
+
+11 October 2026, branch `codex/lp-teresa-imagery`, based on merged PR #47. The user confirmed Teresa's consent and requested her recognizable presence throughout the studio imagery. Revised the pinned share preview, Kombi hero, appointment preparation and consultation files using both unchanged real Teresa photographs as image-to-image identity references. The same fictional client, cream/blush studio and warm window light remain consistent; no results or efficacy evidence were generated.
+
+The selected identity-edit prompts and all reference provenance are in [the Teresa revision prompts](../../design/images/lp-shoot-2026-10/teresa-revision/PROMPTS.md), linked from [LP-IMAGE-PROMPTS.md](LP-IMAGE-PROMPTS.md). All 14 native candidate PNGs, exact generation calls, selected export hashes and new before/after screenshots are retained in the revision directory. The three replaced WebPs use quality 82, embedded sRGB and unchanged paths/dimensions: hero 85,488 bytes, preparation 110,214 bytes, consultation 110,822 bytes. The pinned 1200 × 630 share preview stays true PNG (918,586 bytes).
+
+The Kombi trust section now renders Teresa's authentic `src/assets/marketing/teresa_portrait.jpg` beside her quote. Its original source is untouched. The hero's desktop focus moves to 85% horizontally to keep both faces inside the arch, and the preparation phone crop uses 15% vertical focus. The original Page A treatment photograph and portrait, all three result JPEGs, campaign posters/videos, unused infographic and four remaining generated Kombi photographs are deliberately kept unchanged.
+
+Verified `npm ci`, both landing-page QA scripts, marketing QA, type check (0 errors, 0 warnings, 13 existing hints) and build (36 pages). Both pages were captured at 390 and 1440 px; Teresa and the client remain visible in the revised crops, the step devices remain in frame, and browser reports show no missing images, horizontal overflow or page errors. Protected-file SHA-256 checks pass. This revision is prepared for a new draft PR; no merge or deployment is included.

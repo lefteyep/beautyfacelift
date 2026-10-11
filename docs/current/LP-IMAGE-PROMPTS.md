@@ -1,5 +1,15 @@
 # 2026-10 Aquafacial landing-page image prompts
 
+## Current revision: Teresa's visible identity
+
+11 October 2026: after reviewing the first series, the user explicitly requested Teresa's recognizable presence. The current revision uses the two consented real Teresa photos as identity references for slots 4, 6, 7 and 13. Their [exact selected prompts and selection notes](../../design/images/lp-shoot-2026-10/teresa-revision/PROMPTS.md), [complete generation log](../../design/images/lp-shoot-2026-10/teresa-revision/generation-log.json), native PNGs and new review screenshots are retained in the revision directory. The built-in generator's backend version remains undisclosed.
+
+The Kombi page also renders Teresa's unchanged authentic portrait beside her quote. The hero desktop focus is now 85% horizontally and the preparation phone focus is 15% vertically, keeping Teresa and the client visible together. The protected originals, real result images and campaign assets remain byte-for-byte unchanged. Slots 8, 9, 10 and 12 retain their first-series files.
+
+## Initial series: PR #47
+
+The generation status, hands-only framing and prompts below document the initial delivery. The current identity-referenced prompts linked above supersede the initial prompts for slots 4, 6, 7 and 13.
+
 Status: completed imagery generation and export, 11 October 2026. The user authorized the built-in image generator after the requested Images API route was unavailable (no environment API key and no API host access). The built-in tool does not expose its backend model identifier or a resolution selector, so this work does not claim a particular model version. Every call requested its largest supported output; all returned native PNGs are preserved.
 
 Prepared on `codex/lp-imagery`, based on the fetched `master` (`019ee66`). Read alongside [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md), [AQUAFACIAL-LANDING-PAGE-UPDATE.md, section 9](AQUAFACIAL-LANDING-PAGE-UPDATE.md#9-2026-10-10-lead-first-rebuild-plan-approved-by-the-user), and the [last section of AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md](AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md#2026-10-10-conversion-and-design-pass-plan-approved-by-the-user). Current replacement images and the two protected real photos were inspected for framing only; none are generation references.

@@ -1,0 +1,73 @@
+[
+  {
+    "slot": 4,
+    "candidate": 3,
+    "path": "public/assets/aquafacial_treatment.png",
+    "width": 1200,
+    "height": 630,
+    "format": "png",
+    "original": "slot-04-candidate-03.png",
+    "native": [
+      1734,
+      907
+    ],
+    "bytes": 918586,
+    "quality": null,
+    "icc": true,
+    "sha256": "1144c2baa08a9d382368855219379288c658dc026a8084439aaa77f781788993"
+  },
+  {
+    "slot": 6,
+    "candidate": 1,
+    "path": "src/assets/lp/aquafacial/hero-aquafacial-microneedling-zuerich.webp",
+    "width": 1672,
+    "height": 941,
+    "format": "webp",
+    "limit": 160000,
+    "original": "slot-06-candidate-01.png",
+    "native": [
+      1672,
+      941
+    ],
+    "bytes": 85488,
+    "quality": 82,
+    "icc": true,
+    "sha256": "558c2a44cb8d323e09f8114a103ca85048668baa7c6d6a5cff5ef328c4238395"
+  },
+  {
+    "slot": 7,
+    "candidate": 4,
+    "path": "src/assets/lp/aquafacial/personal-treatment-zuerich.webp",
+    "width": 1122,
+    "height": 1402,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-07-candidate-04.png",
+    "native": [
+      1071,
+      1468
+    ],
+    "bytes": 110214,
+    "quality": 82,
+    "icc": true,
+    "sha256": "fb64a2f9a8cd1b768dddd06b3d6291280bd2ebdf777dfc11d990cbbf7ea1ca6f"
+  },
+  {
+    "slot": 13,
+    "candidate": 1,
+    "path": "src/assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp",
+    "width": 1448,
+    "height": 1086,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-13-candidate-01.png",
+    "native": [
+      1448,
+      1086
+    ],
+    "bytes": 110822,
+    "quality": 82,
+    "icc": true,
+    "sha256": "8404cf430dc19d1bcfcbde4f573bf6d3d2aec2a71f74e0c560052e33a9b2f59d"
+  }
+]
