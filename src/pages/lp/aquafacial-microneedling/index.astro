@@ -17,6 +17,13 @@ import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForServi
 const PROMO_PRICE = 170;
 const REGULAR_PRICE = 250;
 const DURATION_LABEL = '1 Std. 30 Min.';
+// Last day of the campaign offer. Swiss price-indication rules: a "statt" price must be time-limited.
+// Change only this ISO date; the visible label, FAQ 1, the closing band and the schema follow it.
+const OFFER_VALID_UNTIL = '2026-11-14';
+// "14. November 2026", with a no-break space so the day never stands alone at a line end.
+const OFFER_VALID_UNTIL_LABEL = new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+  .format(new Date(`${OFFER_VALID_UNTIL}T00:00:00Z`))
+  .replace(' ', '\u00A0');
 const OFFER_LABEL = 'Aquafacial + Microneedling Kombi-Angebot';
 const OFFER_SLUG = 'aquafacial-microneedling-aktion';
 // One primary action on the whole page: the request form. WhatsApp is the secondary path,
@@ -129,7 +136,7 @@ const skinGoals = ['Glow', 'Poren', 'Hautstruktur', 'Trockenheit', 'Frischer aus
 const faqs = [
   {
     q: 'Was ist im Kombi-Angebot enthalten?',
-    a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Hautanalyse, Aquafacial, Microneedling, beruhigender Abschlusspflege und After-Care-Hinweisen.`,
+    a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Hautanalyse, Aquafacial, Microneedling, beruhigender Abschlusspflege und After-Care-Hinweisen. Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.`,
   },
   {
     q: 'Muss ich jetzt schon bezahlen?',
@@ -185,7 +192,7 @@ const structuredData = {
         price: PROMO_PRICE.toFixed(2),
         availability: 'https://schema.org/InStock',
         url: absoluteUrl('/lp/aquafacial-microneedling/'),
-        priceValidUntil: '2026-12-31',
+        priceValidUntil: OFFER_VALID_UNTIL,
       },
     },
     {
@@ -230,6 +237,7 @@ const structuredData = {
             <span class="lp-hero-offer-label">Kombi-Angebot · {DURATION_LABEL}</span>
             <span class="lp-hero-offer-price">CHF {PROMO_PRICE}.–</span>
             <span class="lp-hero-offer-old"><span aria-hidden="true">· </span>statt CHF {REGULAR_PRICE}.–</span>
+            <span class="lp-hero-offer-until">Angebot gültig bis {OFFER_VALID_UNTIL_LABEL}</span>
           </p>
 
           <ul class="lp-hero-bullets lp-checks">
@@ -594,7 +602,7 @@ const structuredData = {
         <div class="lp-final-copy">
           <h2 id="lp-final-title" class="lp-final-title">Aquafacial + Microneedling für CHF&nbsp;{PROMO_PRICE}.– statt CHF&nbsp;{REGULAR_PRICE}.–</h2>
           <p class="lp-final-lead">
-            Senden Sie Ihren Terminwunsch unverbindlich – Teresa Stimac stimmt die Behandlung persönlich
+            Das Angebot gilt bis {OFFER_VALID_UNTIL_LABEL}. Senden Sie Ihren Terminwunsch unverbindlich – Teresa Stimac stimmt die Behandlung persönlich
             auf Ihre Haut ab.
           </p>
         </div>
@@ -1084,6 +1092,13 @@ const structuredData = {
     color: var(--muted);
     font-size: var(--fs-small);
     white-space: nowrap;
+  }
+
+  /* The offer's end date: same muted small text as the old price, on its own row. */
+  .lp-hero-offer-until {
+    flex-basis: 100%;
+    color: var(--muted);
+    font-size: var(--fs-small);
   }
 
   .lp-hero-bullets {
