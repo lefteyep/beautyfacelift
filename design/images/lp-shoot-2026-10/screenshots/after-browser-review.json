@@ -1,0 +1,380 @@
+[
+  {
+    "phase": "after",
+    "slug": "aquafacial",
+    "width": 390,
+    "height": 9270,
+    "overflow": false,
+    "errors": [],
+    "images": [
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Faquafacial-behandlung-zuerich.webp%3ForigWidth%3D1350%26origHeight%3D1688%26origFormat%3Dwebp&w=600&h=750&q=mid&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          487
+        ],
+        "rendered": [
+          390,
+          195
+        ],
+        "objectPosition": "50% 65%"
+      },
+      {
+        "src": "http://localhost:4321/assets/lp-aquafacial/hero-poster-720.webp",
+        "complete": true,
+        "natural": [
+          720,
+          720
+        ],
+        "rendered": [
+          358,
+          358
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Fmarketing%2Fteresa_portrait.jpg%3ForigWidth%3D1121%26origHeight%3D1403%26origFormat%3Djpg&w=540&h=676&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          488
+        ],
+        "rendered": [
+          358,
+          394
+        ],
+        "objectPosition": "50% 0%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fresults%2Faquafacial-result-glow-face.jpg%3ForigWidth%3D736%26origHeight%3D731%26origFormat%3Djpg&w=360&h=358&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          349,
+          348
+        ],
+        "rendered": [
+          358,
+          267
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fresults%2Faquafacial-result-hydrated-skin.jpg%3ForigWidth%3D996%26origHeight%3D993%26origFormat%3Djpg&w=360&h=359&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          349,
+          349
+        ],
+        "rendered": [
+          358,
+          267
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fresults%2Faquafacial-result-cleaner-skin.jpg%3ForigWidth%3D1440%26origHeight%3D1074%26origFormat%3Djpg&w=360&h=269&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          349,
+          261
+        ],
+        "rendered": [
+          358,
+          267
+        ],
+        "objectPosition": "50% 50%"
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "slug": "aquafacial-microneedling",
+    "width": 390,
+    "height": 10944,
+    "overflow": false,
+    "errors": [],
+    "images": [
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fhero-aquafacial-microneedling-zuerich.webp%3ForigWidth%3D1672%26origHeight%3D941%26origFormat%3Dwebp&w=480&h=270&q=86&f=webp",
+        "complete": true,
+        "natural": [
+          389,
+          219
+        ],
+        "rendered": [
+          390,
+          219
+        ],
+        "objectPosition": "60% 40%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fpersonal-treatment-zuerich.webp%3ForigWidth%3D1122%26origHeight%3D1402%26origFormat%3Dwebp&w=540&h=675&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          487
+        ],
+        "rendered": [
+          358,
+          269
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Faquafacial-close-up-zuerich.webp%3ForigWidth%3D1122%26origHeight%3D1402%26origFormat%3Dwebp&w=540&h=675&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          487
+        ],
+        "rendered": [
+          358,
+          269
+        ],
+        "objectPosition": "50% 30%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fmicroneedling-close-up-zuerich.webp%3ForigWidth%3D1122%26origHeight%3D1402%26origFormat%3Dwebp&w=540&h=675&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          487
+        ],
+        "rendered": [
+          358,
+          269
+        ],
+        "objectPosition": "55% 35%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fabschlusspflege-aftercare-zuerich.webp%3ForigWidth%3D1448%26origHeight%3D1086%26origFormat%3Dwebp&w=540&h=405&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          292
+        ],
+        "rendered": [
+          358,
+          269
+        ],
+        "objectPosition": "50% 40%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fpost-treatment-glow-zuerich.webp%3ForigWidth%3D1448%26origHeight%3D1086%26origFormat%3Dwebp&w=480&h=360&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          389,
+          292
+        ],
+        "rendered": [
+          358,
+          269
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fhautanalyse-beratung-zuerich.webp%3ForigWidth%3D1448%26origHeight%3D1086%26origFormat%3Dwebp&w=540&h=405&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          390,
+          292
+        ],
+        "rendered": [
+          358,
+          269
+        ],
+        "objectPosition": "50% 50%"
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "slug": "aquafacial",
+    "width": 1440,
+    "height": 7548,
+    "overflow": false,
+    "errors": [],
+    "images": [
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Faquafacial-behandlung-zuerich.webp%3ForigWidth%3D1350%26origHeight%3D1688%26origFormat%3Dwebp&w=560&h=700&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          540,
+          675
+        ],
+        "rendered": [
+          497,
+          622
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/assets/lp-aquafacial/hero-poster-1080.webp",
+        "complete": true,
+        "natural": [
+          1080,
+          1080
+        ],
+        "rendered": [
+          398,
+          398
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Fmarketing%2Fteresa_portrait.jpg%3ForigWidth%3D1121%26origHeight%3D1403%26origFormat%3Djpg&w=720&h=901&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          633,
+          792
+        ],
+        "rendered": [
+          536,
+          670
+        ],
+        "objectPosition": "50% 0%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fresults%2Faquafacial-result-glow-face.jpg%3ForigWidth%3D736%26origHeight%3D731%26origFormat%3Djpg&w=520&h=516&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          420,
+          416
+        ],
+        "rendered": [
+          398,
+          297
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fresults%2Faquafacial-result-hydrated-skin.jpg%3ForigWidth%3D996%26origHeight%3D993%26origFormat%3Djpg&w=520&h=518&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          420,
+          418
+        ],
+        "rendered": [
+          398,
+          297
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fresults%2Faquafacial-result-cleaner-skin.jpg%3ForigWidth%3D1440%26origHeight%3D1074%26origFormat%3Djpg&w=520&h=388&q=high&f=webp",
+        "complete": true,
+        "natural": [
+          420,
+          313
+        ],
+        "rendered": [
+          398,
+          297
+        ],
+        "objectPosition": "50% 50%"
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "slug": "aquafacial-microneedling",
+    "width": 1440,
+    "height": 9045,
+    "overflow": false,
+    "errors": [],
+    "images": [
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fhero-aquafacial-microneedling-zuerich.webp%3ForigWidth%3D1672%26origHeight%3D941%26origFormat%3Dwebp&w=1200&h=675&q=86&f=webp",
+        "complete": true,
+        "natural": [
+          1100,
+          618
+        ],
+        "rendered": [
+          497,
+          622
+        ],
+        "objectPosition": "70% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fpersonal-treatment-zuerich.webp%3ForigWidth%3D1122%26origHeight%3D1402%26origFormat%3Dwebp&w=360&h=450&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          300,
+          375
+        ],
+        "rendered": [
+          398,
+          497
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Faquafacial-close-up-zuerich.webp%3ForigWidth%3D1122%26origHeight%3D1402%26origFormat%3Dwebp&w=360&h=450&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          300,
+          375
+        ],
+        "rendered": [
+          398,
+          497
+        ],
+        "objectPosition": "50% 30%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fmicroneedling-close-up-zuerich.webp%3ForigWidth%3D1122%26origHeight%3D1402%26origFormat%3Dwebp&w=360&h=450&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          300,
+          375
+        ],
+        "rendered": [
+          398,
+          497
+        ],
+        "objectPosition": "55% 35%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fabschlusspflege-aftercare-zuerich.webp%3ForigWidth%3D1448%26origHeight%3D1086%26origFormat%3Dwebp&w=360&h=270&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          300,
+          225
+        ],
+        "rendered": [
+          398,
+          497
+        ],
+        "objectPosition": "50% 40%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fpost-treatment-glow-zuerich.webp%3ForigWidth%3D1448%26origHeight%3D1086%26origFormat%3Dwebp&w=720&h=540&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          640,
+          480
+        ],
+        "rendered": [
+          497,
+          622
+        ],
+        "objectPosition": "50% 50%"
+      },
+      {
+        "src": "http://localhost:4321/_image?href=%2F%40fs%2Fworkspace%2Fbeautyfacelift%2Fsrc%2Fassets%2Flp%2Faquafacial%2Fhautanalyse-beratung-zuerich.webp%3ForigWidth%3D1448%26origHeight%3D1086%26origFormat%3Dwebp&w=720&h=540&q=82&f=webp",
+        "complete": true,
+        "natural": [
+          640,
+          480
+        ],
+        "rendered": [
+          536,
+          670
+        ],
+        "objectPosition": "50% 50%"
+      }
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "selectedCandidates": {
+    "4": 2,
+    "6": 3,
+    "7": 4,
+    "8": 3,
+    "9": 4,
+    "10": 2,
+    "12": 1,
+    "13": 3
+  },
+  "manualReview": {
+    "clientAndSetting": "Same fictional client, freckles, room palette, cream linens, left-window light, off-white sleeves and white gloves across generated replacements.",
+    "anatomy": "Selected candidates reviewed for finger count, grip, skin texture, connected tubing and background-object artifacts.",
+    "practitioner": "No identifiable practitioner face; real Teresa photos were not generation inputs.",
+    "text": "No visible lettering, device logos, labels or watermarks in selected generated photos. Six isolated OCR glyph detections resolved visually as folds, stems, cloth and wall edges.",
+    "heroCrops": "Page B full face visible in desktop 4:5 arch and phone 16:9 band. Page A real photo remains unchanged; 65% vertical focus in its 2:1 phone band preserves forehead and chin.",
+    "stepCrops": "Wand and pen contact points remain visible; aftercare jar and brass spatula remain inside the portrait crop.",
+    "outcomes": "Candid slot 12 retains natural texture; no before/after or claimed results generated."
+  },
+  "browserReview": {
+    "viewports": [
+      [
+        390,
+        900
+      ],
+      [
+        1440,
+        900
+      ]
+    ],
+    "pages": [
+      "/lp/aquafacial/",
+      "/lp/aquafacial-microneedling/"
+    ],
+    "missingImages": 0,
+    "horizontalOverflow": false,
+    "pageErrors": 0,
+    "reports": [
+      "screenshots/before-browser-review.json",
+      "screenshots/after-browser-review.json"
+    ]
+  },
+  "checks": {
+    "npm ci": "passed",
+    "qa:aquafacial-lp": "passed",
+    "qa:aquafacial-combo-lp": "passed",
+    "qa:marketing": "passed",
+    "npm run check": "passed: 0 errors, 0 warnings, 13 existing hints",
+    "npm run build": "passed: 36 pages"
+  }
+}

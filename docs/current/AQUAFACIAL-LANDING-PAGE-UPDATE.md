@@ -101,3 +101,24 @@ Branch `claude/elegant-davinci-xom06l`. Decided with the user: one offer, one au
 - **Design system and accessibility:** tokens only, hairline rows instead of cards, `--section-y` padding, no overline above the form heading; skip link with `id="main-content"` on every ad page; the request CTAs scroll to the form section and move keyboard focus into it; a failed send shows the Worker's own message when it sends one; typing in a field clears only that field's error.
 - **Verification:** `qa:aquafacial-combo-lp`, `qa:contact`, `qa:marketing`, `npm run check`, `npm run build`; headless screenshots at 320 / 390 / 768 / 1440 px, no horizontal overflow, primary CTA at about 225 px on a 390 px phone; mocked `/api/contact` 201 and 500 with a stubbed `trackLead` (called once on 201, never on 500). Page height on a 390 px phone 14 472 px → about 11 000 px.
 
+## 2026-10 Imagery
+
+Branch `codex/lp-imagery`, 11 October 2026. Replaced the share image for `/lp/aquafacial/` and all seven rendered photographs for `/lp/aquafacial-microneedling/` with one generated Atelier Glow series: the same fictional client around 42, cream and blush linens, warm window daylight, natural skin texture and an unidentifiable practitioner. These are illustrative appointment scenes, not documentary studio photographs or evidence of treatment efficacy.
+
+Changed files:
+
+- `public/assets/aquafacial_treatment.png` — 1200 × 630, real PNG encoding at the pinned public URL.
+- `src/assets/lp/aquafacial/hero-aquafacial-microneedling-zuerich.webp` — 1672 × 941.
+- `src/assets/lp/aquafacial/personal-treatment-zuerich.webp` — 1122 × 1402.
+- `src/assets/lp/aquafacial/aquafacial-close-up-zuerich.webp` — 1122 × 1402.
+- `src/assets/lp/aquafacial/microneedling-close-up-zuerich.webp` — 1122 × 1402; portrait source replaces the former landscape source.
+- `src/assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp` — 1448 × 1086.
+- `src/assets/lp/aquafacial/post-treatment-glow-zuerich.webp` — 1448 × 1086; a candid appointment moment with ordinary skin texture.
+- `src/assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp` — 1448 × 1086.
+
+All eight final prompts are in [LP-IMAGE-PROMPTS.md](LP-IMAGE-PROMPTS.md). The built-in image generator was authorized after Images API access proved unavailable. Its backend model identifier is not exposed. All 26 candidate PNG originals, the exact generation log, export settings, asset hashes and before/after screenshots are retained in [design/images/lp-shoot-2026-10/](../../design/images/lp-shoot-2026-10/). The seven WebP files use quality 82 and embedded sRGB profiles, stay below 120 KB (the hero is 77 KB), and keep their original paths. The share URL retains true PNG encoding rather than serving WebP bytes under a PNG name.
+
+Deliberately kept byte-for-byte: Teresa's real portrait and real Aquafacial treatment photo, all three result JPEGs, both campaign video posters and all campaign videos. Teresa's consent for image-to-image references was confirmed, but no real-person photo was submitted to the generator. The unused optional infographic was not generated or rendered. The Page A phone hero keeps its original real source and 2:1 band; its rendition now retains the portrait and uses a 65% vertical focus so both forehead and chin remain visible. The desktop arch and Page B markup are unchanged.
+
+Verified `npm ci`, `qa:aquafacial-lp`, `qa:aquafacial-combo-lp`, `qa:marketing`, `npm run check` and `npm run build`. Both pages were captured at 390 and 1440 px; faces and treatment contact points remain visible in their crops, all images load, and no horizontal overflow or browser errors were found. No merge or deployment was performed.
+
