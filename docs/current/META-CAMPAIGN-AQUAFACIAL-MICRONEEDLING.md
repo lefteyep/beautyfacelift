@@ -116,6 +116,7 @@ Rebooking is deliberately left out. If first-visit clients rebook at the regular
 - [ ] Custom conversion "BFL – Lead – Kombi LP" (3.2) created and showing the test lead.
 - [ ] UTM convention (3.4) applied to every ad; a test click shows the values in the enquiry email.
 - [ ] Lead sheet (3.6) created and shared with Teresa; she knows the five status values.
+- [ ] Ad account `act_442592606954627` can deliver: Account Quality shows no active restriction. On 2026-10-11 Ads Manager showed an account block that the user considers a display bug; confirm in Account Quality before launch, because a restricted account accepts a campaign but does not deliver it.
 - [ ] Business Manager: domain `beautyfacelift-zuerich.ch` verified under Brand Safety → Domains; Page, Instagram account, ad account, dataset `1147246982373946` and payment method all in the same Business; "Begünstigter und Zahlender" (beneficiary and payer) filled in if Ads Manager asks for it.
 - [ ] Attribution setting of the campaign: 7-day click, 1-day view (Meta default; reporting uses a click-only comparison, see 3.7).
 - [ ] Start date fixed (proposed Thursday 15 October 2026); ad set schedule start 00:00 to start + 29 days 23:59; offer end date (start + 30 days, proposed Saturday 18 November 2026) in CR-1 and in the copy.
@@ -246,6 +247,7 @@ Until Q7 is resolved: the custom conversion handles optimisation, and the weekly
 |---|---|---|
 | Campaign objective | **Leads** | the page is a request form |
 | Conversion location | **Website** only (no Instant Forms, no Messenger) | leads must land in the email and Teresa's inbox, not in Meta's Leads Center; Instant Forms produce more but weaker leads and bypass the page that sets expectations |
+| Business portfolio / ad account | Business `135112460858934`, ad account `act_442592606954627` (from the user's Ads Manager link, 2026-10-11) | the account that ran the September Aquafacial campaign |
 | Dataset | `1147246982373946` | the existing Pixel, keeps audiences and match history |
 | Conversion event | custom conversion **BFL – Lead – Kombi LP** (3.2) | excludes old-site Leads |
 | Performance goal | maximise number of conversions | |
@@ -345,6 +347,7 @@ Formula for a later month: `weekly budget = (slots per week ÷ r_ls) × true CPL
 
 | Field | Value |
 |---|---|
+| Ad account | `act_442592606954627` (Business `135112460858934`) |
 | Name | `BFL \| Lead \| Kombi Aquafacial+Microneedling CHF 170 \| 2026-10` (month = launch month) |
 | Objective | Leads |
 | Special ad categories | none |
@@ -818,3 +821,4 @@ Diagnose in this order, act on the first failing step:
 | 2026-10-11 | Plan written; all numbers were assumptions pending the user's answers | Claude (agency session) |
 | 2026-10-11 | User answered section 1: CHF 400 per 30 days, start as soon as possible, end date start + 30 days, about 10 slots/week, target CPL under CHF 15 and max CHF 25, consumables CHF 30, Teresa not on camera (AI clips possible), full Meta access, old site kept (same persona), Treatwell CHF 170 service before launch, Teresa answers within about an hour. Plan updated: one ad set, lifetime budget, three ads, no retargeting this month, 30-day schedule, creative without Teresa on camera, build sheet 4.9 | Claude, from the user's answers |
 | 2026-10-11 | Proposed start Thursday 15 October 2026, offer end date Saturday 18 November 2026 (start + 30 days), ads run 15 October to 13 November. The user asked to build through Meta's MCP server; it is not connected to this session, so the build happens in a new session after the connector is added, everything paused until the user's go | Claude |
+| 2026-10-11 | Ad account `act_442592606954627` in Business `135112460858934` confirmed by the user's Ads Manager link. The user is signed in to Facebook in Chrome on their own computer; this cloud session cannot use that browser, so the Meta build waits for the Ads MCP connector (added at claude.ai, then a new session). The user reports the account block shown in Ads Manager as a bug | Claude |
