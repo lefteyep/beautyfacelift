@@ -814,6 +814,21 @@ Diagnose in this order, act on the first failing step:
 7. Tell Teresa the campaign is live and that the first enquiries can arrive the same day.
 8. Set calendar reminders for day 11, day 18, day 23, day 30 and the offer end date (remove "statt").
 
+**Meta objects created through the Meta Ads connector** (ad account `act_442592606954627`; everything paused, nothing published):
+
+| Created | Object | ID | Status |
+|---|---|---|---|
+| 2026-10-11 | Audience "BFL – Lead – Kombi LP – 90 Tage" (Lead + URL contains `/lp/aquafacial-microneedling/`, 90 days; exclusion) | `120254199137810195` | filling |
+| 2026-10-11 | Audience "BFL – Lead – alle URLs – 180 Tage" (Lead on both domains, 180 days; suggestion) | `120254199137880195` | filling |
+| 2026-10-11 | Audience "BFL – LP Besucher – Kombi – 30 Tage" (later retargeting) | `120254199138010195` | filling |
+| 2026-10-11 | Audience "BFL – High Intent – Kombi – 30 Tage" (later retargeting) | `120254199138230195` | filling |
+| 2026-10-11 | Audience "BFL – Treatwell Klick – 30 Tage" (later exclusion) | `120254199138260195` | filling |
+| 2026-10-11 | Campaign "BFL \| Lead \| Kombi Aquafacial+Microneedling CHF 170 \| 2026-10" (Leads, no campaign budget) | `120254199138320195` | PAUSED, no ad set yet |
+
+Reused existing audiences instead of duplicating them: "Webseite Besucher - beide domains" (`120248671679130195`), "IG Interaktions" (`120248671698950195`), "Facebook Interaktions" (`120248671688500195`).
+
+Not possible through the connector (done by hand in Meta): the custom conversions in 3.2 (no tool for them), linking the Instagram account to the ad account (none is linked, so ads would run on Facebook only), and the language control "Deutsch (alle)".
+
 **Decisions log** (append below as the campaign runs):
 
 | Date | Decision / number reported | By |
@@ -823,3 +838,4 @@ Diagnose in this order, act on the first failing step:
 | 2026-10-11 | Proposed start Thursday 15 October 2026, offer end date Saturday 18 November 2026 (start + 30 days), ads run 15 October to 13 November. The user asked to build through Meta's MCP server; it is not connected to this session, so the build happens in a new session after the connector is added, everything paused until the user's go | Claude |
 | 2026-10-11 | Ad account `act_442592606954627` in Business `135112460858934` confirmed by the user's Ads Manager link. The user is signed in to Facebook in Chrome on their own computer; this cloud session cannot use that browser, so the Meta build waits for the Ads MCP connector (added at claude.ai, then a new session). The user reports the account block shown in Ads Manager as a bug | Claude |
 | 2026-10-11 | User confirmed the ad account is not restricted. Checked other build routes: Meta's own Ads MCP server is not in Claude's connector directory (custom connector only), and the five Facebook connections in the agency's Make account expired between 2022 and 2024. Every route to build in Meta needs one Facebook sign-in by the user | Claude |
+| 2026-10-11 | Meta Ads connector working in the cloud session. Read-only check: 64 campaigns, all paused; last 28 days: "Aquafacial 99 - Juni 26 – Leads" CHF 247.82 for 45 Meta-counted results (CHF 5.51 each; not verified enquiries, Resend showed no real enquiry from the new site in the 15 days before 2026-10-10), two Carbon campaigns CHF 63.04 with no results. Created five audiences and the paused campaign (IDs above) | Claude |
