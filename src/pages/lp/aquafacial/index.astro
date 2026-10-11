@@ -34,7 +34,8 @@ const lpHeroPosterSizes = '(min-width: 1320px) 400px, (min-width: 901px) 32vw, c
 const lpAboutSizes = '(min-width: 1101px) 44vw, (min-width: 601px) 520px, 100vw';
 
 // Hero photo: Teresa at an Aquafacial treatment. Desktop shows the full 4:5 frame in the arch,
-// phones get a pre-cropped 2:1 band under the CTAs so the first viewport holds the message and the action.
+// Phones frame the intact portrait as a lower-focused 2:1 band under the CTAs.
+// Keep both the client's forehead and chin visible without changing the real source photo.
 const heroPortraitSizes = '(min-width: 1320px) 540px, 40vw';
 const heroPortrait = await getImage({
   src: heroTreatmentPhoto,
@@ -45,10 +46,7 @@ const heroPortrait = await getImage({
 const heroBand = await getImage({
   src: heroTreatmentPhoto,
   width: 1200,
-  height: 600,
   widths: [600, 900, 1200],
-  fit: 'cover',
-  position: 'centre',
   format: 'webp',
   quality: 'mid',
 });
@@ -2100,6 +2098,10 @@ const structuredData = {
       aspect-ratio: 2 / 1;
       margin: 28px calc(-1 * var(--gutter)) 0;
       border-radius: 0;
+    }
+
+    .lp-hero-media img {
+      object-position: 50% 65%;
     }
 
     .lp-hero-ctas {
