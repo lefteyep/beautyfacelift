@@ -1,0 +1,262 @@
+[
+  {
+    "file": "slot-04-candidate-01.png",
+    "slot": 4,
+    "native": [
+      1732,
+      908
+    ],
+    "photo": 48498,
+    "default": 49158
+  },
+  {
+    "file": "slot-04-candidate-02.png",
+    "slot": 4,
+    "native": [
+      1732,
+      908
+    ],
+    "photo": 47260,
+    "default": 47858
+  },
+  {
+    "file": "slot-04-candidate-03.png",
+    "slot": 4,
+    "native": [
+      1732,
+      908
+    ],
+    "photo": 57842,
+    "default": 59006
+  },
+  {
+    "file": "slot-06-candidate-01.png",
+    "slot": 6,
+    "native": [
+      1672,
+      941
+    ],
+    "photo": 88032,
+    "default": 88482
+  },
+  {
+    "file": "slot-06-candidate-02.png",
+    "slot": 6,
+    "native": [
+      1672,
+      941
+    ],
+    "photo": 81654,
+    "default": 82690
+  },
+  {
+    "file": "slot-06-candidate-03.png",
+    "slot": 6,
+    "native": [
+      1672,
+      941
+    ],
+    "photo": 78152,
+    "default": 78908
+  },
+  {
+    "file": "slot-06-candidate-04.png",
+    "slot": 6,
+    "native": [
+      1672,
+      941
+    ],
+    "photo": 68224,
+    "default": 70082
+  },
+  {
+    "file": "slot-07-candidate-01.png",
+    "slot": 7,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 90638,
+    "default": 90602
+  },
+  {
+    "file": "slot-07-candidate-02.png",
+    "slot": 7,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 101844,
+    "default": 101588
+  },
+  {
+    "file": "slot-07-candidate-03.png",
+    "slot": 7,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 98826,
+    "default": 99808
+  },
+  {
+    "file": "slot-08-candidate-01.png",
+    "slot": 8,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 95238,
+    "default": 93008
+  },
+  {
+    "file": "slot-08-candidate-02.png",
+    "slot": 8,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 96512,
+    "default": 93616
+  },
+  {
+    "file": "slot-08-candidate-03.png",
+    "slot": 8,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 98484,
+    "default": 96908
+  },
+  {
+    "file": "slot-09-candidate-01.png",
+    "slot": 9,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 90586,
+    "default": 90996
+  },
+  {
+    "file": "slot-09-candidate-02.png",
+    "slot": 9,
+    "native": [
+      1058,
+      1486
+    ],
+    "photo": 99556,
+    "default": 101182
+  },
+  {
+    "file": "slot-09-candidate-03.png",
+    "slot": 9,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 98884,
+    "default": 99212
+  },
+  {
+    "file": "slot-09-candidate-04.png",
+    "slot": 9,
+    "native": [
+      1122,
+      1402
+    ],
+    "photo": 92660,
+    "default": 90014
+  },
+  {
+    "file": "slot-10-candidate-01.png",
+    "slot": 10,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 104148,
+    "default": 104816
+  },
+  {
+    "file": "slot-10-candidate-02.png",
+    "slot": 10,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 105366,
+    "default": 105782
+  },
+  {
+    "file": "slot-10-candidate-03.png",
+    "slot": 10,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 93482,
+    "default": 93474
+  },
+  {
+    "file": "slot-12-candidate-01.png",
+    "slot": 12,
+    "native": [
+      1447,
+      1087
+    ],
+    "photo": 111304,
+    "default": 107280
+  },
+  {
+    "file": "slot-12-candidate-02.png",
+    "slot": 12,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 100540,
+    "default": 97954
+  },
+  {
+    "file": "slot-12-candidate-03.png",
+    "slot": 12,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 112700,
+    "default": 112482
+  },
+  {
+    "file": "slot-13-candidate-01.png",
+    "slot": 13,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 107000,
+    "default": 106878
+  },
+  {
+    "file": "slot-13-candidate-02.png",
+    "slot": 13,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 101610,
+    "default": 102976
+  },
+  {
+    "file": "slot-13-candidate-03.png",
+    "slot": 13,
+    "native": [
+      1448,
+      1086
+    ],
+    "photo": 105930,
+    "default": 108246
+  }
+]

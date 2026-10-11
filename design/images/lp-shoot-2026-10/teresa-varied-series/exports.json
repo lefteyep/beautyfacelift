@@ -1,0 +1,145 @@
+[
+  {
+    "slot": 4,
+    "candidate": 1,
+    "path": "public/assets/aquafacial_treatment.png",
+    "width": 1200,
+    "height": 630,
+    "format": "png",
+    "original": "slot-04-candidate-01.png",
+    "native": [
+      1732,
+      908
+    ],
+    "bytes": 919849,
+    "quality": null,
+    "icc": true,
+    "sha256": "5f4fe0f9434cea8b964d5bc151847d94612b410d9b38beaac74b4e0f73a81d27"
+  },
+  {
+    "slot": 6,
+    "candidate": 4,
+    "path": "src/assets/lp/aquafacial/hero-aquafacial-microneedling-zuerich.webp",
+    "width": 1672,
+    "height": 941,
+    "format": "webp",
+    "limit": 160000,
+    "original": "slot-06-candidate-04.png",
+    "native": [
+      1672,
+      941
+    ],
+    "bytes": 68224,
+    "quality": 82,
+    "icc": true,
+    "sha256": "90d48d475d08572647e7b3c70c25bfd75ca55842f54e3c07174bb44f574579da"
+  },
+  {
+    "slot": 7,
+    "candidate": 3,
+    "path": "src/assets/lp/aquafacial/personal-treatment-zuerich.webp",
+    "width": 1122,
+    "height": 1402,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-07-candidate-03.png",
+    "native": [
+      1122,
+      1402
+    ],
+    "bytes": 98826,
+    "quality": 82,
+    "icc": true,
+    "sha256": "0e26fb60dda82dd683c12fe79731c35612397c1773b92787aff357bc6be04686"
+  },
+  {
+    "slot": 8,
+    "candidate": 1,
+    "path": "src/assets/lp/aquafacial/aquafacial-close-up-zuerich.webp",
+    "width": 1122,
+    "height": 1402,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-08-candidate-01.png",
+    "native": [
+      1122,
+      1402
+    ],
+    "bytes": 95238,
+    "quality": 82,
+    "icc": true,
+    "sha256": "25ea8be7973b22fe55cbaed897a3cdbb8bfec7287d869016ec82bc1472e6f4a8"
+  },
+  {
+    "slot": 9,
+    "candidate": 4,
+    "path": "src/assets/lp/aquafacial/microneedling-close-up-zuerich.webp",
+    "width": 1122,
+    "height": 1402,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-09-candidate-04.png",
+    "native": [
+      1122,
+      1402
+    ],
+    "bytes": 92660,
+    "quality": 82,
+    "icc": true,
+    "sha256": "fa2e5ee496d2d810c3bcb89439b02b917c06029352c48e550e6dfa5de85303fe"
+  },
+  {
+    "slot": 10,
+    "candidate": 3,
+    "path": "src/assets/lp/aquafacial/abschlusspflege-aftercare-zuerich.webp",
+    "width": 1448,
+    "height": 1086,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-10-candidate-03.png",
+    "native": [
+      1448,
+      1086
+    ],
+    "bytes": 93482,
+    "quality": 82,
+    "icc": true,
+    "sha256": "72d7fc804072fdad3a58a4543320177cbfba2624a742b8a2924fdeb299c4aa09"
+  },
+  {
+    "slot": 12,
+    "candidate": 2,
+    "path": "src/assets/lp/aquafacial/post-treatment-glow-zuerich.webp",
+    "width": 1448,
+    "height": 1086,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-12-candidate-02.png",
+    "native": [
+      1448,
+      1086
+    ],
+    "bytes": 100540,
+    "quality": 82,
+    "icc": true,
+    "sha256": "3cc2d3b52967cc38b155ae3b7809f440d7112c05e2e4958e7552195930c5da1f"
+  },
+  {
+    "slot": 13,
+    "candidate": 3,
+    "path": "src/assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp",
+    "width": 1448,
+    "height": 1086,
+    "format": "webp",
+    "limit": 120000,
+    "original": "slot-13-candidate-03.png",
+    "native": [
+      1448,
+      1086
+    ],
+    "bytes": 105930,
+    "quality": 82,
+    "icc": true,
+    "sha256": "620bc11cbc425dbc53e3567c79330423705ad436670a562d2b8c88ffe09050c2"
+  }
+]

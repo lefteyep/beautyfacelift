@@ -1,0 +1,28 @@
+{
+  "consent": "User explicitly confirmed Teresa consent for image-to-image references on 11 October 2026; subsequent request explicitly requires recognizable Teresa.",
+  "identityReferences": [
+    "src/assets/marketing/teresa_portrait.jpg",
+    "src/assets/lp/aquafacial/aquafacial-behandlung-zuerich.webp"
+  ],
+  "selected": {
+    "4": 3,
+    "6": 1,
+    "7": 4,
+    "13": 1
+  },
+  "authenticPortrait": "Unchanged real portrait now rendered beside Teresa quote on Kombi page.",
+  "rejected": "Hero candidate 3 has a duplicate hand; hero candidate 4 has duplicated device. Preparation candidates 1\u20133 have less useful framing and exceed byte budget; candidate 4 preserves faces and softens foreground fabric through generation.",
+  "cropReview": "Hero desktop 85%/50%, phone 60%/40%: both faces and one connected wand remain visible. Preparation phone 50%/15% retains both complete faces and adjusting fingers. Consultation retains both faces and mirror. All unchanged step device contact points remain visible.",
+  "protectedFiles": "All 11 protected SHA-256 hashes match original manifest; four remaining generated scene files retained.",
+  "checks": {
+    "npm ci": "passed",
+    "qa:aquafacial-lp": "passed",
+    "qa:aquafacial-combo-lp": "passed",
+    "qa:marketing": "passed",
+    "npm run check": "0 errors, 0 warnings, 13 existing hints",
+    "npm run build": "36 pages",
+    "qa:docs": "passed"
+  },
+  "browserReview": "Both pages at 390 and 1440 px; no image failures, horizontal overflow or page errors. Full page captures retain live layout; floating controls hidden only for isolated image/section crop inspection.",
+  "textReview": "No visible text or device logos in selected generated files. Four OCR matches were visually resolved as blurred bottle necks, glove/cloth folds and hair strands."
+}

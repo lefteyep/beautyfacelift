@@ -11,6 +11,7 @@ import abschlusspflegeAftercareImage from '../../../assets/lp/aquafacial/abschlu
 import hautanalyseBeratungImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
 import postTreatmentGlowImage from '../../../assets/lp/aquafacial/post-treatment-glow-zuerich.webp';
 import personalTreatmentImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';
+import teresaPortraitImage from '../../../assets/marketing/teresa_portrait.jpg';
 import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 
 const PROMO_PRICE = 170;
@@ -383,10 +384,22 @@ const structuredData = {
         </figure>
         <div class="lp-trust-content">
           <h2 id="lp-trust-title" class="lp-section-title">Persönliche Behandlung statt Standardprogramm</h2>
-          <figure class="lp-quote">
-            <blockquote>„Ich nehme mir Zeit, erkläre jeden Schritt und stimme die Behandlung auf die Haut ab.“</blockquote>
-            <figcaption>Teresa Stimac</figcaption>
-          </figure>
+          <div class="lp-practitioner">
+            <Image
+              src={teresaPortraitImage}
+              widths={[128, 256]}
+              sizes="128px"
+              format="webp"
+              quality={82}
+              alt="Teresa Stimac, Inhaberin von Beauty Face Lift Zürich"
+              loading="lazy"
+              class="lp-practitioner-portrait"
+            />
+            <figure class="lp-quote">
+              <blockquote>„Ich nehme mir Zeit, erkläre jeden Schritt und stimme die Behandlung auf die Haut ab.“</blockquote>
+              <figcaption>Teresa Stimac</figcaption>
+            </figure>
+          </div>
           <p>
             Teresa Stimac führt die Kombi-Behandlung an der Bahnhofstrasse&nbsp;94 persönlich durch – mit
             ruhiger Beratung, klarer After-Care und realistischen Erwartungen.
@@ -1337,6 +1350,21 @@ const structuredData = {
     margin: 0;
   }
 
+  .lp-practitioner {
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr);
+    align-items: center;
+    gap: 24px;
+  }
+
+  .lp-practitioner :global(.lp-practitioner-portrait) {
+    width: 128px;
+    height: 160px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--r-sm);
+  }
+
   .lp-quote {
     margin: 0;
     display: grid;
@@ -2100,6 +2128,10 @@ const structuredData = {
       aspect-ratio: 4 / 3;
     }
 
+    .lp-offer-media :global(img) {
+      object-position: 50% 30%;
+    }
+
     .lp-expectation-visual {
       max-width: 520px;
       aspect-ratio: 4 / 3;
@@ -2125,6 +2157,11 @@ const structuredData = {
   }
 
   @media (max-width: 600px) {
+    .lp-practitioner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
     .lp-section {
       padding-block: 64px;
     }

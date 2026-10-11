@@ -1,5 +1,23 @@
 # 2026-10 Aquafacial landing-page image prompts
 
+## Current revision: varied Teresa series
+
+11 October 2026: the user supplied five additional consented Teresa photographs in `3.zip` and requested all eight shots with varied viewpoints, poses and expressions. All eight replacement paths now use the [varied series](../../design/images/lp-shoot-2026-10/teresa-varied-series/README.md). The [eight exact final prompts](../../design/images/lp-shoot-2026-10/teresa-varied-series/PROMPTS.md), [complete generation log](../../design/images/lp-shoot-2026-10/teresa-varied-series/generation-log.json), [reference hashes](../../design/images/lp-shoot-2026-10/teresa-varied-series/reference-manifest.json), 29 unchanged native PNG candidates and crop screenshots are retained alongside them. The built-in generator's backend version is undisclosed.
+
+The selected scenes vary between a side-view share preview, wider hero, seated hand-mirror preparation, opposite-side device details, overhead gel application, seated appointment ending and tablet consultation. Teresa remains recognizable wherever her face appears; the fictional client, uniform/gloves, studio and window light stay consistent. The Kombi trust section also keeps her authentic portrait. The desktop hero focus returns to 70%/50%; phone hero focus remains 60%/40%, and preparation uses 30% vertical phone focus to include the mirror and gloved hand. Export paths and exact dimensions are unchanged. Every WebP uses quality 82 and embedded sRGB, is below 120,000 bytes, and the hero is below 160,000 bytes. The share URL remains a true PNG.
+
+The two original Teresa photos, all real result composites, campaign posters/videos and unused infographic remain byte-for-byte unchanged. These generated images illustrate appointment context and do not supply evidence of treatment outcomes. The sections below preserve the earlier prompt history; the varied series supersedes all eight earlier generated replacements.
+
+## Previous revision: Teresa's visible identity
+
+11 October 2026: after reviewing the first series, the user explicitly requested Teresa's recognizable presence. The current revision uses the two consented real Teresa photos as identity references for slots 4, 6, 7 and 13. Their [exact selected prompts and selection notes](../../design/images/lp-shoot-2026-10/teresa-revision/PROMPTS.md), [complete generation log](../../design/images/lp-shoot-2026-10/teresa-revision/generation-log.json), native PNGs and new review screenshots are retained in the revision directory. The built-in generator's backend version remains undisclosed.
+
+The Kombi page also renders Teresa's unchanged authentic portrait beside her quote. The hero desktop focus is now 85% horizontally and the preparation phone focus is 15% vertically, keeping Teresa and the client visible together. The protected originals, real result images and campaign assets remain byte-for-byte unchanged. Slots 8, 9, 10 and 12 retain their first-series files.
+
+## Initial series: PR #47
+
+The generation status, hands-only framing and prompts below document the initial delivery. The current identity-referenced prompts linked above supersede the initial prompts for slots 4, 6, 7 and 13.
+
 Status: completed imagery generation and export, 11 October 2026. The user authorized the built-in image generator after the requested Images API route was unavailable (no environment API key and no API host access). The built-in tool does not expose its backend model identifier or a resolution selector, so this work does not claim a particular model version. Every call requested its largest supported output; all returned native PNGs are preserved.
 
 Prepared on `codex/lp-imagery`, based on the fetched `master` (`019ee66`). Read alongside [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md), [AQUAFACIAL-LANDING-PAGE-UPDATE.md, section 9](AQUAFACIAL-LANDING-PAGE-UPDATE.md#9-2026-10-10-lead-first-rebuild-plan-approved-by-the-user), and the [last section of AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md](AQUAFACIAL-LANDING-PAGE-LEAD-GEN.md#2026-10-10-conversion-and-design-pass-plan-approved-by-the-user). Current replacement images and the two protected real photos were inspected for framing only; none are generation references.
