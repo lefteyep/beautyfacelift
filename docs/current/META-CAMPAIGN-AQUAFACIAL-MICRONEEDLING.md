@@ -288,7 +288,7 @@ Fallback if Advantage+ audience is not offered for this account: original audien
 ### 4.4 Geo logic (commuters) and expansion
 
 - Core (launch): the 15 km "living in" radius above. Commuters who live inside it are covered.
-- Commuters from outside (Winterthur, Baden, Zug, Rapperswil) are a real audience for a studio two minutes from the Hauptbahnhof, but the plan does not start with them: distance lowers show rate and the budget cannot fund two prospecting ad sets.
+- Commuters from outside (Winterthur, Baden, Zug, Rapperswil) are a real audience for a studio a few minutes' walk from the Hauptbahnhof, but the plan does not start with them: distance lowers show rate and the budget cannot fund two prospecting ad sets.
 - Expansion rule (a later month with a bigger budget only): if prospecting frequency exceeds 2.5 per 7 days **and** true CPL is at or below target **and** capacity still has room, duplicate the prospecting ad set as `p_zh25km_adv` with a 25 km radius plus the towns Winterthur, Baden, Zug, Rapperswil-Jona, with the original ad set's audience excluded. Otherwise do not expand.
 - Never use "recently in" or "travelling in" for this offer.
 
@@ -399,7 +399,7 @@ Before publishing: preview each ad in the Instagram Reels, Instagram Feed and Fa
 - Meta personal-attributes rule: the text never asserts or implies something about the viewer's skin, age or health. Not allowed: "Haben Sie grosse Poren?", "Ihre müde Haut", "Für Akne-Haut". Allowed: describing the treatment and what it is meant for in the third person ("für Haut, die mehr Glow braucht" is still borderline; prefer "für mehr Glow").
 - Meta personal-health rule: no before/after images, no zoomed-in skin "problems", no imagery that invites negative self-perception. No before/after material exists and none will be generated.
 - Price claims exactly as on the page: "CHF 170 statt CHF 250", "1 Std. 30 Min." or "90 Minuten", and the end date from Q2. No "nur noch 3 Plätze" unless Teresa confirms the number that week.
-- Proof points only: "4,8 von 5 aus über 248 Bewertungen auf Treatwell", "20+ Jahre Erfahrung", "persönlich von Teresa Stimac", "Bahnhofstrasse 94, 2 Minuten vom Hauptbahnhof" (the page's directions name the Hauptbahnhof and the tram stop Bahnhofstrasse/HB).
+- Proof points only: "4,8 von 5 aus über 248 Bewertungen auf Treatwell", "20+ Jahre Erfahrung", "persönlich von Teresa Stimac", "Bahnhofstrasse 94, wenige Gehminuten vom Hauptbahnhof" (the site's own wording; no exact number of minutes is stated anywhere, so none is used) (the page's directions name the Hauptbahnhof and the tram stop Bahnhofstrasse/HB).
 - Text on images under about 20 % of the area, no logo overlay inside photos, no text inside the Stories safe zones (top 14 %, bottom 20 % of a 9:16).
 - Captions burned in on every video (sound off by default in feeds).
 - Headlines ≤ 40 characters, primary text with the offer in the first line (feeds truncate after about 125 characters), description ≤ 30 characters.
@@ -415,7 +415,7 @@ Teresa does not appear on camera (Q5), so no angle depends on a talking head. He
 |---|---|---|---|---|---|
 | A1 | **Glow in 90 Minuten** (offer + outcome) | people in and around Zürich who want fresher, smoother-looking skin and know roughly what a facial is | "Aquafacial + Microneedling in einer Sitzung: 90 Minuten für frischeren Glow – CHF 170 statt CHF 250." | 9:16 video 15–20 s from studio b-roll with text on screen | 4:5 static |
 | A2 | **Erstes Microneedling? So läuft es ab** (hesitation) | people who have heard of Microneedling and hesitate: does it hurt, does it fit me, what happens after | "Zum ersten Mal Microneedling? Drei ehrliche Antworten, bevor Sie anfragen." | 4:5 static quote card with three short answers | 9:16 clip with Teresa's voice over calm b-roll, if she records the lines |
-| A3 | **Nach der Arbeit an der Bahnhofstrasse** (convenience) | commuters and city workers; two minutes from the HB, open until 20:00 Mo–Fr and Saturdays | "Bahnhofstrasse 94, zwei Minuten vom HB: Aquafacial + Microneedling nach der Arbeit oder am Samstag." | 4:5 static (street entrance or studio door) | 9:16 walk-in clip, 10 s |
+| A3 | **Nach der Arbeit an der Bahnhofstrasse** (convenience) | commuters and city workers; a few minutes' walk from the HB, open until 20:00 Mo–Fr and Saturdays | "Bahnhofstrasse 94, wenige Gehminuten vom HB: Aquafacial + Microneedling nach der Arbeit oder am Samstag." | 4:5 static (street entrance or studio door) | 9:16 walk-in clip, 10 s |
 | A4 | **Teresa, 20+ Jahre, eine Person** (trust) | people who want to know who treats them | "Bei Beauty Face Lift behandelt Teresa Stimac persönlich – seit über 20 Jahren, 4,8 von 5 aus über 248 Bewertungen." | reserve: 1:1 static with the real portrait and the stars line | — |
 | A5 | **Angebot bis [Enddatum]** (end date, last week) | everyone in the audience in the final 7 days | "Noch bis [Enddatum]: Aquafacial + Microneedling für CHF 170 statt CHF 250." | reserve: 4:5 static price card, 9:16 Story | — |
 
@@ -423,7 +423,7 @@ What the first 3 seconds show:
 
 - **A1:** the Aquafacial handpiece gliding on skin in close-up (real b-roll, no face), warm window light, caption "90 Minuten. Ein Termin." → cut to the price card.
 - **A2:** the question "Zum ersten Mal Microneedling?" as a text card over a still of the treatment room, then the three answers one by one; no face.
-- **A3:** the studio entrance on Bahnhofstrasse 94 from the street with the tram passing, caption "2 Min. vom HB"; cut inside to the treatment room.
+- **A3:** the studio entrance on Bahnhofstrasse 94 from the street with the tram passing, caption "Wenige Gehminuten vom HB"; cut inside to the treatment room.
 - **A4:** Teresa's real portrait (the one on the page), caption "Teresa Stimac, 20+ Jahre" and the stars line; static.
 - **A5:** price card with the end date, then the hero photo from the page; nothing else.
 
@@ -445,7 +445,7 @@ Primary text, long:
 >
 > Kombi-Angebot: CHF 170 statt CHF 250, gültig bis [Enddatum].
 >
-> Teresa Stimac behandelt persönlich – seit über 20 Jahren, 4,8 von 5 aus über 248 Bewertungen auf Treatwell. Beauty Face Lift, Bahnhofstrasse 94, zwei Minuten vom Hauptbahnhof.
+> Teresa Stimac behandelt persönlich – seit über 20 Jahren, 4,8 von 5 aus über 248 Bewertungen auf Treatwell. Beauty Face Lift, Bahnhofstrasse 94, wenige Gehminuten vom Hauptbahnhof.
 >
 > Sie fragen unverbindlich an, Teresa meldet sich und stimmt die Behandlung auf Ihre Haut ab. Keine Online-Zahlung.
 
@@ -478,18 +478,18 @@ CTA: Mehr dazu
 
 Primary text, short:
 
-> Bahnhofstrasse 94, zwei Minuten vom Hauptbahnhof: Aquafacial + Microneedling nach der Arbeit oder am Samstag.
+> Bahnhofstrasse 94, wenige Gehminuten vom Hauptbahnhof: Aquafacial + Microneedling nach der Arbeit oder am Samstag.
 > 1 Std. 30 Min., CHF 170 statt CHF 250, bis [Enddatum]. Mo–Fr bis 20 Uhr, Sa bis 16 Uhr. Unverbindlich anfragen.
 
 Primary text, long:
 
-> Ein Termin, der in die Woche passt: Beauty Face Lift liegt an der Bahnhofstrasse 94, zwei Minuten vom Hauptbahnhof und direkt an der Tramhaltestelle Bahnhofstrasse/HB. Geöffnet Mo–Fr 10–20 Uhr und Sa 10–16 Uhr.
+> Ein Termin, der in die Woche passt: Beauty Face Lift liegt an der Bahnhofstrasse 94, wenige Gehminuten vom Hauptbahnhof, die Tramhaltestelle Bahnhofstrasse/HB liegt direkt in der Nähe. Geöffnet Mo–Fr 10–20 Uhr und Sa 10–16 Uhr.
 >
 > Das Kombi-Angebot: Aquafacial + kosmetisches Microneedling in einer Sitzung von 1 Std. 30 Min., mit Hautanalyse und Abschlusspflege. CHF 170 statt CHF 250, gültig bis [Enddatum].
 >
 > Persönlich von Teresa Stimac, 4,8 von 5 aus über 248 Bewertungen auf Treatwell. Senden Sie Ihren Terminwunsch unverbindlich – Teresa meldet sich.
 
-Headline: `2 Min. vom HB: Aquafacial + Microneedling`
+Headline: `Nahe HB: Aquafacial + Microneedling`
 Description: `CHF 170 statt 250 · Mo–Fr bis 20 Uhr`
 CTA: Mehr dazu
 
@@ -531,7 +531,7 @@ Note on A2 and A4: "Ihre Haut" appears only in the sense "Teresa stimmt die Beha
 |---|---|---|---|
 | A1 | video 15–20 s, 3 cuts, price card at 3 s and at the end, captions | static: real treatment photo or the page's hero, price chip "CHF 170 statt 250 · 90 Min. · bis [Enddatum]" | same static cropped |
 | A2 | optional clip with Teresa's voice (5.5) over b-roll | static quote card: question + three answers + price line | same |
-| A3 | walk-in 10 s: street → door → room | static: door or street photo, "2 Min. vom HB" | same |
+| A3 | walk-in 10 s: street → door → room | static: door or street photo, "Wenige Gehminuten vom HB" | same |
 | A4 | — | static: real portrait + stars line | primary |
 | A5 | Story 8 s: price card + end date | static: price card | same |
 
@@ -571,7 +571,7 @@ Ten lines Teresa can say (voice memo; she may rephrase in her own words, the mea
 7. "Zum Schluss gibt es eine beruhigende Abschlusspflege und klare Hinweise für die nächsten zwei Tage."
 8. "Das Kombi-Angebot gilt bis [Enddatum]: beide Behandlungen in einer Sitzung, 1 Stunde 30 Minuten, für 170 statt 250 Franken."
 9. "Sie fragen unverbindlich an – ich melde mich persönlich bei Ihnen und wir finden einen Termin."
-10. "Wir sind zwei Minuten vom Hauptbahnhof, Montag bis Freitag bis 20 Uhr und am Samstag bis 16 Uhr."
+10. "Wir sind nur wenige Gehminuten vom Hauptbahnhof, Montag bis Freitag bis 20 Uhr und am Samstag bis 16 Uhr."
 
 Lines she must not say: anything with "garantiert", "schmerzfrei", "keine Ausfallzeit", "Falten", "Narben", "Akne", "Kollagen", "medizinisch", "jünger". Without her voice, the same lines become text cards.
 
@@ -593,7 +593,7 @@ Lines she must not say: anything with "garantiert", "schmerzfrei", "keine Ausfal
 | "gültig bis [Enddatum]" | **missing on the page** → CR-1 below. Today only the hidden Product schema has `priceValidUntil: '2026-12-31'`, which is not visible and will not match the real end date (start + 30 days) |
 | "persönlich von Teresa Stimac, 20+ Jahre" | hero bullet "Persönlich durch Teresa Stimac, 20+ Jahre Erfahrung"; trust section with her real portrait and quote |
 | "4,8 von 5 aus über 248 Bewertungen auf Treatwell" | rating line under the hero CTAs, linked to Treatwell; facts row in the trust section |
-| "Bahnhofstrasse 94, 2 Min. vom HB", opening hours | location section "Bahnhofstrasse 94 · Zürich" with directions (Hauptbahnhof, tram stop Bahnhofstrasse/HB) and the opening hours from `OPENING_HOURS` |
+| "Bahnhofstrasse 94, wenige Gehminuten vom HB", opening hours | location section "Bahnhofstrasse 94 · Zürich" with directions (Hauptbahnhof, tram stop Bahnhofstrasse/HB) and the opening hours from `OPENING_HOURS` |
 | "Unverbindlich anfragen, ohne Online-Zahlung" | primary CTA "Unverbindlich Termin anfragen"; "So geht es weiter" above the form; FAQ "Muss ich jetzt schon bezahlen? Nein." |
 | A2's honest answers (Piksen, Rötungen, 24–48 h) | FAQ "Ist Microneedling schmerzhaft?", "Gibt es Ausfallzeit?", expectations section "Realistische Ergebnisse statt übertriebener Versprechen" |
 | A5 "direkt online buchen" | "Direkt online buchen" link after the form, in the FAQ and in the closing band → `/termin/` → Treatwell; **shows CHF 200 until the Treatwell CHF 170 offer exists** (Q8) |
@@ -823,11 +823,12 @@ Diagnose in this order, act on the first failing step:
 | 2026-10-11 | Audience "BFL – LP Besucher – Kombi – 30 Tage" (later retargeting) | `120254199138010195` | filling |
 | 2026-10-11 | Audience "BFL – High Intent – Kombi – 30 Tage" (later retargeting) | `120254199138230195` | filling |
 | 2026-10-11 | Audience "BFL – Treatwell Klick – 30 Tage" (later exclusion) | `120254199138260195` | filling |
-| 2026-10-11 | Campaign "BFL \| Lead \| Kombi Aquafacial+Microneedling CHF 170 \| 2026-10" (Leads, no campaign budget) | `120254199138320195` | PAUSED, no ad set yet |
+| 2026-10-11 | Campaign "BFL \| Lead \| Kombi Aquafacial+Microneedling CHF 170 \| 2026-10" (Leads, no campaign budget) | `120254199138320195` | PAUSED |
+| 2026-10-12 | Ad set "p_zh15km_adv": lifetime CHF 400, 15 Oct 00:00 – 13 Nov 23:59, optimises on the Pixel's Lead event, 15 km around the studio (living in or frequently in), minimum age 25 (suggestions 30–60, women), German, exclusion "Lead – Kombi LP – 90 Tage", suggestions "Webseite Besucher - beide domains" and "Lead – alle URLs – 180 Tage", Facebook + Instagram feeds, Stories, Reels, search, Explore | `120254207820210195` | PAUSED, no ads yet |
 
 Reused existing audiences instead of duplicating them: "Webseite Besucher - beide domains" (`120248671679130195`), "IG Interaktions" (`120248671698950195`), "Facebook Interaktions" (`120248671688500195`).
 
-Not possible through the connector (done by hand in Meta): the custom conversions in 3.2 (no tool for them), linking the Instagram account to the ad account (none is linked, so ads would run on Facebook only), and the language control "Deutsch (alle)".
+Not possible through the connector: the custom conversions in 3.2 (no tool for them; the ad set optimises on the Pixel's Lead event instead, see the decisions log) and linking the Instagram account to the ad account (none is linked, so ads would run on Facebook only; the user does this in Business Settings). The language control was set through the connector (locale 5, German, the value earlier ad sets in this account used).
 
 **Decisions log** (append below as the campaign runs):
 
@@ -839,3 +840,4 @@ Not possible through the connector (done by hand in Meta): the custom conversion
 | 2026-10-11 | Ad account `act_442592606954627` in Business `135112460858934` confirmed by the user's Ads Manager link. The user is signed in to Facebook in Chrome on their own computer; this cloud session cannot use that browser, so the Meta build waits for the Ads MCP connector (added at claude.ai, then a new session). The user reports the account block shown in Ads Manager as a bug | Claude |
 | 2026-10-11 | User confirmed the ad account is not restricted. Checked other build routes: Meta's own Ads MCP server is not in Claude's connector directory (custom connector only), and the five Facebook connections in the agency's Make account expired between 2022 and 2024. Every route to build in Meta needs one Facebook sign-in by the user | Claude |
 | 2026-10-11 | Meta Ads connector working in the cloud session. Read-only check: 64 campaigns, all paused; last 28 days: "Aquafacial 99 - Juni 26 – Leads" CHF 247.82 for 45 Meta-counted results (CHF 5.51 each; not verified enquiries, Resend showed no real enquiry from the new site in the 15 days before 2026-10-10), two Carbon campaigns CHF 63.04 with no results. Created five audiences and the paused campaign (IDs above) | Claude |
+| 2026-10-12 | User asked Claude to do everything except linking Instagram, the AI-label decision, merging PR #50 and Teresa's lead sheet. Decisions: (1) the connector cannot create custom conversions, so the ad set optimises on the Pixel's standard Lead event; the ads link only to the combo page, so the leads credited to this ad set are combo-page leads, and the user confirmed old-site visitors are the same persona; (2) dates fixed: ads 15 October – 13 November 2026, offer end date 14 November 2026 (start + 30 days); (3) launch ads built from the two real photos plus a text card (`design/ads/2026-10-kombi/`): glow (A1, static instead of video), first Microneedling (A2) and Teresa trust (A4, replacing A3 because no real photo of the entrance exists); (4) "2 Min. vom HB" in the plan was not a verified fact; replaced everywhere by the site's "wenige Gehminuten vom Hauptbahnhof"; (5) the Treatwell CHF 170 service cannot be created from here (no Treatwell access); (6) publishing stays with the user's explicit "go" | Claude |
