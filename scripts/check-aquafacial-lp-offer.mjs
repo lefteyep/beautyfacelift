@@ -60,6 +60,14 @@ assert(lp.includes('Aquafacial + Microneedling'), 'Aquafacial LP must name the t
 assert(lp.includes('CHF {PROMO_PRICE}') || lp.includes('CHF ${PROMO_PRICE}'), 'Aquafacial LP must render the promo price');
 assert(lp.includes('statt CHF {REGULAR_PRICE}') || lp.includes('statt CHF ${REGULAR_PRICE}'), 'Aquafacial LP must render the original price anchor');
 
+// A "statt" price must be time-limited (Swiss price-indication rules): one ISO date drives the visible
+// end date (hero offer line, FAQ 1, closing band) and the schema's priceValidUntil.
+assert(/const OFFER_VALID_UNTIL = '\d{4}-\d{2}-\d{2}';/.test(lp), 'Aquafacial LP must define the offer end date as one ISO constant');
+assert(lp.includes('Angebot gültig bis {OFFER_VALID_UNTIL_LABEL}'), 'Aquafacial LP must show the offer end date in the hero offer line');
+assert(lp.includes('Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.'), 'Aquafacial LP must state the offer end date in FAQ 1');
+assert(lp.includes('Das Angebot gilt bis {OFFER_VALID_UNTIL_LABEL}.'), 'Aquafacial LP must state the offer end date in the closing band');
+assert(lp.includes('priceValidUntil: OFFER_VALID_UNTIL'), 'Aquafacial LP schema must take priceValidUntil from the offer end date');
+
 // One offer, one audience, one primary action (2026-10-10): the request form is the primary CTA everywhere,
 // WhatsApp is the secondary path and Treatwell booking only a text link (after success, FAQ, closing band).
 assert(lp.includes("const PRIMARY_CTA_LABEL = 'Unverbindlich Termin anfragen'"), 'Aquafacial LP must define the request form as the one primary CTA');
