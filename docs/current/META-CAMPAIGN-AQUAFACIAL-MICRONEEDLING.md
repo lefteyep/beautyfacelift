@@ -545,6 +545,8 @@ Three sources, in order of preference:
 2. **Teresa's voice only.** If she agrees, she records the ten lines below as voice memos on her phone (about two minutes, no face). They go over the b-roll with captions. Her voice is real, so nothing is faked.
 3. **Generated scene clips** (the user's AI videos of Teresa), only as silent b-roll and only under these rules: the same style and setting as the page's generated photographs (consent for her likeness is on record in [AQUAFACIAL-LANDING-PAGE-UPDATE.md](AQUAFACIAL-LANDING-PAGE-UPDATE.md), "2026-10 Imagery"); **no synthetic speech, lip-sync or any animation that makes her appear to say or do something she did not**; no depiction of results; clips of 2–4 seconds under text or her real voice; Meta may attach an "AI info" label to such content, which is acceptable for scenes and would be embarrassing for a fake talking head. If in doubt, use source 1.
 
+Still images for source 3 (generated photos for further static ads): see the copy-ready prompts in [design/ads/2026-10-kombi/AI-IMAGE-PROMPTS.md](../../design/ads/2026-10-kombi/AI-IMAGE-PROMPTS.md). The images contain no text; the price band is added afterwards.
+
 Shot list (sources 1 and 3):
 
 | # | Shot | Length | Used in |

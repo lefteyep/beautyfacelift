@@ -19,6 +19,10 @@ Made on 2026-10-12 for the campaign in [docs/current/META-CAMPAIGN-AQUAFACIAL-MI
 - **Rebuild:** `python3 design/ads/2026-10-kombi/render_ads.py <fonts-dir> design/ads/2026-10-kombi`, where `<fonts-dir>` holds `InstrumentSerif-Regular.ttf` and `InstrumentSans-Var.ttf` converted from the `@fontsource` WOFF2 files with fontTools.
 - The end date "14. November" is printed on every image. If the offer end date changes, change `END` in the script and re-render.
 
+## AI image prompts for further variants
+
+[AI-IMAGE-PROMPTS.md](AI-IMAGE-PROMPTS.md) has eight copy-ready prompts for OpenAI's image model (ChatGPT), one per scene, mapped to the plan's angles A1–A5. They come with repair lines and a check before use. The images are generated without any text; price, duration, end date and address are added afterwards with `render_ads.py`. `ai-references/teresa-treatment-crop.jpg` is the real treatment photo cropped to Teresa only, so no real client is uploaded.
+
 ## Ad texts (Swiss German, "Sie")
 
 All three: button "Mehr dazu" (`LEARN_MORE`), display link `beautyfacelift-zuerich.ch`, website URL
