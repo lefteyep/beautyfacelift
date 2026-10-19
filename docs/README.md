@@ -18,6 +18,7 @@ Use this page to choose the right document quickly.
 | Meta campaign plan for the Aquafacial + Microneedling offer (questions, unit economics, measurement checklist, structure, creative, launch plan, risks) | [current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
+| Old site `beautyfacelift.ch`: shutdown, redirect map, what to update afterwards | [current/OLD-SITE-SHUTDOWN.md](current/OLD-SITE-SHUTDOWN.md) |
 | Domain launch record | [current/DOMAIN-LAUNCH.md](current/DOMAIN-LAUNCH.md) |
 | Design system | [current/DESIGN-SYSTEM.md](current/DESIGN-SYSTEM.md) |
 
