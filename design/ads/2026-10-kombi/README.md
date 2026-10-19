@@ -1,5 +1,7 @@
 # Meta ads — Aquafacial + Microneedling, CHF 170 statt CHF 250 (launch set, October 2026)
 
+> **Retired 2026-10-19 (user decision):** these script-rendered images are not to be used for the launch and no further images of this kind are to be generated. Ad creatives are produced manually by the user. The script and files stay only as a record; the ad texts below remain valid copy drafts.
+
 Made on 2026-10-12 for the campaign in [docs/current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](../../../docs/current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md).
 
 ## Images
