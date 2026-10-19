@@ -49,6 +49,48 @@ const REDIRECT_TO_CANONICAL_HOSTS = new Set([
   TEMP_WORKERS_DEV_HOST,
 ]);
 
+// The old WordPress site. Once its DNS points at this Worker (docs/current/OLD-SITE-SHUTDOWN.md),
+// every old URL answers with one 301 to its counterpart here; unknown old paths go to the home page.
+// Until then these hosts never reach the Worker, so the map is inert.
+const OLD_SITE_HOSTS = new Set(['beautyfacelift.ch', 'www.beautyfacelift.ch']);
+const OLD_SITE_PATH_MAP: Record<string, string> = {
+  '/': '/',
+  '/angebot-preise/': '/behandlungen/',
+  '/behandlungen/': '/behandlungen/',
+  '/behandlungen/bdr-fruchtsaeurepeeling/': '/behandlungen/fruchtsaeure-peeling-zuerich/',
+  '/behandlungen/carbon-peeling/': '/behandlungen/microneedling-zuerich/',
+  '/behandlungen/coldplasma/': '/behandlungen/coldplasma-zuerich/',
+  '/behandlungen/gesichtsbehandlung/': '/behandlungen/gesichtsbehandlung-zuerich/',
+  '/behandlungen/hydra4face/': '/behandlungen/aquafacial-zuerich/',
+  '/behandlungen/laser-haarentfernung/': '/behandlungen/laser-haarentfernung-zuerich/',
+  '/behandlungen/make-up/': '/behandlungen/make-up-zuerich/',
+  '/behandlungen/massage/': '/behandlungen/massage-zuerich-bahnhofstrasse/',
+  '/behandlungen/micro-needling/': '/behandlungen/microneedling-zuerich/',
+  '/behandlungen/waxing/': '/behandlungen/waxing-zuerich/',
+  '/behandlungen/wimpern-und-brauen-zupfen-faerben/': '/behandlungen/wimpern-brauen-zuerich/',
+  '/blog/': '/blog/',
+  '/buchen/': '/termin/',
+  '/termin/': '/termin/',
+  '/danke/': '/kontakt/danke/',
+  '/faq/': '/haeufige-fragen/',
+  '/kontakt/': '/kontakt/',
+  '/ueber-mich/': '/ueber-mich/',
+  '/lp-aquafacial-aktion/': '/lp/aquafacial/',
+  '/lp-aquafacial-microneedling/': '/lp/aquafacial-microneedling/',
+  '/lp-carbon-microneedling/': '/lp/carbon-microneedling/',
+};
+
+function oldSiteRedirect(request: Request): Response | null {
+  const url = new URL(request.url);
+  if (!OLD_SITE_HOSTS.has(url.hostname.toLowerCase())) return null;
+
+  // "/kontakt" and "/kontakt/" are the same old page; files (".png", ".php") have no counterpart.
+  const path = canonicalPath(url.pathname) ?? url.pathname;
+  const target = new URL(OLD_SITE_PATH_MAP[path] ?? '/', `https://${CANONICAL_HOST}`);
+  target.search = url.search; // keep campaign parameters on old ad links
+  return Response.redirect(target.toString(), 301);
+}
+
 // Pages live at "/path/". Without this, "/path" and "/path/index.html" answered 200 as duplicates.
 // API routes and files with an extension (".txt", ".png", ...) keep their path.
 function canonicalPath(pathname: string): string | null {
@@ -189,7 +231,7 @@ function isDocumentPath(pathname: string): boolean {
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const redirect = canonicalHostRedirect(request) ?? legacyPathRedirect(request) ?? trailingSlashRedirect(request);
+    const redirect = oldSiteRedirect(request) ?? canonicalHostRedirect(request) ?? legacyPathRedirect(request) ?? trailingSlashRedirect(request);
     if (redirect) return redirect;
 
     const url = new URL(request.url);

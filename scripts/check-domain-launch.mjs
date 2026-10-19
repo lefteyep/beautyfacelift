@@ -74,8 +74,12 @@ assert(worker.includes('canonicalHostRedirect'), 'worker/index.ts must define ca
 assert(worker.includes('Response.redirect'), 'worker/index.ts must issue redirects with Response.redirect');
 assert(worker.includes('WWW_HOST'), 'worker/index.ts must redirect the www host');
 assert(worker.includes('TEMP_WORKERS_DEV_HOST'), 'worker/index.ts must redirect the temporary workers.dev host');
-assert(!worker.includes("'beautyfacelift.ch'") && !worker.includes('"beautyfacelift.ch"'), 'worker/index.ts must not configure the old apex host');
-assert(!worker.includes("'www.beautyfacelift.ch'") && !worker.includes('"www.beautyfacelift.ch"'), 'worker/index.ts must not configure the old www host');
+// The old site is redirected here (docs/current/OLD-SITE-SHUTDOWN.md, decided 2026-10-20): its hosts
+// may appear in the redirect map only, and the redirect runs before any other host handling.
+assert(worker.includes("const OLD_SITE_HOSTS = new Set(['beautyfacelift.ch', 'www.beautyfacelift.ch']);"), 'worker/index.ts must list the old hosts in OLD_SITE_HOSTS');
+assert((worker.match(/'(?:www\.)?beautyfacelift\.ch'/g) || []).length === 2, 'worker/index.ts must mention the old hosts only in OLD_SITE_HOSTS');
+assert(worker.includes('oldSiteRedirect(request) ?? canonicalHostRedirect(request)'), 'worker/index.ts must redirect the old hosts before the canonical-host redirect');
+assert(worker.includes("OLD_SITE_PATH_MAP[path] ?? '/'"), 'worker/index.ts must send unknown old paths to the home page');
 
 const robots = read('public/robots.txt');
 assert(robots.includes(`Sitemap: ${canonicalOrigin}/sitemap.xml`), 'robots.txt must point to /sitemap.xml on the new domain');

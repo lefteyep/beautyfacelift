@@ -17,6 +17,7 @@ Use this page to choose the right document quickly.
 | Google Tag Manager and GA4 (IDs, container as code, consent) | [current/tracking/GOOGLE-ANALYTICS-GTM.md](current/tracking/GOOGLE-ANALYTICS-GTM.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
+| Old site `beautyfacelift.ch`: shutdown, redirect map, what to update afterwards | [current/OLD-SITE-SHUTDOWN.md](current/OLD-SITE-SHUTDOWN.md) |
 | Domain launch record | [current/DOMAIN-LAUNCH.md](current/DOMAIN-LAUNCH.md) |
 | Design system | [current/DESIGN-SYSTEM.md](current/DESIGN-SYSTEM.md) |
 
