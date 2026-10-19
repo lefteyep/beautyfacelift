@@ -56,8 +56,10 @@ Production Worker launch details:
 | Aquafacial ad page imagery: one consistent studio series | PR #47, merge `bbf39f7` | Live 2026-10-11 (deploy run 38101336994) |
 | Aquafacial photography: varied Teresa reference series | PR #48, merge `7cf1f22` | Live 2026-10-11 (deploy run 38105742715) |
 | Combo ad page: offer end date "bis 14. November 2026", public Meta ad images | PR #50, merge `d4b38c7` | Live 2026-10-13 (deploy run 38449659203) |
-| Meta campaign plan for the combo offer (docs only, see [META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) on the branch) | PR #49 | Pending approval |
-| Meta CAPI: the Worker accepted no event that carried the ad-visit keys (`utm_*`, `fbclid`), so ad traffic had browser events only since 2026-05-08; one shared key list now. Also: combo enquiry email subject and empty "Zeitwunsch" row (CR-3), weekly security smoke, docs refresh | PR #51 | Pending approval |
+| Meta campaign plan for the combo offer (docs only, see [META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) ) | PR #49, merge `bdafe42` | Live 2026-10-20 (docs and ad design files) |
+| Meta CAPI: the Worker accepted no event that carried the ad-visit keys (`utm_*`, `fbclid`), so ad traffic had browser events only since 2026-05-08; one shared key list now. Also: combo enquiry email subject and empty "Zeitwunsch" row (CR-3), weekly security smoke, docs refresh | PR #51, merge `d5bef5e` | Live 2026-10-20 (deploy run 39342697963); live test the same day: every server event from an ad-style visit, Lead included, answers 200 |
+| Old site `beautyfacelift.ch`: redirect map in the Worker (inert until the DNS moves) and the shutdown plan, see [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) | PR #53, merge `bc69bd0` | Live 2026-10-20 (deploy run 39342902482) |
+| Meta campaign start-ready status, Instagram-enabled `_v2` ads (docs only, other session) | PR #52 | Draft, not merged |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
