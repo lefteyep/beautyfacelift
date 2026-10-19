@@ -1,5 +1,6 @@
 import type { Env } from '../env';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, TREATWELL_BOOKING_URL, WWW_HOST } from '../../shared/site';
+import { CAPI_EVENT_DATA_KEYS } from '../../shared/tracking';
 
 const TRACK_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const TRACK_RATE_LIMIT_MAX_REQUESTS = 120;
@@ -18,22 +19,8 @@ const ALLOWED_EVENTS = new Set([
   'TimeOnPage30s',
   'HighIntentVisit',
 ]);
-const ALLOWED_EVENT_DATA_KEYS = new Set([
-  'value',
-  'currency',
-  'method',
-  'source',
-  'content_name',
-  'treatment_name',
-  'button_location',
-  'page_path',
-  'destination_url',
-  'link_domain',
-  'page_type',
-  'service',
-  'intent_rule',
-  'percent_scrolled',
-]);
+// The same list the page filters with before posting (shared/tracking.ts); any other key is rejected.
+const ALLOWED_EVENT_DATA_KEYS = new Set<string>(CAPI_EVENT_DATA_KEYS);
 const ALLOWED_SOURCE_HOSTS = new Set([
   TEMP_WORKERS_DEV_HOST,
   CANONICAL_HOST,

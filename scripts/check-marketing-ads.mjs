@@ -284,6 +284,28 @@ expectIncludes(
   'test_event_code: testEventCode',
   'tracking endpoint must forward Meta test_event_code to the Conversions API payload.',
 );
+// The page filters event data and the Worker rejects unknown keys: both must use the one shared
+// list, or ad visits (utm_* keys) lose every server event (that was the case until 2026-10-20).
+expectIncludes(
+  'worker/routes/track.ts',
+  'const ALLOWED_EVENT_DATA_KEYS = new Set<string>(CAPI_EVENT_DATA_KEYS);',
+  'tracking endpoint must build its event_data allow-list from shared/tracking.ts.',
+);
+expectIncludes(
+  'src/lib/track.ts',
+  "from '../../shared/tracking'",
+  'browser tracking must take CAMPAIGN_KEYS and the CAPI event-data keys from shared/tracking.ts.',
+);
+expectIncludes(
+  'shared/tracking.ts',
+  "'utm_content',",
+  'shared event-data keys must include the UTM attribution keys the ad pages attach to every event.',
+);
+expectNotIncludes(
+  'worker/routes/track.ts',
+  "'percent_scrolled',\n]);",
+  'tracking endpoint must not keep a local copy of the event-data allow-list.',
+);
 
 expectIncludes(
   '.env.example',

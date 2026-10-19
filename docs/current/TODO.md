@@ -1,6 +1,6 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** October 10, 2026
+**Last updated:** October 20, 2026
 
 ## Priority 0: Release the October work (agency)
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
@@ -83,7 +83,7 @@
 - [x] Ad pages, reference prices, decided by the user on 2026-10-10: the "statt" prices stay as they are. Earlier note: "statt CHF 250.–" (combo) and "statt CHF 220.–" / "Sie sparen CHF 51" (Carbon) need the same reference-price proof and an end date as the Aquafacial "statt CHF 180.–" (Swiss price-indication rules). There is also a conflict: the Microneedling page, `/behandlungen/vergleich/` and the Microneedling FAQ list "Carbon Laser + Microneedling" at **CHF 250**, while the Carbon ad page uses CHF 220 as its reference price.
   - Answer from the agency on 2026-10-07: both ad prices are time-limited campaign offers, promoted through the Meta campaigns.
   - Still open: each campaign needs an end date. A "statt" reference price should be the price actually charged before the campaign. If Carbon Laser + Microneedling regularly costs CHF 250, "statt CHF 220" understates the saving, so align one of the two
-- [ ] Combo enquiry emails (Worker, `worker/routes/contact.ts`): the subject reads "Neue Kontaktanfrage: Ich möchte einen Termin buchen — Name" instead of naming the campaign, and since the time select was removed every combo email shows "Zeitwunsch: Nicht angegeben". Small Worker change, not part of the landing-page PR.
+- [x] Combo enquiry emails (PR #__HK__): the subject is now "Neue Kombi-Anfrage: Aquafacial + Microneedling – Name", so Teresa and the agency can filter the campaign, and the empty "Zeitwunsch: Nicht angegeben" row is gone (the combo form has no time field). Before, the subject only named the topic.
 - [ ] Carbon ad page: the three client quotes still carry "TODO: Teresa to supply real testimonials" in the code — confirm they are real, or replace them with verified reviews
 - [ ] Combo ad page infographic `aquafacial-microneedling-infografik-zuerich.webp`: it says "Hydrofacial + Microneedling" and "Stimuliert Kollagen" in the image itself. Since 2026-10-10 the page no longer renders it (QA now asserts its absence); the file stays in `src/assets/lp/aquafacial/` until a corrected image exists (no "Hydro/Hydra", cautious claims), or it can be deleted.
 - [x] Opening hours aligned with Treatwell (the agency's source of truth) on 2026-10-09 (PR #36): Mo–Fr 10:00–20:00, Sa 10:00–16:00, So geschlossen. The /kontakt/ `openingHoursSpecification` is now built from `OPENING_HOURS`, so they can't drift.
@@ -147,7 +147,8 @@
 Finished work from March to May 2026, and the items dropped on 2026-10-10, are in [../archive/TODO-history-2026.md](../archive/TODO-history-2026.md).
 
 ## Priority 1: Go Live (blocking everything else)
-- [x] Google Search Console, 2026-10-10: domain property `beautyfacelift-zuerich.ch` verified by DNS TXT record in Cloudflare (Google login `mediapaulo@gmail.com`), `sitemap.xml` submitted. Google had not fetched it yet on the day of submission; check the status again.
+- [x] Google Search Console, 2026-10-10: domain property `beautyfacelift-zuerich.ch` verified by DNS TXT record in Cloudflare (Google login `mediapaulo@gmail.com`), `sitemap.xml` submitted. Google had not fetched it yet on the day of submission.
+  - **2026-10-20:** sitemap read on 2026-10-17 (25 URLs). First 10 days: 193 impressions, 2 clicks, average position 16.7. 7 pages indexed, 18 "Gefunden – zurzeit nicht indexiert" (every treatment page and `/behandlungen/`): Google knows them but has not crawled them, normal for a new domain with few links. Indexing was requested by hand for `/behandlungen/`, Aquafacial, Microneedling, Gesichtsbehandlung, ColdPlasma, Fruchtsäure-Peeling, Vergleich and Exosome (Laser-Haarentfernung and Waxing were already indexed). Still to request on a later day (quota about 10 per day): Make-up, Massage, Wimpern & Brauen, the five Wissen articles. Top queries so far: hair removal, waxing and brow lifting, not Aquafacial; "Brauenlifting" has no page (Treatwell lists it at CHF 65).
 - [ ] Google Business Profile: the profile "Beauty Face Lift" (4,2 from 46 Google reviews) exists, but another Google account manages it, most likely Teresa's. Its website link still points to the old `beautyfacelift.ch`. Teresa should add `mediapaulo@gmail.com` as a manager, or change the website to `https://beautyfacelift-zuerich.ch/` herself. The user takes this on (2026-10-10).
 - [ ] **Legacy booking system (decision):** the first-party booking widget, the admin page, `/api/services|slots|availability|bookings` and the Supabase project `izekwngqjllaqibrwotp` have been dead since 2026-10-06 (NXDOMAIN). Bookings run on Treatwell.
   - **Decided (user, 2026-10-10):** keep it for now.
@@ -164,7 +165,9 @@ Finished work from March to May 2026, and the items dropped on 2026-10-10, are i
 ## Priority 2: Tracking & Analytics (before running ads)
 - [x] GTM container `GTM-NVC9QKGS` and GA4 property `G-4C9M8KMFQY`, created 2026-10-10. The GitHub variable `PUBLIC_GTM_ID` is set. Setup and open items are in [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md). Server-side GA4 (`GA4_API_SECRET`) stays off on purpose.
 - [x] Meta Pixel and CAPI live (see the Meta check above)
-- [ ] Verify GA4 after the GTM release (Realtime/DebugView) and mark the key events once they have arrived. Google signals has been on since 2026-10-10.
+- [x] **Meta CAPI rejected every event from an ad visit (PR #__HK__).** Found on 2026-10-20 in the launch test for the combo campaign: the page attaches the attribution keys (`utm_*`, `fbclid`, …) to every event, but the Worker's allow-list for `/api/track` did not contain them and rejected the whole event with 400 "Invalid event_data". Both lists date from 2026-05-08, so since then only visits without ad parameters reached the Conversions API; ad clicks (the September campaign included) had browser events only, and the server `Lead` for ad visits never arrived. The two lists are now one file, `shared/tracking.ts`, and `qa:marketing` guards it. Re-run the Events Manager test (campaign plan, section 3.1) after the deploy.
+- [ ] GA4 key events: events arrive (11 types in the first 10 days, including the first real combo lead). `generate_lead` was marked as a key event on 2026-10-20. Still to mark once they fire: `aquafacial_lead_submit`, `treatwell_outbound_click`, `booking_button_click`, `whatsapp_click`, `phone_click`. Google signals has been on since 2026-10-10.
+- [ ] Meta campaign "BFL | Lead | Kombi Aquafacial+Microneedling CHF 170 | 2026-10" (1 ad set `p_zh15km_adv`, 3 ads) was built on 2026-10-11 and is paused. The launch gates are in the campaign plan (PR #49, section 3.0); the offer on the page ends 14 November 2026.
 - [x] GTM version 3 (published 2026-10-10) forwards the `/kontakt/` form funnel to GA4: `contact_form_start`, `contact_form_submit_success`, `contact_form_submit_error`. GA4 has matching custom dimensions for topic, treatment interest and error type.
 - [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
 - [ ] Submit sitemap to Bing Webmaster Tools

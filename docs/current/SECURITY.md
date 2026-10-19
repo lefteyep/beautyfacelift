@@ -26,7 +26,7 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 
 ## Security smoke
 
-`npm run smoke:security` (and the manual "Security smoke" GitHub workflow) checks the live headers and that the APIs reject bad input. Its default target is `https://beautyfacelift-zuerich.ch`.
+`npm run smoke:security` (and the "Security smoke" GitHub workflow, run by hand or every Monday at 06:00 UTC) checks the live headers and that the APIs reject bad input. Its default target is `https://beautyfacelift-zuerich.ch`.
 
 - It sends requests to `/api/contact` and `/api/track` that must be rejected (no Turnstile token, unknown event, raw personal data). Nothing is delivered.
 - While the Supabase backend of the legacy booking system is offline, the `/api/services` checks print SKIP and only check the security headers. The Supabase anon check prints SKIP when the project host does not resolve.

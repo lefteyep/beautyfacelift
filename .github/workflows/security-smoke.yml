@@ -7,6 +7,9 @@ on:
         description: Live or staging base URL to verify
         required: false
         default: https://beautyfacelift-zuerich.ch
+  schedule:
+    # Every Monday 06:00 UTC against production; a failure emails the repository owner.
+    - cron: '0 6 * * 1'
 
 jobs:
   smoke:
@@ -26,4 +29,5 @@ jobs:
       - run: npm ci
 
       - name: Run security smoke checks
-        run: npm run smoke:security -- --base-url "${{ inputs.base_url }}"
+        # Scheduled runs have no inputs, so they fall back to production.
+        run: npm run smoke:security -- --base-url "${{ inputs.base_url || 'https://beautyfacelift-zuerich.ch' }}"

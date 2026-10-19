@@ -76,6 +76,10 @@ function isAquafacialLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
   return data.campaign === 'aquafacial_aktion';
 }
 
+function isComboLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
+  return data.campaign === 'aquafacial_microneedling';
+}
+
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -377,9 +381,18 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   const userAgent = request.headers.get('user-agent') || 'Unbekannt';
   const submittedAt = new Date().toISOString();
   const aquafacialLead = isAquafacialLead(data);
+  const comboLead = isComboLead(data);
+  // The combo ad page names its campaign in the subject so the lead sheet can filter on it.
+  const heading = aquafacialLead
+    ? 'Neue Aquafacial Aktion Anfrage'
+    : comboLead
+      ? 'Neue Kombi-Anfrage: Aquafacial + Microneedling'
+      : `Neue Kontaktanfrage: ${data.topic}`;
   const subject = aquafacialLead
     ? 'Neue Aquafacial Aktion Anfrage – Beauty Face Lift'
-    : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
+    : comboLead
+      ? `Neue Kombi-Anfrage: Aquafacial + Microneedling – ${data.name}`
+      : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
   const leadDetails = [
     ['Kampagne', data.campaign],
     ['Angebot', data.offer],
@@ -406,13 +419,14 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
 
   const timeLabel = aquafacialLead ? 'Telefonisch erreichbar' : 'Zeitwunsch';
   const text = [
-    aquafacialLead ? 'Neue Aquafacial Aktion Anfrage' : `Neue Kontaktanfrage: ${data.topic}`,
+    heading,
     '',
     `Name: ${data.name}`,
     `E-Mail: ${data.email || 'Nicht angegeben'}`,
     `Telefon: ${data.phone || 'Nicht angegeben'}`,
     ...(data.preferredContactMethod ? [`Bevorzugter Kontaktweg: ${data.preferredContactMethod}`] : []),
-    `${timeLabel}: ${data.preferredCallbackTime || 'Nicht angegeben'}`,
+    // Forms without a time field (the combo ad page) get no empty row.
+    ...(data.preferredCallbackTime ? [`${timeLabel}: ${data.preferredCallbackTime}`] : []),
     ...(data.preferredDate ? [`Terminwunsch: ${data.preferredDate}`] : []),
     `Thema: ${data.topic}`,
     ...(leadDetailText ? ['', 'Kampagnendaten:', leadDetailText] : []),
@@ -427,14 +441,14 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
 
   const html = `
     <div style="font-family: Inter, system-ui, sans-serif; color: #1C1A17; line-height: 1.6;">
-      <h1 style="font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-size: 32px; margin-bottom: 12px;">${aquafacialLead ? 'Neue Aquafacial Aktion Anfrage' : 'Neue Kontaktanfrage'}</h1>
+      <h1 style="font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-size: 32px; margin-bottom: 12px;">${escapeHtml(aquafacialLead || comboLead ? heading : 'Neue Kontaktanfrage')}</h1>
       <p style="margin: 0 0 24px;">Thema: <strong>${escapeHtml(data.topic)}</strong></p>
       <table style="border-collapse: collapse; width: 100%; max-width: 720px;">
         <tr><td style="padding: 8px 0; font-weight: 600;">Name</td><td style="padding: 8px 0;">${escapeHtml(data.name)}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">E-Mail</td><td style="padding: 8px 0;">${escapeHtml(data.email || 'Nicht angegeben')}</td></tr>
         <tr><td style="padding: 8px 0; font-weight: 600;">Telefon</td><td style="padding: 8px 0;">${escapeHtml(data.phone || 'Nicht angegeben')}</td></tr>
         ${data.preferredContactMethod ? `<tr><td style="padding: 8px 0; font-weight: 600;">Bevorzugter Kontaktweg</td><td style="padding: 8px 0;">${escapeHtml(data.preferredContactMethod)}</td></tr>` : ''}
-        <tr><td style="padding: 8px 0; font-weight: 600;">${timeLabel}</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime || 'Nicht angegeben')}</td></tr>
+        ${data.preferredCallbackTime ? `<tr><td style="padding: 8px 0; font-weight: 600;">${timeLabel}</td><td style="padding: 8px 0;">${escapeHtml(data.preferredCallbackTime)}</td></tr>` : ''}
         ${data.preferredDate ? `<tr><td style="padding: 8px 0; font-weight: 600;">Terminwunsch</td><td style="padding: 8px 0;">${escapeHtml(data.preferredDate)}</td></tr>` : ''}
         ${leadDetailRows}
         <tr><td style="padding: 8px 0; font-weight: 600;">IP</td><td style="padding: 8px 0;">${escapeHtml(ip)}</td></tr>

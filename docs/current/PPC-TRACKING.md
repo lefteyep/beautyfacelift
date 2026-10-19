@@ -31,7 +31,7 @@ Core parameters include `event_id`, `page_path`, `page_type`, `treatment_name`, 
 
 Meta CAPI matching data is consent-gated. After marketing consent, the site sends IP address and User Agent from the Worker request, `_fbp` from the browser cookie, and `_fbc` from the browser cookie. If `_fbc` is missing but a valid `fbclid` exists in the current URL or stored campaign parameters, the site creates `_fbc` in Meta's `fb.1.<timestamp>.<fbclid>` format before the browser Pixel and CAPI events fire. Do not send email, phone, name, ZIP, DOB, city, state, `fb_login_id`, or `external_id` for PageView events unless that data is actually collected with consent.
 
-For Meta Events Manager troubleshooting, append `test_event_code=TEST...` to the test URL. The browser stores that code for the session and forwards it only to `/api/track`, where the Worker validates it and sends it as Meta's CAPI `test_event_code`. This lets Test Events show the server-side CAPI events alongside browser events.
+The event-data keys the page may send and the Worker accepts are one list in `shared/tracking.ts`; a key added on one side only would make the Worker reject every event that carries it. For Meta Events Manager troubleshooting, append `test_event_code=TEST...` to the test URL. The browser stores that code for the session and forwards it only to `/api/track`, where the Worker validates it and sends it as Meta's CAPI `test_event_code`. This lets Test Events show the server-side CAPI events alongside browser events.
 
 ## Live Deployment Status
 
