@@ -1,3 +1,5 @@
+import { CAMPAIGN_KEYS, CAPI_EVENT_DATA_KEYS as CAPI_EVENT_DATA_KEY_LIST } from '../../shared/tracking';
+
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
@@ -80,48 +82,8 @@ interface TreatwellOutboundPayload extends BookingClickPayload {
 
 type EventPayload = Record<string, string | number | boolean | undefined>;
 
-const CAMPAIGN_KEYS = [
-  'utm_id',
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'utm_content',
-  'utm_term',
-  'utm_source_platform',
-  'campaign_id',
-  'adset_id',
-  'ad_id',
-  'placement',
-  'creative_angle',
-  'gclid',
-  'gbraid',
-  'wbraid',
-  'fbclid',
-  'matchtype',
-  'network',
-  'device',
-] as const;
-
-const CAPI_EVENT_DATA_KEYS = new Set<string>([
-  ...CAMPAIGN_KEYS,
-  'campaign',
-  'offer',
-  'value',
-  'currency',
-  'method',
-  'source',
-  'content_name',
-  'content_category',
-  'treatment_name',
-  'button_location',
-  'page_path',
-  'destination_url',
-  'link_domain',
-  'page_type',
-  'service',
-  'intent_rule',
-  'percent_scrolled',
-]);
+// Shared with the Worker (shared/tracking.ts), which rejects any other key.
+const CAPI_EVENT_DATA_KEYS = new Set<string>(CAPI_EVENT_DATA_KEY_LIST);
 
 const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
   '/lp/aquafacial/': {

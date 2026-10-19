@@ -41,6 +41,6 @@ The server-side GA4 path in `/api/track` (`GA4_MEASUREMENT_ID` + `GA4_API_SECRET
 ## Still to do
 
 - [x] **Google signals:** switched on 2026-10-10 at the user's request. It is allowed in all regions, and the privacy policy discloses it, with myactivity.google.com.
-- [ ] **Key events:** mark them once the events have arrived (GA4 → Admin → Events → "Letzte Ereignisse", star icon). Mark `generate_lead`, `aquafacial_lead_submit`, `treatwell_outbound_click`, `booking_button_click`, `whatsapp_click` and `phone_click`.
+- [ ] **Key events:** `generate_lead` was marked on 2026-10-20. Mark `aquafacial_lead_submit`, `treatwell_outbound_click`, `booking_button_click`, `whatsapp_click` and `phone_click` once they have arrived (GA4 → Admin → Events → "Letzte Ereignisse", star icon).
 - [ ] **Google Ads:** once a Google Ads account runs for the studio, link it (GA4 → Admin → Product links → Google Ads). Then import the key events as conversions.
-- [ ] **Verification:** after the first live deploy with `PUBLIC_GTM_ID`, check GA4 Realtime and DebugView.
+- [x] **Verification:** events arrive; 11 event types in the first 10 days (checked 2026-10-20).

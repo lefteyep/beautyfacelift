@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** October 10, 2026
+**Last updated:** October 20, 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -51,7 +51,13 @@ Production Worker launch details:
 | Keyboard fixes (menu, mobile contact bar), CSS inlined, font preloads, email link labels | PR #42, merge `6c5043e` | Live 2026-10-10 (deploy run 38004062741) |
 | Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #44, merge `94cd393` | Live 2026-10-10 (deploy run 38005397603) |
 | Enquiry emails from `anfragen@beautyfacelift-zuerich.ch` (verified in Resend) to Teresa, blind copy to the agency (Worker secrets, no code) | — | Done 2026-10-10, two test enquiries arrived |
-| Combo ad form counts its Lead only after the server accepted it; `/kontakt/` funnel in GTM version 3; security smoke repaired | PR #45 | Pending approval |
+| Combo ad form counts its Lead only after the server accepted it; `/kontakt/` funnel in GTM version 3; security smoke repaired | PR #45, merge `0166e93` | Live 2026-10-10 (deploy run 38046685413) |
+| Aquafacial ad pages: conversion, design and copy pass, both ad pages lead-first | PR #46, merge `019ee66` | Live 2026-10-10 (deploy run 38096543229) |
+| Aquafacial ad page imagery: one consistent studio series | PR #47, merge `bbf39f7` | Live 2026-10-11 (deploy run 38101336994) |
+| Aquafacial photography: varied Teresa reference series | PR #48, merge `7cf1f22` | Live 2026-10-11 (deploy run 38105742715) |
+| Combo ad page: offer end date "bis 14. November 2026", public Meta ad images | PR #50, merge `d4b38c7` | Live 2026-10-13 (deploy run 38449659203) |
+| Meta campaign plan for the combo offer (docs only, see [META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) on the branch) | PR #49 | Pending approval |
+| Meta CAPI: the Worker accepted no event that carried the ad-visit keys (`utm_*`, `fbclid`), so ad traffic had browser events only since 2026-05-08; one shared key list now. Also: combo enquiry email subject and empty "Zeitwunsch" row (CR-3), weekly security smoke, docs refresh | PR #51 | Pending approval |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
