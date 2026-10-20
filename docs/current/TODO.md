@@ -2,6 +2,13 @@
 
 **Last updated:** October 20, 2026
 
+## Priority 0: Lead-Cockpit, Phase 1 (agency; the Meta combo campaign waits for it)
+- [x] Code built and reviewed on 2026-10-20: PR #55 (lead database), #56 (cockpit behind Cloudflare Access), #57 (confirmation + reminder mails, Cron). Runbook and go-live checklist: [LEAD-COCKPIT.md](LEAD-COCKPIT.md). D1 database `beautyfacelift-leads` exists (Western Europe).
+- [ ] Cloudflare dashboard (agency, before the merges): add **D1: Edit** to the API token used by GitHub Actions (`CLOUDFLARE_API_TOKEN`); create the Zero Trust Access application for `beautyfacelift-zuerich.ch/admin` (One-time PIN only, policy = agency address only, session 2 weeks, App Launcher off); put `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` into `wrangler.jsonc`; set the Worker secret `LEADS_SIGNING_SECRET` (32 random bytes, hex); confirm there is no Worker secret named `LEADS_CUSTOMER_MAILS`.
+- [ ] Merge #55 → #56 → #57 in that order, each on explicit approval; after each deploy run `npm run smoke:security` and the live checks in LEAD-COCKPIT.md (one labelled test enquiry → row appears → mark it "Test"; cockpit login by one-time code on the phone; "Jetzt kontaktiert" opens WhatsApp prefilled; the reminder arrives once at `LEADS_NUDGE_TO` after 60–75 minutes within opening hours and not again).
+- [ ] Go-live (one small PR plus dashboard, only after the end-to-end test): add the studio address to the Access policy and `ACCESS_ALLOWED_EMAILS`; `LEADS_NUDGE_TO` → the studio address with the agency in BCC (code); `LEADS_CUSTOMER_MAILS=on`; add the cockpit line to the owner e-mail; hand over the one-pager; test the one-time-code mail with the studio once. Then the campaign may start. If this slips past about 28 October, move the offer end date (14 November on the page, the ad images and the ad copy).
+- [ ] Phase 2 after go-live (plan): Treatwell booking mails via Email Routing and a parser, follow-up and review mails with unsubscribe, opt-in checkbox and privacy-policy update, weekly report with ad spend and CSV export.
+
 ## Priority 0: Release the October work (agency)
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
   - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").

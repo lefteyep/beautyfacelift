@@ -89,7 +89,15 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-None. New work goes on a `codex/*` branch and goes live only after a reviewed PR and explicit approval (see `AGENTS.md`).
+Lead-Cockpit, Phase 1 (three stacked PRs, built and reviewed on 2026-10-20; merge in order, each only on explicit approval — the merge deploys):
+
+| What | PR | State |
+|------|----|-------|
+| Lead database: every enquiry from `/api/contact` is stored in D1 `beautyfacelift-leads` before the owner e-mail; nothing visible changes | #55 (`codex/leads-ingest`) | Open. Before merging: the GitHub deploy token needs the Cloudflare permission **D1: Edit** (the migration step runs before the deploy) |
+| Cockpit `/admin/leads/` behind Cloudflare Access (JWT verified in the Worker, fails closed while the Access variables are empty), see [LEAD-COCKPIT.md](LEAD-COCKPIT.md) | #56 (`codex/leads-cockpit`) | Open. Before merging: create the Zero Trust Access application (One-time PIN, agency address only), fill `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD`, set the Worker secret `LEADS_SIGNING_SECRET` |
+| Automatic mails and Cron: customer confirmation (off until go-live, `LEADS_CUSTOMER_MAILS`), reminder about unanswered enquiries to `LEADS_NUDGE_TO` (agency until go-live) | #57 (`codex/leads-mails-phase1`) | Open. Before merging: confirm the Worker has no secret named `LEADS_CUSTOMER_MAILS`; mark old test enquiries as "Test" after #56 is live |
+
+Everything else: new work goes on a `codex/*` branch and goes live only after a reviewed PR and explicit approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 
