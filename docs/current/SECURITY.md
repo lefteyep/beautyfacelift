@@ -1,6 +1,6 @@
 # Security Status
 
-Last updated: 2026-10-10
+Last updated: 2026-10-20
 
 Production URL: https://beautyfacelift-zuerich.ch/
 
@@ -16,6 +16,14 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 - Booking notification emails now escape booking fields before rendering HTML.
 - Customer CSV export now quotes cells safely and prevents spreadsheet formula injection.
 - Worker responses now include baseline security headers.
+
+## Lead data (D1)
+
+- `/api/contact` stores each enquiry in the D1 database `beautyfacelift-leads` (table `leads`, history in `lead_events`): the form fields (name, e-mail, phone, topic, message, preferred contact method/time/date, skin goal), the page and campaign data (source, campaign, offer, landing page, page URL, referrer, UTM parameters, click IDs), the normalised e-mail and phone used to link repeat enquiries within 30 days, and the marketing consent with its time.
+- IP address and user agent are not stored in the database; they stay in the owner e-mail only, as before.
+- Every value is bound as a SQL parameter. Fields the contact route does not already limit (page and campaign data, e-mail, phone) are capped at 2000 characters.
+- The ingest never blocks the enquiry: when D1 fails, the error is logged (`Lead ingest failed:`); when the binding is missing, the ingest is skipped. In both cases the owner e-mail is sent as before and the response to the visitor does not change.
+- The site has no page that shows the data yet (only the Cloudflare dashboard and Wrangler can read it). The cockpit under `/admin/`, protected by Cloudflare Access, arrives in the next release.
 
 ## Headers and Content Security Policy
 

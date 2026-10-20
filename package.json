@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -24,6 +24,9 @@
     "qa:marketing": "node scripts/check-marketing-ads.mjs",
     "qa:contact": "node scripts/check-contact-concierge.mjs",
     "qa:worker": "node scripts/check-worker-api.mjs",
+    "qa:leads": "node scripts/check-leads.mjs",
+    "d1:migrate:local": "wrangler d1 migrations apply beautyfacelift-leads --local",
+    "harness:leads-ingest": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-ingest.mts",
     "launch:check": "node scripts/check-domain-launch.mjs"
   },
   "dependencies": {
@@ -46,6 +49,7 @@
     "@astrojs/check": "^0.9.10",
     "@cloudflare/workers-types": "^5.20261006.1",
     "supabase": "^2.98.2",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "wrangler": "^4.83.0"
   },

@@ -442,6 +442,7 @@ const structuredData = {
           <form class="lp-lead-form" action="/api/contact" method="post" novalidate data-aquafacial-lead-form>
             <input type="hidden" name="topic" value="Ich möchte einen Termin buchen" />
             <input type="hidden" name="campaign" value={CAMPAIGN} />
+            <input type="hidden" name="source" value="aquafacial-lp" />
             <input type="hidden" name="offer" value={OFFER_SLUG} />
             <input type="hidden" name="treatment" value={OFFER_LABEL} />
             <input type="hidden" name="landing_page" value={LANDING_PAGE_PATH} />

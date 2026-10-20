@@ -22,7 +22,7 @@ PUBLIC_GTM_ID=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 
-# Email notifications (optional — used by Supabase Edge Function, not the Worker)
+# Enquiry emails: the Worker's /api/contact sends them through Resend (required for the contact form)
 RESEND_API_KEY=
 CONTACT_FROM_EMAIL=
 CONTACT_TO_EMAIL=
@@ -31,3 +31,25 @@ OWNER_EMAIL=
 # Contact form security (required in production, optional locally)
 TURNSTILE_SECRET_KEY=
 TURNSTILE_ALLOWED_HOSTS=beautyfacelift.ch,www.beautyfacelift.ch,beautyfacelift.mediapaulo.workers.dev
+
+# Lead database and cockpit (optional locally). The D1 binding LEADS_DB comes from wrangler.jsonc;
+# create the local tables with `npm run d1:migrate:local`.
+# Local only: identity used for /admin/ instead of Cloudflare Access.
+# LEADS_DEV_EMAIL=
+# Secret for signed lead links (unsubscribe); any long random string locally.
+# LEADS_SIGNING_SECRET=
+# Cloudflare Access team domain and application audience tag that protect /admin/.
+# ACCESS_TEAM_DOMAIN=
+# ACCESS_AUD=
+# Comma-separated e-mail addresses allowed into the lead cockpit.
+# ACCESS_ALLOWED_EMAILS=
+# Recipient of forwarded booking mails (wrangler.jsonc sets the agency address until go-live).
+# LEADS_FORWARD_TO=
+# Recipient of reminders about unanswered leads (wrangler.jsonc sets the agency address until go-live).
+# LEADS_NUDGE_TO=
+# Automated e-mails to customers: "on" enables them; keep "off" locally.
+# LEADS_CUSTOMER_MAILS=off
+# Resend audience for contacts with marketing consent.
+# RESEND_AUDIENCE_ID=
+# Review link used in review requests.
+# GOOGLE_REVIEW_URL=

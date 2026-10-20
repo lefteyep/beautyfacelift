@@ -86,6 +86,34 @@ Legacy booking system only. The public site does not need these; Supabase has be
 - `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
 - Stripe keys: deposits were never enabled.
 
+## Lead database (D1)
+
+Every enquiry from `/api/contact` is stored in the D1 database `beautyfacelift-leads` before the owner e-mail is sent.
+
+- Binding `LEADS_DB` in `wrangler.jsonc`. Database `beautyfacelift-leads`, id `8df484ca-625f-4250-be9a-3c09279ebdde`, location Western Europe.
+- Schema: `worker/migrations/` (`0001_leads.sql`: tables `leads` and `lead_events`). Migrations are additive; never edit a file that has been applied, add the next number instead.
+- Shared vocabulary (statuses, sources, campaign offers, opening hours, timing): `shared/leads.ts`. Database access: `worker/leads/db.ts`. Ingest: `worker/leads/ingest.ts`.
+- Local tables for `npm run cf:dev`: `npm run d1:migrate:local` (stored under `.wrangler/`, gitignored).
+- Production: the deploy workflow runs `npx wrangler d1 migrations apply beautyfacelift-leads --remote` as the wrangler-action `preCommands`, then `wrangler deploy`. The GitHub secret `CLOUDFLARE_API_TOKEN` needs the **D1:Edit** permission; without it the migration step fails and nothing is deployed.
+- If D1 fails, the error is logged as `Lead ingest failed:` and the contact form still sends the owner e-mail. Without the binding the ingest is skipped.
+
+Checks:
+
+```bash
+npm run qa:leads               # schema, shared/leads.ts, config and form fields (source level)
+npm run harness:leads-ingest   # runs /api/contact against an in-memory D1; Turnstile and Resend are stubbed
+```
+
+Variables for the lead cockpit and automations (`worker/env.ts`; template in `.dev.vars.example`):
+
+- `LEADS_FORWARD_TO`, `LEADS_NUDGE_TO`: recipients of forwarded booking mails and of reminders about unanswered leads. `wrangler.jsonc` sets both to the agency address; the rollout to the studio owner happens at go-live.
+- `LEADS_CUSTOMER_MAILS`: `on` enables automated e-mails to customers. Unset means off.
+- `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`, `ACCESS_ALLOWED_EMAILS`: Cloudflare Access for the cockpit under `/admin/`.
+- `LEADS_SIGNING_SECRET`: signs lead links (unsubscribe). `LEADS_DEV_EMAIL`: local stand-in for the Access identity.
+- `RESEND_AUDIENCE_ID`: Resend audience for contacts with marketing consent. `GOOGLE_REVIEW_URL`: link in review requests.
+
+The cron trigger `*/15 * * * *` is configured for the automations; until they ship, the `scheduled` handler does nothing.
+
 ## Manual Launch
 
 Use `docs/current/DOMAIN-LAUNCH.md` for the completed all-inkl nameserver setup, Cloudflare Custom Domain setup, Search Console, Google Business Profile, analytics, and curl verification record.

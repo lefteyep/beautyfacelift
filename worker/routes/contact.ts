@@ -8,6 +8,7 @@ import {
   CONTACT_TO_EMAIL_FALLBACK,
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
+import { createLeadFromSubmission } from '../leads/ingest';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -25,8 +26,12 @@ type ContactSubmission = {
   topic: string;
   message: string;
   privacyConsent: string;
+  /** Stored with the lead only; no form shows a marketing checkbox yet. */
+  marketingConsent: string;
   company: string;
   turnstileToken: string;
+  /** Hidden form field naming the page (kontakt-page, aquafacial-lp, …); see leadSourceFor(). */
+  source: string;
   campaign: string;
   offer: string;
   treatment: string;
@@ -208,8 +213,10 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         topic: getRecordString(payload, 'topic') || defaultTopicForCampaign(campaign),
         message: getRecordString(payload, 'message'),
         privacyConsent: getRecordString(payload, 'privacyConsent', 'privacy_consent', 'privacy'),
+        marketingConsent: getRecordString(payload, 'marketingConsent', 'marketing_consent'),
         company: getRecordString(payload, 'company'),
         turnstileToken: getRecordString(payload, 'turnstileToken', 'cf-turnstile-response'),
+        source: getRecordString(payload, 'source'),
         campaign,
         offer: getRecordString(payload, 'offer'),
         treatment: getRecordString(payload, 'treatment', 'treatment_interest', 'treatmentInterest'),
@@ -245,8 +252,10 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       topic: getFormString(formData, 'topic') || defaultTopicForCampaign(campaign),
       message: getFormString(formData, 'message'),
       privacyConsent: getFormString(formData, 'privacyConsent', 'privacy_consent', 'privacy'),
+      marketingConsent: getFormString(formData, 'marketingConsent', 'marketing_consent'),
       company: getFormString(formData, 'company'),
       turnstileToken: getFormString(formData, 'cf-turnstile-response'),
+      source: getFormString(formData, 'source'),
       campaign,
       offer: getFormString(formData, 'offer'),
       treatment: getFormString(formData, 'treatment', 'treatment_interest', 'treatmentInterest'),
@@ -487,7 +496,8 @@ function respondError(message: string, status: number, expectsHtml: boolean, req
   return expectsHtml ? htmlErrorResponse(message, status, formPathFromReferer(request)) : jsonResponse({ error: message }, status);
 }
 
-export async function contactRoute(request: Request, env: Env): Promise<Response> {
+// `ctx` is unused for now; the customer confirmation mail will be queued with ctx.waitUntil.
+export async function contactRoute(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let parsed: { data: ContactSubmission; expectsHtml: boolean };
 
   try {
@@ -533,6 +543,14 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     if (!isHuman) {
       return respondError('Die Sicherheitsprüfung konnte nicht bestätigt werden. Bitte versuchen Sie es erneut.', 400, expectsHtml, request);
     }
+  }
+
+  // Store the lead before the owner e-mail. A database problem must never cost the enquiry:
+  // log it and send the e-mail as before.
+  try {
+    await createLeadFromSubmission(env, data, new Date());
+  } catch (error) {
+    console.error('Lead ingest failed:', error instanceof Error ? error.message : 'unknown error');
   }
 
   try {

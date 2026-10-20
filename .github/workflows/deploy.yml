@@ -35,3 +35,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Lead database migrations first (the API token needs D1:Edit). If they fail, nothing deploys.
+          preCommands: npx wrangler d1 migrations apply beautyfacelift-leads --remote
+          command: deploy

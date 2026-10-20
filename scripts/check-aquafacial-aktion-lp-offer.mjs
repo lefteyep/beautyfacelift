@@ -67,6 +67,7 @@ const leadFormFields = [
   'name="preferred_time"',
   'name="preferred_date"',
   'name="campaign"',
+  'name="source"',
   'name="offer"',
   'name="landing_page"',
   'name="page_path"',
@@ -177,6 +178,7 @@ assert(normalizedLp.includes('.lp-lead-grid {\n    display: grid;\n    grid-temp
 assert(lp.includes('width: min(100%, 860px);') && lp.includes('margin: 0 auto;'), 'Aquafacial lead form shell must be centered with a stable max width');
 assert(lp.includes('.lp-lead-header .lp-eyebrow') && lp.includes('width: 100%;') && lp.includes('text-align: center;'), 'Aquafacial lead form overline must stay centered above the form title');
 assert(lp.includes('action="/api/contact"'), 'Aquafacial lead form must post to the existing contact backend');
+assert(lp.includes('<input type="hidden" name="source" value="aquafacial-lp" />'), 'Aquafacial lead form must name its lead source (aquafacial-lp) for the lead database');
 assert(lp.includes('method="post"'), 'Aquafacial lead form must support server-side form submission');
 assert(lp.includes('data-aquafacial-lead-form'), 'Aquafacial LP must initialize campaign-specific lead form behavior');
 for (const field of leadFormFields) {

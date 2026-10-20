@@ -40,7 +40,7 @@ router.get('/api/availability', (req: Request, env: Env) => availabilityRoute(re
 router.get('/api/slots', (req: Request, env: Env) => slotsRoute(req, env));
 router.post('/api/bookings', (req: Request, env: Env) => bookingsRoute(req, env));
 router.post('/api/track', (req: Request, env: Env) => trackRoute(req, env));
-router.post('/api/contact', (req: Request, env: Env) => contactRoute(req, env));
+router.post('/api/contact', (req: Request, env: Env, ctx: ExecutionContext) => contactRoute(req, env, ctx));
 
 const ERROR_PAGE_PATHS = new Set(['/404/', '/404.html']);
 
@@ -261,4 +261,7 @@ export default {
     }
     return withSecurityHeaders(response, request);
   },
+
+  // Cron trigger from wrangler.jsonc (every 15 minutes). The lead automations land in PR C; until then it does nothing.
+  async scheduled(_controller: ScheduledController, _env: Env, _ctx: ExecutionContext): Promise<void> {},
 };
