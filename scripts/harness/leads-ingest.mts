@@ -300,7 +300,12 @@ const aquafacialLpSubmission = {
 }
 
 // ---- general ----------------------------------------------------------------------------------
-check(backgroundWork.length === 0, 'no background work queued with ctx.waitUntil (nothing besides the owner e-mail)', backgroundWork.length);
+// Each stored lead queues the customer confirmation with ctx.waitUntil; LEADS_CUSTOMER_MAILS is unset here,
+// so every one resolves to "off" and no further e-mail is sent (worker/email/confirmation.ts).
+const resendBeforeBackground = resendCalls();
+const backgroundResults = await Promise.all(backgroundWork);
+check(backgroundResults.length > 0 && backgroundResults.every((result) => JSON.stringify(result) === JSON.stringify({ skipped: 'off' })) && resendCalls() === resendBeforeBackground,
+  'queued confirmations (ctx.waitUntil) all resolve to "off" without another e-mail (LEADS_CUSTOMER_MAILS unset)', backgroundResults);
 check(fetchCalls.every((url) => url === 'https://api.resend.com/emails'), 'only the stubbed Resend endpoint was called (Turnstile is off on localhost)', fetchCalls);
 
 if (failures > 0) {

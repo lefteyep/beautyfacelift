@@ -5,6 +5,7 @@ The lead cockpit is a small, server-rendered tool inside the Worker for working 
 - **URL:** `https://beautyfacelift-zuerich.ch/admin/leads/`
 - **Code:** `worker/leads/` — `access.ts` (Access JWT), `csrf.ts`, `time.ts` (Zurich time, ISO week, opening hours), `html.ts` (layout, escaping, inline CSS), `views/list.ts`, `views/detail.ts`, `router.ts`; SQL only in `db.ts`.
 - **No JavaScript:** plain HTML pages, plain links and POST forms.
+- **Automatic e-mails and Cron:** `worker/email/` (sender, layout, templates) and `worker/cron/automations.ts`; see below.
 
 ## Who can log in
 
@@ -76,6 +77,34 @@ Every POST answers `303` back to the detail page with a confirmation line (`?ok=
 
 Test entries and spam are not deleted. "Ausschliessen" marks them (`exclude = 'test' | 'spam'`): they disappear from every list view except "Alle" (where they carry a "Test"/"Spam" chip), do not count in the weekly KPIs and are ignored by the duplicate detection. "Nicht ausschliessen" reverses it.
 
+## Automatic e-mails
+
+Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sender `CONTACT_FROM_EMAIL`). That sender has **no fallback** to Resend's shared test sender: without `RESEND_API_KEY` or `CONTACT_FROM_EMAIL` nothing is sent and a `mail_failed` event records the missing setting. Look: `worker/email/layout.ts` (cream background, paper card, Georgia heading, clay button, no images, plain-text twin). Copy rules: German, "Sie", Swiss "ss", no prices, no "CHF", no result claims; `npm run qa:leads` checks every file under `worker/email/`. The owner enquiry e-mail (`worker/routes/contact.ts`) is unchanged and has no cockpit link.
+
+### Customer confirmation of receipt
+
+- **When:** right after an enquiry, once the owner e-mail went out and the lead row exists. `worker/routes/contact.ts` queues `sendConfirmationIfDue()` (`worker/email/confirmation.ts`) with `ctx.waitUntil`, so the form's answer is never delayed or changed.
+- **Switch:** sent only while `LEADS_CUSTOMER_MAILS` is exactly `on`. `wrangler.jsonc` deliberately does not set it, so production sends **no** confirmations until go-live.
+- **Skipped when** (in this order): the switch is off; the lead has no valid e-mail; the lead is marked test/spam; it was already sent; another lead with the same address got one in the last 24 h; more than 20 confirmations went out in the last 60 minutes. The last two protect strangers' inboxes from bot posts on the ad pages, which accept posts without Turnstile.
+- **At most once:** `confirmation_sent_at` is claimed with a conditional `UPDATE … WHERE confirmation_sent_at IS NULL` before sending; a successful send writes a `mail_sent` event (kind `confirmation`, Resend id). A failed send gives the claim back and writes `mail_failed`; there is no retry.
+- **Variants** (`worker/email/templates/confirmation.ts`): contact page ("Ihre Anfrage bei Beauty Face Lift"), Aquafacial ad page ("Ihre Aquafacial-Anfrage bei Beauty Face Lift"), Aquafacial + Microneedling ad page ("Ihre Anfrage: Aquafacial + Microneedling bei Beauty Face Lift"; adds "Das Angebot gilt bis …" from `CAMPAIGN_OFFERS` while the date has not passed). Content: thanks, "Teresa Stimac meldet sich persönlich bei Ihnen, in der Regel innerhalb eines Werktages, per …", WhatsApp and phone for questions, the button "Termin online buchen" (absolute `/termin/` link, with the ad page's service), the address, the signature with opening hours, and the line "Diese E-Mail bestätigt den Eingang Ihrer Anfrage." No opt-out link (the mail answers the customer's own request) and no cockpit link.
+
+### Reminder to the studio ("nudge")
+
+- **When:** a lead is still `neu`, not marked test/spam and was not reminded yet, and arrived at least `NUDGE_AFTER_MINUTES` (60) minutes ago. Only within opening hours (`OPENING_HOURS_WEEKLY`, Zurich time): the first run after opening catches up on the leads that arrived while the studio was closed. At most 20 per run, oldest first.
+- **Recipient:** `LEADS_NUDGE_TO` only (`wrangler.jsonc`: the agency address until go-live). Reply-to is the same address. Missing → nothing is sent and the run logs "LEADS_NUDGE_TO is missing".
+- **Content** (`worker/email/templates/nudge.ts`): subject "Noch offen: Anfrage von {Name} (seit {n} Min.)"; source, treatment/topic, arrival time, phone, e-mail, preferred contact and time, the message (up to 300 characters); buttons "Anrufen" (`tel:`), "WhatsApp" (`wa.me` with the prefilled greeting) and "Im Lead-Cockpit öffnen".
+- **At most once:** `nudge_sent_at` is claimed before sending; success writes a `nudge_sent` event (meta names the variable, never the address). A failed send gives the claim back and writes `mail_failed` (kind `nudge`); the lead is retried no earlier than **2 h** later (the back-off reads that event; there is no extra column).
+
+## Cron
+
+- **Schedule:** `*/15 * * * *` (`triggers.crons` in `wrangler.jsonc`). The `scheduled` handler in `worker/index.ts` runs `runAutomations(env, scheduledTime)` (`worker/cron/automations.ts`) through `ctx.waitUntil`; errors are logged as "Lead automations failed:", a run that sent or failed something logs one summary line (counts only).
+- **Local test:** with `.dev.vars` containing `RESEND_API_KEY=invalid` and `LEADS_NUDGE_TO=agency@example.test` (never a real address), run `npm run d1:migrate:local`, `npm run build && npx wrangler dev --test-scheduled --port 8787`, then:
+  ```
+  curl "http://127.0.0.1:8787/__scheduled?cron=*/15+*+*+*+*"
+  ```
+  With an invalid key the send fails harmlessly and a `mail_failed` event appears in the local D1. The run only does something within opening hours (Zurich time) and for leads older than 60 minutes.
+
 ## Local development
 
 1. `.dev.vars` (gitignored) with at least:
@@ -94,10 +123,11 @@ Test entries and spam are not deleted. "Ausschliessen" marks them (`exclude = 't
 
 - `npm run harness:leads-access` — the Access guard through the real Worker entry: self-signed RS256 test JWTs (header and cookie), 401 for missing/expired/wrong-aud/wrong-iss/wrong-email/foreign-key tokens, the certs cache and the unknown-`kid` refetch, fail-closed config, the dev bypass rules, the legacy `/admin/` page behind the guard.
 - `npm run harness:leads-cockpit` — list, filters, search, KPIs, escaping, all six actions, CSRF (403), the 400 validation paths, Zurich time (`2026-11-03 14:30` → `13:30Z`), 503 without secret or database, 404/405, paging.
-- `npm run qa:leads` — source checks (fonts, Access/CSRF wiring, config, docs, Swiss spelling).
+- `npm run harness:leads-cron` — the reminder (61 minutes at Tue 11:00 → one mail, overlapping and repeated runs → none, Sunday none, Monday 10:00 CET sent, excluded never, Resend 500 → claim released + 2 h back-off, missing config), the customer confirmation (off by default, sent once when on, 24 h same-address and 60-minute rate limits, failure path, offer date), and both entry points of `worker/index.ts` (`scheduled`, `POST /api/contact`).
+- `npm run qa:leads` — source checks (fonts, Access/CSRF wiring, config, docs, Swiss spelling, mail copy without "CHF", the `LEADS_CUSTOMER_MAILS` switch).
 - `npm run smoke:security` — `/admin/` and `/admin/leads/` must answer 302 to `*.cloudflareaccess.com` or 401/403, never 200.
 
-The harnesses stub `globalThis.fetch`; they never call Cloudflare or send e-mail.
+The harnesses stub `globalThis.fetch`; they never call Cloudflare or Resend and never send e-mail.
 
 ## Security model
 
@@ -116,3 +146,10 @@ Steps for opening the cockpit to the studio:
 3. Sign in once with that address (One-time PIN) and check that the header reads "Angemeldet als …" and new actions appear as "Teresa" in the timeline.
 4. Hand over the short German one-pager for the studio (written at go-live).
 5. Run `npm run smoke:security` against production.
+
+Steps for the automatic e-mails (same go-live, all through a reviewed PR):
+
+6. `LEADS_NUDGE_TO` in `wrangler.jsonc` → the studio address (`CONTACT_TO_EMAIL`), and the reminder sent with the agency in BCC (small change in `worker/cron/automations.ts`).
+7. `LEADS_CUSTOMER_MAILS` → `on` in `wrangler.jsonc` (check that `CONTACT_FROM_EMAIL` uses the verified sending domain first).
+8. Add the cockpit link line to the owner enquiry e-mail (`worker/routes/contact.ts`).
+9. Update the go-live rules in `npm run qa:leads` (it asserts the agency recipient and the absent switch until then).

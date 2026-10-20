@@ -7,6 +7,7 @@ import { bookingsRoute } from './routes/bookings';
 import { trackRoute } from './routes/track';
 import { contactRoute } from './routes/contact';
 import { handleAdmin } from './leads/router';
+import { runAutomations } from './cron/automations';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
@@ -279,6 +280,17 @@ export default {
     return withSecurityHeaders(response, request);
   },
 
-  // Cron trigger from wrangler.jsonc (every 15 minutes). The lead automations land in PR C; until then it does nothing.
-  async scheduled(_controller: ScheduledController, _env: Env, _ctx: ExecutionContext): Promise<void> {},
+  // Cron trigger from wrangler.jsonc (every 15 minutes): the lead automations (worker/cron/automations.ts).
+  async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    ctx.waitUntil((async () => {
+      try {
+        const result = await runAutomations(env, new Date(controller.scheduledTime));
+        if (result.nudged.length > 0 || result.errors > 0) {
+          console.log(`Lead automations: ${result.nudged.length} reminder(s) sent, ${result.errors} failed`);
+        }
+      } catch (error) {
+        console.error('Lead automations failed:', error instanceof Error ? error.message : 'unknown error');
+      }
+    })());
+  },
 };

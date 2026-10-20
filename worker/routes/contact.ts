@@ -9,6 +9,8 @@ import {
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
 import { createLeadFromSubmission } from '../leads/ingest';
+import type { LeadRow } from '../leads/db';
+import { sendConfirmationIfDue } from '../email/confirmation';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -371,6 +373,7 @@ async function verifyTurnstile(token: string, ip: string, secret: string): Promi
   return Boolean(result.success);
 }
 
+// Next refactor: move this request onto sendEmail() in worker/email/resend.ts (kept as is so the owner mail stays unchanged).
 async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string): Promise<void> {
   if (!env.RESEND_API_KEY) {
     throw new ContactConfigError('RESEND_API_KEY is missing');
@@ -496,7 +499,7 @@ function respondError(message: string, status: number, expectsHtml: boolean, req
   return expectsHtml ? htmlErrorResponse(message, status, formPathFromReferer(request)) : jsonResponse({ error: message }, status);
 }
 
-// `ctx` is unused for now; the customer confirmation mail will be queued with ctx.waitUntil.
+// `ctx` queues the customer confirmation (worker/email/confirmation.ts) after the response.
 export async function contactRoute(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let parsed: { data: ContactSubmission; expectsHtml: boolean };
 
@@ -547,8 +550,9 @@ export async function contactRoute(request: Request, env: Env, ctx: ExecutionCon
 
   // Store the lead before the owner e-mail. A database problem must never cost the enquiry:
   // log it and send the e-mail as before.
+  let lead: LeadRow | null = null;
   try {
-    await createLeadFromSubmission(env, data, new Date());
+    lead = await createLeadFromSubmission(env, data, new Date());
   } catch (error) {
     console.error('Lead ingest failed:', error instanceof Error ? error.message : 'unknown error');
   }
@@ -565,6 +569,9 @@ export async function contactRoute(request: Request, env: Env, ctx: ExecutionCon
       request,
     );
   }
+
+  // Customer confirmation of receipt: off until go-live (LEADS_CUSTOMER_MAILS), never throws, never delays the answer.
+  if (lead) ctx.waitUntil(sendConfirmationIfDue(env, lead, new Date()));
 
   return expectsHtml ? redirectResponse('/kontakt/danke/') : jsonResponse({ ok: true }, 201);
 }

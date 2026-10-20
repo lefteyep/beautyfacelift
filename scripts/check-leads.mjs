@@ -202,8 +202,33 @@ check(read('scripts/check-docs-current.mjs').includes(`'${cockpitDoc}'`), `check
 const cockpitViews = filesUnder('worker/leads').filter((file) => file.endsWith('.ts'));
 check(cockpitViews.every((file) => !/<script/i.test(read(file))), `no <script> in the ${cockpitViews.length} worker/leads files (cockpit pages work without JS)`);
 
+// ---- automatic e-mails and cron (worker/email/, worker/cron/) -------------------------------------------
+const emailFiles = filesUnder('worker/email').filter((file) => file.endsWith('.ts'));
+check(emailFiles.length >= 5, `worker/email has the sender, layout, confirmation and templates (${emailFiles.length} files)`);
+for (const [needle, label] of [['ß', '"ß"'], ['CHF', '"CHF" (no prices in mails)'], ['resend.dev', '"resend.dev" (shared Resend test sender)']]) {
+  const hits = emailFiles.filter((file) => read(file).includes(needle));
+  check(hits.length === 0, `no ${label} in worker/email${hits.length ? ` (found in: ${hits.join(', ')})` : ''}`);
+}
+const confirmationTemplateFile = 'worker/email/templates/confirmation.ts';
+const confirmationTemplate = existsSync(path.join(root, confirmationTemplateFile)) ? read(confirmationTemplateFile) : '';
+check(confirmationTemplate.includes('Diese E-Mail bestätigt den Eingang Ihrer Anfrage.') && confirmationTemplate.includes('innerhalb eines Werktages'),
+  `${confirmationTemplateFile} has the receipt footer and "innerhalb eines Werktages"`);
+check(!confirmationTemplate.includes('/admin/'), `${confirmationTemplateFile} has no cockpit link (customers never see /admin/)`);
+const nudgeTemplateFile = 'worker/email/templates/nudge.ts';
+check(existsSync(path.join(root, nudgeTemplateFile)) && read(nudgeTemplateFile).includes('Noch offen: Anfrage von'), `${nudgeTemplateFile} has the subject "Noch offen: Anfrage von …"`);
+const confirmationSender = existsSync(path.join(root, 'worker/email/confirmation.ts')) ? read('worker/email/confirmation.ts') : '';
+check(confirmationSender.includes("env.LEADS_CUSTOMER_MAILS !== 'on'"), 'worker/email/confirmation.ts sends nothing unless LEADS_CUSTOMER_MAILS is "on"');
+check(!/"LEADS_CUSTOMER_MAILS"\s*:/.test(wrangler), 'wrangler.jsonc does not define LEADS_CUSTOMER_MAILS (customer mails off until go-live)');
+check(/"LEADS_NUDGE_TO": "mediapaulo@gmail\.com"/.test(wrangler), 'LEADS_NUDGE_TO is the agency address mediapaulo@gmail.com');
+const nudgeTo = wrangler.match(/"LEADS_NUDGE_TO": "([^"]*)"/)?.[1] ?? '';
+check(/^[^\s@,]+@[^\s@,]+\.[^\s@,]+$/.test(nudgeTo), `LEADS_NUDGE_TO is a single address, no comma (got "${nudgeTo}"; the BCC is added in code at go-live)`);
+const automations = existsSync(path.join(root, 'worker/cron/automations.ts')) ? read('worker/cron/automations.ts') : '';
+check(automations.includes('env.LEADS_NUDGE_TO') && !automations.includes('CONTACT_TO_EMAIL'), 'worker/cron/automations.ts sends reminders to LEADS_NUDGE_TO only');
+check(read('worker/index.ts').includes('runAutomations(env, new Date(controller.scheduledTime))'), 'worker/index.ts runs runAutomations from the scheduled handler');
+check(contactRoute.includes('ctx.waitUntil(sendConfirmationIfDue(env, lead, new Date()))'), 'contact route queues sendConfirmationIfDue inside ctx.waitUntil');
+
 // ---- Swiss spelling -----------------------------------------------------------------------------------
-const spellingFiles = ['shared/leads.ts', ...filesUnder('worker/leads'), ...filesUnder('worker/migrations'), cockpitDoc].filter((file) => existsSync(path.join(root, file)));
+const spellingFiles = ['shared/leads.ts', ...filesUnder('worker/leads'), ...filesUnder('worker/migrations'), ...filesUnder('worker/email'), ...filesUnder('worker/cron'), cockpitDoc].filter((file) => existsSync(path.join(root, file)));
 const withEszett = spellingFiles.filter((file) => read(file).includes('ß'));
 check(withEszett.length === 0, `no "ß" in ${spellingFiles.length} lead files${withEszett.length ? ` (found in: ${withEszett.join(', ')})` : ''}`);
 

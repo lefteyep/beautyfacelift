@@ -52,7 +52,9 @@ ENVIRONMENT=development
 # LEADS_FORWARD_TO=
 # Recipient of reminders about unanswered leads (wrangler.jsonc sets the agency address until go-live).
 # LEADS_NUDGE_TO=
-# Automated e-mails to customers: "on" enables them; keep "off" locally.
+# Automated e-mails to customers: "on" enables them; keep "off" locally. Set "on" only for local tests
+# with RESEND_API_KEY=invalid (or a test key) and example.test addresses; production leaves it unset
+# until go-live.
 # LEADS_CUSTOMER_MAILS=off
 # Resend audience for contacts with marketing consent.
 # RESEND_AUDIENCE_ID=

@@ -29,6 +29,7 @@
     "harness:leads-ingest": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-ingest.mts",
     "harness:leads-access": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-access.mts",
     "harness:leads-cockpit": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-cockpit.mts",
+    "harness:leads-cron": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-cron.mts",
     "launch:check": "node scripts/check-domain-launch.mjs"
   },
   "dependencies": {

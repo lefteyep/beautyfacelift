@@ -298,3 +298,44 @@ export async function listEvents(db: D1Database, leadId: string): Promise<LeadEv
   const result = await db.prepare('SELECT * FROM lead_events WHERE lead_id = ? ORDER BY at DESC, id DESC').bind(leadId).all<LeadEventRow>();
   return result.results;
 }
+
+// ---- automatic e-mails (worker/email/confirmation.ts, worker/cron/automations.ts) ---------------
+
+/** True when another lead with the same normalised e-mail got a confirmation at or after `since`. */
+export async function hasRecentConfirmation(db: D1Database, emailNormalized: string, exceptLeadId: string, since: string): Promise<boolean> {
+  const row = await db
+    .prepare('SELECT id FROM leads WHERE email_normalized = ? AND id <> ? AND confirmation_sent_at >= ? LIMIT 1')
+    .bind(emailNormalized, exceptLeadId, since)
+    .first<{ id: string }>();
+  return row !== null;
+}
+
+/** Number of leads whose confirmation was sent (or claimed) at or after `since`. */
+export async function countConfirmationsSince(db: D1Database, since: string): Promise<number> {
+  const count = await db.prepare('SELECT COUNT(*) AS n FROM leads WHERE confirmation_sent_at >= ?').bind(since).first<number>('n');
+  return count ?? 0;
+}
+
+/**
+ * Leads due for the reminder to the studio, oldest first: status neu, not excluded, no reminder yet,
+ * created at or before `createdBefore`, and no failed reminder (`mail_failed` event with meta kind
+ * "nudge") at or after `failedSince` (the back-off after a failed send).
+ */
+export async function listNudgeCandidates(
+  db: D1Database,
+  { createdBefore, failedSince, limit }: { createdBefore: string; failedSince: string; limit: number },
+): Promise<LeadRow[]> {
+  const result = await db
+    .prepare(`SELECT * FROM leads
+      WHERE status = 'neu' AND exclude IS NULL AND nudge_sent_at IS NULL AND created_at <= ?
+        AND NOT EXISTS (
+          SELECT 1 FROM lead_events
+          WHERE lead_events.lead_id = leads.id AND lead_events.type = 'mail_failed' AND lead_events.at >= ?
+            AND (CASE WHEN json_valid(lead_events.meta) THEN json_extract(lead_events.meta, '$.kind') END) = 'nudge'
+        )
+      ORDER BY created_at ASC, id ASC
+      LIMIT ?`)
+    .bind(createdBefore, failedSince, limit)
+    .all<LeadRow>();
+  return result.results;
+}
