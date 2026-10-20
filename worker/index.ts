@@ -6,6 +6,7 @@ import { slotsRoute } from './routes/slots';
 import { bookingsRoute } from './routes/bookings';
 import { trackRoute } from './routes/track';
 import { contactRoute } from './routes/contact';
+import { handleAdmin } from './leads/router';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
@@ -160,7 +161,7 @@ function withSecurityHeaders(response: Response, request: Request): Response {
     headers.set('Cache-Control', LONG_LIVED_STATIC_ASSET_CACHE);
   }
 
-  if (url.pathname.startsWith('/admin/')) {
+  if (isAdminPath(url.pathname)) {
     headers.set('Cache-Control', 'no-store');
     headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
@@ -225,6 +226,17 @@ function isAquafacialHeroAssetRequest(request: Request): boolean {
   return pathname.startsWith(AQUAFACIAL_HERO_ASSET_PREFIX);
 }
 
+// Also catches spellings the asset server may resolve to the same files ("/%61dmin/", "/Admin/", "//admin/").
+function isAdminPath(pathname: string): boolean {
+  let decoded = pathname;
+  try {
+    decoded = decodeURIComponent(pathname);
+  } catch {
+    // malformed escapes: keep the raw path
+  }
+  return decoded.replace(/\/{2,}/g, '/').toLowerCase().startsWith('/admin/');
+}
+
 function isDocumentPath(pathname: string): boolean {
   return pathname === '/' || pathname.endsWith('/') || pathname.endsWith('.html');
 }
@@ -252,6 +264,11 @@ export default {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
       }), request);
+    }
+
+    // /admin/*: Cloudflare Access JWT guard, then the lead cockpit or the legacy static admin pages.
+    if (isAdminPath(url.pathname)) {
+      return withSecurityHeaders(await handleAdmin(request, env, fetchStaticAsset), request);
     }
 
     const response = await fetchStaticAsset(request, env);

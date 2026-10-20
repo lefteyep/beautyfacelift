@@ -27,6 +27,8 @@
     "qa:leads": "node scripts/check-leads.mjs",
     "d1:migrate:local": "wrangler d1 migrations apply beautyfacelift-leads --local",
     "harness:leads-ingest": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-ingest.mts",
+    "harness:leads-access": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-access.mts",
+    "harness:leads-cockpit": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-cockpit.mts",
     "launch:check": "node scripts/check-domain-launch.mjs"
   },
   "dependencies": {

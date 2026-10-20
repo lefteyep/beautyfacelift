@@ -167,8 +167,43 @@ check(read('src/pages/kontakt/index.astro').includes('<input type="hidden" name=
 check(pageConstant(comboLp, 'CONTACT_SOURCE') === 'aquafacial-microneedling-lp' && comboLp.includes('<input type="hidden" name="source" value={CONTACT_SOURCE} />'),
   '/lp/aquafacial-microneedling/ posts source=aquafacial-microneedling-lp');
 
+// ---- cockpit (/admin/leads/) ---------------------------------------------------------------------------
+for (const font of ['public/fonts/instrument-serif-400.woff2', 'public/fonts/instrument-sans-variable.woff2']) {
+  const absolute = path.join(root, font);
+  const size = existsSync(absolute) ? statSync(absolute).size : 0;
+  check(size > 10 * 1024, `${font} exists and is over 10 kB (${size} bytes)`);
+}
+
+const accessFile = 'worker/leads/access.ts';
+const access = existsSync(path.join(root, accessFile)) ? read(accessFile) : '';
+check(access.includes('Cf-Access-Jwt-Assertion') && access.includes('cdn-cgi/access/certs'),
+  `${accessFile} reads Cf-Access-Jwt-Assertion and verifies against /cdn-cgi/access/certs`);
+check(!/headers\.get\(['"]Cf-Access-Authenticated-User-Email['"]\)/i.test(access), `${accessFile} never reads Cf-Access-Authenticated-User-Email`);
+
+const routerFile = 'worker/leads/router.ts';
+const leadsRouter = existsSync(path.join(root, routerFile)) ? read(routerFile) : '';
+const postActions = ['contacted', 'status', 'appointment', 'revenue', 'notes', 'exclude'];
+const csrfCalls = (leadsRouter.match(/verifyCsrf\(/g) ?? []).length;
+check(postActions.every((action) => leadsRouter.includes(`${action}: post`)) && csrfCalls >= postActions.length,
+  `${routerFile} calls verifyCsrf in each of the ${postActions.length} POST actions (${csrfCalls} calls)`);
+check(read('worker/index.ts').includes('handleAdmin(request, env, fetchStaticAsset)'), 'worker/index.ts sends /admin/* through handleAdmin before the static assets');
+
+const smoke = read('scripts/security-smoke.mjs');
+check(smoke.includes('cloudflareaccess.com') && !smoke.includes("'admin page stays noindex and protected by headers'"),
+  'security-smoke.mjs expects Access (302 to *.cloudflareaccess.com or 401/403) on /admin/, not 200');
+
+check(/"ACCESS_ALLOWED_EMAILS": "mediapaulo@gmail\.com"/.test(wrangler), 'wrangler.jsonc allows only the agency address into the cockpit');
+check(/"ACCESS_TEAM_DOMAIN": "[^"]*"/.test(wrangler) && /"ACCESS_AUD": "[^"]*"/.test(wrangler), 'wrangler.jsonc declares ACCESS_TEAM_DOMAIN and ACCESS_AUD');
+check(!/"LEADS_SIGNING_SECRET"/.test(wrangler), 'LEADS_SIGNING_SECRET is not a plain var in wrangler.jsonc (dashboard secret)');
+
+const cockpitDoc = 'docs/current/LEAD-COCKPIT.md';
+check(existsSync(path.join(root, cockpitDoc)), `${cockpitDoc} exists`);
+check(read('scripts/check-docs-current.mjs').includes(`'${cockpitDoc}'`), `check-docs-current.mjs lists ${cockpitDoc}`);
+const cockpitViews = filesUnder('worker/leads').filter((file) => file.endsWith('.ts'));
+check(cockpitViews.every((file) => !/<script/i.test(read(file))), `no <script> in the ${cockpitViews.length} worker/leads files (cockpit pages work without JS)`);
+
 // ---- Swiss spelling -----------------------------------------------------------------------------------
-const spellingFiles = ['shared/leads.ts', ...filesUnder('worker/leads'), ...filesUnder('worker/migrations')];
+const spellingFiles = ['shared/leads.ts', ...filesUnder('worker/leads'), ...filesUnder('worker/migrations'), cockpitDoc].filter((file) => existsSync(path.join(root, file)));
 const withEszett = spellingFiles.filter((file) => read(file).includes('ß'));
 check(withEszett.length === 0, `no "ß" in ${spellingFiles.length} lead files${withEszett.length ? ` (found in: ${withEszett.join(', ')})` : ''}`);
 

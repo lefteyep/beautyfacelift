@@ -23,7 +23,7 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 - IP address and user agent are not stored in the database; they stay in the owner e-mail only, as before.
 - Every value is bound as a SQL parameter. Fields the contact route does not already limit (page and campaign data, e-mail, phone) are capped at 2000 characters.
 - The ingest never blocks the enquiry: when D1 fails, the error is logged (`Lead ingest failed:`); when the binding is missing, the ingest is skipped. In both cases the owner e-mail is sent as before and the response to the visitor does not change.
-- The site has no page that shows the data yet (only the Cloudflare dashboard and Wrangler can read it). The cockpit under `/admin/`, protected by Cloudflare Access, arrives in the next release.
+- The data is shown only in the lead cockpit `/admin/leads/` (besides the Cloudflare dashboard and Wrangler). Everything under `/admin/` is behind Cloudflare Access (One-time PIN, agency address only) and the Worker verifies the Access JWT itself; while `ACCESS_TEAM_DOMAIN`/`ACCESS_AUD` are empty every `/admin/*` request answers 401. Changes need a CSRF token. Details: [LEAD-COCKPIT.md](LEAD-COCKPIT.md).
 
 ## Headers and Content Security Policy
 

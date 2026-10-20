@@ -9,6 +9,7 @@ const activeFiles = [
   'docs/current/ARCHITECTURE.md',
   'docs/current/DESIGN-SYSTEM.md',
   'docs/current/DOMAIN-LAUNCH.md',
+  'docs/current/LEAD-COCKPIT.md',
   'docs/current/PPC-TRACKING.md',
   'docs/current/SECURITY.md',
   'docs/current/SETUP.md',

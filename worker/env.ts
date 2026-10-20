@@ -21,13 +21,13 @@ export interface Env {
   ENVIRONMENT?: string;
   /** Lead database (D1 `beautyfacelift-leads`). Optional: without it the contact form works as before. */
   LEADS_DB?: D1Database;
-  /** Cloudflare Access team domain for /admin/ (e.g. `<team>.cloudflareaccess.com`). */
+  /** Cloudflare Access team domain for /admin/: the full origin `https://<team>.cloudflareaccess.com`, no trailing slash. */
   ACCESS_TEAM_DOMAIN?: string;
   /** Audience (AUD) tag of the Cloudflare Access application that protects /admin/. */
   ACCESS_AUD?: string;
   /** Comma-separated e-mail addresses allowed into the lead cockpit. */
   ACCESS_ALLOWED_EMAILS?: string;
-  /** Secret for signed lead links (unsubscribe). */
+  /** Secret for the cockpit CSRF tokens and signed lead links (unsubscribe). Missing = every cockpit POST answers 503. */
   LEADS_SIGNING_SECRET?: string;
   /** Local development only: identity used instead of Cloudflare Access. */
   LEADS_DEV_EMAIL?: string;

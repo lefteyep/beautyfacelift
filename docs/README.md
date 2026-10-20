@@ -17,6 +17,7 @@ Use this page to choose the right document quickly.
 | Google Tag Manager and GA4 (IDs, container as code, consent) | [current/tracking/GOOGLE-ANALYTICS-GTM.md](current/tracking/GOOGLE-ANALYTICS-GTM.md) |
 | Meta campaign plan for the Aquafacial + Microneedling offer (questions, unit economics, measurement checklist, structure, creative, launch plan, risks) | [current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
+| Lead cockpit `/admin/leads/`: Cloudflare Access, configuration, routes, status model, local development, go-live checklist | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
 | Old site `beautyfacelift.ch`: shutdown, redirect map, what to update afterwards | [current/OLD-SITE-SHUTDOWN.md](current/OLD-SITE-SHUTDOWN.md) |
 | Domain launch record | [current/DOMAIN-LAUNCH.md](current/DOMAIN-LAUNCH.md) |

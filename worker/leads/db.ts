@@ -184,3 +184,117 @@ export async function releaseAutomation(db: D1Database, leadId: string, column: 
   assertAutomationColumn(column);
   await db.prepare(`UPDATE leads SET ${column} = NULL WHERE id = ?`).bind(leadId).run();
 }
+
+// ---- cockpit (worker/leads/router.ts) ---------------------------------------------------------
+
+/** Columns the cockpit forms may change through updateLead. */
+export const EDITABLE_LEAD_COLUMNS = [
+  'status', 'status_changed_at', 'appointment_at', 'revenue_first_visit_chf', 'follow_up_booked', 'notes', 'exclude',
+] as const satisfies readonly (keyof LeadRow)[];
+export type EditableLeadColumn = (typeof EDITABLE_LEAD_COLUMNS)[number];
+export type LeadPatch = Partial<Pick<LeadRow, EditableLeadColumn>>;
+
+/**
+ * Writes `patch` (whitelisted columns only) plus `updated_at = now`, and the event when given, in one
+ * batch. Throws on a column outside EDITABLE_LEAD_COLUMNS.
+ */
+export async function updateLead(db: D1Database, id: string, patch: LeadPatch, now: string, event?: Omit<LeadEventInput, 'lead_id'>): Promise<void> {
+  const columns = Object.keys(patch) as EditableLeadColumn[];
+  for (const column of columns) {
+    if (!(EDITABLE_LEAD_COLUMNS as readonly string[]).includes(column)) throw new TypeError(`Column not editable: ${column}`);
+  }
+  const assignments = [...columns.map((column) => `${column} = ?`), 'updated_at = ?'];
+  const statements = [
+    db.prepare(`UPDATE leads SET ${assignments.join(', ')} WHERE id = ?`).bind(...columns.map((column) => bindable(patch[column])), now, id),
+  ];
+  if (event) statements.push(eventStatement(db, { ...event, lead_id: id }));
+  await db.batch(statements);
+}
+
+/**
+ * "Jetzt kontaktiert": first_contact_at only when still NULL, contact_attempts + 1, status neu → kontaktiert
+ * (other statuses unchanged), plus the event; one batch, the counter is incremented in SQL.
+ */
+export async function markContacted(db: D1Database, id: string, now: string, event: Omit<LeadEventInput, 'lead_id'>): Promise<void> {
+  await db.batch([
+    db.prepare(`UPDATE leads SET
+        first_contact_at = COALESCE(first_contact_at, ?),
+        contact_attempts = contact_attempts + 1,
+        status_changed_at = CASE WHEN status = 'neu' THEN ? ELSE status_changed_at END,
+        status = CASE WHEN status = 'neu' THEN 'kontaktiert' ELSE status END,
+        updated_at = ?
+      WHERE id = ?`).bind(now, now, now, id),
+    eventStatement(db, { ...event, lead_id: id }),
+  ]);
+}
+
+export type LeadListFilter = {
+  /** null = every status. */
+  statuses: readonly LeadStatus[] | null;
+  /** false hides leads marked as test or spam. */
+  includeExcluded: boolean;
+  /** Free text, matched with LIKE on name, e-mail, phone and normalised phone. */
+  q: string;
+  /** Digits of `q` in normalised phone form (e.g. "4179123"), or null. */
+  qDigits: string | null;
+  /** Exact campaign, or '' for all. */
+  campaign: string;
+  limit: number;
+  offset: number;
+};
+
+/** Substring pattern for `LIKE ? ESCAPE '!'`: the wildcards % and _ (and ! itself) match literally. */
+function likePattern(value: string): string {
+  return `%${value.replace(/[!%_]/g, (character) => `!${character}`)}%`;
+}
+
+/** Leads for the cockpit list, newest first. */
+export async function listLeads(db: D1Database, filter: LeadListFilter): Promise<LeadRow[]> {
+  const where: string[] = [];
+  const values: (string | number)[] = [];
+  if (filter.statuses) {
+    where.push(`status IN (${filter.statuses.map(() => '?').join(', ')})`);
+    values.push(...filter.statuses);
+  }
+  if (!filter.includeExcluded) where.push('exclude IS NULL');
+  if (filter.campaign) {
+    where.push('campaign = ?');
+    values.push(filter.campaign);
+  }
+  if (filter.q) {
+    const pattern = likePattern(filter.q);
+    const matches = ["name LIKE ? ESCAPE '!'", "email LIKE ? ESCAPE '!'", "phone LIKE ? ESCAPE '!'", "phone_normalized LIKE ? ESCAPE '!'"];
+    values.push(pattern, pattern, pattern, pattern);
+    if (filter.qDigits) {
+      matches.push("phone_normalized LIKE ? ESCAPE '!'");
+      values.push(likePattern(filter.qDigits));
+    }
+    where.push(`(${matches.join(' OR ')})`);
+  }
+  const sql = `SELECT * FROM leads${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY created_at DESC, id DESC LIMIT ? OFFSET ?`;
+  const result = await db.prepare(sql).bind(...values, filter.limit, filter.offset).all<LeadRow>();
+  return result.results;
+}
+
+export type WeekCounts = { total: number; byStatus: Partial<Record<LeadStatus, number>> };
+
+/** Leads created in [start, end) and not excluded, counted by current status. */
+export async function countLeadsForWeek(db: D1Database, start: string, end: string): Promise<WeekCounts> {
+  const result = await db
+    .prepare('SELECT status, COUNT(*) AS n FROM leads WHERE created_at >= ? AND created_at < ? AND exclude IS NULL GROUP BY status')
+    .bind(start, end)
+    .all<{ status: LeadStatus; n: number }>();
+  const byStatus: Partial<Record<LeadStatus, number>> = {};
+  let total = 0;
+  for (const row of result.results) {
+    byStatus[row.status] = row.n;
+    total += row.n;
+  }
+  return { total, byStatus };
+}
+
+/** Every event of a lead, newest first. */
+export async function listEvents(db: D1Database, leadId: string): Promise<LeadEventRow[]> {
+  const result = await db.prepare('SELECT * FROM lead_events WHERE lead_id = ? ORDER BY at DESC, id DESC').bind(leadId).all<LeadEventRow>();
+  return result.results;
+}

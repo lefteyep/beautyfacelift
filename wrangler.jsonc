@@ -43,6 +43,12 @@
     "ENVIRONMENT": "production",
     // Agency until go-live.
     "LEADS_FORWARD_TO": "mediapaulo@gmail.com",
-    "LEADS_NUDGE_TO": "mediapaulo@gmail.com"
+    "LEADS_NUDGE_TO": "mediapaulo@gmail.com",
+    // Lead cockpit (/admin/, Cloudflare Access). ACCESS_TEAM_DOMAIN (https://<team>.cloudflareaccess.com)
+    // and ACCESS_AUD are filled once the Access application exists; while empty the Worker fails closed
+    // and every /admin/* request answers 401. LEADS_SIGNING_SECRET is a dashboard secret, not a var.
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    "ACCESS_ALLOWED_EMAILS": "mediapaulo@gmail.com"
   }
 }
