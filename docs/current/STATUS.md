@@ -10,6 +10,8 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 
 ## Current milestone — review repairs
 
+**Current checkpoint after the approved merges:** production is `d019a003` (#59/#60 deployed successfully); #61 is merged only into unreleased `codex/leads-mails-phase1` at `365f6fea`. The new local `codex/cockpit-pilot` candidate integrates current production and prepares the minimum agency workflow, safe feature gates and data-readiness evidence. See [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) for the current work record and remaining activation gates. Earlier reviewed-source statements below describe the original repair baseline.
+
 **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The record identifies the tested code revisions, full local checks and browser evidence. PR review/CI and deployment verification remain separate; this status does not claim that the repairs are live.
 
 - **Production source reviewed:** `35af1f01877ecbd629376c30a1e2254dacfb49d0` (PR #58 handover; GitHub deployment reported success). The application changes through #54 are deployed; #58 added handover docs and test tooling.
@@ -71,6 +73,9 @@ Historical May launch details (not the current deployed Worker version):
 | Old site `beautyfacelift.ch`: redirect map in the Worker (inert until the DNS moves) and the shutdown plan, see [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) | PR #53, merge `bc69bd0` | Live 2026-10-20 (deploy run 39342902482) |
 | Meta campaign start-ready status, Instagram-enabled `_v2` ads (docs only, other session) | PR #52 | Draft, not merged |
 | Codex handover, plan copy and test tooling | PR #58, merge `35af1f0` | Deployment reported success on 2026-10-21; cockpit code is still unmerged |
+| Release validation and operating guidance | PR #59, merge `a87b1f7` | Live; deploy run 39538508554 passed |
+| Public tracking, image metadata/lazy loading and mobile navigation repairs | PR #60, merge `d019a003` | Live; deploy run 39538764913 passed; active Worker version 30970e05 confirmed |
+| Cockpit email atomicity/idempotency and uncertain delivery | PR #61, merge `365f6fea` into cockpit branch only | Unreleased; CI run 39539049665 passed |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.

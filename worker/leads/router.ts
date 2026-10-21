@@ -390,8 +390,9 @@ async function routeAdmin(request: Request, env: Env, staticAsset: StaticAssetFe
 
   try {
     return await handleCockpit(request, env, identity, url);
-  } catch (error) {
-    console.error('Lead cockpit failed:', error instanceof Error ? error.message : 'unknown error');
+  } catch {
+    // Database errors can contain bound contact values or notes. Keep operational logs free of PII.
+    console.error('Lead cockpit failed:', 'operation-failed');
     return serverErrorPage(identity);
   }
 }

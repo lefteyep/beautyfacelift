@@ -14,9 +14,9 @@
 
 The dated October records and unresolved client/content tasks below remain useful history/backlog. This section and the repair checklist supersede their earlier rollout order. The complete pre-repair TODO is [archived](../archive/reviews/2026-10-21-pre-repair/TODO.md).
 
-## Next work packages — one visible session per package
+## Next work packages — local coordination
 
-Root coordinates the sequence, verifies evidence and maintains the task record. Each package produces a bounded result; a recommendation does not authorize activation. Session creation is unavailable in the current toolset, so arrange visible sessions with the user rather than replacing them with hidden agents.
+The user now requests autonomous technical completion by the local coordinator and permits native agents/sessions as needed. Root coordinates evidence and integration; editing agents use separate worktrees with fresh briefs. [The pilot record](COCKPIT-PILOT-2026-10-21.md) tracks the active packages. No relay/heartbeat or old chats are needed. Recommendations do not authorize production activation, payment/terms, client exposure or campaign writes.
 
 | Order / session | Owner and scope | Required outcome / dependency |
 | --- | --- | --- |

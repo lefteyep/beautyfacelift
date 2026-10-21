@@ -6,6 +6,8 @@ The exact implementation plan approved on 20 October is preserved in [the archiv
 
 ## Business goal and current state
 
+The user subsequently instructed the local coordinator to complete technical preparation autonomously. The bounded initial scope is now the agency list/contact/manual appointment-outcome workflow plus necessary telephone/WhatsApp entry and missing-enquiry recovery. [The pilot record](COCKPIT-PILOT-2026-10-21.md) contains the implementation, safe-off defaults and current verification. #59/#60 are deployed and #61 is merged into the unreleased cockpit stack; the reviewed-source table below remains baseline history. Authentication activation, policy approval, real-data procedures and production release remain separate decisions; Phase 2 remains held.
+
 The agency needs to know which enquiries were contacted, which became appointments and what happened afterwards. Production already delivers enquiry emails through Resend and forwards bookings to Treatwell. The cockpit is a staff workflow, not a technical dependency of public forms or advertising delivery. The user's separate decision remains binding: the campaign waits for cockpit Phase 1.
 
 The campaign plan estimates 16–27 leads in the first CHF 400 month; these are assumptions, not observed demand. Recommended minimum for the next scope review: capture/list enquiries, contact/status updates and manual booked/outcome recording. Evaluate actual use before adding automation. This recommendation does not authorize new features.

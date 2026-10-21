@@ -149,7 +149,7 @@ check(collision.status === 303 && count() === beforeCollision, 'recovery of an e
 
 const atomicId = crypto.randomUUID();
 const beforeAtomic = count();
-db._db.exec("CREATE TRIGGER fail_manual_audit BEFORE INSERT ON lead_events BEGIN SELECT RAISE(ABORT, 'synthetic audit failure'); END;");
+db._db.exec("CREATE TRIGGER fail_manual_audit BEFORE INSERT ON lead_events BEGIN SELECT RAISE(ABORT, 'private Synthetic Phone 079 123 private@example.test'); END;");
 check((await request('POST', { ...valid, entry_id: atomicId })).status === 500, 'audit failure reports failure');
 check(!row(atomicId) && count() === beforeAtomic, 'audit failure rolls back lead and event together');
 db._db.exec('DROP TRIGGER fail_manual_audit;');
@@ -157,7 +157,8 @@ db._db.exec("CREATE TRIGGER fail_manual_lead BEFORE INSERT ON leads BEGIN SELECT
 check((await request('POST', { ...valid, entry_id: atomicId })).status === 500 && count() === beforeAtomic, 'lead failure cannot leave an orphan event');
 db._db.exec('DROP TRIGGER fail_manual_lead;');
 check((await request('POST', { ...valid, entry_id: atomicId })).status === 303, 'same form ID can be retried after a rolled-back failure');
-check(errors.length === 2 && errors.every((error) => !error.includes('079 123') && !error.includes('Synthetic Phone')), 'only expected storage failures are logged, without form contact details');
+check(errors.length === 2 && errors.every((error) => !error.includes('079 123') && !error.includes('Synthetic Phone') && !error.includes('private@example.test')),
+  'only expected storage failures are logged, without raw driver/form contact details');
 check(network.length === 0 && background.length === 0, 'all manual/recovery paths make no network calls and schedule no work');
 check(!form.body.includes('<script') && !/\son[a-z]+=/i.test(form.body), 'manual form works without scripts or inline handlers');
 if (failures) process.exit(1);

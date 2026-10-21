@@ -557,13 +557,14 @@ export async function contactRoute(request: Request, env: Env, ctx: ExecutionCon
   const enquiryId = crypto.randomUUID();
   const receivedAt = new Date();
   let lead: LeadRow | null = null;
+  let storageFailure: 'missing-db' | 'write-failed' | null = null;
   if (env.LEADS_CAPTURE === 'on') {
     try {
       lead = await createLeadFromSubmission(env, data, receivedAt, enquiryId);
-      if (!lead) ctx.waitUntil(reportStorageFailure(env, { enquiryId, receivedAt, reason: 'missing-db' }));
+      if (!lead) storageFailure = 'missing-db';
     } catch {
       // Do not log SQL/error messages: a database driver can include submitted personal data.
-      ctx.waitUntil(reportStorageFailure(env, { enquiryId, receivedAt, reason: 'write-failed' }));
+      storageFailure = 'write-failed';
     }
   }
 
@@ -578,6 +579,10 @@ export async function contactRoute(request: Request, env: Env, ctx: ExecutionCon
       expectsHtml,
       request,
     );
+  } finally {
+    // Owner and operational mail share a provider quota. The owner must get the first attempt,
+    // even when only one send remains; dispatching the alert earlier could lose the enquiry.
+    if (storageFailure) ctx.waitUntil(reportStorageFailure(env, { enquiryId, receivedAt, reason: storageFailure }));
   }
 
   // Customer confirmation of receipt: off until go-live (LEADS_CUSTOMER_MAILS), never throws, never delays the answer.

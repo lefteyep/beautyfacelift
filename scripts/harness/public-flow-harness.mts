@@ -61,6 +61,7 @@ const browserModule = ts.transpileModule(readFileSync('src/lib/track.ts', 'utf8'
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText;
 const bridgeSource = readFileSync('src/pages/termin/index.astro', 'utf8')
+  .replace(/\r\n?/g, '\n')
   .match(/<script is:inline define:vars=\{\{ bookingTargetUrl:[^\n]+>\n([\s\S]*?)<\/script>/)?.[1];
 assert.ok(bridgeSource, 'booking bridge inline script found');
 type BrowserCase = { oldCookie?: string; click?: string; storedClick?: string; consent?: boolean };

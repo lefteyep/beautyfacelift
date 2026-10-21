@@ -15,6 +15,7 @@ const calls: { body: Mail; key: string | null }[] = [];
 const logs: string[] = [];
 let alertFails = false;
 let ownerFails = false;
+let quotaRemaining = Infinity;
 let ip = 0;
 const originalFetch = globalThis.fetch;
 const originalError = console.error;
@@ -24,6 +25,7 @@ globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const body = JSON.parse(String(init?.body)) as Mail;
   calls.push({ body, key: new Headers(init?.headers).get('Idempotency-Key') });
   const isAlert = body.tags?.some(tag => tag.value === 'storage-alert');
+  if (quotaRemaining-- <= 0) return new Response(null, { status: 429 });
   if (isAlert && alertFails) throw new Error('simulated provider acknowledgement loss');
   if (!isAlert && ownerFails) return new Response(null, { status: 503 });
   return Response.json({ id: 'synthetic-message' });
@@ -49,7 +51,7 @@ async function submit(settings: Env) {
   await Promise.all(background);
   return response;
 }
-function reset() { calls.length = 0; logs.length = 0; alertFails = false; ownerFails = false; }
+function reset() { calls.length = 0; logs.length = 0; alertFails = false; ownerFails = false; quotaRemaining = Infinity; }
 const count = (db: ReturnType<typeof newDb>) => Number((db._db.prepare('SELECT COUNT(*) AS n FROM leads').get() as {n: number}).n);
 const blank: LeadSubmission = {
   name: 'Fixture', email: 'fixture@example.test', phone: '', preferredContactMethod: '', preferredCallbackTime: '', preferredDate: '',
@@ -96,6 +98,13 @@ try {
     reset(); alertFails = true;
     assert.equal((await submit(env())).status, 201, 'lost alert acknowledgement cannot break owner mail/form');
     assert.ok(logs.some(line => line.includes('alert unconfirmed')));
+  }
+  {
+    reset(); quotaRemaining = 1;
+    assert.equal((await submit(env())).status, 201, 'last provider send slot belongs to owner, not the outage alert');
+    assert.deepEqual(calls[0].body.to, ['owner@example.test']);
+    assert.deepEqual(calls[1].body.to, ['agency@example.test']);
+    assert.ok(logs.some(line => line.includes('alert unconfirmed')), 'exhausted alert quota is reported without failing owner receipt');
   }
   {
     reset(); const settings = env();
