@@ -3,12 +3,16 @@ import { pathToFileURL } from 'node:url';
 import { existsSync } from 'node:fs';
 import { expectAssertionFailure, localEnv, rootFromArgs, runCommand, validationPlan } from './lib/validation.mjs';
 
+// Node 22 marks node:sqlite experimental. Suppress that runtime warning only; application warnings
+// remain visible to the lead harnesses, which assert that their scenarios do not log warnings.
+const nodeArgs = ['--disable-warning=ExperimentalWarning', '--import', 'tsx'];
+
 export async function validateHarnesses(root) {
   const { harnesses } = validationPlan(root);
   if (harnesses.length === 0) throw new Error('No behavioral harnesses found.');
   for (const file of harnesses) {
     console.log(`\n[validate] behavioral harness: ${file}`);
-    await runCommand(process.execPath, ['--import', 'tsx', path.join(root, 'scripts/harness', file), root], {
+    await runCommand(process.execPath, [...nodeArgs, path.join(root, 'scripts/harness', file), root], {
       cwd: root, env: localEnv(),
     });
   }
@@ -16,7 +20,7 @@ export async function validateHarnesses(root) {
   for (const [file, defect] of [['capi-harness.mts', 'capi'], ['cr3-harness.mts', 'cr3'], ['oldsite-harness.mts', 'oldsite']]) {
     const harness = path.join(root, 'scripts/harness', file);
     if (!existsSync(harness)) continue;
-    await expectAssertionFailure(process.execPath, ['--import', 'tsx', harness, root], {
+    await expectAssertionFailure(process.execPath, [...nodeArgs, harness, root], {
       cwd: root, env: localEnv({ BFL_HARNESS_CALIBRATION: defect }),
     });
     console.log(`[validate] calibration detected ${defect} defect`);
