@@ -40,6 +40,9 @@ ENVIRONMENT=development
 # Explicit local fixture opt-in only; production stays off pending rollout approval.
 LEADS_CAPTURE=off
 LEADS_REMINDERS=off
+# Separately gated data procedure; enable only for synthetic local drills or approved operations.
+LEADS_DATA_OPERATIONS=off
+# LEADS_DATA_OPERATORS=agency@example.test
 # Storage alerts are independent of D1. Use stubbed fetches for testing, never real addresses/keys.
 # LEADS_ALERT_TO=agency@example.test
 # Local only: identity used for /admin/ instead of Cloudflare Access.

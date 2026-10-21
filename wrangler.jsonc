@@ -45,6 +45,8 @@
     "LEADS_CAPTURE": "off",
     "LEADS_REMINDERS": "off",
     "LEADS_ALERT_TO": "mediapaulo@gmail.com",
+    "LEADS_DATA_OPERATIONS": "off",
+    "LEADS_DATA_OPERATORS": "mediapaulo@gmail.com",
     // Agency until go-live.
     "LEADS_FORWARD_TO": "mediapaulo@gmail.com",
     // LEADS_NUDGE_TO must stay a single address (no comma list); at go-live the agency BCC is added in code.

@@ -3,6 +3,7 @@
 //
 //   GET  /admin/leads/                  list (?status, ?q, ?campaign, ?page)
 //   GET/POST /admin/leads/new/          manual enquiry / owner-email recovery (no external calls)
+//   GET/POST /admin/leads/data/erase/   separately gated agency data-operator procedure
 //   GET  /admin/leads/:id/              detail + timeline (?ok= flash)
 //   POST /admin/leads/:id/contacted/    "Jetzt kontaktiert"
 //   POST /admin/leads/:id/status/       status (+ note; required for no_show, abgesagt, nicht_erreicht)
@@ -32,6 +33,7 @@ import { createManualLead, MANUAL_FIELDS, validateManual, type ManualValues } fr
 import { renderDetail, STATUSES_NEEDING_NOTE, type DetailError, type DetailForm } from './views/detail';
 import { LIST_FILTERS, renderList, statusesFor, type ListFilter, type ListQuery } from './views/list';
 import { renderManual } from './views/manual';
+import { erasureRoute } from './erasure-route';
 
 const LEADS_PREFIX = '/admin/leads/';
 const PAGE_SIZE = 50;
@@ -361,6 +363,7 @@ async function handleCockpit(request: Request, env: Env, identity: AccessIdentit
     return read ? getList(db, identity, url, now) : methodNotAllowedPage(identity, 'GET, HEAD');
   }
   if (rest === 'new/') return manualPage(request, env, db, identity, now);
+  if (rest === 'data/erase/') return erasureRoute(request, env, db, identity);
   const match = LEAD_PATH_PATTERN.exec(rest);
   if (!match) return notFoundPage(identity);
   const [, id, action] = match;

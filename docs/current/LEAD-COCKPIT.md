@@ -7,7 +7,7 @@
 The lead cockpit is a small, server-rendered tool inside the Worker for working through enquiries: who asked, who has been contacted, who booked, who came. It reads and writes the D1 database `beautyfacelift-leads`, where ingestion is attempted before the owner email. Storage failure deliberately allows that email to succeed; some accepted enquiries can therefore be missing from D1. Reconciliation/recovery must be defined before rollout (see `worker/leads/ingest.ts`).
 
 - **URL:** `https://beautyfacelift-zuerich.ch/admin/leads/`
-- **Code:** `worker/leads/` — `access.ts` (Access JWT), `csrf.ts`, `time.ts` (Zurich time, ISO week, opening hours), `html.ts` (layout, escaping, inline CSS), `views/list.ts`, `views/detail.ts`, `router.ts`; SQL only in `db.ts`.
+- **Code:** `worker/leads/` — `access.ts` (Access JWT), `csrf.ts`, `time.ts` (Zurich time), `html.ts` (layout, escaping, inline CSS), `views/list.ts`, `views/detail.ts`, `views/manual.ts`, `router.ts`; ordinary persistence in `db.ts`, separately bounded data operations in `erasure.ts`/`erasure-route.ts`.
 - **No JavaScript:** plain HTML pages, plain links and POST forms.
 - **Automatic e-mails and Cron:** `worker/email/` (sender, layout, templates) and `worker/cron/automations.ts`; see below.
 
@@ -20,7 +20,7 @@ The current unreleased implementation is designed for the following protection i
 
 Anything else gets a 401 page "Nicht angemeldet." with a "Erneut anmelden" button (no automatic redirect). The legacy static pages under `/admin/` (`/admin/`, `/admin/design-system/`) are behind the same guard.
 
-The source allow-list contains only the agency address. Any later configured policy must remain agency-only until a separately approved go-live; its current dashboard state was not verified.
+The source allow-list contains only the agency address. Any later configured policy must remain agency-only until a separately approved go-live. The read-only local dashboard check showed Access requires an active plan/setup; no application was configured. See [Access readiness](COCKPIT-ACCESS-READINESS.md).
 
 ## Configuration
 
@@ -32,6 +32,9 @@ The source allow-list contains only the agency address. Any later configured pol
 | `LEADS_SIGNING_SECRET` | Worker secret (dashboard) | 32 random bytes as hex. Signs the CSRF tokens (and later the unsubscribe links). |
 | `ENVIRONMENT` | `wrangler.jsonc` var | `production`. The dev bypass is impossible while this is `production`. |
 | `LEADS_DEV_EMAIL` | `.dev.vars` only | Local identity for the dev bypass. Never set in production. |
+| `LEADS_CAPTURE` / `LEADS_REMINDERS` | `wrangler.jsonc` vars | Each defaults to `off`; separate reviewed activation required. |
+| `LEADS_DATA_OPERATIONS` | `wrangler.jsonc` var | Defaults to `off`; enables only the separately authorized data procedure. |
+| `LEADS_DATA_OPERATORS` | `wrangler.jsonc` var | Exact agency-only mailboxes; ordinary cockpit access does not confer erasure rights. |
 
 Fail-closed behaviour:
 
@@ -44,7 +47,7 @@ Fail-closed behaviour:
 These are reference steps from the existing design, not permission to activate Zero Trust or an approved choice of provider/session duration. Verify current product, pricing and checkout requirements at decision time. A custom login would need its full security/session lifecycle designed and tested separately.
 
 1. Zero Trust → Settings → Authentication: login method **One-time PIN** only (no Google or other identity providers).
-2. Access → Applications → Add → **Self-hosted**: domain `beautyfacelift-zuerich.ch`, path `admin`; session duration **2 weeks**; App Launcher visibility **off**.
+2. Follow the current [Access readiness](COCKPIT-ACCESS-READINESS.md) checklist: Self-hosted application covering the whole guarded admin surface, proposed **one-hour** session and App Launcher visibility off. The earlier two-week suggestion is superseded. Provider activation and the actual session setting remain approval/account gates.
 3. Policy: **Allow**, include **Emails**: the agency address only.
 4. Copy the application's **AUD** tag and the team domain into `wrangler.jsonc` (`ACCESS_AUD`, `ACCESS_TEAM_DOMAIN` as `https://<team>.cloudflareaccess.com`); keep `ACCESS_ALLOWED_EMAILS` in line with the policy.
 5. Workers & Pages → `beautyfacelift` → Settings → Variables and Secrets: add the secret `LEADS_SIGNING_SECRET` (for example the output of `openssl rand -hex 32`).
@@ -54,12 +57,14 @@ These are reference steps from the existing design, not permission to activate Z
 
 | Route | What it does |
 |---|---|
-| `GET /admin/leads/` | List. KPI strip for the current ISO week (Zurich): Neu, Kontaktiert, Gebucht, Erschienen, Termin-Quote = (gebucht + erschienen + no_show) / all leads of the week. Filters `?status=offen` (default: neu + kontaktiert + gebucht) \| each status \| `alle`; `?q=` searches name, e-mail and phone (phone also in normalised form, so `079 123` finds `+41 79 123 …`); `?campaign=` exact; `?page=` (50 rows, newest first). Rows show source, status, relative time, treatment/topic, and "Anrufen"/"WhatsApp" when a phone exists. |
+| `GET /admin/leads/` | List without weekly KPIs. Filters `?status=offen` (default: neu + kontaktiert + gebucht) \| each status \| `alle`; `?q=` searches name, e-mail and phone (phone also in normalised form, so `079 123` finds `+41 79 123 …`); `?campaign=` exact; `?page=` (50 rows, newest first). Rows show source, status, relative time, treatment/topic, and "Anrufen"/"WhatsApp" when a phone exists. |
+| `GET/POST /admin/leads/new/` | Manual phone/WhatsApp capture and reference-based recovery, behind capture/auth/CSRF gates; no outgoing mail. |
+| `GET/POST /admin/leads/data/erase/` | Independently gated agency operator procedure; exact-ID preview, explicit confirmation and atomic stale-data guard. See [data operations](LEAD-D1-ERASURE.md); absent from normal staff navigation. |
 | `GET /admin/leads/:id/` | Detail: WhatsApp (prefilled greeting), Anrufen, E-Mail, "Jetzt kontaktiert", the forms below, the enquiry data incl. UTM and click IDs, a "Wiederkehrend" link when the same e-mail/phone enquired within 30 days, and the timeline. |
 | `POST …/contacted/` | "Jetzt kontaktiert": sets `first_contact_at` the first time only, `contact_attempts + 1`, status `neu → kontaktiert` (other statuses stay). |
 | `POST …/status/` | Sets the status. A short note is required for Nicht erschienen, Abgesagt and Nicht erreicht. |
 | `POST …/appointment/` | Date + time in Zurich time → `appointment_at` (UTC). "Status auf Gebucht setzen" (checked by default while neu/kontaktiert) also sets the status. |
-| `POST …/revenue/` | Revenue of the first visit in whole CHF (0–100'000, empty = unknown) and "Folgetermin gebucht?" ja / nein / unbekannt. |
+| `POST …/revenue/` | Existing protected compatibility endpoint; revenue/follow-up fields are absent from the initial pilot UI. |
 | `POST …/notes/` | Internal notes (up to 4000 characters), replaces the previous text. |
 | `POST …/exclude/` | Test / Spam / Nicht ausschliessen. |
 

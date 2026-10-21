@@ -27,6 +27,10 @@ export interface Env {
   LEADS_REMINDERS?: string;
   /** Agency operator address for storage-failure alerts; must also be in ACCESS_ALLOWED_EMAILS. */
   LEADS_ALERT_TO?: string;
+  /** Independent, explicitly enabled operator-only exact-ID erasure. Default off. */
+  LEADS_DATA_OPERATIONS?: string;
+  /** Exact agency operator mailboxes for the data procedure, separate from ordinary staff access. */
+  LEADS_DATA_OPERATORS?: string;
   /** Cloudflare Access team domain for /admin/: the full origin `https://<team>.cloudflareaccess.com`, no trailing slash. */
   ACCESS_TEAM_DOMAIN?: string;
   /** Audience (AUD) tag of the Cloudflare Access application that protects /admin/. */

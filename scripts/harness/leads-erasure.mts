@@ -78,7 +78,7 @@ function seed(): Fake {
   enforceD1Limits(db);
   return db;
 }
-async function apply(db: D1Database, ids = TARGETS) {
+async function apply(db: Parameters<typeof executeLeadErasure>[0], ids = TARGETS) {
   const plan = await planLeadErasure(db, ids);
   return executeLeadErasure(db, { leadIds: ids, apply: true, confirmation: plan.confirmation });
 }
@@ -162,6 +162,7 @@ try {
   }
   for (const ddl of [
     'CREATE TABLE copied_pii (lead_id TEXT,email TEXT)', 'CREATE TABLE sqlitex_private (email TEXT)', 'CREATE TABLE _cf_private (email TEXT)',
+    'CREATE TABLE _cf_METADATA (key INTEGER PRIMARY KEY,value TEXT)',
     'ALTER TABLE leads ADD COLUMN copied_email TEXT', 'CREATE VIEW copied_pii AS SELECT email FROM leads',
     'CREATE TRIGGER side_effect AFTER DELETE ON leads BEGIN UPDATE leads SET notes = \'private\'; END',
     'CREATE INDEX copied_pii ON leads(email)',
@@ -173,11 +174,12 @@ try {
     const db = seed();
     db._db.exec(`CREATE TABLE IF NOT EXISTS "d1_migrations"(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE,applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL);
       INSERT INTO d1_migrations(name) VALUES ('0001_leads.sql');
-      CREATE TABLE _cf_KV(key TEXT PRIMARY KEY,value BLOB) WITHOUT ROWID;`);
+      CREATE TABLE _cf_KV(key TEXT PRIMARY KEY,value BLOB) WITHOUT ROWID;
+      CREATE TABLE _cf_METADATA(key INTEGER PRIMARY KEY,value BLOB);`);
     const plan = await planLeadErasure(db, TARGETS);
     check(plan.blockers.length === 0, 'exact known Wrangler/D1 metadata schema is supported without a prefix exemption');
     await executeLeadErasure(db, { leadIds: TARGETS, apply: true, confirmation: plan.confirmation });
-    check(db._db.prepare('SELECT COUNT(*) AS n FROM d1_migrations').get().n === 1, 'erasure preserves migration metadata');
+    check(db._db.prepare('SELECT COUNT(*) AS n FROM d1_migrations').get()?.n === 1, 'erasure preserves migration metadata');
   }
   {
     const db = seed();

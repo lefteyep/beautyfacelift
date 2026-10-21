@@ -9,6 +9,8 @@ Use this page to choose the right document quickly.
 | Current autonomous agency-pilot preparation, verified production checkpoint and activation gates | [current/COCKPIT-PILOT-2026-10-21.md](current/COCKPIT-PILOT-2026-10-21.md) |
 | Agency workflow: list/contact, manual enquiries and missing-enquiry recovery | [current/COCKPIT-PILOT-WORKFLOW.md](current/COCKPIT-PILOT-WORKFLOW.md) |
 | Data operations, synthetic erasure/backup/restore evidence and real-data gates | [current/LEAD-DATA-OPERATIONS.md](current/LEAD-DATA-OPERATIONS.md) |
+| Separately gated D1 exact-ID erasure, atomicity and pilot limits | [current/LEAD-D1-ERASURE.md](current/LEAD-D1-ERASURE.md) |
+| Public Treatwell, old-domain redirect and campaign-date evidence | [current/CAMPAIGN-READINESS-2026-10-21.md](current/CAMPAIGN-READINESS-2026-10-21.md) |
 | Private review draft for D1 disclosure; not approved/published public copy | [current/LEAD-DATA-DISCLOSURE-DRAFT.md](current/LEAD-DATA-DISCLOSURE-DRAFT.md) |
 | Managed Access OTP recommendation, current sources and account/activation checklist | [current/COCKPIT-ACCESS-READINESS.md](current/COCKPIT-ACCESS-READINESS.md) |
 | **Start here:** project, systems and IDs, current state, next steps (handover 2026-10-21) | [current/HANDOVER-2026-10-21.md](current/HANDOVER-2026-10-21.md) |

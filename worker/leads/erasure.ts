@@ -104,10 +104,11 @@ const EXPECTED_SCHEMA = new Map<string, SchemaRow>([
   ['idx_lead_events_lead', ['index', 'idx_lead_events_lead', 'lead_events', 'CREATE INDEX idx_lead_events_lead ON lead_events(lead_id,at)']],
   // Known provider/tooling metadata are named individually; no _cf_/sqlite* prefix exemption.
   ['_cf_KV', ['table', '_cf_KV', '_cf_KV', 'CREATE TABLE _cf_KV(key TEXT PRIMARY KEY,value BLOB) WITHOUT ROWID']],
+  ['_cf_METADATA', ['table', '_cf_METADATA', '_cf_METADATA', 'CREATE TABLE _cf_METADATA(key INTEGER PRIMARY KEY,value BLOB)']],
   ['d1_migrations', ['table', 'd1_migrations', 'd1_migrations', 'CREATE TABLE d1_migrations(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE,applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)']],
   ['sqlite_autoindex_d1_migrations_1', ['index', 'sqlite_autoindex_d1_migrations_1', 'd1_migrations', null]],
 ]);
-const REQUIRED_SCHEMA = [...EXPECTED_SCHEMA.keys()].filter((name) => !['_cf_KV', 'd1_migrations', 'sqlite_autoindex_d1_migrations_1'].includes(name));
+const REQUIRED_SCHEMA = [...EXPECTED_SCHEMA.keys()].filter((name) => !['_cf_KV', '_cf_METADATA', 'd1_migrations', 'sqlite_autoindex_d1_migrations_1'].includes(name));
 
 function assertSchema(rows: SchemaRow[]): boolean {
   if (rows.length > LEAD_ERASURE_LIMITS.schemaObjects) throw new LeadErasureError('bounds-exceeded');
@@ -138,7 +139,14 @@ function jsonRow(columns: readonly string[]): string {
   return `json('['||${chunks.join("||','||")}||']')`;
 }
 const jsonRows = (columns: readonly string[], from: string) => `(SELECT json_group_array(${jsonRow(columns)}) FROM (${from}))`;
-const rawBytes = (columns: readonly string[], table: string) => `(SELECT COALESCE(SUM(${columns.map((column) => `COALESCE(length(CAST(${column} AS BLOB)),0)`).join('+')}),0) FROM ${table})`;
+function balancedSum(terms: readonly string[]): string {
+  if (terms.length === 1) return terms[0];
+  const middle = Math.floor(terms.length / 2);
+  return `(${balancedSum(terms.slice(0, middle))}+${balancedSum(terms.slice(middle))})`;
+}
+// D1's expression-depth ceiling is lower than Node SQLite's. Keep wide row-size arithmetic
+// logarithmic in depth; a long left-associated sum fails before the snapshot can be inspected.
+const rawBytes = (columns: readonly string[], table: string) => `(SELECT COALESCE(SUM(${balancedSum(columns.map((column) => `COALESCE(length(CAST(${column} AS BLOB)),0)`))}),0) FROM ${table})`;
 function snapshotSql(withMigrations: boolean): string {
   const leads = jsonRows(LEAD_COLUMNS, `SELECT ${LEAD_COLUMNS.join(',')} FROM leads ORDER BY id LIMIT ${LEAD_ERASURE_LIMITS.leads + 1}`);
   const events = jsonRows(EVENT_COLUMNS, `SELECT ${EVENT_COLUMNS.join(',')} FROM lead_events ORDER BY id LIMIT ${LEAD_ERASURE_LIMITS.events + 1}`);
