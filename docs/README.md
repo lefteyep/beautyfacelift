@@ -13,14 +13,14 @@ Use this page to choose the right document quickly.
 | Separately gated D1 exact-ID erasure, atomicity and pilot limits | [current/LEAD-D1-ERASURE.md](current/LEAD-D1-ERASURE.md) |
 | Public Treatwell, old-domain redirect and campaign-date evidence | [current/CAMPAIGN-READINESS-2026-10-21.md](current/CAMPAIGN-READINESS-2026-10-21.md) |
 | Private review draft for D1 disclosure; not approved/published public copy | [current/LEAD-DATA-DISCLOSURE-DRAFT.md](current/LEAD-DATA-DISCLOSURE-DRAFT.md) |
-| Managed Access OTP recommendation, current sources and account/activation checklist | [current/COCKPIT-ACCESS-READINESS.md](current/COCKPIT-ACCESS-READINESS.md) |
+| Selected existing Cloudflare login, active Free plan and draft-only cockpit Access configuration | [current/COCKPIT-ACCESS-READINESS.md](current/COCKPIT-ACCESS-READINESS.md) |
 | **Start here:** project, systems and IDs, current state, next steps (handover 2026-10-21) | [current/HANDOVER-2026-10-21.md](current/HANDOVER-2026-10-21.md) |
 | Verified review repairs R1–R11 and deferred release/business/data gates | [current/REPAIR-2026-10-21.md](current/REPAIR-2026-10-21.md) |
 | OpenAI Codex: setup notes and the start prompt | [current/CODEX-START.md](current/CODEX-START.md) |
 | Project overview and commands | [../README.md](../README.md) |
 | Agent rules: safety model, deployment rule, and the project context (commands, release gates, client design rules, gotchas) | [../AGENTS.md](../AGENTS.md) |
 | Lead-Cockpit: current scope and pre-rollout gates (original approved plan archived; #55–#57 unmerged) | [current/LEAD-COCKPIT-PLAN.md](current/LEAD-COCKPIT-PLAN.md) |
-| Cockpit implementation/runbook (unreleased; auth decision and go-live deferred) | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
+| Cockpit implementation/runbook (unreleased; login selected, Access configuration draft only) | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
 | Current launch/status snapshot | [current/STATUS.md](current/STATUS.md) |
 | Open operational work | [current/TODO.md](current/TODO.md) |
 | Local setup and production config | [current/SETUP.md](current/SETUP.md) |

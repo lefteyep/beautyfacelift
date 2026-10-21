@@ -2,6 +2,8 @@
 
 **Arbeitsstand zur Prüfung. Keine Aktivierungs-, Migrations- oder Deploymentfreigabe.** Ausgangspunkt ist der geprüfte Kandidat `e842d192` in [Entwurfs-PR #62](https://github.com/lefteyep/beautyfacelift/pull/62), [CI erfolgreich](https://github.com/lefteyep/beautyfacelift/actions/runs/39634953255). Produktion bleibt `d019a003`. Diese Fortsetzung liest keine früheren Chats.
 
+**Später bestätigter Kontoschritt:** Der Nutzer hat den vorbereiteten Zero Trust Free-Plan freigegeben und den Checkout selbst abgeschlossen; Dashboardnachweis: Free, 0 USD/Monat, Teamdomain `mediapaulo.cloudflareaccess.com`. Anschliessend wählte er für den konkreten Cockpit-Login ausdrücklich **«Nur als Entwurf behalten»**. Kein neuer IdP, keine Access-Policy oder Anwendung wurde gespeichert, kein Live-Login getestet. Der Speicherfehleralarm bleibt ebenfalls ausdrücklich Entwurf. [Access-Stand und genaue Entwurfswerte](COCKPIT-ACCESS-READINESS.md) sind massgeblich; die früheren Kontoprüfungen unten sind datierte Nachweise, keine Behauptung, dass die Free-Einschreibung noch aussteht.
+
 ## Aktueller Kontonachweis
 
 Lesende Prüfung im vorhandenen Cloudflare-Konto am 21.10.2026; keine Datenbankinhalte mit Kundendaten geöffnet und keine Kontoeinstellung gespeichert:
@@ -137,4 +139,4 @@ Reihenfolge für eine spätere Freigabe: genaue Kandidatenrevision und aktuelle 
 | BFL-OPS-CLI-05 | Nativer Agent in eigenem Worktree; Root geprüft und integriert | Importantwort für Wrangler 4.148.0 streng korrigiert, 14 Offline-Prüfungen bestanden; Betriebscheckpoint `20aa186`, keine neue Cloudmutation |
 | Alarm aktivieren/testen | Nutzerentscheidung; Root bewahrt Entwurf | Nutzer wählt «Nur als Entwurf behalten». Keine Aktivierung/Testmail; dieser Betriebs-Gate bleibt vor Capture offen |
 | Zweck, Kategorien, Fristen und Rollen | Verantwortlicher Auftraggeber / Nutzer | Datenschutzentwurf bleibt ungeprüft; keine Frist, Rechtsgrundlage oder Vertragsrolle erfunden |
-| Access/Konto und Livegang | Nutzer hat bestehenden Cloudflare-Login gewählt; Root bereitet vor | Providerwahl abgeschlossen, E-Mail-PIN-Vorschlag ersetzt. [Aktueller Einrichtungsplan](COCKPIT-ACCESS-READINESS.md): Free-Checkout vorbereitet, weder bestätigt noch aktiviert. Vertrags-/Zahlungsfreigabe, tatsächliche Anmeldung sowie Produktivmigration/Merge/Deployment weiterhin offen |
+| Access/Konto und Livegang | Kontoinhaber hat Free-Einschreibung abgeschlossen; Nutzer hält Cockpit-Login als Entwurf | [Aktueller Einrichtungsplan](COCKPIT-ACCESS-READINESS.md): bestehender Cloudflare-Login gewählt, Free-Plan/Teamdomain bestätigt. Konkrete IdP-/App-/Policy-Konfiguration auf ausdrücklichen Wunsch nur dokumentierter Entwurf; keine gespeicherte Access-Anwendung oder Live-Login-Prüfung. Erst bei geändertem Nutzerentscheid fortsetzen; Produktivmigration/Merge/Deployment bleiben separat |

@@ -2,7 +2,7 @@
 
 **Pilot-candidate update:** [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) and [the pilot workflow](COCKPIT-PILOT-WORKFLOW.md) describe the current candidate. It adds protected manual capture/recovery, removes initial weekly KPIs/revenue entry, and keeps capture/reminders explicitly off. Public notification UUID/time supports reconciliation; failures use sanitized operational logs/alerts. Route tables and automation descriptions below document the earlier stack; apply the pilot gates first. Nothing is deployed by this update.
 
-**21 October 2026: IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES; combined verification recorded in the repair checklist; rollout pending.** This documents the existing #55–#57 code and repair candidate `1cc4c9`, not a deployed cockpit. Authentication choice/setup is deferred; no Access/Zero Trust activation or custom OTP work is authorized by this runbook. Before any D1 rollout complete the disclosure, retention/deletion, alerting and reconciliation gates in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Customer mail stays off, reminders agency-only and Teresa unexposed. Phase 2 is held.
+**21 October 2026: IMPLEMENTED AND VERIFIED; rollout pending.** This describes the unreleased cockpit candidate, including earlier #55–#57 code; it does not claim a deployed cockpit. The user selected existing Cloudflare account login, personally completed Zero Trust Free enrollment, then explicitly retained the concrete cockpit Access configuration **as a draft only**. No new IdP/application/policy or live login test was saved/run. Follow [Access readiness](COCKPIT-ACCESS-READINESS.md); this runbook grants no activation or custom OTP authority. Before any D1 rollout complete the disclosure, retention/deletion, alerting and reconciliation gates in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Customer mail stays off, reminders agency-only and Teresa unexposed. Phase 2 is held.
 
 The lead cockpit is a small, server-rendered tool inside the Worker for working through enquiries: who asked, who has been contacted, who booked, who came. It reads and writes the D1 database `beautyfacelift-leads`, where ingestion is attempted before the owner email. Storage failure deliberately allows that email to succeed; some accepted enquiries can therefore be missing from D1. Reconciliation/recovery must be defined before rollout (see `worker/leads/ingest.ts`).
 
@@ -13,14 +13,14 @@ The lead cockpit is a small, server-rendered tool inside the Worker for working 
 
 ## Who can log in
 
-The current unreleased implementation is designed for the following protection if Access is later selected and configured. No production Access policy is established by this repair:
+The selected login design is documented but deliberately unconfigured in Access. No production cockpit policy exists:
 
-1. **Cloudflare Access** (Zero Trust) in front of `beautyfacelift-zuerich.ch/admin`. Login method: **One-time PIN** by e-mail only. The policy allows exactly the addresses listed in it.
+1. **Cloudflare Access** in front of `beautyfacelift-zuerich.ch/admin` and descendants, using **Cloudflare itself as the identity provider** with account-member restriction. The cockpit's proposed Allow policy includes only `mediapaulo@gmail.com`, with a one-hour application session and only this IdP enabled. E-mail PIN was superseded by the user's choice; preserve the existing legacy PIN provider without offering it for the cockpit. Actual setup remains draft only.
 2. **The Worker** verifies the Access JWT itself on every `/admin/*` request (`worker/leads/access.ts`): signature (RS256) against `${ACCESS_TEAM_DOMAIN}/cdn-cgi/access/certs` (keys cached 1 h, refetched on an unknown `kid` at most once a minute; after a failed fetch every request is denied without refetching for 60 s), `iss`, `aud`, `exp` and `nbf` (60 s clock leeway), and `email` in `ACCESS_ALLOWED_EMAILS`. The header `Cf-Access-Authenticated-User-Email` is never trusted on its own. Denials are logged as `Access denied for /admin/: <reason>`, except requests without any token (bots, the security smoke). Encoded or doubled spellings of the path (`/%61dmin/`, `//admin/`) are guarded too.
 
 Anything else gets a 401 page "Nicht angemeldet." with a "Erneut anmelden" button (no automatic redirect). The legacy static pages under `/admin/` (`/admin/`, `/admin/design-system/`) are behind the same guard.
 
-The source allow-list contains only the agency address. Any later configured policy must remain agency-only until a separately approved go-live. The read-only local dashboard check showed Access requires an active plan/setup; no application was configured. See [Access readiness](COCKPIT-ACCESS-READINESS.md).
+The source allow-list contains only the agency address. Any later configured policy must remain agency-only until a separately approved go-live. The latest dashboard check confirms active Zero Trust Free and team domain `mediapaulo.cloudflareaccess.com`; no cockpit application was configured because the user retained it as a draft. See [Access readiness](COCKPIT-ACCESS-READINESS.md).
 
 ## Configuration
 
@@ -42,16 +42,16 @@ Fail-closed behaviour:
 - `LEADS_SIGNING_SECRET` missing → the pages still render, every change (POST) answers 503 "Konfiguration unvollständig."
 - `LEADS_DB` not bound → 503 "Datenbank nicht verbunden."
 
-### Conditional reference if Access is later selected
+### Future setup reference — only after a changed user decision
 
-These are reference steps from the existing design, not permission to activate Zero Trust or an approved choice of provider/session duration. Verify current product, pricing and checkout requirements at decision time. A custom login would need its full security/session lifecycle designed and tested separately.
+Provider selection and Free enrollment are complete. The following is the saved configuration proposal, not authority to activate it. Do not repeatedly ask to change the explicit draft-only decision. If the user later authorizes setup, recheck actual account/application/provider state first and preserve unrelated settings.
 
-1. Zero Trust → Settings → Authentication: login method **One-time PIN** only (no Google or other identity providers).
-2. Follow the current [Access readiness](COCKPIT-ACCESS-READINESS.md) checklist: Self-hosted application covering the whole guarded admin surface, proposed **one-hour** session and App Launcher visibility off. The earlier two-week suggestion is superseded. Provider activation and the actual session setting remain approval/account gates.
-3. Policy: **Allow**, include **Emails**: the agency address only.
-4. Copy the application's **AUD** tag and the team domain into `wrangler.jsonc` (`ACCESS_AUD`, `ACCESS_TEAM_DOMAIN` as `https://<team>.cloudflareaccess.com`); keep `ACCESS_ALLOWED_EMAILS` in line with the policy.
-5. Workers & Pages → `beautyfacelift` → Settings → Variables and Secrets: add the secret `LEADS_SIGNING_SECRET` (for example the output of `openssl rand -hex 32`).
-6. Ship the `wrangler.jsonc` change through a reviewed PR (the deploy rewrites the plain vars; secrets are kept).
+1. Follow [Access readiness](COCKPIT-ACCESS-READINESS.md): new **Cloudflare** identity provider, **Restrict to account members On**. Preserve the legacy PIN provider; no membership invitation or password/MFA change.
+2. Self-hosted public application for `beautyfacelift-zuerich.ch`, path `admin`, custom duration **1h**. Disable Accept all identity providers; select only Cloudflare. Keep client-session authentication off and shared/global settings unchanged.
+3. Policy: **Allow**, include **Emails**: exactly `mediapaulo@gmail.com`; policy duration **Same as application**. Review before saving; no domain-wide or Everyone rule.
+4. After authorized creation, verify the application's **AUD** and actual issuer, then prepare `ACCESS_AUD` and `ACCESS_TEAM_DOMAIN` (`https://mediapaulo.cloudflareaccess.com`, rechecked against the account) together in a reviewed `wrangler.jsonc` change. Keep `ACCESS_ALLOWED_EMAILS` identical to the policy. Until then team/AUD remain empty and the origin guard denies access.
+5. Confirm/provision `LEADS_SIGNING_SECRET` only through the approved secret workflow without printing or committing its value. It is not a plain variable.
+6. Actual login/denial/revocation tests and separate migration/merge/deployment approval remain required. A configuration PR alone grants none of them.
 
 ## Pages and actions
 
@@ -119,30 +119,22 @@ This procedure is required before rollout; an alert/reconciliation owner still n
 ## Cron
 
 - **Schedule:** `*/15 * * * *` (`triggers.crons` in `wrangler.jsonc`). The `scheduled` handler in `worker/index.ts` runs `runAutomations(env, scheduledTime)` (`worker/cron/automations.ts`) through `ctx.waitUntil`; errors are logged as "Lead automations failed:", a run that sent or failed something logs one summary line (counts only).
-- **Local test:** with `.dev.vars` containing `RESEND_API_KEY=invalid` and `LEADS_NUDGE_TO=agency@example.test` (never a real address), run `npm run d1:migrate:local`, `npm run build && npx wrangler dev --test-scheduled --port 8787`, then:
-  ```
-  curl "http://127.0.0.1:8787/__scheduled?cron=*/15+*+*+*+*"
-  ```
-  Prefer the fully stubbed harness; this manual recipe is historical reference and can still attempt an outbound provider request. An invalid key is not proof that no network call occurred. No real secret/address belongs in a local test. A definitive rejection records `mail_failed` in local D1. The run only does something within opening hours (Zurich time) and for leads older than 60 minutes.
+- **Local test:** use `npm run harness:leads-cron`. It invokes the real scheduled entry point with synthetic data and stubbed provider requests, including outside-hours, quota, overlapping-run and uncertain-delivery cases. No `.dev.vars`, real key, real address or externally reachable scheduled endpoint is needed. An invalid API key alone would not prevent an outbound request and is not the test isolation mechanism.
 
 ## Local development
 
-1. `.dev.vars` (gitignored) with at least:
-   ```
-   ENVIRONMENT=development
-   LEADS_DEV_EMAIL=you@example.com
-   LEADS_SIGNING_SECRET=any-long-random-string
-   ```
-   The dev bypass needs all three conditions: `ENVIRONMENT` is not `production`, `LEADS_DEV_EMAIL` is set, and the host is `localhost`, `127.0.0.1` or `[::1]`.
-2. `npm run d1:migrate:local`
-3. `npm run build && npx wrangler dev --port 8787 --local-upstream localhost:8787 --upstream-protocol http`
-   Plain `npm run cf:dev` is not enough here: because of the custom-domain routes, wrangler dev hands the Worker the production host, so the canonical-host redirect answers 301 and the dev bypass (localhost only) never applies.
-4. Open `http://localhost:8787/admin/leads/`. Test leads can be created by posting JSON with `"campaign": "aquafacial_aktion"` (no Turnstile) to `http://localhost:8787/api/contact`. Without `RESEND_API_KEY` the route stores the row first and then answers 503; no mail request leaves the machine.
+Use the existing synthetic preview for routine UI review:
+
+1. With project dependencies and Node 22.13+ installed, run `npm run build`, then `npm run preview:cockpit`.
+2. Open `http://127.0.0.1:4357/admin/leads/`. The preview binds only loopback, creates its own in-memory synthetic D1 fixture and local development identity, and blocks every Worker external fetch. It reads no `.env`/`.dev.vars` or cloud credentials. Use only synthetic contact values.
+3. Exercise existing cockpit/manual workflows; stop the preview after review. Its in-memory changes are not retained. Use finite `harness:*` commands for assertions and fault cases.
+
+This preview does not implement or test a real Cloudflare login. The production dev bypass remains impossible: it requires a non-production environment, a local identity and a loopback host. No public contact-form submission or remote D1 setup is needed. A plain `wrangler dev` session with project routes/secrets is not the isolated preview described here.
 
 ## Checks
 
 - `npm run harness:leads-access` — the Access guard through the real Worker entry: self-signed RS256 test JWTs (header and cookie), 401 for missing/expired/wrong-aud/wrong-iss/wrong-email/foreign-key tokens, the certs cache and the unknown-`kid` refetch, fail-closed config, the dev bypass rules, the legacy `/admin/` page behind the guard.
-- `npm run harness:leads-cockpit` — list, filters, search, KPIs, escaping, all six actions, CSRF (403), the 400 validation paths, Zurich time (`2026-11-03 14:30` → `13:30Z`), 503 without secret or database, 404/405, paging.
+- `npm run harness:leads-cockpit` — list, filters, search, initial KPI/revenue UI absence, escaping, existing protected actions, CSRF (403), the 400 validation paths, Zurich time (`2026-11-03 14:30` → `13:30Z`), 503 without secret or database, 404/405, paging. `harness:leads-manual` covers synthetic capture/recovery and replay; the erasure harnesses cover the separately gated operator procedure.
 - `npm run harness:leads-cron` — the reminder (61 minutes at Tue 11:00 → one mail, overlapping and repeated runs → none, Sunday none, Monday 10:00 CET sent, excluded never, definitive rejection → released claim + 2 h back-off, network/408/409/5xx → retained uncertain reservation/no automatic resend, stable provider keys, missing config), the customer confirmation (off by default, sent once when on, concurrent distinct-lead 24 h same-address and exact 20/hour limits including in-flight sends, rejection/uncertain paths, offer date), and both entry points of `worker/index.ts` (`scheduled`, `POST /api/contact`).
 - `npm run qa:leads` — source checks (fonts, Access/CSRF wiring, config, docs, Swiss spelling, mail copy without "CHF", the `LEADS_CUSTOMER_MAILS` switch).
 - `npm run smoke:security` — `/admin/` and `/admin/leads/` must answer 302 to `*.cloudflareaccess.com` or 401/403, never 200.
