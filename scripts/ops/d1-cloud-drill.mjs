@@ -130,6 +130,33 @@ export function validateDump(bytes, wanted = expected()) {
   return sha256(bytes);
 }
 
+export function parseImportOutput(stdout) {
+  const stop = 'import outcome ambiguous; STOP without retry';
+  demand(typeof stdout === 'string', stop);
+  // Wrangler 4.148.0's noninteractive spinner bypasses its --json logger level.
+  // Consume only its exact init/upload sequence, never search for a JSON substring.
+  const output = stdout.replaceAll('\r\n', '\n').replace(
+    /^├ Checking if file needs uploading\n│\n(?:├ 🌀 Uploading [A-Za-z0-9_./-]{1,512}\n│ 🌀 Uploading complete\.\n│\n)?/, '');
+  let data; try { data = JSON.parse(output); } catch { throw new Error(stop); }
+  const record = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const keys = (value, names) => record(value) && isDeepStrictEqual(Object.keys(value).sort(), [...names].sort());
+  const count = (value) => Number.isSafeInteger(value) && value >= 0;
+  demand(Array.isArray(data) && data.length === 1, stop);
+  const receipt = data[0];
+  demand(keys(receipt, ['results', 'success', 'finalBookmark', 'meta']) && receipt.success === true, stop);
+  demand(typeof receipt.finalBookmark === 'string' && /^[A-Za-z0-9_-]{1,2048}$/.test(receipt.finalBookmark), stop);
+  demand(Array.isArray(receipt.results) && receipt.results.length === 1, stop);
+  const summary = receipt.results[0]; const meta = receipt.meta;
+  demand(keys(summary, ['Total queries executed', 'Rows read', 'Rows written', 'Database size (MB)']), stop);
+  demand(count(summary['Total queries executed']) && summary['Total queries executed'] > 0, stop);
+  demand(record(meta) && !['error', 'errors', 'success'].some((key) => Object.hasOwn(meta, key)), stop);
+  demand(Number.isFinite(meta.duration) && meta.duration >= 0 && count(meta.size_after) && meta.size_after > 0, stop);
+  demand(count(meta.rows_read) && count(meta.rows_written) && meta.rows_written > 0, stop);
+  demand(summary['Rows read'] === meta.rows_read && summary['Rows written'] === meta.rows_written, stop);
+  demand(summary['Database size (MB)'] === (meta.size_after / 1e6).toFixed(2), stop);
+  return receipt;
+}
+
 export function runDrill({ env = process.env, invoke = spawnSync } = {}) {
   const head = invoke('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' });
   demand(head.status === 0, 'cannot confirm checkout commit'); guard(env, head.stdout.trim());
@@ -141,19 +168,24 @@ export function runDrill({ env = process.env, invoke = spawnSync } = {}) {
   Object.assign(childEnv, { CI: 'true', CLOUDFLARE_API_TOKEN: env.CLOUDFLARE_API_TOKEN,
     // Wrangler emits requested JSON at its ordinary log level. Capture it privately;
     // lowering the level to error suppresses the JSON too.
-    CLOUDFLARE_ACCOUNT_ID: SCOPE.account, WRANGLER_SEND_METRICS: 'false', WRANGLER_LOG: 'log' });
-  const call = (args, label, json = false) => {
+    CLOUDFLARE_ACCOUNT_ID: SCOPE.account, WRANGLER_SEND_METRICS: 'false', WRANGLER_LOG: 'log', FORCE_COLOR: '0' });
+  const call = (args, label, format = 'raw') => {
     const result = invoke(process.execPath, [cli, ...args, '--config', cfg], { cwd: work, env: childEnv, encoding: 'utf8', timeout: 120_000, maxBuffer: 2 * 1024 * 1024 });
     const diagnostic = `${result.stdout ?? ''}\n${result.stderr ?? ''}`;
-    const category = /\b(10000|10001|authentication error|authorization error|not authorized|permission denied|not authenticated)\b/i.test(diagnostic)
+    const authenticationFailure = (value) => /\b(10000|10001|authentication error|authorization error|not authorized|permission denied|not authenticated)\b/i.test(value);
+    const category = authenticationFailure(diagnostic)
       ? 'authentication/permission failure' : result.error?.code === 'ETIMEDOUT' ? 'timeout (outcome unconfirmed)' : 'failure or ambiguous outcome';
-    demand(result.status === 0 && !result.error, `${label}: ${category}; STOP, preserve databases and inspect; do not retry`);
-    if (!json) return;
+    demand(result.status === 0 && !result.error && !result.signal && !authenticationFailure(result.stderr ?? ''), `${label}: ${category}; STOP, preserve databases and inspect; do not retry`);
+    if (format === 'import') {
+      demand((result.stderr ?? '').trim() === '', `${label}: unexpected diagnostics; STOP without retry`);
+      return parseImportOutput(result.stdout);
+    }
+    if (format !== 'json') return;
     let data; try { data = JSON.parse(result.stdout); } catch { throw new Error(`${label}: ambiguous JSON; STOP without retry`); }
     return data;
   };
   const query = (db, sql, label) => {
-    const result = call(['d1', 'execute', db.binding, '--remote', '--json', '--command', sql], label, true);
+    const result = call(['d1', 'execute', db.binding, '--remote', '--json', '--command', sql], label, 'json');
     demand(Array.isArray(result) && result.every((r) => r.success === true && Array.isArray(r.results)), `${label}: failed result`);
     return result.map((r) => r.results);
   };
@@ -173,7 +205,7 @@ export function runDrill({ env = process.env, invoke = spawnSync } = {}) {
   mkdirSync(out); let validated = false;
   try {
     for (const db of [SCOPE.source, SCOPE.target]) {
-      const info = call(['d1', 'info', db.binding, '--json'], 'database identity', true);
+      const info = call(['d1', 'info', db.binding, '--json'], 'database identity', 'json');
       demand(info.uuid === db.database_id && info.name === db.database_name, 'database name/ID mismatch');
     }
     proof.checks.identities = true; proof.stage = 'preflight';
@@ -190,8 +222,8 @@ export function runDrill({ env = process.env, invoke = spawnSync } = {}) {
     proof.stage = 'import-precheck'; empty();
     demand(sha256(readFileSync(dump)) === hash, 'export changed before import');
     proof.stage = 'import'; proof.import_attempted = true;
-    const imported = call(['d1', 'execute', SCOPE.target.binding, '--remote', '--file', dump, '--yes', '--json'], 'single target import', true);
-    demand(Array.isArray(imported) && imported.length === 1 && imported[0].success === true, 'import outcome ambiguous; STOP without retry');
+    call(['d1', 'execute', SCOPE.target.binding, '--remote', '--file', dump, '--yes', '--json'], 'single target import', 'import');
+    proof.checks.import_response = 'validated Wrangler 4.148.0 import receipt';
     proof.stage = 'postflight';
     const sourceAfter = remote(SCOPE.source, 'source postflight'); const targetAfter = remote(SCOPE.target, 'target postflight');
     compare(sourceAfter, wanted, 'source postflight'); compare(targetAfter, wanted, 'target postflight');

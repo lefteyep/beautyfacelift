@@ -1,5 +1,8 @@
 # One authorized isolated D1 drill — 21 October 2026
 
+**Historical procedure: this authorized drill is complete. Do not dispatch or rerun
+the import below. The local parser follow-up does not authorize another cloud write.**
+
 Task `BFL-OPS-RECOVERY-04`. This temporary branch version of `deploy.yml` is for
 one reviewed manual dispatch on `codex/d1-cloud-drill`. Do not merge this operational
 workflow into `master`. The production job retains its existing master-only guard.
@@ -78,7 +81,8 @@ revision `06fa06ed2eeb8adf2ce52865f80e197e1a5075ca`, confirmed identities,
 complete expected source/pristine target and the complete offline SQL export.
 It invoked the target import once, then stopped because the returned CLI output
 could not be parsed as JSON. That workflow remains failed; do not rerun its import.
-The import parser has not been relaxed or claimed fixed by a passing cloud rerun.
+At that checkpoint the import parser was unchanged. The local follow-up below does
+not turn that failed workflow into a passing run.
 
 The coordinator instead obtained read-only full snapshots through the existing
 Cloudflare Console. Source and target each passed all eight baseline checks and
@@ -94,5 +98,47 @@ Both databases remain intact. The authorized drill is complete. This temporary
 workflow is not a production backup utility; future CLI response handling requires
 its own review before reuse, and an uncertain write must always be resolved by
 reading actual state rather than repeating the import.
+
+## Local parser follow-up — BFL-OPS-CLI-05
+
+Installed Wrangler 4.148.0 source identifies the mismatch: `executeSql()` and the
+`d1 execute` handler suppress ordinary logs for `--json`, but `executeRemotely()`
+uses `spinnerWhile()` for initialization and upload. The noninteractive spinner
+calls `logRaw()` directly through the separate CLI logger and writes progress to
+stdout before the handler prints its JSON. A cached upload emits only the init
+sequence; a new upload adds the upload sequence. This diagnosis comes from the
+installed code, not a new remote import or a capture of the historical response.
+
+The import-only parser now accepts a whole JSON response or that exact reviewed
+init/optional-upload prefix followed by one whole JSON response. CRLF is normalized
+only for parsing CLI output; exported SQL bytes and hashes remain unchanged.
+`FORCE_COLOR=0` keeps the reviewed prefix uncolored. Unknown text, partial progress,
+ANSI controls, trailing diagnostics, multiple JSON documents and stderr diagnostics
+stop the run. Identity/query parsing remains strict whole-output JSON parsing.
+
+A zero process exit is insufficient. The receipt must contain exactly one successful
+result with the expected keys, a nonempty bounded bookmark, one import summary,
+a positive integer query count, typed nonnegative metrics and positive written-row
+and database-size values. Summary row counts and displayed size must agree with
+metadata. Missing or inconsistent fields, error envelopes, authentication errors,
+timeouts and signals stop without retry. A receipt only permits the existing full
+postflight comparison to begin; it never replaces schema/rows/events/sequence/8-of-8
+verification or itself establishes final success. Raw CLI output is still private.
+The pinned CLI version and conservative filename/bookmark grammar intentionally
+stop for unfamiliar future output pending review.
+
+Validation used Node 22.23.3 and the existing installed Wrangler 4.148.0. All 14
+offline tests pass, including both progress branches, complete/invalid receipts,
+ambiguous writes stopping after one invocation, strict query JSON, and a valid
+receipt followed by a failed full postflight comparison. Synthetic receipt values
+in the tests are explicitly source-derived fixtures, not cloud execution evidence.
+A real `d1 execute --local --file ... --json` probe imported the existing synthetic
+fixture once into fresh temporary local state; its 15 result objects parsed and a
+local query returned two leads and two events. The probe used an empty profile,
+no credential variables, disabled metrics, and a dead loopback API base URL.
+No remote CLI, cloud write, dispatch, push or deployment was performed. Both cloud
+databases remain preserved; the historical read-only comparison remains the proof
+of that completed drill. This parser change still requires coordinator review
+before any future separately authorized use.
 
 CLI syntax reference: [Cloudflare D1 import/export documentation](https://developers.cloudflare.com/d1/best-practices/import-export-data/).
