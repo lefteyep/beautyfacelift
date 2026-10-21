@@ -88,7 +88,7 @@ Legacy booking system only. The public forms/Treatwell bridge do not need these;
 
 ## Cockpit and repair setup
 
-The review repair milestone is **IMPLEMENTATION IN PROGRESS**; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks its verification and deferred blockers. #55–#57 are unmerged. No D1 ingestion/staff cockpit is live at the reviewed production revision.
+The review repair milestone is **REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED**; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks its verification and deferred blockers. #55–#57 are unmerged. No D1 ingestion/staff cockpit is live at the reviewed production revision.
 
 Before first D1 rollout, approve disclosure, retention/deletion procedure, failure alerting and reconciliation/recovery. An owner email can succeed when D1 storage fails. Authentication choice/setup and retention implementation remain outside this repair; do not activate Access/Zero Trust, provision production signing secrets or build custom OTP incidentally. Customer mail stays off, reminders agency-only and Teresa unexposed. The public site does not need Zero Trust activation.
 

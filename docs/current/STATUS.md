@@ -10,7 +10,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 
 ## Current milestone — review repairs
 
-**IMPLEMENTATION IN PROGRESS:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. Fixes are not verified or deployed merely because they appear on a task branch. Root records the combined checks and release approval separately.
+**REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The repair record contains reviewed code revisions and passing combined/local browser checks. None of these repairs is deployed; production release approval is separate.
 
 - **Production source reviewed:** `35af1f01877ecbd629376c30a1e2254dacfb49d0` (PR #58 handover; GitHub deployment reported success). The application changes through #54 are deployed; #58 added handover docs and test tooling.
 - **Cockpit:** #55 → #56 → #57 are open, stacked and not release-ready. Their review found defects and pre-D1 data-handling gaps; earlier “all gates green” statements were historical manual results.
@@ -100,7 +100,7 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-The review repair milestone is in progress on isolated `codex/*` branches. PRs #55–#57 remain unreleased. Complete combined verification, the pre-D1 checklist and the deferred business decisions before requesting any cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
+The review repair milestone is implemented and locally verified across isolated `codex/*` branches. PRs #55–#57 remain unreleased. The pre-D1 checklist and deferred business decisions still block cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 

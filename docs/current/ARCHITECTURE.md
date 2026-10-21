@@ -1,6 +1,6 @@
 # Architecture — beautyfacelift-zuerich.ch
 
-Updated 21 October 2026. Production source reviewed: `35af1f0`. Review repairs are **IMPLEMENTATION IN PROGRESS**; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) is the current verification/deferred-gates record. #55–#57 are unmerged; the D1 cockpit described in their plan is not deployed.
+Updated 21 October 2026. Production source reviewed: `35af1f0`. Review repairs are **REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED**; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) is the current verification/deferred-gates record. #55–#57 are unmerged; the D1 cockpit described in their plan is not deployed.
 
 ## Overview
 

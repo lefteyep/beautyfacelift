@@ -8,7 +8,7 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 
 ## Review repair status
 
-**IMPLEMENTATION IN PROGRESS:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11 and pending combined verification. Existing code/historical passing checks are not evidence that these fixes are verified or live. The public production source reviewed is `35af1f0`; cockpit #55–#57 are unmerged. No authentication provider is selected/activated by this repair, customer emails stay off and reminders agency-only. Disclosure, retention/deletion, failure alerting and reconciliation are pre-D1 rollout gates.
+**REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11 and pending combined verification. Existing code/historical passing checks are not evidence that these fixes are verified or live. The public production source reviewed is `35af1f0`; cockpit #55–#57 are unmerged. No authentication provider is selected/activated by this repair, customer emails stay off and reminders agency-only. Disclosure, retention/deletion, failure alerting and reconciliation are pre-D1 rollout gates.
 
 ## Existing code and its limits
 

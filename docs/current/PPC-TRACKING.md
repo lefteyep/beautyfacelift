@@ -1,6 +1,6 @@
 # PPC Tracking — current site events and campaign use
 
-Updated 21 October 2026. The review repairs are **IMPLEMENTATION IN PROGRESS**; see [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Historical setup commands are [archived](../archive/reviews/2026-10-21-pre-repair/PPC-TRACKING.md).
+Updated 21 October 2026. The review repairs are **REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED**; see [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Historical setup commands are [archived](../archive/reviews/2026-10-21-pre-repair/PPC-TRACKING.md).
 
 ## Implemented Site Events
 
