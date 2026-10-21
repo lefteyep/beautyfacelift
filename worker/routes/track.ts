@@ -247,6 +247,18 @@ function ga4EventName(eventName: string): string {
 }
 
 export async function trackRoute(request: Request, env: Env): Promise<Response> {
+  // Browsers must post from this origin. Headerless JSON callers remain supported for server
+  // integrations, but a cross-site form cannot use this endpoint to manufacture conversions.
+  const origin = request.headers.get('origin');
+  if (request.headers.get('sec-fetch-site')?.toLowerCase() === 'cross-site'
+    || (origin !== null && origin !== new URL(request.url).origin)) {
+    return jsonResponse({ error: 'Forbidden' }, 403);
+  }
+  const mediaType = request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase();
+  if (mediaType !== 'application/json') {
+    return jsonResponse({ error: 'Content-Type must be application/json' }, 415);
+  }
+
   const clientIp = getClientIp(request);
   if (!checkRateLimit(clientIp)) {
     return jsonResponse({ error: 'Too many requests' }, 429);
@@ -256,6 +268,9 @@ export async function trackRoute(request: Request, env: Env): Promise<Response> 
   try {
     body = await request.json() as TrackingBody;
   } catch {
+    return jsonResponse({ error: 'Invalid request' }, 400);
+  }
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return jsonResponse({ error: 'Invalid request' }, 400);
   }
 
