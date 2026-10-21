@@ -1,9 +1,9 @@
-// GET /admin/leads/ — KPI strip for the ISO week, filter chips, search, lead rows, paging.
+// GET /admin/leads/ — staff enquiry workflow, filters, search and paging.
 import { LEAD_STATUS_LABELS, LEAD_STATUSES, type LeadStatus } from '../../../shared/leads';
 import type { AccessIdentity } from '../access';
-import type { LeadRow, WeekCounts } from '../db';
+import type { LeadRow } from '../db';
 import { excludeChip, html, layout, sourceChip, statusChip, type SafeHtml } from '../html';
-import { relativeTime, type IsoWeek } from '../time';
+import { relativeTime } from '../time';
 import { contactLinks, treatmentLabel } from './shared';
 
 export const LIST_FILTERS = ['offen', ...LEAD_STATUSES, 'alle'] as const;
@@ -25,8 +25,6 @@ export type ListViewInput = {
   query: ListQuery;
   leads: LeadRow[];
   hasNext: boolean;
-  week: IsoWeek;
-  counts: WeekCounts;
   now: Date;
 };
 
@@ -39,23 +37,6 @@ export function listHref(query: ListQuery): string {
   if (query.page > 1) params.set('page', String(query.page));
   const search = params.toString();
   return `/admin/leads/${search ? `?${search}` : ''}`;
-}
-
-function kpiStrip(week: IsoWeek, counts: WeekCounts): SafeHtml {
-  const count = (status: LeadStatus) => counts.byStatus[status] ?? 0;
-  const booked = count('gebucht') + count('erschienen') + count('no_show');
-  const rate = counts.total === 0 ? '–' : `${Math.round((booked / counts.total) * 100)} %`;
-  const items: [string, string | number][] = [
-    ['Neu', count('neu')],
-    ['Kontaktiert', count('kontaktiert')],
-    ['Gebucht', count('gebucht')],
-    ['Erschienen', count('erschienen')],
-    ['Termin-Quote', rate],
-  ];
-  return html`<section aria-labelledby="kpi-title">
-<h2 id="kpi-title">Diese Woche (KW ${week.week})</h2>
-<dl class="kpis">${items.map(([label, value]) => html`<div><dt>${label}</dt><dd>${value}</dd></div>`)}</dl>
-</section>`;
 }
 
 function filterChips(query: ListQuery): SafeHtml {
@@ -93,7 +74,7 @@ ${links.length ? html`<div class="row-actions">${links.map((link) => html`<a cla
 </li>`;
 }
 
-export function renderList({ identity, query, leads, hasNext, week, counts, now }: ListViewInput): string {
+export function renderList({ identity, query, leads, hasNext, now }: ListViewInput): string {
   const campaignLine = query.campaign
     ? html`<p class="muted filter-note">Kampagne: ${query.campaign} · <a href="${listHref({ ...query, campaign: '', page: 1 })}">Filter entfernen</a></p>`
     : html``;
@@ -107,7 +88,8 @@ ${hasNext ? html`<a class="btn btn-secondary" href="${listHref({ ...query, page:
 </nav>`
     : html``;
 
-  const body = html`${kpiStrip(week, counts)}
+  const body = html`<p class="muted note-line">Diese Liste kann unvollständig sein. Benachrichtigungs-E-Mails regelmässig abgleichen; Telefon- und WhatsApp-Anfragen manuell erfassen. Ein Treatwell-Klick bestätigt keine Buchung.</p>
+<p class="note-line"><a class="btn" href="/admin/leads/new/">Anfrage erfassen / wiederherstellen</a></p>
 ${filterChips(query)}
 ${searchForm(query)}
 ${campaignLine}

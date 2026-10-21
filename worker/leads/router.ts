@@ -2,6 +2,7 @@
 // static /admin/ pages (served from the assets, now behind the same guard).
 //
 //   GET  /admin/leads/                  list (?status, ?q, ?campaign, ?page)
+//   GET/POST /admin/leads/new/          manual enquiry / owner-email recovery (no external calls)
 //   GET  /admin/leads/:id/              detail + timeline (?ok= flash)
 //   POST /admin/leads/:id/contacted/    "Jetzt kontaktiert"
 //   POST /admin/leads/:id/status/       status (+ note; required for no_show, abgesagt, nicht_erreicht)
@@ -15,7 +16,7 @@ import type { Env } from '../env';
 import { isLeadStatus, LEAD_STATUS_LABELS, type LeadStatus } from '../../shared/leads';
 import { verifyAccess, type AccessIdentity } from './access';
 import { csrfToken, verifyCsrf, type CsrfResult } from './csrf';
-import { countLeadsForWeek, getLead, listEvents, listLeads, markContacted, updateLead, type LeadPatch, type LeadRow } from './db';
+import { getLead, listEvents, listLeads, markContacted, updateLead, type LeadPatch, type LeadRow } from './db';
 import {
   configMissingPage,
   databaseMissingPage,
@@ -26,9 +27,11 @@ import {
   serverErrorPage,
   unauthorizedPage,
 } from './html';
-import { isoWeek, zurichToUtc } from './time';
+import { zurichToUtc } from './time';
+import { createManualLead, MANUAL_FIELDS, validateManual, type ManualValues } from './manual';
 import { renderDetail, STATUSES_NEEDING_NOTE, type DetailError, type DetailForm } from './views/detail';
 import { LIST_FILTERS, renderList, statusesFor, type ListFilter, type ListQuery } from './views/list';
+import { renderManual } from './views/manual';
 
 const LEADS_PREFIX = '/admin/leads/';
 const PAGE_SIZE = 50;
@@ -45,6 +48,8 @@ const FLASH_TEXT: Record<string, string> = {
   umsatz: 'Umsatz gespeichert.',
   notiz: 'Notizen gespeichert.',
   ausschluss: 'Ausschluss gespeichert.',
+  erfasst: 'Anfrage manuell erfasst. Es wurde keine E-Mail versendet.',
+  vorhanden: 'Diese Anfrage-ID ist bereits vorhanden. Der bestehende Eintrag wurde geöffnet und nicht verändert.',
 };
 
 type StaticAssetFetcher = (request: Request, env: Env) => Promise<Response>;
@@ -304,9 +309,36 @@ async function getList(db: D1Database, identity: AccessIdentity, url: URL, now: 
     limit: PAGE_SIZE + 1,
     offset: (query.page - 1) * PAGE_SIZE,
   });
-  const week = isoWeek(now);
-  const counts = await countLeadsForWeek(db, week.start, week.end);
-  return htmlResponse(renderList({ identity, query, leads: rows.slice(0, PAGE_SIZE), hasNext: rows.length > PAGE_SIZE, week, counts, now }), 200);
+  return htmlResponse(renderList({ identity, query, leads: rows.slice(0, PAGE_SIZE), hasNext: rows.length > PAGE_SIZE, now }), 200);
+}
+
+function captureEnabled(env: Env): boolean {
+  return 'LEADS_CAPTURE' in env && env.LEADS_CAPTURE === 'on';
+}
+
+async function manualResponse(env: Env, identity: AccessIdentity, values: ManualValues, error: string | null = null, status = 200): Promise<Response> {
+  return htmlResponse(renderManual({ identity, csrf: await detailToken(env, identity), enabled: captureEnabled(env), values, error }), status);
+}
+
+async function manualPage(request: Request, env: Env, db: D1Database, identity: AccessIdentity, now: Date): Promise<Response> {
+  if (request.method === 'GET' || request.method === 'HEAD') {
+    const values = Object.fromEntries(MANUAL_FIELDS.map((key) => [key, '']));
+    return manualResponse(env, identity, { ...values, entry_id: crypto.randomUUID(), channel: 'phone' });
+  }
+  if (request.method !== 'POST') return methodNotAllowedPage(identity, 'GET, HEAD, POST');
+  const form = await readForm(request);
+  const csrf = await verifyCsrf(request, env, identity, form);
+  if (csrf === 'unconfigured') return configMissingPage(identity, `${LEADS_PREFIX}new/`);
+  if (csrf !== 'ok') return invalidRequestPage(identity, `${LEADS_PREFIX}new/`);
+  if (!captureEnabled(env)) return configMissingPage(identity, `${LEADS_PREFIX}new/`);
+  const values = Object.fromEntries(MANUAL_FIELDS.map((key) => [key, field(form, key)]));
+  if (MANUAL_FIELDS.some((key) => form.getAll(key).length > 1 || form.getAll(key).some((value) => typeof value !== 'string'))) {
+    return manualResponse(env, identity, values, 'Bitte senden Sie jedes Eingabefeld genau einmal.', 400);
+  }
+  const validation = validateManual(values, now);
+  if (!validation.ok) return manualResponse(env, identity, values, validation.message, 400);
+  const result = await createManualLead(db, validation.input, identity.actor, now);
+  return redirectOk(validation.input.id, result === 'created' ? 'erfasst' : 'vorhanden');
 }
 
 async function getDetail(context: ActionContext, url: URL): Promise<Response> {
@@ -328,6 +360,7 @@ async function handleCockpit(request: Request, env: Env, identity: AccessIdentit
   if (rest === '') {
     return read ? getList(db, identity, url, now) : methodNotAllowedPage(identity, 'GET, HEAD');
   }
+  if (rest === 'new/') return manualPage(request, env, db, identity, now);
   const match = LEAD_PATH_PATTERN.exec(rest);
   if (!match) return notFoundPage(identity);
   const [, id, action] = match;

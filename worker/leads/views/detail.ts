@@ -54,6 +54,10 @@ function parseMeta(meta: string | null): Record<string, unknown> {
 
 function eventDetail(event: LeadEventRow): string {
   const meta = parseMeta(event.meta);
+  if (event.type === 'created' && meta.source === 'manual') {
+    if (meta.channel === 'recovery') return `Aus Benachrichtigungs-E-Mail wiederhergestellt · ursprüngliche Quelle: ${String(meta.original_source ?? 'unbekannt')}`;
+    return meta.channel === 'whatsapp' ? 'Manuell erfasst · WhatsApp' : 'Manuell erfasst · Telefon';
+  }
   if (event.type === 'mail_failed' && meta.delivery === 'uncertain') {
     return `${meta.kind === 'nudge' ? 'Erinnerung' : 'Bestätigung'}: Kein automatischer Neuversand. Bitte den Versand prüfen.`;
   }
@@ -74,9 +78,11 @@ function timeline(events: LeadEventRow[]): SafeHtml {
       ? `${statusLabel(event.from_status)} → ${statusLabel(event.to_status)}`
       : '';
     const detail = [change, eventDetail(event)].filter(Boolean).join(' · ');
+    const label = event.type === 'created' && parseMeta(event.meta).source === 'manual' ? 'Anfrage manuell erfasst'
+      : event.type === 'mail_failed' && parseMeta(event.meta).delivery === 'uncertain' ? 'E-Mail-Zustellung unklar' : EVENT_LABELS[event.type] ?? event.type;
     return html`<li>
 <span class="when">${formatZurich(event.at, { withTime: true })} · ${ACTOR_LABELS[event.actor] ?? event.actor}</span>
-<span class="what">${event.type === 'mail_failed' && parseMeta(event.meta).delivery === 'uncertain' ? 'E-Mail-Zustellung unklar' : EVENT_LABELS[event.type] ?? event.type}${detail ? html` · ${detail}` : html``}</span>
+<span class="what">${label}${detail ? html` · ${detail}` : html``}</span>
 ${event.note ? html`<span class="note">${event.note}</span>` : html``}
 </li>`;
   });
@@ -99,6 +105,7 @@ function unresolvedDeliveries(lead: LeadRow, events: LeadEventRow[]): SafeHtml {
 
 function enquiry(lead: LeadRow): SafeHtml {
   const rows: [string, string | null, boolean?][] = [
+    ['Anfrage-ID', lead.id],
     ['E-Mail', lead.email],
     ['Telefon', lead.phone],
     ['Bevorzugter Kontaktweg', lead.preferred_contact_method],
@@ -127,7 +134,7 @@ function enquiry(lead: LeadRow): SafeHtml {
     .map(([label, value, pre]) => html`<div><dt>${label}</dt><dd${pre ? html` class="pre"` : html``}>${value}</dd></div>`);
   const consent = lead.marketing_consent === 1
     ? `ja${lead.marketing_consent_at ? ` (${formatZurich(lead.marketing_consent_at, { withTime: true })})` : ''}`
-    : 'nein';
+    : lead.source === 'manual' ? 'Keine Einwilligung erfasst' : 'nein';
   return html`<dl class="data">${items}<div><dt>Marketing-Einwilligung</dt><dd>${consent}</dd></div></dl>`;
 }
 
@@ -256,7 +263,7 @@ function excludeSection(lead: LeadRow, context: FormContext): SafeHtml {
   const checked = value(context, 'exclude', 'exclude', lead.exclude ?? 'none');
   return html`<section class="section-muted" aria-labelledby="h-exclude">
 <h2 id="h-exclude">Ausschliessen</h2>
-<p class="muted note-line">Ausgeschlossene Anfragen erscheinen nur unter «Alle» und zählen nicht in der Wochenübersicht.</p>
+<p class="muted note-line">Ausgeschlossene Anfragen erscheinen nur unter «Alle».</p>
 ${formError(context, 'exclude')}
 ${formOpen(context, 'exclude')}
 <fieldset class="field">
@@ -284,7 +291,7 @@ ${unresolvedDeliveries(lead, events)}
 <div class="card">
 ${statusSection(lead, context)}
 ${appointmentSection(lead, context)}
-${revenueSection(lead, context)}
+${error?.form === 'revenue' ? revenueSection(lead, context) : html``}
 ${notesSection(lead, context)}
 </div>
 <div class="card">
