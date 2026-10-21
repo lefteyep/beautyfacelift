@@ -54,6 +54,9 @@ function parseMeta(meta: string | null): Record<string, unknown> {
 
 function eventDetail(event: LeadEventRow): string {
   const meta = parseMeta(event.meta);
+  if (event.type === 'mail_failed' && meta.delivery === 'uncertain') {
+    return `${meta.kind === 'nudge' ? 'Erinnerung' : 'Bestätigung'}: Kein automatischer Neuversand. Bitte den Versand prüfen.`;
+  }
   if (event.type === 'appointment' && typeof meta.appointment_at === 'string') return formatZurich(meta.appointment_at, { withTime: true });
   if (event.type === 'revenue') {
     const revenue = typeof meta.revenue_chf === 'number' ? `CHF ${meta.revenue_chf}` : 'Kein Umsatz';
@@ -73,11 +76,25 @@ function timeline(events: LeadEventRow[]): SafeHtml {
     const detail = [change, eventDetail(event)].filter(Boolean).join(' · ');
     return html`<li>
 <span class="when">${formatZurich(event.at, { withTime: true })} · ${ACTOR_LABELS[event.actor] ?? event.actor}</span>
-<span class="what">${EVENT_LABELS[event.type] ?? event.type}${detail ? html` · ${detail}` : html``}</span>
+<span class="what">${event.type === 'mail_failed' && parseMeta(event.meta).delivery === 'uncertain' ? 'E-Mail-Zustellung unklar' : EVENT_LABELS[event.type] ?? event.type}${detail ? html` · ${detail}` : html``}</span>
 ${event.note ? html`<span class="note">${event.note}</span>` : html``}
 </li>`;
   });
   return html`<ol class="timeline">${items}</ol>`;
+}
+
+/** A reservation alone is never shown as a successful send, including interrupted executions. */
+function unresolvedDeliveries(lead: LeadRow, events: LeadEventRow[]): SafeHtml {
+  const deliveries = [
+    { kind: 'confirmation', at: lead.confirmation_sent_at, label: 'Bestätigung', success: 'mail_sent' },
+    { kind: 'nudge', at: lead.nudge_sent_at, label: 'Erinnerung', success: 'nudge_sent' },
+  ];
+  return html`${deliveries.flatMap(({ kind, at, label, success }) => {
+    if (!at || events.some((event) => event.at >= at && event.type === success && (kind === 'nudge' || parseMeta(event.meta).kind === kind))) {
+      return [];
+    }
+    return [html`<p class="form-error" role="status">${label}: Die Zustellung ist unklar. Es erfolgt kein automatischer Neuversand. Bitte den Versand prüfen.</p>`];
+  })}`;
 }
 
 function enquiry(lead: LeadRow): SafeHtml {
@@ -263,6 +280,7 @@ export function renderDetail({ identity, lead, events, csrf, flash, error }: Det
 
   const body = html`${csrf ? html`` : html`<p class="form-error" role="alert">Die Konfiguration ist unvollständig: Änderungen werden nicht gespeichert.</p>`}
 ${contactSection(lead, context, links)}
+${unresolvedDeliveries(lead, events)}
 <div class="card">
 ${statusSection(lead, context)}
 ${appointmentSection(lead, context)}

@@ -5,31 +5,37 @@ on:
     branches: [master]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: beautyfacelift-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
+    # A manual dispatch on a feature branch must never target the production Worker or D1.
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      WRANGLER_SEND_METRICS: 'false'
     steps:
       - uses: actions/checkout@v6
-
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: 'npm'
-
+          cache: npm
+      - run: npm install --global npm@10.9.9
       - run: npm ci
-
-      - run: npm audit --audit-level=moderate
-
-      - run: npm run build
+      - name: Validate before any production migration or deployment
+        run: npm run validate
         env:
           PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
           PUBLIC_META_PIXEL_ID: ${{ vars.PUBLIC_META_PIXEL_ID }}
           PUBLIC_GTM_ID: ${{ vars.PUBLIC_GTM_ID }}
-
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:

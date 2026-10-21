@@ -43,7 +43,9 @@ export type LeadRow = {
   marketing_consent: number;
   marketing_consent_at: string | null;
   marketing_synced_at: string | null;
+  /** Delivery reservation; success is established by mail_sent, not this timestamp alone. */
   confirmation_sent_at: string | null;
+  /** Delivery reservation; success is established by nudge_sent, not this timestamp alone. */
   nudge_sent_at: string | null;
   followup_sent_at: string | null;
   review_sent_at: string | null;
@@ -300,6 +302,28 @@ export async function listEvents(db: D1Database, leadId: string): Promise<LeadEv
 }
 
 // ---- automatic e-mails (worker/email/confirmation.ts, worker/cron/automations.ts) ---------------
+
+/**
+ * Atomically reserves one confirmation, including per-address and overall limits. In-flight and
+ * uncertain deliveries retain their reservation and count towards both limits. Separate SELECTs
+ * before a per-lead UPDATE would allow concurrent, distinct leads to bypass either limit.
+ */
+export async function claimConfirmation(
+  db: D1Database,
+  { leadId, emailNormalized, now, addressSince, hourSince, maxPerHour }: {
+    leadId: string; emailNormalized: string; now: string; addressSince: string; hourSince: string; maxPerHour: number;
+  },
+): Promise<boolean> {
+  const result = await db.prepare(`UPDATE leads SET confirmation_sent_at = ?, updated_at = ?
+    WHERE id = ? AND confirmation_sent_at IS NULL AND exclude IS NULL AND email_normalized = ?
+      AND NOT EXISTS (
+        SELECT 1 FROM leads AS recent WHERE recent.email_normalized = ? AND recent.confirmation_sent_at >= ?
+      )
+      AND (SELECT COUNT(*) FROM leads AS recent WHERE recent.confirmation_sent_at >= ?) < ?`)
+    .bind(now, now, leadId, emailNormalized, emailNormalized, addressSince, hourSince, maxPerHour)
+    .run();
+  return result.meta.changes === 1;
+}
 
 /** True when another lead with the same normalised e-mail got a confirmation at or after `since`. */
 export async function hasRecentConfirmation(db: D1Database, emailNormalized: string, exceptLeadId: string, since: string): Promise<boolean> {

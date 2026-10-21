@@ -1,32 +1,32 @@
 # Meta campaign plan — Aquafacial + Microneedling, CHF 170 statt CHF 250
 
-> Written 11 October 2026 for the agency (not a developer). Status: **the user answered section 1 on 2026-10-11; all numbers below use those answers; waiting for the exact start date and for the launch gates in section 3.0**. Nothing in this document changes the website or the tracking code. Change requests for the site are listed in section 6.4 with file paths.
+> Current operating decisions reconciled on 21 October 2026. The campaign remains paused. The focused code repairs are **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES**; authentication choice/setup and new automation features are deferred. See [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) for release/data gates and [the original plan snapshot](../archive/reviews/2026-10-21-pre-repair/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) for the full earlier record.
 >
-> Sources read for this plan: [AQUAFACIAL-LANDING-PAGE-UPDATE.md](AQUAFACIAL-LANDING-PAGE-UPDATE.md) section 9, [PPC-TRACKING.md](PPC-TRACKING.md), [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md), [TODO.md](TODO.md) (Meta check 2026-10-10, Decisions for Teresa), [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) section 1, `src/lib/track.ts`, `src/pages/lp/aquafacial-microneedling/index.astro`, `worker/routes/contact.ts`, `worker/routes/track.ts`, and the archived [2026-05-08 PPC tracking plan](../archive/plans/2026-05-08-ppc-treatwell-tracking.md) and [Carbon release note](../archive/releases/CARBON-GLOWUP-TREATWELL-RELEASE-2026-05-08.md) (UTM template). There is no earlier Meta ads audit in `docs/archive/`; the only earlier Meta material is the UTM template and the proxy-conversion guidance, both reused below.
+> Current instructions take precedence over dated decisions in section 9: optimise on standard `Lead`, use the custom conversion only for reporting, redirect/shut down the old site before launch, and keep the user's cockpit-Phase-1-before-campaign gate. Existing page/ad end date is 14 November 2026; no new start/end date has been chosen. Earlier target dates are history, not an active schedule.
 
 ## 0. Summary
 
 - **Offer:** Aquafacial + Microneedling, 90 minutes (shown as "1 Std. 30 Min."), CHF 170 statt CHF 250, at Beauty Face Lift, Bahnhofstrasse 94, 8001 Zürich, treated personally by Teresa Stimac.
 - **Landing page:** https://beautyfacelift-zuerich.ch/lp/aquafacial-microneedling/ (lead-first: request form primary, WhatsApp secondary, Treatwell "Direkt online buchen" tertiary).
-- **Inputs from the user (2026-10-11):** about CHF 400 per 30 days, start as soon as the gates are done, offer end date 30 days after the start, about 10 combo appointments per week possible, target CPL under CHF 15 with a ceiling of CHF 25, consumables CHF 30 per treatment, Teresa answers leads within about an hour, Teresa does not appear on camera, the old site stays, the Treatwell CHF 170 service will be created before launch.
+- **Inputs from the user (2026-10-11):** about CHF 400 per 30 days, start as soon as the gates are done, offer end date 30 days after the start, about 10 combo appointments per week possible, target CPL under CHF 15 with a ceiling of CHF 25, consumables CHF 30 per treatment, Teresa answers leads within about an hour, Teresa does not appear on camera, the old site was initially to stay (superseded on 20 October: redirect/shut down before launch), the Treatwell CHF 170 service will be created before launch.
 - **What the budget buys (section 2):** CHF 400 at CHF 15–25 per lead is 16–27 leads in the month, which at the assumed rates is 6–11 appointments that take place. Capacity (about 40 slots in the month) is not the limit; budget is.
-- **Objective:** Leads, website, optimised on a **URL-filtered custom conversion** built on the Meta `Lead` event, so the old WordPress site's Leads (same Pixel) do not feed the optimisation.
+- **Objective:** Leads, website, optimised on the Pixel's standard **`Lead`** event by the user's latest decision. The URL-filtered custom conversion **BFL – Lead – Kombi LP** is a reporting column only. Redirect/shut down the old WordPress site before launch.
 - **Source of truth for results:** the enquiry emails (Teresa receives them, the agency is in blind copy), not Ads Manager. Pixel, CAPI and GTM only load after marketing consent, so Meta sees only a share of real leads and its reported CPL will look higher than the true CPL.
 - **Structure:** one campaign, **one ad set** with a lifetime budget of CHF 400 and fixed start and end dates, Advantage+ audience with hard controls (15 km around the studio, 25+, German), **three ads** at launch, no retargeting ad set at this budget.
 - **Creative:** no Teresa on camera; real studio b-roll filmed by anyone with a phone, Teresa's voice as audio only if she agrees, generated scene clips only as silent b-roll under rules (section 5.5).
-- **Hard gates before the first franc:** offer end date on the page, Treatwell CHF 170 offer created, Events Manager test passed with the site's `test_event_code` mechanism, custom conversion created, UTM parameters set on every ad.
+- **Hard gates before the first franc:** cockpit Phase 1 released after repair/data/auth readiness and approval; Treatwell CHF 170 offer; old-site 301 redirect with mail preserved; aligned revised dates on page/ads/schedule; approved end-to-end measurement and UTMs. A successful code repair does not authorize campaign activation.
 
 ## 1. Questions and the user's answers (2026-10-11)
 
 | # | Question | Answer | Used as |
 |---|---|---|---|
-| Q1 | Monthly budget and start date | about CHF 400 per 30 days, start as soon as possible | lifetime budget **CHF 400** over 30 days (about CHF 13.33/day). **Proposed start: Thursday 15 October 2026**, if the gates in 3.0 are done by Wednesday 18 October; otherwise the first weekday after they are |
-| Q2 | Offer end date | 30 days after the start | **end date = start date + 30 days**; with the proposed start that is **Saturday 18 November 2026**. Ads run 30 full days (15 October 00:00 to 13 November 23:59); the offer on the page stays valid through the end date, so nobody who clicked an ad on the last evening finds an expired offer. Written as "bis [Enddatum]" in every ad and on the page (CR-1); inside the two-month limit for a "statt" comparison (8.3) |
+| Q1 | Monthly budget and start date | about CHF 400 per 30 days, start as soon as possible | lifetime budget **CHF 400** over 30 days (about CHF 13.33/day). Start remains pending; the paused ad set's 15 October 2026 start is in the past and must be revised after all launch gates |
+| Q2 | Offer end date | 30 days after the start | Original target was a 30-day run. The deployed page and three ad images currently say **14 November 2026**; the user must choose the revised start/end window before launch and align page, copy/assets and ad schedule. No new date is approved here |
 | Q3 | Combo appointments per week | as many as possible, about 10 | capacity **10/week**, about 40 in the month; not the binding constraint at this budget |
 | Q4 | September CPL and spend | not reported; the user wants a CPL **under CHF 15**, at most **CHF 25** | target CPL **CHF 15**, max CPL **CHF 25**. These are the user's goals, not a measured benchmark; whether CHF 15 is reachable for a website request form in Zürich is unknown until day 18. Ads Manager will show a higher CPL than the true one (3.7) |
 | Q5 | Teresa on camera | **no**; the user can generate short AI videos of her | no talking-head ads; rules for generated clips and the voice-only option in 5.5 |
 | Q6 | Business Manager and Ads Manager access | yes, full; the user asked to build everything through Meta's MCP server | Meta's own Ads MCP server (open beta since 29 April 2026, reported at `https://mcp.facebook.com/ads`, sign-in with Facebook Business) is **not connected to this session** (checked 2026-10-11). It is added once as a custom connector at claude.ai → Customize → Connectors; a session started afterwards can use it. Everything built through it is created **paused**; publishing (spending money) is the user's explicit go. Whatever the connector cannot create is done by hand from the build sheet in 4.9 |
-| Q7 | Old site | keep, even if unused; same persona and target audience | URL-filtered custom conversion stays permanently (3.2); old-site visitors and leads are used as audience suggestions (4.3) |
+| Q7 | Old site | Initially keep; superseded on 2026-10-20: shut down/301 redirect before launch | preserve email records and verify the old-to-new URL map; standard Lead remains optimisation, custom conversion report-only |
 | Q8 | Treatwell CHF 170 service | will be created when everything else is ready | launch gate (3.0) |
 | Q9 | Consumables per treatment | **CHF 30** | `C_var` = 30 |
 | Q10 | Who answers leads and how fast | Teresa, as soon as possible, normally within about an hour | supports the assumed lead-to-appointment rate; the sheet records the actual first-contact time |
@@ -115,11 +115,13 @@ Rebooking is deliberately left out. If first-visit clients rebook at the regular
 - [ ] Events Manager test (3.1) passed on the live page with the site's `test_event_code` mechanism.
 - [ ] Custom conversion "BFL – Lead – Kombi LP" (3.2) created and showing the test lead.
 - [ ] UTM convention (3.4) applied to every ad; a test click shows the values in the enquiry email.
-- [ ] Lead sheet (3.6) created and shared with Teresa; she knows the five status values.
+- [ ] Cockpit Phase 1 and the agreed staff workflow are released/tested after the pre-D1 gates; Teresa is introduced only at separately approved go-live. Reconciliation/manual backup is defined (3.6).
 - [x] Ad account `act_442592606954627` can deliver: the user confirmed on 2026-10-11 that the account is not restricted; the block shown in Ads Manager is a display bug. If the first ads stay at zero impressions for more than a few hours after approval, look at Account Quality first.
 - [ ] Business Manager: domain `beautyfacelift-zuerich.ch` verified under Brand Safety → Domains; Page, Instagram account, ad account, dataset `1147246982373946` and payment method all in the same Business; "Begünstigter und Zahlender" (beneficiary and payer) filled in if Ads Manager asks for it.
 - [ ] Attribution setting of the campaign: 7-day click, 1-day view (Meta default; reporting uses a click-only comparison, see 3.7).
-- [ ] Start date fixed (proposed Thursday 15 October 2026); ad set schedule start 00:00 to start + 29 days 23:59; offer end date (start + 30 days, proposed Saturday 18 November 2026) in CR-1 and in the copy.
+- [ ] User confirms a new start/end window; page/ad images/copy and ad-set schedule agree. The old 15 October–13 November schedule is not launch-ready; current displayed offer end is 14 November 2026.
+- [ ] Old site shut down/301 redirected before launch with email preserved; Treatwell and Business Profile links updated/verified as applicable.
+- [ ] Explicit campaign activation approval after repair, data/auth readiness and the preserved cockpit prerequisite.
 
 ### 3.1 Events Manager verification (test_event_code)
 
@@ -141,23 +143,15 @@ The site forwards a test code to the Worker, which sends it to Meta as CAPI `tes
 
 Only after step 7: remove `test_event_code` from every URL. The code is remembered per browser session only, so a normal visitor never sends it.
 
-### 3.2 Custom conversions (old-site pollution)
+### 3.2 Custom conversion — reporting only
 
-Both sites fire `Lead` into the same dataset. Until the old site is redirected or loses the Pixel (Q7), optimise on a URL-filtered custom conversion:
+The ad set keeps the standard Pixel `Lead` event as its optimisation event. The user confirmed this decision on 20 October 2026. Do not replace it with a custom conversion during code repairs.
 
-| Name | Event | Rule | Category | Default value | Use |
-|---|---|---|---|---|---|
-| **BFL – Lead – Kombi LP** | `Lead` | URL contains `/lp/aquafacial-microneedling/` | Lead | 170 CHF | **optimisation event** of the campaign and the KPI in reports |
-| BFL – Lead – neue Website | `Lead` | URL contains `beautyfacelift-zuerich.ch` | Lead | — | reporting: all leads of the new site |
-| BFL – Contact – Kombi LP | `Contact` | URL contains `/lp/aquafacial-microneedling/` | Contact | 8 CHF | secondary column |
-| BFL – Treatwell – Kombi | `TreatwellOutboundClick` | `event_source_url` contains `/termin/` and `service` contains `Aquafacial + Microneedling` | Other | 10 CHF | tertiary column |
+| Name | ID | Rule | Use |
+| --- | --- | --- | --- |
+| BFL – Lead – Kombi LP | `1596786311924725` | Lead, URL contains `/lp/aquafacial-microneedling/`, value CHF 170 | Reporting column only |
 
-Notes:
-
-- The browser `Lead` carries the page URL; the server `Lead` carries `event_source_url` = the page URL. Both match the rule, and Meta deduplicates them by `event_id`.
-- Custom conversions can take up to 24 hours to show the first count; run the test lead at least a day before launch.
-- In Events Manager → Lead → "Aufschlüsselung nach URL" (breakdown by URL), note the old-site share once a week. When the old site is redirected or its Pixel removed, keep the custom conversion anyway: it also excludes `/kontakt/` leads from the main site, which are not this offer.
-- Do not optimise on the standard `Lead` event while the old site fires; Meta would learn from WordPress contact-form submitters.
+The custom conversion was recorded created on 20 October. Other proposed custom conversions in the original plan are not verified account state and are not required by this repair. Review the URL breakdown when interpreting historical old-site Leads. Before launch, redirect/shut down the old site; its Pixel must no longer create competing Leads. Browser/server events must still deduplicate by `event_id`.
 
 ### 3.3 Event match quality
 
@@ -170,7 +164,7 @@ What the new site already sends after consent (no change needed):
 | `PageView`, `ViewContent` | Pixel with `_fbp`, `_fbc` cookies | `fbp`, `fbc` (built from `fbclid` if the cookie is missing), IP, user agent |
 | `Lead` | Pixel, plus hashed email/phone via the explicit call | `em`, `ph` (SHA-256, phone normalised to 41…), `fbp`, `fbc`, IP, user agent |
 
-What consent allows but the site does not send yet: hashed first and last name (`fn`, `ln`) on `Lead`. The form collects the full name, so this is a small change (CR-2 in section 6.4; the Worker's allow-list in `worker/routes/track.ts` currently accepts only `em`, `ph`, `fbp`, `fbc`). Expected effect: Lead match quality moves toward the "great" band; PageView stays where it is because no identifier beyond cookies exists before the form. Alternative without code: switch on **Automatischer erweiterter Abgleich** (automatic advanced matching) in Events Manager → dataset → Settings for email, phone, first name, last name. It only runs once the Pixel is loaded, which on this site means after consent, so it stays inside the consent setup. Pick one of the two; both together are redundant.
+Optional proposal held outside this repair (not an instruction to change code or Meta settings): hashed first and last name (`fn`, `ln`) on `Lead`. The form collects the full name, so this is a small change (CR-2 in section 6.4; the Worker's allow-list in `worker/routes/track.ts` currently accepts only `em`, `ph`, `fbp`, `fbc`). Expected effect: Lead match quality moves toward the "great" band; PageView stays where it is because no identifier beyond cookies exists before the form. Alternative without code: switch on **Automatischer erweiterter Abgleich** (automatic advanced matching) in Events Manager → dataset → Settings for email, phone, first name, last name. It only runs once the Pixel is loaded, which on this site means after consent, so it stays inside the consent setup. Pick one of the two; both together are redundant.
 
 Do not send city, ZIP, date of birth or an external ID: the form does not collect them (PPC-TRACKING.md rule).
 
@@ -199,7 +193,7 @@ Never rename a live ad set or ad: the name is the attribution key. Create a new 
 
 GA4 (`G-4C9M8KMFQY`) receives the same dataLayer events through GTM, under the same consent gate, so it will roughly agree with Meta and disagree with the emails by the same factor.
 
-- Mark as key events (GA4 → Admin → Events → star): `generate_lead` (primary), `whatsapp_click`, `treatwell_outbound_click`, `booking_button_click`. Already listed as open in GOOGLE-ANALYTICS-GTM.md; do it as soon as the first events have arrived.
+- `generate_lead` was marked as a GA4 key event on 2026-10-20. Mark the remaining verified events as they arrive: `aquafacial_lead_submit`, `whatsapp_click`, `phone_click`, `treatwell_outbound_click`, `booking_button_click`. This does not change the Meta optimisation event.
 - Build one saved exploration "Kombi LP – Meta": filter `page_path` contains `/lp/aquafacial-microneedling/` and `utm_source` = `meta`; rows `utm_content`; metrics sessions, `cta_click_lead_form`, `generate_lead`. This gives the on-page conversion rate per ad, which Ads Manager cannot show.
 - `cta_click_lead_form` (pushed on every request CTA) is **not** in the GTM container's forwarded list; it stays dataLayer-only until GTM is updated (optional, not a gate; see CR-4).
 
@@ -207,7 +201,7 @@ GA4 (`G-4C9M8KMFQY`) receives the same dataLayer events through GTM, under the s
 
 **Source of truth:** the enquiry email (Resend, from `anfragen@beautyfacelift-zuerich.ch`, to Teresa, blind copy to the agency). Every combo lead is one email with the rows listed in 3.1 step 5.
 
-**Sheet** (Google Sheet "Kombi-Leads 2026-Q4", shared agency + Teresa), one row per email, filled by the agency from the blind copy within one business day; Teresa fills only the status columns:
+**Current workflow gate:** the campaign waits for cockpit Phase 1. Before D1 rollout, define reconciliation of notification emails against lead rows and a secure manual recovery path; D1 errors intentionally allow email to succeed. The Excel file `Kombi-Leads-2026-Q4.xlsx` is a manual backup/reference, not permission to bypass the cockpit gate. No Google Sheets or Google sign-in. The following fields describe the intended outcome record; they are not a claim that this workflow is already deployed:
 
 | Column | Filled by | Values |
 |---|---|---|
@@ -223,7 +217,7 @@ GA4 (`G-4C9M8KMFQY`) receives the same dataLayer events through GTM, under the s
 
 Teresa's rule: answer within about an hour by WhatsApp or phone (Q10), three contact attempts over three days, confirm the appointment in writing, send a reminder the day before. The sheet records the time of the enquiry and of the first contact, so the real reply time is measured, not assumed. The agency reads the sheet every Monday and computes `r_book`, `r_show`, cost per show and the per-ad true CPL.
 
-**Offline conversion upload via CAPI (`action_source: physical_store` or `other`, event "Schedule" or a custom "AppointmentBooked", matched on hashed email/phone):** technically possible from this setup, but **not worth it in this 30-day run**. Meta needs about 50 optimisation events per ad set per week to learn; at this budget (about 4–6 leads/week → 2–3 bookings) the upload would be a reporting feature, not an optimisation signal, and it costs a weekly manual upload or an automation. Decision: manual sheet for the 30 days; revisit the upload (or a Meta Conversion Leads integration) only if a later month produces 30+ bookings, which would make the "booked" event a plausible optimisation target.
+**Offline conversion upload via CAPI (`action_source: physical_store` or `other`, event "Schedule" or a custom "AppointmentBooked", matched on hashed email/phone):** technically possible from this setup, but **not worth it in this 30-day run**. Meta needs about 50 optimisation events per ad set per week to learn; at this budget (about 4–6 leads/week → 2–3 bookings) the upload would be a reporting feature, not an optimisation signal, and it costs a weekly manual upload or an automation. Current scope: offline uploads are held with Phase 2. Prove the minimal lead/contact/outcome workflow before considering more automation; do not implement them in this repair.
 
 ### 3.7 How to read results with consent-gated tracking
 
@@ -235,9 +229,9 @@ Teresa's rule: answer within about an hour by WhatsApp or phone (Q10), three con
 - WhatsApp enquiries that come from ads do not produce an email. Teresa notes them in the sheet with status and the hint "WhatsApp" in the notes; the `Contact` custom conversion counts the clicks (consent-gated) as a sanity check.
 - If `V` drops suddenly (for example below half of its week-1 value), suspect a broken consent banner or Pixel load before suspecting the ads: reopen the page with the test code (3.1).
 
-### 3.8 Old site during the campaign
+### 3.8 Old site — redirect before campaign launch
 
-Until Q7 is resolved: the custom conversion handles optimisation, and the weekly URL breakdown (3.2) shows how many Leads still come from `beautyfacelift.ch`. If the user redirects the old site with a 301, old-site Leads stop by themselves; if the old site keeps running with the same Pixel, nothing else is needed for this campaign. Do not add a second Pixel or a new dataset: audiences and match history live on `1147246982373946`.
+The latest user decision (20 October) is to shut down/301-redirect `beautyfacelift.ch` before launching the campaign. Preserve its email/DNS records and use [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) for the redirect map and checks. The map already exists in the Worker but is inert until approved DNS/routing changes. Do not change domains or add another Pixel during code repair. Keep dataset `1147246982373946`; standard Lead is optimisation and the URL-filtered custom conversion is report-only.
 
 ## 4. Campaign architecture
 
@@ -249,7 +243,7 @@ Until Q7 is resolved: the custom conversion handles optimisation, and the weekly
 | Conversion location | **Website** only (no Instant Forms, no Messenger) | leads must land in the email and Teresa's inbox, not in Meta's Leads Center; Instant Forms produce more but weaker leads and bypass the page that sets expectations |
 | Business portfolio / ad account | Business `135112460858934`, ad account `act_442592606954627` (from the user's Ads Manager link, 2026-10-11) | the account that ran the September Aquafacial campaign |
 | Dataset | `1147246982373946` | the existing Pixel, keeps audiences and match history |
-| Conversion event | custom conversion **BFL – Lead – Kombi LP** (3.2) | excludes old-site Leads |
+| Conversion event | standard Pixel **Lead** | latest user decision; old-site redirect is a launch gate; custom conversion is report-only |
 | Performance goal | maximise number of conversions | |
 | Bid strategy | highest volume (no cap) | a cost cap at this budget mostly under-delivers; with about CHF 13/day there is no room for bid experiments |
 | Attribution | 7-day click, 1-day view (default) | see 3.7 |
@@ -306,7 +300,7 @@ Devices: all. Operating systems: all. Inventory filter: "Moderat" (moderate). Fo
 
 A retargeting ad set is **not switched on** in the CHF 400 month: it would receive about CHF 2–3 per day, too little to learn or to reach anyone more than once. Advantage+ audience already re-reaches people who engaged with the ads, and the Lead exclusion keeps the budget off people who already asked.
 
-Create the audiences anyway on day 1 (free, and they fill while the ads run), so a later month can use them:
+The following audience design is retained as a future reference. Do not create/recreate audiences during this repair; some objects already exist (section 9), and further account changes require approval:
 
 | Audience | Source | Window | Consent-gated? |
 |---|---|---|---|
@@ -361,12 +355,12 @@ Formula for a later month: `weekly budget = (slots per week ÷ r_ls) × true CPL
 | Name | `p_zh15km_adv` |
 | Conversion location | Website |
 | Dataset / Pixel | `1147246982373946` |
-| Conversion event | custom conversion `BFL – Lead – Kombi LP` |
+| Conversion event | standard Pixel `Lead`; custom conversion `BFL – Lead – Kombi LP` is report-only |
 | Performance goal | Maximise number of conversions |
 | Bid strategy | Highest volume |
 | Attribution | 7-day click, 1-day view |
 | Budget | Lifetime, CHF 400 |
-| Schedule | start date 00:00 → start + 29 days 23:59, Zürich time (proposed 15 October 2026 00:00 → 13 November 2026 23:59) |
+| Schedule | User must approve a revised start/end window in Zürich time; the recorded 15 October–13 November schedule is historical/past-start. Current page/ad end date: 14 November 2026. |
 | Audience | Advantage+ audience; controls: location = 15 km around "Bahnhofstrasse 94, 8001 Zürich", people living in this location; minimum age 25; languages = German (all); exclude custom audience `Lead – Kombi LP – 90 Tage`. Suggestions: age 30–60, women, custom audiences `Alle Website-Besucher – 180 Tage` and `Lead – alle URLs – 180 Tage` |
 | Placements | manual: Instagram Feed, Instagram Stories, Instagram Reels, Instagram Explore, Facebook Feed, Facebook Reels, Facebook Stories, Facebook Marketplace, Facebook search results; everything else off (Audience Network, Messenger, in-stream, right column, Instagram profile feed) |
 | Inventory filter | Moderat |
@@ -429,7 +423,7 @@ What the first 3 seconds show:
 
 ### 5.3 Ad copy drafts (Swiss German, "Sie")
 
-Each ad has a short primary text (feeds, Reels) and a long variant (Facebook Feed test). Headline and description are the same for both. Replace `[Enddatum]` with the offer end date (start + 30 days), written out: with the proposed start "14. November"; in the description field the short form "14.11." is fine.
+Each ad has a short primary text (feeds, Reels) and a long variant (Facebook Feed test). Headline and description are the same for both. Replace `[Enddatum]` with the offer end date (start + 30 days), written out: the current assets say "14. November"; any revised date needs approval and aligned assets; in the description field the short form "14.11." is fine.
 
 **A1 — Glow in 90 Minuten** (`glow_reel916_v1`, `glow_static45_v1`)
 
@@ -632,18 +626,16 @@ No change is requested to the consent gate: loading the Pixel or CAPI before con
 
 Days count from the start date (day 1 = launch day). Ads run days 1–30; the offer end date is the day after day 30.
 
-Proposed calendar (start Thursday 15 October 2026):
+The old fixed-date calendar is preserved in [the pre-repair plan](../archive/reviews/2026-10-21-pre-repair/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md). Its dates were inconsistent and the start is now in the past. No replacement calendar is approved. Use relative milestones only after the user approves a window; shorten or reschedule the plan if the displayed 14 November end date is retained.
 
-| Milestone | Day | Date |
-|---|---|---|
-| Gates done, campaign built paused, previews approved | 0 | Wednesday 18 October |
-| Launch | 1 | Thursday 15 October |
-| First read, first ad swap | 11 | Sunday 25 October (read on Monday 26 October) |
-| Second read, month-2 proposal | 18 | Sunday 1 November (read on Monday 2 November) |
-| End-date ad in | 23 | Friday 6 November |
-| Third read | 28 | Wednesday 11 November |
-| Last ad day | 30 | Friday 13 November |
-| Offer end date, "statt" removed from the page | 31 | Saturday 18 November (removal deployed on Monday 16 November at the latest; the ads have already stopped) |
+| Milestone | Planning reference | Date |
+| --- | --- | --- |
+| Repair, data/auth, cockpit and external gates verified; previews approved | Before launch | Pending |
+| Campaign launch | Day 1 | Pending user approval |
+| First read | Around day 11 | Derive from approved launch |
+| Second read / month-2 proposal | Around day 18 | Derive from approved launch |
+| End-date creative / final read | Before approved end | Pending aligned assets/schedule |
+| Last ad day / offer end | Approved ad and offer window | Current assets say 14 November 2026; revised schedule undecided |
 
 ### 7.1 Day by day
 
@@ -788,33 +780,16 @@ Diagnose in this order, act on the first failing step:
 
 **Decided in this plan (routine calls, the user can overrule):** Leads objective on the URL-filtered custom conversion; one ad set with a CHF 400 lifetime budget and fixed dates; Advantage+ audience with hard controls (15 km, 25+, German) and the old site's Pixel audiences as suggestions; manual placements without Audience Network and Messenger; three ads at launch, two in reserve; no retargeting ad set this month; "Mehr dazu" as the button; no synthetic talking Teresa, voice-only or text instead; the enquiry emails as the source of truth; no offline conversion upload; no change to the consent gate.
 
-**Still needed from the user:**
+**Current launch checklist (not permission to act):**
 
-1. Confirm the proposed start (Thursday 15 October 2026) and offer end date (Saturday 18 November 2026), or name others; CR-1 and the ads use them.
-2. Approval to implement CR-1 (end date on the page) on a branch and to deploy it; the site change is small and listed in 6.4.
-3. Add Meta's Ads MCP server as a custom connector at claude.ai → Customize → Connectors (URL reported as `https://mcp.facebook.com/ads`; use the URL Meta's sign-in shows if it differs), sign in with the Facebook Business account that owns the ad account, then start a new session and point it at this document. It builds everything from 4.9 **paused**; nothing spends money until the user says go. Without the connector, the build sheet in 4.9 is the hand-over for Ads Manager.
-4. Who produces the three launch creatives (A1 video, A2 static, A3 static) and whether Teresa records the ten voice lines.
-5. The Treatwell CHF 170 service (Q8) before launch.
-6. Optional: the September CPL from Ads Manager, to compare with the CHF 15 goal.
+1. Complete combined repair verification and cockpit pre-D1 data gates. Authentication provider/setup remains deferred pending the workflow review.
+2. Prepare/review the minimal staff workflow; cockpit Phase 1 remains a launch prerequisite. No customer mail or Teresa exposure before a separately approved go-live.
+3. User creates/verifies the Treatwell CHF 170 service and old-site shutdown/301 redirect with email preserved.
+4. User approves the revised start/end window; keep the displayed 14 November 2026 date until an aligned page/ad/schedule change is approved.
+5. Recheck approved measurement/UTMs and standard Lead optimisation. Custom conversion `1596786311924725` is report-only. Historical Events Manager test on 20 October succeeded; a later live labelled enquiry still requires explicit test authorization.
+6. Review `_v2` Facebook + Instagram previews; `_v1` stays paused. Campaign activation/spend requires an explicit go after all gates. Do not create duplicate campaigns, conversions or audiences from an old checklist.
 
-**Set up in Meta (admin needed):**
-
-1. Business Manager: verify `beautyfacelift-zuerich.ch`, confirm Page, Instagram, ad account, dataset and payment are in one Business, fill in beneficiary/payer if asked.
-2. Events Manager: run the test in 3.1; create the four custom conversions in 3.2; optionally switch on automatic advanced matching (3.3) if CR-2 is not implemented.
-3. Audiences: create the nine custom audiences in 4.6 on day 1.
-4. Campaign: build per 4.9 with the UTM string from 3.4 in every ad; send previews to the user for approval before publishing.
-5. Lead sheet: create per 3.6 and share with Teresa.
-
-**Launch day (proposed Thursday 15 October 2026, 09:00):**
-
-1. Open the live page in a private window: price, "statt", end date (CR-1), form works (do not submit).
-2. Events Manager → Test events with the test code: PageView, ViewContent, then one labelled test lead → Lead browser + server, email received. Remove the code afterwards.
-3. Custom conversion "BFL – Lead – Kombi LP" shows yesterday's test lead.
-4. Treatwell shows the CHF 170 combo service.
-5. Publish the campaign; check within 30 minutes that all ads are "Aktiv" (not "In Prüfung" for more than a few hours).
-6. Click one live ad from a phone (Instagram), accept consent, read the email's UTM rows: ad set and ad names must appear in `utm_content`.
-7. Tell Teresa the campaign is live and that the first enquiries can arrive the same day.
-8. Set calendar reminders for day 11, day 18, day 23, day 30 and the offer end date (remove "statt").
+**Launch day:** date pending. Read-only page checks can verify price, end date and links. Any real form submission, measurement POST, Meta write or Teresa/customer email must follow the explicit approvals and go-live rules in the handover. Record the approved funnel result and monitor actual enquiries/contact/outcomes; clicks alone are not confirmed bookings.
 
 **Meta objects created through the Meta Ads connector** (ad account `act_442592606954627`; everything paused, nothing published):
 
@@ -836,9 +811,9 @@ Diagnose in this order, act on the first failing step:
 
 Reused existing audiences instead of duplicating them: "Webseite Besucher - beide domains" (`120248671679130195`), "IG Interaktions" (`120248671698950195`), "Facebook Interaktions" (`120248671688500195`).
 
-Not possible through the connector: the custom conversions in 3.2 (no tool for them; the ad set optimises on the Pixel's Lead event instead, see the decisions log) and linking the Instagram account to the ad account (none is linked, so ads would run on Facebook only; the user does this in Business Settings). The language control was set through the connector (locale 5, German, the value earlier ad sets in this account used).
+Historical build notes: earlier connector limitations and Facebook-only `_v1` creatives below describe the October 11–13 build. The handover records Instagram-enabled `_v2` ads created on October 19 and custom conversion `1596786311924725` created on October 20. The `_v1` ads stay paused. Verify current account state before an approved launch; do not repeat old setup instructions.
 
-**Decisions log** (append below as the campaign runs):
+**Historical decisions log** (earlier rows are preserved verbatim; the current instructions above supersede their old dates, keep-old-site and custom-optimisation proposals):
 
 | Date | Decision / number reported | By |
 |---|---|---|
@@ -851,3 +826,4 @@ Not possible through the connector: the custom conversions in 3.2 (no tool for t
 | 2026-10-12 | User asked Claude to do everything except linking Instagram, the AI-label decision, merging PR #50 and Teresa's lead sheet. Decisions: (1) the connector cannot create custom conversions, so the ad set optimises on the Pixel's standard Lead event; the ads link only to the combo page, so the leads credited to this ad set are combo-page leads, and the user confirmed old-site visitors are the same persona; (2) dates fixed: ads 15 October – 13 November 2026, offer end date 14 November 2026 (start + 30 days); (3) launch ads built from the two real photos plus a text card (`design/ads/2026-10-kombi/`): glow (A1, static instead of video), first Microneedling (A2) and Teresa trust (A4, replacing A3 because no real photo of the entrance exists); (4) "2 Min. vom HB" in the plan was not a verified fact; replaced everywhere by the site's "wenige Gehminuten vom Hauptbahnhof"; (5) the Treatwell CHF 170 service cannot be created from here (no Treatwell access); (6) publishing stays with the user's explicit "go" | Claude |
 | 2026-10-12 | Read-only Pixel check (dataset `1147246982373946`, 5–12 October): Lead events 9 from `beautyfacelift-zuerich.ch` (all on 9–10 October, the test enquiries) and 3 from `beautyfacelift.ch`; PageView arrives from both domains; match quality 6.1/10 on PageView, ViewContent and LandingPageView (keys: IP, user agent, fbp; fbc only appears once ads send clicks). Still open before the ads can be built: PR #50 merged (end date and ad images live) and an Instagram account linked to the ad account | Claude |
 | 2026-10-13 | PR #50 merged with the user's approval and deployed (deploy run 38449659203): the end date "bis 14. November 2026" and the six ad images are live. Meta's media upload (by file or URL) and per-placement images are not yet enabled for this ad account in the connector, so each ad uses one 4:5 image passed by URL (Meta fits it into Stories and Reels). The three creatives use the Facebook identity only because no Instagram account is linked; once it is linked, create Instagram-enabled copies (or switch the identity per ad in Ads Manager) before publishing. Campaign, ad set and three ads are complete and paused; publishing waits for the user's "go" | Claude |
+| 2026-10-21 | Project review repairs in progress; authentication decision/setup and Phase 2 deferred. Reconciled current standard Lead/report-only custom conversion, old-site redirect and cockpit launch gates. No campaign change or activation approved by this documentation update. | Codex, from current review/repair scope |

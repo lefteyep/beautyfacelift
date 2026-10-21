@@ -3,14 +3,14 @@
 // still "neu" NUDGE_AFTER_MINUTES after they arrived, only within opening hours.
 //
 // At most once per lead: claimAutomation sets nudge_sent_at before sending; only the run that made the
-// claim sends. A failed send gives the claim back and writes a mail_failed event; the lead is then
-// retried no earlier than 2 h later (back-off via that event, no extra column).
+// claim sends. Only a definite rejection gives the claim back for a retry after 2 h. Uncertain
+// deliveries keep their reservation and require a manual check, so a lost response cannot resend.
 import type { Env } from '../env';
 import { NUDGE_AFTER_MINUTES, normalizeEmail } from '../../shared/leads';
 import { absoluteUrl } from '../../shared/site';
 import { appendEvent, claimAutomation, listNudgeCandidates, releaseAutomation } from '../leads/db';
 import { isWithinOpeningHours } from '../leads/time';
-import { MailConfigError, sendEmail } from '../email/resend';
+import { isDefinitiveMailRejection, MailConfigError, sendEmail } from '../email/resend';
 import { nudgeMail } from '../email/templates/nudge';
 
 const MINUTE_MS = 60 * 1000;
@@ -61,6 +61,7 @@ export async function runAutomations(env: Env, now: Date): Promise<AutomationsRe
         subject: mail.subject,
         text: mail.text,
         html: mail.html,
+        idempotencyKey: `bfl:nudge:${lead.id}`,
         // Replies go to whoever receives the reminder (the agency until go-live), never elsewhere.
         replyTo: to,
         tags: [{ name: 'kind', value: 'nudge' }],
@@ -68,12 +69,12 @@ export async function runAutomations(env: Env, now: Date): Promise<AutomationsRe
     } catch (error) {
       const message = errorMessage(error);
       result.errors += 1;
-      // Both failure paths here fail toward fewer mails, never more: if releaseAutomation throws, the
-      // run aborts and the claim stays, so this lead gets no reminder at all; if the mail_failed event
-      // cannot be written after the release, the back-off has nothing to read and the lead is retried
-      // by the next run (15 minutes) instead of after 2 h.
-      await releaseAutomation(db, lead.id, 'nudge_sent_at');
-      await appendEvent(db, { lead_id: lead.id, at: nowIso, type: 'mail_failed', actor: 'system', meta: JSON.stringify({ kind: 'nudge', error: message }) });
+      const rejected = isDefinitiveMailRejection(error);
+      if (rejected) await releaseAutomation(db, lead.id, 'nudge_sent_at');
+      await appendEvent(db, {
+        lead_id: lead.id, at: nowIso, type: 'mail_failed', actor: 'system',
+        meta: JSON.stringify({ kind: 'nudge', error: message, delivery: rejected ? 'rejected' : 'uncertain', retry: rejected ? 'allowed' : 'manual' }),
+      });
       console.error('Lead reminder failed:', message);
       // A missing setting fails every send the same way: stop this run.
       if (error instanceof MailConfigError) break;

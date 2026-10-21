@@ -82,7 +82,7 @@ const leads = read('shared/leads.ts');
 const requiredExports = [
   'LEAD_STATUSES', 'LeadStatus', 'LEAD_STATUS_LABELS', 'LEAD_SOURCES', 'LeadSource', 'leadSourceFor',
   'CAMPAIGN_OFFERS', 'OPENING_HOURS_WEEKLY', 'DUPLICATE_WINDOW_DAYS', 'NUDGE_AFTER_MINUTES',
-  'FOLLOWUP_AFTER_HOURS', 'REVIEW_AFTER_HOURS', 'whatsappPrefillText', 'normalizeEmail', 'normalizePhone',
+  'FOLLOWUP_AFTER_HOURS', 'REVIEW_AFTER_HOURS', 'whatsappPrefillText', 'normalizeEmail', 'normalizePhone', 'isSingleMailbox', 'mailtoHref',
   'LEAD_ACTORS', 'LeadEventType',
 ];
 const missingExports = requiredExports.filter((name) => !new RegExp(`export (const|function|type) ${name}\\b`).test(leads));
@@ -100,11 +100,10 @@ check(/DUPLICATE_WINDOW_DAYS = 30;/.test(leads) && /NUDGE_AFTER_MINUTES = 60;/.t
 check(leads.includes('`Guten Tag ${firstName}, hier ist Teresa Stimac von Beauty Face Lift. Vielen Dank für Ihre Anfrage zu ${treatment}. Wann passt es Ihnen für einen Termin?`'),
   'whatsappPrefillText uses the approved wording');
 
-// normalizeEmail uses the contact route's validation rule.
-const leadsEmailPattern = leads.match(/const EMAIL_PATTERN = (\/.+\/);/)?.[1];
-const routeEmailPattern = read('worker/routes/contact.ts').match(/function isValidEmail\(email: string\): boolean \{\s*return (\/.+\/)\.test\(email\);/)?.[1];
-check(leadsEmailPattern !== undefined && leadsEmailPattern === routeEmailPattern,
-  `EMAIL_PATTERN in shared/leads.ts equals the isValidEmail regex in worker/routes/contact.ts (${routeEmailPattern ?? 'not found'})`);
+// The server and normalization share one mailbox validator (behavior covered by the harness).
+check(leads.includes('return isSingleMailbox(email) ? email : null;')
+  && /function isValidEmail\(email: string\): boolean \{\s*return isSingleMailbox\(email\);/.test(read('worker/routes/contact.ts')),
+  'contact validation and normalizeEmail use the shared single-mailbox validator');
 
 // Copies of the ad pages' constants.
 const comboLp = read('src/pages/lp/aquafacial-microneedling/index.astro');

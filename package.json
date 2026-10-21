@@ -30,7 +30,11 @@
     "harness:leads-access": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-access.mts",
     "harness:leads-cockpit": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-cockpit.mts",
     "harness:leads-cron": "node --disable-warning=ExperimentalWarning --import tsx scripts/harness/leads-cron.mts",
-    "launch:check": "node scripts/check-domain-launch.mjs"
+    "launch:check": "node scripts/check-domain-launch.mjs",
+    "validate": "node scripts/validate.mjs",
+    "validate:harnesses": "node scripts/validate-harnesses.mjs",
+    "validate:smoke": "node scripts/validate-local-smoke.mjs",
+    "qa:guardrails": "node --test scripts/release-guardrails.test.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.0",
@@ -52,7 +56,7 @@
     "@astrojs/check": "^0.9.10",
     "@cloudflare/workers-types": "^5.20261006.1",
     "supabase": "^2.98.2",
-    "tsx": "^4.23.15",
+    "tsx": "4.23.15",
     "typescript": "^6.0.3",
     "wrangler": "^4.83.0"
   },

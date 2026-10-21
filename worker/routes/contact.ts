@@ -9,6 +9,7 @@ import {
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
 import { createLeadFromSubmission } from '../leads/ingest';
+import { isSingleMailbox } from '../../shared/leads';
 import type { LeadRow } from '../leads/db';
 import { sendConfirmationIfDue } from '../email/confirmation';
 
@@ -88,7 +89,7 @@ function isComboLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
 }
 
 function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return isSingleMailbox(email);
 }
 
 function isValidPhone(phone: string): boolean {

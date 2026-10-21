@@ -390,6 +390,18 @@ let csrf = '';
     '31 zurichToUtc around the gap: 01:30 CET → 00:30Z, 03:30 CEST → 01:30Z');
 }
 
+// ---- 10. legacy mailto values cannot add recipients or parameters --------------------------------
+{
+  const legacy = await seed({ name: 'Legacy Mailbox', email: 'anna@example.test?bcc=other%40example.test' }, 1);
+  const unsafe = await get(detailPath(legacy));
+  check(unsafe.status === 200 && !unsafe.body.includes('href="mailto:'), '32 legacy URI-style mailbox is visible as data but has no clickable mailto');
+  db._db.prepare('UPDATE leads SET email = ? WHERE id = ?').run('anna?subject=hello&bcc=other@example.test', legacy);
+  const encoded = await get(detailPath(legacy));
+  check(encoded.body.includes('href="mailto:anna%3Fsubject%3Dhello%26bcc%3Dother@example.test"') && !encoded.body.includes('href="mailto:anna?'),
+    '32 valid URI characters in a local part are encoded in the cockpit contact link');
+  allPages.push(unsafe.body, encoded.body);
+}
+
 // ---- general ---------------------------------------------------------------------------------------------------
 check(allPages.every((page) => !/<script/i.test(page) && !/\son[a-z]+=/i.test(page)), 'no <script> and no inline event handlers on any cockpit page');
 check(allPages.every((page) => !page.includes('ß')), 'no "ß" in the rendered pages');
