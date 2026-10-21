@@ -1,6 +1,6 @@
 # Lead-Cockpit — current scope and rollout gates
 
-**Updated 21 October 2026 after the project/code review.** The focused review repair milestone is **IMPLEMENTATION IN PROGRESS**; see [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Authentication choice/setup, retention implementation and new features are outside that repair. Phase 2 is held.
+**Updated 21 October 2026 after the project/code review.** The focused review repair milestone is **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES**; see [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Authentication choice/setup, retention implementation and new features are outside that repair. Phase 2 is held.
 
 The exact implementation plan approved on 20 October is preserved in [the archived plan](../archive/reviews/2026-10-21-pre-repair/LEAD-COCKPIT-PLAN.md). Its architecture/schema/PR breakdown explain the existing branches, but its rollout order, pricing assumptions and deferred privacy/retention work are not current release instructions.
 
