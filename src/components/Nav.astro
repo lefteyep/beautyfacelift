@@ -243,7 +243,11 @@ const menuColumns = [
             // CSS makes the menu visible in this frame; focusing it earlier leaves focus outside.
             if (hamburger.getAttribute('aria-expanded') !== 'true') return;
             overlay.classList.add('is-open');
-            getFocusable(overlay)[0]?.focus();
+            // Visibility transitions begin at the hidden value. Wait for the visible frame before
+            // moving focus; Escape may close the menu while that frame is pending.
+            requestAnimationFrame(() => {
+                if (hamburger.getAttribute('aria-expanded') === 'true') getFocusable(overlay)[0]?.focus();
+            });
         });
         nav?.classList.add('is-overlay-open');
         hamburger.classList.add('is-open');
@@ -274,13 +278,14 @@ const menuColumns = [
             else closeOverlay(false);
         });
 
-        overlay.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
                 event.preventDefault();
                 closeOverlay();
-                return;
             }
+        });
 
+        overlay.addEventListener('keydown', (event) => {
             if (event.key !== 'Tab') return;
             const focusable = getFocusable(overlay);
             if (focusable.length === 0) return;
