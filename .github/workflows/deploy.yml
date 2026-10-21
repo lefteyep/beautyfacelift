@@ -4,15 +4,73 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+    inputs:
+      drill_action:
+        description: 'Temporary isolated D1 drill (select the codex/d1-cloud-drill branch)'
+        type: choice
+        options: [none, synthetic-export-import]
+        default: none
+      expected_sha:
+        description: 'Reviewed 40-character commit SHA; required for the drill'
+        type: string
+        default: ''
+      confirmation:
+        description: 'For the drill enter BFL-OPS-RECOVERY-04'
+        type: string
+        default: ''
 
 permissions:
   contents: read
 
 concurrency:
-  group: beautyfacelift-production
+  group: ${{ github.ref == 'refs/heads/codex/d1-cloud-drill' && 'beautyfacelift-isolated-d1-drill-2026-10-21' || 'beautyfacelift-production' }}
   cancel-in-progress: false
 
 jobs:
+  isolated-d1-drill:
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.repository == 'lefteyep/beautyfacelift' &&
+      github.ref == 'refs/heads/codex/d1-cloud-drill' &&
+      github.run_attempt == 1 &&
+      inputs.drill_action == 'synthetic-export-import' &&
+      inputs.confirmation == 'BFL-OPS-RECOVERY-04'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Offline drill guard and comparison tests
+        run: node --disable-warning=ExperimentalWarning --test scripts/ops/d1-cloud-drill.test.mjs
+      - name: One guarded synthetic export and import
+        id: drill
+        run: node --disable-warning=ExperimentalWarning scripts/ops/d1-cloud-drill.mjs
+        env:
+          DRILL_ACTION: ${{ inputs.drill_action }}
+          DRILL_EXPECTED_SHA: ${{ inputs.expected_sha }}
+          DRILL_CONFIRMATION: ${{ inputs.confirmation }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Save only validated synthetic SQL, checksum and sanitized proof
+        if: always() && steps.drill.outputs.export_validated == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: isolated-d1-synthetic-${{ github.run_id }}
+          path: |
+            ${{ steps.drill.outputs.artifact_path }}/synthetic.sql
+            ${{ steps.drill.outputs.artifact_path }}/synthetic.sql.sha256
+            ${{ steps.drill.outputs.artifact_path }}/proof.json
+          if-no-files-found: error
+          retention-days: 7
+
   deploy:
     # A manual dispatch on a feature branch must never target the production Worker or D1.
     if: github.ref == 'refs/heads/master'
