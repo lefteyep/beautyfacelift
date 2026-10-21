@@ -71,4 +71,28 @@ check labels/errors are emitted. This does not increase data written to Actions 
 A real local-only Wrangler JSON query in fresh temporary state returned the expected
 value with this setting; no credentials were supplied. All eight guard tests passed.
 
+## Completed execution and preserved parser limit
+
+[Run 39646257187](https://github.com/lefteyep/beautyfacelift/actions/runs/39646257187),
+revision `06fa06ed2eeb8adf2ce52865f80e197e1a5075ca`, confirmed identities,
+complete expected source/pristine target and the complete offline SQL export.
+It invoked the target import once, then stopped because the returned CLI output
+could not be parsed as JSON. That workflow remains failed; do not rerun its import.
+The import parser has not been relaxed or claimed fixed by a passing cloud rerun.
+
+The coordinator instead obtained read-only full snapshots through the existing
+Cloudflare Console. Source and target each passed all eight baseline checks and
+matched the complete independently generated expected schema, all lead/event
+fields and sequence, and each other. The downloaded unchanged 5380-byte export
+also passed complete offline validation and checksum verification:
+`2dcdf286c0e761fbf222c37943e784299ce580d8c3626a701bbaef58708653a2`.
+
+Durable synthetic proof is saved in the candidate branch's
+`docs/archive/reviews/2026-10-21-d1-drill/`; the full operating record is
+`docs/current/COCKPIT-OPERATIONS-READINESS-2026-10-21.md` in draft PR #62.
+Both databases remain intact. The authorized drill is complete. This temporary
+workflow is not a production backup utility; future CLI response handling requires
+its own review before reuse, and an uncertain write must always be resolved by
+reading actual state rather than repeating the import.
+
 CLI syntax reference: [Cloudflare D1 import/export documentation](https://developers.cloudflare.com/d1/best-practices/import-export-data/).
