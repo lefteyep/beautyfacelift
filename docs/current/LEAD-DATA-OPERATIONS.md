@@ -2,7 +2,7 @@
 
 **21 October 2026. Implemented and tested on synthetic local SQLite fixtures. This is an operator procedure for review, not approval to persist real enquiries, migrate, deploy, delete real data or contact anyone.** No live D1 contents, dashboard recovery, mail delivery or production permissions were inspected by this work. The [pre-D1 gates](REPAIR-2026-10-21.md#gates-before-the-first-d1-rollout) and [cockpit plan](LEAD-COCKPIT-PLAN.md) still apply.
 
-**Later operating evidence:** the separately approved [isolated Cloud-D1 drill](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) successfully restored its two synthetic leads/events via Time Travel (8/8 checks). The SQL-export/import check is tracked separately there. That probe uses newly created test databases; it does not change the network-free scope of this local fixture tool, approve real-data erasure or establish production rollout permissions.
+**Later operating evidence:** the separately approved [isolated Cloud-D1 drill](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) successfully restored its two synthetic leads/events via Time Travel and verified full SQL-export/import: both test targets 8/8 plus complete schema/data/sequence comparison. The CLI import-response failure and subsequent independent read-only confirmation are recorded explicitly. That probe uses newly created test databases; it does not change the network-free scope of this local fixture tool, approve real-data erasure or establish production rollout permissions.
 
 ## Scope and policy status
 

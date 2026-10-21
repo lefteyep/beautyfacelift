@@ -52,7 +52,7 @@ Für die freigegebene Probe wurden genau zwei neue Datenbanken im bestehenden Ko
 | Testziel | Bestätigte UUID | Stand der Probe |
 | --- | --- | --- |
 | `beautyfacelift-drill-2026-10-21` | `bf332224-68d3-42c8-be6c-20da9ba9cf4d` | Time Travel ausgeführt und Baseline wiederhergestellt; 8/8 Prüfungen |
-| `beautyfacelift-drill-restore-2026-10-21` | `f4f0e5aa-01fe-4a80-922d-958ee3493703` | Erstellt, leeres Anwendungsschema bestätigt; Export-/Importnachweis noch offen |
+| `beautyfacelift-drill-restore-2026-10-21` | `f4f0e5aa-01fe-4a80-922d-958ee3493703` | SQL-Export einmal importiert, anschliessend lesend vollständig verglichen; Baseline 8/8 |
 
 **Nutzerfreigabe am 21.10.2026: «Isolierte Cloud-Probe erlauben».** Genau diese beiden neuen Testziele, synthetisches Time Travel und SQL-Export/-Import sind freigegeben. Die Testdatenbanken bleiben erhalten. Produktion, Worker-Deployment, E-Mails, Tarif und die Entscheidung zum inaktiven Alarm werden dadurch nicht verändert. Der folgende Ablauf wird gegen diese Freigabe ausgeführt; Ergebnisse sind vor Abschluss gesondert nachzuweisen.
 
@@ -89,7 +89,25 @@ Private Nachweise: `output/coordination/D1-CLOUD-DRILL-2026-10-21.md`, `pilot-ev
 
 **Aufgetretener und behobener Bedienfehler:** Die Dashboard-Konsole ist ein einzeiliges Eingabefeld und entfernt beim Einfügen rohe Zeilenumbrüche. Der erste Seed-Versuch scheiterte deshalb vor dem Schreiben mit einem Syntaxfehler. Danach wurden 0/0 Zeilen bestätigt, SQL-Kommentare entfernt und die geprüften Anweisungen mit Leerzeichen als eine Zeile eingegeben. Erst anschliessend wurde der Seed erfolgreich ausgeführt. Dieses Vorgehen gilt nur für diese bekannten Fixtures; beliebiges SQL mit mehrzeiligen Stringwerten darf nicht pauschal so umgeschrieben werden.
 
-Der vollständige SQL-Export/-Import ist ein **separater, noch offener Nachweis**. Console `/help`, Datenbankeinstellungen und Studio bieten hier keinen vollständigen SQL-Export; kopierte Tabellenzeilen ersetzen ihn nicht. Für den zusätzlichen Lauf wird der bereits vorhandene GitHub-Zugang geprüft, mit eigener Konfiguration und ausschliesslich den beiden Test-IDs. Eine fehlende Tokenberechtigung wird als Blocker gemeldet und nicht automatisch erweitert.
+### SQL-Export/-Import und Nachprüfung
+
+Der vollständige SQL-Export/-Import ist ebenfalls **tatsächlich ausgeführt und nachgeprüft**. Weil die Browseroberfläche keinen vollständigen SQL-Export anbietet und die lokale CLI-Anmeldung abgelaufen ist, nutzte der einmalige Betriebszweig `codex/d1-cloud-drill` den bereits vorhandenen GitHub-Cloudflare-Zugang. Keine Berechtigungen oder Secrets wurden ergänzt. Der geprüfte Workflow ist ausschliesslich manuell auf diesem exakten Zweig ausführbar, prüft Repository/Kandidaten-SHA/Versuch 1 und verwendet eine neue temporäre Konfiguration mit genau den beiden Test-IDs. Er gehört nicht in `master`; sein Produktionsjob wurde übersprungen.
+
+Der [Ausführungslauf 39646257187](https://github.com/lefteyep/beautyfacelift/actions/runs/39646257187), Betriebsrevision `06fa06ed`, bestätigte Namen/IDs, den vollständigen Ausgangsbestand und das leere Ziel. Der vollständige SQL-Export wurde vor dem Import in einer lokalen SQLite-Instanz mit allen erwarteten Schemaobjekten, Spaltenwerten, Ereignissen und Sequenzwerten verglichen. Anschliessend erfolgte genau **ein** Importversuch mit unveränderten Exportbytes. Der Lauf stoppte danach wegen einer nicht eindeutig als JSON lesbaren CLI-Antwort; er ist deshalb **fehlgeschlagen**, kein grüner Ende-zu-Ende-Workflow.
+
+Der Import wurde **nicht wiederholt**. Stattdessen wurden Quelle und Ziel anschliessend ausschliesslich lesend über die angemeldete Cloudflare-Konsole vollständig erfasst und unabhängig gegen dasselbe erwartete Modell sowie gegeneinander geprüft:
+
+| Nachweis | Ergebnis |
+| --- | --- |
+| Quelle nach dem Import | Vollständiges Schema / alle Lead- und Ereignisfelder / Sequenz unverändert; Baseline 8/8 |
+| Importziel | Vollständiger Bestand identisch mit Quelle und erwartetem Modell; Baseline 8/8 |
+| Kritische Daten | Je 2 Leads und 2 Ereignisse; Beziehung B → A, Ereignis-Metadatum und Sequenzwert 2 erhalten; FK-Prüfung ohne Befund |
+| Exportintegrität | 5380 Bytes; SHA-256 `2dcdf286c0e761fbf222c37943e784299ce580d8c3626a701bbaef58708653a2` vor Import und nach lokalem Abruf bestätigt |
+| Dauerhafte synthetische Belege | [SQL-Export](../archive/reviews/2026-10-21-d1-drill/cloud-export.sql), [Prüfsumme](../archive/reviews/2026-10-21-d1-drill/cloud-export.sql.sha256), [lesender Vollvergleich](../archive/reviews/2026-10-21-d1-drill/cloud-verification.json) |
+
+Zwei vorherige Läufe stoppten ohne Importversuch: [39645541486](https://github.com/lefteyep/beautyfacelift/actions/runs/39645541486) an einem Windows-/LF-Prüfsummenfehler in der lokalen Testdatei; [39645862133](https://github.com/lefteyep/beautyfacelift/actions/runs/39645862133) bei der lesenden Identitätsabfrage, weil `WRANGLER_LOG=error` auch angeforderte JSON-Ausgaben unterdrückte. Beide Fehler wurden korrigiert und jeweils lokal nachgeprüft; die acht Offline-Schutzprüfungen bestehen. Die Importantwort-/Parsergrenze des letzten Laufs bleibt ausdrücklich dokumentiert. Vor einem nächsten operativen Einsatz muss die CLI-Auswertung erneut geprüft werden; aus dem geprüften Datenbestand folgt keine Freigabe zum erneuten Import.
+
+**Grenzen:** Dieser Nachweis betrifft die zwei isolierten synthetischen Ziele und den vorhandenen Actions-Zugang. Er testet keine Produktivmigration, produktive Wiederherstellung, produktive Löschung, deployed Operatorroute, Access-Anmeldung, echte Mailzustellung oder vereinbarte Reaktionszeit. Beide Testdatenbanken bleiben erhalten. Produktion, bestehender Worker, Mails, Tarif und Alarmzustand wurden nicht verändert.
 
 Grundlage: [Time Travel](https://developers.cloudflare.com/d1/reference/time-travel/) und [D1 SQL-Import/-Export](https://developers.cloudflare.com/d1/best-practices/import-export-data/). Die lokale CLI-Anmeldung bleibt abgelaufen; für die Browserprobe wurden keine Zugangsdaten exportiert.
 
@@ -113,7 +131,7 @@ Reihenfolge für eine spätere Freigabe: genaue Kandidatenrevision und aktuelle 
 | BFL-OPS-RELEASE-01 | Nativer Sicherheitsagent, Root integriert | Mutationen des Deploy-Workflows und Gate-Grenzen geprüft; falsche Aussage zur unveränderten Besitzer-Mail korrigiert |
 | BFL-OPS-DATA-01 | Nativer Datenumfangsagent, Root integriert | Datenschutzentwurf an Agenturzugang, vorgesehene Felder und tatsächliche Mail-/Marketinggrenzen angepasst; kein Rechtstext veröffentlicht |
 | BFL-OPS-RECOVERY-02 | Nativer Datenagent in eigenem Worktree, Root integriert | Synthetische Seed-/Änderungs-/Prüfdateien und lokale Planprüfung; Cloud-Time-Travel im ersten Testziel erfolgreich, Baseline 8/8 |
-| BFL-OPS-RECOVERY-04 | Nativer Datenagent in eigenem Worktree; Root prüft und führt aus | Eng begrenzter Export-/Importlauf für die beiden Test-IDs; noch kein erfolgreicher Nachweis |
+| BFL-OPS-RECOVERY-04 | Nativer Datenagent in eigenem Worktree; Root geprüft, ausgeführt und lesend nachgeprüft | Vollständiger SQL-Export, genau ein Import und vollständiger unabhängiger Nachvergleich erfolgreich; CLI-Lauf wegen Antwortauswertung rot dokumentiert, nicht wiederholt |
 | Alarm aktivieren/testen | Nutzerentscheidung; Root bewahrt Entwurf | Nutzer wählt «Nur als Entwurf behalten». Keine Aktivierung/Testmail; dieser Betriebs-Gate bleibt vor Capture offen |
 | Zweck, Kategorien, Fristen und Rollen | Verantwortlicher Auftraggeber / Nutzer | Datenschutzentwurf bleibt ungeprüft; keine Frist, Rechtsgrundlage oder Vertragsrolle erfunden |
 | Access/Konto und Livegang | Kontoinhaber / Nutzer, Root führt freigegebene Schritte aus | Provider-/Vertrags-/Zahlungsentscheidung sowie ausdrückliche Produktivmigration/Merge/Deployment weiterhin offen |
