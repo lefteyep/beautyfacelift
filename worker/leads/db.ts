@@ -351,7 +351,7 @@ export async function listNudgeCandidates(
 ): Promise<LeadRow[]> {
   const result = await db
     .prepare(`SELECT * FROM leads
-      WHERE status = 'neu' AND exclude IS NULL AND nudge_sent_at IS NULL AND created_at <= ?
+      WHERE status = 'neu' AND source <> 'manual' AND exclude IS NULL AND nudge_sent_at IS NULL AND created_at <= ?
         AND NOT EXISTS (
           SELECT 1 FROM lead_events
           WHERE lead_events.lead_id = leads.id AND lead_events.type = 'mail_failed' AND lead_events.at >= ?

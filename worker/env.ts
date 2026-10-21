@@ -21,6 +21,12 @@ export interface Env {
   ENVIRONMENT?: string;
   /** Lead database (D1 `beautyfacelift-leads`). Optional: without it the contact form works as before. */
   LEADS_DB?: D1Database;
+  /** Explicit rollout gate: only "on" allows public/manual enquiry capture. Default is off. */
+  LEADS_CAPTURE?: string;
+  /** Independent agency-reminder gate; customer mail has its own separate switch. */
+  LEADS_REMINDERS?: string;
+  /** Agency operator address for storage-failure alerts; must also be in ACCESS_ALLOWED_EMAILS. */
+  LEADS_ALERT_TO?: string;
   /** Cloudflare Access team domain for /admin/: the full origin `https://<team>.cloudflareaccess.com`, no trailing slash. */
   ACCESS_TEAM_DOMAIN?: string;
   /** Audience (AUD) tag of the Cloudflare Access application that protects /admin/. */

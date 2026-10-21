@@ -24,7 +24,7 @@ const MAX_CONFIRMATIONS_PER_HOUR = 20;
  */
 const SUSPICIOUS_NAME = /https?:\/\/|www\.|[<>@]|\b[a-z0-9-]{2,}\.[a-z]{2,}\b/i;
 
-export type ConfirmationSkipReason = 'off' | 'no-db' | 'no-email' | 'excluded' | 'already' | 'suspicious' | 'recent' | 'rate';
+export type ConfirmationSkipReason = 'off' | 'manual' | 'no-db' | 'no-email' | 'excluded' | 'already' | 'suspicious' | 'recent' | 'rate';
 export type ConfirmationResult = { skipped: ConfirmationSkipReason } | { sent: string } | { failed: string } | { uncertain: string };
 
 function errorMessage(error: unknown): string {
@@ -35,6 +35,7 @@ function errorMessage(error: unknown): string {
 export async function sendConfirmationIfDue(env: Env, lead: LeadRow, now: Date): Promise<ConfirmationResult> {
   try {
     if (env.LEADS_CUSTOMER_MAILS !== 'on') return { skipped: 'off' };
+    if (lead.source === 'manual') return { skipped: 'manual' };
     const db = env.LEADS_DB;
     if (!db) return { skipped: 'no-db' };
     const to = normalizeEmail(lead.email_normalized);

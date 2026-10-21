@@ -51,7 +51,7 @@ export function isConsentGiven(value: string): boolean {
  * earlier lead with the same e-mail or phone within DUPLICATE_WINDOW_DAYS. Returns the stored row,
  * or null when no lead database is bound. D1 errors are thrown; the caller logs them and continues.
  */
-export async function createLeadFromSubmission(env: Env, data: LeadSubmission, now: Date): Promise<LeadRow | null> {
+export async function createLeadFromSubmission(env: Env, data: LeadSubmission, now: Date, enquiryId: string = crypto.randomUUID()): Promise<LeadRow | null> {
   const db = env.LEADS_DB;
   if (!db) return null;
 
@@ -69,7 +69,7 @@ export async function createLeadFromSubmission(env: Env, data: LeadSubmission, n
   const source = leadSourceFor(data.campaign, data.source);
 
   const lead: LeadRow = {
-    id: crypto.randomUUID(),
+    id: enquiryId,
     created_at: at,
     updated_at: at,
     source,

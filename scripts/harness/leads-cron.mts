@@ -94,6 +94,8 @@ function makeEnv(db: FakeD1 | undefined, overrides: Record<string, unknown> = {}
   return {
     ASSETS: { async fetch() { return new Response('asset', { status: 200 }); } },
     ENVIRONMENT: 'development',
+    LEADS_CAPTURE: 'on',
+    LEADS_REMINDERS: 'on',
     RESEND_API_KEY: 'test',
     CONTACT_FROM_EMAIL: FROM,
     CONTACT_TO_EMAIL: 'owner@example.test',

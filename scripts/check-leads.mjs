@@ -156,9 +156,12 @@ check(/LEADS_DB\?: D1Database;/.test(env), 'worker/env.ts declares LEADS_DB');
 
 const contactRoute = read('worker/routes/contact.ts');
 const ingestIndex = contactRoute.indexOf('await createLeadFromSubmission(');
-const mailIndex = contactRoute.indexOf('await sendNotificationEmail(data, request, env, ip)');
+const mailIndex = contactRoute.indexOf('await sendNotificationEmail(data, request, env, ip,');
 check(ingestIndex !== -1 && mailIndex !== -1 && ingestIndex < mailIndex, 'contact route stores the lead before the owner e-mail');
-check(contactRoute.includes("console.error('Lead ingest failed:'"), 'contact route logs and continues when the lead ingest fails');
+check(contactRoute.includes('reportStorageFailure(env,') && read('worker/leads/storage-alert.ts').includes("console.error('Lead ingest failed:'"),
+  'contact route reports sanitized storage failures independently of owner email');
+check(/"LEADS_CAPTURE": "off"/.test(wrangler) && /"LEADS_REMINDERS": "off"/.test(wrangler),
+  'new storage and reminders remain explicitly off until an approved rollout');
 
 // ---- forms ------------------------------------------------------------------------------------------
 check(aktionLp.includes('<input type="hidden" name="source" value="aquafacial-lp" />'), '/lp/aquafacial/ posts source=aquafacial-lp');

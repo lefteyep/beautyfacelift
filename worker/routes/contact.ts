@@ -12,6 +12,7 @@ import { createLeadFromSubmission } from '../leads/ingest';
 import { isSingleMailbox } from '../../shared/leads';
 import type { LeadRow } from '../leads/db';
 import { sendConfirmationIfDue } from '../email/confirmation';
+import { reportStorageFailure } from '../leads/storage-alert';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -375,7 +376,7 @@ async function verifyTurnstile(token: string, ip: string, secret: string): Promi
 }
 
 // Next refactor: move this request onto sendEmail() in worker/email/resend.ts (kept as is so the owner mail stays unchanged).
-async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string): Promise<void> {
+async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string, enquiryId: string, receivedAt: string): Promise<void> {
   if (!env.RESEND_API_KEY) {
     throw new ContactConfigError('RESEND_API_KEY is missing');
   }
@@ -392,7 +393,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   const from = env.CONTACT_FROM_EMAIL || 'Beauty Face Lift <onboarding@resend.dev>';
   const replyTo = isValidEmail(data.email) ? data.email : undefined;
   const userAgent = request.headers.get('user-agent') || 'Unbekannt';
-  const submittedAt = new Date().toISOString();
+  const submittedAt = receivedAt;
   const aquafacialLead = isAquafacialLead(data);
   const comboLead = isComboLead(data);
   // The combo ad page names its campaign in the subject so the lead sheet can filter on it.
@@ -407,6 +408,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
       ? `Neue Kombi-Anfrage: Aquafacial + Microneedling – ${data.name}`
       : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
   const leadDetails = [
+    ['Anfrage-ID', enquiryId],
+    ['Eingang', submittedAt],
     ['Kampagne', data.campaign],
     ['Angebot', data.offer],
     ['Behandlung', data.treatment],
@@ -549,17 +552,23 @@ export async function contactRoute(request: Request, env: Env, ctx: ExecutionCon
     }
   }
 
-  // Store the lead before the owner e-mail. A database problem must never cost the enquiry:
-  // log it and send the e-mail as before.
+  // One reference/time across the owner notification, database and storage-failure log permits
+  // an operator to reconcile/recover a missing row without firing another customer submission.
+  const enquiryId = crypto.randomUUID();
+  const receivedAt = new Date();
   let lead: LeadRow | null = null;
-  try {
-    lead = await createLeadFromSubmission(env, data, new Date());
-  } catch (error) {
-    console.error('Lead ingest failed:', error instanceof Error ? error.message : 'unknown error');
+  if (env.LEADS_CAPTURE === 'on') {
+    try {
+      lead = await createLeadFromSubmission(env, data, receivedAt, enquiryId);
+      if (!lead) ctx.waitUntil(reportStorageFailure(env, { enquiryId, receivedAt, reason: 'missing-db' }));
+    } catch {
+      // Do not log SQL/error messages: a database driver can include submitted personal data.
+      ctx.waitUntil(reportStorageFailure(env, { enquiryId, receivedAt, reason: 'write-failed' }));
+    }
   }
 
   try {
-    await sendNotificationEmail(data, request, env, ip);
+    await sendNotificationEmail(data, request, env, ip, enquiryId, receivedAt.toISOString());
   } catch (error) {
     const isConfigError = error instanceof ContactConfigError;
     console.error('Contact route failed:', isConfigError ? error.message : 'email delivery failed');

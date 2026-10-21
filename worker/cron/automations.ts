@@ -21,7 +21,7 @@ export type AutomationsResult = {
   /** Ids of the leads a reminder was sent for. */
   nudged: string[];
   /** Why the run did nothing ('' when it ran). */
-  skipped: '' | 'no-db' | 'closed' | 'no-recipient';
+  skipped: '' | 'off' | 'no-db' | 'closed' | 'no-recipient';
   errors: number;
 };
 
@@ -31,6 +31,7 @@ function errorMessage(error: unknown): string {
 
 export async function runAutomations(env: Env, now: Date): Promise<AutomationsResult> {
   const result: AutomationsResult = { nudged: [], skipped: '', errors: 0 };
+  if (env.LEADS_REMINDERS !== 'on') return { ...result, skipped: 'off' };
   const db = env.LEADS_DB;
   if (!db) return { ...result, skipped: 'no-db' };
   // Outside opening hours nothing is sent; the first run after opening catches up, because candidates

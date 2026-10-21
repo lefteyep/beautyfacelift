@@ -55,6 +55,7 @@ function makeEnv(leadsDb: FakeD1 | undefined) {
     CONTACT_FROM_EMAIL: 'Beauty Face Lift <harness@example.test>',
     CONTACT_TO_EMAIL: 'owner@example.test',
     ENVIRONMENT: 'development',
+    LEADS_CAPTURE: 'on',
     LEADS_DB: leadsDb,
   } as unknown as Parameters<typeof contactRoute>[1];
 }
@@ -278,7 +279,7 @@ const aquafacialLpSubmission = {
   const { response, errors, resend } = await submit(jsonRequest(kontaktSubmission), undefined);
   check(response.status === 201, '6 no LEADS_DB: 201', response.status);
   check(resend === 1, '6 no LEADS_DB: owner e-mail sent', resend);
-  check(errors.length === 0, '6 no LEADS_DB: nothing logged', errors);
+  check(errors.length === 1 && errors[0]?.[0] === 'Lead ingest failed:', '6 capture enabled without LEADS_DB: storage failure logged', errors);
 }
 
 // ---- 7. form-encoded (HTML) submission ------------------------------------------------------------
@@ -330,12 +331,14 @@ for (const email of [
 }
 
 // ---- general ----------------------------------------------------------------------------------
-// Each stored lead queues the customer confirmation with ctx.waitUntil; LEADS_CUSTOMER_MAILS is unset here,
-// so every one resolves to "off" and no further e-mail is sent (worker/email/confirmation.ts).
+// Stored leads queue disabled confirmations; the three storage-outage cases queue void operational
+// reports without an alert recipient. Neither background action may send another email here.
 const resendBeforeBackground = resendCalls();
 const backgroundResults = await Promise.all(backgroundWork);
-check(backgroundResults.length > 0 && backgroundResults.every((result) => JSON.stringify(result) === JSON.stringify({ skipped: 'off' })) && resendCalls() === resendBeforeBackground,
-  'queued confirmations (ctx.waitUntil) all resolve to "off" without another e-mail (LEADS_CUSTOMER_MAILS unset)', backgroundResults);
+const confirmations = backgroundResults.filter((result) => result !== undefined);
+check(confirmations.length > 0 && backgroundResults.length - confirmations.length === 3
+  && confirmations.every((result) => JSON.stringify(result) === JSON.stringify({ skipped: 'off' })) && resendCalls() === resendBeforeBackground,
+  'background work: confirmations off, three storage reports, no additional mail', backgroundResults);
 check(fetchCalls.every((url) => url === 'https://api.resend.com/emails'), 'only the stubbed Resend endpoint was called (Turnstile is off on localhost)', fetchCalls);
 
 if (failures > 0) {
