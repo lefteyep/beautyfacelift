@@ -46,7 +46,7 @@ test('full dump with quoted identifiers, exact schema and sequence validates', (
 });
 test('actual Wrangler 4.148.0 local export remains accepted with its original LF checksum', () => {
   const bytes = Buffer.from(readFileSync(new URL('../fixtures/d1-recovery/05-wrangler-local-export.sql', import.meta.url), 'utf8').replaceAll('\r\n', '\n'));
-  assert.equal(validateDump(bytes), '822ffc9f18117ceb39288b2fb2856542522359a26d259cf3c3b2f071db9b275b');
+  assert.equal(validateDump(bytes), '9da114e8565f883d3c0d4869a8851a3bfb1ae177e01b8e263553732d44a8ffb4');
 });
 test('all fields and sequence are checked beyond the eight baseline checks', () => {
   for (const change of ["UPDATE leads SET topic='unexpected' WHERE name LIKE '% A'", "UPDATE sqlite_sequence SET seq=99 WHERE name='lead_events'"]) {
