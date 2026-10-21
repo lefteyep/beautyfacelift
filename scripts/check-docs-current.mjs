@@ -11,6 +11,8 @@ const activeFiles = [
   'docs/current/DESIGN-SYSTEM.md',
   'docs/current/HANDOVER-2026-10-21.md',
   'docs/current/LEAD-COCKPIT-PLAN.md',
+  'docs/current/LEAD-COCKPIT.md',
+  'docs/current/REPAIR-2026-10-21.md',
   'docs/current/DOMAIN-LAUNCH.md',
   'docs/current/PPC-TRACKING.md',
   'docs/current/SECURITY.md',
