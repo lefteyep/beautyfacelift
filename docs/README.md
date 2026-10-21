@@ -7,10 +7,12 @@ Use this page to choose the right document quickly.
 | Need | Document |
 |------|----------|
 | **Start here:** project, systems and IDs, current state, next steps (handover 2026-10-21) | [current/HANDOVER-2026-10-21.md](current/HANDOVER-2026-10-21.md) |
+| Review repair milestone R1–R11, pending verification and deferred business/data gates | [current/REPAIR-2026-10-21.md](current/REPAIR-2026-10-21.md) |
 | OpenAI Codex: setup notes and the start prompt | [current/CODEX-START.md](current/CODEX-START.md) |
 | Project overview and commands | [../README.md](../README.md) |
 | Agent rules: safety model, deployment rule, and the project context (commands, release gates, client design rules, gotchas) | [../AGENTS.md](../AGENTS.md) |
-| Lead-Cockpit: the approved implementation plan (Phase 1 in PRs #55–#57) | [current/LEAD-COCKPIT-PLAN.md](current/LEAD-COCKPIT-PLAN.md) |
+| Lead-Cockpit: current scope and pre-rollout gates (original approved plan archived; #55–#57 unmerged) | [current/LEAD-COCKPIT-PLAN.md](current/LEAD-COCKPIT-PLAN.md) |
+| Cockpit implementation/runbook (unreleased; auth decision and go-live deferred) | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
 | Current launch/status snapshot | [current/STATUS.md](current/STATUS.md) |
 | Open operational work | [current/TODO.md](current/TODO.md) |
 | Local setup and production config | [current/SETUP.md](current/SETUP.md) |
@@ -26,7 +28,7 @@ Use this page to choose the right document quickly.
 
 ## Historical Records
 
-Historical docs are kept under [archive/](archive/) for traceability. They are not current operating instructions unless a current doc links to them explicitly.
+Exact pre-repair snapshots, including the original October 20 cockpit plan and superseded campaign/status claims, are in [archive/reviews/2026-10-21-pre-repair/](archive/reviews/2026-10-21-pre-repair/README.md). Historical docs are kept under [archive/](archive/) for traceability. They are not current operating instructions unless a current doc links to them explicitly.
 
 ## Rule For New Docs
 

@@ -1,10 +1,10 @@
 # Beauty Face Lift — Design System ("Atelier Glow")
 
-> Last updated: 7 October 2026
+> Design approved: 7 October 2026; operating note updated: 21 October 2026
 > Source of truth for tokens: `src/styles/main.css` · Shared patterns: `src/styles/components.css`
 > Reference pages: `src/pages/index.astro` (homepage) and `src/pages/behandlungen/index.astro` (treatments overview)
 
-The October 2026 "Swiss Quiet Luxury" direction (Bodoni Moda, square corners, espresso buttons) was rejected by the client and replaced by Atelier Glow. Do not reintroduce it.
+The October 2026 "Swiss Quiet Luxury" direction (Bodoni Moda, square corners, espresso buttons) was rejected by the client and replaced by Atelier Glow. Do not reintroduce it. The review repair milestone does not redesign the site or authorize a new visual direction; it corrects sharing-image dimensions and blanket eager loading (R10/R11), with combined verification still pending. See [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md).
 
 ## 1. Principles and client rules
 
@@ -21,7 +21,7 @@ These rules come straight from client feedback and are not optional:
 7. **No image captions**, except review attributions.
 8. **The blog is called "Wissen"** in the UI. Its URL stays `/blog/`.
 
-Copy is written in Swiss German ("ss", never "ß"). The main site uses "Sie". Each ad landing page keeps its own campaign voice: `/lp/aquafacial/` uses "du", the other ad pages use "Sie". Never invent prices, results, reviews or claims. Cosmetic claims stay cautious ("kann … unterstützen").
+Copy uses Swiss Standard German spelling ("ss", never "ß"). The main site uses "Sie". Each ad landing page keeps its own campaign voice: `/lp/aquafacial/` uses "du", the other ad pages use "Sie". Never invent prices, results, reviews or claims. Cosmetic claims stay cautious ("kann … unterstützen").
 
 ## 2. Colour
 

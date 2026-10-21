@@ -1,4 +1,6 @@
-# PPC Tracking Setup - Treatwell Proxy Launch
+# PPC Tracking — current site events and campaign use
+
+Updated 21 October 2026. The review repairs are **IMPLEMENTATION IN PROGRESS**; see [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Historical setup commands are [archived](../archive/reviews/2026-10-21-pre-repair/PPC-TRACKING.md).
 
 ## Implemented Site Events
 
@@ -10,7 +12,7 @@ The site now uses `/termin/` as the owned booking-forward page before sending us
 https://buchung.treatwell.ch/ort/beauty-face-lift/
 ```
 
-All booking links should stay pointed at `/termin/` or `bookingLinkForService(service)`. The final Treatwell redirect fires `treatwell_outbound_click`, which is the launch proxy conversion.
+All booking links should stay pointed at `/termin/` or `bookingLinkForService(service)`. The final Treatwell redirect fires `treatwell_outbound_click`, a booking-intent proxy. It does not prove a booking. The current combo campaign optimises on standard `Lead`, not this click; use [the campaign checklist](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md).
 
 | dataLayer event | Meta browser/CAPI event | Use |
 |---|---|---|
@@ -18,8 +20,9 @@ All booking links should stay pointed at `/termin/` or `bookingLinkForService(se
 | `landing_page_view` | `LandingPageView` | Retargeting |
 | `treatment_view` | `ViewContent` | Retargeting |
 | `booking_button_click` | `BookingButtonClick` | Secondary conversion |
-| `treatwell_outbound_click` | `TreatwellOutboundClick` | Primary proxy conversion |
-| `/termin/` forward | `Schedule` | Standard Meta event for custom-conversion compatibility |
+| `treatwell_outbound_click` | `TreatwellOutboundClick` | Booking-intent proxy; secondary for the current combo campaign |
+| `/termin/` forward | `Schedule` | Booking-intent event; not a confirmed appointment |
+| `generate_lead` | `Lead` | Accepted enquiry; current combo-campaign optimisation event |
 | `phone_click` | `Contact` with `method=phone` | Secondary conversion |
 | `whatsapp_click` | `Contact` with `method=whatsapp` | Secondary conversion |
 | `scroll_50` | `Scroll50` | Observation |
@@ -35,7 +38,7 @@ The event-data keys the page may send and the Worker accepts are one list in `sh
 
 ## Live Deployment Status
 
-As of 2026-05-08, the site code is ready to deploy to Cloudflare Workers with Treatwell as the temporary booking destination.
+Production source reviewed on 2026-10-21 is `35af1f0`; the site is already deployed on Cloudflare Workers and bookings use Treatwell. Pixel/CAPI and GTM/GA4 were configured in October. A labelled ad-style test on 2026-10-20 accepted the server events including Lead; that dated observation is not ongoing monitoring.
 
 Current deployment behavior:
 
@@ -46,65 +49,25 @@ Current deployment behavior:
 - Marketing tags and server-side marketing events only fire after the visitor grants marketing consent.
 - If Meta, GTM, or GA4 variables are missing, tracking calls are skipped gracefully and users still reach Treatwell.
 
-Current Cloudflare environment check before launch showed these PPC variables are not configured yet:
+Recorded configuration (no live secret inventory was performed in this review):
 
-| Variable | Type | Required for | Current status |
-|---|---|---|---|
-| `PUBLIC_META_PIXEL_ID` | build-time public env | Meta browser Pixel | Missing |
-| `META_PIXEL_ID` | Worker secret | Meta Conversions API | Missing |
-| `META_ACCESS_TOKEN` | Worker secret | Meta Conversions API | Missing |
-| `PUBLIC_GTM_ID` | build-time public env | GTM container loading | Missing |
-| `GA4_MEASUREMENT_ID` | Worker secret | GA4 Measurement Protocol | Missing |
-| `GA4_API_SECRET` | Worker secret | GA4 Measurement Protocol | Missing |
+| Variable | Location | Recorded state |
+| --- | --- | --- |
+| `PUBLIC_META_PIXEL_ID` | GitHub Actions build variable | Configured for browser Pixel `1147246982373946` |
+| `META_PIXEL_ID`, `META_ACCESS_TOKEN` | Worker secrets | CAPI configured; successful labelled test recorded 2026-10-20 |
+| `PUBLIC_GTM_ID` | GitHub Actions build variable | `GTM-NVC9QKGS`, live since 2026-10-10 |
+| `GA4_MEASUREMENT_ID`, `GA4_API_SECRET` | Optional Worker configuration | Intentionally off; GA4 runs through GTM, avoiding duplicate forwarding |
 
-The site can be deployed before these values exist, but paid campaign optimization should not start until at least consent-approved Meta Pixel browser events and `TreatwellOutboundClick` are visible in Meta Events Manager.
+Astro embeds `PUBLIC_*` at build time; dashboard-only changes to Worker variables do not rebuild static HTML. Use the reviewed GitHub release process, not manual `cf:deploy`/Wrangler deployment. Do not recreate configured properties or enable server-side GA4 from historical setup commands.
 
-Recommended Cloudflare setup after IDs are available:
+## Meta campaign use
 
-```powershell
-npx wrangler secret put META_PIXEL_ID
-npx wrangler secret put META_ACCESS_TOKEN
-npx wrangler secret put GA4_MEASUREMENT_ID
-npx wrangler secret put GA4_API_SECRET
-```
-
-Set public IDs in the shell or CI environment that runs `astro build`. Astro embeds `PUBLIC_*` values at build time, so putting these only in `wrangler.jsonc` is not enough for the static HTML:
-
-```powershell
-$env:PUBLIC_META_PIXEL_ID = "123456789012345"
-$env:PUBLIC_GTM_ID = "GTM-XXXXXXX"
-npm run cf:deploy
-```
-
-If the GitHub `master` deploy workflow is used later, add `PUBLIC_META_PIXEL_ID` as a GitHub repository variable. The workflow already passes it into the `npm run build` step.
-
-After private Worker secrets and public build variables are set, rebuild and redeploy:
-
-```powershell
-npm run cf:deploy
-```
-
-## Meta Ads
-
-1. Verify `PUBLIC_META_PIXEL_ID`, `META_PIXEL_ID`, and `META_ACCESS_TOKEN` are configured for the deployment environment.
-   The site initializes Meta Pixel only after marketing consent when `PUBLIC_META_PIXEL_ID` is present, so do not also fire a second Meta Pixel base tag from GTM unless the direct site bootstrap is removed.
-2. In Events Manager, test these events:
-   - `PageView`
-   - `LandingPageView`
-   - `ViewContent`
-   - `BookingButtonClick`
-   - `Schedule`
-   - `TreatwellOutboundClick`
-   - `Contact`
-   - `HighIntentVisit`
-3. Create custom conversions:
-   - `BFL - Treatwell Booking Intent`: standard event `Schedule`, category `Termin vereinbaren`, with rules `page_path contains /termin/` and `link_domain contains buchung.treatwell.ch`.
-   - `BFL - Booking Button Click`: event `BookingButtonClick`.
-   - `BFL - High Intent Visit`: event `HighIntentVisit`.
-   - `BFL - Contact Click`: event `Contact`.
-4. Start campaigns with the Leads objective and optimize for `BFL - Treatwell Booking Intent` once event volume is stable.
-5. Use Traffic/Landing Page Views only as a short ramp if the proxy conversion has too little volume.
-6. Do not create Purchase/Schedule optimization until real booking confirmation tracking exists.
+- Preserve standard Pixel `Lead` optimisation for the combo campaign. Custom conversion **BFL – Lead – Kombi LP** (`1596786311924725`) is a reporting column only.
+- The campaign remains paused and waits for cockpit Phase 1 by the user's decision, plus Treatwell CHF 170 service, old-site shutdown/301 redirect, revised dates and an approved funnel test.
+- Do not add a second Pixel base tag in GTM; the site already initialises it after consent.
+- Fix and verify R2 (request provenance/content type) and R9 (current click ID replacing a stale cookie) in the repair milestone. Before verification, current production can use a stale `_fbc` on repeat paid visits; do not describe that as repaired already.
+- `Schedule`, `TreatwellOutboundClick`, phone and WhatsApp events measure intent/contact clicks. Verified appointments/outcomes require the staff record, not a click event.
+- Offline conversions, new audiences/conversions and further automation are outside this repair. Historical recommendations are retained in the archive.
 
 ## GTM And GA4
 
@@ -151,13 +114,13 @@ time_on_page_30s
 high_intent_visit
 ```
 
-Create GA4 event tags with the same event names and pass through the matching parameters. Mark only `treatwell_outbound_click` as the initial key event for paid optimization analysis.
+Create GA4 event tags with the same event names and pass through the matching parameters. `generate_lead` was marked as a key event on 2026-10-20. Mark `aquafacial_lead_submit`, `treatwell_outbound_click`, `booking_button_click`, `whatsapp_click` and `phone_click` as they fire and are verified. A GA4 key-event flag is not a decision to change the Meta campaign optimisation event.
 
 ## Google Ads
 
 Use native Google Ads conversion tags or imported GA4 key events, but do not make both primary for the same action.
 
-Recommended launch conversion actions:
+Historical Google Ads recommendations below are not current account configuration or an approved campaign launch. Review separately before any Google Ads work:
 
 | Conversion | Source | Primary | Count | Value |
 |---|---|---:|---|---:|
@@ -182,42 +145,10 @@ Recommended launch conversion actions:
 - Confirm phone and WhatsApp clicks work on mobile.
 - Confirm users still reach Treatwell if `/api/track` fails.
 
-## Next Steps
+## Current verification order
 
-Use this order after the live deploy:
-
-1. Create or confirm the Meta Pixel for Beauty Face Lift.
-2. Generate a Meta Conversions API access token in Events Manager.
-3. Add `PUBLIC_META_PIXEL_ID`, `META_PIXEL_ID`, and `META_ACCESS_TOKEN` to Cloudflare.
-4. Redeploy so the browser Pixel ID is embedded in the static Astro output and available after marketing consent.
-5. Open Meta Events Manager Test Events and visit a paid-style URL, for example:
-
-   ```text
-   https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_launch_carbon_202605&utm_content=test_ad&fbclid=test&test_event_code=TEST12345
-   ```
-
-6. Accept marketing consent, click a booking CTA, and confirm this sequence:
-   - `PageView`
-   - `LandingPageView`
-   - `ViewContent`
-   - `BookingButtonClick`
-   - `HighIntentVisit`
-   - `Schedule`
-   - `TreatwellOutboundClick`
-7. Create Meta custom conversions:
-   - `BFL - Treatwell Booking Intent`: event `Schedule`, rules `page_path contains /termin/` and `link_domain contains buchung.treatwell.ch`, primary launch optimization.
-   - `BFL - Booking Button Click`: event `BookingButtonClick`, secondary.
-   - `BFL - Contact Click`: event `Contact`, secondary.
-   - `BFL - High Intent Visit`: event `HighIntentVisit`, retargeting/secondary.
-8. Create retargeting audiences:
-   - All website visitors, 30 days.
-   - Landing page viewers, 30 days.
-   - Treatment viewers, 30 days.
-   - Booking button clickers, 30 days.
-   - Treatwell outbound clickers, 30 days.
-   - Contact clickers, 30 days.
-9. Launch Meta with Leads objective, website conversion location, and optimize for `BFL - Treatwell Outbound Click` once the event is verified. Use landing page views only as a short learning/ramp fallback if event volume is too low.
-10. Create GTM and GA4 only after Meta is verified, so duplicate Meta browser events are avoided.
-11. In Google Ads, use either native Google Ads conversion tags or imported GA4 key events for `treatwell_outbound_click`; keep only one source primary.
-12. Reconcile Treatwell bookings manually every week by campaign, date, service, and voucher/offer code until real booking confirmation tracking is available.
-13. When Beautyfacelift/Aesthetika booking integration is ready, replace `TreatwellOutboundClick` as the primary optimization event with the real confirmed booking event.
+1. Finish and verify the focused repair milestone against the final revision, using source checks and local stubbed harnesses. No real form submissions or marketing POSTs in routine repair tests.
+2. Recheck consent-denied behavior, accepted-lead counting and browser/server deduplication using the approved harness/browser approach. Live labelled-test enquiries require explicit authorization because they email Teresa.
+3. Preserve the cockpit-before-campaign business gate and resolve pre-D1 data readiness/authentication as separate scoped work; authentication remains deferred now.
+4. Before an approved campaign launch, verify the Treatwell offer, old-site redirect/email preservation, dates, `_v2` previews and UTMs. Keep standard Lead optimisation and report-only custom conversion.
+5. Reconcile actual enquiry notifications, stored leads and manually verified booking outcomes. GA4/Meta are consent-limited; Treatwell outbound clicks do not prove appointments. No Phase 2 automation in this repair.
