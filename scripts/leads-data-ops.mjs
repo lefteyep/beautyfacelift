@@ -39,7 +39,7 @@ function migrate(db) {
 
 function schema(db) {
   return toPlain(db.prepare(`SELECT type, name, tbl_name, sql FROM sqlite_schema
-    WHERE name NOT LIKE 'sqlite_%' ORDER BY type, name`).all());
+    WHERE name NOT LIKE 'sqlite!_%' ESCAPE '!' ORDER BY type, name`).all());
 }
 
 const expectedSchema = (() => {
@@ -152,6 +152,13 @@ function erasurePlan(db, filePath, ids) {
   const tokens = [...new Set(targets.flatMap((row) => [row.id, row.name, row.email, row.email_normalized, row.phone, row.phone_normalized])
     .filter((value) => typeof value === 'string' && value.trim()).map((value) => value.toLowerCase()))];
   const containsToken = (value) => typeof value === 'string' && tokens.some((token) => value.toLowerCase().includes(token));
+  const containsJsonToken = (value) => {
+    if (Array.isArray(value)) return value.some(containsJsonToken);
+    if (value !== null && typeof value === 'object') {
+      return Object.entries(value).some(([key, item]) => containsToken(key) || containsJsonToken(item));
+    }
+    return containsToken(typeof value === 'number' ? String(value) : value);
+  };
   const links = [];
   const metadata = [];
   for (const row of state.leads) {
@@ -163,10 +170,14 @@ function erasurePlan(db, filePath, ids) {
   for (const event of state.events) {
     if (selected.has(event.lead_id)) continue;
     let meta = event.meta;
+    let metaForScan = meta;
     if (meta !== null && meta !== '') {
       try {
         const parsed = JSON.parse(meta);
         const clean = removeIdReferences(parsed, selected);
+        // Scan decoded strings/keys, even when no exact relationship was removed. Raw JSON text
+        // can hide the same copied PII behind unicode escapes (and stringification re-escapes quotes).
+        metaForScan = clean === DROP ? null : clean;
         if (JSON.stringify(parsed) !== JSON.stringify(clean === DROP ? null : clean)) {
           meta = clean === DROP ? null : JSON.stringify(clean);
           metadata.push({ id: event.id, meta });
@@ -175,8 +186,9 @@ function erasurePlan(db, filePath, ids) {
         // Malformed JSON may contain PII; the scan below blocks rather than dropping its contents.
       }
     }
-    const remaining = { ...event, meta };
-    const columns = Object.entries(remaining).filter(([key, value]) => !['id', 'lead_id'].includes(key) && containsToken(value)).map(([key]) => key);
+    const remaining = { ...event, meta: metaForScan };
+    const columns = Object.entries(remaining).filter(([key, value]) => !['id', 'lead_id'].includes(key)
+      && (key === 'meta' ? containsJsonToken(value) : containsToken(value))).map(([key]) => key);
     if (columns.length) blockers.push({ kind: 'possible-copy-needs-review', table: 'lead_events', rowId: event.id, columns });
   }
   const plan = {

@@ -118,6 +118,24 @@ test('unstructured PII, embedded IDs and malformed JSON references block instead
   assert.equal(inspectFixture(file).snapshotHash, before);
 });
 
+test('escaped JSON personal data and embedded IDs block erasure in decoded keys and values', (t) => {
+  for (const meta of [
+    '{"email":"\\u0061lpha@example.invalid"}',
+    '{"\\u0061lpha@example.invalid":"copied keyed contact"}',
+    '{"nested":[{"name":"Synthetic \\u0041lpha"}]}',
+    '{"message":"Related \\u0066ixture-a received"}',
+  ]) {
+    const { file } = fixture(t);
+    withDb(file, (db) => db.prepare('UPDATE lead_events SET meta = ? WHERE id = 4').run(meta));
+    const plan = erasePlan(file);
+    const before = inspectFixture(file).snapshotHash;
+    assert.ok(plan.blockers.some((blocker) => blocker.table === 'lead_events' && blocker.rowId === 4 && blocker.columns.includes('meta')));
+    assert.throws(() => applyPlan(file, plan), /blocked/);
+    assert.equal(inspectFixture(file).snapshotHash, before);
+    assert.equal(rows(file, 'lead_events').find((row) => row.id === 4).meta, meta);
+  }
+});
+
 test('nested exact ID references are removed while unrelated metadata survives', (t) => {
   const { file } = fixture(t);
   withDb(file, (db) => db.prepare('UPDATE lead_events SET meta = ? WHERE id = 4').run(JSON.stringify({
@@ -202,6 +220,17 @@ test('unknown columns require a schema/erasure review', (t) => {
   const { file } = fixture(t);
   withDb(file, (db) => db.exec('ALTER TABLE leads ADD COLUMN future_pii TEXT'));
   assert.throws(() => inspectFixture(file), /Unsupported schema/);
+});
+
+test('SQLite-looking user table names are not mistaken for reserved internal tables', (t) => {
+  const { file } = fixture(t);
+  withDb(file, (db) => {
+    // Only sqlite_ is reserved. The underscore in an unescaped LIKE pattern matches any character.
+    db.exec('CREATE TABLE sqliteCopy (lead_id TEXT, email TEXT)');
+    db.prepare('INSERT INTO sqliteCopy VALUES (?, ?)').run('fixture-a', 'alpha@example.invalid');
+  });
+  assert.throws(() => inspectFixture(file), /Unsupported schema/);
+  assert.throws(() => erasePlan(file), /Unsupported schema/);
 });
 
 test('unknown triggers require a schema/erasure review', (t) => {
