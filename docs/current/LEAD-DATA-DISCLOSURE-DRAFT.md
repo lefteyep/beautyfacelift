@@ -1,0 +1,38 @@
+# D1 lead-store disclosure — review draft
+
+**NOT APPROVED. NOT PUBLISHED. NOT A STATEMENT THAT D1 LEAD STORAGE IS LIVE.**
+
+Prepared 21 October 2026 from the repository's [current privacy page](../../src/pages/datenschutz/index.astro), [lead schema](../../worker/migrations/0001_leads.sql), [ingest path](../../worker/leads/ingest.ts) and [cockpit plan](LEAD-COCKPIT-PLAN.md). This is proposed copy for review before first D1 persistence, not an edit to the public page. No retention duration, new consent or go-live decision is implied. The text must be reconciled with the final approved processing and [data operations procedure](LEAD-DATA-OPERATIONS.md).
+
+## Proposed German copy for the approved future processing
+
+The following block is intended for the existing privacy notice's storage/provider/access sections **only when the approved processing is ready to start**. Its placeholders are unresolved decisions and prevent publication as written.
+
+> **Kontaktanfragen und interne Anfragenverwaltung**
+>
+> Wenn Sie uns über ein Formular kontaktieren, verarbeiten wir Ihre Angaben, um Ihre Anfrage zu beantworten, Kontakt aufzunehmen und die weitere Bearbeitung zu dokumentieren. Dazu können Name, E-Mail-Adresse, Telefonnummer, gewünschte Behandlung, bevorzugter Kontaktweg, Erreichbarkeit und Terminwunsch sowie Ihre Nachricht und freiwillig mitgeteilte Hautziele gehören. Bitte teilen Sie uns über das Formular nur Angaben mit, die für Ihre Anfrage nötig sind.
+>
+> Zusätzlich zur Benachrichtigung per E-Mail speichern wir die Anfrage in einer internen Datenbank bei Cloudflare D1. Gespeichert werden auch Eingangszeitpunkt, Herkunft der Anfrage, aufgerufene Seite beziehungsweise Landingpage, Referrer und übermittelte Kampagnenparameter oder Klickkennungen. Wiederholte Anfragen können anhand übereinstimmender Kontaktdaten miteinander verknüpft werden. In der internen Bearbeitung können Kontaktversuche, Bearbeitungsstatus, vereinbarte Termine, Ergebnis eines Termins, erster erfasster Umsatz, Folgetermin und notwendige Bearbeitungsnotizen hinzukommen. Änderungen werden in einer Ereignishistorie dokumentiert. Manuell aufgenommene Anfragen, etwa über WhatsApp, werden mit ihrer tatsächlichen Herkunft erfasst.
+>
+> Zugriff erhalten die für die Bearbeitung berechtigten Personen bei Beauty Face Lift und der beauftragten Agentur mediapaulo im jeweils freigegebenen Umfang. Cloudflare stellt die Website und den Datenbankdienst bereit. Resend wird für den Versand der Anfragebenachrichtigung eingesetzt; die Benachrichtigung wird an die zuständige Studioadresse und als Blindkopie an die betreuende Agentur übermittelt. Online-Buchungen über Treatwell bleiben ein eigener Vorgang; ein Klick auf den Buchungslink ist noch keine bestätigte Buchung. **[Freigegebene Angaben zu Empfängern, Vertragsparteien, Bearbeitungsorten, Auslandübermittlungen und Schutzmassnahmen nach Prüfung ergänzen.]**
+>
+> Für die Bearbeitung einer Anfrage verwenden wir die Kontaktdaten nicht automatisch als Newsletter-Anmeldung. Marketing- und Analyse-Ereignisse sowie die Weitergabe an entsprechende Anbieter sind im Abschnitt zu Cookies und Tracking gesondert beschrieben. **[Vor Veröffentlichung abgleichen, welche Formular- und Kampagnendaten tatsächlich erhoben werden und wie Einwilligungen und gesetzliche Voraussetzungen für die jeweilige Bearbeitung erfüllt werden.]**
+>
+> **[Die genehmigten Aufbewahrungskriterien beziehungsweise Fristen, deren Beginn, Ausnahmen und die geprüfte Löschung von Anfragen, Ereignissen, E-Mail-Kopien, Protokollen und Sicherungen hier einfügen. Es ist noch keine Dauer beschlossen.]** Für Anliegen zu Ihren gespeicherten Daten und zur Berichtigung oder Löschung können Sie uns unter info@beautyfacelift.ch kontaktieren. Wir prüfen Ihr Anliegen und Ihre Berechtigung und beziehen die betroffenen Datenbestände ein. **[Den genehmigten Umgang mit Wiederherstellungskopien und gesetzlichen Ausnahmen konkret ergänzen; keine sofortige Löschung aus sämtlichen Sicherungen versprechen.]**
+
+## Required review before publication or real persistence
+
+| Item | Current evidence | Decision/check still required |
+| --- | --- | --- |
+| Controller/contact | Existing public notice names Beauty Face Lift and its contact at `info@beautyfacelift.ch` | Confirm continued accuracy and who approves the new processing; this draft sends no notice/email |
+| Purpose and roles | Plan describes enquiry/contact/status and manual outcome tracking; agency operates the project | Approve actual purpose, role allocation, necessary data and agency processing arrangement |
+| Data categories | Schema contains contact, free text/skin goal, contact preferences, source/attribution, notes, appointment/revenue/outcome, consent and automation fields | Confirm which fields are populated/used in the initial pilot; exclude unnecessary details, particularly health-related free text; legal review of applicable obligations |
+| Technical data split | Owner notification includes IP and User-Agent; `leads` has no dedicated IP/User-Agent columns; user-supplied text/URLs can still contain personal details | Ensure final notice distinguishes notification/security processing from D1 columns; do not claim “no IP ever stored” when text can contain it |
+| Providers/locations | Code/config identify Cloudflare/Resend; Treatwell remains the external booking path | Verify current contractual entities, processing/subprocessing locations and applicable transfer safeguards. The recorded D1 location hint/region is not proof of an exclusive jurisdiction for every provider operation |
+| Access | Existing guard denies unconfigured cockpit access; auth provider/setup remains a separate decision | Approve actual agency-only pilot list and final staff/operator permissions; do not claim a login provider has been selected |
+| Retention and erasure | Synthetic local erasure/restore rehearsal and [procedure](LEAD-DATA-OPERATIONS.md) exist | Approve justified policy/owner and real-D1 deletion/recovery path, covering events, relationship references, mail, logs, exports and backup reintroduction. No 24-month assumption |
+| Mail behaviour | Current user gate keeps customer confirmations off and agency reminders separate | Align wording with approved active delivery only; no claim that customer follow-up, newsletters, inbound parsing or Phase 2 exists |
+| Marketing relationship | Website tracking is separately gated in current code/docs; D1 ingest stores supplied attribution | Review final collection/transmission and the complete existing tracking notice; do not present operational storage as marketing consent or imply a newsletter opt-in |
+| Publication and rollout | This file is a separate Markdown draft; public Astro page unchanged | Obtain approval for the completed notice and associated process before first real D1 write; publish/deploy only with the user's recorded authorisation |
+
+This draft intentionally avoids unverified legal bases, provider-country guarantees, named response owners, response-time promises and retention durations. Those choices must be resolved and the placeholders removed before publication. The existing public notice also needs a consistency review when the D1 text is adopted; a new database paragraph alone is not that approval.

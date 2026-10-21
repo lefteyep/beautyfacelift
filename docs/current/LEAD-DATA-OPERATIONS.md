@@ -1,0 +1,123 @@
+# Lead data operations — initial D1 pilot preparation
+
+**21 October 2026. Implemented and tested on synthetic local SQLite fixtures. This is an operator procedure for review, not approval to persist real enquiries, migrate, deploy, delete real data or contact anyone.** No live D1 contents, dashboard recovery, mail delivery or production permissions were inspected by this work. The [pre-D1 gates](REPAIR-2026-10-21.md#gates-before-the-first-d1-rollout) and [cockpit plan](LEAD-COCKPIT-PLAN.md) still apply.
+
+## Scope and policy status
+
+The tool in [scripts/leads-data-ops.mjs](../../scripts/leads-data-ops.mjs) rehearses an exact lead selection, linked-event erasure, relationship cleanup, backup and restore. It supports only tool-created synthetic `.sqlite` files. It has no network client, credential handling, remote flag, production adapter, retention job or age-based deletion. A Wrangler state file or ordinary D1 export is refused. Do not put real data into a marked fixture or add a marker to a real database: the marker is an accidental-use guard, not proof that someone has not copied personal data into it.
+
+**No retention period is approved.** The archived 24-month proposal is not adopted here. Before first real D1 persistence, the data owner must approve purpose-based retention for enquiries, contact/outcome notes, events, email copies, operational logs and exports/backups, including any justified exceptions and the point from which a period runs. Record the policy revision, decision owner, review date and deletion method. A provider recovery window is not the business retention policy. No retention automation should run before that decision and its checks are implemented.
+
+## Roles and access
+
+These are responsibilities to assign before rollout; this document does not invent a named operator or response-time promise.
+
+| Role | Responsibility | Required recorded evidence before real pilot |
+| --- | --- | --- |
+| Agency pilot coordinator | Holds rollout/restart decision; confirms agency-only scope and gates | Approved candidate revision, pilot window, approved test scope and rollback revision |
+| Agency data owner | Approves the retention/deletion policy, identity checks, access and corrections/erasure requests | Named accountable human and deputy; policy decision and request register location |
+| Agency operations owner | Receives storage alerts, handles reconciliation and incidents; escalates unresolved failures to coordinator | Named human/deputy; monitored alert destination; acknowledgement/escalation rule and response expectation agreed by the agency; successful end-to-end alert receipt |
+| Approved data operator | Performs scoped queries, reconciliation, recovery or erasure under the data owner's instruction | Least-privilege access, reviewed action plan and audit reference |
+
+For the pilot, keep staff authorization agency-only, customer mail off, reminders agency-only and the owner notification free of cockpit links. Do not enrol or test with Teresa. No authentication provider is selected by this procedure. Cockpit access alone does not grant database-console/export access. Approve Cloudflare account/API permissions separately; distinguish read, write and restore permissions. Do not publish tokens or put them in command history, source, screenshots or a reconciliation register. Revoke access when an operator leaves the role and record the revocation.
+
+Use approved private storage for request records, mailbox references, exports and incident evidence. Prefer references and counts over message bodies or contact details in general issue trackers. Avoid collecting medical details in free-text recovery/notes. An access or correction request needs a proportionate identity check through an existing trusted contact route; an unverified email must not receive an export. Locate all verified relevant enquiries/events and review third-party material before providing a scoped response through the approved secure channel. Corrections must include copied notes/events or email records where appropriate, rather than only changing the newest lead. Do not add raw request details to public logs.
+
+## Reconcile received owner emails with stored leads
+
+Reconciliation is required because storage and email delivery are separate outcomes. In [contact.ts](../../worker/routes/contact.ts), a D1 exception permits the owner notification attempt to continue; a stored lead can also remain after the owner email fails. Customer-confirmation/reminder reservations are not proof of owner-email receipt, and owner delivery is not recorded as a lead event. The pilot integration contract adds `Anfrage-ID` (UUID) and `Eingang` (ISO UTC) to the owner notification using the same reference/time as ingest, even when persistence fails. Before rollout, verify those fields against the integrated revision and mail fixture. Legacy notifications without that reference cannot use the verified UUID recovery path; keep them in a separate manual-review case.
+
+Run this supervised procedure for each approved pilot session and after a storage/notification alert or recovery. Before an unattended pilot, the operations owner must separately record the regular review cadence and maximum unreviewed gap; neither is already configured by this document.
+
+1. Open the existing agency BCC mailbox using its approved mail client. Do not redirect/forward a client's message to a new service, use a connector for another client's Resend account, or send a test email. Restrict review to the approved intake window and retain the previous successful checkpoint so gaps cannot be skipped. Use a small intentional overlap selected for the incident rather than assuming mail and database clocks agree.
+2. In the private reconciliation register record a case/batch reference, operator, UTC start/end, timezone conversion and checkpoint. Record `Anfrage-ID`, the notification's received headers and its `Eingang` body timestamp; retain its Message-ID/private mailbox reference rather than copying the body. Deduplicate exact copies of one message by its headers and request reference. A repeated email address does not establish a duplicate enquiry.
+3. Using approved read-only cockpit/database access, locate the exact UUID first, including all statuses and `test`/`spam` exclusions, then classify test/spam separately. Verify original timestamp, form source, campaign/topic and contact details against the notification. Normalise email case/whitespace and phone formatting consistently with [shared/leads.ts](../../shared/leads.ts). Contact details may be shared or changed; a match on one field alone is insufficient. Check repeated enquiries individually. When UUID/time is missing or inconsistent, use these details only to investigate and keep the case unresolved until reviewed; never invent a replacement original UUID. Compare the relevant content privately when needed; do not copy skin-goal/message text into the register.
+4. Classify each outcome using the table below. Keep ambiguous cases open; do not infer receipt from a marketing event or appointment from a Treatwell click. Compare rows in the reverse direction too, so a stored enquiry with failed owner mail is visible.
+5. Close a batch only when every item has a matching lead reference, approved exclusion, recovered record or tracked unresolved case with a responsible operator. Record counts in both directions and any remaining uncertainty. Advance the checkpoint only through the fully reviewed interval; sign off recovery separately before reporting cockpit totals as complete.
+
+| Evidence | Interpretation | Operator action |
+| --- | --- | --- |
+| Received agency notification + matching row | Email receipt and persistence both evidenced | Record mailbox reference and lead ID; keep duplicate enquiries separate |
+| Received notification + no matching row | Possible D1 loss, unbound/disabled ingest or search/time mismatch | Investigate logs/config for the interval; recheck all statuses/exclusions; use approved manual recovery only after confirming absence |
+| Stored row + no received notification | Possible mail failure, delay, BCC failure or review-window gap | Check provider/mailbox evidence and request outcome; retain the row and track the incident; do not resubmit the public form or automatically resend |
+| Several possible matches or uncertain mail outcome | No proven one-to-one relationship | Hold open for human review; preserve reservations and provider idempotency evidence; never reset sent/reserved fields to force another email |
+
+### Manual recovery and WhatsApp
+
+Use the authenticated, CSRF-protected `/admin/leads/new/` workflow supplied by the pilot's manual-entry change in [worker/leads/router.ts](../../worker/leads/router.ts), once that change has been integrated and its fields verified. GET/HEAD show the form; POST also requires same-origin provenance, session-bound `_csrf`, signing configuration and `LEADS_CAPTURE=on`. See the integrated [pilot workflow](COCKPIT-PILOT-WORKFLOW.md). This data-operations tool does not insert recovered real enquiries. Never replay the public contact form: it can send another owner email and create a duplicate. Do not repair intake by pasting unreviewed SQL into D1.
+
+Before a recovery write, search again and record the private case reference, original notification reference, original received time/source, operator and reason. Copy only necessary fields from the original evidence. Submit `channel=recovery`, `original_reference` (original UUID, reused as the primary key), `original_received_at` (past full ISO timestamp with timezone, normalised to UTC as `created_at`), and `original_source` (`kontakt-page`, `aquafacial-lp` or `aquafacial-microneedling-lp`), plus name and at least email or phone. `notes` is the required recovery reason stored in `leads.notes`; do not claim it is duplicated in event metadata. Every manually captured/recovered row has `source=manual` and `status=neu`. Its `created` event records the staff capture time/actor and metadata `source`, `channel`, `received_at`, `original_reference`, `original_source`, `automation=none`. This distinguishes original arrival from later recovery. A same-reference retry opens the existing row unchanged rather than duplicating it; a failed or ambiguous response requires a fresh lookup before retry. Leave absent campaign, consent and booking/revenue fields absent; never reconstruct consent from an email or guess attribution. Use a reference-only recovery note, for example `Recovery case CASE-…; source owner notification; checked absent; operator <approved-role-reference>`. The case resolves to the private mailbox message; it must not expose contact/message/skin details. If the original UUID/time is unavailable, do not use verified recovery or generate a substitute UUID: leave the case open for the data owner's separate decision.
+
+For an approved WhatsApp enquiry, create a separate manual record only after checking for an existing contact/enquiry. Use `channel=whatsapp` (or `phone` for a phone enquiry) and the form's generated `entry_id` replay reference. Current manual capture timestamps the staff entry; preserve any earlier original contact time and private source reference in the minimal approved note/register rather than pretending the row is a recovered website submission. Do not fabricate website campaign parameters or marketing consent. Review test/spam exclusions on the saved record. No automated import, inbound email routing, Treatwell parser or customer send is authorised here. After each write, verify the saved detail/event, compare it with the private reference, and add its lead ID to the reconciliation register. A failed or ambiguous save requires a fresh search before any retry.
+
+## Storage/notification incident response and restart
+
+The **agency operations owner** is the response owner. A console log alone is insufficient: before rollout prove that a simulated ingest/storage failure reaches the configured monitored alert destination and is acknowledged by the assigned operator. Do this with fixtures/stubbed delivery first. The coordinator's integration supplies a sanitised `lead_storage_failed` event (`reference`, `received_at`, reason category) and generic agency alert email, deduplicated by provider key for a UTC hour. `LEADS_ALERT_TO` must be agency-allowlisted in `ACCESS_ALLOWED_EMAILS`; verify actual receipt on the authorised test route. This alert uses the mail provider too: it cannot independently detect or deliver through a simultaneous provider outage. A separately monitored log/health route and explicit agency check are still required; successful stubbed delivery does not establish that monitoring.
+
+1. On an ingest/storage alert, open an incident case, record the first/last observed UTC times, candidate revision, affected route and non-PII error category/count. Check the approved monitor itself if the expected alert is missing. Do not place submitted form payloads or raw database errors in general logs.
+2. Check whether owner notifications still arrive. If they do, continue the existing email-based response workflow and mark cockpit coverage incomplete. If owner notifications also fail, escalate as a public enquiry-delivery incident through the agency's assigned route. A stored row does not mean the visitor received success or that email arrived. Do not retry the real public form as a diagnostic.
+3. Confirm approved binding/configuration and migration state, quota/storage availability and permissions using the least-privileged authorised path. Identify the affected interval from the last successful reconciliation through recovery. Escalate to the coordinator when the error cannot be resolved within the agency's agreed response rule. Names, timings and escalation destination still need assignment before the pilot.
+4. Hold further rollout; if writes must stop, use the coordinator's `LEADS_CAPTURE=off` gate/approved rollback configuration for the exact candidate, retaining public owner-email handling. Keep `LEADS_REMINDERS=off` unless separately approved; both gates default off in the integration. Configuration changes and Worker rollback are deployments and require the recorded deployment authorisation. Do not remove/drop tables or run reverse migrations. Keep `LEADS_CUSTOMER_MAILS` unset/off and do not release uncertain-mail reservations. Turning capture off must also deny new manual saves; verify that behaviour against the integrated revision.
+5. Repair the cause on a branch, run the local ingest/manual/cockpit/alert and data-operation tests and review the diff. Reconcile the incident window, recover only confirmed missing records through the manual workflow, and inspect exceptions. A Worker restart or code rollback neither undoes D1 writes nor restores missing enquiries.
+6. The coordinator records the restart decision against the approved release revision after the monitor/agency-only access/exclusions have passed. An authorised labelled live check and delivery/recovery evidence remain separate from local tests. Resume the checkpoint only after reconciliation, then review the first resumed session and unresolved incidents. Do not enable campaign or customer emails as part of recovery.
+
+## Targeted erasure rehearsal
+
+Review the request/authority and identity before selecting records. Select exact IDs for every verified relevant enquiry; the tool never deletes an entire contact automatically. A second record with the same normalised email/phone blocks the operation for review instead of deciding whether two enquiries belong to one person. No broad export is needed to confirm a narrow deletion.
+
+For its exact current schema, the tool removes the selected `leads` rows and all their `lead_events`, nulls inbound `returning_of_lead_id`, and removes exact selected IDs from other events' JSON values/keys (including nested arrays). Other lead columns and unrelated event fields are kept. This matters because `returning_of_lead_id` has no foreign key and event metadata also copies the relationship. Remaining free-text/JSON references to the selected IDs or copied name/email/phone produce blockers listing only row IDs/columns; the tool does not silently discard an unrelated person's note. Unknown schema/table/trigger/column changes are rejected until the procedure is reviewed.
+
+The copy scan is conservative, not an identity-resolution engine: variations, misspellings and transformed personal data need operator review. It is not a forensic wipe of SQLite free pages/WAL, provider recovery history, mailboxes, logs, old exports or backups. A dry-run confirmation is bound to the full current fixture content, selected IDs and file path; changing any of them invalidates it. An applied erasure uses a single local transaction and rolls back if any statement fails. Production adaptation must use a reviewed D1 transaction/batch path; do not paste local `BEGIN`/`COMMIT` into the Worker. D1 batch rollback and FK behaviour are documented in [D1 Database](https://developers.cloudflare.com/d1/worker-api/d1-database/#batch) and [foreign keys](https://developers.cloudflare.com/d1/sql-api/foreign-keys/).
+
+### Local run (PowerShell, Node with `node:sqlite`)
+
+Run from the repository. Each mutation defaults to a dry run. These commands create only new synthetic files in a fresh temporary directory; they do not read `.dev.vars`, Wrangler state or any cloud credentials.
+
+```powershell
+$leadDrillDir = Join-Path ([System.IO.Path]::GetTempPath()) ('bfl-lead-drill-' + [guid]::NewGuid().ToString())
+$leadFixture = Join-Path $leadDrillDir 'fixture.sqlite'
+$leadBackup = Join-Path $leadDrillDir 'backup.sqlite'
+$leadRestored = Join-Path $leadDrillDir 'restored.sqlite'
+
+node scripts/leads-data-ops.mjs fixture --db $leadFixture
+node scripts/leads-data-ops.mjs fixture --db $leadFixture --apply --confirm CREATE-SYNTHETIC-FIXTURE
+node scripts/leads-data-ops.mjs inspect --db $leadFixture
+
+$leadBackupPlan = node scripts/leads-data-ops.mjs backup --db $leadFixture --out $leadBackup | ConvertFrom-Json
+$leadBackupPlan
+# Review the paths/counts/hash before this explicit action.
+node scripts/leads-data-ops.mjs backup --db $leadFixture --out $leadBackup --apply --confirm $leadBackupPlan.confirmation
+
+$leadErasePlan = node scripts/leads-data-ops.mjs erase --db $leadFixture --lead fixture-a --lead fixture-a-repeat | ConvertFrom-Json
+$leadErasePlan
+# Expect 2 leads, 2 owned events, 1 inbound lead link, 1 metadata edit, no blockers.
+node scripts/leads-data-ops.mjs erase --db $leadFixture --lead fixture-a --lead fixture-a-repeat --apply --confirm $leadErasePlan.confirmation
+node scripts/leads-data-ops.mjs inspect --db $leadFixture
+
+$leadRestorePlan = node scripts/leads-data-ops.mjs restore --db $leadBackup --out $leadRestored | ConvertFrom-Json
+$leadRestorePlan
+# Restore goes into a NEW file for review; the erased active fixture stays erased.
+node scripts/leads-data-ops.mjs restore --db $leadBackup --out $leadRestored --apply --confirm $leadRestorePlan.confirmation
+node scripts/leads-data-ops.mjs inspect --db $leadRestored
+node --test scripts/leads-data-ops.test.mjs
+```
+
+Synthetic exports are still scoped to the operator's controlled directory. File creation requests owner-only permissions on systems supporting file modes; Windows inherits directory ACLs and must be controlled separately. Existing output files, URL/UNC paths and symlink paths are rejected. A failed create/copy can leave a new partial file; keep it isolated and use a different fresh filename. The tool never removes an existing file. `backup` uses SQLite `VACUUM INTO`, not a raw copy of an active database/WAL. It compares the complete restored logical schema, data, sequence and fixture marker hash. Source changes during the copy fail verification. See the [SQLite VACUUM INTO documentation](https://www.sqlite.org/lang_vacuum.html#vacuuminto).
+
+### Evidence and limits
+
+`node --test scripts/leads-data-ops.test.mjs` passed **16/16** tests on deployment-version Node **22.23.3** and Node **24.14.0**, 21 October 2026. Tests check byte-unchanged dry runs, exact related-event/link cleanup, unchanged unrelated rows/fields, ambiguous/free-text blockers, stale confirmation, unknown/unmarked database rejection, nonzero CLI failures, a genuine SQL error after preceding writes with full transaction rollback, and backup → erasure → verified restore into a new file, including committed WAL data while a writer connection remains open. The drill uses the real reviewed repository migration through Node SQLite; a tested explicit migration checksum allow-list forces a new erasure-scope review if a migration is edited/added. It does not simulate remote D1's control plane or prove live Time Travel/export permissions. The combined release still needs its normal release validation on the deployment runtime.
+
+## Real D1 backup, erasure and rollback gate
+
+No remote command was run by this work and the script cannot perform one. Before first real persistence, the coordinator and data owner must attach evidence for all of the following:
+
+- Confirm the approved Cloudflare account/database identity and migration state using an authorised read path; do not assume the handover's historical empty-database report is current. Verify migration/restore permissions and the selected recovery method in the actual account.
+- Rehearse full D1 export/import or Time Travel recovery on a separately approved disposable D1 database with synthetic fixtures, disabled external delivery, isolated configuration and the correct migration revision. Demonstrate counts, critical rows/events, FK checks, failure recovery and restart before authorising a production recovery action. Raw SQLite copies from this local tool are not D1 import files. D1 export/import uses SQL and has operational limitations; see [Cloudflare import/export](https://developers.cloudflare.com/d1/best-practices/import-export-data/).
+- Record an approved pre-change recovery bookmark or protected export, its source/time/schema revision, authorised custodian/access, integrity evidence and destruction policy. Verify the account's actual recovery availability/window. Cloudflare describes [Time Travel](https://developers.cloudflare.com/d1/reference/time-travel/) as an in-place overwrite that cancels in-flight work; this is not a per-person undo or deletion policy. Recheck plan/backend support rather than promising a particular window.
+- Approve and test the real exact-ID erasure execution path separately: operator scope, transactional cleanup of events and inbound relationships, unknown-schema guard, affected-count evidence, verification and private audit record. The shipped script has **no real-D1 erasure adapter**. Do not bypass the fixture marker or treat the local rehearsal as an operational production deletion service.
+- Account for mailbox/BCC/Resend records, error/log destinations and approved exports/backups when completing an erasure request. Do not promise immediate removal from recovery history that the provider retains. Keep a restricted deletion register with the minimum identifiers necessary to prevent reintroduction; agree its retention/access rather than copying the erased payload into it.
+- Before a full database restore, stop writes/automations through the authorised deployment gates, preserve the current recovery point, identify enquiries received after the selected restore point, and review the deletion register. Restore into an isolated target where supported; a production in-place restore requires its own explicit approval. Reapply approved erasures/corrections before allowing the restored data to be used, then reconcile later owner notifications and manual cases. Restoring a backup must not silently resurrect erased enquiries or resend messages.
+- Verify the candidate's monitored failure alert, agency-only access, manual recovery and exclusions. Resolve every blocker in the approved disclosure and retention policy. Restart only after reviewed evidence and the user's recorded merge/deploy approval; retain an approved previous Worker revision independently of D1 recovery.
+
+The [disclosure draft](LEAD-DATA-DISCLOSURE-DRAFT.md) is a separate review artifact. This file does not close policy, real-D1 recovery/erasure, alert-delivery or rollout gates.
