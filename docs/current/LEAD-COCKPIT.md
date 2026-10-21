@@ -90,7 +90,7 @@ Test entries and spam are not deleted. "Ausschliessen" marks them (`exclude = 't
 
 ## Automatic e-mails
 
-Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sender `CONTACT_FROM_EMAIL`). That sender has **no fallback** to Resend's shared test sender: without `RESEND_API_KEY` or `CONTACT_FROM_EMAIL` nothing is sent and a `mail_failed` event records the missing setting. Look: `worker/email/layout.ts` (cream background, paper card, Georgia heading, clay button, no images, plain-text twin). Copy rules: German, "Sie", Swiss "ss", no prices, no "CHF", no result claims; `npm run qa:leads` checks every file under `worker/email/`. The owner enquiry e-mail (`worker/routes/contact.ts`) is unchanged and has no cockpit link.
+Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sender `CONTACT_FROM_EMAIL`). That sender has **no fallback** to Resend's shared test sender: without `RESEND_API_KEY` or `CONTACT_FROM_EMAIL` nothing is sent and a `mail_failed` event records the missing setting. Look: `worker/email/layout.ts` (cream background, paper card, Georgia heading, clay button, no images, plain-text twin). Copy rules: German, "Sie", Swiss "ss", no prices, no "CHF", no result claims; `npm run qa:leads` checks every file under `worker/email/`. The owner enquiry e-mail (`worker/routes/contact.ts`) still has no cockpit link; the pilot adds enquiry UUID and received time even while capture is off. The normal owner/BCC delivery attempt remains independent of D1 persistence.
 
 ### Customer confirmation of receipt
 

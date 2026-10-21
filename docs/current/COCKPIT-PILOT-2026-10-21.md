@@ -2,6 +2,8 @@
 
 Updated 21 October 2026. The user asked the local coordinator to complete the project autonomously and permitted native agents/sessions as needed. Routine technical choices are made here; production migration, merge/deploy, terms/payment, Teresa/customer exposure and campaign activation still need their existing explicit approvals. No previous chat history is needed.
 
+The subsequent “weiter” instruction continues technical operating preparation. [Operations readiness](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) records the new read-only Cloudflare evidence, concrete unsaved storage-alert proposal, isolated D1 drill plan and exact effects of a later merge. It does not activate those services or adopt a data policy.
+
 ## Verified baseline and candidate
 
 - Production remains `d019a003bd8a510f0ce60c6ecf3dd336820278f0` from #60. #59 and #60 deployed successfully: [#59 run](https://github.com/lefteyep/beautyfacelift/actions/runs/39538508554), [#60 run](https://github.com/lefteyep/beautyfacelift/actions/runs/39538764913). The Cloudflare dashboard confirms active version `30970e05-f8cb-4fad-b424-8f53acddd81c` at 100% traffic.

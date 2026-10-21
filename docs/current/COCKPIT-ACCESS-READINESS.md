@@ -38,7 +38,7 @@ The human account holder must choose the provider, confirm authority/billing ide
 
 ## Acceptance and rollback checklist
 
-- [ ] On the combined release candidate, pass `npm run validate`, including Access/cockpit harnesses with fixture D1 and stubbed external calls. Verify missing/bad/expired/wrong-issuer/wrong-audience/non-allowed tokens, forged identity headers, required-key-fetch failure, path variants, HEAD and POST/CSRF boundaries disclose no lead data.
+- [x] On the combined release candidate, pass `npm run validate`, including Access/cockpit harnesses with fixture D1 and stubbed external calls. Verify missing/bad/expired/wrong-issuer/wrong-audience/non-allowed tokens, forged identity headers, required-key-fetch failure, path variants, HEAD and POST/CSRF boundaries disclose no lead data.
 - [ ] After explicit activation/test approval, use only approved agency mailboxes and fixture/test data: allowed OTP succeeds; a controlled non-allowed agency address is denied; replacement, expiry and one-use PIN behaviour work. Check login logs without recording PINs/JWTs. Do not submit live public lead/contact forms.
 - [ ] Verify `/admin`, `/admin/`, `/admin/leads/`, legacy admin assets and encoded/case/repeated-slash variants; `www` redirects safely. Inspect deployed alternate/preview hostnames and disable exposure or prove the same guard. Public site, contact and tracking routes keep their existing behaviour without Access login.
 - [ ] Test logout, expiry, user/policy removal and copied-token replay across canonical and variant paths. Confirm denial after the documented revocation propagation period; resolve any edge-coverage gap before release. Verify the one-hour settings and any global-session impact against the actual organization.

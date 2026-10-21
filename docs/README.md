@@ -7,6 +7,7 @@ Use this page to choose the right document quickly.
 | Need | Document |
 |------|----------|
 | Current autonomous agency-pilot preparation, verified production checkpoint and activation gates | [current/COCKPIT-PILOT-2026-10-21.md](current/COCKPIT-PILOT-2026-10-21.md) |
+| Verified Cloudflare account state, unsaved storage-alert draft, isolated recovery and exact release sequence | [current/COCKPIT-OPERATIONS-READINESS-2026-10-21.md](current/COCKPIT-OPERATIONS-READINESS-2026-10-21.md) |
 | Agency workflow: list/contact, manual enquiries and missing-enquiry recovery | [current/COCKPIT-PILOT-WORKFLOW.md](current/COCKPIT-PILOT-WORKFLOW.md) |
 | Data operations, synthetic erasure/backup/restore evidence and real-data gates | [current/LEAD-DATA-OPERATIONS.md](current/LEAD-DATA-OPERATIONS.md) |
 | Separately gated D1 exact-ID erasure, atomicity and pilot limits | [current/LEAD-D1-ERASURE.md](current/LEAD-D1-ERASURE.md) |

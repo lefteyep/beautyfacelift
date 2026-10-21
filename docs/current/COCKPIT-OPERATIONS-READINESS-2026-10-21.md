@@ -1,0 +1,93 @@
+# Betriebsbereitschaft – Fortsetzung vom 21. Oktober 2026
+
+**Arbeitsstand zur Prüfung. Keine Aktivierungs-, Migrations- oder Deploymentfreigabe.** Ausgangspunkt ist der geprüfte Kandidat `e842d192` in [Entwurfs-PR #62](https://github.com/lefteyep/beautyfacelift/pull/62), [CI erfolgreich](https://github.com/lefteyep/beautyfacelift/actions/runs/39634953255). Produktion bleibt `d019a003`. Diese Fortsetzung liest keine früheren Chats.
+
+## Aktueller Kontonachweis
+
+Lesende Prüfung im vorhandenen Cloudflare-Konto am 21.10.2026; keine Datenbankinhalte mit Kundendaten geöffnet und keine Kontoeinstellung gespeichert:
+
+| Punkt | Beobachtung | Konsequenz |
+| --- | --- | --- |
+| Projekt-D1 | `beautyfacelift-leads`, ID `8df484ca-625f-4250-be9a-3c09279ebdde` | Stimmt mit dem Kandidaten überein; kein neues Ziel verwenden |
+| D1-Dashboard | 0 Tabellen, 12,29 kB; Abfrage-/Lese-/Schreibzähler der letzten 24 Stunden jeweils 0 | Keine Anwendungsmigration durch diese Prüfung. Dashboardzählung ersetzt keine spätere Schema-/Migrationsprüfung vor Freigabe |
+| D1 Time Travel | Oberfläche bietet sieben Tage; sichtbares Fenster beginnt bei Erstellung am 20.10.2026 | Verfügbarkeit angezeigt, Wiederherstellung nicht ausgeführt. Keine Aussage über eine erfolgreich getestete Wiederherstellung |
+| D1 Einstellungen | Region Western Europe, Jurisdiction None, Read replication Disabled | Kein Nachweis einer verbindlichen ausschliesslichen EU-/Schweiz-Verarbeitung; Vertrags-/Übermittlungsprüfung bleibt offen |
+| Cloudflare-Browser | Im richtigen bestehenden Konto angemeldet | Lesender Dashboardzugang funktioniert |
+| Cloudflare-Connector | `whoami` erneut interner Fehler | Keine API-Verbindung oder neuen Berechtigungen behaupten |
+| Wrangler | Version 4.148.0 vorhanden; Anmeldung abgelaufen und Aktualisierung fehlgeschlagen | Kein Remote-CLI-Befehl ausgeführt. Kein Token ausgelesen, neu erstellt oder Rechteumfang erweitert |
+| Cloudflare Alerts | Vorhandene Übersicht zeigt einen aktiven Passive-Origin-Alarm; neuer Custom-Alert-Dialog bietet Workers Logs | Vorhandenen Alarm nicht verändern. Seine Existenz beweist keine Erkennung von D1-Speicherfehlern |
+
+Private Screenshots bleiben ausserhalb des Repositorys unter `output/coordination/pilot-evidence/`: `d1-time-travel-readonly.jpg` und `cloudflare-storage-alert-draft.jpg`. Keine Token, PINs oder Kontaktpayloads wurden gespeichert.
+
+## Vorbereiteter Speicherfehleralarm
+
+Im Konto wurde nur ein **ungespeicherter** Entwurf vorbereitet. Die Oberfläche generierte und akzeptierte [diese Abfrage](operations/lead-storage-alert.sql); ihre Vorschau zeigt derzeit null Treffer. Das ist erwartbar, weil der neue Marker noch nicht produktiv deployed ist, und beweist keinen funktionierenden Alarmempfang.
+
+**Nutzerentscheidung am 21.10.2026: «Nur als Entwurf behalten».** Keine Aktivierung, kein Empfänger angelegt, keine Testbenachrichtigung. Der gespeicherte Vorschlag ist die SQL-/Verfahrensdatei; ein ungespeichertes Browserformular ist keine eingerichtete Benachrichtigung. Diese Entscheidung gilt, bis der Nutzer sie ausdrücklich ändert.
+
+| Einstellung | Konkreter Vorschlag |
+| --- | --- |
+| Name | `beautyfacelift – Lead-Speicherfehler` |
+| Quelle | Workers Logs, genau dieses Konto und `scriptName = beautyfacelift` |
+| Signal | `message LIKE '%lead_storage_failed%'`, nur Anzahl zurückgeben |
+| Auswertung | Threshold `>= 1`, Evaluation window `10m`, Automatic time range |
+| Häufigkeit | Execution interval `10m`, Repeat alert interval `1h` |
+| Vorgesehener Empfänger | `mediapaulo@gmail.com`; im Entwurf noch **nicht eingetragen**, kein zusätzlicher Verteiler |
+| Versand | Cloudflare-eigene Benachrichtigung, unabhängig vom Resend-Versand des Workers; keine Anfrage-ID, Namen, Kontakt- oder Nachrichtentexte in Name/Beschreibung/Alarmabfrage |
+
+Cloudflare dokumentiert [Abfragealarme](https://developers.cloudflare.com/notifications/monitors/) und kontoabhängige [SQL-Datenquellen](https://developers.cloudflare.com/analytics/sql-api/datasets/). Die tatsächliche Kontooberfläche bietet `logs.workersLogs`, `scriptName` und `message` an. Dies ist kein Codex-Heartbeat, kein Setup-Relay und kein koordinierender Ersatzmonitor. Eine Aktivierung oder Testbenachrichtigung folgt erst auf die ausdrückliche Entscheidung zum neuen Benachrichtigungsweg.
+
+Vor einer Capture-Freigabe noch nachzuweisen:
+
+1. Die gewählte Operatorperson und Vertretung übernehmen Empfang und Reaktion; Reaktionszeit und privater Incident-/Abgleichort werden festgelegt.
+2. Cloudflare akzeptiert die endgültige Konfiguration mit ausschliesslich dem freigegebenen Agenturempfänger; Wiederholung, Speicherung/Sampling und Verfügbarkeit des Logsignals sind überprüft.
+3. Eine ausdrücklich erlaubte, als synthetisch bezeichnete Testmeldung erreicht den Empfänger. Kein echtes Kontaktformular auslösen, D1-Ausfall nicht absichtlich in Produktion herbeiführen und keinen bestehenden Kundenfall als Test verwenden.
+4. Der Operator bestätigt den Empfang und führt den privaten Anfrage-ID-Abgleich vor; ein vorhandener Alarm oder eine Vorschau mit null Treffern schliesst diese Prüfung nicht.
+5. Auch Ausfall des Cloudflare-Log-/Alarmwegs und Mailboxzugangs werden in der vereinbarten manuellen Kontrolle berücksichtigt. Der zusätzliche Weg ist unabhängig von Resend, nicht von Cloudflare oder dem Empfängerpostfach.
+
+## Getrennte D1-Wiederherstellungsprobe
+
+Vorbereitete Ziele für eine separat freizugebende Probe: **neu anzulegende** Datenbanken `beautyfacelift-drill-2026-10-21` (Time Travel und synthetischer Export) sowie `beautyfacelift-drill-restore-2026-10-21` (Importvergleich) im bestehenden Konto. Beide aktuell nicht angelegt. Keine Worker-Bindung, Route, Domain, Cron, Access-Aktivierung oder Produktivkonfiguration hinzufügen; kein Tarifwechsel und keine Verwendung echter Anfragen oder Produktivexporte. Vor Erstellung Namen-/ID-Kollision ausschliessen; ein vorhandenes gleichnamiges Ziel niemals übernehmen oder leeren.
+
+**Nutzerfreigabe am 21.10.2026: «Isolierte Cloud-Probe erlauben».** Genau diese beiden neuen Testziele, synthetisches Time Travel und SQL-Export/-Import sind freigegeben. Die Testdatenbanken bleiben erhalten. Produktion, Worker-Deployment, E-Mails, Tarif und die Entscheidung zum inaktiven Alarm werden dadurch nicht verändert. Der folgende Ablauf wird gegen diese Freigabe ausgeführt; Ergebnisse sind vor Abschluss gesondert nachzuweisen.
+
+Die Probe verwendet nur die geprüfte Migration und eindeutig synthetische SQL-Dateien aus `scripts/fixtures/d1-recovery/`; der zugehörige endliche Harness prüft lokal ihre Ausgangs-/Änderungsbedingungen. Das ist noch keine Remote-Wiederherstellung.
+
+Gespeichert: `01-seed.sql`, `02-change.sql`, `03-verify-baseline.sql`, `04-verify-change.sql`. Baseline: zwei Test-Leads/zwei Ereignisse, einschliesslich der Beziehung B → A; Änderung: weiterhin zwei Leads, drei Ereignisse, nur A.notes/A.updated_at geändert. Beide Verifier liefern acht Zeilen mit Prüfname, Erfolgsflag und Anzahl, keine Kontaktpayloads. **79 lokale Planprüfungen bestanden**; die tatsächliche lokale workerd/D1-Laufzeit akzeptiert beide vollständigen Zustände mit 8/8 und verwirft die Baseline nach der Änderung. Ein früher SQL-Entwurf überschritt D1s Grenze für verkettete SELECTs; die Verifier verwenden nun VALUES-Zeilen, und der Laufzeittest ist dauerhaft in der CI enthalten. Das bestätigt die Plan-SQL, nicht einen Remote-Restore.
+
+Konkreter Ablauf nach Freigabe:
+
+1. Neues Ziel erstellen und seine neue UUID sowie Kontoidentität privat protokollieren. Vor **jeder** Remoteaktion Namen und UUID mit dem Fallblatt vergleichen. Die Produktions-ID oben ist ausdrücklich ausgeschlossen.
+2. Leeres Anwendungsschema bestätigen, nur `worker/migrations/0001_leads.sql` in dieses neue Ziel einspielen und den synthetischen Seed ausführen. Baseline-Prüfungen müssen sämtlich erfolgreich sein; FK-Prüfung darf keinen Befund liefern. Bei Teilfehler Zustand prüfen, kein blindes Wiederholen oder Zurücksetzen.
+3. Einen aktuellen Time-Travel-Bookmark des Testziels notieren. Baseline-Zählungen/-Checks und Schema-/Kandidatenrevision erfassen; keine Rohpayloads in allgemeine Logs kopieren.
+4. Die eng begrenzte synthetische Änderung ausführen; deren Prüfungen müssen erfolgreich und die Baseline-Prüfungen jetzt fehlschlagend sein. Andere Fixture-Zeilen bleiben unverändert.
+5. Ausschliesslich das Testziel zum aufgezeichneten Bookmark wiederherstellen. Vor der endgültigen Restore-Aktion Ziel/Bookmark nochmals prüfen. Cloudflare überschreibt dabei die gewählte Datenbank; die aktuelle Restore-Antwort/den vorherigen Bookmark als mögliche Rückkehrreferenz sichern.
+6. Baseline, kritische Zeilen/Ereignisse, Beziehungen und FK-Prüfung erneut vergleichen. Unklare Antwort zuerst untersuchen; keinen zweiten Restore blind auslösen.
+7. Für die zusätzliche Export-/Importprobe einen synthetischen **SQL-Export** aus dem Testziel verwenden. Import nur in ein weiteres frisches, separat identifiziertes Testziel; keinen Roh-`.sqlite`-Export des lokalen Hilfstools importieren. Gleiche Prüfungen durchführen. Vorherige Löschungen/Korrekturen anhand eines synthetischen Registers wieder anwenden, bevor ein wiederhergestellter Bestand weiterverwendet würde.
+8. Ergebnis, Ziel-IDs, Checks, Fehler und verbleibende Grenzen dokumentieren. Keine Testdatenbank löschen, keine Produktion wiederherstellen und keine reale Capture-/Mailfunktion einschalten. Eine spätere Bereinigung braucht eine gezielte Entscheidung.
+
+Grundlage: [Time Travel](https://developers.cloudflare.com/d1/reference/time-travel/) und [D1 SQL-Import/-Export](https://developers.cloudflare.com/d1/best-practices/import-export-data/). Im Konto wurde bislang nur die Wiederherstellungsoberfläche gelesen. CLI-Wiederanmeldung und ein funktionsfähiger API-Zugang bleiben getrennte Zugangsfragen; für eine Browserprobe werden keine Zugangsdaten exportiert.
+
+## Was ein späterer Merge tatsächlich verändert
+
+Die drei ausgeschalteten Feature-Gates machen einen Merge nicht zu einer wirkungslosen Dokumentänderung:
+
+1. Der [Deploy-Workflow](../../.github/workflows/deploy.yml) validiert und wendet danach **Remote-D1-Migrationen** an, unabhängig von Capture/Reminders/Data-Operations. Bei ausstehender `0001` entstehen Tabellen/Indizes und Migrationshistorie. Scheitert das folgende Worker-Deployment, bleibt die erfolgreiche Migration bestehen.
+2. Worker, Assets und Konfiguration werden deployed: D1-Bindung und 15-Minuten-Cron eingeschlossen. Der Cron bleibt über das Reminder-Gate funktional gesperrt.
+3. Künftige reguläre Besitzer-/BCC-Mails enthalten neu Anfrage-ID und Eingangszeit **auch bei Capture off**. Sie enthalten weiterhin keinen Cockpit-Link. Keine Testmail folgt aus dem Merge.
+4. Der eingecheckte Stand lässt das Cockpit wegen leerer Access-Team-/AUD-Werte geschlossen. Capture, Erinnerungen, Kundenmails und Datenverfahren bleiben aus. Ein Merge allein ergibt noch keinen nutzbaren Agenturpilot.
+5. Nach einer späteren Access-Aktivierung sperrt `LEADS_CAPTURE=off` nur neue öffentliche/manuelle Erfassung. Bereits gespeicherte Anfragen bleiben für berechtigte Staff-Aktionen bearbeitbar. Das Gate ist kein globaler Datenbank-Schreibschutz.
+
+Reihenfolge für eine spätere Freigabe: genaue Kandidatenrevision und aktuelle CI prüfen → Daten-/Betriebs- und Access-Gates schliessen → ausdrücklich Migration **und** Merge/Deployment freigeben → tatsächliches Deployment/Schema/Login prüfen → erst gesondert freigegebene Capture-Konfiguration aktivieren und Agenturablauf abnehmen. Erinnerungen, Kundenmails, Datenverfahren, Teresa-Zugang und Kampagne bleiben eigenständige Entscheidungen. Kein Code-Rollback macht D1-Schreibvorgänge rückgängig.
+
+## Plan und offene Entscheidungen
+
+| Aufgabe | Verantwortung | Stand / überprüfbares Ergebnis |
+| --- | --- | --- |
+| BFL-OPS-ACCOUNT | Lokaler Koordinator | Konto/D1/Time-Travel/Region/CLI/Alarmdialog lesend geprüft; konkrete Zugangslücke dokumentiert |
+| BFL-OPS-RELEASE-01 | Nativer Sicherheitsagent, Root integriert | Mutationen des Deploy-Workflows und Gate-Grenzen geprüft; falsche Aussage zur unveränderten Besitzer-Mail korrigiert |
+| BFL-OPS-DATA-01 | Nativer Datenumfangsagent, Root integriert | Datenschutzentwurf an Agenturzugang, vorgesehene Felder und tatsächliche Mail-/Marketinggrenzen angepasst; kein Rechtstext veröffentlicht |
+| BFL-OPS-RECOVERY-02 | Nativer Datenagent in eigenem Worktree, Root integriert | Synthetische Seed-/Änderungs-/Prüfdateien und lokale Planprüfung; echte Cloudprobe weiterhin unbestätigt |
+| Alarm aktivieren/testen | Nutzerentscheidung; Root bewahrt Entwurf | Nutzer wählt «Nur als Entwurf behalten». Keine Aktivierung/Testmail; dieser Betriebs-Gate bleibt vor Capture offen |
+| Zweck, Kategorien, Fristen und Rollen | Verantwortlicher Auftraggeber / Nutzer | Datenschutzentwurf bleibt ungeprüft; keine Frist, Rechtsgrundlage oder Vertragsrolle erfunden |
+| Access/Konto und Livegang | Kontoinhaber / Nutzer, Root führt freigegebene Schritte aus | Provider-/Vertrags-/Zahlungsentscheidung sowie ausdrückliche Produktivmigration/Merge/Deployment weiterhin offen |

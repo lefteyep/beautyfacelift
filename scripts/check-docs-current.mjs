@@ -14,6 +14,7 @@ const activeFiles = [
   'docs/current/LEAD-COCKPIT.md',
   'docs/current/REPAIR-2026-10-21.md',
   'docs/current/COCKPIT-PILOT-2026-10-21.md',
+  'docs/current/COCKPIT-OPERATIONS-READINESS-2026-10-21.md',
   'docs/current/COCKPIT-PILOT-WORKFLOW.md',
   'docs/current/COCKPIT-ACCESS-READINESS.md',
   'docs/current/CAMPAIGN-READINESS-2026-10-21.md',

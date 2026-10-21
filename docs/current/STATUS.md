@@ -10,6 +10,8 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 
 ## Current milestone — review repairs
 
+**Operating-readiness continuation:** [PR #62](https://github.com/lefteyep/beautyfacelift/pull/62), head `e842d192`, passed [latest verified CI](https://github.com/lefteyep/beautyfacelift/actions/runs/39634953255). The [current operations record](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) adds read-only D1/Time-Travel/account evidence, the concrete unactivated storage-alert proposal and isolated synthetic recovery checks. No production migration/deploy or policy/provider activation follows from this continuation.
+
 **Current checkpoint after the approved merges:** production is `d019a003` (#59/#60 deployed successfully); #61 is merged only into unreleased `codex/leads-mails-phase1` at `365f6fea`. The new local `codex/cockpit-pilot` candidate integrates current production and prepares the minimum agency workflow, safe feature gates and data-readiness evidence. See [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) for the current work record and remaining activation gates. Earlier reviewed-source statements below describe the original repair baseline.
 
 **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The record identifies the tested code revisions, full local checks and browser evidence. PR review/CI and deployment verification remain separate; this status does not claim that the repairs are live.

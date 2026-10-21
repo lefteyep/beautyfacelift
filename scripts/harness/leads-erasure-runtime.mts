@@ -9,7 +9,10 @@ const mf = new Miniflare({
   workers: [{ config: {
     name: 'synthetic-d1-drill', compatibilityDate: '2026-04-15',
     manifest: { mainModule: 'index.js', modules: { 'index.js': { type: 'esm', contents: 'export default {fetch(){return new Response("Synthetic local drill")}}' } } },
-    env: { LEADS_DB: { type: 'd1', id: `synthetic-${crypto.randomUUID()}`, dev: { remote: false } } },
+    env: {
+      LEADS_DB: { type: 'd1', id: `synthetic-${crypto.randomUUID()}`, dev: { remote: false } },
+      RECOVERY_DB: { type: 'd1', id: `synthetic-recovery-${crypto.randomUUID()}`, dev: { remote: false } },
+    },
   } }],
 });
 try {
@@ -52,4 +55,21 @@ try {
   assert.equal(await db.prepare('SELECT returning_of_lead_id FROM leads WHERE id = ?').bind(other).first('returning_of_lead_id'), null);
   assert.deepEqual(JSON.parse(await db.prepare('SELECT meta FROM lead_events WHERE lead_id = ?').bind(other).first('meta') as string), { channel: 'phone' });
   console.log('[ok] Local workerd/D1: actual schema/SQL limits, read-only plan, atomic race rollback, exact erasure and relationship/metadata cleanup');
+  const recoveryDb = await mf.getD1Database('RECOVERY_DB');
+  const sqlStatements = (text: string) => text.replace(/--[^\r\n]*/g, '').split(';').map(value => value.trim()).filter(Boolean);
+  const applySql = async (text: string) => { for (const statement of sqlStatements(text)) await recoveryDb.prepare(statement).run(); };
+  await applySql(migration);
+  const fixture = (file: string) => readFile(new URL(`../fixtures/d1-recovery/${file}`, import.meta.url), 'utf8');
+  const verifyFixture = async (file: string) => {
+    const statements = sqlStatements(await fixture(file)); assert.equal(statements.length, 1);
+    return (await recoveryDb.prepare(statements[0]).all()).results;
+  };
+  await applySql(await fixture('01-seed.sql'));
+  const baseline = await verifyFixture('03-verify-baseline.sql');
+  assert.equal(baseline.length, 8); assert.ok(baseline.every(row => row.passed === 1));
+  await applySql(await fixture('02-change.sql'));
+  const changed = await verifyFixture('04-verify-change.sql');
+  assert.equal(changed.length, 8); assert.ok(changed.every(row => row.passed === 1));
+  assert.ok((await verifyFixture('03-verify-baseline.sql')).some(row => row.passed === 0));
+  console.log('[ok] Local workerd/D1 recovery PLAN SQL: baseline8/8, changed8/8, baseline rejects delta; no remote restore performed');
 } finally { await mf.dispose(); }
