@@ -1,5 +1,7 @@
 # Architecture — beautyfacelift-zuerich.ch
 
+Updated 21 October 2026. Production source reviewed: `35af1f0`. Review repairs are **IMPLEMENTATION IN PROGRESS**; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) is the current verification/deferred-gates record. #55–#57 are unmerged; the D1 cockpit described in their plan is not deployed.
+
 ## Overview
 
 ```
@@ -14,7 +16,7 @@ All pages are static HTML served by Cloudflare Workers Static Assets. API routes
 ## Why This Architecture
 
 - **Astro static** over SSR: Pages ship zero JS by default. Only the legacy admin page loads React; public pages ship no framework JavaScript. Treatment pages = pure HTML. Faster LCP = lower Google Ads CPC.
-- **Cloudflare** over Vercel: Unlimited bandwidth (no surprise bills from ad traffic), 100K requests/day free, 330+ edge cities, 0ms cold starts.
+- **Cloudflare:** one existing platform serves static assets and the small contact/tracking APIs. Keep platform limits, billing and account configuration separate from architecture claims; current pricing/quotas were not reverified in this review.
 - **Supabase** (legacy): chosen for the first-party booking flow (Postgres, auth, edge functions). The public site has not used it since bookings moved to Treatwell.
 - **React islands** over full SPA: JavaScript only loads where interaction is needed.
 - **Vanilla CSS** over Tailwind: Client's existing design system, no framework overhead.
@@ -29,7 +31,7 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 ### Booking And Ads Flow
 ```
 1. User lands on homepage, treatment page, or noindex ad landing page.
-2. Shared layout initializes PPC tracking, persists UTMs/click IDs, and emits page/view events.
+2. Shared layout captures attribution; marketing Pixel/GTM/CAPI events are gated by consent.
 3. Booking CTAs go to /termin/?service=... so attribution and treatment intent stay on the owned domain.
 4. /termin/ emits TreatwellOutboundClick and forwards to https://buchung.treatwell.ch/ort/beauty-face-lift/.
 5. Confirmed appointment completion happens on Treatwell, so the site measures booking intent, not confirmed bookings.
@@ -47,13 +49,15 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 ```
 Page/view/contact/booking intent events
   ├─ Client-side: dataLayer + optional Meta Pixel when PUBLIC_META_PIXEL_ID is configured
-  └─ Server-side: POST /api/track → Meta CAPI + GA4 Measurement Protocol when secrets are configured
+  └─ Server-side: POST /api/track → Meta CAPI (GA4 Measurement Protocol intentionally off; GA4 runs through GTM)
 
-Primary launch proxy conversion:
+Current combo-campaign optimisation:
+  accepted enquiry → Lead / generate_lead
+Secondary booking-intent proxy:
   /termin/ redirect or direct Treatwell CTA → TreatwellOutboundClick / treatwell_outbound_click
 ```
 
-## Database Schema
+## Legacy database schema (historical code, backend offline)
 
 ```
 services ←── bookings (service_id FK)
@@ -62,7 +66,7 @@ blocked_dates (holidays, vacations)
 settings (key-value config)
 ```
 
-RLS policies:
+Intended legacy RLS policies in source (not verified against a reachable production database):
 - services/availability/blocked_dates: public SELECT, admin-only write
 - bookings: public INSERT, admin-only SELECT/UPDATE/DELETE
 - settings: public SELECT, admin-only write
@@ -101,4 +105,10 @@ Visual rules and tokens: [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) ("Atelier Glow").
 - /api/availability — compute available dates from availability + blocked_dates
 - /api/slots — compute time slots considering existing bookings + buffer
 - /api/bookings — legacy first-party booking endpoint, disabled by default while Treatwell is active
-- /api/track — forward events to Meta CAPI + GA4 Measurement Protocol
+- /api/track — Meta CAPI after consent; optional GA4 forwarding exists in code but stays off in production
+
+## Planned staff workflow — not deployed
+
+#55 stores lead rows/events in D1 before the existing owner email. Storage errors are logged and email continues, so database totals can miss accepted enquiries. #56 adds server-rendered staff pages and Access JWT/CSRF protection; #57 adds mail/cron code with customer mail off. The repair milestone addresses reviewed defects without selecting/activating an auth provider or adding features.
+
+Before first D1 persistence, resolve disclosure, retention/deletion, failure alerting and reconciliation/recovery. Recommended next scope review: capture/list, contact/status and manual booked/outcome recording. Access is one managed admin-auth option; Zero Trust is not a public-site dependency. Custom OTP requires a full security/session lifecycle. Phase 2 email routing/parsing, follow-ups, reviews, newsletter and reports are held. See [LEAD-COCKPIT-PLAN.md](LEAD-COCKPIT-PLAN.md).

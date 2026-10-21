@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, statSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { parseJsonc } from './lib/jsonc.mjs';
 
 const root = process.cwd();
 const canonicalOrigin = 'https://beautyfacelift-zuerich.ch';
@@ -46,7 +47,7 @@ function collectFiles(path, files = []) {
   return files;
 }
 
-const wrangler = JSON.parse(read('wrangler.jsonc'));
+const wrangler = parseJsonc(read('wrangler.jsonc'), 'wrangler.jsonc');
 assert(wrangler.workers_dev === false, 'wrangler.jsonc must set workers_dev=false');
 
 const routes = Array.isArray(wrangler.routes) ? wrangler.routes : [];

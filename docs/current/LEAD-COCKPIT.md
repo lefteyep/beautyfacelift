@@ -1,6 +1,8 @@
-# Lead cockpit — runbook
+# Lead cockpit — unreleased implementation runbook
 
-The lead cockpit is a small, server-rendered tool inside the Worker for working through enquiries: who asked, who has been contacted, who booked, who came. It reads and writes the D1 database `beautyfacelift-leads`, where every enquiry from `/api/contact` is stored before the owner e-mail goes out (see `worker/leads/ingest.ts`).
+**21 October 2026: IMPLEMENTATION IN PROGRESS; combined verification pending.** This documents the existing #55–#57 code and repair candidate `1cc4c9`, not a deployed cockpit. Authentication choice/setup is deferred; no Access/Zero Trust activation or custom OTP work is authorized by this runbook. Before any D1 rollout complete the disclosure, retention/deletion, alerting and reconciliation gates in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Customer mail stays off, reminders agency-only and Teresa unexposed. Phase 2 is held.
+
+The lead cockpit is a small, server-rendered tool inside the Worker for working through enquiries: who asked, who has been contacted, who booked, who came. It reads and writes the D1 database `beautyfacelift-leads`, where ingestion is attempted before the owner email. Storage failure deliberately allows that email to succeed; some accepted enquiries can therefore be missing from D1. Reconciliation/recovery must be defined before rollout (see `worker/leads/ingest.ts`).
 
 - **URL:** `https://beautyfacelift-zuerich.ch/admin/leads/`
 - **Code:** `worker/leads/` — `access.ts` (Access JWT), `csrf.ts`, `time.ts` (Zurich time, ISO week, opening hours), `html.ts` (layout, escaping, inline CSS), `views/list.ts`, `views/detail.ts`, `router.ts`; SQL only in `db.ts`.
@@ -9,14 +11,14 @@ The lead cockpit is a small, server-rendered tool inside the Worker for working 
 
 ## Who can log in
 
-Everything under `/admin/` is protected twice:
+The current unreleased implementation is designed for the following protection if Access is later selected and configured. No production Access policy is established by this repair:
 
 1. **Cloudflare Access** (Zero Trust) in front of `beautyfacelift-zuerich.ch/admin`. Login method: **One-time PIN** by e-mail only. The policy allows exactly the addresses listed in it.
 2. **The Worker** verifies the Access JWT itself on every `/admin/*` request (`worker/leads/access.ts`): signature (RS256) against `${ACCESS_TEAM_DOMAIN}/cdn-cgi/access/certs` (keys cached 1 h, refetched on an unknown `kid` at most once a minute; after a failed fetch every request is denied without refetching for 60 s), `iss`, `aud`, `exp` and `nbf` (60 s clock leeway), and `email` in `ACCESS_ALLOWED_EMAILS`. The header `Cf-Access-Authenticated-User-Email` is never trusted on its own. Denials are logged as `Access denied for /admin/: <reason>`, except requests without any token (bots, the security smoke). Encoded or doubled spellings of the path (`/%61dmin/`, `//admin/`) are guarded too.
 
 Anything else gets a 401 page "Nicht angemeldet." with a "Erneut anmelden" button (no automatic redirect). The legacy static pages under `/admin/` (`/admin/`, `/admin/design-system/`) are behind the same guard.
 
-Today only the agency address is allowed (policy and `ACCESS_ALLOWED_EMAILS`).
+The source allow-list contains only the agency address. Any later configured policy must remain agency-only until a separately approved go-live; its current dashboard state was not verified.
 
 ## Configuration
 
@@ -35,7 +37,9 @@ Fail-closed behaviour:
 - `LEADS_SIGNING_SECRET` missing → the pages still render, every change (POST) answers 503 "Konfiguration unvollständig."
 - `LEADS_DB` not bound → 503 "Datenbank nicht verbunden."
 
-### Dashboard steps (Zero Trust)
+### Conditional reference if Access is later selected
+
+These are reference steps from the existing design, not permission to activate Zero Trust or an approved choice of provider/session duration. Verify current product, pricing and checkout requirements at decision time. A custom login would need its full security/session lifecycle designed and tested separately.
 
 1. Zero Trust → Settings → Authentication: login method **One-time PIN** only (no Google or other identity providers).
 2. Access → Applications → Add → **Self-hosted**: domain `beautyfacelift-zuerich.ch`, path `admin`; session duration **2 weeks**; App Launcher visibility **off**.
@@ -85,8 +89,8 @@ Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sen
 
 - **When:** right after an enquiry, once the owner e-mail went out and the lead row exists. `worker/routes/contact.ts` queues `sendConfirmationIfDue()` (`worker/email/confirmation.ts`) with `ctx.waitUntil`, so the form's answer is never delayed or changed.
 - **Switch:** sent only while `LEADS_CUSTOMER_MAILS` is exactly `on`. `wrangler.jsonc` deliberately does not set it, so production sends **no** confirmations until go-live.
-- **Skipped when** (in this order): the switch is off; the lead has no valid e-mail; the lead is marked test/spam; it was already sent; another lead with the same address got one in the last 24 h; more than 20 confirmations went out in the last 60 minutes. The last two protect strangers' inboxes from bot posts on the ad pages, which accept posts without Turnstile.
-- **At most once:** `confirmation_sent_at` is claimed with a conditional `UPDATE … WHERE confirmation_sent_at IS NULL` before sending; a successful send writes a `mail_sent` event (kind `confirmation`, Resend id). A failed send gives the claim back and writes `mail_failed`; there is no retry.
+- **Skipped when:** the switch is off; no database/valid email; test/spam exclusion; already reserved/sent; suspicious greeting; the same address has a reservation in the last 24 hours; or 20 confirmations are already reserved/sent in the last 60 minutes. The repaired candidate enforces address/hour eligibility in the atomic reservation, including in-flight sends across distinct leads. These controls still need combined verification before mail can be enabled.
+- **Reservation and delivery:** `claimConfirmation` atomically checks quotas and reserves `confirmation_sent_at`. The provider request uses `Idempotency-Key: bfl:confirmation:<lead-id>`. Success records `mail_sent`. A definitive rejection releases the reservation and records `mail_failed`; confirmations have no automatic retry. Network/timeouts, 408/409 and server errors are uncertain: keep the reservation, record `delivery: uncertain` and `retry: manual`, and require agency reconciliation. A timestamp can mean an unresolved reservation, not proven delivery.
 - **Variants** (`worker/email/templates/confirmation.ts`): contact page ("Ihre Anfrage bei Beauty Face Lift"), Aquafacial ad page ("Ihre Aquafacial-Anfrage bei Beauty Face Lift"), Aquafacial + Microneedling ad page ("Ihre Anfrage: Aquafacial + Microneedling bei Beauty Face Lift"; adds "Das Angebot gilt bis …" from `CAMPAIGN_OFFERS` while the date has not passed). Content: thanks, "Teresa Stimac meldet sich persönlich bei Ihnen, in der Regel innerhalb eines Werktages, per …", WhatsApp and phone for questions, the button "Termin online buchen" (absolute `/termin/` link, with the ad page's service), the address, the signature with opening hours, and the line "Diese E-Mail bestätigt den Eingang Ihrer Anfrage." No opt-out link (the mail answers the customer's own request) and no cockpit link.
 
 ### Reminder to the studio ("nudge")
@@ -94,7 +98,16 @@ Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sen
 - **When:** a lead is still `neu`, not marked test/spam and was not reminded yet, and arrived at least `NUDGE_AFTER_MINUTES` (60) minutes ago. Only within opening hours (`OPENING_HOURS_WEEKLY`, Zurich time): the first run after opening catches up on the leads that arrived while the studio was closed. At most 20 per run, oldest first.
 - **Recipient:** `LEADS_NUDGE_TO` only (`wrangler.jsonc`: the agency address until go-live). Reply-to is the same address. Missing → nothing is sent and the run logs "LEADS_NUDGE_TO is missing".
 - **Content** (`worker/email/templates/nudge.ts`): subject "Noch offen: Anfrage von {Name} (seit {n} Min.)"; source, treatment/topic, arrival time, phone, e-mail, preferred contact and time, the message (up to 300 characters); buttons "Anrufen" (`tel:`), "WhatsApp" (`wa.me` with the prefilled greeting) and "Im Lead-Cockpit öffnen".
-- **At most once:** `nudge_sent_at` is claimed before sending; success writes a `nudge_sent` event (meta names the variable, never the address). A failed send gives the claim back and writes `mail_failed` (kind `nudge`); the lead is retried no earlier than **2 h** later (the back-off reads that event; there is no extra column).
+- **Reservation and delivery:** `nudge_sent_at` is claimed before sending and the provider uses stable `Idempotency-Key: bfl:nudge:<lead-id>`. Success writes `nudge_sent`. A definitive rejection releases the reservation and writes `mail_failed`; retry is no earlier than **2 h** later using the same logical key. Network/timeouts, 408/409 and server errors retain the reservation and are not automatically retried. See uncertain delivery below; do not describe this as guaranteed delivery or automatically clear claims.
+
+## Agency procedure for uncertain delivery
+
+This procedure is required before rollout; an alert/reconciliation owner still needs to be assigned. The repair candidate records uncertain delivery as `mail_failed` with `delivery: uncertain` and `retry: manual`, retaining the send reservation. The stable provider key does not authorize unlimited or blind retries.
+
+1. Alert the responsible agency operator; record lead ID, mail kind and time without copying personal data into public logs/issues.
+2. Inspect the correct project's provider delivery record using the logical key, time and any returned message ID. Do not use another client's Resend connection. If accepted/delivered, preserve the reservation and document the reconciliation.
+3. If acceptance cannot be established, leave the reservation in place and escalate to the agency owner. No automatic resend, direct database reset or client/customer test email is authorized. A recovery action needs a separately approved, documented plan that accounts for provider idempotency retention and duplicate risk.
+4. Record what was verified and the outcome. A stored lead, a reservation timestamp and an actual email delivery are different facts.
 
 ## Cron
 
@@ -103,7 +116,7 @@ Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sen
   ```
   curl "http://127.0.0.1:8787/__scheduled?cron=*/15+*+*+*+*"
   ```
-  With an invalid key the send fails harmlessly and a `mail_failed` event appears in the local D1. The run only does something within opening hours (Zurich time) and for leads older than 60 minutes.
+  Prefer the fully stubbed harness; this manual recipe is historical reference and can still attempt an outbound provider request. An invalid key is not proof that no network call occurred. No real secret/address belongs in a local test. A definitive rejection records `mail_failed` in local D1. The run only does something within opening hours (Zurich time) and for leads older than 60 minutes.
 
 ## Local development
 
@@ -123,7 +136,7 @@ Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sen
 
 - `npm run harness:leads-access` — the Access guard through the real Worker entry: self-signed RS256 test JWTs (header and cookie), 401 for missing/expired/wrong-aud/wrong-iss/wrong-email/foreign-key tokens, the certs cache and the unknown-`kid` refetch, fail-closed config, the dev bypass rules, the legacy `/admin/` page behind the guard.
 - `npm run harness:leads-cockpit` — list, filters, search, KPIs, escaping, all six actions, CSRF (403), the 400 validation paths, Zurich time (`2026-11-03 14:30` → `13:30Z`), 503 without secret or database, 404/405, paging.
-- `npm run harness:leads-cron` — the reminder (61 minutes at Tue 11:00 → one mail, overlapping and repeated runs → none, Sunday none, Monday 10:00 CET sent, excluded never, Resend 500 → claim released + 2 h back-off, missing config), the customer confirmation (off by default, sent once when on, 24 h same-address and 60-minute rate limits, failure path, offer date), and both entry points of `worker/index.ts` (`scheduled`, `POST /api/contact`).
+- `npm run harness:leads-cron` — the reminder (61 minutes at Tue 11:00 → one mail, overlapping and repeated runs → none, Sunday none, Monday 10:00 CET sent, excluded never, definitive rejection → released claim + 2 h back-off, network/408/409/5xx → retained uncertain reservation/no automatic resend, stable provider keys, missing config), the customer confirmation (off by default, sent once when on, concurrent distinct-lead 24 h same-address and exact 20/hour limits including in-flight sends, rejection/uncertain paths, offer date), and both entry points of `worker/index.ts` (`scheduled`, `POST /api/contact`).
 - `npm run qa:leads` — source checks (fonts, Access/CSRF wiring, config, docs, Swiss spelling, mail copy without "CHF", the `LEADS_CUSTOMER_MAILS` switch).
 - `npm run smoke:security` — `/admin/` and `/admin/leads/` must answer 302 to `*.cloudflareaccess.com` or 401/403, never 200.
 
@@ -137,19 +150,8 @@ The harnesses stub `globalThis.fetch`; they never call Cloudflare or Resend and 
 - Headers: `/admin/*` responses carry `Cache-Control: no-store`, `X-Robots-Tag: noindex, nofollow` and the site's security headers; pages have `<meta name="robots" content="noindex, nofollow">`.
 - No JavaScript, no third-party requests; fonts are served from `/fonts/`.
 
-## Go-live checklist
+## Go-live remains a separate decision
 
-Steps for opening the cockpit to the studio:
+Do not execute the previous automatic go-live sequence. The current gates are in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) and [LEAD-COCKPIT-PLAN.md](LEAD-COCKPIT-PLAN.md): repaired/verified code, data disclosure/retention/deletion and reconciliation readiness, a chosen/tested staff authentication path, and explicit rollout approval.
 
-1. Add the studio address to the Access policy (Emails).
-2. Add the same address to `ACCESS_ALLOWED_EMAILS` in `wrangler.jsonc` (comma-separated) and ship it through a reviewed PR.
-3. Sign in once with that address (One-time PIN) and check that the header reads "Angemeldet als …" and new actions appear as "Teresa" in the timeline.
-4. Hand over the short German one-pager for the studio (written at go-live).
-5. Run `npm run smoke:security` against production.
-
-Steps for the automatic e-mails (same go-live, all through a reviewed PR):
-
-6. `LEADS_NUDGE_TO` in `wrangler.jsonc` → the studio address (`CONTACT_TO_EMAIL`), and the reminder sent with the agency in BCC (small change in `worker/cron/automations.ts`).
-7. `LEADS_CUSTOMER_MAILS` → `on` in `wrangler.jsonc` (check that `CONTACT_FROM_EMAIL` uses the verified sending domain first).
-8. Add the cockpit link line to the owner enquiry e-mail (`worker/routes/contact.ts`).
-9. Update the go-live rules in `npm run qa:leads` (it asserts the agency recipient and the absent switch until then).
+Until a separately tested go-live is approved, keep customer confirmations off, reminders agency-only, staff access agency-only, no cockpit link in owner emails, and no Teresa test mail. Introducing Teresa, enabling customer email or changing recipient policy must not happen automatically with a merge. The original runbook/go-live checklist is preserved in [the PR57 snapshot](../archive/reviews/2026-10-21-pre-repair/LEAD-COCKPIT-PR57.md).

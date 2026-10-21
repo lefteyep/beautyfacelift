@@ -8,7 +8,7 @@ Canonical production origin:
 https://beautyfacelift-zuerich.ch
 ```
 
-The temporary `beautyfacelift.mediapaulo.workers.dev` host must not be used as a public canonical URL. The old `beautyfacelift.ch` domain is separate and must not be configured, redirected, or treated as a migration source for this launch.
+The temporary `beautyfacelift.mediapaulo.workers.dev` host must not be used as a public canonical URL. The Worker contains a redirect map for the old `beautyfacelift.ch` site; it remains inert until the user completes the approved DNS cutover. Preserve mail records and follow `docs/current/OLD-SITE-SHUTDOWN.md`. This repair milestone does not change DNS or activate the redirect.
 
 ## Stack
 
@@ -26,13 +26,14 @@ The temporary `beautyfacelift.mediapaulo.workers.dev` host must not be used as a
 npm install
 npm run dev
 npm run build
+npm run validate
 npm run cf:dev
 npm run qa:worker
 npm run launch:check
 npx wrangler deploy --dry-run
 ```
 
-`npm run cf:deploy` builds and deploys to Cloudflare with `wrangler deploy --keep-vars`. Do not run a production deploy unless the current branch and release process are approved.
+`npm run validate` runs the release checks locally with stubbed application services. CI runs it with Node 22 and npm 10.9.9 before any production migration or deployment. Production deployment uses the reviewed GitHub workflow on `master` and requires explicit approval; do not run `npm run cf:deploy` or `wrangler deploy` manually.
 
 ## Documentation
 

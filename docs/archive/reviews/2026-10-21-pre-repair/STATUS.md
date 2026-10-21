@@ -1,0 +1,273 @@
+# Project Status — beautyfacelift-zuerich.ch
+
+**Last updated:** October 20, 2026
+
+This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
+
+Current production launch record and verification commands are in [DOMAIN-LAUNCH.md](DOMAIN-LAUNCH.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+
+Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RELEASE-2026-05-08-live-update.md) and [SEO-SERVICE-HUBS-2026-05-08.md](../archive/releases/SEO-SERVICE-HUBS-2026-05-08.md). Delivery details are in [DELIVERY-2026-05-08.md](../archive/releases/DELIVERY-2026-05-08.md).
+
+## Deployment
+
+| Environment | URL | Status |
+|------------|-----|--------|
+| Production | https://beautyfacelift-zuerich.ch | Live on Cloudflare Workers custom domain |
+| Production www | https://www.beautyfacelift-zuerich.ch | 301 redirects to apex |
+| Temporary Worker | beautyfacelift.mediapaulo.workers.dev | Not canonical; `workers_dev=false`, live check returned 404 |
+| GitHub | https://github.com/lefteyep/beautyfacelift | Private repo |
+| Supabase | https://izekwngqjllaqibrwotp.supabase.co | Unreachable (NXDOMAIN) since 2026-10-06 — see Infrastructure Notes |
+
+Production Worker launch details:
+
+- Worker: `beautyfacelift`
+- Worker version: `f376e963-48cf-4708-9130-650ed6e48b4b`
+- Latest SEO service hub deployment: `e1df2f1a-197f-4b8d-934b-86b5b2bf00c6`
+- Nameservers: `ezra.ns.cloudflare.com`, `ryleigh.ns.cloudflare.com`
+- Apex live check: `200 OK`
+- `www` live check: `301 Moved Permanently` to `https://beautyfacelift-zuerich.ch/`
+- Old domain: untouched and not treated as a migration source
+
+## Latest Release (live since 2026-10-07)
+
+| What | Where | State |
+|------|-------|-------|
+| "Atelier Glow" redesign + October code health (see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)) | PR #25, merge `1535d32` | Live |
+| Deploy fix: top-level `sharp` override so npm 10 (CI) accepts the lockfile | PR #26, merge `1ec6b0b` | Live (deploy run 37549633593) |
+| Aquafacial LP conversion and copy pass | PR #27, merge `5e34494` | Live |
+| Same pass for the other ad pages, plus the contact-form fix | PR #28, merge `bbdc22c` | Live (deploy run 37602640573) |
+| Wissen articles claims pass, `qa:simple-lps`, worktree clean-up note | PR #31 | Live |
+| Combo ad form fix (topic + Turnstile exemption) | PR #32, merge `5516b12` | Live (deploy run 37647740706) |
+| `/kontakt/` click-to-load map, SEO snippet trims, lead delivery hardening | PR #33 + #34, merge `356824b` | Live 2026-10-09 (deploy run 37980686988); `/kontakt/` mobile Lighthouse performance 79 → 95 |
+| Copy fixes from the site audit (directions, aftercare facts, claims, naming, llms-full) | PR #35, merge `09d918f` | Live 2026-10-09 (deploy run 37982303967) |
+| Treatwell alignment: opening hours, massage price, Caviar + Maske Soin Initiale, Aquafacial + Microneedling row | PR #36, merge `e193b15` | Live 2026-10-09 (deploy run 37990053747) |
+| Technical SEO: one URL per page (301 for /path and /index.html), one business schema for all pages, robots.txt groups, hub H2s, FAQ combination answers, llms | PR #37, merge `6425f73` | Live 2026-10-09 (deploy run 37991328990) |
+| Social share images cropped to 1200×630 per page, Wissen buttons in the treatment FAQs, a real 404 status for /404/ and /404.html | PR #38, merge `7c2dc42` | Live 2026-10-09 (deploy run 37994226911) |
+| `/kontakt/` Turnstile hostname (Cloudflare dashboard, no code): live domain added to the widget | — | Fixed 2026-10-09; test enquiry arrived 2026-10-10 |
+| Price offers in the Service schema, one Article schema builder, sitemap `lastmod` for articles, Hautpflege button on the Gesichtsbehandlung hub | PR #39, merge `b874fcb` | Live 2026-10-10 (deploy run 37996520012) |
+| Google Search Console (domain verified by DNS, sitemap submitted) and contact-form test enquiry (accounts, no code) | — | Done 2026-10-10 |
+| Google Tag Manager `GTM-NVC9QKGS` + GA4 `G-4C9M8KMFQY`, Consent Mode v2, consent-gated (see [tracking/GOOGLE-ANALYTICS-GTM.md](tracking/GOOGLE-ANALYTICS-GTM.md)) | PR #40, merge `9e27f9c` | Live 2026-10-10 (deploy run 38003841259) |
+| Docs clean-up; privacy policy says bookings run on Treatwell and discloses Google signals | PR #41, merge `171d30c` | Live 2026-10-10 (deploy run 38003958605) |
+| Keyboard fixes (menu, mobile contact bar), CSS inlined, font preloads, email link labels | PR #42, merge `6c5043e` | Live 2026-10-10 (deploy run 38004062741) |
+| Enquiry email blind copies (`CONTACT_BCC_EMAIL`) and the 2026-10-10 decisions in TODO | PR #44, merge `94cd393` | Live 2026-10-10 (deploy run 38005397603) |
+| Enquiry emails from `anfragen@beautyfacelift-zuerich.ch` (verified in Resend) to Teresa, blind copy to the agency (Worker secrets, no code) | — | Done 2026-10-10, two test enquiries arrived |
+| Combo ad form counts its Lead only after the server accepted it; `/kontakt/` funnel in GTM version 3; security smoke repaired | PR #45, merge `0166e93` | Live 2026-10-10 (deploy run 38046685413) |
+| Aquafacial ad pages: conversion, design and copy pass, both ad pages lead-first | PR #46, merge `019ee66` | Live 2026-10-10 (deploy run 38096543229) |
+| Aquafacial ad page imagery: one consistent studio series | PR #47, merge `bbf39f7` | Live 2026-10-11 (deploy run 38101336994) |
+| Aquafacial photography: varied Teresa reference series | PR #48, merge `7cf1f22` | Live 2026-10-11 (deploy run 38105742715) |
+| Combo ad page: offer end date "bis 14. November 2026", public Meta ad images | PR #50, merge `d4b38c7` | Live 2026-10-13 (deploy run 38449659203) |
+| Meta campaign plan for the combo offer (docs only, see [META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) ) | PR #49, merge `bdafe42` | Live 2026-10-20 (docs and ad design files) |
+| Meta CAPI: the Worker accepted no event that carried the ad-visit keys (`utm_*`, `fbclid`), so ad traffic had browser events only since 2026-05-08; one shared key list now. Also: combo enquiry email subject and empty "Zeitwunsch" row (CR-3), weekly security smoke, docs refresh | PR #51, merge `d5bef5e` | Live 2026-10-20 (deploy run 39342697963); live test the same day: every server event from an ad-style visit, Lead included, answers 200 |
+| Old site `beautyfacelift.ch`: redirect map in the Worker (inert until the DNS moves) and the shutdown plan, see [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) | PR #53, merge `bc69bd0` | Live 2026-10-20 (deploy run 39342902482) |
+| Meta campaign start-ready status, Instagram-enabled `_v2` ads (docs only, other session) | PR #52 | Draft, not merged |
+
+The release covers:
+- **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
+- **Site-wide clean-up:** no overlines or italics, and "Wissen" instead of "Journal".
+- **Page groups:** service hubs, treatment pages and comparison, About/Kontakt/FAQ/utility pages, the Wissen section, and the redesigned ad landing pages.
+- **October code health:** restored LP lead tracking, hashed CAPI data, re-openable consent and 0 audit findings.
+- **Ad pages (#27, #28):**
+  - All five `/lp/*` pages now follow one standard: shorter section flow, conversion copy, the rating line "4,8 aus 248+ Bewertungen" under the hero CTAs, and the shared ad components (OfferBox, TrustStrip, TestimonialStrip, StickyOfferBar, WhatsAppButton).
+  - The legal strip is in sentence case.
+  - Offers, prices, form fields and tracking hooks are unchanged.
+- **Contact form (#28):** the Worker dropped the chosen treatment (`treatment_interest`) from `/kontakt/` enquiries from 2026-06-24 until this release. `npm run qa:contact` now guards every posted field.
+- **Wissen articles (#31):**
+  - Unverifiable, superlative and medical claims were removed from the five articles, the Aquafacial page step, the Wissen cards and `llms*.txt`.
+  - Facts now match the treatment pages, and titles are 60 characters or fewer.
+  - The article schema logo now points to `/assets/logo.png`.
+
+The first deploy of PR #25 failed at `npm ci`, so production stayed on the previous version until PR #26.
+
+Live checks on 2026-10-07:
+- All main routes, the LPs, `sitemap.xml` and `robots.txt` return 200; `www` returns 301.
+- Lighthouse mobile scores:
+  - `/`: 98 / 100 / 100 / 100 (performance / accessibility / best practices / SEO; LCP 2.1 s, CLS 0).
+  - `/lp/aquafacial/`: 98 / 100 / 100, LCP 2.3 s. Its SEO score is 69 because the page is noindex on purpose.
+- After PR #28:
+  - All 30 sitemap and `/lp/*` URLs return 200.
+  - Their live HTML matches the tested build except for two values CI injects at build time: the Meta Pixel ID and, on `/kontakt/`, the Turnstile site key.
+
+## Pending Release
+
+None. New work goes on a `codex/*` branch and goes live only after a reviewed PR and explicit approval (see `AGENTS.md`).
+
+## Infrastructure Notes (2026-10-06)
+
+- Supabase project `izekwngqjllaqibrwotp` did not resolve (NXDOMAIN) on 2026-10-06, so `/api/services` returns 500 and the admin dashboard / legacy booking widget are unusable. The contact form (Resend) and `/api/track` (Meta CAPI) do not depend on Supabase. Decide: restore the project (needed for lead status tracking) or decommission the legacy booking code.
+- Meta Pixel ID is present in the production build (`PUBLIC_META_PIXEL_ID` GitHub Actions variable). Server-side CAPI token status still needs a Test Events check.
+- The old WordPress site on `beautyfacelift.ch` is still live and indexed separately.
+
+## Current Key Routes
+
+### Main Pages
+All main pages use the "Atelier Glow" system (October 2026). There are no overlines, no italics and no facts asides; each hero has one lead sentence. Counts below are FAQPage JSON-LD questions.
+
+| Page | URL | Status |
+|------|-----|--------|
+| Homepage | / | Hero with proof line, treatments bento, Teresa, beauty services with starting prices, first-visit steps, reviews, 6 FAQs |
+| Treatment overview | /behandlungen/ | Image cards for facial treatments, price rows for beauty services, guide, 4 FAQs, ItemList schema |
+| Gesichtsbehandlung Zürich | /behandlungen/gesichtsbehandlung-zuerich/ | Service hub (ServiceHubPage) with a photo hero, price rows, a "Was Sie erwartet" spec list and Service schema |
+| Aquafacial | /behandlungen/aquafacial-zuerich/ | Treatment page: hero with price/duration, benefits, price rows, steps, suitability, review, 7 FAQs, booking panel, related treatments |
+| Microneedling | /behandlungen/microneedling-zuerich/ | Same treatment-page structure, 8 FAQs |
+| Fruchtsäure Peeling | /behandlungen/fruchtsaeure-peeling-zuerich/ | Same treatment-page structure, 8 FAQs |
+| ColdPlasma | /behandlungen/coldplasma-zuerich/ | Same treatment-page structure, 7 FAQs |
+| Exosome Therapie | /behandlungen/exosome-therapie-zuerich/ | Same treatment-page structure with cautious wording, 9 FAQs |
+| Treatment comparison | /behandlungen/vergleich/ | Hairline table on desktop, stacked cards below 1000 px, 5 FAQs |
+| Laser-Haarentfernung Zürich | /behandlungen/laser-haarentfernung-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Waxing Zürich | /behandlungen/waxing-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Wimpern & Brauen Zürich | /behandlungen/wimpern-brauen-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Make-up Zürich | /behandlungen/make-up-zuerich/ | Service hub with a typographic hero, price rows and spec list |
+| Massage Zürich Bahnhofstrasse | /behandlungen/massage-zuerich-bahnhofstrasse/ | Service hub with a typographic hero, price rows and spec list |
+| About | /ueber-mich/ | Portrait hero, story with stats, four principles, three reviews, studio CTA, Person schema |
+| Kontakt | /kontakt/ | Contact tiles; enquiry form with an unchanged field/Turnstile/tracking contract; location and hours; 6 FAQs |
+| Booking | /termin/ | Noindex Treatwell forwarding bridge with attribution handoff (IDs and script unchanged) |
+| Booking confirmation | /buchung-bestaetigt/ | Legacy first-party booking confirmation; not the active Treatwell conversion source |
+| FAQ hub | /haeufige-fragen/ | 20 FAQs in 4 groups with a sticky topic index |
+| Impressum | /impressum/ | Layout refresh only; legal text unchanged |
+| Datenschutz | /datenschutz/ | Layout refresh with a sticky table of contents; legal text unchanged |
+| 404 | /404 | Short page with four next-step links |
+| Admin | /admin/ | Noindex |
+
+### Wissen (blog, 5 articles; URL stays /blog/)
+| Article | URL | Notes |
+|---------|-----|-------|
+| Wissen index | /blog/ | Feature card, article rows, consultation panel, CollectionPage schema |
+| Aquafacial vs. Microneedling | /blog/aquafacial-vs-microneedling/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Hautpflege-Routine Zürich | /blog/hautpflege-routine-zuerich/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Was ist Aquafacial? | /blog/was-ist-aquafacial/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Microneedling Erfahrung | /blog/microneedling-erfahrung/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+| Anti-Aging Behandlungen Zürich | /blog/anti-aging-behandlungen-zuerich/ | 2000+ words; contents list, mid-article CTA, 5 FAQs |
+
+Article copy was reviewed for claims on 2026-10-07 (PR #31):
+- **Claims:** unverifiable, superlative and medical claims were removed or softened.
+- **Facts:** prices, durations, sessions and downtime now match the treatment pages.
+- **Titles:** all are 60 characters or fewer.
+- **Open questions:** listed under "Wissen follow-ups" in [TODO.md](TODO.md).
+
+### Ad Landing Pages (noindex)
+All five pages share the Atelier Glow ad-page standard (PR #27, #28). The Aquafacial, combo and Carbon pages are locked by their `qa:*-lp` scripts. The Microneedling and Peeling pages are locked by `npm run qa:simple-lps`, which checks:
+- the booking link and analytics hooks;
+- the 4,8 rating line;
+- "Sie" voice;
+- design tokens only, with no italics or uppercase.
+
+| Page | URL | Voice |
+|------|-----|-------|
+| Aquafacial Aktion (Meta lead form, CHF 99) | /lp/aquafacial/ | du |
+| Aquafacial + Microneedling (combo) | /lp/aquafacial-microneedling/ | Sie |
+| Carbon Microneedling | /lp/carbon-microneedling/ | Sie |
+| Microneedling LP | /lp/microneedling/ | Sie |
+| Peeling LP | /lp/peeling/ | Sie |
+
+## SEO & AIO Status
+
+| Feature | Status | Details |
+|---------|--------|---------|
+| Schema.org (BeautySalon) | Done | Conservative BeautySalon/WebSite schema with canonical URL and address |
+| Schema.org (Service) | Done | Treatment schemas avoid unverified rating/price rich-result claims |
+| Schema.org (FAQPage) | Done | 105 FAQ items sitewide with JSON-LD (generated from the same data as the visible FAQs) |
+| Schema.org (Article) | Done | All 5 blog articles |
+| Schema.org (Person) | Done | About page — Teresa Stimac |
+| Schema.org (BreadcrumbList) | Done | Treatment pages, blog, FAQ hub |
+| Schema.org (ItemList) | Done | Treatment overview |
+| Sitemap | Done | Priority-weighted, admin/LP/confirmation filtered |
+| robots.txt | Done | Sitemap directive uses production domain; Cloudflare Managed Content Signals are prepended live and should be reviewed if AI crawler access is intended |
+| llms.txt | Done | Concise business summary for AI platforms, including six service groups |
+| llms-full.txt | Done | Detailed version with treatments, service hubs, pricing, and FAQs |
+| Geo meta tags | Done | CH-ZH, lat/long, ICBM |
+| max-image-preview:large | Done | All indexed pages |
+| OG image dimensions | Done | 1200x630 |
+| Article OG tags | Done | published_time, author, section |
+| Canonical URLs | Done | Resolves to beautyfacelift-zuerich.ch |
+| Image width/height | Done | All img tags have dimensions (CLS prevention) |
+| Internal linking | Done | Cross-links between treatment hubs, treatment detail pages, blog, and FAQ pages |
+
+## SEO Service Hub Release (2026-05-08)
+
+The site now uses a grouped service architecture from `SERVICE_GROUPS` in `shared/site.ts`.
+
+Implemented groups:
+
+- Gesicht & Haut
+- Laser-Haarentfernung
+- Waxing
+- Wimpern & Brauen
+- Make-up
+- Massage
+
+Visible architecture updated in:
+
+- homepage service section
+- desktop and mobile treatment navigation
+- footer treatment links
+- treatment overview
+- `llms.txt` and `llms-full.txt`
+- sitemap output
+
+Copy-risk review completed across treatment pages, comparison pages, blog posts, homepage, about page, and one ad landing page. High-risk phrasing such as `eingeschleust`, `Narbenreduktion`, `stimuliert`, `PRP`, and `medizinisch formulierte Peelings` was removed or softened.
+
+## Design History
+
+The March 2026 ".pen" implementation below is superseded on the redesign branch by the October 2026 "Swiss Quiet Luxury" system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+
+### Design Implementation (March 19, 2026)
+
+Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
+
+| Area | Changes |
+|------|---------|
+| **Homepage** | Hero: 72px heading, 18px body, service cards with gold accent left border, testimonials with star ratings, editorial grid layout |
+| **Navigation** | Refined spacing (18px 60px padding), logo 42px height, pill-shaped gold CTA, improved mobile menu |
+| **Footer** | 3-column layout with 320px horizontal padding, newsletter input with inline button, proper link spacing |
+| **Treatment pages** | Pricing cards with `.pricing-card-accent` variant, FAQ sections with 320px padding, sub-display span labels |
+| **Behandlungen overview** | Editorial guidance grid, proper card gaps, gold accent decorations |
+| **Blog** | Card grid with hover lift effects, article typography with drop cap, improved reading layout |
+| **404 page** | Centered layout with design-system typography and gold accent |
+| **Termin page** | Booking section with proper padding and heading hierarchy |
+| **CSS tokens** | Updated spacing scale, border-radius (24px cards, 100px pills), gold gradient, shadow system |
+
+**Commit:** `48fb053` — 14 files changed, 789 insertions, 387 deletions
+
+## Feature Completion
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Booking widget | Done | 5-step flow, writes to Supabase |
+| Admin dashboard | Done | Login, bookings, services, availability, blocked dates, CSV export |
+| GSAP animations | Done | Bundled npm, reduced-motion support |
+| Local fonts | Done | @fontsource latin-only |
+| UTM persistence | Done | sessionStorage capture |
+| Server-side tracking | Done | /api/track endpoint |
+| Conversion tracking | Done | Thank-you page fires client + server events |
+| Stripe deposits | Partial | Components + API created, not wired into booking flow |
+| Email notifications | Created | Edge function written, not deployed |
+| Custom domain | Done | Live on `beautyfacelift-zuerich.ch`; `www` redirects to apex |
+| GTM | Ready | `src/lib/track.ts` loads GTM after marketing consent once PUBLIC_GTM_ID is set (Partytown removed 2026-10-06: no script used it and its sandbox cost requests plus a Lighthouse best-practices failure) |
+| GA4 | Ready | Endpoint ready, needs env vars |
+| Meta Pixel | Ready | Endpoint ready, needs env vars |
+
+## Environment Variables Status
+
+| Variable | Set in Cloudflare? | Working? |
+|----------|-------------------|----------|
+| PUBLIC_SUPABASE_URL | Yes | Yes |
+| PUBLIC_SUPABASE_ANON_KEY | Yes | Yes |
+| SUPABASE_SERVICE_ROLE_KEY | Yes | Untested (anon key fallback works) |
+| NODE_VERSION | Yes (22) | Yes |
+| PUBLIC_STRIPE_PUBLISHABLE_KEY | No | — |
+| STRIPE_SECRET_KEY | No | — |
+| STRIPE_WEBHOOK_SECRET | No | — |
+| RESEND_API_KEY | No | — |
+| PUBLIC_GTM_ID | No | — |
+| GA4_MEASUREMENT_ID | No | — |
+| GA4_API_SECRET | No | — |
+| META_PIXEL_ID | No | — |
+| META_ACCESS_TOKEN | No | — |
+
+## Supabase Database
+
+- Schema applied: Yes (001_initial_schema.sql)
+- Seed data: 6 services, 7 availability records, 2 settings
+- Admin user: Supabase Auth owner account exists, but weak/test credentials must be replaced before production customer data is exposed.
+- RLS policies: Active on all tables
+- Edge Functions deployed: Needs verification before relying on production notification email

@@ -1,15 +1,20 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** October 20, 2026
+**Last updated:** 21 October 2026
 
-## Priority 0: Lead-Cockpit, Phase 1 (agency; the Meta combo campaign waits for it)
-- [x] Code built and reviewed on 2026-10-20: PR #55 (lead database), #56 (cockpit behind Cloudflare Access), #57 (confirmation + reminder mails, Cron). Runbook and go-live checklist: [LEAD-COCKPIT.md](LEAD-COCKPIT.md). D1 database `beautyfacelift-leads` exists (Western Europe).
-- [ ] Cloudflare dashboard (agency, before the merges): add **D1: Edit** to the API token used by GitHub Actions (`CLOUDFLARE_API_TOKEN`); create the Zero Trust Access application for `beautyfacelift-zuerich.ch/admin` (One-time PIN only, policy = agency address only, session 2 weeks, App Launcher off); put `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` into `wrangler.jsonc`; set the Worker secret `LEADS_SIGNING_SECRET` (32 random bytes, hex); confirm there is no Worker secret named `LEADS_CUSTOMER_MAILS`.
-- [ ] Merge #55 → #56 → #57 in that order, each on explicit approval; after each deploy run `npm run smoke:security` and the live checks in LEAD-COCKPIT.md (one labelled test enquiry → row appears → mark it "Test"; cockpit login by one-time code on the phone; "Jetzt kontaktiert" opens WhatsApp prefilled; the reminder arrives once at `LEADS_NUDGE_TO` after 60–75 minutes within opening hours and not again).
-- [ ] Go-live (one small PR plus dashboard, only after the end-to-end test): add the studio address to the Access policy and `ACCESS_ALLOWED_EMAILS`; `LEADS_NUDGE_TO` → the studio address with the agency in BCC (code); `LEADS_CUSTOMER_MAILS=on`; add the cockpit line to the owner e-mail; hand over the one-pager; test the one-time-code mail with the studio once. Then the campaign may start. If this slips past about 28 October, move the offer end date (14 November on the page, the ad images and the ad copy).
-- [ ] Phase 2 after go-live (plan): Treatwell booking mails via Email Routing and a parser, follow-up and review mails with unsubscribe, opt-in checkbox and privacy-policy update, weekly report with ad spend and CSV export.
+## Current priority — review repairs, then scope review
 
-## Priority 0: Release the October work (agency)
+- [ ] Complete and verify R1–R11 in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). **Implementation is in progress; verification is pending.** Do not treat older checkmarks below as verification of this repair.
+- [ ] Reconcile current operating docs with the final implementation; root records the exact combined commit/checks before marking repairs complete.
+- [ ] Before D1 ingestion: approve disclosure, retention/deletion policy and tested procedure, storage-failure alerting and lead reconciliation/recovery. Owner emails can succeed when D1 storage fails, so the cockpit is not guaranteed complete. Detailed gates and ownership are in the repair record.
+- [ ] Review the smallest useful workflow: enquiry capture/list, contact/status and manual booked/outcome recording. This is scope review, not approval for added features.
+- [ ] Authentication choice and setup remain **deferred**. No Access activation or custom OTP work in this repair; compare the security and maintenance responsibilities after the workflow review.
+- [ ] Preserve the campaign gate: cockpit Phase 1 first, then Treatwell CHF 170 service, old-site shutdown/301 redirect, revised start/end date and approved funnel verification. Standard `Lead` remains the optimisation event; custom conversion is report-only.
+- [ ] Keep customer emails off and reminders agency-only; no Teresa cockpit links/test emails. Hold Phase 2 automation and legacy Supabase restore/delete.
+
+The dated October records and unresolved client/content tasks below remain useful history/backlog. This section and the repair checklist supersede their earlier rollout order. The complete pre-repair TODO is [archived](../archive/reviews/2026-10-21-pre-repair/TODO.md).
+
+## Completed October work (historical agency record)
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
   - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").
   - [x] **Test enquiry, 2026-10-10:** the form showed "Erfolg!", the Worker accepted the enquiry, and the email arrived with the chosen treatment.

@@ -1,12 +1,14 @@
 # Domain Launch — beautyfacelift-zuerich.ch
 
+> Historical record of the completed May 2026 custom-domain launch. Its old-domain exclusions describe that launch only. On 20 October the user separately decided to shut down/301-redirect the old site before the campaign; use [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) for that future approved change while preserving email. Current repair/rollout gates are in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Do not rerun historical deployment, DNS or form-test steps as part of code repair.
+
 Canonical production domain:
 
 ```text
 https://beautyfacelift-zuerich.ch
 ```
 
-This is a new custom-domain launch for the Cloudflare Worker currently associated with `beautyfacelift.mediapaulo.workers.dev`. It is not an old-domain migration. Do not add, redirect, modify, or configure `beautyfacelift.ch` or `www.beautyfacelift.ch`.
+The May launch introduced a new custom domain for the Cloudflare Worker formerly associated with `beautyfacelift.mediapaulo.workers.dev`. It did not migrate or modify `beautyfacelift.ch` or `www.beautyfacelift.ch`. Those historical exclusions do not override the later October shutdown/redirect decision.
 
 **Update 2026-10-20:** the rule above applied to the launch. The user has since decided to shut the old site down before the Meta campaign; the plan, the redirect map and the steps are in [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md). The "do not add" steps below are kept as the record of the launch.
 

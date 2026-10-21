@@ -1,29 +1,25 @@
 # Security Status
 
-Last updated: 2026-10-20
+Last updated: 2026-10-21
 
 Production URL: https://beautyfacelift-zuerich.ch/
 
 The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical and returned 404 in post-launch verification because `workers_dev=false` is active.
 
-## Implemented in repo
+## Review repair status
 
-- Booking API now validates service UUID, active service, date/time format, 90-day window, blocked dates, working hours, 30-minute slot alignment, overlap conflicts, duplicate submissions, and per-IP rate limits.
+**IMPLEMENTATION IN PROGRESS:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11 and pending combined verification. Existing code/historical passing checks are not evidence that these fixes are verified or live. The public production source reviewed is `35af1f0`; cockpit #55–#57 are unmerged. No authentication provider is selected/activated by this repair, customer emails stay off and reminders agency-only. Disclosure, retention/deletion, failure alerting and reconciliation are pre-D1 rollout gates.
+
+## Existing code and its limits
+
+- Legacy booking validation code exists, but booking writes are disabled by default and Treatwell is the current booking system. Supabase was reported unreachable since 2026-10-06; this is not a working production booking/admin service.
 - Slot API now rejects malformed date/service parameters and only returns slots for active services inside the booking window.
-- Contact API now fails closed for Turnstile on production hosts, returns controlled `503` responses for missing Resend configuration, preserves honeypot/rate limiting, and limits callback text length.
-- Tracking API now allowlists events and source hosts, requires hashed email/phone user data, restricts Meta cookie fields, rate-limits requests, and keeps IP/user-agent server-controlled.
-- Supabase migration `003_security_hardening.sql` adds `admin_users`, `is_admin()`, admin-only RLS policies, removes public booking inserts, and adds booking integrity/overlap constraints.
+- The contact page requires Turnstile on production hosts; the existing Aquafacial/combo ad campaigns are explicitly exempt and retain honeypot/per-IP controls. Missing required Turnstile/Resend configuration gets controlled errors. In-memory rate limiting is not a durable/global abuse guarantee.
+- Tracking code allowlists events and declared source hosts, requires hashed email/phone user data and keeps IP/user-agent server-controlled. The review found browser-simple cross-site requests could still forward forged events (R2); stricter content-type/provenance checks require repair verification. A caller-declared allowed URL is not proof of request origin.
+- The retained Supabase migration source `003_security_hardening.sql` adds `admin_users`, `is_admin()`, admin-only RLS policies, removes public booking inserts, and adds booking integrity/overlap constraints.
 - Booking notification emails now escape booking fields before rendering HTML.
-- Customer CSV export now quotes cells safely and prevents spreadsheet formula injection.
+- Legacy CSV-export code quotes cells and guards formula injection; its presence does not make the offline legacy admin operational or provide the future D1 export feature.
 - Worker responses now include baseline security headers.
-
-## Lead data (D1)
-
-- `/api/contact` stores each enquiry in the D1 database `beautyfacelift-leads` (table `leads`, history in `lead_events`): the form fields (name, e-mail, phone, topic, message, preferred contact method/time/date, skin goal), the page and campaign data (source, campaign, offer, landing page, page URL, referrer, UTM parameters, click IDs), the normalised e-mail and phone used to link repeat enquiries within 30 days, and the marketing consent with its time.
-- IP address and user agent are not stored in the database; they stay in the owner e-mail only, as before.
-- Every value is bound as a SQL parameter. Fields the contact route does not already limit (page and campaign data, e-mail, phone) are capped at 2000 characters.
-- The ingest never blocks the enquiry: when D1 fails, the error is logged (`Lead ingest failed:`); when the binding is missing, the ingest is skipped. In both cases the owner e-mail is sent as before and the response to the visitor does not change.
-- The data is shown only in the lead cockpit `/admin/leads/` (besides the Cloudflare dashboard and Wrangler). Everything under `/admin/` is behind Cloudflare Access (One-time PIN, agency address only) and the Worker verifies the Access JWT itself; while `ACCESS_TEAM_DOMAIN`/`ACCESS_AUD` are empty every `/admin/*` request answers 401. Changes need a CSRF token. Details: [LEAD-COCKPIT.md](LEAD-COCKPIT.md).
 
 ## Headers and Content Security Policy
 
@@ -39,9 +35,9 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 - It sends requests to `/api/contact` and `/api/track` that must be rejected (no Turnstile token, unknown event, raw personal data). Nothing is delivered.
 - While the Supabase backend of the legacy booking system is offline, the `/api/services` checks print SKIP and only check the security headers. The Supabase anon check prints SKIP when the project host does not resolve.
 
-## Manual production actions still required
+## Legacy security backlog — separate from this repair
 
-Steps 1–4 apply only while the legacy booking system is kept (the decision on 2026-10-10 was to keep it for now). If it is removed later, delete the Supabase secrets and the Supabase project instead.
+The user decided on 2026-10-10 to retain the legacy code. Steps 1–4 below are a historical restoration/hardening checklist, not authorization to restore it, rotate keys, apply a remote migration or delete the project in this repair. Confirm account/data state and scope first; public enquiries/tracking/Treatwell do not depend on this backend. Production secret configuration in steps 5–6 is a dated record, not a fresh secret inventory.
 
 1. Rotate the Supabase `service_role` key, then update Cloudflare:
    ```powershell
@@ -65,3 +61,9 @@ Steps 1–4 apply only while the legacy booking system is kept (the decision on 
    `CONTACT_BCC_EMAIL` (the agency's blind copy) was added as a dashboard Secret on 2026-10-10.
 6. Done: `PUBLIC_TURNSTILE_SITE_KEY` is a GitHub Actions repository variable.
 7. Stripe deposits were never enabled and are dropped, because Treatwell handles payment.
+
+## Unreleased automated-email repair candidate
+
+The cockpit repair candidate uses stable provider `Idempotency-Key` values for each logical confirmation/reminder. Confirmation reservations enforce the same-address window and at most 20 per hour atomically, including in-flight reservations. Combined verification is pending; customer email remains off.
+
+A network error, timeout, HTTP 408/409 or server error can follow provider acceptance. Such delivery stays **uncertain**: keep the reservation, record `mail_failed` with `delivery: uncertain`/`retry: manual`, and do not automatically resend. The agency must reconcile provider delivery records before any separately approved recovery. A definitive rejection can release the claim; reminder retries wait at least two hours and reuse the logical delivery key. This is neither a guarantee of delivery nor authority to clear a claim/send mail blindly. See the cockpit runbook on the cockpit branch and the final repaired-stack verification.
