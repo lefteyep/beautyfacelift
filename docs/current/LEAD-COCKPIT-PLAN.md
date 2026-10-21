@@ -26,15 +26,15 @@ A D1 error is intentionally logged while the owner email continues. An accepted 
 1. Repair and verify R1–R11, preserving the current public stack and avoiding new automation features. Record checks against the combined revision, including assertion-failure calibration.
 2. Review the minimum useful workflow and ownership with the user.
 3. Before first D1 persistence, satisfy the disclosure, retention/deletion, failure alerting, reconciliation/recovery and rollout checks in [the repair record](REPAIR-2026-10-21.md#gates-before-the-first-d1-rollout). Their implementation cannot be left until Phase 2. No retention duration is adopted by this document.
-4. Compare and select staff authentication with the user in a separate decision. Then prepare configuration/secrets and an agency-only rollout for explicit merge/deploy approval. Existing stacked PRs are not automatically release-ready after a code repair.
+4. Staff authentication has now been selected by the user: existing Cloudflare account login through Access. Complete separately approved account setup and prepare configuration/secrets and an agency-only rollout for explicit merge/deploy approval. Existing stacked PRs are not automatically release-ready after a code repair.
 5. Test the agency workflow with fixtures and approved test data before separately preparing Teresa/customer go-live. Keep `LEADS_CUSTOMER_MAILS` off, reminders agency-only, no cockpit link in owner emails, and no test email to Teresa until an explicit tested go-live decision.
 6. Only after the preserved cockpit gate and external campaign gates are resolved may the user approve campaign activation. Treatwell CHF 170 service, old-site 301 redirect/email preservation, aligned dates and approved funnel checks remain required.
 
-## Authentication — decision deferred
+## Authentication — existing Cloudflare account login selected
 
 Staff contact data requires authentication and authorization. The current #56 implementation verifies Cloudflare Access JWT signature, issuer, audience, time bounds and an email allow-list; missing configuration denies access. Access is a managed option inside the Zero Trust product family. The public website, contact route, tracking route and D1 do not require activating the wider suite, WARP or a VPN.
 
-No provider has been selected or activated by the current repair. Cloudflare checkout was previously paused when it requested payment details; current plan/pricing/payment requirements need verification at decision time. Do not promise free or card-free activation.
+The repair itself did not choose a provider. In the subsequent local coordination, the user explicitly selected **existing Cloudflare account login** on 21 October, replacing the proposed email-PIN flow. The [current readiness record](COCKPIT-ACCESS-READINESS.md) specifies Cloudflare as identity provider, account-member restriction and the exact agency email policy. No activation follows from that choice. The actual Free checkout is prepared but unconfirmed and requires billing details, terms and overage-payment authorization; do not promise card-free activation or an unlimited zero-cost commitment.
 
 A custom Resend email-code login is not a small change to `access.ts`: it needs issuance, abuse throttling, expiry and replay protection, secure session cookies, logout/revocation, operational recovery and regression tests. Compare that ownership cost after the workflow review. Do not begin either setup incidentally.
 

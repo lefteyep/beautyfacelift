@@ -18,7 +18,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 
 - **Production source reviewed:** `35af1f01877ecbd629376c30a1e2254dacfb49d0` (PR #58 handover; GitHub deployment reported success). The application changes through #54 are deployed; #58 added handover docs and test tooling.
 - **Cockpit:** #55 → #56 → #57 are open, stacked and not release-ready. PR #61 repairs the reviewed defects on the unreleased stack; pre-D1 data-handling and authentication gates remain open. Earlier “all gates green” statements were historical manual results.
-- **Authentication:** provider selection is deferred. No Access/Zero Trust activation, custom OTP implementation or pricing commitment is part of this repair.
+- **Authentication:** the user selected existing Cloudflare account login for the agency pilot on 21 October, replacing the email-PIN recommendation. [Setup/readiness](COCKPIT-ACCESS-READINESS.md) records the selected Cloudflare identity provider, exact agency allow-list and unconfirmed Free checkout. Account activation, terms/payment approval and actual login/enforcement checks remain open; no separate password service was built.
 - **Campaign:** remains paused and still waits for cockpit Phase 1 by the user's decision. Optimisation stays on standard `Lead`; the URL-filtered custom conversion is reporting only. Old-site redirect, Treatwell CHF 170 service and revised dates remain external gates.
 - **Guardrails:** customer emails stay off, reminders stay agency-only, Teresa receives no cockpit exposure or test mail. Phase 2 automation is held.
 
