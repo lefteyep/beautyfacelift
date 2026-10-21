@@ -115,13 +115,34 @@ export function whatsappPrefillText(firstName: string, treatment: string): strin
   return `Guten Tag ${firstName}, hier ist Teresa Stimac von Beauty Face Lift. Vielen Dank für Ihre Anfrage zu ${treatment}. Wann passt es Ihnen für einen Termin?`;
 }
 
-/** Same rule as isValidEmail in worker/routes/contact.ts. */
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Plain dot-atom mailbox only: no display names, address lists or URI parameters.
+// URI-significant characters are allowed in a valid local part, then encoded by mailtoHref().
+const EMAIL_LOCAL_PATTERN = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*$/i;
+const EMAIL_DOMAIN_LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i;
+
+/** Accepts one plain ASCII mailbox, including plus-addressing; never an address list or a URL. */
+export function isSingleMailbox(email: string): boolean {
+  if (email.length > 254) return false;
+  const at = email.indexOf('@');
+  if (at < 1 || at !== email.lastIndexOf('@')) return false;
+  const local = email.slice(0, at);
+  const labels = email.slice(at + 1).split('.');
+  return local.length <= 64 && EMAIL_LOCAL_PATTERN.test(local)
+    && labels.length >= 2 && labels.every((label) => EMAIL_DOMAIN_LABEL.test(label));
+}
 
 /** Trimmed, lower-case e-mail, or null when empty or invalid. */
 export function normalizeEmail(value: string | null | undefined): string | null {
   const email = (value ?? '').trim().toLowerCase();
-  return EMAIL_PATTERN.test(email) ? email : null;
+  return isSingleMailbox(email) ? email : null;
+}
+
+/** A safe mailto recipient without query parameters; invalid legacy values have no link. */
+export function mailtoHref(value: string | null | undefined): string | null {
+  const email = normalizeEmail(value);
+  if (!email) return null;
+  const at = email.indexOf('@');
+  return `mailto:${encodeURIComponent(email.slice(0, at))}@${email.slice(at + 1)}`;
 }
 
 /**

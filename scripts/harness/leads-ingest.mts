@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createFakeD1 } from './fake-d1.mjs';
 import { contactRoute } from '../../worker/routes/contact.ts';
 import { CONTACT_TOPICS } from '../../shared/site.ts';
+import { mailtoHref, normalizeEmail } from '../../shared/leads.ts';
 
 type Row = Record<string, unknown>;
 type FakeD1 = ReturnType<typeof createFakeD1>;
@@ -297,6 +298,35 @@ const aquafacialLpSubmission = {
   check(lead?.source === 'kontakt-page' && lead?.email_normalized === 'clara@example.test', '7 form POST: lead row stored', lead);
   check(lead?.marketing_consent === 1, '7 form POST: checkbox "on" counts as marketing consent', lead?.marketing_consent);
   check(resend === 1, '7 form POST: exactly one Resend call', resend);
+}
+
+// ---- 8. one plain mailbox: reject URI parameters/lists before storage or delivery ----------------
+for (const email of [
+  'anna@example.test?subject=Injected',
+  'anna@example.test?bcc=other%40example.test',
+  'anna@example.test,other@example.test',
+  'Anna <anna@example.test>',
+  'anna@example.test\r\nBcc:other@example.test',
+  'anna@example.test#fragment',
+  'anna..muster@example.test',
+]) {
+  const db = newDb();
+  for (const request of [jsonRequest({ ...kontaktSubmission, email }), formRequest({ ...kontaktSubmission, email })]) {
+    const { response, resend } = await submit(request, db);
+    check(response.status === 400 && resend === 0 && rows(db, 'SELECT id FROM leads').length === 0,
+      `8 unsafe mailbox rejected before ingest/mail: ${JSON.stringify(email)}`, { status: response.status, resend });
+  }
+}
+{
+  const db = newDb();
+  const email = 'Anna+Kombi@example.test';
+  const { response, resend } = await submit(jsonRequest({ ...kontaktSubmission, email }), db);
+  check(response.status === 201 && resend === 1 && rows(db, 'SELECT email_normalized FROM leads')[0]?.email_normalized === 'anna+kombi@example.test',
+    '8 plus-addressing remains valid and the normal successful response is unchanged');
+  check(mailtoHref('anna?subject=hello&bcc=other@example.test') === 'mailto:anna%3Fsubject%3Dhello%26bcc%3Dother@example.test',
+    '8 URI characters in a valid local part are percent-encoded, never mailto parameters');
+  check(mailtoHref('anna@example.test?subject=x') === null && normalizeEmail('a@example.test,b@example.test') === null,
+    '8 unsafe legacy mailboxes have no mailto link or normalized recipient');
 }
 
 // ---- general ----------------------------------------------------------------------------------

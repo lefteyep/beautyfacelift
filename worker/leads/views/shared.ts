@@ -1,6 +1,6 @@
 // Helpers used by both cockpit views (list rows and the detail page): the treatment named in the
 // WhatsApp prefill and the contact links (WhatsApp, Anrufen, E-Mail).
-import { CAMPAIGN_OFFERS, whatsappPrefillText } from '../../../shared/leads';
+import { CAMPAIGN_OFFERS, mailtoHref, whatsappPrefillText } from '../../../shared/leads';
 import type { LeadRow } from '../db';
 
 /** The treatment named in the WhatsApp prefill. */
@@ -20,6 +20,7 @@ export function contactLinks(name: string, treatment: string, phoneNormalized: s
     links.push({ href: `https://wa.me/${phoneNormalized}?text=${text}`, label: 'WhatsApp' });
     links.push({ href: `tel:+${phoneNormalized}`, label: 'Anrufen' });
   }
-  if (email) links.push({ href: `mailto:${email}`, label: 'E-Mail' });
+  const mailto = mailtoHref(email);
+  if (mailto) links.push({ href: mailto, label: 'E-Mail' });
   return links;
 }

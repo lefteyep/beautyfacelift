@@ -6,6 +6,7 @@ import type { Env } from '../env';
 import { CONTACT_EMAIL } from '../../shared/site';
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
+const MAIL_TIMEOUT_MS = 10_000;
 
 export type EmailMessage = {
   to: string | string[];
@@ -16,6 +17,8 @@ export type EmailMessage = {
   replyTo?: string;
   bcc?: string[];
   headers?: Record<string, string>;
+  /** Provider-level deduplication for the same logical automated delivery. Never a mail header. */
+  idempotencyKey?: string;
   /** Resend tags: name and value in ASCII letters, digits, "_" and "-". */
   tags?: { name: string; value: string }[];
 };
@@ -30,10 +33,19 @@ export class MailConfigError extends Error {
 
 /** Resend answered with a non-2xx status. */
 export class MailSendError extends Error {
+  readonly delivery: 'rejected' | 'uncertain';
+
   constructor(readonly status: number) {
     super(`Resend request failed with status ${status}`);
     this.name = 'MailSendError';
+    // A timeout, idempotency conflict or server error does not establish that no mail was accepted.
+    this.delivery = status >= 400 && status < 500 && status !== 408 && status !== 409 ? 'rejected' : 'uncertain';
   }
+}
+
+/** Only failures that establish no delivery may release an automation reservation for a retry. */
+export function isDefinitiveMailRejection(error: unknown): boolean {
+  return error instanceof MailConfigError || (error instanceof MailSendError && error.delivery === 'rejected');
 }
 
 /**
@@ -51,7 +63,9 @@ export async function sendEmail(env: Env, message: EmailMessage): Promise<{ id: 
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
+      ...(message.idempotencyKey ? { 'Idempotency-Key': message.idempotencyKey } : {}),
     },
+    signal: AbortSignal.timeout(MAIL_TIMEOUT_MS),
     body: JSON.stringify({
       from,
       to: Array.isArray(message.to) ? message.to : [message.to],

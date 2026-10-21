@@ -8,14 +8,14 @@
 // when the name (echoed in the greeting) carries a link, a domain, an address or markup.
 import type { Env } from '../env';
 import { normalizeEmail } from '../../shared/leads';
-import { appendEvent, claimAutomation, countConfirmationsSince, hasRecentConfirmation, releaseAutomation, type LeadRow } from '../leads/db';
-import { sendEmail } from './resend';
+import { appendEvent, claimConfirmation, getLead, hasRecentConfirmation, releaseAutomation, type LeadRow } from '../leads/db';
+import { isDefinitiveMailRejection, sendEmail } from './resend';
 import { confirmationMail } from './templates/confirmation';
 
 const HOUR_MS = 60 * 60 * 1000;
 /** No second confirmation to the same address within this window. */
 const SAME_ADDRESS_WINDOW_MS = 24 * HOUR_MS;
-/** More confirmations than this in the last hour → skip (bot wave). */
+/** Maximum confirmations reserved in the last hour, including in-flight/uncertain deliveries. */
 const MAX_CONFIRMATIONS_PER_HOUR = 20;
 /**
  * A name that could turn the greeting into an advert: a URL scheme, "www.", "<" or ">", "@", or a dotted
@@ -25,7 +25,7 @@ const MAX_CONFIRMATIONS_PER_HOUR = 20;
 const SUSPICIOUS_NAME = /https?:\/\/|www\.|[<>@]|\b[a-z0-9-]{2,}\.[a-z]{2,}\b/i;
 
 export type ConfirmationSkipReason = 'off' | 'no-db' | 'no-email' | 'excluded' | 'already' | 'suspicious' | 'recent' | 'rate';
-export type ConfirmationResult = { skipped: ConfirmationSkipReason } | { sent: string } | { failed: string };
+export type ConfirmationResult = { skipped: ConfirmationSkipReason } | { sent: string } | { failed: string } | { uncertain: string };
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : 'unknown error';
@@ -44,13 +44,22 @@ export async function sendConfirmationIfDue(env: Env, lead: LeadRow, now: Date):
     if (SUSPICIOUS_NAME.test(lead.name)) return { skipped: 'suspicious' };
 
     const nowIso = now.toISOString();
-    if (await hasRecentConfirmation(db, to, lead.id, new Date(now.getTime() - SAME_ADDRESS_WINDOW_MS).toISOString())) {
-      return { skipped: 'recent' };
-    }
-    if ((await countConfirmationsSince(db, new Date(now.getTime() - HOUR_MS).toISOString())) > MAX_CONFIRMATIONS_PER_HOUR) {
+    const addressSince = new Date(now.getTime() - SAME_ADDRESS_WINDOW_MS).toISOString();
+    if (!(await claimConfirmation(db, {
+      leadId: lead.id,
+      emailNormalized: to,
+      now: nowIso,
+      addressSince,
+      hourSince: new Date(now.getTime() - HOUR_MS).toISOString(),
+      maxPerHour: MAX_CONFIRMATIONS_PER_HOUR,
+    }))) {
+      // These reads explain a rejected reservation only; the atomic UPDATE above enforces safety.
+      const current = await getLead(db, lead.id);
+      if (current?.confirmation_sent_at) return { skipped: 'already' };
+      if (current?.exclude) return { skipped: 'excluded' };
+      if (await hasRecentConfirmation(db, to, lead.id, addressSince)) return { skipped: 'recent' };
       return { skipped: 'rate' };
     }
-    if (!(await claimAutomation(db, lead.id, 'confirmation_sent_at', nowIso))) return { skipped: 'already' };
 
     const mail = confirmationMail(lead, now);
     let id: string;
@@ -60,15 +69,21 @@ export async function sendConfirmationIfDue(env: Env, lead: LeadRow, now: Date):
         subject: mail.subject,
         text: mail.text,
         html: mail.html,
+        idempotencyKey: `bfl:confirmation:${lead.id}`,
         tags: [{ name: 'kind', value: 'confirmation' }],
       }));
     } catch (error) {
-      // No retry: give the claim back (the cockpit then shows it was not sent) and record the failure.
       const message = errorMessage(error);
-      await releaseAutomation(db, lead.id, 'confirmation_sent_at');
-      await appendEvent(db, { lead_id: lead.id, at: nowIso, type: 'mail_failed', actor: 'system', meta: JSON.stringify({ kind: 'confirmation', error: message }) });
+      const rejected = isDefinitiveMailRejection(error);
+      // A lost response or ambiguous provider error may follow acceptance: keep its reservation,
+      // report uncertainty, and require a manual delivery check instead of sending another copy.
+      if (rejected) await releaseAutomation(db, lead.id, 'confirmation_sent_at');
+      await appendEvent(db, {
+        lead_id: lead.id, at: nowIso, type: 'mail_failed', actor: 'system',
+        meta: JSON.stringify({ kind: 'confirmation', error: message, delivery: rejected ? 'rejected' : 'uncertain', retry: rejected ? 'allowed' : 'manual' }),
+      });
       console.error('Lead confirmation failed:', message);
-      return { failed: message };
+      return rejected ? { failed: message } : { uncertain: message };
     }
     // Sent: the claim stays even if the event cannot be written.
     try {

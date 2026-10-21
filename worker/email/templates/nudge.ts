@@ -2,6 +2,7 @@
 // worker/cron/automations.ts to LEADS_NUDGE_TO). Internal mail: it carries the enquiry data, one-tap
 // call / WhatsApp links and the link into the lead cockpit. It never goes to a customer.
 import { absoluteUrl } from '../../../shared/site';
+import { mailtoHref } from '../../../shared/leads';
 import type { LeadRow } from '../../leads/db';
 import { esc, SOURCE_LABELS } from '../../leads/html';
 import { formatZurich } from '../../leads/time';
@@ -45,7 +46,8 @@ export function nudgeMail(lead: LeadRow, { cockpitUrl, minutesOpen }: { cockpitU
   const detailParagraph: EmailParagraph = {
     html: details
       .map(([label, value]) => {
-        const shown = label === 'E-Mail' ? emailLink(`mailto:${value}`, value) : escapeLines(value);
+        const mailto = label === 'E-Mail' ? mailtoHref(value) : null;
+        const shown = mailto ? emailLink(mailto, value) : escapeLines(value);
         return `<strong>${label}:</strong> ${shown}`;
       })
       .join('<br>'),

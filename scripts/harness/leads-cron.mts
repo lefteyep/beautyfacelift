@@ -9,10 +9,12 @@ import { fileURLToPath } from 'node:url';
 import { createFakeD1 } from './fake-d1.mjs';
 import worker from '../../worker/index.ts';
 import { createLeadFromSubmission, type LeadSubmission } from '../../worker/leads/ingest.ts';
-import { getLead, type LeadRow } from '../../worker/leads/db.ts';
+import { getLead, type LeadEventRow, type LeadRow } from '../../worker/leads/db.ts';
+import { renderDetail } from '../../worker/leads/views/detail.ts';
 import { runAutomations } from '../../worker/cron/automations.ts';
 import { sendConfirmationIfDue } from '../../worker/email/confirmation.ts';
 import { confirmationMail } from '../../worker/email/templates/confirmation.ts';
+import { nudgeMail } from '../../worker/email/templates/nudge.ts';
 import { SIGNATURE_LINE } from '../../worker/email/layout.ts';
 
 type Row = Record<string, unknown>;
@@ -39,12 +41,18 @@ function check(condition: unknown, label: string, detail?: unknown): void {
 // ---- fetch stub ------------------------------------------------------------------------------------
 type ResendCall = { from: string; to: string[]; reply_to: string[]; bcc?: string[]; subject: string; text: string; html: string; tags?: unknown };
 const resendCalls: ResendCall[] = [];
+const idempotencyKeys: (string | null)[] = [];
 const otherCalls: string[] = [];
 let resendStatus = 200;
+let resendFailure: Error | null = null;
+let resendPending: Promise<void> | null = null;
 globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
   if (url === RESEND) {
     resendCalls.push(JSON.parse(String(init?.body ?? '{}')) as ResendCall);
+    idempotencyKeys.push(new Headers(init?.headers).get('Idempotency-Key'));
+    if (resendFailure) throw resendFailure;
+    if (resendPending) await resendPending;
     if (resendStatus !== 200) return Response.json({ message: 'simulated failure' }, { status: resendStatus });
     return Response.json({ id: `re_${resendCalls.length}` }, { status: 200 });
   }
@@ -151,6 +159,12 @@ const TUE_1100 = new Date('2026-10-20T09:00:00.000Z');
   const sent = events(db, due.id, 'nudge_sent');
   check(sent.length === 1 && sent[0]?.actor === 'system' && meta(sent[0]).to === 'LEADS_NUDGE_TO' && meta(sent[0]).id === 're_1' && !String(sent[0]?.meta).includes('@'),
     '1 nudge: one nudge_sent event (actor system, meta names the variable and the Resend id, no address)', sent);
+  const detail = renderDetail({
+    identity: { email: AGENCY, exp: 0, actor: 'agentur', dev: true },
+    lead: await getLead(db as never, due.id) as LeadRow,
+    events: sent as LeadEventRow[], csrf: null, flash: null,
+  });
+  check(!detail.includes('Die Zustellung ist unklar.'), '1 nudge: a successful-send event resolves the reservation without an uncertainty warning');
 
   const again = await runAutomations(env, TUE_1100);
   check(again.nudged.length === 0 && callsSince(before) === 1, '1 nudge: a later run at the same time sends nothing (1 Resend call in total)', { again, calls: callsSince(before) });
@@ -185,27 +199,29 @@ const TUE_1100 = new Date('2026-10-20T09:00:00.000Z');
     '2 hours: Monday 09:00Z = 10:00 Zurich (CET) → the Saturday lead is nudged', monday);
 }
 
-// ---- 3. Resend fails → claim released, 2 h back-off -------------------------------------------------------
+// ---- 3. Definite rejection → claim released, 2 h back-off; same provider key on retry ----------------
 {
   const db = newDb();
   const env = makeEnv(db);
   const lead = await seed(db, '2026-10-20T08:00:00.000Z');
   const before = resendCalls.length;
-  resendStatus = 500;
+  resendStatus = 429;
   const failed = await runAutomations(env, new Date('2026-10-20T10:00:00.000Z'));
   resendStatus = 200;
-  check(failed.nudged.length === 0 && failed.errors === 1 && callsSince(before) === 1, '3 failure: Resend 500 → not nudged, errors 1', failed);
+  check(failed.nudged.length === 0 && failed.errors === 1 && callsSince(before) === 1, '3 failure: Resend 429 → not nudged, errors 1', failed);
   check(leadRow(db, lead.id).nudge_sent_at === null, '3 failure: nudge_sent_at back to NULL (claim released)');
   const failedEvents = events(db, lead.id, 'mail_failed');
-  check(failedEvents.length === 1 && meta(failedEvents[0]).kind === 'nudge' && meta(failedEvents[0]).error === 'Resend request failed with status 500',
+  check(failedEvents.length === 1 && meta(failedEvents[0]).kind === 'nudge' && meta(failedEvents[0]).delivery === 'rejected' && meta(failedEvents[0]).error === 'Resend request failed with status 429',
     '3 failure: one mail_failed event (kind nudge, the status in the error)', failedEvents);
   check(events(db, lead.id, 'nudge_sent').length === 0, '3 failure: no nudge_sent event');
   const oneHour = await runAutomations(env, new Date('2026-10-20T11:00:00.000Z'));
   check(oneHour.nudged.length === 0 && callsSince(before) === 1, '3 back-off: a run 1 h later sends nothing', oneHour);
   const threeHours = await runAutomations(env, new Date('2026-10-20T13:00:00.000Z'));
   check(JSON.stringify(threeHours.nudged) === JSON.stringify([lead.id]) && callsSince(before) === 2, '3 back-off: a run 3 h later sends the reminder', threeHours);
+  check(idempotencyKeys[before] === `bfl:nudge:${lead.id}` && idempotencyKeys[before + 1] === idempotencyKeys[before],
+    '3 retry: the same stable Idempotency-Key is sent as an HTTP header on both attempts');
   const logs = takeLogged();
-  check(logs.length === 1 && logs[0] === 'error: Lead reminder failed: Resend request failed with status 500', '3 failure: one log line without address or body', logs);
+  check(logs.length === 1 && logs[0] === 'error: Lead reminder failed: Resend request failed with status 429', '3 failure: one log line without address or body', logs);
 }
 
 // ---- 4. configuration missing --------------------------------------------------------------------------------
@@ -293,7 +309,7 @@ const ON = { LEADS_CUSTOMER_MAILS: 'on' };
 }
 
 // ---- 6. anti-backscatter rate limit --------------------------------------------------------------------------
-for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'sent']] as const) {
+for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'rate'], [19, 'sent']] as const) {
   const db = newDb();
   for (let index = 0; index < confirmedInLastHour; index += 1) {
     const other = await seed(db, '2026-10-20T08:30:00.000Z', { name: `Bot ${index}`, email: `bot${index}@example.test`, phone: '' });
@@ -310,17 +326,17 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'sent']] as co
   const db = newDb();
   const lead = await seed(db, '2026-10-20T09:00:00.000Z');
   const before = resendCalls.length;
-  resendStatus = 500;
+  resendStatus = 429;
   const result = await sendConfirmationIfDue(makeEnv(db, ON), lead, TUE_1100);
   resendStatus = 200;
-  check(JSON.stringify(result) === JSON.stringify({ failed: 'Resend request failed with status 500' }) && callsSince(before) === 1, '7 failure: Resend 500 → "failed"', result);
+  check(JSON.stringify(result) === JSON.stringify({ failed: 'Resend request failed with status 429' }) && callsSince(before) === 1, '7 failure: Resend 429 → "failed"', result);
   check(leadRow(db, lead.id).confirmation_sent_at === null, '7 failure: confirmation_sent_at NULL again');
   const failedEvents = events(db, lead.id, 'mail_failed');
-  check(failedEvents.length === 1 && meta(failedEvents[0]).kind === 'confirmation' && meta(failedEvents[0]).error === 'Resend request failed with status 500',
+  check(failedEvents.length === 1 && meta(failedEvents[0]).kind === 'confirmation' && meta(failedEvents[0]).delivery === 'rejected' && meta(failedEvents[0]).error === 'Resend request failed with status 429',
     '7 failure: one mail_failed event (kind confirmation)', failedEvents);
   check(events(db, lead.id, 'mail_sent').length === 0, '7 failure: no mail_sent event');
   const logs = takeLogged();
-  check(logs.length === 1 && logs[0] === 'error: Lead confirmation failed: Resend request failed with status 500', '7 failure: one log line without address or body', logs);
+  check(logs.length === 1 && logs[0] === 'error: Lead confirmation failed: Resend request failed with status 429', '7 failure: one log line without address or body', logs);
 
   const noFrom = await sendConfirmationIfDue(makeEnv(db, { ...ON, CONTACT_FROM_EMAIL: undefined }), lead, TUE_1100);
   check(JSON.stringify(noFrom) === JSON.stringify({ failed: 'CONTACT_FROM_EMAIL is missing' }) && callsSince(before) === 1,
@@ -439,6 +455,114 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'sent']] as co
   const offLead = offDb._db.prepare('SELECT confirmation_sent_at FROM leads').get() as Row;
   check(offLead.confirmation_sent_at === null, '9 contact unset: confirmation_sent_at stays NULL');
   check(takeLogged().length === 0, '9 contact: nothing logged');
+}
+
+// ---- 10. atomic per-address/hourly limits include in-flight distinct leads -------------------------
+{
+  const db = newDb();
+  const env = makeEnv(db, ON);
+  const a = await seed(db, TUE_1100.toISOString(), { email: 'same@example.test' });
+  const b = await seed(db, TUE_1100.toISOString(), { email: 'SAME@example.test' });
+  const before = resendCalls.length;
+  const results = await Promise.all([sendConfirmationIfDue(env, a, TUE_1100), sendConfirmationIfDue(env, b, TUE_1100)]);
+  check(callsSince(before) === 1 && results.filter((result) => 'sent' in result).length === 1
+    && results.filter((result) => 'skipped' in result && result.skipped === 'recent').length === 1,
+  '10 concurrency: two distinct leads for one address reserve and send only once', results);
+}
+{
+  const db = newDb();
+  const env = makeEnv(db, ON);
+  const leads: LeadRow[] = [];
+  for (let index = 0; index < 30; index += 1) {
+    leads.push(await seed(db, TUE_1100.toISOString(), { email: `concurrent${index}@example.test` }));
+  }
+  let release!: () => void;
+  resendPending = new Promise<void>((resolve) => { release = resolve; });
+  const before = resendCalls.length;
+  const pending = Promise.all(leads.map((lead) => sendConfirmationIfDue(env, lead, TUE_1100)));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  check(callsSince(before) === 20, '10 concurrency: exactly twenty deliveries may be in flight while provider responses are pending', callsSince(before));
+  release();
+  resendPending = null;
+  const results = await pending;
+  check(results.filter((result) => 'sent' in result).length === 20
+    && results.filter((result) => 'skipped' in result && result.skipped === 'rate').length === 10,
+  '10 concurrency: thirty distinct leads send twenty confirmations and skip ten');
+  check(idempotencyKeys.slice(before).every((key) => key?.startsWith('bfl:confirmation:')),
+    '10 confirmations: every automated send uses a stable provider Idempotency-Key');
+}
+
+// ---- 11. ambiguous acceptance never releases a reservation or automatically resends ---------------
+for (const scenario of [
+  { label: 'provider 500', status: 500, failure: null },
+  { label: 'provider idempotency conflict', status: 409, failure: null },
+  { label: 'accepted mail with lost response', status: 200, failure: new Error('simulated lost accepted response') },
+  { label: 'request timeout', status: 200, failure: new DOMException('simulated timeout', 'TimeoutError') },
+]) {
+  const db = newDb();
+  const env = makeEnv(db, ON);
+  const lead = await seed(db, '2026-10-20T07:59:00.000Z');
+  const before = resendCalls.length;
+  resendStatus = scenario.status;
+  resendFailure = scenario.failure;
+  const first = await runAutomations(env, TUE_1100);
+  resendStatus = 200;
+  resendFailure = null;
+  const retry = await runAutomations(env, new Date('2026-10-20T12:01:00.000Z'));
+  const failure = events(db, lead.id, 'mail_failed')[0];
+  check(first.errors === 1 && first.nudged.length === 0 && retry.nudged.length === 0 && callsSince(before) === 1,
+    `11 nudge ${scenario.label}: one attempt, no automatic retry after back-off`, { first, retry, calls: callsSince(before) });
+  check(leadRow(db, lead.id).nudge_sent_at === TUE_1100.toISOString() && meta(failure).delivery === 'uncertain' && meta(failure).retry === 'manual'
+    && events(db, lead.id, 'nudge_sent').length === 0,
+  `11 nudge ${scenario.label}: reservation retained, uncertainty recorded, no successful-send event`);
+  check(idempotencyKeys[before] === `bfl:nudge:${lead.id}`, `11 nudge ${scenario.label}: provider key identifies the logical delivery`);
+  const nudgeDetail = renderDetail({
+    identity: { email: AGENCY, exp: 0, actor: 'agentur', dev: true },
+    lead: await getLead(db as never, lead.id) as LeadRow,
+    events: events(db, lead.id, 'mail_failed') as LeadEventRow[], csrf: null, flash: null,
+  });
+  check(nudgeDetail.includes('Erinnerung: Die Zustellung ist unklar.') && !nudgeDetail.includes('Erinnerung gesendet'),
+    `11 nudge ${scenario.label}: cockpit distinguishes the reservation from a successful reminder`);
+  takeLogged();
+
+  const confirmation = await seed(db, TUE_1100.toISOString(), { email: 'uncertain@example.test' });
+  const confirmationBefore = resendCalls.length;
+  resendStatus = scenario.status;
+  resendFailure = scenario.failure;
+  const result = await sendConfirmationIfDue(env, confirmation, TUE_1100);
+  resendStatus = 200;
+  resendFailure = null;
+  const repeated = await sendConfirmationIfDue(env, confirmation, TUE_1100);
+  const sameAddress = await seed(db, TUE_1100.toISOString(), { email: 'uncertain@example.test' });
+  const otherLead = await sendConfirmationIfDue(env, sameAddress, TUE_1100);
+  const confirmationFailure = events(db, confirmation.id, 'mail_failed')[0];
+  check('uncertain' in result && JSON.stringify(repeated) === JSON.stringify({ skipped: 'already' })
+    && JSON.stringify(otherLead) === JSON.stringify({ skipped: 'recent' }) && callsSince(confirmationBefore) === 1,
+  `11 confirmation ${scenario.label}: uncertainty prevents retries for this lead and the same address`, { result, repeated, otherLead });
+  check(leadRow(db, confirmation.id).confirmation_sent_at === TUE_1100.toISOString() && meta(confirmationFailure).delivery === 'uncertain'
+    && events(db, confirmation.id, 'mail_sent').length === 0,
+  `11 confirmation ${scenario.label}: retained reservation is never reported as sent`);
+  const html = renderDetail({
+    identity: { email: AGENCY, exp: 0, actor: 'agentur', dev: true },
+    lead: await getLead(db as never, confirmation.id) as LeadRow,
+    events: events(db, confirmation.id, 'mail_failed') as LeadEventRow[],
+    csrf: null,
+    flash: null,
+  });
+  check(html.includes('E-Mail-Zustellung unklar') && html.includes('Es erfolgt kein automatischer Neuversand.') && !html.includes('E-Mail gesendet'),
+    `11 confirmation ${scenario.label}: cockpit clearly shows uncertainty and the blocked automatic resend`);
+  takeLogged();
+}
+
+// ---- 12. unsafe historical mailbox is displayed without a mailto action ---------------------------
+{
+  const db = newDb();
+  const lead = await seed(db, TUE_1100.toISOString());
+  const mail = nudgeMail({ ...lead, email: 'anna@example.test?bcc=other%40example.test' }, { minutesOpen: 60 });
+  check(!mail.html.includes('href="mailto:'), '12 legacy mailbox in reminder has no unsafe mailto action');
+  const encoded = nudgeMail({ ...lead, email: 'anna?subject=hello&bcc=other@example.test' }, { minutesOpen: 60 });
+  check(encoded.html.includes('href="mailto:anna%3Fsubject%3Dhello%26bcc%3Dother@example.test"'),
+    '12 valid local-part URI characters are percent-encoded in the reminder mailto');
 }
 
 // ---- general --------------------------------------------------------------------------------------------------------
