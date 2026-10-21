@@ -139,7 +139,9 @@ export function runDrill({ env = process.env, invoke = spawnSync } = {}) {
   demand(JSON.parse(readFileSync(join(ROOT, 'node_modules/wrangler/package.json'), 'utf8')).version === '4.148.0', 'reviewed Wrangler 4.148.0 required');
   const childEnv = Object.fromEntries(['PATH', 'HOME', 'USERPROFILE', 'SYSTEMROOT', 'TEMP', 'TMP'].filter((key) => env[key]).map((key) => [key, env[key]]));
   Object.assign(childEnv, { CI: 'true', CLOUDFLARE_API_TOKEN: env.CLOUDFLARE_API_TOKEN,
-    CLOUDFLARE_ACCOUNT_ID: SCOPE.account, WRANGLER_SEND_METRICS: 'false', WRANGLER_LOG: 'error' });
+    // Wrangler emits requested JSON at its ordinary log level. Capture it privately;
+    // lowering the level to error suppresses the JSON too.
+    CLOUDFLARE_ACCOUNT_ID: SCOPE.account, WRANGLER_SEND_METRICS: 'false', WRANGLER_LOG: 'log' });
   const call = (args, label, json = false) => {
     const result = invoke(process.execPath, [cli, ...args, '--config', cfg], { cwd: work, env: childEnv, encoding: 'utf8', timeout: 120_000, maxBuffer: 2 * 1024 * 1024 });
     const diagnostic = `${result.stdout ?? ''}\n${result.stderr ?? ''}`;

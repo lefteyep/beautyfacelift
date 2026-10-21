@@ -62,4 +62,13 @@ against both the actual Git blob and the normalized working file, and all eight
 offline tests passed again. A new reviewed dispatch may continue the originally
 authorized probe; do not use a job rerun or retry an uncertain cloud write.
 
+The next [run 39645862133](https://github.com/lefteyep/beautyfacelift/actions/runs/39645862133)
+passed all offline checks, then stopped during the read-only identity step with
+an empty JSON response; import was not attempted. Installed Wrangler source
+confirms that `WRANGLER_LOG=error` suppresses requested JSON as well. The child
+level is now `log`; all stdout/stderr remain privately captured and only reviewed
+check labels/errors are emitted. This does not increase data written to Actions logs.
+A real local-only Wrangler JSON query in fresh temporary state returned the expected
+value with this setting; no credentials were supplied. All eight guard tests passed.
+
 CLI syntax reference: [Cloudflare D1 import/export documentation](https://developers.cloudflare.com/d1/best-practices/import-export-data/).

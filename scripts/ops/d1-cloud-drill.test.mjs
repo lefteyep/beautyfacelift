@@ -78,6 +78,7 @@ function fakeRun({ importFailure = false, invalidExport = false } = {}) {
     if (args[0] === 'rev-parse') return { status: 0, stdout: `${sha}\n` };
     const command = args.slice(1); const binding = command[2];
     assert.equal(options.cwd.startsWith(dir), true);
+    assert.equal(options.env.WRANGLER_LOG, 'log', 'requested Wrangler JSON must remain enabled and privately captured');
     const isolated = JSON.parse(readFileSync(command.at(-1), 'utf8')); assert.deepEqual(isolated, config());
     if (command[1] === 'info') { const selected = binding === SCOPE.source.binding ? SCOPE.source : SCOPE.target; return { status: 0, stdout: JSON.stringify({ uuid: selected.database_id, name: selected.database_name }) }; }
     if (command[1] === 'export') { writeFileSync(command[command.indexOf('--output') + 1], invalidExport ? Buffer.concat([sqlDump, Buffer.from('ATTACH DATABASE :memory: AS other;')]) : sqlDump); return { status: 0, stdout: '' }; }
