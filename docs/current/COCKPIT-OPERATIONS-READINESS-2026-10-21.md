@@ -47,11 +47,16 @@ Vor einer Capture-Freigabe noch nachzuweisen:
 
 ## Getrennte D1-Wiederherstellungsprobe
 
-Vorbereitete Ziele für eine separat freizugebende Probe: **neu anzulegende** Datenbanken `beautyfacelift-drill-2026-10-21` (Time Travel und synthetischer Export) sowie `beautyfacelift-drill-restore-2026-10-21` (Importvergleich) im bestehenden Konto. Beide aktuell nicht angelegt. Keine Worker-Bindung, Route, Domain, Cron, Access-Aktivierung oder Produktivkonfiguration hinzufügen; kein Tarifwechsel und keine Verwendung echter Anfragen oder Produktivexporte. Vor Erstellung Namen-/ID-Kollision ausschliessen; ein vorhandenes gleichnamiges Ziel niemals übernehmen oder leeren.
+Für die freigegebene Probe wurden genau zwei neue Datenbanken im bestehenden Konto erstellt. Die Namensliste vor Erstellung enthielt nur die bisherige Projektdatenbank und nach dem ersten Schritt das erste Testziel; keine gleichnamige Datenbank wurde übernommen oder geleert. Keine Worker-Bindung, Route, Domain, Cron, Access-Aktivierung oder Produktivkonfiguration wurde hinzugefügt; kein Tarifwechsel und keine Verwendung echter Anfragen oder Produktivexporte.
+
+| Testziel | Bestätigte UUID | Stand der Probe |
+| --- | --- | --- |
+| `beautyfacelift-drill-2026-10-21` | `bf332224-68d3-42c8-be6c-20da9ba9cf4d` | Time Travel ausgeführt und Baseline wiederhergestellt; 8/8 Prüfungen |
+| `beautyfacelift-drill-restore-2026-10-21` | `f4f0e5aa-01fe-4a80-922d-958ee3493703` | Erstellt, leeres Anwendungsschema bestätigt; Export-/Importnachweis noch offen |
 
 **Nutzerfreigabe am 21.10.2026: «Isolierte Cloud-Probe erlauben».** Genau diese beiden neuen Testziele, synthetisches Time Travel und SQL-Export/-Import sind freigegeben. Die Testdatenbanken bleiben erhalten. Produktion, Worker-Deployment, E-Mails, Tarif und die Entscheidung zum inaktiven Alarm werden dadurch nicht verändert. Der folgende Ablauf wird gegen diese Freigabe ausgeführt; Ergebnisse sind vor Abschluss gesondert nachzuweisen.
 
-Die Probe verwendet nur die geprüfte Migration und eindeutig synthetische SQL-Dateien aus `scripts/fixtures/d1-recovery/`; der zugehörige endliche Harness prüft lokal ihre Ausgangs-/Änderungsbedingungen. Das ist noch keine Remote-Wiederherstellung.
+Die Probe verwendet nur die geprüfte Migration und eindeutig synthetische SQL-Dateien aus `scripts/fixtures/d1-recovery/`; der zugehörige endliche Harness prüft lokal ihre Ausgangs-/Änderungsbedingungen.
 
 Gespeichert: `01-seed.sql`, `02-change.sql`, `03-verify-baseline.sql`, `04-verify-change.sql`. Baseline: zwei Test-Leads/zwei Ereignisse, einschliesslich der Beziehung B → A; Änderung: weiterhin zwei Leads, drei Ereignisse, nur A.notes/A.updated_at geändert. Beide Verifier liefern acht Zeilen mit Prüfname, Erfolgsflag und Anzahl, keine Kontaktpayloads. **79 lokale Planprüfungen bestanden**; die tatsächliche lokale workerd/D1-Laufzeit akzeptiert beide vollständigen Zustände mit 8/8 und verwirft die Baseline nach der Änderung. Ein früher SQL-Entwurf überschritt D1s Grenze für verkettete SELECTs; die Verifier verwenden nun VALUES-Zeilen, und der Laufzeittest ist dauerhaft in der CI enthalten. Das bestätigt die Plan-SQL, nicht einen Remote-Restore.
 
@@ -66,7 +71,27 @@ Konkreter Ablauf nach Freigabe:
 7. Für die zusätzliche Export-/Importprobe einen synthetischen **SQL-Export** aus dem Testziel verwenden. Import nur in ein weiteres frisches, separat identifiziertes Testziel; keinen Roh-`.sqlite`-Export des lokalen Hilfstools importieren. Gleiche Prüfungen durchführen. Vorherige Löschungen/Korrekturen anhand eines synthetischen Registers wieder anwenden, bevor ein wiederhergestellter Bestand weiterverwendet würde.
 8. Ergebnis, Ziel-IDs, Checks, Fehler und verbleibende Grenzen dokumentieren. Keine Testdatenbank löschen, keine Produktion wiederherstellen und keine reale Capture-/Mailfunktion einschalten. Eine spätere Bereinigung braucht eine gezielte Entscheidung.
 
-Grundlage: [Time Travel](https://developers.cloudflare.com/d1/reference/time-travel/) und [D1 SQL-Import/-Export](https://developers.cloudflare.com/d1/best-practices/import-export-data/). Im Konto wurde bislang nur die Wiederherstellungsoberfläche gelesen. CLI-Wiederanmeldung und ein funktionsfähiger API-Zugang bleiben getrennte Zugangsfragen; für eine Browserprobe werden keine Zugangsdaten exportiert.
+### Tatsächlich ausgeführter Time-Travel-Nachweis
+
+Ausführung im angemeldeten lokalen Chrome gegen die erste Test-UUID oben, auf Basis des Kandidaten `25a74b7`. Das leere Anwendungsschema wurde vor dem Schreiben geprüft. `0001_leads.sql` wurde als acht DDL-Anweisungen ausgeführt: zwei Tabellen und sechs Indizes. Dies testet die SQL-Migration, **nicht** die Wrangler-Migrationshistorie oder die Berechtigungen des GitHub-Deploy-Tokens.
+
+| Schritt | Beobachtetes Ergebnis |
+| --- | --- |
+| Leerer Bestand vor Seed | 0 Leads / 0 Ereignisse |
+| Seed und Baseline | 2 Leads / 2 Ereignisse; alle acht Prüfungen erfolgreich |
+| Baseline-Bookmark | Privat vor der Änderung protokolliert |
+| Kontrollierte Änderung | Nur Testfall A geändert, ein Ereignis ergänzt; 2 Leads / 3 Ereignisse; Änderungsprüfung 8/8 |
+| Negative Gegenprobe | Baseline erkennt die geänderte Notiz, das zusätzliche Ereignis und die abweichende Ereigniszahl |
+| Restore | Cloudflare bestätigt die Wiederherstellung zum protokollierten Bookmark und liefert eine Undo-Referenz; diese bleibt nur dokumentiert |
+| Prüfung nach Restore | Wieder 2 Leads / 2 Ereignisse; Baseline 8/8, Beziehung B → A und Ereignis-Metadaten erhalten, FK-Prüfung ohne Befund |
+
+Private Nachweise: `output/coordination/D1-CLOUD-DRILL-2026-10-21.md`, `pilot-evidence/d1-cloud-baseline.txt`, `d1-cloud-change.txt`, `d1-cloud-restore-response.txt`, `d1-cloud-restored.txt` und `d1-cloud-time-travel-verified.jpg`. Bookmarks sind Referenzen auf diese Testdatenbank; sie werden hier nicht als Produktions-Wiederherstellungspunkte verwendet.
+
+**Aufgetretener und behobener Bedienfehler:** Die Dashboard-Konsole ist ein einzeiliges Eingabefeld und entfernt beim Einfügen rohe Zeilenumbrüche. Der erste Seed-Versuch scheiterte deshalb vor dem Schreiben mit einem Syntaxfehler. Danach wurden 0/0 Zeilen bestätigt, SQL-Kommentare entfernt und die geprüften Anweisungen mit Leerzeichen als eine Zeile eingegeben. Erst anschliessend wurde der Seed erfolgreich ausgeführt. Dieses Vorgehen gilt nur für diese bekannten Fixtures; beliebiges SQL mit mehrzeiligen Stringwerten darf nicht pauschal so umgeschrieben werden.
+
+Der vollständige SQL-Export/-Import ist ein **separater, noch offener Nachweis**. Console `/help`, Datenbankeinstellungen und Studio bieten hier keinen vollständigen SQL-Export; kopierte Tabellenzeilen ersetzen ihn nicht. Für den zusätzlichen Lauf wird der bereits vorhandene GitHub-Zugang geprüft, mit eigener Konfiguration und ausschliesslich den beiden Test-IDs. Eine fehlende Tokenberechtigung wird als Blocker gemeldet und nicht automatisch erweitert.
+
+Grundlage: [Time Travel](https://developers.cloudflare.com/d1/reference/time-travel/) und [D1 SQL-Import/-Export](https://developers.cloudflare.com/d1/best-practices/import-export-data/). Die lokale CLI-Anmeldung bleibt abgelaufen; für die Browserprobe wurden keine Zugangsdaten exportiert.
 
 ## Was ein späterer Merge tatsächlich verändert
 
@@ -87,7 +112,8 @@ Reihenfolge für eine spätere Freigabe: genaue Kandidatenrevision und aktuelle 
 | BFL-OPS-ACCOUNT | Lokaler Koordinator | Konto/D1/Time-Travel/Region/CLI/Alarmdialog lesend geprüft; konkrete Zugangslücke dokumentiert |
 | BFL-OPS-RELEASE-01 | Nativer Sicherheitsagent, Root integriert | Mutationen des Deploy-Workflows und Gate-Grenzen geprüft; falsche Aussage zur unveränderten Besitzer-Mail korrigiert |
 | BFL-OPS-DATA-01 | Nativer Datenumfangsagent, Root integriert | Datenschutzentwurf an Agenturzugang, vorgesehene Felder und tatsächliche Mail-/Marketinggrenzen angepasst; kein Rechtstext veröffentlicht |
-| BFL-OPS-RECOVERY-02 | Nativer Datenagent in eigenem Worktree, Root integriert | Synthetische Seed-/Änderungs-/Prüfdateien und lokale Planprüfung; echte Cloudprobe weiterhin unbestätigt |
+| BFL-OPS-RECOVERY-02 | Nativer Datenagent in eigenem Worktree, Root integriert | Synthetische Seed-/Änderungs-/Prüfdateien und lokale Planprüfung; Cloud-Time-Travel im ersten Testziel erfolgreich, Baseline 8/8 |
+| BFL-OPS-RECOVERY-04 | Nativer Datenagent in eigenem Worktree; Root prüft und führt aus | Eng begrenzter Export-/Importlauf für die beiden Test-IDs; noch kein erfolgreicher Nachweis |
 | Alarm aktivieren/testen | Nutzerentscheidung; Root bewahrt Entwurf | Nutzer wählt «Nur als Entwurf behalten». Keine Aktivierung/Testmail; dieser Betriebs-Gate bleibt vor Capture offen |
 | Zweck, Kategorien, Fristen und Rollen | Verantwortlicher Auftraggeber / Nutzer | Datenschutzentwurf bleibt ungeprüft; keine Frist, Rechtsgrundlage oder Vertragsrolle erfunden |
 | Access/Konto und Livegang | Kontoinhaber / Nutzer, Root führt freigegebene Schritte aus | Provider-/Vertrags-/Zahlungsentscheidung sowie ausdrückliche Produktivmigration/Merge/Deployment weiterhin offen |

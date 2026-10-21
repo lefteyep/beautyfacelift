@@ -2,6 +2,8 @@
 
 **21 October 2026. Implemented and tested on synthetic local SQLite fixtures. This is an operator procedure for review, not approval to persist real enquiries, migrate, deploy, delete real data or contact anyone.** No live D1 contents, dashboard recovery, mail delivery or production permissions were inspected by this work. The [pre-D1 gates](REPAIR-2026-10-21.md#gates-before-the-first-d1-rollout) and [cockpit plan](LEAD-COCKPIT-PLAN.md) still apply.
 
+**Later operating evidence:** the separately approved [isolated Cloud-D1 drill](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) successfully restored its two synthetic leads/events via Time Travel (8/8 checks). The SQL-export/import check is tracked separately there. That probe uses newly created test databases; it does not change the network-free scope of this local fixture tool, approve real-data erasure or establish production rollout permissions.
+
 ## Scope and policy status
 
 The tool in [scripts/leads-data-ops.mjs](../../scripts/leads-data-ops.mjs) rehearses an exact lead selection, linked-event erasure, relationship cleanup, backup and restore. It supports only tool-created synthetic `.sqlite` files. It has no network client, credential handling, remote flag, production adapter, retention job or age-based deletion. A Wrangler state file or ordinary D1 export is refused. Do not put real data into a marked fixture or add a marker to a real database: the marker is an accidental-use guard, not proof that someone has not copied personal data into it.
