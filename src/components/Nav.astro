@@ -239,13 +239,17 @@ const menuColumns = [
         overlay.hidden = false;
         overlay.inert = false;
         overlay.setAttribute('aria-hidden', 'false');
-        requestAnimationFrame(() => overlay.classList.add('is-open'));
+        requestAnimationFrame(() => {
+            // CSS makes the menu visible in this frame; focusing it earlier leaves focus outside.
+            if (hamburger.getAttribute('aria-expanded') !== 'true') return;
+            overlay.classList.add('is-open');
+            getFocusable(overlay)[0]?.focus();
+        });
         nav?.classList.add('is-overlay-open');
         hamburger.classList.add('is-open');
         hamburger.setAttribute('aria-expanded', 'true');
         hamburger.setAttribute('aria-label', 'Menü schliessen');
         setBodyLock(true);
-        getFocusable(overlay)[0]?.focus();
     };
 
     const closeOverlay = (restoreFocus = true) => {
