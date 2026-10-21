@@ -4,11 +4,14 @@ These scripts open real pages on `https://beautyfacelift-zuerich.ch` in a headle
 
 | Script | What it proves | Sends anything? |
 |---|---|---|
+| `repair-browser-check.py [worktree] --chromium /path/to/chromium` | Current local desktop/mobile rendering, menu focus/Escape, consent, repeat-click cookies, and JSON/inline form acceptance/rejection. Writes screenshots and results to `.tmp-qa/browser-repairs/` or `--output`. | Local build only; all external requests are blocked, and contact/tracking requests are intercepted. |
 | `combo-lead-test.mjs <baseUrl>` | **Historical/outdated:** assumes a 303 navigation/thank-you flow. The current combo form posts JSON and shows inline success after 201 or inline error after rejection (e.g. 400). Do not treat this script as current browser evidence; update it in a scoped test task before reuse. | Intended local/stubbed only; do not point it at production. |
 | `capi-live-test.mjs [--submit]` | On the live combo page with ad parameters and Meta's `test_event_code`: browser + server events, and with `--submit` **one labelled test enquiry** ("TEST Agentur bitte ignorieren"). | Without `--submit`: Meta browser/server events marked as test. With `--submit`: a real enquiry e-mail to the studio — only with the user's OK. |
 
-Requirements: `npm i -D playwright-core@1.58.2` (not a repo dependency) and a Chromium that matches it; the scripts expect `%LOCALAPPDATA%\ms-playwright\chromium-1228\chrome-win64\chrome.exe` (install with `npx playwright-core install chromium` or change the `exe` line). Run from the repo root so `playwright-core` resolves.
+The current Python repair check requires Python 3.10+, the Python `playwright` package and a local Chromium (or a Playwright-installed browser when `--chromium` is omitted). Run `npm run build` first, then `python scripts/live-tests/repair-browser-check.py --chromium /path/to/chromium`. It exits unsuccessfully on a failed check; no production URL argument is accepted.
+
+Historical JavaScript requirements: `npm i -D playwright-core@1.58.2` (not a repo dependency) and a matching Chromium. Those scripts expect `%LOCALAPPDATA%\ms-playwright\chromium-1228\chrome-win64\chrome.exe`. Inspect them before reuse.
 
 Related Worker harnesses (no browser, no network; `npx tsx scripts/harness/<file> <repo path>`): `capi-harness.mts` (`/api/track` accepts ad-visit event data, rejects unknown keys and raw PII), `cr3-harness.mts` (enquiry e-mail subject and rows per form), `oldsite-harness.mts` (old-site 301 map), `worker-local-server.mts` (serves the real Worker on localhost with all outbound fetches blocked, for `scripts/security-smoke.mjs --base-url http://localhost:4351`).
 
-Current repair browser verification must exercise the actual JSON/inline flow with `/api/contact` stubbed, accept/reject cases, consent behavior and no real client email. Record the tested revision and results in the repair PR. Root is running that verification; this README does not claim its results before they are recorded. The pre-repair README is preserved in the documentation archive.
+The current repair check exercises the actual JSON/inline flow with `/api/contact` stubbed. It does not prove production account configuration or real inbox/analytics delivery. Record the tested revision and results in the repair PR. The pre-repair README is preserved in the documentation archive.

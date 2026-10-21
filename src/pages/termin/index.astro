@@ -172,12 +172,12 @@ const structuredData = {
         }
 
         function ensureMetaClickIdCookie() {
-            var existing = readCookie('_fbc');
-            if (existing) return existing;
             if (!hasMarketingConsent()) return '';
-
+            var existing = readCookie('_fbc');
             var fbclid = String(storedValue('fbclid')).trim();
-            if (!metaClickIdPattern.test(fbclid)) return '';
+            if (!metaClickIdPattern.test(fbclid)) return existing;
+            var existingClick = existing.match(/^fb\.\d+\.\d+\.(.+)$/);
+            if (existingClick && existingClick[1] === fbclid) return existing;
 
             var fbc = 'fb.1.' + Date.now() + '.' + fbclid;
             writeCookie('_fbc', fbc, metaCookieMaxAgeSeconds);

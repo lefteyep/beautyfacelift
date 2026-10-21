@@ -197,7 +197,6 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID;
     <script is:inline>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
-                img.loading = 'eager';
                 if (img.complete) { img.classList.add('loaded'); }
                 else { img.addEventListener('load', function() { img.classList.add('loaded'); }); }
             });
