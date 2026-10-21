@@ -111,7 +111,6 @@ async function post(path: string, fields: Record<string, string>, { headers = { 
 
 const detailPath = (id: string) => `/admin/leads/${id}/`;
 const actionPath = (id: string, action: string) => `/admin/leads/${id}/${action}/`;
-const kpi = (body: string, label: string) => body.match(new RegExp(`<dt>${label}</dt><dd>([^<]*)</dd>`))?.[1];
 const allPages: string[] = [];
 
 // ---- 1. list ------------------------------------------------------------------------------------------
@@ -122,9 +121,9 @@ const allPages: string[] = [];
   check(list.body.includes('Bea Telefon') && list.body.includes('&lt;script&gt;alert(1)&lt;/script&gt; Kombi'), '1 list (offen): shows the two open leads');
   check(!list.body.includes('Carla Testeintrag'), '1 list (offen): hides the lead excluded as test');
   check(!list.body.includes('<script'), '1 list: the raw "<script" never appears (escaped name, no JS)');
-  check(/Diese Woche \(KW \d{1,2}\)/.test(list.body), '1 list: KPI strip "Diese Woche (KW n)"');
-  check(kpi(list.body, 'Neu') === '2' && kpi(list.body, 'Kontaktiert') === '0' && kpi(list.body, 'Termin-Quote') === '0 %',
-    '1 list: KPIs Neu 2, Kontaktiert 0, Termin-Quote 0 % (excluded lead not counted)', [kpi(list.body, 'Neu'), kpi(list.body, 'Termin-Quote')]);
+  check(!list.body.includes('id="kpi-title"') && !list.body.includes('<dl class="kpis">'), '1 list: no weekly totals or booking rate from an incomplete store');
+  check(list.body.includes('Diese Liste kann unvollständig sein.') && list.body.includes('Benachrichtigungs-E-Mails regelmässig abgleichen'), '1 list: missing-record/reconciliation notice is visible');
+  check(list.body.includes('href="/admin/leads/new/">Anfrage erfassen / wiederherstellen</a>'), '1 list: manual capture and recovery are reachable');
   check(list.body.includes('>Kombi</span>') && list.body.includes('>Kontakt</span>') && list.body.includes('>Neu</span>'), '1 list: source and status chips');
   check(list.body.includes('href="tel:+41791234567"') && list.body.includes('href="https://wa.me/41791234567?text='), '1 list: Anrufen and WhatsApp for the lead with a phone');
   check(list.body.includes('aria-current="page">Offen</a>'), '1 list: "Offen" is the active filter chip');
@@ -164,8 +163,10 @@ let csrf = '';
   check(detail.body.includes('<dt>Marketing-Einwilligung</dt><dd>ja'), '5 detail: marketing consent ja');
   csrf = detail.body.match(/name="_csrf" value="([0-9a-f]{64})"/)?.[1] ?? '';
   check(csrf.length === 64, '5 detail: forms carry a 64-hex _csrf token', csrf);
-  check((detail.body.match(/<form method="post"/g) ?? []).length === 6, '5 detail: six POST forms', (detail.body.match(/<form method="post"/g) ?? []).length);
-  check((detail.body.match(/name="_csrf"/g) ?? []).length === 6, '5 detail: every POST form has _csrf');
+  check((detail.body.match(/<form method="post"/g) ?? []).length === 5, '5 detail: five initial workflow POST forms', (detail.body.match(/<form method="post"/g) ?? []).length);
+  check((detail.body.match(/name="_csrf"/g) ?? []).length === 5, '5 detail: every visible POST form has _csrf');
+  check(!detail.body.includes('id="h-revenue"') && !detail.body.includes('name="revenue_chf"'), '5 detail: revenue entry is absent from the initial pilot workflow');
+  check(detail.body.includes(`<dt>Anfrage-ID</dt><dd>${phoneId}</dd>`), '5 detail: enquiry reference is available for reconciliation');
   check(detail.body.includes('name="set_status" value="gebucht" checked'), '5 detail: "Status auf Gebucht setzen" checked while neu');
 
   const combo = await get(detailPath(comboId));
