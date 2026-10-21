@@ -100,7 +100,7 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-The review repair milestone is in progress on isolated `codex/*` branches. PRs #55–#57 remain unreleased. Complete combined verification, the pre-D1 checklist and the deferred business decisions before requesting any cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
+The review repair milestone is implemented and locally verified across isolated `codex/*` branches. PRs #55–#57 remain unreleased. The pre-D1 checklist and deferred business decisions still block cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 
