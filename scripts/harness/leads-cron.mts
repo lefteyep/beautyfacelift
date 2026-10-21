@@ -46,6 +46,8 @@ const otherCalls: string[] = [];
 let resendStatus = 200;
 let resendFailure: Error | null = null;
 let resendPending: Promise<void> | null = null;
+type ResendResponse = 'id' | 'invalid-json' | 'missing-id' | 'empty-id' | 'lost-body';
+let resendResponse: ResendResponse = 'id';
 globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
   if (url === RESEND) {
@@ -54,6 +56,12 @@ globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
     if (resendFailure) throw resendFailure;
     if (resendPending) await resendPending;
     if (resendStatus !== 200) return Response.json({ message: 'simulated failure' }, { status: resendStatus });
+    if (resendResponse === 'invalid-json') return new Response('incomplete response', { status: 200 });
+    if (resendResponse === 'missing-id') return Response.json({});
+    if (resendResponse === 'empty-id') return Response.json({ id: ' ' });
+    if (resendResponse === 'lost-body') return new Response(new ReadableStream({
+      start(controller) { controller.error(new Error('simulated lost response body')); },
+    }), { status: 200 });
     return Response.json({ id: `re_${resendCalls.length}` }, { status: 200 });
   }
   otherCalls.push(url);
@@ -493,21 +501,28 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'rate'], [19, 
 }
 
 // ---- 11. ambiguous acceptance never releases a reservation or automatically resends ---------------
-for (const scenario of [
+const ambiguousScenarios: { label: string; status: number; failure: Error | null; response?: ResendResponse }[] = [
   { label: 'provider 500', status: 500, failure: null },
   { label: 'provider idempotency conflict', status: 409, failure: null },
   { label: 'accepted mail with lost response', status: 200, failure: new Error('simulated lost accepted response') },
   { label: 'request timeout', status: 200, failure: new DOMException('simulated timeout', 'TimeoutError') },
-]) {
+  { label: 'unreadable 200 response', status: 200, failure: null, response: 'invalid-json' },
+  { label: '200 response without message ID', status: 200, failure: null, response: 'missing-id' },
+  { label: '200 response with empty message ID', status: 200, failure: null, response: 'empty-id' },
+  { label: 'accepted headers with lost response body', status: 200, failure: null, response: 'lost-body' },
+];
+for (const scenario of ambiguousScenarios) {
   const db = newDb();
   const env = makeEnv(db, ON);
   const lead = await seed(db, '2026-10-20T07:59:00.000Z');
   const before = resendCalls.length;
   resendStatus = scenario.status;
   resendFailure = scenario.failure;
+  resendResponse = scenario.response ?? 'id';
   const first = await runAutomations(env, TUE_1100);
   resendStatus = 200;
   resendFailure = null;
+  resendResponse = 'id';
   const retry = await runAutomations(env, new Date('2026-10-20T12:01:00.000Z'));
   const failure = events(db, lead.id, 'mail_failed')[0];
   check(first.errors === 1 && first.nudged.length === 0 && retry.nudged.length === 0 && callsSince(before) === 1,
@@ -529,9 +544,11 @@ for (const scenario of [
   const confirmationBefore = resendCalls.length;
   resendStatus = scenario.status;
   resendFailure = scenario.failure;
+  resendResponse = scenario.response ?? 'id';
   const result = await sendConfirmationIfDue(env, confirmation, TUE_1100);
   resendStatus = 200;
   resendFailure = null;
+  resendResponse = 'id';
   const repeated = await sendConfirmationIfDue(env, confirmation, TUE_1100);
   const sameAddress = await seed(db, TUE_1100.toISOString(), { email: 'uncertain@example.test' });
   const otherLead = await sendConfirmationIfDue(env, sameAddress, TUE_1100);

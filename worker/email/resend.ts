@@ -81,12 +81,16 @@ export async function sendEmail(env: Env, message: EmailMessage): Promise<{ id: 
 
   if (!response.ok) throw new MailSendError(response.status);
 
-  let id = '';
+  let body: unknown;
   try {
-    const body = (await response.json()) as { id?: unknown };
-    if (typeof body.id === 'string') id = body.id;
+    body = await response.json();
   } catch {
-    // Sent, but the answer was not JSON: keep the empty id.
+    // Acceptance may already have happened. The caller retains its reservation for agency review.
+    throw new Error('Resend delivery confirmation is unreadable');
   }
-  return { id };
+  if (!body || typeof body !== 'object' || !('id' in body)
+    || typeof body.id !== 'string' || !body.id.trim()) {
+    throw new Error('Resend delivery confirmation has no message ID');
+  }
+  return { id: body.id };
 }
