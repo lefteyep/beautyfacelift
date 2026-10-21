@@ -1,6 +1,6 @@
 # Meta campaign plan — Aquafacial + Microneedling, CHF 170 statt CHF 250
 
-> Current operating decisions reconciled on 21 October 2026. The campaign remains paused. The focused code repairs are **IMPLEMENTATION IN PROGRESS**; authentication choice/setup and new automation features are deferred. See [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) for release/data gates and [the original plan snapshot](../archive/reviews/2026-10-21-pre-repair/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) for the full earlier record.
+> Current operating decisions reconciled on 21 October 2026. The campaign remains paused. The focused code repairs are **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES**; authentication choice/setup and new automation features are deferred. See [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) for release/data gates and [the original plan snapshot](../archive/reviews/2026-10-21-pre-repair/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) for the full earlier record.
 >
 > Current instructions take precedence over dated decisions in section 9: optimise on standard `Lead`, use the custom conversion only for reporting, redirect/shut down the old site before launch, and keep the user's cockpit-Phase-1-before-campaign gate. Existing page/ad end date is 14 November 2026; no new start/end date has been chosen. Earlier target dates are history, not an active schedule.
 
