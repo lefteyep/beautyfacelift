@@ -1,13 +1,23 @@
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 // /api/track with a browser-like payload from an ad visit (utm_* keys, fbp/fbc, test code). Runs the
 // real Worker route; the Graph API call is captured, never sent. Usage: tsx capi-harness.mts <worktree>
-const WT = process.argv[2];
+const WT = path.resolve(process.argv[2] ?? process.cwd());
 const graphCalls: any[] = [];
 globalThis.fetch = (async (input: any, init: any) => {
   const url = String(input);
-  if (url.includes('graph.facebook.com')) { graphCalls.push(JSON.parse(init.body)); return new Response('{"events_received":1}', { status: 200 }); }
+  if (url.includes('graph.facebook.com')) {
+    const payload = JSON.parse(init.body);
+    // Negative control: the assertion below must detect a missing attribution field.
+    if (process.env.BFL_HARNESS_CALIBRATION === 'capi' && payload.data?.[0]?.event_name === 'Lead') {
+      delete payload.data[0].custom_data.utm_content;
+    }
+    graphCalls.push(payload);
+    return new Response('{"events_received":1}', { status: 200 });
+  }
   throw new Error(`blocked outbound fetch: ${url}`);
 }) as typeof fetch;
-const { trackRoute } = await import(`file:///${WT.replace(/\\/g, '/')}/worker/routes/track.ts`);
+const { trackRoute } = await import(pathToFileURL(path.join(WT, 'worker/routes/track.ts')).href);
 const env = { META_PIXEL_ID: '1147246982373946', META_ACCESS_TOKEN: 'stub' };
 const page = 'https://beautyfacelift-zuerich.ch/lp/aquafacial-microneedling/?utm_source=meta&utm_content=p_zh15km_adv__test_ad&fbclid=TESTCLICK123';
 const adVisit = {
@@ -49,3 +59,5 @@ const checks = [
 ] as const;
 for (const [ok, label] of checks) { if (!ok) fails++; console.log(`${ok ? 'PASS' : 'FAIL'}  ${label}`); }
 console.log(fails ? `${fails} failing` : 'all pass');
+
+process.exitCode = fails > 0 ? 1 : 0;

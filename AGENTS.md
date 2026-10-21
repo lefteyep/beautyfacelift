@@ -78,6 +78,7 @@ Client site built and run by the mediapaulo agency for Beauty Face Lift (Teresa 
 ```bash
 npm run dev                          # Astro dev server, http://localhost:4321
 npm run check                        # astro check + tsc -p worker — must be 0 errors
+npm run validate                     # complete release gate, including offline behavior checks
 npm run build                        # static build into dist/
 npm audit --audit-level=moderate     # CI gate — must report 0 vulnerabilities
 npm run qa:aquafacial-lp && npm run qa:aquafacial-combo-lp && npm run qa:carbon-lp && npm run qa:simple-lps

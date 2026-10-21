@@ -1,12 +1,22 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** October 20, 2026
+**Last updated:** 21 October 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
-Current production launch record and verification commands are in [DOMAIN-LAUNCH.md](DOMAIN-LAUNCH.md). Do not configure or redirect `beautyfacelift.ch` from this project.
+Current production launch history is in [DOMAIN-LAUNCH.md](DOMAIN-LAUNCH.md). The user subsequently decided to shut down/301-redirect `beautyfacelift.ch` before the campaign; use [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) and preserve email records. Its Worker redirect map is inert until the approved DNS/routing change.
 
 Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RELEASE-2026-05-08-live-update.md) and [SEO-SERVICE-HUBS-2026-05-08.md](../archive/releases/SEO-SERVICE-HUBS-2026-05-08.md). Delivery details are in [DELIVERY-2026-05-08.md](../archive/releases/DELIVERY-2026-05-08.md).
+
+## Current milestone — review repairs
+
+**IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The record identifies the tested code revisions, full local checks and browser evidence. PR review/CI and deployment verification remain separate; this status does not claim that the repairs are live.
+
+- **Production source reviewed:** `35af1f01877ecbd629376c30a1e2254dacfb49d0` (PR #58 handover; GitHub deployment reported success). The application changes through #54 are deployed; #58 added handover docs and test tooling.
+- **Cockpit:** #55 → #56 → #57 are open, stacked and not release-ready. PR #61 repairs the reviewed defects on the unreleased stack; pre-D1 data-handling and authentication gates remain open. Earlier “all gates green” statements were historical manual results.
+- **Authentication:** provider selection is deferred. No Access/Zero Trust activation, custom OTP implementation or pricing commitment is part of this repair.
+- **Campaign:** remains paused and still waits for cockpit Phase 1 by the user's decision. Optimisation stays on standard `Lead`; the URL-filtered custom conversion is reporting only. Old-site redirect, Treatwell CHF 170 service and revised dates remain external gates.
+- **Guardrails:** customer emails stay off, reminders stay agency-only, Teresa receives no cockpit exposure or test mail. Phase 2 automation is held.
 
 ## Deployment
 
@@ -18,7 +28,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 | GitHub | https://github.com/lefteyep/beautyfacelift | Private repo |
 | Supabase | https://izekwngqjllaqibrwotp.supabase.co | Unreachable (NXDOMAIN) since 2026-10-06 — see Infrastructure Notes |
 
-Production Worker launch details:
+Historical May launch details (not the current deployed Worker version):
 
 - Worker: `beautyfacelift`
 - Worker version: `f376e963-48cf-4708-9130-650ed6e48b4b`
@@ -26,9 +36,9 @@ Production Worker launch details:
 - Nameservers: `ezra.ns.cloudflare.com`, `ryleigh.ns.cloudflare.com`
 - Apex live check: `200 OK`
 - `www` live check: `301 Moved Permanently` to `https://beautyfacelift-zuerich.ch/`
-- Old domain: untouched and not treated as a migration source
+- Old domain at the May launch: untouched; the October shutdown/redirect decision supersedes that historical constraint
 
-## Latest Release (live since 2026-10-07)
+## Deployed October release record
 
 | What | Where | State |
 |------|-------|-------|
@@ -60,6 +70,7 @@ Production Worker launch details:
 | Meta CAPI: the Worker accepted no event that carried the ad-visit keys (`utm_*`, `fbclid`), so ad traffic had browser events only since 2026-05-08; one shared key list now. Also: combo enquiry email subject and empty "Zeitwunsch" row (CR-3), weekly security smoke, docs refresh | PR #51, merge `d5bef5e` | Live 2026-10-20 (deploy run 39342697963); live test the same day: every server event from an ad-style visit, Lead included, answers 200 |
 | Old site `beautyfacelift.ch`: redirect map in the Worker (inert until the DNS moves) and the shutdown plan, see [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) | PR #53, merge `bc69bd0` | Live 2026-10-20 (deploy run 39342902482) |
 | Meta campaign start-ready status, Instagram-enabled `_v2` ads (docs only, other session) | PR #52 | Draft, not merged |
+| Codex handover, plan copy and test tooling | PR #58, merge `35af1f0` | Deployment reported success on 2026-10-21; cockpit code is still unmerged |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
@@ -89,12 +100,12 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-None. New work goes on a `codex/*` branch and goes live only after a reviewed PR and explicit approval (see `AGENTS.md`).
+The review repair milestone is implemented and locally verified across isolated `codex/*` branches. PRs #55–#57 remain unreleased. The pre-D1 checklist and deferred business decisions still block cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 
-- Supabase project `izekwngqjllaqibrwotp` did not resolve (NXDOMAIN) on 2026-10-06, so `/api/services` returns 500 and the admin dashboard / legacy booking widget are unusable. The contact form (Resend) and `/api/track` (Meta CAPI) do not depend on Supabase. Decide: restore the project (needed for lead status tracking) or decommission the legacy booking code.
-- Meta Pixel ID is present in the production build (`PUBLIC_META_PIXEL_ID` GitHub Actions variable). Server-side CAPI token status still needs a Test Events check.
+- Supabase project `izekwngqjllaqibrwotp` did not resolve (NXDOMAIN) on 2026-10-06, so `/api/services` returns 500 and the admin dashboard / legacy booking widget are unusable. The contact form (Resend) and `/api/track` (Meta CAPI) do not depend on Supabase. The user decided on 2026-10-10 to keep the legacy code for now. It is not needed by the proposed D1 lead tracker; restoration or retirement is a separate decision.
+- Meta Pixel ID is present in the production build (`PUBLIC_META_PIXEL_ID` GitHub Actions variable). A labelled ad-style live test on 2026-10-20 accepted the server events, including Lead. That dated test is not a claim of continuous monitoring; repeat approved checks after relevant releases.
 - The old WordPress site on `beautyfacelift.ch` is still live and indexed separately.
 
 ## Current Key Routes
@@ -206,68 +217,17 @@ Visible architecture updated in:
 
 Copy-risk review completed across treatment pages, comparison pages, blog posts, homepage, about page, and one ad landing page. High-risk phrasing such as `eingeschleust`, `Narbenreduktion`, `stimuliert`, `PRP`, and `medizinisch formulierte Peelings` was removed or softened.
 
-## Design History
+## Current features and configuration
 
-The March 2026 ".pen" implementation below is superseded on the redesign branch by the October 2026 "Swiss Quiet Luxury" system ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)).
+| Area | Current state at the reviewed production revision |
+| --- | --- |
+| Public design | Atelier Glow; Swiss Quiet Luxury was rejected. See [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). |
+| Booking | Treatwell through `/termin/`; clicks measure intent, not confirmed appointments. |
+| Enquiry email | Resend branded sender `anfragen@beautyfacelift-zuerich.ch` → Teresa `info@beautyfacelift.ch`, agency BCC. Production tests were recorded on 2026-10-10/20. |
+| GTM / GA4 | `GTM-NVC9QKGS` / `G-4C9M8KMFQY` live after consent; server-side GA4 intentionally off. |
+| Meta | Pixel and CAPI live after consent; shared accepted event-data keys. Campaign is paused. |
+| Legacy booking/admin | Supabase reported unreachable since 2026-10-06; booking writes disabled. Retained code is not an operational staff system. |
+| D1 lead cockpit | Code exists only on unmerged #55–#57. Storage, private staff access and automation are not deployed by this documentation change. |
+| Stripe | Deposits were never enabled and are not part of current Treatwell booking. |
 
-### Design Implementation (March 19, 2026)
-
-Pixel-perfect redesign from `.pen` design file applied across all 24 pages.
-
-| Area | Changes |
-|------|---------|
-| **Homepage** | Hero: 72px heading, 18px body, service cards with gold accent left border, testimonials with star ratings, editorial grid layout |
-| **Navigation** | Refined spacing (18px 60px padding), logo 42px height, pill-shaped gold CTA, improved mobile menu |
-| **Footer** | 3-column layout with 320px horizontal padding, newsletter input with inline button, proper link spacing |
-| **Treatment pages** | Pricing cards with `.pricing-card-accent` variant, FAQ sections with 320px padding, sub-display span labels |
-| **Behandlungen overview** | Editorial guidance grid, proper card gaps, gold accent decorations |
-| **Blog** | Card grid with hover lift effects, article typography with drop cap, improved reading layout |
-| **404 page** | Centered layout with design-system typography and gold accent |
-| **Termin page** | Booking section with proper padding and heading hierarchy |
-| **CSS tokens** | Updated spacing scale, border-radius (24px cards, 100px pills), gold gradient, shadow system |
-
-**Commit:** `48fb053` — 14 files changed, 789 insertions, 387 deletions
-
-## Feature Completion
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Booking widget | Done | 5-step flow, writes to Supabase |
-| Admin dashboard | Done | Login, bookings, services, availability, blocked dates, CSV export |
-| GSAP animations | Done | Bundled npm, reduced-motion support |
-| Local fonts | Done | @fontsource latin-only |
-| UTM persistence | Done | sessionStorage capture |
-| Server-side tracking | Done | /api/track endpoint |
-| Conversion tracking | Done | Thank-you page fires client + server events |
-| Stripe deposits | Partial | Components + API created, not wired into booking flow |
-| Email notifications | Created | Edge function written, not deployed |
-| Custom domain | Done | Live on `beautyfacelift-zuerich.ch`; `www` redirects to apex |
-| GTM | Ready | `src/lib/track.ts` loads GTM after marketing consent once PUBLIC_GTM_ID is set (Partytown removed 2026-10-06: no script used it and its sandbox cost requests plus a Lighthouse best-practices failure) |
-| GA4 | Ready | Endpoint ready, needs env vars |
-| Meta Pixel | Ready | Endpoint ready, needs env vars |
-
-## Environment Variables Status
-
-| Variable | Set in Cloudflare? | Working? |
-|----------|-------------------|----------|
-| PUBLIC_SUPABASE_URL | Yes | Yes |
-| PUBLIC_SUPABASE_ANON_KEY | Yes | Yes |
-| SUPABASE_SERVICE_ROLE_KEY | Yes | Untested (anon key fallback works) |
-| NODE_VERSION | Yes (22) | Yes |
-| PUBLIC_STRIPE_PUBLISHABLE_KEY | No | — |
-| STRIPE_SECRET_KEY | No | — |
-| STRIPE_WEBHOOK_SECRET | No | — |
-| RESEND_API_KEY | No | — |
-| PUBLIC_GTM_ID | No | — |
-| GA4_MEASUREMENT_ID | No | — |
-| GA4_API_SECRET | No | — |
-| META_PIXEL_ID | No | — |
-| META_ACCESS_TOKEN | No | — |
-
-## Supabase Database
-
-- Schema applied: Yes (001_initial_schema.sql)
-- Seed data: 6 services, 7 availability records, 2 settings
-- Admin user: Supabase Auth owner account exists, but weak/test credentials must be replaced before production customer data is exposed.
-- RLS policies: Active on all tables
-- Edge Functions deployed: Needs verification before relying on production notification email
+Historical feature/environment tables and the March design record are preserved verbatim in [the pre-repair STATUS snapshot](../archive/reviews/2026-10-21-pre-repair/STATUS.md). They must not be used to infer current credentials or deployment readiness. No live secret inventory was performed in the review.

@@ -8,7 +8,7 @@ https://beautyfacelift-zuerich.ch
 
 This project is an Astro static site served through Cloudflare Workers Static Assets. The Worker entrypoint is `worker/index.ts`, API routes use `itty-router`, and production routing is configured in `wrangler.jsonc`.
 
-Do not configure `beautyfacelift.ch` or `www.beautyfacelift.ch` for this Worker. That old domain remains separate.
+The old domain currently remains separate. The user decided on 2026-10-20 to shut it down/301-redirect it before the campaign; use [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) for a separately approved DNS/routing change that preserves mail. The Worker map is already present but inert until then. Do not change domains in the review repair.
 
 ## Local Development
 
@@ -65,7 +65,7 @@ npm run launch:check
 npx wrangler deploy --dry-run
 ```
 
-Run `npm run cf:deploy` only as an intentional production release command. The 2026-05-07 launch deploy used Wrangler with `--keep-vars` so dashboard-set Worker variables were preserved.
+Production releases use the reviewed GitHub workflow and explicit merge/deploy approval under [AGENTS.md](../../AGENTS.md). Do not run `npm run cf:deploy` or `wrangler deploy` by hand. The May 2026 manual launch commands are historical, not the current release process.
 
 ## Environment Variables
 
@@ -81,11 +81,17 @@ Tracking (everything loads only after marketing consent):
 - `PUBLIC_META_PIXEL_ID` (build), plus `META_PIXEL_ID` and `META_ACCESS_TOKEN` (Worker, Conversions API).
 - `GA4_MEASUREMENT_ID` and `GA4_API_SECRET`: server-side GA4 in `/api/track`. Leave them unset. GA4 runs through GTM, and both together would count events twice.
 
-Legacy booking system only. The public site does not need these; Supabase has been unreachable since 2026-10-06, and removal is pending (see TODO):
+Legacy booking system only. The public forms/Treatwell bridge do not need these; Supabase was reported unreachable since 2026-10-06. Keep its code isolated under the 2026-10-10 decision; restore/delete requires a separate task:
 
 - `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
 - Stripe keys: deposits were never enabled.
 
-## Manual Launch
+## Cockpit and repair setup
+
+The review repair milestone is **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES**; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks its verification and deferred blockers. #55–#57 are unmerged. No D1 ingestion/staff cockpit is live at the reviewed production revision.
+
+Before first D1 rollout, approve disclosure, retention/deletion procedure, failure alerting and reconciliation/recovery. An owner email can succeed when D1 storage fails. Authentication choice/setup and retention implementation remain outside this repair; do not activate Access/Zero Trust, provision production signing secrets or build custom OTP incidentally. Customer mail stays off, reminders agency-only and Teresa unexposed. The public site does not need Zero Trust activation.
+
+## Historical domain launch
 
 Use `docs/current/DOMAIN-LAUNCH.md` for the completed all-inkl nameserver setup, Cloudflare Custom Domain setup, Search Console, Google Business Profile, analytics, and curl verification record.

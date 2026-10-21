@@ -350,8 +350,8 @@ for (const doc of docsToCheck) {
 
 expectIncludes(
   'docs/current/PPC-TRACKING.md',
-  'optimize for `BFL - Treatwell Outbound Click`',
-  'PPC docs must keep the proxy-conversion optimization guidance.',
+  'Preserve standard Pixel `Lead` optimisation',
+  'PPC docs must preserve the approved combo-campaign Lead optimisation guidance.',
 );
 
 if (failures.length > 0) {

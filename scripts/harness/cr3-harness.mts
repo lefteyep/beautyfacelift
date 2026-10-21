@@ -1,14 +1,21 @@
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 // CR-3 check: subject and rows of the enquiry email per form. Runs the real contact route; fetch is
 // stubbed (Turnstile accepted, Resend captured, nothing sent). Usage: tsx cr3-harness.mts <worktree>
-const WT = process.argv[2];
+const WT = path.resolve(process.argv[2] ?? process.cwd());
 let lastEmail: any = null;
 globalThis.fetch = (async (input: any, init: any) => {
   const url = String(input);
   if (url.includes('turnstile/v0/siteverify')) return new Response(JSON.stringify({ success: true }), { status: 200 });
-  if (url.includes('api.resend.com')) { lastEmail = JSON.parse(init.body); return new Response('{"id":"stub"}', { status: 200 }); }
+  if (url.includes('api.resend.com')) {
+    lastEmail = JSON.parse(init.body);
+    // Negative control: the subject assertion must fail and propagate a nonzero exit.
+    if (process.env.BFL_HARNESS_CALIBRATION === 'cr3') lastEmail.subject = 'planted wrong subject';
+    return new Response('{"id":"stub"}', { status: 200 });
+  }
   throw new Error(`blocked outbound fetch: ${url}`);
 }) as typeof fetch;
-const { contactRoute } = await import(`file:///${WT.replace(/\\/g, '/')}/worker/routes/contact.ts`);
+const { contactRoute } = await import(pathToFileURL(path.join(WT, 'worker/routes/contact.ts')).href);
 const env = { TURNSTILE_SECRET_KEY: 's', RESEND_API_KEY: 're_stub', CONTACT_TO_EMAIL: 'teresa@example.test', CONTACT_FROM_EMAIL: 'Beauty Face Lift <anfragen@example.test>' };
 let n = 0;
 async function send(body: Record<string, string>) {
@@ -50,3 +57,5 @@ for (const [label, body, check] of cases) {
   console.log(`${problems.length ? 'FAIL' : 'PASS'}  ${label}${problems.length ? '  -> ' + problems.join('; ') : ''}`);
 }
 console.log(fails ? `${fails} failing` : 'all pass');
+
+process.exitCode = fails > 0 ? 1 : 0;

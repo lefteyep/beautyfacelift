@@ -1,8 +1,36 @@
 # TODO — beautyfacelift-zuerich.ch
 
-**Last updated:** October 20, 2026
+**Last updated:** 21 October 2026
 
-## Priority 0: Release the October work (agency)
+## Current priority — review repairs, then scope review
+
+- [x] Implement and locally verify R1–R11 across the repair branches; [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) records the exact revisions and evidence. PR integration/deployment and cockpit rollout are separate gates.
+- [x] Reconcile current operating docs with the verified implementation and record the combined checks. Follow the rollout gates below before enabling D1/cockpit.
+- [ ] Before D1 ingestion: approve disclosure, retention/deletion policy and tested procedure, storage-failure alerting and lead reconciliation/recovery. Owner emails can succeed when D1 storage fails, so the cockpit is not guaranteed complete. Detailed gates and ownership are in the repair record.
+- [ ] Review the smallest useful workflow: enquiry capture/list, contact/status and manual booked/outcome recording. This is scope review, not approval for added features.
+- [ ] Authentication choice and setup remain **deferred**. No Access activation or custom OTP work in this repair; compare the security and maintenance responsibilities after the workflow review.
+- [ ] Preserve the campaign gate: cockpit Phase 1 first, then Treatwell CHF 170 service, old-site shutdown/301 redirect, revised start/end date and approved funnel verification. Standard `Lead` remains the optimisation event; custom conversion is report-only.
+- [ ] Keep customer emails off and reminders agency-only; no Teresa cockpit links/test emails. Hold Phase 2 automation and legacy Supabase restore/delete.
+
+The dated October records and unresolved client/content tasks below remain useful history/backlog. This section and the repair checklist supersede their earlier rollout order. The complete pre-repair TODO is [archived](../archive/reviews/2026-10-21-pre-repair/TODO.md).
+
+## Next work packages — one visible session per package
+
+Root coordinates the sequence, verifies evidence and maintains the task record. Each package produces a bounded result; a recommendation does not authorize activation. Session creation is unavailable in the current toolset, so arrange visible sessions with the user rather than replacing them with hidden agents.
+
+| Order / session | Owner and scope | Required outcome / dependency |
+| --- | --- | --- |
+| 1 — Minimum cockpit workflow | Root + user; review fixtures/screens of capture/list, contact/status and manual booked/outcome recording | User agrees the smallest useful agency workflow and what Teresa would eventually need. Recommend no new customer mail, imports, newsletters, parsing or Phase 2. Decide whether agency reminders belong in the initial pilot. |
+| 2 — Data readiness before D1 | Dedicated owner + user for policy; disclosure, retention/deletion, failure alerting, reconciliation/recovery | Agree ownership and justified retention; prepare a concrete implementation brief and acceptance checks. No production ingestion until the procedure, alerts and recovery have been implemented and tested in their own bounded follow-up sessions. |
+| 3 — Authentication decision | Dedicated owner; compare Access with an email-code alternative for the agreed users | Verify current setup/pricing/payment requirements and security/maintenance costs; user chooses a provider. Keep existing Access code failing closed. Implement/configure the selected option in a separate session after the decision. |
+| 4 — Agency-only integration and pilot | Root; integrate the repaired stack with completed data/auth work in an isolated candidate | Full validation plus fixture-based browser/access tests; monitored storage-failure/reconciliation and deletion/recovery drills; concrete rollout/rollback checklist. Keep #55–#57 unmerged until these gates and explicit rollout approval. Customer mail off, reminders agency-only, Teresa unexposed. |
+| 5 — Controlled cockpit rollout | Root + user; approved code, deployment and monitoring | Separate explicit merge/deploy approval, verify migration/deployment and agency workflow, then decide on Teresa access after successful testing. No automatic customer-email activation. |
+| 6 — Campaign readiness and launch decision | User owns Treatwell/old-domain prerequisites; dedicated owner verifies the funnel | Cockpit Phase 1 gate met; CHF 170 service, old-site 301 with mail preserved, aligned offer/asset/schedule dates, agreed labelled live test and reporting checks. Present launch candidate for explicit Meta-write/launch approval; standard Lead, custom conversion reporting-only. |
+| Later — Content/SEO and backlog | Dedicated sessions from the backlog | Verified reviews/claims, profile links and remaining indexing tasks, ordered after the operational gates. Legacy Supabase restore/delete and Phase 2 stay separate decisions. |
+
+GitHub reports `master` as unprotected at this review. The new workflow blocks deployment when validation fails; making `validate` a required merge check is a separate repository-administration hardening task, not an assertion that protection already exists.
+
+## Completed October work (historical agency record)
 - [x] **Cloudflare Turnstile hostname, fixed 2026-10-09.** The `/kontakt/` widget (site key `0x4AAAAAADJrGrDTfF7fQrgC`, "beautyfacelift-contact-production") only allowed `beautyfacelift.ch`, `www.beautyfacelift.ch` and the workers.dev host. On the live domain it returned error 110200 ("Verbinden zur Website nicht möglich"), so the Worker rejected every `/kontakt/` enquiry since the domain launch.
   - **Fix:** `beautyfacelift-zuerich.ch` and `www.beautyfacelift-zuerich.ch` were added under Turnstile → widget → Hostname Management. In a normal Chrome the widget now passes on its own ("Erfolg!").
   - [x] **Test enquiry, 2026-10-10:** the form showed "Erfolg!", the Worker accepted the enquiry, and the email arrived with the chosen treatment.
@@ -173,7 +201,7 @@ Finished work from March to May 2026, and the items dropped on 2026-10-10, are i
   - **Events Manager test done on 2026-10-20** (after PR #51 went live): ad-style visit with `test_event_code`, consent accepted, scroll and time events, one labelled test enquiry ("TEST Agentur bitte ignorieren"). Every server event answered 200 (PageView, LandingPageView, ViewContent, Scroll50, TimeOnPage30s, HighIntentVisit, Lead); the enquiry e-mail went out to Teresa with the agency in blind copy.
   - **Still open:** the Treatwell CHF 170 service; the start date (the ad set is scheduled 15 October to 13 November, so the start must be moved when it is switched on).
 - [x] GTM version 3 (published 2026-10-10) forwards the `/kontakt/` form funnel to GA4: `contact_form_start`, `contact_form_submit_success`, `contact_form_submit_error`. GA4 has matching custom dimensions for topic, treatment interest and error type.
-- [ ] Verify Treatwell outbound click as the primary proxy conversion before launching paid campaigns
+- [ ] Verify Treatwell outbound-click reporting before launch. Optimisation stays on standard `Lead`; an outbound click is not a confirmed booking.
 - [ ] Submit sitemap to Bing Webmaster Tools
 
 ## Priority 3: Email
