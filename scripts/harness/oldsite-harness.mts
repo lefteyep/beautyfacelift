@@ -1,9 +1,15 @@
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 // Old-site redirects through the real Worker entry (no network, no assets needed: redirects return first).
 // Usage: tsx oldsite-harness.mts <worktree>
-const WT = process.argv[2];
+const WT = path.resolve(process.argv[2] ?? process.cwd());
 globalThis.fetch = (async (input: any) => { throw new Error(`blocked outbound fetch: ${String(input)}`); }) as typeof fetch;
-const worker = (await import(`file:///${WT.replace(/\\/g, '/')}/worker/index.ts`)).default;
-const env = { ASSETS: { fetch: async () => new Response('asset', { status: 200, headers: { 'Content-Type': 'text/html' } }) } };
+const worker = (await import(pathToFileURL(path.join(WT, 'worker/index.ts')).href)).default;
+const env = { ASSETS: { fetch: async () => new Response('asset', {
+  // Negative control breaks the existing-domain asset response while redirects stay unchanged.
+  status: process.env.BFL_HARNESS_CALIBRATION === 'oldsite' ? 503 : 200,
+  headers: { 'Content-Type': 'text/html' },
+}) } };
 const ctx = { waitUntil() {}, passThroughOnException() {} };
 async function go(url: string) {
   const res: Response = await worker.fetch(new Request(url, { redirect: 'manual' }), env as any, ctx as any);
@@ -38,3 +44,5 @@ for (const [url, status, location] of cases) {
   console.log(`${ok ? 'PASS' : 'FAIL'}  ${url} -> ${r.status} ${r.location ?? ''}${ok ? '' : `  (expected ${status} ${location ?? ''})`}`);
 }
 console.log(fails ? `${fails} failing` : 'all pass');
+
+process.exitCode = fails > 0 ? 1 : 0;
