@@ -319,12 +319,13 @@ function ensureMetaBrowserIdCookie(): string | undefined {
 }
 
 function ensureMetaClickIdCookie(): string | undefined {
-  const existing = readCookie('_fbc');
-  if (existing) return existing;
   if (!hasMarketingConsent()) return undefined;
-
+  const existing = readCookie('_fbc');
   const fbclid = getStoredCampaignValue('fbclid').trim();
-  if (!META_CLICK_ID_RE.test(fbclid)) return undefined;
+  if (!META_CLICK_ID_RE.test(fbclid)) return existing;
+  // A new ad click replaces the previous attribution. Reusing the same click keeps its original
+  // creation time rather than making it look like a new click on every page or event.
+  if (existing?.match(/^fb\.\d+\.\d+\.(.+)$/)?.[1] === fbclid) return existing;
 
   const fbc = `fb.1.${Date.now()}.${fbclid}`;
   writeCookie('_fbc', fbc, META_COOKIE_MAX_AGE_SECONDS);

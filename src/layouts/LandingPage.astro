@@ -5,6 +5,9 @@ import FontPreloads from '../components/FontPreloads.astro';
 import HeadIcons from '../components/HeadIcons.astro';
 import MarketingConsent from '../components/MarketingConsent.astro';
 import { absoluteUrl, BOOKING_ATTRIBUTION_KEYS, SITE_NAME } from '../../shared/site';
+import type { ImageMetadata } from 'astro';
+import { cropImage, OG_RATIO } from '../lib/og-image';
+import ogFallback from '../assets/marketing/hero_editorial_portrait.png';
 
 interface PreloadImage {
   href: string;
@@ -19,13 +22,18 @@ interface Props {
   title: string;
   description: string;
   ogDescription?: string;
-  ogImage?: string;
+  ogImage?: string | ImageMetadata;
+  /** Actual dimensions of an already prepared public/remote image URL. Unknown sizes are omitted. */
+  ogImageSize?: { width: number; height: number };
   preloadImage?: PreloadImage | PreloadImage[];
 }
 
-const { title, description, ogDescription, ogImage, preloadImage } = Astro.props;
+const { title, description, ogDescription, ogImage, ogImageSize: preparedImageSize, preloadImage } = Astro.props;
 const canonicalUrl = absoluteUrl(Astro.url.pathname);
-const ogImageUrl = ogImage ? absoluteUrl(ogImage) : absoluteUrl('/assets/hero_editorial_portrait.png');
+const ogSource = ogImage ?? ogFallback;
+const croppedOgImage = typeof ogSource === 'string' ? null : await cropImage(ogSource, OG_RATIO);
+const ogImageUrl = absoluteUrl(typeof ogSource === 'string' ? ogSource : croppedOgImage!.src);
+const ogImageSize = croppedOgImage ?? preparedImageSize;
 const socialDescription = ogDescription ?? description;
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
@@ -51,8 +59,8 @@ const preloadImages = Array.isArray(preloadImage) ? preloadImage : preloadImage 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="de_CH">
     <meta property="og:image" content={ogImageUrl}>
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    {ogImageSize && <meta property="og:image:width" content={String(ogImageSize.width)}>}
+    {ogImageSize && <meta property="og:image:height" content={String(ogImageSize.height)}>}
     <meta property="og:site_name" content={SITE_NAME}>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content={title}>
