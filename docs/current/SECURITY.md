@@ -8,7 +8,7 @@ The former `beautyfacelift.mediapaulo.workers.dev` URL is no longer canonical an
 
 ## Review repair status
 
-**REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11 and pending combined verification. Existing code/historical passing checks are not evidence that these fixes are verified or live. The public production source reviewed is `35af1f0`; cockpit #55–#57 are unmerged. No authentication provider is selected/activated by this repair, customer emails stay off and reminders agency-only. Disclosure, retention/deletion, failure alerting and reconciliation are pre-D1 rollout gates.
+**IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks the verified R1–R11 repairs and remaining rollout gates. The repair record identifies the tested revisions; local checks do not establish live deployment or account readiness. The public production source reviewed is `35af1f0`; cockpit #55–#57 are unmerged. No authentication provider is selected/activated by this repair, customer emails stay off and reminders agency-only. Disclosure, retention/deletion, failure alerting and reconciliation are pre-D1 rollout gates.
 
 ## Existing code and its limits
 
@@ -64,6 +64,6 @@ The user decided on 2026-10-10 to retain the legacy code. Steps 1–4 below are 
 
 ## Unreleased automated-email repair candidate
 
-The cockpit repair candidate uses stable provider `Idempotency-Key` values for each logical confirmation/reminder. Confirmation reservations enforce the same-address window and at most 20 per hour atomically, including in-flight reservations. Combined verification is pending; customer email remains off.
+The cockpit repair candidate uses stable provider `Idempotency-Key` values for each logical confirmation/reminder. Confirmation reservations enforce the same-address window and at most 20 per hour atomically, including in-flight reservations. Combined verification is recorded in the repair checklist; customer email remains off.
 
 A network error, timeout, HTTP 408/409 or server error can follow provider acceptance. Such delivery stays **uncertain**: keep the reservation, record `mail_failed` with `delivery: uncertain`/`retry: manual`, and do not automatically resend. The agency must reconcile provider delivery records before any separately approved recovery. A definitive rejection can release the claim; reminder retries wait at least two hours and reuse the logical delivery key. This is neither a guarantee of delivery nor authority to clear a claim/send mail blindly. See the cockpit runbook on the cockpit branch and the final repaired-stack verification.

@@ -10,10 +10,10 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 
 ## Current milestone — review repairs
 
-**REPAIRS LOCALLY VERIFIED; RELEASE DEFERRED:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The repair record contains reviewed code revisions and passing combined/local browser checks. None of these repairs is deployed; production release approval is separate.
+**IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The record identifies the tested code revisions, full local checks and browser evidence. PR review/CI and deployment verification remain separate; this status does not claim that the repairs are live.
 
 - **Production source reviewed:** `35af1f01877ecbd629376c30a1e2254dacfb49d0` (PR #58 handover; GitHub deployment reported success). The application changes through #54 are deployed; #58 added handover docs and test tooling.
-- **Cockpit:** #55 → #56 → #57 are open, stacked and not release-ready. Their review found defects and pre-D1 data-handling gaps; earlier “all gates green” statements were historical manual results.
+- **Cockpit:** #55 → #56 → #57 are open, stacked and not release-ready. PR #61 repairs the reviewed defects on the unreleased stack; pre-D1 data-handling and authentication gates remain open. Earlier “all gates green” statements were historical manual results.
 - **Authentication:** provider selection is deferred. No Access/Zero Trust activation, custom OTP implementation or pricing commitment is part of this repair.
 - **Campaign:** remains paused and still waits for cockpit Phase 1 by the user's decision. Optimisation stays on standard `Lead`; the URL-filtered custom conversion is reporting only. Old-site redirect, Treatwell CHF 170 service and revised dates remain external gates.
 - **Guardrails:** customer emails stay off, reminders stay agency-only, Teresa receives no cockpit exposure or test mail. Phase 2 automation is held.
@@ -100,7 +100,7 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-The review repair milestone is implemented and locally verified across isolated `codex/*` branches. PRs #55–#57 remain unreleased. The pre-D1 checklist and deferred business decisions still block cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
+The review repair milestone is in progress on isolated `codex/*` branches. PRs #55–#57 remain unreleased. Complete combined verification, the pre-D1 checklist and the deferred business decisions before requesting any cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 
