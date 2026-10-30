@@ -103,5 +103,5 @@ try {
 } catch (error) {
   console.error('[fail]', error instanceof Error ? error.message : error);
   console.error('Start with `npm run build` and `npm run cf:dev`, then run this check again.');
-  process.exit(1);
+  process.exitCode = 1; // natural exit: process.exit() while sockets close crashes Node on Windows (libuv async.c)
 }
