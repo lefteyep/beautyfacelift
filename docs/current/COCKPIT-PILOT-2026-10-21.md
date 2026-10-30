@@ -1,5 +1,7 @@
 # Cockpit pilot – preparation and release record
 
+**Update 2026-10-30:** PR #62 was merged into `master` as `e2e53d7` and deployed (run 40996067370); the cockpit pilot is live behind Cloudflare Access, agency-only. Login is a one-time PIN by e-mail with a 2-week session, not the Cloudflare account login or the draft-only state described below. Lead capture is switched on by the configuration change `codex/leads-capture-on`; reminders, data operations and customer mails stay off. Current state: [STATUS.md](STATUS.md), [LEAD-COCKPIT.md](LEAD-COCKPIT.md).
+
 Updated 21 October 2026. The user asked the local coordinator to complete the project autonomously and permitted native agents/sessions as needed. Routine technical choices are made here; production migration, merge/deploy, terms/payment, Teresa/customer exposure and campaign activation still need their existing explicit approvals. No previous chat history is needed.
 
 The subsequent “weiter” instruction continues technical operating preparation. [Operations readiness](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) records the new read-only Cloudflare evidence, concrete unsaved storage-alert proposal, isolated D1 drill plan and exact effects of a later merge. It does not activate those services or adopt a data policy.

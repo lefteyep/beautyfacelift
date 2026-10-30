@@ -1,5 +1,7 @@
 # Cockpit Access — agency pilot readiness
 
+**Update 2026-10-30:** The Access application "Beauty Face Lift – Agenturcockpit" now exists. Login is a one-time PIN by e-mail (the account-wide One-time PIN provider) with a 2-week session (user decision 2026-10-30); the Cloudflare account-login provider and the one-hour session described below are not used, and the draft-only decision is superseded. Current values: [LEAD-COCKPIT.md](LEAD-COCKPIT.md#access-application-created-2026-10-30).
+
 **21 October 2026 · Free plan activated by the account holder.** The user selected **«Vorhandenen Cloudflare-Login verwenden»** for the agency pilot, approved the prepared Free plan after clarification that the 50 seats count login identities rather than lead records, and completed checkout themselves. The dashboard now confirms **Zero Trust Free, $0/month**. Retain the existing Access verifier and use **Cloudflare itself as the identity provider**, authenticating the approved agency person with their existing Cloudflare account. This replaces the earlier email-PIN recommendation. Account enrollment is complete; saving the actual identity provider/application policy, live login tests and production deployment remain separate steps. The initial code audit reviewed `6809cf56348ef9034ec44a9c55690b2b4308e159`; the combined candidate subsequently passed CI at `a1672f8`.
 
 ## Existing protection and recommendation
