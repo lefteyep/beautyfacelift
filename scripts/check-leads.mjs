@@ -160,7 +160,7 @@ const mailIndex = contactRoute.indexOf('await sendNotificationEmail(data, reques
 check(ingestIndex !== -1 && mailIndex !== -1 && ingestIndex < mailIndex, 'contact route stores the lead before the owner e-mail');
 check(contactRoute.includes('reportStorageFailure(env,') && read('worker/leads/storage-alert.ts').includes("console.error('Lead ingest failed:'"),
   'contact route reports sanitized storage failures independently of owner email');
-check(/"LEADS_CAPTURE": "off"/.test(wrangler) && /"LEADS_REMINDERS": "off"/.test(wrangler),
+check(/"LEADS_CAPTURE": "off"/.test(wrangler) && /"LEADS_REMINDERS": "off"/.test(wrangler) && /"LEADS_DATA_OPERATIONS": "off"/.test(wrangler),
   'new storage and reminders remain explicitly off until an approved rollout');
 
 // ---- forms ------------------------------------------------------------------------------------------
