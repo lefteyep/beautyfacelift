@@ -2,7 +2,7 @@
 
 > Current operating decisions reconciled on 21 October 2026. The campaign remains paused. The focused code repairs are **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES**; authentication choice/setup and new automation features are deferred. See [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) for release/data gates and [the original plan snapshot](../archive/reviews/2026-10-21-pre-repair/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) for the full earlier record.
 >
-> Current instructions take precedence over dated decisions in section 9: optimise on standard `Lead`, use the custom conversion only for reporting, redirect/shut down the old site before launch, and keep the user's cockpit-Phase-1-before-campaign gate. Existing page/ad end date is 14 November 2026; no new start/end date has been chosen. Earlier target dates are history, not an active schedule.
+> Current instructions take precedence over dated decisions in section 9: optimise on standard `Lead`, use the custom conversion only for reporting, redirect/shut down the old site before launch, and keep the user's cockpit-Phase-1-before-campaign gate. Offer end date decided by the user on 30 October 2026: **30 November 2026** (page, ad images and ad copy drafts aligned in the same change; the Meta ads and the ad-set schedule still need the matching edits). Earlier target dates are history, not an active schedule.
 
 ## 0. Summary
 
@@ -21,7 +21,7 @@
 | # | Question | Answer | Used as |
 |---|---|---|---|
 | Q1 | Monthly budget and start date | about CHF 400 per 30 days, start as soon as possible | lifetime budget **CHF 400** over 30 days (about CHF 13.33/day). Start remains pending; the paused ad set's 15 October 2026 start is in the past and must be revised after all launch gates |
-| Q2 | Offer end date | 30 days after the start | Original target was a 30-day run. The deployed page and three ad images currently say **14 November 2026**; the user must choose the revised start/end window before launch and align page, copy/assets and ad schedule. No new date is approved here |
+| Q2 | Offer end date | 30 days after the start | Original target was a 30-day run. The page and the three ad images said 14 November 2026 until 30 October 2026; **the user then chose 30 November 2026** (page constant, re-rendered ad images and copy drafts updated together). The ad-set schedule is to end on 29 November 23:59 Zürich time; the start date is still the user's call and depends on the cockpit gate |
 | Q3 | Combo appointments per week | as many as possible, about 10 | capacity **10/week**, about 40 in the month; not the binding constraint at this budget |
 | Q4 | September CPL and spend | not reported; the user wants a CPL **under CHF 15**, at most **CHF 25** | target CPL **CHF 15**, max CPL **CHF 25**. These are the user's goals, not a measured benchmark; whether CHF 15 is reachable for a website request form in Zürich is unknown until day 18. Ads Manager will show a higher CPL than the true one (3.7) |
 | Q5 | Teresa on camera | **no**; the user can generate short AI videos of her | no talking-head ads; rules for generated clips and the voice-only option in 5.5 |
@@ -119,7 +119,7 @@ Rebooking is deliberately left out. If first-visit clients rebook at the regular
 - [x] Ad account `act_442592606954627` can deliver: the user confirmed on 2026-10-11 that the account is not restricted; the block shown in Ads Manager is a display bug. If the first ads stay at zero impressions for more than a few hours after approval, look at Account Quality first.
 - [ ] Business Manager: domain `beautyfacelift-zuerich.ch` verified under Brand Safety → Domains; Page, Instagram account, ad account, dataset `1147246982373946` and payment method all in the same Business; "Begünstigter und Zahlender" (beneficiary and payer) filled in if Ads Manager asks for it.
 - [ ] Attribution setting of the campaign: 7-day click, 1-day view (Meta default; reporting uses a click-only comparison, see 3.7).
-- [ ] User confirms a new start/end window; page/ad images/copy and ad-set schedule agree. The old 15 October–13 November schedule is not launch-ready; current displayed offer end is 14 November 2026.
+- [ ] User confirms the start date; page/ad images/copy and ad-set schedule agree. The old 15 October–13 November schedule is not launch-ready. Offer end decided: 30 November 2026 (page and images updated 2026-10-30); the Meta ads' texts and the ad-set end date still need the matching edit.
 - [ ] Old site shut down/301 redirected before launch with email preserved; Treatwell and Business Profile links updated/verified as applicable.
 - [ ] Explicit campaign activation approval after repair, data/auth readiness and the preserved cockpit prerequisite.
 
@@ -360,7 +360,7 @@ Formula for a later month: `weekly budget = (slots per week ÷ r_ls) × true CPL
 | Bid strategy | Highest volume |
 | Attribution | 7-day click, 1-day view |
 | Budget | Lifetime, CHF 400 |
-| Schedule | User must approve a revised start/end window in Zürich time; the recorded 15 October–13 November schedule is historical/past-start. Current page/ad end date: 14 November 2026. |
+| Schedule | Start date still to be approved by the user (Zürich time); the recorded 15 October–13 November schedule is historical/past-start. Offer end date: 30 November 2026 (decided 2026-10-30), so the ad set ends on 29 November 2026, 23:59. |
 | Audience | Advantage+ audience; controls: location = 15 km around "Bahnhofstrasse 94, 8001 Zürich", people living in this location; minimum age 25; languages = German (all); exclude custom audience `Lead – Kombi LP – 90 Tage`. Suggestions: age 30–60, women, custom audiences `Alle Website-Besucher – 180 Tage` and `Lead – alle URLs – 180 Tage` |
 | Placements | manual: Instagram Feed, Instagram Stories, Instagram Reels, Instagram Explore, Facebook Feed, Facebook Reels, Facebook Stories, Facebook Marketplace, Facebook search results; everything else off (Audience Network, Messenger, in-stream, right column, Instagram profile feed) |
 | Inventory filter | Moderat |
@@ -423,7 +423,7 @@ What the first 3 seconds show:
 
 ### 5.3 Ad copy drafts (Swiss German, "Sie")
 
-Each ad has a short primary text (feeds, Reels) and a long variant (Facebook Feed test). Headline and description are the same for both. Replace `[Enddatum]` with the offer end date (start + 30 days), written out: the current assets say "14. November"; any revised date needs approval and aligned assets; in the description field the short form "14.11." is fine.
+Each ad has a short primary text (feeds, Reels) and a long variant (Facebook Feed test). Headline and description are the same for both. Replace `[Enddatum]` with the offer end date, written out: since 30 October 2026 the assets say "30. November" (before: "14. November"); any further change needs approval and aligned assets; in the description field the short form "30.11." is fine.
 
 **A1 — Glow in 90 Minuten** (`glow_reel916_v1`, `glow_static45_v1`)
 
@@ -635,7 +635,7 @@ The old fixed-date calendar is preserved in [the pre-repair plan](../archive/rev
 | First read | Around day 11 | Derive from approved launch |
 | Second read / month-2 proposal | Around day 18 | Derive from approved launch |
 | End-date creative / final read | Before approved end | Pending aligned assets/schedule |
-| Last ad day / offer end | Approved ad and offer window | Current assets say 14 November 2026; revised schedule undecided |
+| Last ad day / offer end | 29 November 2026 / 30 November 2026 | Offer end decided 2026-10-30; assets say 30 November 2026; the start date is still open |
 
 ### 7.1 Day by day
 
@@ -785,7 +785,7 @@ Diagnose in this order, act on the first failing step:
 1. Complete combined repair verification and cockpit pre-D1 data gates. Authentication provider/setup remains deferred pending the workflow review.
 2. Prepare/review the minimal staff workflow; cockpit Phase 1 remains a launch prerequisite. No customer mail or Teresa exposure before a separately approved go-live.
 3. User creates/verifies the Treatwell CHF 170 service and old-site shutdown/301 redirect with email preserved.
-4. User approves the revised start/end window; keep the displayed 14 November 2026 date until an aligned page/ad/schedule change is approved.
+4. User approves the start date; the offer end is 30 November 2026 (page and ad images changed 2026-10-30). Before launch: edit the three `_v2` ads' texts ("bis 30. November", description "bis 30.11."), re-upload the re-rendered images, and set the ad-set end to 29 November 2026, 23:59 Zürich time.
 5. Recheck approved measurement/UTMs and standard Lead optimisation. Custom conversion `1596786311924725` is report-only. Historical Events Manager test on 20 October succeeded; a later live labelled enquiry still requires explicit test authorization.
 6. Review `_v2` Facebook + Instagram previews; `_v1` stays paused. Campaign activation/spend requires an explicit go after all gates. Do not create duplicate campaigns, conversions or audiences from an old checklist.
 

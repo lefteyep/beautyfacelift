@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** 21 October 2026
+**Last updated:** 30 October 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -99,6 +99,8 @@ Live checks on 2026-10-07:
   - Their live HTML matches the tested build except for two values CI injects at build time: the Meta Pixel ID and, on `/kontakt/`, the Turnstile site key.
 
 ## Pending Release
+
+**Combo offer end date 30 November 2026** (user decision 2026-10-30, branch `codex/offer-end-2026-11-30`): the page constant, the six re-rendered Meta ad images and the copy drafts move from 14 November to 30 November. Deploys only after a reviewed PR and explicit approval; the Meta ads' texts, images and the ad-set end date (29 November 2026, 23:59) are edited in Ads Manager separately.
 
 The review repair milestone is implemented and locally verified across isolated `codex/*` branches. PRs #55–#57 remain unreleased. The pre-D1 checklist and deferred business decisions still block cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 

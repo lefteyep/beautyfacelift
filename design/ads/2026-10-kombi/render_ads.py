@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 FONTS = sys.argv[1]; OUT = sys.argv[2]
 SERIF = f'{FONTS}/InstrumentSerif-Regular.ttf'; SANS = f'{FONTS}/InstrumentSans-Var.ttf'
 CREAM=(250,246,241); COCOA=(42,30,24); CLAY=(143,90,46); CLAY_L=(215,174,132); ON_DARK=(233,220,207); TEXT=(74,59,51); LINE=(214,204,194)
-END='14. November'
+END='30. November'
 
 def serif(px): return ImageFont.truetype(SERIF, px)
 def sans(px, w=400):
