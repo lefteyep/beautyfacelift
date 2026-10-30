@@ -155,3 +155,11 @@ The harnesses stub `globalThis.fetch`; they never call Cloudflare or Resend and 
 Do not execute the previous automatic go-live sequence. The current gates are in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) and [LEAD-COCKPIT-PLAN.md](LEAD-COCKPIT-PLAN.md): repaired/verified code, data disclosure/retention/deletion and reconciliation readiness, a chosen/tested staff authentication path, and explicit rollout approval.
 
 Until a separately tested go-live is approved, keep customer confirmations off, reminders agency-only, staff access agency-only, no cockpit link in owner emails, and no Teresa test mail. Introducing Teresa, enabling customer email or changing recipient policy must not happen automatically with a merge. The original runbook/go-live checklist is preserved in [the PR57 snapshot](../archive/reviews/2026-10-21-pre-repair/LEAD-COCKPIT-PR57.md).
+
+## Access application (created 2026-10-30)
+
+- Zero Trust team domain `https://mediapaulo.cloudflareaccess.com` (Zero Trust Free).
+- Identity provider "Cloudflare" (login with the existing Cloudflare account, restricted to account members). The legacy One-time PIN provider of another project is untouched and not used by the cockpit.
+- Application "Beauty Face Lift – Agenturcockpit", id `841aa372-3175-4f04-a96e-4b68b61e2656`, self-hosted, destination `beautyfacelift-zuerich.ch/admin`, session 1 h, only the Cloudflare provider, hidden from the App Launcher. AUD `25cd22da8935572227bcc67375d4a4450edf41a2840eb6f072c4ed82a30a490f` (`ACCESS_AUD`).
+- Policy "Agentur – nur mediapaulo", id `ee29d487-c93d-45f7-9bac-fa584b8c66b4`: Allow, Emails = `mediapaulo@gmail.com`, duration same as the application. `ACCESS_ALLOWED_EMAILS` matches it.
+- Since the application exists, every `/admin` page on production asks for the Cloudflare login, whatever the deployed Worker serves behind it.

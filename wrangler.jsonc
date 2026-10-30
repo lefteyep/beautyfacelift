@@ -47,10 +47,10 @@
     "LEADS_NUDGE_TO": "mediapaulo@gmail.com",
     // LEADS_CUSTOMER_MAILS is deliberately not set: customer confirmations stay off until go-live sets it to "on".
     // Lead cockpit (/admin/, Cloudflare Access). ACCESS_TEAM_DOMAIN (https://<team>.cloudflareaccess.com)
-    // and ACCESS_AUD are filled once the Access application exists; while empty the Worker fails closed
+    // and ACCESS_AUD: Access application "Beauty Face Lift – Agenturcockpit" (created 2026-10-30); while empty the Worker fails closed
     // and every /admin/* request answers 401. LEADS_SIGNING_SECRET is a dashboard secret, not a var.
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
+    "ACCESS_TEAM_DOMAIN": "https://mediapaulo.cloudflareaccess.com",
+    "ACCESS_AUD": "25cd22da8935572227bcc67375d4a4450edf41a2840eb6f072c4ed82a30a490f",
     "ACCESS_ALLOWED_EMAILS": "mediapaulo@gmail.com"
   }
 }
