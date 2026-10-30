@@ -10,11 +10,17 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 
 ## Current milestone — review repairs
 
+**Operating-readiness continuation:** [PR #62](https://github.com/lefteyep/beautyfacelift/pull/62), checkpoint `353e6d7`, passed [CI](https://github.com/lefteyep/beautyfacelift/actions/runs/39645495335). The [current operations record](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) documents the expressly approved synthetic Cloud-D1 Time-Travel drill and full SQL-export/import proof. Both test databases pass 8/8 and match the complete expected schema/data after recovery/import; they remain preserved. The import workflow stopped on an ambiguous CLI response, so it is recorded as failed; the subsequent independent read-only full comparison confirmed the import without repeating it. The user chose to retain the storage alert as a draft: no activation or test notification. No production migration/deploy or policy/provider activation follows from this continuation.
+
+**Current checkpoint after the approved merges:** production is `d019a003` (#59/#60 deployed successfully); #61 is merged only into unreleased `codex/leads-mails-phase1` at `365f6fea`. The new local `codex/cockpit-pilot` candidate integrates current production and prepares the minimum agency workflow, safe feature gates and data-readiness evidence. See [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) for the current work record and remaining activation gates. Earlier reviewed-source statements below describe the original repair baseline.
+
+**Post-decision procedure review:** entry-point/runbook/index/setup instructions now distinguish active Free enrollment from the explicitly draft-only cockpit Access configuration and alarm. The current runbook uses the already implemented synthetic preview/stubbed cron harness rather than the old outbound-capable local recipe. Independent read-only review found no further demonstrated data/recovery/erasure/mail code mismatch; the operator guides now name the existing exact-ID detail path and clarify that contact search excludes UUIDs. No new feature, live login or data operation was performed.
+
 **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR BRANCHES:** [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) tracks R1–R11, validation and deferred blockers. The record identifies the tested code revisions, full local checks and browser evidence. PR review/CI and deployment verification remain separate; this status does not claim that the repairs are live.
 
 - **Production source reviewed:** `35af1f01877ecbd629376c30a1e2254dacfb49d0` (PR #58 handover; GitHub deployment reported success). The application changes through #54 are deployed; #58 added handover docs and test tooling.
 - **Cockpit:** #55 → #56 → #57 are open, stacked and not release-ready. PR #61 repairs the reviewed defects on the unreleased stack; pre-D1 data-handling and authentication gates remain open. Earlier “all gates green” statements were historical manual results.
-- **Authentication:** provider selection is deferred. No Access/Zero Trust activation, custom OTP implementation or pricing commitment is part of this repair.
+- **Authentication:** the user selected existing Cloudflare account login and subsequently approved/completed the Free-plan checkout on 21 October. The dashboard confirms Zero Trust Free ($0/month) and team domain `mediapaulo.cloudflareaccess.com`. The user then explicitly chose **draft only** for the concrete cockpit Access setup. [Setup/readiness](COCKPIT-ACCESS-READINESS.md) preserves the new member-restricted Cloudflare provider/exact agency policy proposal; no provider, policy or application was saved and no live login test was run. Existing PIN provider/shared settings preserved. Actual authentication and production rollout remain gates; no separate password service was built.
 - **Campaign:** remains paused and still waits for cockpit Phase 1 by the user's decision. Optimisation stays on standard `Lead`; the URL-filtered custom conversion is reporting only. Old-site redirect, Treatwell CHF 170 service and revised dates remain external gates.
 - **Guardrails:** customer emails stay off, reminders stay agency-only, Teresa receives no cockpit exposure or test mail. Phase 2 automation is held.
 
@@ -71,6 +77,9 @@ Historical May launch details (not the current deployed Worker version):
 | Old site `beautyfacelift.ch`: redirect map in the Worker (inert until the DNS moves) and the shutdown plan, see [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) | PR #53, merge `bc69bd0` | Live 2026-10-20 (deploy run 39342902482) |
 | Meta campaign start-ready status, Instagram-enabled `_v2` ads (docs only, other session) | PR #52 | Draft, not merged |
 | Codex handover, plan copy and test tooling | PR #58, merge `35af1f0` | Deployment reported success on 2026-10-21; cockpit code is still unmerged |
+| Release validation and operating guidance | PR #59, merge `a87b1f7` | Live; deploy run 39538508554 passed |
+| Public tracking, image metadata/lazy loading and mobile navigation repairs | PR #60, merge `d019a003` | Live; deploy run 39538764913 passed; active Worker version 30970e05 confirmed |
+| Cockpit email atomicity/idempotency and uncertain delivery | PR #61, merge `365f6fea` into cockpit branch only | Unreleased; CI run 39539049665 passed |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.

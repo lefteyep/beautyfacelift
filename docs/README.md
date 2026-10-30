@@ -6,13 +6,21 @@ Use this page to choose the right document quickly.
 
 | Need | Document |
 |------|----------|
+| Current autonomous agency-pilot preparation, verified production checkpoint and activation gates | [current/COCKPIT-PILOT-2026-10-21.md](current/COCKPIT-PILOT-2026-10-21.md) |
+| Verified Cloudflare account state, unsaved storage-alert draft, isolated recovery and exact release sequence | [current/COCKPIT-OPERATIONS-READINESS-2026-10-21.md](current/COCKPIT-OPERATIONS-READINESS-2026-10-21.md) |
+| Agency workflow: list/contact, manual enquiries and missing-enquiry recovery | [current/COCKPIT-PILOT-WORKFLOW.md](current/COCKPIT-PILOT-WORKFLOW.md) |
+| Data operations, synthetic erasure/backup/restore evidence and real-data gates | [current/LEAD-DATA-OPERATIONS.md](current/LEAD-DATA-OPERATIONS.md) |
+| Separately gated D1 exact-ID erasure, atomicity and pilot limits | [current/LEAD-D1-ERASURE.md](current/LEAD-D1-ERASURE.md) |
+| Public Treatwell, old-domain redirect and campaign-date evidence | [current/CAMPAIGN-READINESS-2026-10-21.md](current/CAMPAIGN-READINESS-2026-10-21.md) |
+| Private review draft for D1 disclosure; not approved/published public copy | [current/LEAD-DATA-DISCLOSURE-DRAFT.md](current/LEAD-DATA-DISCLOSURE-DRAFT.md) |
+| Selected existing Cloudflare login, active Free plan and draft-only cockpit Access configuration | [current/COCKPIT-ACCESS-READINESS.md](current/COCKPIT-ACCESS-READINESS.md) |
 | **Start here:** project, systems and IDs, current state, next steps (handover 2026-10-21) | [current/HANDOVER-2026-10-21.md](current/HANDOVER-2026-10-21.md) |
-| Review repair milestone R1–R11, pending verification and deferred business/data gates | [current/REPAIR-2026-10-21.md](current/REPAIR-2026-10-21.md) |
+| Verified review repairs R1–R11 and deferred release/business/data gates | [current/REPAIR-2026-10-21.md](current/REPAIR-2026-10-21.md) |
 | OpenAI Codex: setup notes and the start prompt | [current/CODEX-START.md](current/CODEX-START.md) |
 | Project overview and commands | [../README.md](../README.md) |
 | Agent rules: safety model, deployment rule, and the project context (commands, release gates, client design rules, gotchas) | [../AGENTS.md](../AGENTS.md) |
 | Lead-Cockpit: current scope and pre-rollout gates (original approved plan archived; #55–#57 unmerged) | [current/LEAD-COCKPIT-PLAN.md](current/LEAD-COCKPIT-PLAN.md) |
-| Cockpit implementation/runbook (unreleased; auth decision and go-live deferred) | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
+| Cockpit implementation/runbook (unreleased; login selected, Access configuration draft only) | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
 | Current launch/status snapshot | [current/STATUS.md](current/STATUS.md) |
 | Open operational work | [current/TODO.md](current/TODO.md) |
 | Local setup and production config | [current/SETUP.md](current/SETUP.md) |
@@ -21,6 +29,7 @@ Use this page to choose the right document quickly.
 | Google Tag Manager and GA4 (IDs, container as code, consent) | [current/tracking/GOOGLE-ANALYTICS-GTM.md](current/tracking/GOOGLE-ANALYTICS-GTM.md) |
 | Meta campaign plan for the Aquafacial + Microneedling offer (questions, unit economics, measurement checklist, structure, creative, launch plan, risks) | [current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
+| Lead cockpit `/admin/leads/`: Cloudflare Access, configuration, routes, status model, local development, go-live checklist | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
 | Old site `beautyfacelift.ch`: shutdown, redirect map, what to update afterwards | [current/OLD-SITE-SHUTDOWN.md](current/OLD-SITE-SHUTDOWN.md) |
 | Domain launch record | [current/DOMAIN-LAUNCH.md](current/DOMAIN-LAUNCH.md) |

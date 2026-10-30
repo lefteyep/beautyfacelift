@@ -6,6 +6,8 @@ import { slotsRoute } from './routes/slots';
 import { bookingsRoute } from './routes/bookings';
 import { trackRoute } from './routes/track';
 import { contactRoute } from './routes/contact';
+import { handleAdmin } from './leads/router';
+import { runAutomations } from './cron/automations';
 import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, WWW_HOST } from '../shared/site';
 
 const router = Router();
@@ -40,7 +42,7 @@ router.get('/api/availability', (req: Request, env: Env) => availabilityRoute(re
 router.get('/api/slots', (req: Request, env: Env) => slotsRoute(req, env));
 router.post('/api/bookings', (req: Request, env: Env) => bookingsRoute(req, env));
 router.post('/api/track', (req: Request, env: Env) => trackRoute(req, env));
-router.post('/api/contact', (req: Request, env: Env) => contactRoute(req, env));
+router.post('/api/contact', (req: Request, env: Env, ctx: ExecutionContext) => contactRoute(req, env, ctx));
 
 const ERROR_PAGE_PATHS = new Set(['/404/', '/404.html']);
 
@@ -160,7 +162,7 @@ function withSecurityHeaders(response: Response, request: Request): Response {
     headers.set('Cache-Control', LONG_LIVED_STATIC_ASSET_CACHE);
   }
 
-  if (url.pathname.startsWith('/admin/')) {
+  if (isAdminPath(url.pathname)) {
     headers.set('Cache-Control', 'no-store');
     headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
@@ -225,6 +227,17 @@ function isAquafacialHeroAssetRequest(request: Request): boolean {
   return pathname.startsWith(AQUAFACIAL_HERO_ASSET_PREFIX);
 }
 
+// Also catches spellings the asset server may resolve to the same files ("/%61dmin/", "/Admin/", "//admin/").
+function isAdminPath(pathname: string): boolean {
+  let decoded = pathname;
+  try {
+    decoded = decodeURIComponent(pathname);
+  } catch {
+    // malformed escapes: keep the raw path
+  }
+  return decoded.replace(/\/{2,}/g, '/').toLowerCase().startsWith('/admin/');
+}
+
 function isDocumentPath(pathname: string): boolean {
   return pathname === '/' || pathname.endsWith('/') || pathname.endsWith('.html');
 }
@@ -254,11 +267,30 @@ export default {
       }), request);
     }
 
+    // /admin/*: Cloudflare Access JWT guard, then the lead cockpit or the legacy static admin pages.
+    if (isAdminPath(url.pathname)) {
+      return withSecurityHeaders(await handleAdmin(request, env, fetchStaticAsset), request);
+    }
+
     const response = await fetchStaticAsset(request, env);
     // The error page's own URLs must not answer 200 (soft 404).
     if (ERROR_PAGE_PATHS.has(url.pathname) && response.status === 200) {
       return withSecurityHeaders(new Response(response.body, { status: 404, headers: response.headers }), request);
     }
     return withSecurityHeaders(response, request);
+  },
+
+  // Cron trigger from wrangler.jsonc (every 15 minutes): the lead automations (worker/cron/automations.ts).
+  async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    ctx.waitUntil((async () => {
+      try {
+        const result = await runAutomations(env, new Date(controller.scheduledTime));
+        if (result.nudged.length > 0 || result.errors > 0) {
+          console.log(`Lead automations: ${result.nudged.length} reminder(s) sent, ${result.errors} failed`);
+        }
+      } catch (error) {
+        console.error('Lead automations failed:', error instanceof Error ? error.message : 'unknown error');
+      }
+    })());
   },
 };

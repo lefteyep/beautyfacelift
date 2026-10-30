@@ -19,4 +19,36 @@ export interface Env {
   TURNSTILE_ALLOWED_HOSTS?: string;
   ENABLE_LEGACY_BOOKING?: string;
   ENVIRONMENT?: string;
+  /** Lead database (D1 `beautyfacelift-leads`). Optional: without it the contact form works as before. */
+  LEADS_DB?: D1Database;
+  /** Explicit rollout gate: only "on" allows public/manual enquiry capture. Default is off. */
+  LEADS_CAPTURE?: string;
+  /** Independent agency-reminder gate; customer mail has its own separate switch. */
+  LEADS_REMINDERS?: string;
+  /** Agency operator address for storage-failure alerts; must also be in ACCESS_ALLOWED_EMAILS. */
+  LEADS_ALERT_TO?: string;
+  /** Independent, explicitly enabled operator-only exact-ID erasure. Default off. */
+  LEADS_DATA_OPERATIONS?: string;
+  /** Exact agency operator mailboxes for the data procedure, separate from ordinary staff access. */
+  LEADS_DATA_OPERATORS?: string;
+  /** Cloudflare Access team domain for /admin/: the full origin `https://<team>.cloudflareaccess.com`, no trailing slash. */
+  ACCESS_TEAM_DOMAIN?: string;
+  /** Audience (AUD) tag of the Cloudflare Access application that protects /admin/. */
+  ACCESS_AUD?: string;
+  /** Comma-separated e-mail addresses allowed into the lead cockpit. */
+  ACCESS_ALLOWED_EMAILS?: string;
+  /** Secret for the cockpit CSRF tokens and signed lead links (unsubscribe). Missing = every cockpit POST answers 503. */
+  LEADS_SIGNING_SECRET?: string;
+  /** Local development only: identity used instead of Cloudflare Access. */
+  LEADS_DEV_EMAIL?: string;
+  /** Recipient of forwarded booking mails (agency address until go-live). */
+  LEADS_FORWARD_TO?: string;
+  /** Recipient of reminders about unanswered leads (agency address until go-live). */
+  LEADS_NUDGE_TO?: string;
+  /** "on" enables automated e-mails to customers; anything else keeps them off. */
+  LEADS_CUSTOMER_MAILS?: string;
+  /** Resend audience for contacts with marketing consent. */
+  RESEND_AUDIENCE_ID?: string;
+  /** Review link used in review requests. */
+  GOOGLE_REVIEW_URL?: string;
 }

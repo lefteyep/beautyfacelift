@@ -200,18 +200,32 @@ await check('tracking API rejects raw PII user_data', async () => {
   assert(data.error === 'Invalid user_data', `unexpected tracking error: ${JSON.stringify(data)}`);
 });
 
-await check('admin page stays noindex and protected by headers', async () => {
-  const response = await fetch(buildUrl('/admin/'));
-  assert(response.status === 200, `expected 200, got ${response.status}`);
-  assertSecurityHeaders(response);
-  const xRobotsTag = response.headers.get('x-robots-tag') || '';
-  assert(xRobotsTag.toLowerCase().includes('noindex'), `missing noindex X-Robots-Tag: ${xRobotsTag}`);
-  const cacheControl = response.headers.get('cache-control') || '';
-  assert(cacheControl.toLowerCase().includes('no-store'), `admin cache-control must be no-store, got "${cacheControl}"`);
-  const html = await response.text();
-  assert(html.includes('Admin | Beauty Face Lift'), 'admin HTML title missing');
-  assert(/name=["']robots["'][^>]*noindex/i.test(html), 'admin meta robots noindex missing');
-});
+// /admin/* sits behind Cloudflare Access and the Worker's own JWT check (worker/leads/access.ts).
+// Without a session it must never answer 200: Access redirects to its login (302 to
+// <team>.cloudflareaccess.com), or the Worker answers 401 (403 is accepted too).
+for (const adminPath of ['/admin/', '/admin/leads/']) {
+  await check(`${adminPath} requires Cloudflare Access`, async () => {
+    const response = await fetch(buildUrl(adminPath), { redirect: 'manual' });
+    if (response.status === 302) {
+      const location = response.headers.get('location') || '';
+      let host = '';
+      try {
+        host = new URL(location, buildUrl(adminPath)).hostname;
+      } catch {
+        // not a URL: fails below
+      }
+      assert(host.endsWith('.cloudflareaccess.com'), `302 must point to *.cloudflareaccess.com, got "${location}"`);
+      return `302 to ${host} (Access answered; Worker headers not checked on Cloudflare's redirect)`;
+    }
+    assert(response.status === 401 || response.status === 403, `expected 302 to Access, 401 or 403, got ${response.status}`);
+    assertSecurityHeaders(response);
+    const xRobotsTag = response.headers.get('x-robots-tag') || '';
+    assert(xRobotsTag.toLowerCase().includes('noindex'), `missing noindex X-Robots-Tag: ${xRobotsTag}`);
+    const cacheControl = response.headers.get('cache-control') || '';
+    assert(cacheControl.toLowerCase().includes('no-store'), `admin cache-control must be no-store, got "${cacheControl}"`);
+    return `${response.status} from the Worker`;
+  });
+}
 
 await check('root response has baseline security headers', async () => {
   const response = await fetch(buildUrl('/'));

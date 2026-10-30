@@ -92,6 +92,8 @@ The review repair milestone is **IMPLEMENTED AND LOCALLY VERIFIED ACROSS REPAIR 
 
 Before first D1 rollout, approve disclosure, retention/deletion procedure, failure alerting and reconciliation/recovery. An owner email can succeed when D1 storage fails. Authentication choice/setup and retention implementation remain outside this repair; do not activate Access/Zero Trust, provision production signing secrets or build custom OTP incidentally. Customer mail stays off, reminders agency-only and Teresa unexposed. The public site does not need Zero Trust activation.
 
+Later user decisions supersede the repair's undecided provider status: existing Cloudflare account login is selected and the account holder completed Free enrollment. Actual cockpit IdP/app/policy and the storage alert are explicitly **draft only**. No new Access object or live login test was saved/run; do not restart enrollment or silently activate either draft. See [Access readiness](COCKPIT-ACCESS-READINESS.md) and [operations readiness](COCKPIT-OPERATIONS-READINESS-2026-10-21.md). For isolated UI review use `npm run preview:cockpit` as described in [the runbook](LEAD-COCKPIT.md), without project secrets or public form submissions.
+
 ## Historical domain launch
 
 Use `docs/current/DOMAIN-LAUNCH.md` for the completed all-inkl nameserver setup, Cloudflare Custom Domain setup, Search Console, Google Business Profile, analytics, and curl verification record.

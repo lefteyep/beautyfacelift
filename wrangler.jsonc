@@ -24,9 +24,39 @@
   "observability": {
     "enabled": true
   },
+  // Lead database. CI applies worker/migrations before every deploy (.github/workflows/deploy.yml).
+  "d1_databases": [
+    {
+      "binding": "LEADS_DB",
+      "database_name": "beautyfacelift-leads",
+      "database_id": "8df484ca-625f-4250-be9a-3c09279ebdde",
+      "migrations_dir": "worker/migrations"
+    }
+  ],
+  // Lead automations (the scheduled handler in worker/index.ts).
+  "triggers": {
+    "crons": ["*/15 * * * *"]
+  },
   "vars": {
     "PUBLIC_SUPABASE_URL": "https://izekwngqjllaqibrwotp.supabase.co",
     "ENABLE_LEGACY_BOOKING": "false",
-    "ENVIRONMENT": "production"
+    "ENVIRONMENT": "production",
+    // Deployment alone must not start new storage or reminders. Enable only in an approved rollout.
+    "LEADS_CAPTURE": "off",
+    "LEADS_REMINDERS": "off",
+    "LEADS_ALERT_TO": "mediapaulo@gmail.com",
+    "LEADS_DATA_OPERATIONS": "off",
+    "LEADS_DATA_OPERATORS": "mediapaulo@gmail.com",
+    // Agency until go-live.
+    "LEADS_FORWARD_TO": "mediapaulo@gmail.com",
+    // LEADS_NUDGE_TO must stay a single address (no comma list); at go-live the agency BCC is added in code.
+    "LEADS_NUDGE_TO": "mediapaulo@gmail.com",
+    // LEADS_CUSTOMER_MAILS is deliberately not set: customer confirmations stay off until go-live sets it to "on".
+    // Lead cockpit (/admin/, Cloudflare Access). ACCESS_TEAM_DOMAIN (https://<team>.cloudflareaccess.com)
+    // and ACCESS_AUD: Access application "Beauty Face Lift – Agenturcockpit" (created 2026-10-30); while empty the Worker fails closed
+    // and every /admin/* request answers 401. LEADS_SIGNING_SECRET is a dashboard secret, not a var.
+    "ACCESS_TEAM_DOMAIN": "https://mediapaulo.cloudflareaccess.com",
+    "ACCESS_AUD": "25cd22da8935572227bcc67375d4a4450edf41a2840eb6f072c4ed82a30a490f",
+    "ACCESS_ALLOWED_EMAILS": "mediapaulo@gmail.com"
   }
 }

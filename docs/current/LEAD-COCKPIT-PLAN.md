@@ -6,6 +6,8 @@ The exact implementation plan approved on 20 October is preserved in [the archiv
 
 ## Business goal and current state
 
+The user subsequently instructed the local coordinator to complete technical preparation autonomously. The bounded initial scope is now the agency list/contact/manual appointment-outcome workflow plus necessary telephone/WhatsApp entry and missing-enquiry recovery. [The pilot record](COCKPIT-PILOT-2026-10-21.md) contains the implementation, safe-off defaults and current verification. #59/#60 are deployed and #61 is merged into the unreleased cockpit stack; the reviewed-source table below remains baseline history. Authentication activation, policy approval, real-data procedures and production release remain separate decisions; Phase 2 remains held.
+
 The agency needs to know which enquiries were contacted, which became appointments and what happened afterwards. Production already delivers enquiry emails through Resend and forwards bookings to Treatwell. The cockpit is a staff workflow, not a technical dependency of public forms or advertising delivery. The user's separate decision remains binding: the campaign waits for cockpit Phase 1.
 
 The campaign plan estimates 16–27 leads in the first CHF 400 month; these are assumptions, not observed demand. Recommended minimum for the next scope review: capture/list enquiries, contact/status updates and manual booked/outcome recording. Evaluate actual use before adding automation. This recommendation does not authorize new features.
@@ -24,15 +26,15 @@ A D1 error is intentionally logged while the owner email continues. An accepted 
 1. Repair and verify R1–R11, preserving the current public stack and avoiding new automation features. Record checks against the combined revision, including assertion-failure calibration.
 2. Review the minimum useful workflow and ownership with the user.
 3. Before first D1 persistence, satisfy the disclosure, retention/deletion, failure alerting, reconciliation/recovery and rollout checks in [the repair record](REPAIR-2026-10-21.md#gates-before-the-first-d1-rollout). Their implementation cannot be left until Phase 2. No retention duration is adopted by this document.
-4. Compare and select staff authentication with the user in a separate decision. Then prepare configuration/secrets and an agency-only rollout for explicit merge/deploy approval. Existing stacked PRs are not automatically release-ready after a code repair.
+4. Staff authentication has now been selected by the user: existing Cloudflare account login through Access. Complete separately approved account setup and prepare configuration/secrets and an agency-only rollout for explicit merge/deploy approval. Existing stacked PRs are not automatically release-ready after a code repair.
 5. Test the agency workflow with fixtures and approved test data before separately preparing Teresa/customer go-live. Keep `LEADS_CUSTOMER_MAILS` off, reminders agency-only, no cockpit link in owner emails, and no test email to Teresa until an explicit tested go-live decision.
 6. Only after the preserved cockpit gate and external campaign gates are resolved may the user approve campaign activation. Treatwell CHF 170 service, old-site 301 redirect/email preservation, aligned dates and approved funnel checks remain required.
 
-## Authentication — decision deferred
+## Authentication — existing Cloudflare account login selected
 
 Staff contact data requires authentication and authorization. The current #56 implementation verifies Cloudflare Access JWT signature, issuer, audience, time bounds and an email allow-list; missing configuration denies access. Access is a managed option inside the Zero Trust product family. The public website, contact route, tracking route and D1 do not require activating the wider suite, WARP or a VPN.
 
-No provider has been selected or activated by the current repair. Cloudflare checkout was previously paused when it requested payment details; current plan/pricing/payment requirements need verification at decision time. Do not promise free or card-free activation.
+The repair itself did not choose a provider. In subsequent local coordination, the user explicitly selected **existing Cloudflare account login**, then approved the Free plan and personally completed checkout on 21 October. The dashboard confirms active **Zero Trust Free ($0/month)** and team domain `mediapaulo.cloudflareaccess.com`. The user subsequently chose **draft only** for the concrete cockpit Access configuration. The [current readiness record](COCKPIT-ACCESS-READINESS.md) preserves the member-restricted Cloudflare provider and exact agency/1h application-policy proposal; no Cloudflare object was saved and no live login test was run. Actual authentication and production deployment remain gates, requiring a changed user decision. Preserve the legacy PIN provider; no cockpit OTP fallback, membership expansion, paid upgrade or unlimited spending authority follows from enrollment.
 
 A custom Resend email-code login is not a small change to `access.ts`: it needs issuance, abuse throttling, expiry and replay protection, secure session cookies, logout/revocation, operational recovery and regression tests. Compare that ownership cost after the workflow review. Do not begin either setup incidentally.
 

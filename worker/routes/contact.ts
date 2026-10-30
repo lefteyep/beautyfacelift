@@ -8,6 +8,11 @@ import {
   CONTACT_TO_EMAIL_FALLBACK,
   TURNSTILE_ALLOWED_HOSTS,
 } from '../../shared/site';
+import { createLeadFromSubmission } from '../leads/ingest';
+import { isSingleMailbox } from '../../shared/leads';
+import type { LeadRow } from '../leads/db';
+import { sendConfirmationIfDue } from '../email/confirmation';
+import { reportStorageFailure } from '../leads/storage-alert';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -25,8 +30,12 @@ type ContactSubmission = {
   topic: string;
   message: string;
   privacyConsent: string;
+  /** Stored with the lead only; no form shows a marketing checkbox yet. */
+  marketingConsent: string;
   company: string;
   turnstileToken: string;
+  /** Hidden form field naming the page (kontakt-page, aquafacial-lp, …); see leadSourceFor(). */
+  source: string;
   campaign: string;
   offer: string;
   treatment: string;
@@ -81,7 +90,7 @@ function isComboLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
 }
 
 function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return isSingleMailbox(email);
 }
 
 function isValidPhone(phone: string): boolean {
@@ -208,8 +217,10 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
         topic: getRecordString(payload, 'topic') || defaultTopicForCampaign(campaign),
         message: getRecordString(payload, 'message'),
         privacyConsent: getRecordString(payload, 'privacyConsent', 'privacy_consent', 'privacy'),
+        marketingConsent: getRecordString(payload, 'marketingConsent', 'marketing_consent'),
         company: getRecordString(payload, 'company'),
         turnstileToken: getRecordString(payload, 'turnstileToken', 'cf-turnstile-response'),
+        source: getRecordString(payload, 'source'),
         campaign,
         offer: getRecordString(payload, 'offer'),
         treatment: getRecordString(payload, 'treatment', 'treatment_interest', 'treatmentInterest'),
@@ -245,8 +256,10 @@ async function parseSubmission(request: Request): Promise<{ data: ContactSubmiss
       topic: getFormString(formData, 'topic') || defaultTopicForCampaign(campaign),
       message: getFormString(formData, 'message'),
       privacyConsent: getFormString(formData, 'privacyConsent', 'privacy_consent', 'privacy'),
+      marketingConsent: getFormString(formData, 'marketingConsent', 'marketing_consent'),
       company: getFormString(formData, 'company'),
       turnstileToken: getFormString(formData, 'cf-turnstile-response'),
+      source: getFormString(formData, 'source'),
       campaign,
       offer: getFormString(formData, 'offer'),
       treatment: getFormString(formData, 'treatment', 'treatment_interest', 'treatmentInterest'),
@@ -362,7 +375,8 @@ async function verifyTurnstile(token: string, ip: string, secret: string): Promi
   return Boolean(result.success);
 }
 
-async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string): Promise<void> {
+// Next refactor: move this request onto sendEmail() in worker/email/resend.ts (kept as is so the owner mail stays unchanged).
+async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string, enquiryId: string, receivedAt: string): Promise<void> {
   if (!env.RESEND_API_KEY) {
     throw new ContactConfigError('RESEND_API_KEY is missing');
   }
@@ -379,7 +393,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   const from = env.CONTACT_FROM_EMAIL || 'Beauty Face Lift <onboarding@resend.dev>';
   const replyTo = isValidEmail(data.email) ? data.email : undefined;
   const userAgent = request.headers.get('user-agent') || 'Unbekannt';
-  const submittedAt = new Date().toISOString();
+  const submittedAt = receivedAt;
   const aquafacialLead = isAquafacialLead(data);
   const comboLead = isComboLead(data);
   // The combo ad page names its campaign in the subject so the lead sheet can filter on it.
@@ -394,6 +408,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
       ? `Neue Kombi-Anfrage: Aquafacial + Microneedling – ${data.name}`
       : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
   const leadDetails = [
+    ['Anfrage-ID', enquiryId],
+    ['Eingang', submittedAt],
     ['Kampagne', data.campaign],
     ['Angebot', data.offer],
     ['Behandlung', data.treatment],
@@ -436,7 +452,6 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     '',
     `IP: ${ip}`,
     `User-Agent: ${userAgent}`,
-    `Eingang: ${submittedAt}`,
   ].join('\n');
 
   const html = `
@@ -487,7 +502,8 @@ function respondError(message: string, status: number, expectsHtml: boolean, req
   return expectsHtml ? htmlErrorResponse(message, status, formPathFromReferer(request)) : jsonResponse({ error: message }, status);
 }
 
-export async function contactRoute(request: Request, env: Env): Promise<Response> {
+// `ctx` queues the customer confirmation (worker/email/confirmation.ts) after the response.
+export async function contactRoute(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let parsed: { data: ContactSubmission; expectsHtml: boolean };
 
   try {
@@ -535,8 +551,24 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
     }
   }
 
+  // One reference/time across the owner notification, database and storage-failure log permits
+  // an operator to reconcile/recover a missing row without firing another customer submission.
+  const enquiryId = crypto.randomUUID();
+  const receivedAt = new Date();
+  let lead: LeadRow | null = null;
+  let storageFailure: 'missing-db' | 'write-failed' | null = null;
+  if (env.LEADS_CAPTURE === 'on') {
+    try {
+      lead = await createLeadFromSubmission(env, data, receivedAt, enquiryId);
+      if (!lead) storageFailure = 'missing-db';
+    } catch {
+      // Do not log SQL/error messages: a database driver can include submitted personal data.
+      storageFailure = 'write-failed';
+    }
+  }
+
   try {
-    await sendNotificationEmail(data, request, env, ip);
+    await sendNotificationEmail(data, request, env, ip, enquiryId, receivedAt.toISOString());
   } catch (error) {
     const isConfigError = error instanceof ContactConfigError;
     console.error('Contact route failed:', isConfigError ? error.message : 'email delivery failed');
@@ -546,7 +578,14 @@ export async function contactRoute(request: Request, env: Env): Promise<Response
       expectsHtml,
       request,
     );
+  } finally {
+    // Owner and operational mail share a provider quota. The owner must get the first attempt,
+    // even when only one send remains; dispatching the alert earlier could lose the enquiry.
+    if (storageFailure) ctx.waitUntil(reportStorageFailure(env, { enquiryId, receivedAt, reason: storageFailure }));
   }
+
+  // Customer confirmation of receipt: off until go-live (LEADS_CUSTOMER_MAILS), never throws, never delays the answer.
+  if (lead) ctx.waitUntil(sendConfirmationIfDue(env, lead, new Date()));
 
   return expectsHtml ? redirectResponse('/kontakt/danke/') : jsonResponse({ ok: true }, 201);
 }
