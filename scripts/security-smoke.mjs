@@ -263,7 +263,7 @@ if (supabaseUrl && supabaseAnonKey) {
 
 if (failures.length > 0) {
   console.error(`\nSecurity smoke failed: ${failures.length} check(s) failed`);
-  process.exit(1);
+  process.exitCode = 1; // natural exit: process.exit() while sockets close crashes Node on Windows (libuv async.c)
 }
 
 console.log('\nSecurity smoke passed');
