@@ -409,7 +409,6 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
       : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
   const leadDetails = [
     ['Anfrage-ID', enquiryId],
-    ['Eingang', submittedAt],
     ['Kampagne', data.campaign],
     ['Angebot', data.offer],
     ['Behandlung', data.treatment],
