@@ -1,6 +1,6 @@
 # Project Status — beautyfacelift-zuerich.ch
 
-**Last updated:** 21 October 2026
+**Last updated:** 30 October 2026
 
 This file is the current status source of truth. Historical implementation notes live under `docs/archive/`.
 
@@ -8,11 +8,23 @@ Current production launch history is in [DOMAIN-LAUNCH.md](DOMAIN-LAUNCH.md). Th
 
 Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RELEASE-2026-05-08-live-update.md) and [SEO-SERVICE-HUBS-2026-05-08.md](../archive/releases/SEO-SERVICE-HUBS-2026-05-08.md). Delivery details are in [DELIVERY-2026-05-08.md](../archive/releases/DELIVERY-2026-05-08.md).
 
-## Current milestone — review repairs
+## Current state — cockpit pilot live (agency only), 30 October 2026
+
+- **Production:** `e2e53d7`. PR #62 (`codex/cockpit-pilot`, "Cockpit pilot: agency cockpit with manual recovery and guarded D1 operations") was merged into `master` on 2026-10-30. GitHub marked #55 and #56 as merged by that; #57 is superseded and closed separately (its only extra content is the login note, now in [LEAD-COCKPIT.md](LEAD-COCKPIT.md#access-application-created-2026-10-30)).
+- **Deploy:** GitHub Actions run [40996067370](https://github.com/lefteyep/beautyfacelift/actions/runs/40996067370) succeeded: `npm run validate` green, D1 migration `0001_leads.sql` applied to `beautyfacelift-leads` (the first CI migration), Worker version `01404b09-3727-4a67-81e8-ef592093e609` and the cron trigger `*/15 * * * *` deployed.
+- **Verified on production (2026-10-30):** public pages answer 200; anonymous `/admin/` and `/admin/leads/` answer 302 to `mediapaulo.cloudflareaccess.com`; D1 has the tables `leads`, `lead_events` and `d1_migrations` (the lead tables are empty).
+- **Cockpit access:** the cockpit pilot is live behind Cloudflare Access, agency-only (`mediapaulo@gmail.com`). Login is a one-time PIN by e-mail with a 2-week session (user decision 2026-10-30). The Worker secret `LEADS_SIGNING_SECRET` is set. Details: [LEAD-COCKPIT.md](LEAD-COCKPIT.md).
+- **Lead capture:** `LEADS_CAPTURE` was `off` at the 2026-10-30 deploy and is switched `on` by the configuration PR from `codex/leads-capture-on`. With capture on, public enquiries are stored in D1 before the owner e-mail is sent; a storage failure is logged and reported to `LEADS_ALERT_TO` after the owner mail attempt and never blocks the enquiry; the manual entry page `/admin/leads/new/` becomes usable. The owner e-mail is unchanged.
+- **Stays off:** reminders (`LEADS_REMINDERS=off`), data operations (`LEADS_DATA_OPERATIONS=off`) and customer confirmations (`LEADS_CUSTOMER_MAILS` unset). `LEADS_FORWARD_TO`, `LEADS_NUDGE_TO`, `LEADS_ALERT_TO`, `LEADS_DATA_OPERATORS` and `ACCESS_ALLOWED_EMAILS` are all `mediapaulo@gmail.com`. Teresa is not informed and gets no cockpit link.
+- **Next:** see [TODO.md](TODO.md): labelled test enquiry, reminders activation, remaining privacy items (deletion executor, monitoring owner), storage alert activation, campaign (user).
+
+## Review-repair milestone (21 October 2026, history)
+
+The checkpoints below are the 21 October record. The section above supersedes their deployment, authentication and "unreleased" statements.
 
 **Operating-readiness continuation:** [PR #62](https://github.com/lefteyep/beautyfacelift/pull/62), checkpoint `353e6d7`, passed [CI](https://github.com/lefteyep/beautyfacelift/actions/runs/39645495335). The [current operations record](COCKPIT-OPERATIONS-READINESS-2026-10-21.md) documents the expressly approved synthetic Cloud-D1 Time-Travel drill and full SQL-export/import proof. Both test databases pass 8/8 and match the complete expected schema/data after recovery/import; they remain preserved. The import workflow stopped on an ambiguous CLI response, so it is recorded as failed; the subsequent independent read-only full comparison confirmed the import without repeating it. The user chose to retain the storage alert as a draft: no activation or test notification. No production migration/deploy or policy/provider activation follows from this continuation.
 
-**Current checkpoint after the approved merges:** production is `d019a003` (#59/#60 deployed successfully); #61 is merged only into unreleased `codex/leads-mails-phase1` at `365f6fea`. The new local `codex/cockpit-pilot` candidate integrates current production and prepares the minimum agency workflow, safe feature gates and data-readiness evidence. See [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) for the current work record and remaining activation gates. Earlier reviewed-source statements below describe the original repair baseline.
+**Checkpoint of 21 October (superseded by the current state above):** production was `d019a003` (#59/#60 deployed successfully); #61 is merged only into unreleased `codex/leads-mails-phase1` at `365f6fea`. The new local `codex/cockpit-pilot` candidate integrates current production and prepares the minimum agency workflow, safe feature gates and data-readiness evidence. See [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) for the current work record and remaining activation gates. Earlier reviewed-source statements below describe the original repair baseline.
 
 **Post-decision procedure review:** entry-point/runbook/index/setup instructions now distinguish active Free enrollment from the explicitly draft-only cockpit Access configuration and alarm. The current runbook uses the already implemented synthetic preview/stubbed cron harness rather than the old outbound-capable local recipe. Independent read-only review found no further demonstrated data/recovery/erasure/mail code mismatch; the operator guides now name the existing exact-ID detail path and clarify that contact search excludes UUIDs. No new feature, live login or data operation was performed.
 
@@ -31,7 +43,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 | Production | https://beautyfacelift-zuerich.ch | Live on Cloudflare Workers custom domain |
 | Production www | https://www.beautyfacelift-zuerich.ch | 301 redirects to apex |
 | Temporary Worker | beautyfacelift.mediapaulo.workers.dev | Not canonical; `workers_dev=false`, live check returned 404 |
-| GitHub | https://github.com/lefteyep/beautyfacelift | Private repo |
+| GitHub | https://github.com/lefteyep/beautyfacelift | Public repo since 2026-10-30 (GitHub Actions minutes) |
 | Supabase | https://izekwngqjllaqibrwotp.supabase.co | Unreachable (NXDOMAIN) since 2026-10-06 — see Infrastructure Notes |
 
 Historical May launch details (not the current deployed Worker version):
@@ -76,10 +88,11 @@ Historical May launch details (not the current deployed Worker version):
 | Meta CAPI: the Worker accepted no event that carried the ad-visit keys (`utm_*`, `fbclid`), so ad traffic had browser events only since 2026-05-08; one shared key list now. Also: combo enquiry email subject and empty "Zeitwunsch" row (CR-3), weekly security smoke, docs refresh | PR #51, merge `d5bef5e` | Live 2026-10-20 (deploy run 39342697963); live test the same day: every server event from an ad-style visit, Lead included, answers 200 |
 | Old site `beautyfacelift.ch`: redirect map in the Worker (inert until the DNS moves) and the shutdown plan, see [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md) | PR #53, merge `bc69bd0` | Live 2026-10-20 (deploy run 39342902482) |
 | Meta campaign start-ready status, Instagram-enabled `_v2` ads (docs only, other session) | PR #52 | Draft, not merged |
-| Codex handover, plan copy and test tooling | PR #58, merge `35af1f0` | Deployment reported success on 2026-10-21; cockpit code is still unmerged |
+| Codex handover, plan copy and test tooling | PR #58, merge `35af1f0` | Deployment reported success on 2026-10-21; cockpit code was still unmerged then |
 | Release validation and operating guidance | PR #59, merge `a87b1f7` | Live; deploy run 39538508554 passed |
 | Public tracking, image metadata/lazy loading and mobile navigation repairs | PR #60, merge `d019a003` | Live; deploy run 39538764913 passed; active Worker version 30970e05 confirmed |
-| Cockpit email atomicity/idempotency and uncertain delivery | PR #61, merge `365f6fea` into cockpit branch only | Unreleased; CI run 39539049665 passed |
+| Cockpit email atomicity/idempotency and uncertain delivery | PR #61, merge `365f6fea` into cockpit branch only | CI run 39539049665 passed; in production since #62 (`365f6fea` is an ancestor of `e2e53d7`) |
+| Cockpit pilot: agency cockpit with manual recovery and guarded D1 operations | PR #62, merge `e2e53d7` | Live 2026-10-30 (deploy run 40996067370); D1 migration `0001_leads.sql` applied, Worker version `01404b09-3727-4a67-81e8-ef592093e609`; capture, reminders, data operations off at deploy |
 
 The release covers:
 - **Navigation and core pages:** new navigation with a two-column treatments menu, plus the new homepage and `/behandlungen/` overview.
@@ -109,7 +122,7 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-The review repair milestone is implemented and locally verified across isolated `codex/*` branches. PRs #55–#57 remain unreleased. The pre-D1 checklist and deferred business decisions still block cockpit release. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
+The cockpit pilot is deployed (PR #62, `e2e53d7`, 2026-10-30). Lead capture is switched on by the reviewed `codex/leads-capture-on` change (the first storage of enquiries). Reminders, data operations, customer confirmations and the studio go-live remain separate decisions; retention is decided (24 months after last contact, on the privacy page with this change); deletion executor and monitoring owner are open. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 
@@ -236,7 +249,7 @@ Copy-risk review completed across treatment pages, comparison pages, blog posts,
 | GTM / GA4 | `GTM-NVC9QKGS` / `G-4C9M8KMFQY` live after consent; server-side GA4 intentionally off. |
 | Meta | Pixel and CAPI live after consent; shared accepted event-data keys. Campaign is paused. |
 | Legacy booking/admin | Supabase reported unreachable since 2026-10-06; booking writes disabled. Retained code is not an operational staff system. |
-| D1 lead cockpit | Code exists only on unmerged #55–#57. Storage, private staff access and automation are not deployed by this documentation change. |
+| D1 lead cockpit | Deployed 2026-10-30 with #62 (`e2e53d7`): agency-only behind Cloudflare Access (one-time PIN by e-mail, 2-week session). `LEADS_CAPTURE` `on` with the `codex/leads-capture-on` PR; reminders, data operations and customer confirmations off. |
 | Stripe | Deposits were never enabled and are not part of current Treatwell booking. |
 
 Historical feature/environment tables and the March design record are preserved verbatim in [the pre-repair STATUS snapshot](../archive/reviews/2026-10-21-pre-repair/STATUS.md). They must not be used to infer current credentials or deployment readiness. No live secret inventory was performed in the review.

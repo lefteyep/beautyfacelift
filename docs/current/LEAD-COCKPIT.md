@@ -1,10 +1,12 @@
-# Lead cockpit — unreleased implementation runbook
+# Lead cockpit — runbook (agency pilot)
 
-**Pilot-candidate update:** [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) and [the pilot workflow](COCKPIT-PILOT-WORKFLOW.md) describe the current candidate. It adds protected manual capture/recovery, removes initial weekly KPIs/revenue entry, and keeps capture/reminders explicitly off. Public notification UUID/time supports reconciliation; failures use sanitized operational logs/alerts. Route tables and automation descriptions below document the earlier stack; apply the pilot gates first. Nothing is deployed by this update.
+**Status 30 October 2026: cockpit pilot deployed, agency-only.** PR #62 (`codex/cockpit-pilot`, "Cockpit pilot: agency cockpit with manual recovery and guarded D1 operations") was merged into `master` on 2026-10-30 as `e2e53d7`. GitHub marked #55 and #56 as merged by that; #57 is superseded and closed separately (its only extra content was the login note, now in [Access application](#access-application-created-2026-10-30)). Deploy run [40996067370](https://github.com/lefteyep/beautyfacelift/actions/runs/40996067370) succeeded: `npm run validate` green, D1 migration `0001_leads.sql` applied to `beautyfacelift-leads` (the first CI migration), Worker version `01404b09-3727-4a67-81e8-ef592093e609` and the cron trigger `*/15 * * * *` deployed. Verified on production on 2026-10-30: public pages answer 200; anonymous `/admin/` and `/admin/leads/` answer 302 to `mediapaulo.cloudflareaccess.com`; D1 has the tables `leads`, `lead_events` and `d1_migrations` (the lead tables are empty).
 
-**21 October 2026: IMPLEMENTED AND VERIFIED; rollout pending.** This describes the unreleased cockpit candidate, including earlier #55–#57 code; it does not claim a deployed cockpit. The user selected existing Cloudflare account login, personally completed Zero Trust Free enrollment, then explicitly retained the concrete cockpit Access configuration **as a draft only**. No new IdP/application/policy or live login test was saved/run. Follow [Access readiness](COCKPIT-ACCESS-READINESS.md); this runbook grants no activation or custom OTP authority. Before any D1 rollout complete the disclosure, retention/deletion, alerting and reconciliation gates in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md). Customer mail stays off, reminders agency-only and Teresa unexposed. Phase 2 is held.
+**Switches:** lead capture (`LEADS_CAPTURE`) is `on` with the configuration change that carries this update (it was `off` at the 2026-10-30 deploy). Reminders (`LEADS_REMINDERS`) and data operations (`LEADS_DATA_OPERATIONS`) stay `off`; customer confirmations stay off (`LEADS_CUSTOMER_MAILS` unset). Every recipient (`LEADS_FORWARD_TO`, `LEADS_NUDGE_TO`, `LEADS_ALERT_TO`, `LEADS_DATA_OPERATORS`) and `ACCESS_ALLOWED_EMAILS` is `mediapaulo@gmail.com`. Teresa is not informed and gets no cockpit link. Open before go-live: a labelled test enquiry, the reminders activation, the remaining privacy items (deletion executor, monitoring owner; retention is 24 months after last contact and stands on the privacy page since the capture-on change) and the storage alert activation; see [TODO.md](TODO.md). Phase 2 is held.
 
-The lead cockpit is a small, server-rendered tool inside the Worker for working through enquiries: who asked, who has been contacted, who booked, who came. It reads and writes the D1 database `beautyfacelift-leads`, where ingestion is attempted before the owner email. Storage failure deliberately allows that email to succeed; some accepted enquiries can therefore be missing from D1. Reconciliation/recovery must be defined before rollout (see `worker/leads/ingest.ts`).
+**Pilot scope:** [COCKPIT-PILOT-2026-10-21.md](COCKPIT-PILOT-2026-10-21.md) and [the pilot workflow](COCKPIT-PILOT-WORKFLOW.md) describe the pilot. It adds protected manual capture/recovery and removes initial weekly KPIs/revenue entry. Public notification UUID/time supports reconciliation; failures use sanitized operational logs/alerts. Route tables and automation descriptions below document the earlier stack; the pilot gates apply first.
+
+The lead cockpit is a small, server-rendered tool inside the Worker for working through enquiries: who asked, who has been contacted, who booked, who came. It reads and writes the D1 database `beautyfacelift-leads`. With capture on, public enquiries are stored in D1 before the owner e-mail is sent; a storage failure is logged and reported to `LEADS_ALERT_TO` after the owner mail attempt and never blocks the enquiry. Some accepted enquiries can therefore be missing from D1; the manual entry page `/admin/leads/new/` records or recovers them (it answers "Konfiguration unvollständig" while capture is off). The owner e-mail is unchanged (see `worker/leads/ingest.ts`).
 
 - **URL:** `https://beautyfacelift-zuerich.ch/admin/leads/`
 - **Code:** `worker/leads/` — `access.ts` (Access JWT), `csrf.ts`, `time.ts` (Zurich time), `html.ts` (layout, escaping, inline CSS), `views/list.ts`, `views/detail.ts`, `views/manual.ts`, `router.ts`; ordinary persistence in `db.ts`, separately bounded data operations in `erasure.ts`/`erasure-route.ts`.
@@ -13,14 +15,14 @@ The lead cockpit is a small, server-rendered tool inside the Worker for working 
 
 ## Who can log in
 
-The selected login design is documented but deliberately unconfigured in Access. No production cockpit policy exists:
+Two layers protect the cockpit:
 
-1. **Cloudflare Access** in front of `beautyfacelift-zuerich.ch/admin` and descendants, using **Cloudflare itself as the identity provider** with account-member restriction. The cockpit's proposed Allow policy includes only `mediapaulo@gmail.com`, with a one-hour application session and only this IdP enabled. E-mail PIN was superseded by the user's choice; preserve the existing legacy PIN provider without offering it for the cockpit. Actual setup remains draft only.
+1. **Cloudflare Access** in front of `beautyfacelift-zuerich.ch/admin` and descendants (application details in [Access application](#access-application-created-2026-10-30)). Login is a **one-time PIN by e-mail**, the session lasts **2 weeks**, and the Allow policy includes only `mediapaulo@gmail.com`.
 2. **The Worker** verifies the Access JWT itself on every `/admin/*` request (`worker/leads/access.ts`): signature (RS256) against `${ACCESS_TEAM_DOMAIN}/cdn-cgi/access/certs` (keys cached 1 h, refetched on an unknown `kid` at most once a minute; after a failed fetch every request is denied without refetching for 60 s), `iss`, `aud`, `exp` and `nbf` (60 s clock leeway), and `email` in `ACCESS_ALLOWED_EMAILS`. The header `Cf-Access-Authenticated-User-Email` is never trusted on its own. Denials are logged as `Access denied for /admin/: <reason>`, except requests without any token (bots, the security smoke). Encoded or doubled spellings of the path (`/%61dmin/`, `//admin/`) are guarded too.
 
 Anything else gets a 401 page "Nicht angemeldet." with a "Erneut anmelden" button (no automatic redirect). The legacy static pages under `/admin/` (`/admin/`, `/admin/design-system/`) are behind the same guard.
 
-The source allow-list contains only the agency address. Any later configured policy must remain agency-only until a separately approved go-live. The latest dashboard check confirms active Zero Trust Free and team domain `mediapaulo.cloudflareaccess.com`; no cockpit application was configured because the user retained it as a draft. See [Access readiness](COCKPIT-ACCESS-READINESS.md).
+The source allow-list contains only the agency address. Any later policy change must remain agency-only until a separately approved go-live. On production (checked 2026-10-30) anonymous requests to `/admin/` and `/admin/leads/` answer 302 to `mediapaulo.cloudflareaccess.com`. The 21 October planning record is [Access readiness](COCKPIT-ACCESS-READINESS.md) (history).
 
 ## Configuration
 
@@ -32,26 +34,26 @@ The source allow-list contains only the agency address. Any later configured pol
 | `LEADS_SIGNING_SECRET` | Worker secret (dashboard) | 32 random bytes as hex. Signs the CSRF tokens (and later the unsubscribe links). |
 | `ENVIRONMENT` | `wrangler.jsonc` var | `production`. The dev bypass is impossible while this is `production`. |
 | `LEADS_DEV_EMAIL` | `.dev.vars` only | Local identity for the dev bypass. Never set in production. |
-| `LEADS_CAPTURE` / `LEADS_REMINDERS` | `wrangler.jsonc` vars | Each defaults to `off`; separate reviewed activation required. |
-| `LEADS_DATA_OPERATIONS` | `wrangler.jsonc` var | Defaults to `off`; enables only the separately authorized data procedure. |
+| `LEADS_CAPTURE` | `wrangler.jsonc` var | `on` since the 2026-10-30 capture change: public forms and the manual entry page `/admin/leads/new/` store leads in D1. |
+| `LEADS_REMINDERS` | `wrangler.jsonc` var | `off`; separate reviewed activation required. |
+| `LEADS_DATA_OPERATIONS` | `wrangler.jsonc` var | `off`; enables only the separately authorized data procedure. |
 | `LEADS_DATA_OPERATORS` | `wrangler.jsonc` var | Exact agency-only mailboxes; ordinary cockpit access does not confer erasure rights. |
 
 Fail-closed behaviour:
 
-- `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` or `ACCESS_ALLOWED_EMAILS` empty → every `/admin/*` request answers 401. This is the state until the Access application exists.
+- `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` or `ACCESS_ALLOWED_EMAILS` empty → every `/admin/*` request answers 401. All three are set in `wrangler.jsonc` since the Access application exists.
 - `LEADS_SIGNING_SECRET` missing → the pages still render, every change (POST) answers 503 "Konfiguration unvollständig."
 - `LEADS_DB` not bound → 503 "Datenbank nicht verbunden."
 
-### Future setup reference — only after a changed user decision
+## Access application (created 2026-10-30)
 
-Provider selection and Free enrollment are complete. The following is the saved configuration proposal, not authority to activate it. Do not repeatedly ask to change the explicit draft-only decision. If the user later authorizes setup, recheck actual account/application/provider state first and preserve unrelated settings.
-
-1. Follow [Access readiness](COCKPIT-ACCESS-READINESS.md): new **Cloudflare** identity provider, **Restrict to account members On**. Preserve the legacy PIN provider; no membership invitation or password/MFA change.
-2. Self-hosted public application for `beautyfacelift-zuerich.ch`, path `admin`, custom duration **1h**. Disable Accept all identity providers; select only Cloudflare. Keep client-session authentication off and shared/global settings unchanged.
-3. Policy: **Allow**, include **Emails**: exactly `mediapaulo@gmail.com`; policy duration **Same as application**. Review before saving; no domain-wide or Everyone rule.
-4. After authorized creation, verify the application's **AUD** and actual issuer, then prepare `ACCESS_AUD` and `ACCESS_TEAM_DOMAIN` (`https://mediapaulo.cloudflareaccess.com`, rechecked against the account) together in a reviewed `wrangler.jsonc` change. Keep `ACCESS_ALLOWED_EMAILS` identical to the policy. Until then team/AUD remain empty and the origin guard denies access.
-5. Confirm/provision `LEADS_SIGNING_SECRET` only through the approved secret workflow without printing or committing its value. It is not a plain variable.
-6. Actual login/denial/revocation tests and separate migration/merge/deployment approval remain required. A configuration PR alone grants none of them.
+- Zero Trust team domain `https://mediapaulo.cloudflareaccess.com` (Zero Trust Free).
+- Login method: One-time PIN by e-mail (Cloudflare Access sends a code from noreply@notify.cloudflare.com; the account-wide One-time PIN provider is used). The "Cloudflare" account-login provider created the same day is not used by the cockpit (user decision 2026-10-30).
+- Application "Beauty Face Lift – Agenturcockpit", id `841aa372-3175-4f04-a96e-4b68b61e2656`, self-hosted, destination `beautyfacelift-zuerich.ch/admin`, session 2 weeks (user decision 2026-10-30, changed from 1 h), only the One-time PIN provider, hidden from the App Launcher. AUD `25cd22da8935572227bcc67375d4a4450edf41a2840eb6f072c4ed82a30a490f` (`ACCESS_AUD`).
+- Policy "Agentur – nur mediapaulo", id `ee29d487-c93d-45f7-9bac-fa584b8c66b4`: Allow, Emails = `mediapaulo@gmail.com`, duration same as the application. `ACCESS_ALLOWED_EMAILS` matches it.
+- Since the application exists, every `/admin` page on production asks for the Access login, whatever the deployed Worker serves behind it.
+- The Worker secret `LEADS_SIGNING_SECRET` is set (dashboard secret, never a plain variable or a committed value).
+- Any change to the login method, session, policy or allowed addresses is a separate, reviewed decision; keep `ACCESS_ALLOWED_EMAILS` identical to the policy.
 
 ## Pages and actions
 
@@ -109,7 +111,7 @@ Both mails go through `sendEmail()` in `worker/email/resend.ts` (Resend API, sen
 
 ## Agency procedure for uncertain delivery
 
-This procedure is required before rollout; an alert/reconciliation owner still needs to be assigned. The repair candidate records uncertain delivery as `mail_failed` with `delivery: uncertain` and `retry: manual`, retaining the send reservation. The stable provider key does not authorize unlimited or blind retries.
+This procedure is required before reminders or customer confirmations are switched on; an alert/reconciliation owner still needs to be assigned. The repair candidate records uncertain delivery as `mail_failed` with `delivery: uncertain` and `retry: manual`, retaining the send reservation. The stable provider key does not authorize unlimited or blind retries.
 
 1. Alert the responsible agency operator; record lead ID, mail kind and time without copying personal data into public logs/issues.
 2. Inspect the correct project's provider delivery record using the logical key, time and any returned message ID. Do not use another client's Resend connection. If accepted/delivered, preserve the reservation and document the reconciliation.
@@ -151,6 +153,6 @@ The harnesses stub `globalThis.fetch`; they never call Cloudflare or Resend and 
 
 ## Go-live remains a separate decision
 
-Do not execute the previous automatic go-live sequence. The current gates are in [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) and [LEAD-COCKPIT-PLAN.md](LEAD-COCKPIT-PLAN.md): repaired/verified code, data disclosure/retention/deletion and reconciliation readiness, a chosen/tested staff authentication path, and explicit rollout approval.
+The agency pilot is deployed; go-live for the studio is not. Do not execute the previous automatic go-live sequence. The remaining gates are in [TODO.md](TODO.md), [REPAIR-2026-10-21.md](REPAIR-2026-10-21.md) and [LEAD-COCKPIT-PLAN.md](LEAD-COCKPIT-PLAN.md): data disclosure/retention/deletion and monitoring decisions, reconciliation readiness, a tested staff login for the studio, and explicit go-live approval.
 
-Until a separately tested go-live is approved, keep customer confirmations off, reminders agency-only, staff access agency-only, no cockpit link in owner emails, and no Teresa test mail. Introducing Teresa, enabling customer email or changing recipient policy must not happen automatically with a merge. The original runbook/go-live checklist is preserved in [the PR57 snapshot](../archive/reviews/2026-10-21-pre-repair/LEAD-COCKPIT-PR57.md).
+Until a separately tested go-live is approved, keep customer confirmations off, reminders off (agency-only once activated), staff access agency-only, no cockpit link in owner emails, the studio owner (Teresa) not informed, and no Teresa test mail. Introducing Teresa, enabling customer email or changing recipient policy must not happen automatically with a merge. The original runbook/go-live checklist is preserved in [the PR57 snapshot](../archive/reviews/2026-10-21-pre-repair/LEAD-COCKPIT-PR57.md).
