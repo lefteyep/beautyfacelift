@@ -16,7 +16,7 @@ Latest release notes: [RELEASE-2026-05-08-live-update.md](../archive/releases/RE
 - **Cockpit access:** the cockpit pilot is live behind Cloudflare Access, agency-only (`mediapaulo@gmail.com`). Login is a one-time PIN by e-mail with a 2-week session (user decision 2026-10-30). The Worker secret `LEADS_SIGNING_SECRET` is set. Details: [LEAD-COCKPIT.md](LEAD-COCKPIT.md).
 - **Lead capture:** `LEADS_CAPTURE` was `off` at the 2026-10-30 deploy and is switched `on` by the configuration PR from `codex/leads-capture-on`. With capture on, public enquiries are stored in D1 before the owner e-mail is sent; a storage failure is logged and reported to `LEADS_ALERT_TO` after the owner mail attempt and never blocks the enquiry; the manual entry page `/admin/leads/new/` becomes usable. The owner e-mail is unchanged.
 - **Stays off:** reminders (`LEADS_REMINDERS=off`), data operations (`LEADS_DATA_OPERATIONS=off`) and customer confirmations (`LEADS_CUSTOMER_MAILS` unset). `LEADS_FORWARD_TO`, `LEADS_NUDGE_TO`, `LEADS_ALERT_TO`, `LEADS_DATA_OPERATORS` and `ACCESS_ALLOWED_EMAILS` are all `mediapaulo@gmail.com`. Teresa is not informed and gets no cockpit link.
-- **Next:** see [TODO.md](TODO.md): labelled test enquiry, reminders activation, privacy decisions (data owner, retention, deletion, monitoring), storage alert activation, campaign (user).
+- **Next:** see [TODO.md](TODO.md): labelled test enquiry, reminders activation, remaining privacy items (deletion executor, monitoring owner), storage alert activation, campaign (user).
 
 ## Review-repair milestone (21 October 2026, history)
 
@@ -122,7 +122,7 @@ Live checks on 2026-10-07:
 
 ## Pending Release
 
-The cockpit pilot is deployed (PR #62, `e2e53d7`, 2026-10-30). Lead capture is switched on by the reviewed `codex/leads-capture-on` change (the first storage of enquiries). Reminders, data operations, customer confirmations and the studio go-live remain separate decisions; the privacy decisions (data owner, retention, deletion, monitoring) are open. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
+The cockpit pilot is deployed (PR #62, `e2e53d7`, 2026-10-30). Lead capture is switched on by the reviewed `codex/leads-capture-on` change (the first storage of enquiries). Reminders, data operations, customer confirmations and the studio go-live remain separate decisions; retention is decided (24 months after last contact, on the privacy page with this change); deletion executor and monitoring owner are open. Production changes require a reviewed PR and explicit merge/deploy approval (see `AGENTS.md`).
 
 ## Infrastructure Notes (2026-10-06)
 

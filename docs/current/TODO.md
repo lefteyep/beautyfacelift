@@ -9,7 +9,7 @@
 - [ ] **Capture on (this config PR, `codex/leads-capture-on`):** `LEADS_CAPTURE` `on`; `LEADS_REMINDERS` and `LEADS_DATA_OPERATIONS` stay `off`, `LEADS_CUSTOMER_MAILS` stays unset, recipients unchanged. Needs review and the user's explicit merge/deploy approval.
 - [ ] Labelled test enquiry after capture is live: the lead appears in the cockpit and the owner e-mail arrives as before.
 - [ ] Reminders activation (`LEADS_REMINDERS`), a separate reviewed change; recipients stay agency-only.
-- [ ] Privacy decisions for stored leads: data owner, retention, deletion and monitoring.
+- [ ] Privacy for stored leads: retention decided 2026-10-30 (24 months after last contact, earlier on request) and published on the privacy page (`src/pages/datenschutz/index.astro`, section 4) with the capture-on PR; the agency is described without name; IP/User-Agent are stated as not stored in D1. Still open: who executes deletions (manual procedure, `LEADS_DATA_OPERATIONS` off) and the monitoring owner.
 - [ ] Storage alert activation (the alert is still a draft).
 - [ ] Campaign launch decision (user).
 

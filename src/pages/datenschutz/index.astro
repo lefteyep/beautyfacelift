@@ -49,18 +49,21 @@ const breadcrumbs = [
             </p>
 
             <h2 id="abschnitt-2">2. Erhebung und Verarbeitung personenbezogener Daten</h2>
-            <p>Wir erheben personenbezogene Daten nur dann, wenn Sie uns diese im Rahmen einer Kontaktaufnahme oder Anfrage freiwillig mitteilen. Dies umfasst:</p>
+            <p>Wir erheben personenbezogene Daten, wenn Sie uns diese im Rahmen einer Kontaktaufnahme oder Anfrage mitteilen. Dies umfasst:</p>
             <ul>
                 <li>Name</li>
                 <li>E-Mail-Adresse</li>
                 <li>Telefonnummer</li>
-                <li>Angaben aus dem Kontaktformular (Thema, gewünschte Behandlung, bevorzugter Kontaktweg, Wunschtermin, Nachricht)</li>
+                <li>Angaben aus dem Kontaktformular (Thema, gewünschte Behandlung, bevorzugter Kontaktweg, Erreichbarkeit, Wunschtermin, Nachricht, freiwillig mitgeteilte Hautziele)</li>
+                <li>Herkunft Ihrer Anfrage (aufgerufene Seite, verweisende Seite, Kampagnenparameter und Klickkennungen aus dem Link, über den Sie zu uns gelangt sind; siehe Abschnitt 4)</li>
             </ul>
 
             <h2 id="abschnitt-3">3. Zweck der Datenverarbeitung</h2>
             <p>Ihre Daten werden ausschliesslich für folgende Zwecke verwendet:</p>
             <ul>
                 <li>Bearbeitung Ihrer Termin- und Beratungsanfragen</li>
+                <li>Nachverfolgung und Dokumentation der Bearbeitung Ihrer Anfrage in unserer internen Anfragendatenbank</li>
+                <li>Auswertung, über welche Seiten und Kampagnen Anfragen bei uns eingehen</li>
                 <li>Kommunikation bezüglich Ihres Termins (Bestätigung, Erinnerung, Änderung, Stornierung)</li>
                 <li>Beantwortung Ihrer Anfragen</li>
                 <li>Spam- und Missbrauchsschutz für unser Kontaktformular</li>
@@ -68,8 +71,10 @@ const breadcrumbs = [
             </ul>
 
             <h2 id="abschnitt-4">4. Datenspeicherung</h2>
-            <p>Online-Termine buchen Sie über die Plattform <strong>Treatwell</strong>. Wenn Sie über unsere Website zur Buchung wechseln, gelten für die Buchung die Datenschutzbestimmungen von Treatwell. Auf dieser Website betreiben wir keine eigene Buchungsdatenbank und verarbeiten keine Zahlungsdaten.</p>
+            <p>Online-Termine buchen Sie über die Plattform <strong>Treatwell</strong>. Wenn Sie über unsere Website zur Buchung wechseln, gelten für die Buchung die Datenschutzbestimmungen von Treatwell. Auf dieser Website betreiben wir keine eigene Online-Buchung und verarbeiten keine Zahlungsdaten.</p>
             <p>Kontaktanfragen werden serverseitig verarbeitet und per E-Mail an uns zugestellt. Dabei werden Ihre Formularangaben, die IP-Adresse, der User-Agent sowie der Zeitpunkt der Anfrage zur Missbrauchsprävention und Bearbeitung der Nachricht verarbeitet.</p>
+            <p>Zusätzlich speichern wir Ihre Anfrage in einer internen Anfragendatenbank (Cloudflare D1), damit wir Anfragen zuverlässig beantworten und deren Bearbeitung nachvollziehen können. Gespeichert werden Ihre Formularangaben (Name, E-Mail-Adresse, Telefonnummer, Thema, gewünschte Behandlung, bevorzugter Kontaktweg, Erreichbarkeit, Wunschtermin, Nachricht, freiwillig mitgeteilte Hautziele), der Zeitpunkt der Anfrage, die angefragte Aktion oder Kampagne, die Seite, über die Sie uns kontaktiert haben, die verweisende Seite sowie allfällige Kampagnenparameter und Klickkennungen aus dem Link, über den Sie auf unsere Website gelangt sind. IP-Adresse und User-Agent werden nicht in der Anfragendatenbank gespeichert. Im Rahmen der Bearbeitung können Kontaktversuche, der Bearbeitungsstand, vereinbarte Termine, der dokumentierte Ausgang eines Termins und notwendige Notizen ergänzt werden; Testeinträge und Spam können als solche markiert werden. Änderungen werden in einer Verlaufshistorie festgehalten. Wiederholte Anfragen innerhalb von 30 Tagen können anhand übereinstimmender Kontaktdaten derselben Person zugeordnet werden. Anfragen, die uns auf anderem Weg erreichen (zum Beispiel telefonisch), können manuell in der Anfragendatenbank erfasst werden.</p>
+            <p>Die Anfragen werden von uns und von einer von uns beauftragten Agentur in unserem Auftrag bearbeitet; Zugriff auf die Anfragendatenbank haben ausschliesslich die dafür berechtigten Personen. Wir löschen Anfragen spätestens 24 Monate nach dem letzten Kontakt, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen; auf Ihren Wunsch löschen wir Ihre Anfrage früher (siehe Abschnitt 8). Technische Sicherungskopien des Datenbankanbieters werden nach dessen Fristen überschrieben.</p>
 
             <h2 id="abschnitt-5">5. Cookies und Tracking</h2>
             <p>Unsere Website verwendet technisch notwendige Funktionen für Betrieb, Sicherheit und Formularschutz. Marketing- und Analyse-Technologien laden wir erst nach Ihrer Einwilligung:</p>
@@ -88,7 +93,7 @@ const breadcrumbs = [
             <h2 id="abschnitt-7">7. Drittanbieter</h2>
             <p>Wir nutzen folgende Drittanbieter zur Erbringung unserer Dienste:</p>
             <ul>
-                <li><strong>Cloudflare:</strong> Hosting und Bereitstellung der Website (USA/EU)</li>
+                <li><strong>Cloudflare:</strong> Hosting und Bereitstellung der Website sowie Betrieb der internen Anfragendatenbank (Cloudflare D1) (USA/EU)</li>
                 <li><strong>Cloudflare Turnstile:</strong> Bot- und Missbrauchsschutz für das Kontaktformular</li>
                 <li><strong>Treatwell:</strong> Online-Terminbuchung (es gelten die Datenschutzbestimmungen von Treatwell)</li>
                 <li><strong>Resend:</strong> Versand von E-Mail-Benachrichtigungen und Kontaktanfragen (USA)</li>

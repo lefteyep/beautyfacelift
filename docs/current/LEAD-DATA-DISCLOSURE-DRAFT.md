@@ -1,5 +1,7 @@
 # D1 lead-store disclosure — review draft
 
+**Update 2026-10-30:** a shortened version of this draft is on the public privacy page (`src/pages/datenschutz/index.astro`, section 4) with the capture-on PR: retention 24 months after last contact with earlier deletion on request (user decision 2026-10-30), the agency described without name, IP/User-Agent stated as not stored in D1, no promise of immediate deletion from provider backups. The review table below stays the open checklist (deletion executor, monitoring owner, contract/DPA evidence).
+
 **NOT APPROVED. NOT PUBLISHED. NOT A STATEMENT THAT D1 LEAD STORAGE IS LIVE.**
 
 Prepared 21 October 2026 from the repository's [current privacy page](../../src/pages/datenschutz/index.astro), [lead schema](../../worker/migrations/0001_leads.sql), [ingest path](../../worker/leads/ingest.ts) and [cockpit plan](LEAD-COCKPIT-PLAN.md). This is proposed copy for review before first D1 persistence, not an edit to the public page. No retention duration, new consent or go-live decision is implied. The text must be reconciled with the final approved processing and [data operations procedure](LEAD-DATA-OPERATIONS.md).
