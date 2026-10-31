@@ -212,3 +212,12 @@ The generated Page B face remains fully inside the 4:5 desktop arch and 16:9 pho
 One small page-code change was necessary to satisfy the full-face crop check for the protected Page A photo: its existing pre-cropped centre band cut off the client's chin. The phone rendition now retains the intact portrait, and the same 2:1 frame uses `object-position: 50% 65%`. Both forehead and chin remain visible. The original real image, desktop arch, page copy and offer details are unchanged. No Page B markup changes were required.
 
 The short [2026-10 Imagery update](AQUAFACIAL-LANDING-PAGE-UPDATE.md#2026-10-imagery) lists the changed files and preserved assets. Work remains on `codex/lp-imagery` for a draft PR against `master`; no merge or deployment is part of this task.
+
+## Carbon series: `/lp/carbon-microneedling/` and the November 2026 ads
+
+31 October 2026, campaign "Carbon-Peeling + Microneedling, CHF 175 statt CHF 250, gültig bis 30. November 2026". All images are generated; there are no real photos for this treatment. Teresa's face is never generated; the practitioner appears only as gloved hands. The model produces no text; offer, price and end date are added by `design/ads/2026-11-carbon/render_ads.py`. These images illustrate an appointment and are no evidence of treatment outcomes.
+
+- **Tool:** OpenAI Playground, model `gpt-image-2.5-flare`, custom sizes 1088 × 1360 (4:5) and 1088 × 1088 (1:1), PNG.
+- **Prompts:** [design/ads/2026-11-carbon/prompts.md](../../design/ads/2026-11-carbon/prompts.md). Round 1 (M1–M4, quality xhigh, 11 candidates) was judged not natural enough by the user; round 2 ("v2", quality max, 5 candidates) uses a reportage-style realism block, no colour codes, a brushed silver-grey metal pen with a transparent cartridge, and two references: the generated round-1 image `maske_20261031_1.png` and a crop showing only the device from a reference photo the user supplied (the photo itself shows other people and is not committed).
+- **Selection, files, costs, ad texts:** [design/ads/2026-11-carbon/README.md](../../design/ads/2026-11-carbon/README.md). Every candidate PNG is kept unchanged in `design/ads/2026-11-carbon/raw/`.
+- **Page images** (WebP quality 82, 4:5, each under 100 KB): `src/assets/lp/carbon/hero.webp`, `methode-1.webp` (Carbon lotion), `methode-2.webp` (microneedling pen), `methode-3.webp` (still life of the treatment table), exported by `design/ads/2026-11-carbon/export_page_images.py`.
