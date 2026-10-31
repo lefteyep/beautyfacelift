@@ -5,10 +5,12 @@ import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image, getImage } from 'astro:assets';
 // Images (user decisions 2026-10-31): the Carbon series from PR #67 (src/assets/lp/carbon/, generated with
 // Teresa's consent, see docs/current/LP-IMAGE-PROMPTS.md), the consented Aquafacial-series photos for the
-// consultation and the Microneedling close-up, and Teresa's real portrait. Not used: hero.webp (nearly the
+// consultation and the Microneedling close-up (also the hero's second frame), and Teresa's real portrait. Not used: hero.webp (nearly the
 // same scene as methode-1) and methode-2.webp (the close-up below shows the Microneedling pen with Teresa).
 // Hero (4:5 arch; on phones a square band, because Teresa's face sits in the upper third and the client's
 // face with the Carbon lotion in the lower third, which a 16:9 band cannot hold). Also the schema image.
+// Since round 2 (user, 2026-10-31) the arch crossfades to the Microneedling close-up; this frame stays the
+// first paint and the preloaded LCP image.
 import heroCarbonImage from '../../../assets/lp/carbon/hero-teresa.webp';
 import heroCarbonUrl from '../../../assets/lp/carbon/hero-teresa.webp?url';
 // Included (skin analysis and consultation). Also the Open Graph image: the layout crops the share image to
@@ -20,6 +22,10 @@ import microneedlingStepImage from '../../../assets/lp/aquafacial/microneedling-
 import nachsorgeStepImage from '../../../assets/lp/carbon/methode-3.webp';
 // Trust block: Teresa's real portrait, unedited.
 import teresaPortraitImage from '../../../assets/marketing/teresa_portrait.jpg';
+// Studio map (user, 2026-10-31: an image instead of the consent-gated Google embed). Rendered once from
+// OpenStreetMap tiles (ODbL: the credit line under the image stays), Bahnhofstrasse 94 at 47.37598, 8.53968.
+// No live tiles, no cookies, no consent; the image links to Google Maps.
+import mapImage from '../../../assets/lp/carbon/map-bahnhofstrasse-94.webp';
 import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 import { TREATWELL_REVIEWS } from './_reviews';
 
@@ -35,7 +41,8 @@ const TREATWELL_PROMO_HINT = `Treatwell zeigt den Aktionspreis von CHF ${PROMO_P
 // Treatwell: Carbon Laser Peeling + Microneedling, 90 Min.
 const DURATION_LABEL = '90 Min.';
 // Last day of the campaign offer. Swiss price-indication rules: a "statt" price must be time-limited.
-// Change only this ISO date; the visible label, FAQ 1, the closing band and the schema follow it.
+// Change only this ISO date; FAQ 1, the closing band, the meta description and the schema follow it.
+// The hero price line no longer shows the date (user, 2026-10-31, round 2): it says «nur für kurze Zeit».
 const OFFER_VALID_UNTIL = '2026-11-30';
 // "30. November 2026", with a no-break space so the day never stands alone at a line end.
 const OFFER_VALID_UNTIL_LABEL = new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
@@ -46,10 +53,12 @@ const OFFER_SLUG = 'carbon-microneedling-aktion';
 // The campaign's goal is a booking (user, 2026-10-31): every primary CTA goes through the /termin/
 // bridge to Treatwell. The request form is the secondary path for questions first; WhatsApp sits in
 // the closing band and the floating disc.
-const BOOKING_CTA_LABEL = 'Jetzt auf Treatwell buchen';
-const STICKY_CTA_LABEL = 'Jetzt buchen';
-const LEAD_CTA_PROMPT = 'Lieber zuerst Fragen klären?';
-const LEAD_CTA_LABEL = 'Unverbindlich anfragen';
+const BOOKING_CTA_LABEL = 'Jetzt Termin buchen';
+const STICKY_CTA_LABEL = 'Jetzt Termin buchen';
+const LEAD_CTA_PROMPT = 'Noch unsicher?';
+const LEAD_CTA_LABEL = 'Beratung anfragen';
+// Small line above the price (user, 2026-10-31, round 2). The duration stays in «Das ist inbegriffen» and FAQ 1.
+const OFFER_TAG = 'Aktion · nur für kurze Zeit';
 const SUBMIT_LABEL = 'Unverbindlich Termin anfragen';
 const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen';
 const BOOKING_SERVICE = 'Carbon Microneedling';
@@ -73,7 +82,6 @@ const lpStepSizes = '(min-width: 1320px) 300px, (min-width: 901px) 24vw, (min-wi
 // Word joiner after the en dash keeps "24–48" on one line.
 const HOURS_24_48 = '24–⁠48 Stunden';
 const studioAddress = `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}`;
-const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Beauty Face Lift ${studioAddress}`)}&output=embed`;
 const googleMapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(studioAddress)}`;
 
 const lpHeroPreload = await getImage({
@@ -122,11 +130,12 @@ const steps = [
   },
 ];
 
-// Treatment goals (neutral framing, cautious claims; results vary).
+// Treatment goals (goal framing, not personal attributes; cautious claims; results vary). Copy rewritten on the
+// user's request (2026-10-31, round 2); only the three goals the page already named (Poren, Hautbild, Teint).
 const goalItems = [
-  { title: 'Feiner wirkende Poren', text: 'Das Carbon-Peeling kann die Haut optisch klären und Poren feiner wirken lassen.' },
-  { title: 'Ebenmässigere Textur', text: 'Microneedling kann die natürliche Hauterneuerung und ein glatter wirkendes Hautbild unterstützen.' },
-  { title: 'Frischerer Teint', text: 'Direkt nach der Behandlung kann die Haut frischer, klarer und gepflegter wirken.' },
+  { title: 'Feiner wirkende Poren', text: 'Das Carbon-Peeling kann die Haut optisch klären – Poren können dadurch feiner wirken.' },
+  { title: 'Glatter wirkendes Hautbild', text: 'Microneedling kann die natürliche Hauterneuerung unterstützen und so zu einem ebenmässiger wirkenden Hautbild beitragen.' },
+  { title: 'Frischer wirkender Teint', text: 'Schon direkt nach der Sitzung kann die Haut frischer, klarer und gepflegter wirken.' },
 ];
 
 // Verbatim Treatwell reviews (./_reviews.ts): six in view, the rest behind a button the script adds,
@@ -163,7 +172,7 @@ const faqs = [
   },
   {
     q: 'Kann ich direkt online buchen?',
-    a: 'Ja, das ist der einfachste Weg: Über «Jetzt auf Treatwell buchen» wählen Sie Ihren Termin direkt online. Haben Sie vorher Fragen, senden Sie unverbindlich eine Anfrage über das Formular – Teresa Stimac meldet sich persönlich.',
+    a: 'Ja, das ist der einfachste Weg: Über «Jetzt Termin buchen» wählen Sie Ihren Termin direkt online auf Treatwell. Haben Sie vorher Fragen, senden Sie unverbindlich eine Anfrage über das Formular – Teresa Stimac meldet sich persönlich.',
   },
   {
     q: 'Kostet die Anfrage über das Formular etwas?',
@@ -244,16 +253,17 @@ const structuredData = {
           <p class="eyebrow eyebrow--rule lp-eyebrow">Aktion: Carbon-Peeling + Microneedling in Zürich</p>
           <h1 id="lp-hero-title" class="lp-title">Carbon-Peeling + Microneedling: zwei Behandlungen in einer Sitzung</h1>
           <p class="lp-subtitle">
-            Das Carbon-Peeling kann die Haut optisch klären, das Microneedling die natürliche Hauterneuerung
-            unterstützen – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich.
+            Das Carbon-Peeling kann das Hautbild klären, das Microneedling die natürliche Hauterneuerung unterstützen –
+            Teresa Stimac stimmt beides an der Bahnhofstrasse&nbsp;94 in Zürich persönlich auf Ihre Haut ab.
           </p>
 
           <p class="lp-hero-offer">
-            <span class="lp-hero-offer-label">Aktion · {DURATION_LABEL}</span>
-            <span class="lp-hero-offer-price">CHF {PROMO_PRICE}.–</span>
-            <span class="lp-hero-offer-old"><span aria-hidden="true">· </span>statt CHF {REGULAR_PRICE}.–</span>
-            <span class="lp-hero-offer-old lp-hero-offer-save"><span aria-hidden="true">· </span>{SAVINGS_LABEL}</span>
-            <span class="lp-hero-offer-until">Angebot gültig bis {OFFER_VALID_UNTIL_LABEL}</span>
+            <span class="lp-hero-offer-label">{OFFER_TAG}</span>
+            <span class="lp-hero-offer-prices">
+              <span class="lp-hero-offer-price">CHF {PROMO_PRICE}.–</span>
+              <span class="lp-hero-offer-old">statt <s class="lp-strike">CHF {REGULAR_PRICE}.–</s></span>
+            </span>
+            <span class="lp-hero-offer-save">{SAVINGS_LABEL}</span>
           </p>
 
           <div class="lp-hero-ctas">
@@ -275,7 +285,20 @@ const structuredData = {
             loading="eager"
             decoding="async"
             fetchpriority="high"
+            class="lp-hero-frame lp-hero-frame--carbon"
             alt="Teresa Stimac trägt die Carbon-Lotion mit dem Pinsel auf"
+          />
+          <Image
+            src={microneedlingStepImage}
+            widths={lpHeroWidths}
+            sizes={lpHeroSizes}
+            format="webp"
+            quality={lpHeroQuality}
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            class="lp-hero-frame lp-hero-frame--needling"
+            alt="Microneedling an der Wange mit dem Microneedling-Pen"
           />
         </figure>
       </div>
@@ -318,9 +341,9 @@ const structuredData = {
     <section class="lp-section lp-section--rule lp-goals" aria-labelledby="lp-goals-title">
       <div class="container">
         <div class="lp-section-head">
-          <h2 id="lp-goals-title" class="lp-section-title">Typische Behandlungsziele</h2>
+          <h2 id="lp-goals-title" class="lp-section-title">Was die Behandlung bewirken kann</h2>
           <p class="lp-section-lead">
-            Das Ziel ist ein ruhigeres, gepflegteres Hautbild. Weil jede Haut anders reagiert, wird das Ergebnis vor Ort ehrlich eingeordnet.
+            Jede Haut reagiert anders. Was für Sie realistisch ist, klärt Teresa Stimac vor der Behandlung mit Ihnen.
           </p>
         </div>
         <ul class="lp-rows">
@@ -408,8 +431,8 @@ const structuredData = {
     <section class="lp-section lp-section--rule lp-reviews" aria-labelledby="lp-reviews-title" data-reviews>
       <div class="container">
         <div class="lp-section-head">
-          <h2 id="lp-reviews-title" class="lp-section-title">Bewertungen auf Treatwell</h2>
-          <p class="lp-section-lead">4,8 aus 260+ Bewertungen. Eine Auswahl, wörtlich übernommen.</p>
+          <h2 id="lp-reviews-title" class="lp-section-title">Echte Kundenerfahrungen</h2>
+          <p class="lp-section-lead">4,8 aus 260+ Bewertungen auf Treatwell. Eine Auswahl, wörtlich übernommen.</p>
         </div>
         <ul class="lp-reviews-list" id="treatwell-reviews">
           {reviewsToShow.map((review, index) => (
@@ -544,7 +567,7 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- 8 · Studio and directions; the map loads only on request (≈500 KB of scripts, data to Google) -->
+    <!-- 8 · Studio and directions; a static map image (rendered once from OpenStreetMap tiles) that links to Google Maps -->
     <section class="lp-section lp-section--rule lp-location" id="anfahrt" aria-labelledby="lp-location-title">
       <div class="container lp-location-grid">
         <div class="lp-location-copy">
@@ -584,11 +607,28 @@ const structuredData = {
           </a>
         </div>
 
-        <div class="lp-map-panel" id="studio-map" data-map-embed={googleMapsEmbedUrl}>
-          <div class="lp-map-placeholder" data-map-placeholder>
-            <button type="button" class="btn btn-secondary" data-map-load data-button-location="location_map_load">Karte laden</button>
-            <p class="lp-map-note">Beim Laden der Karte werden Daten an Google übertragen.</p>
-          </div>
+        <div class="lp-map" id="studio-map">
+          <a
+            class="lp-map-panel"
+            href={googleMapsDirectionsUrl}
+            target="_blank"
+            rel="noopener"
+            data-track-contact="maps"
+            data-source="carbon_location"
+            data-button-location="location_map"
+          >
+            <Image
+              src={mapImage}
+              widths={[480, 720, 900]}
+              sizes={lpHalfSizes}
+              format="webp"
+              quality={72}
+              alt="Kartenausschnitt: Bahnhofstrasse 94 in Zürich, wenige Gehminuten vom Hauptbahnhof – Route in Google Maps öffnen"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <p class="lp-map-credit"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap-Mitwirkende</a></p>
         </div>
       </div>
     </section>
@@ -597,7 +637,7 @@ const structuredData = {
     <section class="lp-final-dark on-dark" aria-labelledby="lp-final-title">
       <div class="lp-final-inner">
         <div class="lp-final-copy">
-          <h2 id="lp-final-title" class="lp-final-title">Carbon-Peeling + Microneedling für CHF&nbsp;{PROMO_PRICE}.– statt CHF&nbsp;{REGULAR_PRICE}.–</h2>
+          <h2 id="lp-final-title" class="lp-final-title">Carbon-Peeling + Microneedling für CHF&nbsp;{PROMO_PRICE}.– statt <s class="lp-strike">CHF&nbsp;{REGULAR_PRICE}.–</s></h2>
           <p class="lp-final-lead">
             Das Angebot gilt bis {OFFER_VALID_UNTIL_LABEL}. Buchen Sie Ihren Termin direkt online – Teresa Stimac stimmt die Behandlung persönlich
             auf Ihre Haut ab.
@@ -616,13 +656,13 @@ const structuredData = {
 
     <div class="lp-mobile-sticky on-dark" role="complementary" aria-label="Carbon-Peeling + Microneedling buchen" data-mobile-sticky inert>
       <div class="lp-mobile-sticky-offer">
-        <span>CHF {PROMO_PRICE} statt CHF {REGULAR_PRICE}</span>
+        <span>CHF {PROMO_PRICE} statt <s class="lp-strike">CHF {REGULAR_PRICE}</s></span>
         <strong>Carbon-Peeling + Microneedling</strong>
       </div>
       <a href={bookingHref} class="btn lp-mobile-sticky-cta" data-treatment={BOOKING_SERVICE} data-button-location="sticky_booking">{STICKY_CTA_LABEL}</a>
     </div>
 
-    <WhatsAppButton variant="sticky" message={whatsappMessage} source="carbon_floating_whatsapp" label="Per WhatsApp anfragen" />
+    <WhatsAppButton variant="sticky" tone="whatsapp" reveal="page" message={whatsappMessage} source="carbon_floating_whatsapp" label="Per WhatsApp anfragen" />
   </main>
 
   <script>
@@ -860,9 +900,10 @@ const structuredData = {
       });
     }
 
-    // Floating UI rules, as on /lp/aquafacial-microneedling/: the sticky bar appears once the hero has left the
-    // viewport; the floating WhatsApp disc after 25 % scroll depth (WhatsAppButton). Both step aside
-    // while the lead form is on screen and stay hidden while the consent banner is open (CSS).
+    // Floating UI rules: the sticky bar and the floating WhatsApp disc appear once the hero has left the
+    // viewport (the disc earlier than on /lp/aquafacial-microneedling/, where it waits for 25 % scroll depth;
+    // user, 2026-10-31). Both step aside while the lead form is on screen and stay hidden while the consent
+    // banner is open (CSS). The disc is revealed here, not by WhatsAppButton (reveal="page").
     function initFloatingUi() {
       const body = document.body;
       const hero = document.querySelector('[data-lp-hero]');
@@ -874,6 +915,7 @@ const structuredData = {
       function syncSticky() {
         const visible = pastHero && !formInView;
         body.classList.toggle('lp-sticky-visible', visible);
+        body.classList.toggle('lp-wa-scrolled', pastHero);
         if (sticky instanceof HTMLElement) sticky.inert = !visible;
       }
 
@@ -911,29 +953,9 @@ const structuredData = {
       });
     }
 
-    // Click-to-load map, as on /kontakt/.
-    function initMap() {
-      document.querySelectorAll<HTMLButtonElement>('[data-map-load]').forEach((button) => {
-        button.addEventListener('click', () => {
-          const panel = button.closest<HTMLElement>('[data-map-embed]');
-          if (!panel) return;
-          const frame = document.createElement('iframe');
-          frame.title = 'Karte mit Beauty Face Lift an der Bahnhofstrasse 94 in Zürich';
-          frame.src = panel.dataset.mapEmbed || '';
-          frame.referrerPolicy = 'no-referrer-when-downgrade';
-          frame.allowFullscreen = true;
-          frame.loading = 'lazy';
-          panel.querySelector('[data-map-placeholder]')?.remove();
-          panel.appendChild(frame);
-          frame.focus();
-        });
-      });
-    }
-
     initLeadForm();
     initLeadScroll();
     initFloatingUi();
-    initMap();
     initReviews();
   </script>
 </LandingPage>
@@ -1111,15 +1133,18 @@ const structuredData = {
     line-height: 1.55;
   }
 
+  /* Price line (round 2, user 2026-10-31): one left-aligned column between two hairlines. The promo label,
+     the promo price large with the struck regular price beside it, then the saving as the one benefit line.
+     The same order and alignment on phones. */
   .lp-hero-offer {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     width: 100%;
     max-width: none;
     margin: clamp(24px, 2.4vw, 32px) 0 0;
-    padding-block: 14px;
+    padding-block: 16px;
     border-top: 1px solid var(--line-strong);
     border-bottom: 1px solid var(--line);
   }
@@ -1130,9 +1155,16 @@ const structuredData = {
     color: var(--clay);
   }
 
+  .lp-hero-offer-prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 14px;
+  }
+
   .lp-hero-offer-price {
     font-family: var(--f-serif);
-    font-size: clamp(1.9rem, 2.6vw, 2.5rem);
+    font-size: clamp(2.4rem, 3.2vw, 3.1rem);
     line-height: 1;
     color: var(--cocoa);
     font-variant-numeric: lining-nums;
@@ -1141,15 +1173,50 @@ const structuredData = {
 
   .lp-hero-offer-old {
     color: var(--muted);
-    font-size: var(--fs-small);
+    font-size: var(--fs-body);
     white-space: nowrap;
   }
 
-  /* The offer's end date: same muted small text as the old price, on its own row. */
-  .lp-hero-offer-until {
-    flex-basis: 100%;
-    color: var(--muted);
-    font-size: var(--fs-small);
+  .lp-hero-offer-save {
+    color: var(--cocoa);
+    font-size: var(--fs-body);
+    font-weight: 600;
+  }
+
+  /* Regular price: a thin red diagonal instead of the browser's horizontal strike (user, 2026-10-31).
+     The word «statt» in front keeps the meaning for screen readers; the line is decorative. */
+  .lp-strike {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .lp-strike::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -4%;
+    left: -4%;
+    height: max(2px, 0.07em);
+    border-radius: 1px;
+    background: var(--error);
+    transform: translateY(-50%) rotate(-12deg);
+    pointer-events: none;
+  }
+
+  .on-dark .lp-strike::after {
+    background: color-mix(in srgb, var(--error) 70%, var(--cream));
+  }
+
+  /* High-contrast modes drop backgrounds: fall back to the browser strike there. */
+  @media (forced-colors: active) {
+    .lp-strike {
+      text-decoration: line-through;
+    }
+
+    .lp-strike::after {
+      display: none;
+    }
   }
 
   .lp-hero-ctas {
@@ -1197,10 +1264,16 @@ const structuredData = {
     border-color: currentColor;
   }
 
+  /* Hero arch: two frames, a slow crossfade with a faint zoom (user, 2026-10-31, round 2). Frame A (Carbon) is
+     the preloaded first paint; frame B (Microneedling close-up) loads lazily and fades in on top, so the
+     arch never dips to the background. Cycle 15 s: 6 s hold, 1.5 s fade, 6 s hold, 1.5 s fade. The figure
+     keeps its 4:5 box, so nothing shifts. Three cycles (45 s), then it rests on the Carbon frame (WCAG 2.2.2:
+     moving content that runs longer than 5 s must stop). Reduced motion: frame A only, no zoom (see the bottom of the file). */
   .lp-hero-media {
     position: relative;
     aspect-ratio: 4 / 5;
     overflow: hidden;
+    isolation: isolate;
     margin: 0;
     border-radius: var(--r-pill) var(--r-pill) var(--r-lg) var(--r-lg);
     background: var(--blush);
@@ -1212,6 +1285,35 @@ const structuredData = {
     height: 100%;
     object-fit: cover;
     object-position: 70% 50%;
+  }
+
+  .lp-hero-media :global(.lp-hero-frame) {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    animation: lp-hero-frame-a 15s ease-in-out 3;
+  }
+
+  .lp-hero-media :global(.lp-hero-frame--needling) {
+    opacity: 0;
+    animation-name: lp-hero-frame-b;
+  }
+
+  /* A zooms while it shows (0–50 %), then resets while B covers it. */
+  @keyframes lp-hero-frame-a {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    56% { transform: scale(1.04); }
+    57% { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
+
+  /* B fades in over 40–50 %, zooms during its hold, fades out over 90–100 %. */
+  @keyframes lp-hero-frame-b {
+    0%, 40% { opacity: 0; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.008); }
+    90% { opacity: 1; transform: scale(1.035); }
+    100% { opacity: 0; transform: scale(1.04); }
   }
 
   /* ─── 2 · Offer ──────────────────────────────────────────── */
@@ -1952,40 +2054,52 @@ const structuredData = {
     font-variant-numeric: tabular-nums;
   }
 
-  .lp-map-panel {
-    position: relative;
-    min-height: 420px;
-    overflow: hidden;
-    border-radius: var(--r-xl);
-    background: var(--blush);
+  /* Static map image (3:2), toned to the palette, the whole image a link to Google Maps; the OSM credit under it. */
+  .lp-map {
+    display: grid;
+    gap: 8px;
   }
 
-  .lp-map-panel iframe {
-    position: absolute;
-    inset: 0;
+  .lp-map-panel {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--r-xl);
+    background: var(--blush);
+    text-decoration: none;
+  }
+
+  .lp-map-panel :global(img) {
     display: block;
     width: 100%;
     height: 100%;
-    border: 0;
-    filter: grayscale(0.4) sepia(0.12);
+    object-fit: cover;
+    filter: grayscale(0.3) sepia(0.1);
+    transition: transform 0.6s var(--ease-expo), filter 0.3s ease;
   }
 
-  .lp-map-placeholder {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: 16px;
-    padding: 24px;
-    text-align: center;
+  .lp-map-panel:hover :global(img) {
+    transform: scale(1.02);
+    filter: none;
   }
 
-  .lp-map-note {
-    max-width: 30ch;
+  .lp-map-panel:focus-visible {
+    outline: 2px solid var(--clay);
+    outline-offset: 4px;
+  }
+
+  .lp-map-credit {
     margin: 0;
-    font-size: var(--fs-small);
-    color: var(--text);
+    color: var(--muted);
+    font-size: var(--fs-label);
+    text-align: right;
+  }
+
+  .lp-map-credit a {
+    color: inherit;
+    border-bottom: 1px solid var(--line-strong);
   }
 
   /* ─── 9 · Closing band ───────────────────────────────────── */
@@ -2162,26 +2276,11 @@ const structuredData = {
 
     .lp-hero-offer {
       margin-top: 20px;
-      padding-block: 0;
-      border: 0;
-      gap: 6px 10px;
-    }
-
-    .lp-hero-offer-label {
-      flex-basis: 100%;
+      padding-block: 14px;
     }
 
     .lp-hero-offer-price {
-      font-size: 1.75rem;
-    }
-
-    /* The saving takes its own row on phones, so it starts without the separator dot. */
-    .lp-hero-offer-save {
-      flex-basis: 100%;
-    }
-
-    .lp-hero-offer-save > span[aria-hidden] {
-      display: none;
+      font-size: 2.25rem;
     }
 
     .lp-hero-ctas {
@@ -2310,7 +2409,7 @@ const structuredData = {
     }
 
     .lp-map-panel {
-      min-height: 320px;
+      aspect-ratio: 4 / 3;
     }
 
     .lp-final-dark {
@@ -2330,6 +2429,21 @@ const structuredData = {
 
     .lp-step-media {
       aspect-ratio: 4 / 5;
+    }
+  }
+
+  /* Reduced motion: the Carbon frame alone, no zoom, no crossfade; the Microneedling photo stays in the steps. */
+  @media (prefers-reduced-motion: reduce) {
+    .lp-hero-media :global(.lp-hero-frame) {
+      animation: none;
+    }
+
+    .lp-hero-media :global(.lp-hero-frame--needling) {
+      display: none;
+    }
+
+    .lp-map-panel :global(img) {
+      transition: none;
     }
   }
 </style>

@@ -246,7 +246,7 @@ expectIncludes(
 );
 expectIncludes(
   'src/pages/lp/carbon-microneedling/index.astro',
-  'Typische Behandlungsziele',
+  'Was die Behandlung bewirken kann',
   'Carbon ad LP must use neutral treatment-goal framing instead of personal-attribute framing.',
 );
 expectNotIncludes(
