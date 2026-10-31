@@ -19,7 +19,7 @@ def cover(img, w, h, fy=0.4):
     x = (img.width-w)//2; y = int((img.height-h)*fy); return img.crop((x, y, x+w, y+h))
 
 def wrap(d, text, font, width):
-    words, lines, cur = text.split(), [], ''
+    words, lines, cur = text.split(' '), [], ''  # split on plain spaces only, so no-break spaces hold
     for wd in words:
         t = (cur+' '+wd).strip()
         if d.textlength(t, font=font) <= width: cur = t
@@ -44,7 +44,7 @@ def card_ad(W, H, top, footer_top, footer_h, name):
         d.text((x, y), ln, font=serif(104), fill=COCOA); y += 104
     y += 40
     # Answers only from the treatment description the user gave on 2026-10-31.
-    rows = [('Wie läuft es ab?', 'Carbon-Peeling und Microneedling in einer Sitzung von 90 Minuten.'),
+    rows = [('Wie läuft es ab?', 'Carbon-Peeling und Microneedling in einer Sitzung von 90 Minuten.'),
             ('Passt es zu mir?', 'Das klärt die Hautanalyse vor Ort.'),
             ('Und danach?', 'Täglich SPF 30–50, einige Tage kein Retinol und keine Säuren, 24–48 Std. keine Hitze.')]
     for q, a in rows:
@@ -66,7 +66,7 @@ offer = [(OFFER, serif(72), CREAM, 8),
          (f'Nur bis {END}', sans(32, 600), ON_DARK, 0),
          (STUDIO, sans(28), ON_DARK, 0)]
 trust = [('Persönlich von Teresa Stimac', serif(68), CREAM, 8),
-         ('Über 20 Jahre Erfahrung · 90 Min.', sans(34, 600), CLAY_L, 6),
+         ('Über 20 Jahre Erfahrung · 90 Min.', sans(34, 600), CLAY_L, 6),
          (f'{OFFER} · {PRICE}', sans(30), ON_DARK, 0),
          (f'Nur bis {END} · Bahnhofstrasse 94, Zürich', sans(28), ON_DARK, 0)]
 r = {}
