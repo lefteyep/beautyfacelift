@@ -226,7 +226,7 @@ const structuredData = {
             <span class="lp-hero-offer-label">Aktion · {DURATION_LABEL}</span>
             <span class="lp-hero-offer-price">CHF {PROMO_PRICE}.–</span>
             <span class="lp-hero-offer-old"><span aria-hidden="true">· </span>statt CHF {REGULAR_PRICE}.–</span>
-            <span class="lp-hero-offer-old"><span aria-hidden="true">· </span>{SAVINGS_LABEL}</span>
+            <span class="lp-hero-offer-old lp-hero-offer-save"><span aria-hidden="true">· </span>{SAVINGS_LABEL}</span>
             <span class="lp-hero-offer-until">Angebot gültig bis {OFFER_VALID_UNTIL_LABEL}</span>
           </p>
 
@@ -1998,6 +1998,15 @@ const structuredData = {
 
     .lp-hero-offer-price {
       font-size: 1.75rem;
+    }
+
+    /* The saving takes its own row on phones, so it starts without the separator dot. */
+    .lp-hero-offer-save {
+      flex-basis: 100%;
+    }
+
+    .lp-hero-offer-save > span[aria-hidden] {
+      display: none;
     }
 
     .lp-hero-ctas {
