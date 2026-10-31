@@ -101,11 +101,12 @@ assert(!lp.includes('carbon_treatment_teresa'), 'Carbon LP must not show the gen
 
 // What is included: Teresa's list of the steps (2026-10-31) and the user's treatment description.
 assert(lp.includes('Das ist inbegriffen'), 'Carbon LP must list what is included');
-for (const item of ['Reinigung und Hautanalyse', 'Diamantabrasion', 'Fruchtsäure-Peeling', 'Carbon-Lotion und Laserbehandlung', 'Microneedling, Tiefe passend zu Ihrem Hauttyp', 'Maske', 'LED-Licht', 'Nachsorge-Hinweise für die Tage danach']) {
+for (const item of ['Reinigung und Hautanalyse', 'Fruchtsäure-Peeling', 'Carbon-Lotion und Laserbehandlung', 'Diamantabrasion', 'Microneedling, Tiefe passend zu Ihrem Hauttyp', 'Maske', 'LED-Licht', 'Nachsorge-Hinweise für die Tage danach']) {
   assert(lp.includes(`'${item}'`), `Carbon LP included list must name «${item}»`);
 }
 assert(lp.includes('Dann wird eine Carbon-Lotion aufgetragen und mit dem Laser behandelt.'), 'Carbon LP must name the laser neutrally in the method step');
-assert(lp.includes('mit Reinigung, Hautanalyse, Diamantabrasion, Fruchtsäure-Peeling, Carbon-Peeling, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen.'), 'Carbon LP FAQ 1 must list every step of the treatment');
+assert(lp.includes('mit Reinigung, Hautanalyse, Fruchtsäure-Peeling, Carbon-Peeling, Diamantabrasion, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen.'), "Carbon LP FAQ 1 must list every step of the treatment in Teresa's order");
+assert(/'Fruchtsäure-Peeling',\s*'Carbon-Lotion und Laserbehandlung',\s*'Diamantabrasion',\s*'Microneedling/.test(lp), "Carbon LP included list must follow Teresa's order (Fruchtsäure-Peeling, Carbon, Diamantabrasion, Microneedling)");
 assert(lp.includes('SPF 30–50') && lp.includes('Retinol-, Säure- oder Peelingprodukte'), 'Carbon LP FAQ must carry the after-care from the treatment description');
 assert(
   lp.includes('Nicht bei aktiven Infektionen, entzündeter Akne, gereizter oder verletzter Haut und nicht in der Schwangerschaft.'),

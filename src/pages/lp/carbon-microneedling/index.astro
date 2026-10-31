@@ -81,9 +81,9 @@ const heroBullets = [
 // treatment description (skin analysis, laser, needle depth, after-care).
 const includedItems = [
   'Reinigung und Hautanalyse',
-  'Diamantabrasion',
   'Fruchtsäure-Peeling',
   'Carbon-Lotion und Laserbehandlung',
+  'Diamantabrasion',
   'Microneedling, Tiefe passend zu Ihrem Hauttyp',
   'Maske',
   'LED-Licht',
@@ -94,7 +94,7 @@ const includedItems = [
 const steps = [
   {
     title: 'Reinigung und Peelings',
-    text: 'Reinigung, Diamantabrasion und Fruchtsäure-Peeling bereiten die Haut vor. Dann wird eine Carbon-Lotion aufgetragen und mit dem Laser behandelt. Das kann abgestorbene Hautschüppchen lösen und die Poren optisch klären.',
+    text: 'Reinigung und Fruchtsäure-Peeling bereiten die Haut vor. Dann wird eine Carbon-Lotion aufgetragen und mit dem Laser behandelt. Das kann abgestorbene Hautschüppchen lösen und die Poren optisch klären. Danach folgt die Diamantabrasion.',
     image: carbonStepImage,
     alt: 'Eine Lotion wird mit dem Pinsel auf das Gesicht aufgetragen',
     crop: 'lp-crop-carbon',
@@ -141,7 +141,7 @@ const skinGoals = ['Poren', 'Hautstruktur', 'Frischer Teint', 'Ich bin unsicher'
 const faqs = [
   {
     q: 'Was ist im Angebot enthalten?',
-    a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Reinigung, Hautanalyse, Diamantabrasion, Fruchtsäure-Peeling, Carbon-Peeling, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen. Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.`,
+    a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Reinigung, Hautanalyse, Fruchtsäure-Peeling, Carbon-Peeling, Diamantabrasion, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen. Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.`,
   },
   {
     q: 'Muss ich jetzt schon bezahlen?',
@@ -180,7 +180,7 @@ const structuredData = {
       '@type': 'Product',
       '@id': absoluteUrl('/lp/carbon-microneedling/#product'),
       name: 'Carbon-Peeling + Microneedling Zürich',
-      description: `Carbon-Peeling und Microneedling in einer Sitzung von 90 Minuten in Zürich, mit Reinigung, Diamantabrasion, Fruchtsäure-Peeling, Maske, LED-Licht und Nachsorge-Hinweisen. Aktion CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–.`,
+      description: `Carbon-Peeling und Microneedling in einer Sitzung von 90 Minuten in Zürich, mit Reinigung, Fruchtsäure-Peeling, Diamantabrasion, Maske, LED-Licht und Nachsorge-Hinweisen. Aktion CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.–.`,
       image: absoluteUrl(heroCarbonUrl),
       brand: { '@type': 'Brand', name: 'Beauty Face Lift' },
       offers: {
@@ -226,8 +226,8 @@ const structuredData = {
           <p class="eyebrow eyebrow--rule lp-eyebrow">Aktion: Carbon-Peeling + Microneedling in Zürich</p>
           <h1 id="lp-hero-title" class="lp-title">Carbon-Peeling + Microneedling: zwei Behandlungen in einer Sitzung</h1>
           <p class="lp-subtitle">
-            Erst Reinigung und Peelings, dann Carbon-Peeling und Microneedling, zum Schluss Maske und LED-Licht –
-            persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich.
+            Erst Reinigung, Fruchtsäure- und Carbon-Peeling, dann Diamantabrasion und Microneedling, zum Schluss Maske und
+            LED-Licht – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich.
           </p>
 
           <p class="lp-hero-offer">
