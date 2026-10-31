@@ -153,9 +153,10 @@ assert(lp.includes('Vielen Dank, Ihre Anfrage ist eingegangen.'), 'Carbon LP for
 // CRO pass (2026-10-31, audit CARBON-LP-CRO-AUDIT-2026-10-31.md): benefit-led hero lead that matches ad text 1,
 // goals before steps, no lead over the steps, the form framed as the path for questions, each reassurance once.
 assert(
-  /Erst klärt das Carbon-Peeling die Haut optisch, dann kann das Microneedling die natürliche Hauterneuerung\r?\n\s+unterstützen – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich\./.test(lp),
-  'Carbon LP hero lead must name the benefit cautiously (plan 3.3 wording) and match ad text 1',
+  /Das Carbon-Peeling kann die Haut optisch klären, das Microneedling die natürliche Hauterneuerung\r?\n\s+unterstützen – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich\./.test(lp),
+  'Carbon LP hero lead must name the benefit in the cautious «kann …» form (plan 3.3 wording)',
 );
+assert(!/Erst klärt das Carbon-Peeling/.test(lp), 'Carbon LP hero lead must not state the Carbon-Peeling effect as a fact (orchestrator correction, 2026-10-31)');
 assert(lp.indexOf('id="lp-goals-title"') < lp.indexOf('id="lp-steps-title"') && lp.indexOf('id="lp-steps-title"') < lp.indexOf('id="lp-trust-title"'), 'Treatment goals sit between the included list and the steps');
 assert(lp.includes('<section class="lp-section lp-section--rule lp-goals"'), 'Goals section carries the hairline, as it follows another cream section');
 assert(!lp.includes('Reinigung und Peelings, dann Microneedling, zum Schluss Maske und LED-Licht'), 'Steps section has no lead that repeats the step titles');
