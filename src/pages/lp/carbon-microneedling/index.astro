@@ -3,25 +3,33 @@ import LandingPage from '../../../layouts/LandingPage.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image, getImage } from 'astro:assets';
-// Placeholder images until the generated Carbon series lands in src/assets/lp/carbon/ (WebP).
-// IMAGE SWAP 1 · hero (4:5 arch, 16:9 band on phones), also the schema and Open Graph image.
-// No practitioner's face and no laser in the hero (generated images never show Teresa).
-import heroCarbonImage from '../../../assets/marketing/spa_facial_treatment.png';
-import heroCarbonUrl from '../../../assets/marketing/spa_facial_treatment.png?url';
-// IMAGE SWAP 2 · included (skin analysis).
-import hautanalyseImage from '../../../assets/marketing/consultation_trust.png';
-// IMAGE SWAP 3–5 · the three steps: Carbon-Lotion, Microneedling, Nachsorge.
+// Interim images (user decision 2026-10-31): Teresa on the page with existing, consented images from the
+// Aquafacial series and her real portrait; nothing newly generated. The Carbon hero with her and the
+// Carbon method photos arrive with PR #67 (src/assets/lp/carbon/); the swap points stay marked.
+// IMAGE SWAP 1 · hero (4:5 arch, 16:9 band on phones), also the schema image.
+import heroCarbonImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';
+import heroCarbonUrl from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp?url';
+// IMAGE SWAP 2 · included (skin analysis and consultation). Also the Open Graph image: the layout crops the
+// share image to 1.91:1 from the centre, which keeps both faces here but would cut them off the 4:5 hero.
+import hautanalyseImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
+// IMAGE SWAP 3–5 · the three steps: Carbon-Lotion (placeholder until PR #67), Microneedling, Nachsorge.
 import carbonStepImage from '../../../assets/marketing/peeling_treatment_editorial.png';
-import microneedlingStepImage from '../../../assets/marketing/microneedling_treatment_editorial.png';
+import microneedlingStepImage from '../../../assets/lp/aquafacial/microneedling-close-up-zuerich.webp';
 import nachsorgeStepImage from '../../../assets/marketing/spa_products.png';
-// IMAGE SWAP 6 · trust block: studio without a person (no portrait until its origin is clear).
-import studioImage from '../../../assets/marketing/spa_interior.png';
+// IMAGE SWAP 6 · trust block: Teresa's real portrait, unedited.
+import teresaPortraitImage from '../../../assets/marketing/teresa_portrait.jpg';
 import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 import { TREATWELL_REVIEWS } from './_reviews';
 
 const PROMO_PRICE = 175;
 const REGULAR_PRICE = 250;
-const SAVINGS_LABEL = 'Sie sparen CHF 75.–';
+// 75 / 250 is exactly 30 % (user decision 2026-10-31: show the saving in francs and in percent).
+const SAVINGS_PERCENT = Math.round((1 - PROMO_PRICE / REGULAR_PRICE) * 100);
+const SAVINGS_LABEL = `Sie sparen CHF 75.– (${SAVINGS_PERCENT} %)`;
+// Hand-off hint under the hero booking button. Stays off until the orchestrator confirms that Treatwell
+// lists CHF 175 as the Aktionspreis for «Carbon Laser Peeling + Microneedling» (launch gate 2); then set true.
+const TREATWELL_SHOWS_PROMO = false;
+const TREATWELL_PROMO_HINT = `Treatwell zeigt den Aktionspreis von CHF ${PROMO_PRICE}.–`;
 // Treatwell: Carbon Laser Peeling + Microneedling, 90 Min.
 const DURATION_LABEL = '90 Min.';
 // Last day of the campaign offer. Swiss price-indication rules: a "statt" price must be time-limited.
@@ -100,7 +108,7 @@ const steps = [
     title: 'Microneedling',
     text: 'Feine Mikroimpulse können die natürliche Hauterneuerung und ein glatter wirkendes Hautbild unterstützen. Die Tiefe wird an Ihren Hauttyp angepasst.',
     image: microneedlingStepImage,
-    alt: 'Kosmetisches Microneedling mit professionellem Pen',
+    alt: 'Microneedling-Pen auf der Wange, Nahaufnahme',
     crop: 'lp-crop-needling',
   },
   {
@@ -215,7 +223,7 @@ const structuredData = {
 <LandingPage
   title={`Carbon-Peeling + Microneedling Zürich | CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}`}
   description={`Carbon-Peeling und Microneedling in einer Sitzung von 90 Minuten an der Bahnhofstrasse 94 in Zürich. Aktion CHF ${PROMO_PRICE} statt CHF ${REGULAR_PRICE}, gültig bis ${OFFER_VALID_UNTIL_LABEL}. Jetzt online auf Treatwell buchen.`}
-  ogImage={heroCarbonImage}
+  ogImage={hautanalyseImage}
   preloadImage={{
     href: lpHeroPreload.src,
     imagesrcset: lpHeroPreload.srcSet.attribute,
@@ -250,6 +258,7 @@ const structuredData = {
             <a href={bookingHref} class="btn lp-hero-primary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_booking">{BOOKING_CTA_LABEL}</a>
             <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
           </div>
+          {TREATWELL_SHOWS_PROMO && <p class="lp-hero-note">{TREATWELL_PROMO_HINT}</p>}
 
           <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><a href={TREATWELL_URL} target="_blank" rel="noopener noreferrer" data-button-location="lp_hero_reviews"><strong>4,8</strong> aus 260+ Bewertungen auf Treatwell</a></p>
         </div>
@@ -264,7 +273,7 @@ const structuredData = {
             loading="eager"
             decoding="async"
             fetchpriority="high"
-            alt="Gesichtsbehandlung, Pflege wird mit behandschuhten Händen aufgetragen"
+            alt="Teresa Stimac bereitet die Behandlung vor und zeigt einer Kundin die Haut im Handspiegel"
           />
         </figure>
       </div>
@@ -280,7 +289,7 @@ const structuredData = {
             sizes={lpStepSizes}
             format="webp"
             quality={82}
-            alt="Hautanalyse vor der Behandlung"
+            alt="Teresa Stimac im Beratungsgespräch mit einer Kundin vor der Behandlung"
             loading="lazy"
           />
         </figure>
@@ -359,12 +368,12 @@ const structuredData = {
       <div class="container lp-trust-grid">
         <figure class="lp-trust-media">
           <Image
-            src={studioImage}
-            widths={[360, 540, 720, 960, 1200]}
+            src={teresaPortraitImage}
+            widths={[360, 540, 720, 960, 1121]}
             sizes={lpHalfSizes}
             format="webp"
             quality={82}
-            alt="Ruhiger Behandlungsraum mit Liege"
+            alt="Teresa Stimac in ihrem Studio Beauty Face Lift in Zürich"
             loading="lazy"
           />
         </figure>
@@ -1147,6 +1156,13 @@ const structuredData = {
     align-items: center;
     gap: 16px 32px;
     margin-top: clamp(24px, 2.4vw, 32px);
+  }
+
+  .lp-hero-note {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 1.5;
   }
 
   .lp-hero-proof {
@@ -2176,8 +2192,9 @@ const structuredData = {
       border-radius: 0;
     }
 
+    /* 4:5 photo in the 16:9 band: both faces sit in the upper third, so the crop window starts high. */
     .lp-hero-media :global(img) {
-      object-position: 60% 40%;
+      object-position: 50% 25%;
     }
 
     .lp-section-head,
@@ -2207,6 +2224,11 @@ const structuredData = {
 
     .lp-trust-media {
       aspect-ratio: 4 / 3;
+    }
+
+    /* Portrait in the 4:3 frame: keep the face, which sits in the upper third. */
+    .lp-trust-media :global(img) {
+      object-position: 50% 15%;
     }
 
     .lp-faq-head {

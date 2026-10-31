@@ -24,7 +24,22 @@ const styles = lp.split('<style>')[1] ?? '';
 // Offer: CHF 175 statt CHF 250 (agreed with Teresa 2026-10-31), 90 Min., valid until 30 November 2026.
 assert(lp.includes('const PROMO_PRICE = 175;'), 'Carbon LP must define the CHF 175 promo price');
 assert(lp.includes('const REGULAR_PRICE = 250;'), 'Carbon LP must define the CHF 250 regular price (Treatwell)');
-assert(lp.includes("const SAVINGS_LABEL = 'Sie sparen CHF 75.–';"), 'Carbon LP must show the CHF 75 saving');
+assert(lp.includes('const SAVINGS_PERCENT = Math.round((1 - PROMO_PRICE / REGULAR_PRICE) * 100);'), 'Carbon LP must derive the saving in percent from the two prices');
+assert(Math.round((1 - 175 / 250) * 100) === 30, 'The saving must be exactly 30 % (75 of 250)');
+assert(lp.includes('const SAVINGS_LABEL = `Sie sparen CHF 75.– (${SAVINGS_PERCENT} %)`;'), 'Carbon LP must show the CHF 75 saving with the percentage (user decision 2026-10-31)');
+
+// Treatwell hand-off hint (user decision 2026-10-31, B item 9): prepared, but off until the orchestrator confirms
+// that Treatwell lists CHF 175 as the Aktionspreis. Only the constant may switch it on.
+assert(lp.includes('const TREATWELL_SHOWS_PROMO = false;'), 'Carbon LP must keep the Treatwell hand-off hint switched off (TREATWELL_SHOWS_PROMO = false) until Treatwell lists CHF 175');
+assert(lp.includes('const TREATWELL_PROMO_HINT = `Treatwell zeigt den Aktionspreis von CHF ${PROMO_PRICE}.–`;'), 'Carbon LP must define the Treatwell hand-off hint');
+assert(lp.includes('{TREATWELL_SHOWS_PROMO && <p class="lp-hero-note">{TREATWELL_PROMO_HINT}</p>}'), 'The hand-off hint must render only behind the constant, under the hero CTAs');
+assert((markup.match(/Treatwell zeigt den Aktionspreis/g) || []).length === 1, 'The hand-off hint text must exist only in its constant');
+try {
+  const built = await readFile(new URL('../dist/lp/carbon-microneedling/index.html', import.meta.url), 'utf8');
+  assert(!built.includes('Treatwell zeigt den Aktionspreis'), 'The built page must not show the Treatwell hand-off hint while TREATWELL_SHOWS_PROMO is false');
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error; // no build yet: the source checks above cover the switch
+}
 assert(lp.includes("const DURATION_LABEL = '90 Min.';"), 'Carbon LP must show the Treatwell duration');
 assert(lp.includes("const OFFER_LABEL = 'Carbon-Peeling + Microneedling Aktion';"), 'Carbon LP must name the offer «Carbon-Peeling + Microneedling Aktion»');
 assert(lp.includes("const OFFER_SLUG = 'carbon-microneedling-aktion';"), 'Carbon LP must use the carbon-microneedling-aktion offer slug');
@@ -102,8 +117,23 @@ assert(
   'Carbon LP must use Teresa\'s title from the Treatwell profile and the user\'s 20-year statement',
 );
 assert(!lp.includes('Spezialisierung auf Microneedling'), 'Carbon LP must not claim an unproven specialisation');
-assert(!lp.includes('teresa_portrait'), 'Carbon LP must not show the portrait until its origin is clear');
 assert(!lp.includes('carbon_treatment_teresa'), 'Carbon LP must not show the generated image with a Teresa-like face and a laser handpiece');
+
+// Interim images (user decision 2026-10-31, relayed by the orchestrator): Teresa on the page with existing,
+// consented images only; nothing newly generated. The Carbon hero and method photos follow with PR #67.
+assert(lp.includes("import heroCarbonImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';") && lp.includes("personal-treatment-zuerich.webp?url';"), 'Carbon LP hero must use the personal-treatment image (also for schema and Open Graph)');
+assert(lp.includes("import hautanalyseImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';"), 'Carbon LP skin-analysis slot must use the consultation image');
+assert(lp.includes('ogImage={hautanalyseImage}'), 'Open Graph image must be the 4:3 consultation image (the centre crop to 1.91:1 would cut the faces off the 4:5 hero)');
+assert(lp.includes("import microneedlingStepImage from '../../../assets/lp/aquafacial/microneedling-close-up-zuerich.webp';"), 'Carbon LP Microneedling step must use the Microneedling close-up');
+assert(lp.includes("import teresaPortraitImage from '../../../assets/marketing/teresa_portrait.jpg';") && lp.includes('src={teresaPortraitImage}'), "Carbon LP trust block must show Teresa's real portrait, unedited");
+for (const wrong of ['hero-aquafacial-microneedling-zuerich', 'aquafacial-close-up-zuerich', 'aquafacial-behandlung-zuerich', 'hero-image-aquafacial', 'spa_interior', 'consultation_trust', 'spa_facial_treatment']) {
+  assert(!lp.includes(wrong), `Carbon LP must not use ${wrong} (Aquafacial device or replaced placeholder)`);
+}
+for (const alt of ['Teresa Stimac bereitet die Behandlung vor und zeigt einer Kundin die Haut im Handspiegel', 'Teresa Stimac im Beratungsgespräch mit einer Kundin vor der Behandlung', 'Microneedling-Pen auf der Wange, Nahaufnahme', 'Teresa Stimac in ihrem Studio Beauty Face Lift in Zürich']) {
+  assert(lp.includes(alt), `Carbon LP alt text must stay factual: «${alt}»`);
+}
+assert(!/<figcaption/.test(lp), 'Carbon LP images carry no captions');
+assert(lp.includes('object-position: 50% 25%;') && lp.includes('object-position: 50% 15%;'), 'Phone crops keep the faces visible in the hero band and the trust frame');
 
 // What is included: Teresa's list of the steps (2026-10-31) and the user's treatment description.
 assert(lp.includes('Das ist inbegriffen'), 'Carbon LP must list what is included');
