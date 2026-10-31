@@ -4,8 +4,9 @@
 
 1. Read `docs/current/HANDOVER-2026-10-21.md` (project, systems and IDs, current state, next steps), then `docs/current/STATUS.md` and `docs/current/TODO.md`.
 2. The approved plan for the next build is `docs/current/LEAD-COCKPIT-PLAN.md`; its Phase 1 is merged and deployed since 2026-10-30 (PR #62; current state in `docs/current/STATUS.md`).
-3. The sections "Project context" below mirror the former local `CLAUDE.md` (gitignored by design): commands, release gates, client design and copy rules, gotchas. They apply to every task.
+3. The sections "Project context" below mirror the local `CLAUDE.md` (gitignored by design; Claude reads it, and it includes this file through `@AGENTS.md`): commands, release gates, client design and copy rules, gotchas. They apply to every task.
 4. `docs/current/CODEX-START.md` holds the start prompt and the setup notes for OpenAI Codex.
+5. **Source of truth** is GitHub `lefteyep/beautyfacelift`, branch `master`. An orchestrator session keeps the board `docs/orchestrator/STATUS.md` in the main local copy (excluded from git). When it exists, read it first: it names the current milestone, the owner of every file set and every running worker. Nothing new starts without the user's explicit go. A Codex task gets its brief from `docs/orchestrator/handover/` and reports back there.
 
 ## Safety Model
 
