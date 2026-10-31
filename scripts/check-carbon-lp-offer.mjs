@@ -39,7 +39,7 @@ assert(lp.includes("new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'l
 assert(lp.includes('Angebot gültig bis {OFFER_VALID_UNTIL_LABEL}'), 'Carbon LP must show the offer end date in the hero offer line');
 assert(lp.includes('Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.'), 'Carbon LP must state the offer end date in FAQ 1');
 assert(lp.includes('Das Angebot gilt bis {OFFER_VALID_UNTIL_LABEL}.'), 'Carbon LP must state the offer end date in the closing band');
-assert(lp.includes('gültig bis ${OFFER_VALID_UNTIL_LABEL}'), 'Carbon LP meta description must name the offer end date');
+assert(lp.includes('gültig bis ${OFFER_VALID_UNTIL_LABEL}. Jetzt online auf Treatwell buchen.`'), 'Carbon LP meta description must name the offer end date and the booking action');
 assert(lp.includes('priceValidUntil: OFFER_VALID_UNTIL'), 'Carbon LP schema must take priceValidUntil from the offer end date');
 assert(
   lp.includes("const whatsappMessage = 'Hallo Teresa, ich interessiere mich für die Aktion Carbon-Peeling + Microneedling für CHF 175 statt CHF 250. Passt die Behandlung zu meiner Haut?';"),
