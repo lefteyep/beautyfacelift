@@ -119,9 +119,17 @@ assert(
 assert(!lp.includes('Spezialisierung auf Microneedling'), 'Carbon LP must not claim an unproven specialisation');
 assert(!lp.includes('carbon_treatment_teresa'), 'Carbon LP must not show the generated image with a Teresa-like face and a laser handpiece');
 
-// Interim images (user decision 2026-10-31, relayed by the orchestrator): Teresa on the page with existing,
-// consented images only; nothing newly generated. The Carbon hero and method photos follow with PR #67.
-assert(lp.includes("import heroCarbonImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';") && lp.includes("personal-treatment-zuerich.webp?url';"), 'Carbon LP hero must use the personal-treatment image (also for schema and Open Graph)');
+// Images (user decisions 2026-10-31, relayed by the orchestrator): the Carbon series from PR #67 for the hero
+// and two steps, the consented Aquafacial-series photos for the consultation and the Microneedling close-up,
+// and Teresa's real portrait. hero.webp and methode-2.webp stay unused (duplicate scenes).
+assert(lp.includes("import heroCarbonImage from '../../../assets/lp/carbon/hero-teresa.webp';") && lp.includes("hero-teresa.webp?url';"), 'Carbon LP hero must use hero-teresa.webp (also the schema image)');
+assert(lp.includes("import carbonStepImage from '../../../assets/lp/carbon/methode-1.webp';"), 'Carbon step must use methode-1.webp');
+assert(lp.includes("import nachsorgeStepImage from '../../../assets/lp/carbon/methode-3.webp';"), 'Maske/LED step must use the methode-3.webp still life');
+assert(lp.includes('const lpHeroWidths = [480, 720, 960, 1088];'), 'Hero widths must not exceed the 1088 px source');
+assert(/\.lp-hero-media \{\r?\n\s+aspect-ratio: 1 \/ 1;/.test(lp) && lp.includes('object-position: 50% 50%;'), 'Phone hero band must be square so both faces of hero-teresa stay in view');
+for (const unused of ["from '../../../assets/lp/carbon/hero.webp'", "from '../../../assets/lp/carbon/methode-2.webp'", 'personal-treatment-zuerich']) {
+  assert(!lp.includes(unused), `Carbon LP must not import ${unused}`);
+}
 assert(lp.includes("import hautanalyseImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';"), 'Carbon LP skin-analysis slot must use the consultation image');
 assert(lp.includes('ogImage={hautanalyseImage}'), 'Open Graph image must be the 4:3 consultation image (the centre crop to 1.91:1 would cut the faces off the 4:5 hero)');
 assert(lp.includes("import microneedlingStepImage from '../../../assets/lp/aquafacial/microneedling-close-up-zuerich.webp';"), 'Carbon LP Microneedling step must use the Microneedling close-up');
@@ -129,11 +137,11 @@ assert(lp.includes("import teresaPortraitImage from '../../../assets/marketing/t
 for (const wrong of ['hero-aquafacial-microneedling-zuerich', 'aquafacial-close-up-zuerich', 'aquafacial-behandlung-zuerich', 'hero-image-aquafacial', 'spa_interior', 'consultation_trust', 'spa_facial_treatment']) {
   assert(!lp.includes(wrong), `Carbon LP must not use ${wrong} (Aquafacial device or replaced placeholder)`);
 }
-for (const alt of ['Teresa Stimac bereitet die Behandlung vor und zeigt einer Kundin die Haut im Handspiegel', 'Teresa Stimac im Beratungsgespräch mit einer Kundin vor der Behandlung', 'Microneedling-Pen auf der Wange, Nahaufnahme', 'Teresa Stimac in ihrem Studio Beauty Face Lift in Zürich']) {
+for (const alt of ['Teresa Stimac trägt die Carbon-Lotion mit dem Pinsel auf', 'Die Carbon-Lotion wird mit dem Pinsel auf die Wange aufgetragen', 'Behandlungstisch mit Carbon-Lotion, Pinsel und Microneedling-Pen', 'Teresa Stimac im Beratungsgespräch mit einer Kundin vor der Behandlung', 'Microneedling-Pen auf der Wange, Nahaufnahme', 'Teresa Stimac in ihrem Studio Beauty Face Lift in Zürich']) {
   assert(lp.includes(alt), `Carbon LP alt text must stay factual: «${alt}»`);
 }
 assert(!/<figcaption/.test(lp), 'Carbon LP images carry no captions');
-assert(lp.includes('object-position: 50% 25%;') && lp.includes('object-position: 50% 15%;'), 'Phone crops keep the faces visible in the hero band and the trust frame');
+assert(lp.includes('object-position: 50% 15%;'), 'Phone crop keeps the face visible in the trust frame');
 
 // What is included: Teresa's list of the steps (2026-10-31) and the user's treatment description.
 assert(lp.includes('Das ist inbegriffen'), 'Carbon LP must list what is included');

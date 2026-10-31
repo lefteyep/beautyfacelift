@@ -3,20 +3,22 @@ import LandingPage from '../../../layouts/LandingPage.astro';
 import FAQAccordion from '../../../components/lp/FAQAccordion.astro';
 import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image, getImage } from 'astro:assets';
-// Interim images (user decision 2026-10-31): Teresa on the page with existing, consented images from the
-// Aquafacial series and her real portrait; nothing newly generated. The Carbon hero with her and the
-// Carbon method photos arrive with PR #67 (src/assets/lp/carbon/); the swap points stay marked.
-// IMAGE SWAP 1 · hero (4:5 arch, 16:9 band on phones), also the schema image.
-import heroCarbonImage from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp';
-import heroCarbonUrl from '../../../assets/lp/aquafacial/personal-treatment-zuerich.webp?url';
-// IMAGE SWAP 2 · included (skin analysis and consultation). Also the Open Graph image: the layout crops the
-// share image to 1.91:1 from the centre, which keeps both faces here but would cut them off the 4:5 hero.
+// Images (user decisions 2026-10-31): the Carbon series from PR #67 (src/assets/lp/carbon/, generated with
+// Teresa's consent, see docs/current/LP-IMAGE-PROMPTS.md), the consented Aquafacial-series photos for the
+// consultation and the Microneedling close-up, and Teresa's real portrait. Not used: hero.webp (nearly the
+// same scene as methode-1) and methode-2.webp (the close-up below shows the Microneedling pen with Teresa).
+// Hero (4:5 arch; on phones a square band, because Teresa's face sits in the upper third and the client's
+// face with the Carbon lotion in the lower third, which a 16:9 band cannot hold). Also the schema image.
+import heroCarbonImage from '../../../assets/lp/carbon/hero-teresa.webp';
+import heroCarbonUrl from '../../../assets/lp/carbon/hero-teresa.webp?url';
+// Included (skin analysis and consultation). Also the Open Graph image: the layout crops the share image to
+// 1.91:1 from the centre, which keeps both faces here but would cut them off the 4:5 hero.
 import hautanalyseImage from '../../../assets/lp/aquafacial/hautanalyse-beratung-zuerich.webp';
-// IMAGE SWAP 3–5 · the three steps: Carbon-Lotion (placeholder until PR #67), Microneedling, Nachsorge.
-import carbonStepImage from '../../../assets/marketing/peeling_treatment_editorial.png';
+// The three steps: Carbon-Lotion, Microneedling, Maske und LED-Licht (still life of the treatment table).
+import carbonStepImage from '../../../assets/lp/carbon/methode-1.webp';
 import microneedlingStepImage from '../../../assets/lp/aquafacial/microneedling-close-up-zuerich.webp';
-import nachsorgeStepImage from '../../../assets/marketing/spa_products.png';
-// IMAGE SWAP 6 · trust block: Teresa's real portrait, unedited.
+import nachsorgeStepImage from '../../../assets/lp/carbon/methode-3.webp';
+// Trust block: Teresa's real portrait, unedited.
 import teresaPortraitImage from '../../../assets/marketing/teresa_portrait.jpg';
 import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
 import { TREATWELL_REVIEWS } from './_reviews';
@@ -61,9 +63,9 @@ const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
 const whatsappMessage = 'Hallo Teresa, ich interessiere mich für die Aktion Carbon-Peeling + Microneedling für CHF 175 statt CHF 250. Passt die Behandlung zu meiner Haut?';
-// Desktop: the landscape photo is cover-cropped into a 4:5 arch, so the requested width
-// follows the frame height (≈ 1.78 × its width). Stacked (≤ 900px) it is a full-bleed 16:9 band.
-const lpHeroWidths = [480, 720, 960, 1200, 1440, 1536];
+// Desktop: the 4:5 photo fills the 4:5 arch. Stacked (≤ 900px) it is a full-bleed square band.
+// The source is 1088 px wide, so no larger candidate is requested.
+const lpHeroWidths = [480, 720, 960, 1088];
 const lpHeroSizes = '(min-width: 1320px) 1100px, (min-width: 901px) 80vw, 100vw';
 const lpHeroQuality = 86;
 const lpHalfSizes = '(min-width: 1440px) 640px, (min-width: 901px) 46vw, 100vw';
@@ -101,7 +103,7 @@ const steps = [
     title: 'Reinigung und Peelings',
     text: 'Reinigung und Fruchtsäure-Peeling bereiten die Haut vor. Dann wird eine Carbon-Lotion aufgetragen und mit dem Laser behandelt. Das kann abgestorbene Hautschüppchen lösen und die Poren optisch klären. Danach folgt die Diamantabrasion.',
     image: carbonStepImage,
-    alt: 'Eine Lotion wird mit dem Pinsel auf das Gesicht aufgetragen',
+    alt: 'Die Carbon-Lotion wird mit dem Pinsel auf die Wange aufgetragen',
     crop: 'lp-crop-carbon',
   },
   {
@@ -115,7 +117,7 @@ const steps = [
     title: 'Maske und LED-Licht',
     text: 'Eine Maske und LED-Licht schliessen die Behandlung ab. Dazu erhalten Sie klare Hinweise für die Tage danach: Sonnenschutz, Feuchtigkeit und eine kurze Pause von Hitze und Sport.',
     image: nachsorgeStepImage,
-    alt: 'Pflegeprodukte für Maske und Nachsorge',
+    alt: 'Behandlungstisch mit Carbon-Lotion, Pinsel und Microneedling-Pen',
     crop: 'lp-crop-aftercare',
   },
 ];
@@ -273,7 +275,7 @@ const structuredData = {
             loading="eager"
             decoding="async"
             fetchpriority="high"
-            alt="Teresa Stimac bereitet die Behandlung vor und zeigt einer Kundin die Haut im Handspiegel"
+            alt="Teresa Stimac trägt die Carbon-Lotion mit dem Pinsel auf"
           />
         </figure>
       </div>
@@ -2186,15 +2188,16 @@ const structuredData = {
       margin-top: 20px;
     }
 
+    /* Square band: it shows 80 % of the 4:5 photo, enough for Teresa's face (upper third) and the client's
+       face with the Carbon lotion (lower third). A 16:9 band would hold only one of them. */
     .lp-hero-media {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 1 / 1;
       margin: 28px calc(-1 * var(--gutter)) 0;
       border-radius: 0;
     }
 
-    /* 4:5 photo in the 16:9 band: both faces sit in the upper third, so the crop window starts high. */
     .lp-hero-media :global(img) {
-      object-position: 50% 25%;
+      object-position: 50% 50%;
     }
 
     .lp-section-head,
