@@ -77,6 +77,17 @@ const whatsappMessage = 'Hallo Teresa, ich interessiere mich für die Aktion Car
 const lpHeroWidths = [480, 720, 960, 1088];
 const lpHeroSizes = '(min-width: 1320px) 1100px, (min-width: 901px) 80vw, 100vw';
 const lpHeroQuality = 86;
+// Hero video loop (user's go, 2026-11-01): three Seedance clips (Carbon lotion, Microneedling pen, still
+// life) cut to one silent 10.8 s loop, 4:5, no text. The script adds the sources after the page has loaded,
+// so the first paint stays the static Carbon image and its preload (LCP unchanged); the poster is set at
+// the same time, not in the markup, so nothing extra loads before. Reduced motion, Save-Data or a failed
+// play() leave the video off and the two-frame crossfade below shows instead. Exports: docs/current/
+// META-CAMPAIGN-CARBON-MICRONEEDLING.md, section «Hero video».
+const HERO_VIDEO_POSTER = '/assets/lp-carbon/hero-poster-1080.webp';
+const HERO_VIDEO_POSTER_MOBILE = '/assets/lp-carbon/hero-poster-720.webp';
+const HERO_VIDEO_MP4 = '/assets/lp-carbon/hero-video.mp4';
+const HERO_VIDEO_MOBILE_MP4 = '/assets/lp-carbon/hero-video-mobile.mp4';
+const HERO_VIDEO_WEBM = '/assets/lp-carbon/hero-video.webm';
 const lpHalfSizes = '(min-width: 1440px) 640px, (min-width: 901px) 46vw, 100vw';
 const lpStepSizes = '(min-width: 1320px) 300px, (min-width: 901px) 24vw, (min-width: 421px) 38vw, 100vw';
 // Word joiner after the en dash keeps "24–48" on one line.
@@ -300,6 +311,32 @@ const structuredData = {
             class="lp-hero-frame lp-hero-frame--needling"
             alt="Microneedling an der Wange mit dem Microneedling-Pen"
           />
+          <video
+            class="lp-hero-video"
+            data-hero-video
+            data-poster={HERO_VIDEO_POSTER}
+            data-poster-mobile={HERO_VIDEO_POSTER_MOBILE}
+            data-desktop-mp4={HERO_VIDEO_MP4}
+            data-mobile-mp4={HERO_VIDEO_MOBILE_MP4}
+            data-desktop-webm={HERO_VIDEO_WEBM}
+            preload="none"
+            autoplay
+            muted
+            loop
+            playsinline
+            aria-hidden="true"
+            disablepictureinpicture
+            controlslist="nodownload noplaybackrate noremoteplayback"
+          ></video>
+          <button
+            type="button"
+            class="lp-hero-video-toggle"
+            data-hero-video-toggle
+            aria-label="Video pausieren"
+            hidden
+          >
+            <span class="lp-hero-video-toggle-icon" aria-hidden="true"></span>
+          </button>
         </figure>
       </div>
     </section>
@@ -666,6 +703,15 @@ const structuredData = {
   </main>
 
   <script>
+    // Network Information API (incl. vendor prefixes) is not part of lib.dom.
+    declare global {
+      interface Navigator {
+        connection?: { saveData?: boolean };
+        mozConnection?: { saveData?: boolean };
+        webkitConnection?: { saveData?: boolean };
+      }
+    }
+
     const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'msclkid'];
 
     const fieldMessages = {
@@ -937,6 +983,134 @@ const structuredData = {
       }
     }
 
+    // Hero video (user's go, 2026-11-01), the pattern of /lp/aquafacial/: the markup carries no source and no
+    // poster, so the first paint is the static Carbon image and its preload. After the load event, in an idle
+    // slot, the script sets the poster, appends the WebM (desktop) and the MP4 for the viewport and starts
+    // playback; once the video can play it fades in over the two frames, and the frames' crossfade stops.
+    // Reduced motion or Save-Data: nothing loads. A rejected play() or a media error leaves the frames as they
+    // are. The pause button appears only while the video plays (WCAG 2.2.2).
+    function initHeroVideo() {
+      const figureElement = document.querySelector('[data-lp-hero] .lp-hero-media');
+      const videoElement = document.querySelector('[data-hero-video]');
+      const toggle = document.querySelector('[data-hero-video-toggle]');
+      if (!(figureElement instanceof HTMLElement) || !(videoElement instanceof HTMLVideoElement)) return;
+      const figure = figureElement;
+      const video = videoElement;
+
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      const saveData = Boolean(connection && connection.saveData);
+      if (reducedMotionQuery.matches || saveData) return;
+
+      let sourcesLoaded = false;
+      // After a rejected play() (iOS low-power mode) a late canplay must not reveal a frozen frame.
+      let playFailed = false;
+
+      function setToggleState() {
+        if (!(toggle instanceof HTMLButtonElement)) return;
+        const isPaused = video.paused;
+        toggle.setAttribute('aria-label', isPaused ? 'Video abspielen' : 'Video pausieren');
+        toggle.dataset.state = isPaused ? 'paused' : 'playing';
+      }
+
+      function addVideoSource(src: string | undefined, type: string) {
+        if (!src) return;
+        const source = document.createElement('source');
+        source.src = src;
+        source.type = type;
+        video.append(source);
+      }
+
+      function hideVideo() {
+        figure.classList.remove('is-video-ready', 'is-video-playing');
+        if (toggle instanceof HTMLButtonElement) toggle.hidden = true;
+      }
+
+      function loadVideoSources() {
+        if (sourcesLoaded || reducedMotionQuery.matches) return;
+        sourcesLoaded = true;
+
+        const mobileVideoQuery = window.matchMedia('(max-width: 760px)');
+        const mp4Source = mobileVideoQuery.matches ? video.dataset.mobileMp4 : video.dataset.desktopMp4;
+        if (!mobileVideoQuery.matches) addVideoSource(video.dataset.desktopWebm, 'video/webm');
+        addVideoSource(mp4Source, 'video/mp4');
+
+        const lastSource = video.lastElementChild;
+        if (!lastSource) return;
+        // A failing source fires error on the source element, not on the video; the last one means none played.
+        lastSource.addEventListener('error', hideVideo);
+        const poster = mobileVideoQuery.matches ? video.dataset.posterMobile : video.dataset.poster;
+        if (poster) video.poster = poster;
+        video.preload = 'metadata';
+        video.load();
+
+        const playRequest = video.play();
+        if (playRequest && typeof playRequest.catch === 'function') {
+          playRequest.catch(() => {
+            playFailed = true;
+            hideVideo();
+          });
+        }
+      }
+
+      function scheduleVideoLoad() {
+        const runWhenIdle = () => {
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadVideoSources, { timeout: 1800 });
+          } else {
+            (window as Window).setTimeout(loadVideoSources, 450);
+          }
+        };
+
+        if (document.readyState === 'complete') {
+          runWhenIdle();
+        } else {
+          window.addEventListener('load', runWhenIdle, { once: true });
+        }
+      }
+
+      video.addEventListener('canplay', () => {
+        if (playFailed) return;
+        figure.classList.add('is-video-ready');
+      });
+
+      video.addEventListener('playing', () => {
+        playFailed = false;
+        figure.classList.add('is-video-ready', 'is-video-playing');
+        if (toggle instanceof HTMLButtonElement) toggle.hidden = false;
+        setToggleState();
+      });
+
+      video.addEventListener('pause', setToggleState);
+      video.addEventListener('error', hideVideo);
+
+      if (typeof reducedMotionQuery.addEventListener === 'function') {
+        reducedMotionQuery.addEventListener('change', (event) => {
+          if (event.matches) {
+            video.pause();
+            hideVideo();
+          }
+        });
+      }
+
+      if (toggle instanceof HTMLButtonElement) {
+        toggle.addEventListener('click', async () => {
+          if (video.paused) {
+            try {
+              await video.play();
+            } catch {
+              hideVideo();
+            }
+          } else {
+            video.pause();
+          }
+          setToggleState();
+        });
+      }
+
+      scheduleVideoLoad();
+    }
+
     // Reviews: without JavaScript every review shows; with it, the extra ones wait behind the button.
     function initReviews() {
       const section = document.querySelector('[data-reviews]');
@@ -953,6 +1127,7 @@ const structuredData = {
       });
     }
 
+    initHeroVideo();
     initLeadForm();
     initLeadScroll();
     initFloatingUi();
@@ -1314,6 +1489,109 @@ const structuredData = {
     50% { opacity: 1; transform: scale(1.008); }
     90% { opacity: 1; transform: scale(1.035); }
     100% { opacity: 0; transform: scale(1.04); }
+  }
+
+  /* Hero video: sits over both frames, invisible until it can play, then fades in; once it plays the frames
+     below stop animating. Same crop rules as the images (4:5 in the arch, square band on phones). The box is
+     2 px shorter than the image (an explicit height: the global img, video { height: auto } rule would otherwise
+     size it by its own ratio): Chrome counts a video's first frame as an LCP candidate and takes it only when its
+     painted area is larger than the image's, so the Carbon image stays the LCP element even when the video
+     arrives seconds later. */
+  .lp-hero-media .lp-hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: calc(100% - 2px);
+    object-fit: cover;
+    object-position: 70% 50%;
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+
+  .lp-hero-media.is-video-ready .lp-hero-video {
+    opacity: 1;
+  }
+
+  .lp-hero-media.is-video-playing :global(.lp-hero-frame) {
+    animation: none;
+  }
+
+  .lp-hero-video-toggle {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 4;
+    display: inline-grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--cream) 40%, transparent);
+    border-radius: 50%;
+    background: var(--cocoa);
+    background: color-mix(in srgb, var(--cocoa) 64%, transparent);
+    color: var(--cream);
+    cursor: pointer;
+  }
+
+  .lp-hero-video-toggle[hidden] {
+    display: none;
+  }
+
+  .lp-hero-video-toggle:focus-visible {
+    outline: 1px solid var(--cream);
+    outline-offset: 3px;
+  }
+
+  .lp-hero-video-toggle-icon {
+    position: relative;
+    display: block;
+    width: 14px;
+    height: 14px;
+  }
+
+  .lp-hero-video-toggle-icon::before,
+  .lp-hero-video-toggle-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 3px;
+    height: 12px;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .lp-hero-video-toggle-icon::before {
+    left: 3px;
+  }
+
+  .lp-hero-video-toggle-icon::after {
+    right: 3px;
+  }
+
+  .lp-hero-video-toggle[data-state='paused'] .lp-hero-video-toggle-icon::before {
+    left: 3px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 10px solid currentColor;
+    background: transparent;
+  }
+
+  .lp-hero-video-toggle[data-state='paused'] .lp-hero-video-toggle-icon::after {
+    display: none;
+  }
+
+  /* High-contrast modes drop backgrounds: draw the pause bars in the system text colour there. */
+  @media (forced-colors: active) {
+    .lp-hero-video-toggle-icon::before,
+    .lp-hero-video-toggle-icon::after {
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
   }
 
   /* ─── 2 · Offer ──────────────────────────────────────────── */
@@ -2295,7 +2573,8 @@ const structuredData = {
       border-radius: 0;
     }
 
-    .lp-hero-media :global(img) {
+    .lp-hero-media :global(img),
+    .lp-hero-media .lp-hero-video {
       object-position: 50% 50%;
     }
 
@@ -2432,13 +2711,19 @@ const structuredData = {
     }
   }
 
-  /* Reduced motion: the Carbon frame alone, no zoom, no crossfade; the Microneedling photo stays in the steps. */
+  /* Reduced motion: the Carbon frame alone, no zoom, no crossfade, no video (the script never loads it);
+     the Microneedling photo stays in the steps. */
   @media (prefers-reduced-motion: reduce) {
     .lp-hero-media :global(.lp-hero-frame) {
       animation: none;
     }
 
     .lp-hero-media :global(.lp-hero-frame--needling) {
+      display: none;
+    }
+
+    .lp-hero-media .lp-hero-video,
+    .lp-hero-video-toggle {
       display: none;
     }
 
