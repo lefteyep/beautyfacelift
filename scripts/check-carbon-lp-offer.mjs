@@ -99,19 +99,21 @@ assert(!lp.includes('Spezialisierung auf Microneedling'), 'Carbon LP must not cl
 assert(!lp.includes('teresa_portrait'), 'Carbon LP must not show the portrait until its origin is clear');
 assert(!lp.includes('carbon_treatment_teresa'), 'Carbon LP must not show the generated image with a Teresa-like face and a laser handpiece');
 
-// What is included: only from the treatment description (user, 2026-10-31).
+// What is included: Teresa's list of the steps (2026-10-31) and the user's treatment description.
 assert(lp.includes('Das ist inbegriffen'), 'Carbon LP must list what is included');
-for (const item of ['Hautanalyse und persönliche Abstimmung', 'Carbon-Lotion und Laserbehandlung', 'Microneedling, Tiefe passend zu Ihrem Hauttyp', 'Nachsorge-Hinweise für die Tage danach']) {
+for (const item of ['Reinigung und Hautanalyse', 'Diamantabrasion', 'Fruchtsäure-Peeling', 'Carbon-Lotion und Laserbehandlung', 'Microneedling, Tiefe passend zu Ihrem Hauttyp', 'Maske', 'LED-Licht', 'Nachsorge-Hinweise für die Tage danach']) {
   assert(lp.includes(`'${item}'`), `Carbon LP included list must name «${item}»`);
 }
-assert(lp.includes('Eine Carbon-Lotion wird aufgetragen und mit dem Laser behandelt.'), 'Carbon LP must name the laser neutrally in the method step');
+assert(lp.includes('Dann wird eine Carbon-Lotion aufgetragen und mit dem Laser behandelt.'), 'Carbon LP must name the laser neutrally in the method step');
+assert(lp.includes('mit Reinigung, Hautanalyse, Diamantabrasion, Fruchtsäure-Peeling, Carbon-Peeling, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen.'), 'Carbon LP FAQ 1 must list every step of the treatment');
 assert(lp.includes('SPF 30–50') && lp.includes('Retinol-, Säure- oder Peelingprodukte'), 'Carbon LP FAQ must carry the after-care from the treatment description');
 assert(
   lp.includes('Nicht bei aktiven Infektionen, entzündeter Akne, gereizter oder verletzter Haut und nicht in der Schwangerschaft.'),
   'Carbon LP FAQ must name the contraindications, pregnancy included',
 );
 
-// Claims that stay off the page until Teresa confirms them or because they promise results.
+// Claims that stay off the page: Teresa's list (2026-10-31) has no Hyaluron and no numbing cream; the
+// mask is named plainly; the rest promise results.
 for (const banned of ['Hyaluron', 'Abschlussmaske', 'betäubende', 'Kollagen', 'Narben', 'keine Ausfallzeit', 'Ausfallzeit', 'gesellschaftsfähig', 'garantiert', 'schmerzfrei', 'Aktivkohle', 'Hydra', 'Offizieller Preis']) {
   assert(!lp.includes(banned), `Carbon LP must not say «${banned}»`);
 }
