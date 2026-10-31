@@ -120,10 +120,13 @@ const goalItems = [
 ];
 
 // Verbatim Treatwell reviews (./_reviews.ts): six in view, the rest behind a button the script adds,
-// so without JavaScript all of them show.
+// so without JavaScript all of them show. The six in view carry six different names (a second review
+// of the same name waits behind the button); the data order is otherwise kept.
 const REVIEWS_SHOWN = 6;
 const reviewMonthFormat = new Intl.DateTimeFormat('de-CH', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const reviewMonth = (yearMonth: string) => reviewMonthFormat.format(new Date(`${yearMonth}-01T00:00:00Z`));
+const reviewsInView = TREATWELL_REVIEWS.filter((review, index, all) => all.findIndex((other) => other.name === review.name) === index).slice(0, REVIEWS_SHOWN);
+const reviewsToShow = [...reviewsInView, ...TREATWELL_REVIEWS.filter((review) => !reviewsInView.includes(review))];
 const moreReviews = TREATWELL_REVIEWS.length - REVIEWS_SHOWN;
 
 // Studio facts in one hairline row; the review line links to its source (Treatwell, 261 reviews on 2026-10-31).
@@ -132,24 +135,29 @@ const studioFacts = [
   { text: `${ADDRESS.street}, ${ADDRESS.postalCode} ${ADDRESS.city}` },
 ];
 
-// What happens after the request: two lines, shown right above the fields.
+// What happens after the request: two lines, shown right above the fields. "Ohne Online-Zahlung" stands
+// once, under the submit button.
 const nextSteps = [
-  'Sie senden Ihren Terminwunsch – ohne Online-Zahlung.',
+  'Sie senden Ihren Terminwunsch.',
   'Teresa Stimac meldet sich persönlich per Telefon, WhatsApp oder E-Mail, klärt Ihre Fragen und bestätigt den Termin.',
 ];
 
 const skinGoals = ['Poren', 'Hautstruktur', 'Frischer Teint', 'Ich bin unsicher'];
 
-// Objections in the order people raise them: content and price, payment, sensation, fit, redness,
-// after-care, sessions, online booking.
+// Objections in the order people raise them: content and price, the two ways to a date (online booking
+// first, as it is the page's goal; the form second), sensation, fit, redness, after-care, sessions.
 const faqs = [
   {
     q: 'Was ist im Angebot enthalten?',
     a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Reinigung, Hautanalyse, Fruchtsäure-Peeling, Carbon-Peeling, Diamantabrasion, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen. Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.`,
   },
   {
+    q: 'Kann ich direkt online buchen?',
+    a: 'Ja, das ist der einfachste Weg: Über «Jetzt auf Treatwell buchen» wählen Sie Ihren Termin direkt online. Haben Sie vorher Fragen, senden Sie unverbindlich eine Anfrage über das Formular – Teresa Stimac meldet sich persönlich.',
+  },
+  {
     q: 'Kostet die Anfrage über das Formular etwas?',
-    a: 'Nein. Die Anfrage ist unverbindlich und ohne Online-Zahlung. Teresa Stimac meldet sich bei Ihnen, klärt Ihre Fragen und bestätigt den Termin.',
+    a: 'Nein. Die Anfrage ist unverbindlich und ohne Online-Zahlung.',
   },
   {
     q: 'Ist die Behandlung schmerzhaft?',
@@ -170,10 +178,6 @@ const faqs = [
   {
     q: 'Wie viele Sitzungen sind sinnvoll?',
     a: 'Eine Sitzung kann die Haut bereits frischer wirken lassen. Für längerfristige Hautziele kann eine Serie sinnvoll sein. Das wird vor Ort realistisch eingeordnet.',
-  },
-  {
-    q: 'Kann ich direkt online buchen?',
-    a: 'Ja, das ist der einfachste Weg: Über «Jetzt auf Treatwell buchen» wählen Sie Ihren Termin direkt online. Haben Sie vorher Fragen, senden Sie unverbindlich eine Anfrage über das Formular – Teresa Stimac meldet sich persönlich.',
   },
 ];
 
@@ -230,8 +234,8 @@ const structuredData = {
           <p class="eyebrow eyebrow--rule lp-eyebrow">Aktion: Carbon-Peeling + Microneedling in Zürich</p>
           <h1 id="lp-hero-title" class="lp-title">Carbon-Peeling + Microneedling: zwei Behandlungen in einer Sitzung</h1>
           <p class="lp-subtitle">
-            Erst Reinigung, Fruchtsäure- und Carbon-Peeling, dann Diamantabrasion und Microneedling, zum Schluss Maske und
-            LED-Licht – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich.
+            Erst klärt das Carbon-Peeling die Haut optisch, dann kann das Microneedling die natürliche Hauterneuerung
+            unterstützen – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich.
           </p>
 
           <p class="lp-hero-offer">
@@ -299,14 +303,31 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- 3 · The three steps of the appointment -->
+    <!-- 3 · Treatment goals (before the steps: "does it help me?" comes before "how does it run?") -->
+    <section class="lp-section lp-section--rule lp-goals" aria-labelledby="lp-goals-title">
+      <div class="container">
+        <div class="lp-section-head">
+          <h2 id="lp-goals-title" class="lp-section-title">Typische Behandlungsziele</h2>
+          <p class="lp-section-lead">
+            Das Ziel ist ein ruhigeres, gepflegteres Hautbild. Weil jede Haut anders reagiert, wird das Ergebnis vor Ort ehrlich eingeordnet.
+          </p>
+        </div>
+        <ul class="lp-rows">
+          {goalItems.map((item) => (
+            <li>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4 · The three steps of the appointment (no lead: the step titles say it) -->
     <section class="lp-section lp-steps-section" aria-labelledby="lp-steps-title">
       <div class="container">
         <div class="lp-section-head">
           <h2 class="lp-section-title" id="lp-steps-title">So läuft die Behandlung ab</h2>
-          <p class="lp-section-lead">
-            Reinigung und Peelings, dann Microneedling, zum Schluss Maske und LED-Licht – alles in einem Termin.
-          </p>
         </div>
         <ol class="lp-steps">
           {steps.map((step) => (
@@ -330,26 +351,6 @@ const structuredData = {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-
-    <!-- 4 · Treatment goals -->
-    <section class="lp-section lp-goals" aria-labelledby="lp-goals-title">
-      <div class="container">
-        <div class="lp-section-head">
-          <h2 id="lp-goals-title" class="lp-section-title">Typische Behandlungsziele</h2>
-          <p class="lp-section-lead">
-            Das Ziel ist ein ruhigeres, gepflegteres Hautbild. Weil jede Haut anders reagiert, wird das Ergebnis vor Ort ehrlich eingeordnet.
-          </p>
-        </div>
-        <ul class="lp-rows">
-          {goalItems.map((item) => (
-            <li>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
 
@@ -400,7 +401,7 @@ const structuredData = {
           <p class="lp-section-lead">4,8 aus 260+ Bewertungen. Eine Auswahl, wörtlich übernommen.</p>
         </div>
         <ul class="lp-reviews-list" id="treatwell-reviews">
-          {TREATWELL_REVIEWS.map((review, index) => (
+          {reviewsToShow.map((review, index) => (
             <li class:list={['lp-review', { 'lp-review--more': index >= REVIEWS_SHOWN }]} tabindex={index === REVIEWS_SHOWN ? -1 : undefined}>
               <span class="lp-review-stars" role="img" aria-label="5 von 5 Sternen">★★★★★</span>
               <blockquote class="lp-review-text">{review.text}</blockquote>
@@ -422,15 +423,13 @@ const structuredData = {
       <div class="lp-lead-grid">
         <div class="lp-lead-header">
           <h2 id="lp-lead-title" class="lp-section-title">Termin für Carbon-Peeling + Microneedling anfragen</h2>
-          <p class="lp-section-lead">
-            Kurz ausfüllen – Teresa Stimac meldet sich persönlich, klärt Ihre Fragen und bestätigt den Termin.
-          </p>
+          <p class="lp-section-lead">Für alle, die vor der Buchung noch eine Frage haben.</p>
         </div>
 
         <div class="lp-form-shell">
           <div class="lp-form-status" data-lead-status role="alert" hidden></div>
           <div class="lp-form-success" data-lead-success tabindex="-1" hidden>
-            <h3>Vielen Dank! Ihre Anfrage ist eingegangen.</h3>
+            <h3>Vielen Dank, Ihre Anfrage ist eingegangen.</h3>
             <p>Teresa Stimac meldet sich zeitnah bei Ihnen, um den Termin für Carbon-Peeling + Microneedling abzustimmen.</p>
             <a class="lp-secondary-link" href={bookingHref} data-treatment={BOOKING_SERVICE} data-button-location="form_success_booking">{BOOKING_CTA_LABEL}</a>
           </div>
@@ -517,7 +516,7 @@ const structuredData = {
               <button type="submit" class="btn lp-submit" data-lead-submit data-button-location="lead_form_submit">
                 <span data-submit-label>{SUBMIT_LABEL}</span>
               </button>
-              <p class="lp-form-note">Keine Online-Zahlung. Das Studio meldet sich persönlich bei Ihnen.</p>
+              <p class="lp-form-note">Ohne Online-Zahlung.</p>
             </div>
           </form>
         </div>
@@ -1239,7 +1238,7 @@ const structuredData = {
     font-size: 1rem;
   }
 
-  /* ─── 3 · Steps: photo rows with hairlines ───────────────── */
+  /* ─── 4 · Steps: photo rows with hairlines ───────────────── */
   .lp-steps-section {
     background: var(--shell);
   }
@@ -1324,7 +1323,7 @@ const structuredData = {
     border-bottom: 0;
   }
 
-  /* ─── 4 · Goals ────────────────────────────────────────── */
+  /* ─── 3 · Goals ────────────────────────────────────────── */
   .lp-rows {
     display: grid;
     margin: 0;

@@ -148,7 +148,22 @@ const leadTrackingIndex = lp.indexOf('window.bflTracking?.trackLead?.({');
 assert(fetchIndex !== -1 && responseOkIndex > fetchIndex && successShownIndex > responseOkIndex && leadTrackingIndex > successShownIndex, 'Carbon LP must send JSON, check response.ok, show success and only then count the Lead');
 assert(lp.includes("source: 'carbon_microneedling_lp_form',\n              value: 175,") || lp.includes("source: 'carbon_microneedling_lp_form',\r\n              value: 175,"), 'Carbon LP Lead must carry its source and the CHF 175 value');
 assert(lp.includes("treatment_name: 'Carbon Microneedling'"), 'Carbon LP GA4 CTA event must name the treatment');
-assert(lp.includes('Vielen Dank! Ihre Anfrage ist eingegangen.'), 'Carbon LP form must show an inline success state');
+assert(lp.includes('Vielen Dank, Ihre Anfrage ist eingegangen.'), 'Carbon LP form must show an inline success state (no exclamation mark)');
+
+// CRO pass (2026-10-31, audit CARBON-LP-CRO-AUDIT-2026-10-31.md): benefit-led hero lead that matches ad text 1,
+// goals before steps, no lead over the steps, the form framed as the path for questions, each reassurance once.
+assert(
+  /Erst klärt das Carbon-Peeling die Haut optisch, dann kann das Microneedling die natürliche Hauterneuerung\r?\n\s+unterstützen – persönlich von Teresa Stimac an der Bahnhofstrasse&nbsp;94 in Zürich\./.test(lp),
+  'Carbon LP hero lead must name the benefit cautiously (plan 3.3 wording) and match ad text 1',
+);
+assert(lp.indexOf('id="lp-goals-title"') < lp.indexOf('id="lp-steps-title"') && lp.indexOf('id="lp-steps-title"') < lp.indexOf('id="lp-trust-title"'), 'Treatment goals sit between the included list and the steps');
+assert(lp.includes('<section class="lp-section lp-section--rule lp-goals"'), 'Goals section carries the hairline, as it follows another cream section');
+assert(!lp.includes('Reinigung und Peelings, dann Microneedling, zum Schluss Maske und LED-Licht'), 'Steps section has no lead that repeats the step titles');
+assert(lp.includes('<p class="lp-section-lead">Für alle, die vor der Buchung noch eine Frage haben.</p>'), 'Form lead must frame the form as the path for questions before booking');
+assert(lp.includes("'Sie senden Ihren Terminwunsch.',") && lp.includes('<p class="lp-form-note">Ohne Online-Zahlung.</p>'), 'Form must state «ohne Online-Zahlung» once, under the submit button (the button already says «Unverbindlich»)');
+assert(!lp.includes('Kurz ausfüllen –') && !lp.includes('Keine Online-Zahlung. Das Studio meldet sich'), 'Form must not repeat the follow-up promise three times');
+assert(lp.indexOf("q: 'Kann ich direkt online buchen?'") < lp.indexOf("q: 'Kostet die Anfrage über das Formular etwas?'") && lp.indexOf("q: 'Was ist im Angebot enthalten?'") < lp.indexOf("q: 'Kann ich direkt online buchen?'"), 'FAQ order: offer, online booking, then the form question');
+assert(lp.includes("a: 'Nein. Die Anfrage ist unverbindlich und ohne Online-Zahlung.',"), 'FAQ form answer stays short (the follow-up promise lives in the online-booking answer)');
 
 // Components: the lead flow replaces the booking widgets.
 for (const component of ['OfferBox', 'TrustStrip', 'BookingCta', 'StickyOfferBar']) {
@@ -187,6 +202,10 @@ for (const banned of reviewBans) {
   assert(!reviews.toLowerCase().includes(banned.toLowerCase()), `Carbon LP reviews must not contain «${banned}»`);
 }
 assert(lp.includes("import { TREATWELL_REVIEWS } from './_reviews';") && lp.includes('const REVIEWS_SHOWN = 6;'), 'Carbon LP must render the review data with six in view');
+assert(
+  lp.includes('const reviewsInView = TREATWELL_REVIEWS.filter((review, index, all) => all.findIndex((other) => other.name === review.name) === index).slice(0, REVIEWS_SHOWN);') && lp.includes('{reviewsToShow.map((review, index) => ('),
+  'The six reviews in view carry six different names (display rule in the page, data order in _reviews.ts unchanged)',
+);
 assert(lp.includes('<h2 id="lp-reviews-title" class="lp-section-title">Bewertungen auf Treatwell</h2>'), 'Carbon LP must title the reviews section plainly');
 assert(lp.includes('data-button-location="reviews_treatwell">Bewertung auf Treatwell</a>') && lp.includes('href={TREATWELL_URL}'), 'Every review must link its source on Treatwell');
 assert(lp.includes('data-reviews-toggle aria-controls="treatwell-reviews" aria-expanded="false" data-button-location="reviews_show_more" hidden>Weitere Bewertungen anzeigen</button>'), 'The show-more button must start hidden (all reviews show without JavaScript)');
