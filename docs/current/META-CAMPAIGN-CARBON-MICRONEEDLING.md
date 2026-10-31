@@ -20,7 +20,7 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 | Campaign price | CHF 175 | agreed with Teresa on 2026-10-31 (user). Teresa sets CHF 175 on Treatwell as a **time-limited Aktionspreis until 30 November**, not as a new regular price; screenshot the CHF 250 listing before the change. |
 | End date | 30. November 2026 | user decision 2026-10-31 (today + 30 days); one constant `OFFER_VALID_UNTIL` on the page |
 | Duration | 90 Min. | Treatwell |
-| Treatment steps, in this order | Reinigung → Fruchtsäure-Peeling → Carbon-Peeling → Diamantabrasion → Microneedling → Maske → LED-Licht (1 h 30 min) | Teresa's list, passed on by the user on 2026-10-31; order confirmed by the user the same day («LDL Licht» in her message means LED-Licht, user) |
+| Treatment steps, in this order | Reinigung → Fruchtsäure-Peeling → Diamantabrasion → Carbon-Peeling → Microneedling → Maske → LED-Licht (1 h 30 min) | Teresa's list, passed on by the user on 2026-10-31; Diamantabrasion moved before the Carbon-Peeling on Teresa's later correction (user, 2026-10-31 afternoon) («LDL Licht» in her message means LED-Licht, user) |
 | Details of the steps | skin analysis before the treatment; Carbon lotion applied and treated with the laser; Microneedling depth set to the skin type; after-care advice | treatment description of the user, 2026-10-31 |
 | After-care | SPF 30–50 daily, keep the skin moist, a few days without retinol, acid or peeling products, 24–48 hours no heat and no intense sport | treatment description of the user, 2026-10-31 |
 | Not suitable | active infection, inflamed acne, damaged skin; pregnancy | treatment description (first three); pregnancy kept as a cautious exclusion (user decision 2026-10-31) |
@@ -85,4 +85,5 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 - 2026-10-31, re-brief (user's go): the campaign goal is a Treatwell booking. Every primary CTA goes through `/termin/` to Treatwell; the form is the secondary path with one text link per CTA group; hero bullets removed (hero = H1, lead, price line, CTAs); FAQ recommends booking online; `qa:carbon-lp` and `qa:marketing` pin the new structure.
 
 - 2026-10-31, later: Teresa's list of the steps built in (Reinigung, Fruchtsäure-Peeling, Carbon-Peeling, Diamantabrasion, Microneedling, Maske, LED-Licht, order confirmed by the user); Hyaluron and numbing cream stay off.
+- 2026-10-31, after go-live: Teresa corrected the order — Diamantabrasion comes before the Carbon-Peeling (after the Fruchtsäure-Peeling). Page, FAQ 1, step text and QA script updated.
 - 2026-10-31: offer agreed with Teresa (user). Package 1: ad page rebuilt on the lead-form flow, CHF 175 statt CHF 250 until 30 November 2026; testimonials, Hyaluron, mask and numbing cream removed; Carbon campaign added to the lead cockpit vocabulary and the Worker; `qa:carbon-lp` rewritten.
