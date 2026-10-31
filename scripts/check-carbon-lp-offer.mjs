@@ -334,4 +334,57 @@ assert(
 );
 assert(tracking.includes("metaEventName: 'ViewContent'"), 'Tracking must fire Meta ViewContent');
 
+// Hero video loop (user's go, 2026-11-01): three Seedance clips cut to one silent 4:5 loop, embedded over the two
+// crossfade frames with the pattern of /lp/aquafacial/. The markup carries no source and no poster, the script
+// adds them after the load event in an idle slot, so the first paint and the LCP stay the static Carbon image.
+// Reduced motion, Save-Data, a rejected play() or a media error leave the crossfade as it is.
+for (const constant of [
+  "const HERO_VIDEO_POSTER = '/assets/lp-carbon/hero-poster-1080.webp';",
+  "const HERO_VIDEO_POSTER_MOBILE = '/assets/lp-carbon/hero-poster-720.webp';",
+  "const HERO_VIDEO_MP4 = '/assets/lp-carbon/hero-video.mp4';",
+  "const HERO_VIDEO_MOBILE_MP4 = '/assets/lp-carbon/hero-video-mobile.mp4';",
+  "const HERO_VIDEO_WEBM = '/assets/lp-carbon/hero-video.webm';",
+]) {
+  assert(lp.includes(constant), `Carbon LP must point the hero video at public/assets/lp-carbon (${constant})`);
+}
+assert(
+  /<video\s+class="lp-hero-video"\s+data-hero-video\s+data-poster=\{HERO_VIDEO_POSTER\}\s+data-poster-mobile=\{HERO_VIDEO_POSTER_MOBILE\}\s+data-desktop-mp4=\{HERO_VIDEO_MP4\}\s+data-mobile-mp4=\{HERO_VIDEO_MOBILE_MP4\}\s+data-desktop-webm=\{HERO_VIDEO_WEBM\}\s+preload="none"\s+autoplay\s+muted\s+loop\s+playsinline\s+aria-hidden="true"/.test(markup),
+  'The hero video is silent, looping, inline, hidden from assistive tech and carries its sources only as data attributes',
+);
+assert(!markup.includes('<source') && !/<video[^>]*\sposter=/.test(markup), 'The hero video markup must not carry a source or a poster (nothing loads before the LCP image)');
+assert(lp.indexOf('lp-hero-frame--needling') < lp.indexOf('data-hero-video') && lp.indexOf('data-hero-video') < lp.indexOf('</figure>'), 'The video sits in the hero figure after both frames');
+assert(/data-hero-video-toggle\s+aria-label="Video pausieren"\s+hidden/.test(markup), 'The pause button exists and starts hidden (WCAG 2.2.2)');
+for (const hook of [
+  'function initHeroVideo() {',
+  'if (reducedMotionQuery.matches || saveData) return;',
+  'if (sourcesLoaded || reducedMotionQuery.matches) return;',
+  "window.addEventListener('load', runWhenIdle, { once: true });",
+  'const poster = mobileVideoQuery.matches ? video.dataset.posterMobile : video.dataset.poster;',
+  "lastSource.addEventListener('error', hideVideo);",
+  'playRequest.catch(() => {',
+  'playFailed = true;',
+  'if (playFailed) return;',
+  "video.addEventListener('error', hideVideo);",
+  'initHeroVideo();',
+]) {
+  assert(lp.includes(hook), `Hero video script must keep the lazy, reduced-motion-safe pattern (${hook})`);
+}
+assert(/\.lp-hero-media \.lp-hero-video \{\r?\n\s+position: absolute;\r?\n\s+inset: 0;\r?\n\s+z-index: 2;\r?\n\s+display: block;\r?\n\s+width: 100%;\r?\n\s+height: calc\(100% - 2px\);/.test(styles), 'The video box is 2 px shorter than the image (explicit height; the global img, video { height: auto } rule would size it by its ratio), so the Carbon image stays the LCP element');
+assert(/\.lp-hero-media \.lp-hero-video \{[^}]*opacity: 0;/.test(styles) && /\.lp-hero-media\.is-video-ready \.lp-hero-video \{\r?\n\s+opacity: 1;/.test(styles), 'The video starts invisible and fades in once it can play');
+assert(/\.lp-hero-media\.is-video-playing :global\(\.lp-hero-frame\) \{\r?\n\s+animation: none;/.test(styles), 'The frames stop crossfading once the video plays');
+const reducedMotionBlock = styles.slice(styles.lastIndexOf('@media (prefers-reduced-motion: reduce)'));
+assert(/\.lp-hero-media \.lp-hero-video,\r?\n\s+\.lp-hero-video-toggle \{\r?\n\s+display: none;/.test(reducedMotionBlock), 'Reduced motion hides the video and its button (the script never loads it)');
+assert(!lp.includes('lp-aquafacial/hero'), 'The Carbon LP must not use the Aquafacial campaign video');
+const videoAssets = [
+  ['hero-video.mp4', 1.5 * 1024 * 1024],
+  ['hero-video.webm', 1.3 * 1024 * 1024],
+  ['hero-video-mobile.mp4', 0.7 * 1024 * 1024],
+  ['hero-poster-1080.webp', 160 * 1024],
+  ['hero-poster-720.webp', 100 * 1024],
+];
+for (const [name, limit] of videoAssets) {
+  const file = await stat(new URL(`../public/assets/lp-carbon/${name}`, import.meta.url));
+  assert(file.size > 0 && file.size <= limit, `public/assets/lp-carbon/${name} must exist and stay under ${Math.round(limit / 1024)} KB (is ${Math.round(file.size / 1024)} KB)`);
+}
+
 console.log('[ok] Carbon-Peeling + Microneedling LP offer (CHF 175 statt 250, until 30 November 2026), lead form, bridge and tracking are aligned.');
