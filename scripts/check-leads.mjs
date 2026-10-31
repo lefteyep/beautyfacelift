@@ -92,9 +92,9 @@ check(!/^import\s/m.test(leads), 'shared/leads.ts has no imports (loads in Worke
 const statuses = ['neu', 'kontaktiert', 'gebucht', 'erschienen', 'no_show', 'abgesagt', 'nicht_erreicht'];
 const statusList = leads.split('export const LEAD_STATUSES = [')[1]?.split(']')[0] ?? '';
 check(JSON.stringify([...statusList.matchAll(/'([^']+)'/g)].map((m) => m[1])) === JSON.stringify(statuses), 'LEAD_STATUSES are the seven slugs in order');
-const sources = ['kontakt-page', 'aquafacial-lp', 'aquafacial-microneedling-lp', 'manual'];
+const sources = ['kontakt-page', 'aquafacial-lp', 'aquafacial-microneedling-lp', 'carbon-microneedling-lp', 'manual'];
 const sourceList = leads.split('export const LEAD_SOURCES = [')[1]?.split(']')[0] ?? '';
-check(JSON.stringify([...sourceList.matchAll(/'([^']+)'/g)].map((m) => m[1])) === JSON.stringify(sources), 'LEAD_SOURCES are kontakt-page, aquafacial-lp, aquafacial-microneedling-lp, manual');
+check(JSON.stringify([...sourceList.matchAll(/'([^']+)'/g)].map((m) => m[1])) === JSON.stringify(sources), 'LEAD_SOURCES are kontakt-page, aquafacial-lp, aquafacial-microneedling-lp, carbon-microneedling-lp, manual');
 check(/DUPLICATE_WINDOW_DAYS = 30;/.test(leads) && /NUDGE_AFTER_MINUTES = 60;/.test(leads)
   && /FOLLOWUP_AFTER_HOURS = 72;/.test(leads) && /REVIEW_AFTER_HOURS = 24;/.test(leads), 'timing constants are 30 days / 60 min / 72 h / 24 h');
 check(leads.includes('`Guten Tag ${firstName}, hier ist Teresa Stimac von Beauty Face Lift. Vielen Dank für Ihre Anfrage zu ${treatment}. Wann passt es Ihnen für einen Termin?`'),
@@ -108,6 +108,7 @@ check(leads.includes('return isSingleMailbox(email) ? email : null;')
 // Copies of the ad pages' constants.
 const comboLp = read('src/pages/lp/aquafacial-microneedling/index.astro');
 const aktionLp = read('src/pages/lp/aquafacial/index.astro');
+const carbonLp = read('src/pages/lp/carbon-microneedling/index.astro');
 const pageConstant = (source, name) => source.match(new RegExp(`const ${name} = '([^']*)'`))?.[1];
 const offerBlock = (key) => leads.match(new RegExp(`\\b${key}: \\{([^}]*)\\}`))?.[1] ?? '';
 const offerValue = (key, field) => offerBlock(key).match(new RegExp(`${field}: (?:'([^']*)'|(null))`))?.slice(1).find((v) => v !== undefined);
@@ -120,7 +121,15 @@ check(offerValue('aquafacial_microneedling', 'label') === pageConstant(comboLp, 
   'CAMPAIGN_OFFERS.aquafacial_microneedling.label equals OFFER_LABEL of the combo LP');
 check(offerValue('aquafacial_aktion', 'label') === pageConstant(aktionLp, 'OFFER_LABEL'),
   'CAMPAIGN_OFFERS.aquafacial_aktion.label equals OFFER_LABEL of the Aquafacial LP');
-check(pageConstant(comboLp, 'CONTACT_CAMPAIGN') === 'aquafacial_microneedling' && pageConstant(aktionLp, 'CAMPAIGN') === 'aquafacial_aktion',
+const carbonValidUntil = pageConstant(carbonLp, 'OFFER_VALID_UNTIL');
+check(carbonValidUntil !== undefined && offerValue('carbon_microneedling', 'validUntil') === carbonValidUntil,
+  `CAMPAIGN_OFFERS.carbon_microneedling.validUntil equals OFFER_VALID_UNTIL of the Carbon LP (${carbonValidUntil})`);
+check(offerValue('carbon_microneedling', 'bookingService') === pageConstant(carbonLp, 'BOOKING_SERVICE'),
+  'CAMPAIGN_OFFERS.carbon_microneedling.bookingService equals BOOKING_SERVICE of the Carbon LP');
+check(offerValue('carbon_microneedling', 'label') === pageConstant(carbonLp, 'OFFER_LABEL'),
+  'CAMPAIGN_OFFERS.carbon_microneedling.label equals OFFER_LABEL of the Carbon LP');
+check(pageConstant(comboLp, 'CONTACT_CAMPAIGN') === 'aquafacial_microneedling' && pageConstant(aktionLp, 'CAMPAIGN') === 'aquafacial_aktion'
+  && pageConstant(carbonLp, 'CONTACT_CAMPAIGN') === 'carbon_microneedling',
   'CAMPAIGN_OFFERS keys match the campaigns the LPs post');
 
 // OPENING_HOURS_WEEKLY (index 0 = Sunday) rendered like OPENING_HOURS in shared/site.ts.
@@ -168,6 +177,8 @@ check(aktionLp.includes('<input type="hidden" name="source" value="aquafacial-lp
 check(read('src/pages/kontakt/index.astro').includes('<input type="hidden" name="source" value="kontakt-page" />'), '/kontakt/ posts source=kontakt-page');
 check(pageConstant(comboLp, 'CONTACT_SOURCE') === 'aquafacial-microneedling-lp' && comboLp.includes('<input type="hidden" name="source" value={CONTACT_SOURCE} />'),
   '/lp/aquafacial-microneedling/ posts source=aquafacial-microneedling-lp');
+check(pageConstant(carbonLp, 'CONTACT_SOURCE') === 'carbon-microneedling-lp' && carbonLp.includes('<input type="hidden" name="source" value={CONTACT_SOURCE} />'),
+  '/lp/carbon-microneedling/ posts source=carbon-microneedling-lp');
 
 // ---- cockpit (/admin/leads/) ---------------------------------------------------------------------------
 for (const font of ['public/fonts/instrument-serif-400.woff2', 'public/fonts/instrument-sans-variable.woff2']) {

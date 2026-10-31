@@ -55,7 +55,7 @@ type ContactSubmission = {
 };
 
 // Ad-page forms without a Turnstile widget; they keep the honeypot and the rate limit.
-const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion', 'aquafacial_microneedling']);
+const TURNSTILE_OPTIONAL_CAMPAIGNS = new Set(['aquafacial_aktion', 'aquafacial_microneedling', 'carbon_microneedling']);
 
 function getString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -87,6 +87,10 @@ function isAquafacialLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
 
 function isComboLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
   return data.campaign === 'aquafacial_microneedling';
+}
+
+function isCarbonLead(data: Pick<ContactSubmission, 'campaign'>): boolean {
+  return data.campaign === 'carbon_microneedling';
 }
 
 function isValidEmail(email: string): boolean {
@@ -396,7 +400,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
   const submittedAt = receivedAt;
   const aquafacialLead = isAquafacialLead(data);
   const comboLead = isComboLead(data);
-  // The combo ad page names its campaign in the subject so the lead sheet can filter on it.
+  const carbonLead = isCarbonLead(data);
+  // The combo ad pages name their campaign in the subject so the lead sheet can filter on it.
   const heading = aquafacialLead
     ? 'Neue Aquafacial Aktion Anfrage'
     : comboLead
@@ -406,7 +411,9 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     ? 'Neue Aquafacial Aktion Anfrage – Beauty Face Lift'
     : comboLead
       ? `Neue Kombi-Anfrage: Aquafacial + Microneedling – ${data.name}`
-      : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
+      : carbonLead
+        ? `Neue Kombi-Anfrage: Carbon-Peeling + Microneedling – ${data.name}`
+        : `Neue Kontaktanfrage: ${data.topic} — ${data.name}`;
   const leadDetails = [
     ['Anfrage-ID', enquiryId],
     ['Eingang', submittedAt],

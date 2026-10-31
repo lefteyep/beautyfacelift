@@ -1,7 +1,8 @@
 // Confirmation of receipt to the customer after an enquiry (sent by worker/email/confirmation.ts,
-// switched off until go-live). Three variants: the contact page, the Aquafacial ad page and the
-// Aquafacial + Microneedling ad page. No prices, no result claims, no opt-out link (this mail only
-// answers the customer's own request), and no link into the lead cockpit.
+// switched off until go-live). Four variants: the contact page, the Aquafacial ad page, the
+// Aquafacial + Microneedling ad page and the Carbon-Peeling + Microneedling ad page. No prices, no
+// result claims, no opt-out link (this mail only answers the customer's own request), and no link into
+// the lead cockpit.
 import { CAMPAIGN_OFFERS, type CampaignOffer } from '../../../shared/leads';
 import { absoluteUrl, bookingLinkForService, CONTACT_PHONE_DISPLAY, CONTACT_PHONE, FULL_ADDRESS } from '../../../shared/site';
 import type { LeadRow } from '../../leads/db';
@@ -12,12 +13,13 @@ import { emailLink, renderEmail, type EmailParagraph } from '../layout';
 const WHATSAPP_URL = 'https://wa.me/41792143462';
 const FOOTER = 'Diese E-Mail bestätigt den Eingang Ihrer Anfrage.';
 
-export type ConfirmationVariant = 'kontakt' | 'aquafacial_aktion' | 'aquafacial_microneedling';
+export type ConfirmationVariant = 'kontakt' | 'aquafacial_aktion' | 'aquafacial_microneedling' | 'carbon_microneedling';
 
 const SUBJECTS: Readonly<Record<ConfirmationVariant, string>> = {
   kontakt: 'Ihre Anfrage bei Beauty Face Lift',
   aquafacial_aktion: 'Ihre Aquafacial-Anfrage bei Beauty Face Lift',
   aquafacial_microneedling: 'Ihre Anfrage: Aquafacial + Microneedling bei Beauty Face Lift',
+  carbon_microneedling: 'Ihre Anfrage: Carbon-Peeling + Microneedling bei Beauty Face Lift',
 };
 
 /** Contact methods of the forms (CONTACT_PREFERRED_METHODS) that name one channel. */
@@ -30,7 +32,7 @@ const CONTACT_CHANNELS: Readonly<Record<string, string>> = {
 const OFFER_DATE_FORMAT = new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 export function confirmationVariant(campaign: string): ConfirmationVariant {
-  return campaign === 'aquafacial_aktion' || campaign === 'aquafacial_microneedling' ? campaign : 'kontakt';
+  return campaign === 'aquafacial_aktion' || campaign === 'aquafacial_microneedling' || campaign === 'carbon_microneedling' ? campaign : 'kontakt';
 }
 
 /** `Das Angebot gilt bis 14. November 2026.` while today (Zurich) is on or before the offer's last day. */

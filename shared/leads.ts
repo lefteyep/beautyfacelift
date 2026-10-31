@@ -33,6 +33,7 @@ export const LEAD_SOURCES = [
   'kontakt-page',
   'aquafacial-lp',
   'aquafacial-microneedling-lp',
+  'carbon-microneedling-lp',
   'manual',
 ] as const;
 export type LeadSource = (typeof LEAD_SOURCES)[number];
@@ -42,18 +43,19 @@ export function isLeadSource(value: unknown): value is LeadSource {
 }
 
 /** Sources a public form may name itself. `manual` is reserved for leads entered in the cockpit. */
-const FORM_LEAD_SOURCES: readonly LeadSource[] = ['kontakt-page', 'aquafacial-lp', 'aquafacial-microneedling-lp'];
+const FORM_LEAD_SOURCES: readonly LeadSource[] = ['kontakt-page', 'aquafacial-lp', 'aquafacial-microneedling-lp', 'carbon-microneedling-lp'];
 
 /**
  * The source of a form submission: an explicit form source (kontakt-page, aquafacial-lp,
- * aquafacial-microneedling-lp) wins; anything else, including `manual`, is ignored. Then the
- * campaign decides (the ad pages post a campaign); everything else is the contact page.
+ * aquafacial-microneedling-lp, carbon-microneedling-lp) wins; anything else, including `manual`, is
+ * ignored. Then the campaign decides (the ad pages post a campaign); everything else is the contact page.
  */
 export function leadSourceFor(campaign: string, source?: string): LeadSource {
   const explicit = source?.trim();
   if (isLeadSource(explicit) && FORM_LEAD_SOURCES.includes(explicit)) return explicit;
   if (campaign === 'aquafacial_aktion') return 'aquafacial-lp';
   if (campaign === 'aquafacial_microneedling') return 'aquafacial-microneedling-lp';
+  if (campaign === 'carbon_microneedling') return 'carbon-microneedling-lp';
   return 'kontakt-page';
 }
 
@@ -68,7 +70,8 @@ export type CampaignOffer = {
 /**
  * Copies of the ad pages' constants. aquafacial_microneedling: OFFER_VALID_UNTIL, BOOKING_SERVICE and
  * OFFER_LABEL of src/pages/lp/aquafacial-microneedling/index.astro. aquafacial_aktion: OFFER_LABEL of
- * src/pages/lp/aquafacial/index.astro (the page has no BOOKING_SERVICE constant).
+ * src/pages/lp/aquafacial/index.astro (the page has no BOOKING_SERVICE constant). carbon_microneedling:
+ * OFFER_VALID_UNTIL, BOOKING_SERVICE and OFFER_LABEL of src/pages/lp/carbon-microneedling/index.astro.
  */
 export const CAMPAIGN_OFFERS = {
   aquafacial_microneedling: {
@@ -80,6 +83,11 @@ export const CAMPAIGN_OFFERS = {
     validUntil: null,
     bookingService: 'Aquafacial',
     label: 'Aquafacial Aktion',
+  },
+  carbon_microneedling: {
+    validUntil: '2026-11-30',
+    bookingService: 'Carbon Microneedling',
+    label: 'Carbon-Peeling + Microneedling Aktion',
   },
 } as const satisfies Record<string, CampaignOffer>;
 export type CampaignKey = keyof typeof CAMPAIGN_OFFERS;
