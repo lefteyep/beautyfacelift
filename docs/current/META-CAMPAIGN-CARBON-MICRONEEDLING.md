@@ -27,7 +27,7 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 | «seit über 20 Jahren im Beruf und selbstständig» | trust block | statement of the user, 2026-10-31 (no written source) |
 | Rating | «4,8 aus 260+ Bewertungen auf Treatwell» | Treatwell showed 4.8 from 261 reviews on 2026-10-31; the line links to the Treatwell page |
 | Treatwell service detail | `TR4124153` | user, 2026-10-31; `/termin/` opens it directly |
-| Reviews | 50 Treatwell reviews, verbatim, with name, month and treatment; six in view, the rest behind «Weitere Bewertungen anzeigen» | treatwell.ch venue page, read 2026-10-31 (177 reviews with text; Treatwell counts 261 ratings). Selection: 5 stars, German, named reviewer, face treatments; left out: result promises or descriptions, the other facial brand name, prices, other venues, English and very short reviews. Data in `src/pages/lp/carbon-microneedling/_reviews.ts`; checked against Treatwell with a checksum. |
+| Reviews | 42 Treatwell reviews, verbatim, with name, month and treatment; six in view, the rest behind «Weitere Bewertungen anzeigen» | treatwell.ch venue page, read 2026-10-31 (177 reviews with text; Treatwell counts 261 ratings). Selection: 5 stars, German, named reviewer, face treatments, at most two per name (the most recent, Microneedling first; user, 2026-10-31); left out: result promises or descriptions, the other facial brand name, prices, other venues, English and very short reviews. Data in `src/pages/lp/carbon-microneedling/_reviews.ts`; checked against Treatwell with a checksum. |
 
 **Kept off the page:** Hyaluron and a numbing cream. Teresa's list of the steps (2026-10-31) does not name them. The mask is on her list and appears plainly as «Maske», without promises.
 
@@ -75,6 +75,7 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 
 ## 6. Change log
 
+- 2026-10-31, reviews, second round (user): at most two reviews per name, so 42 instead of 50 (Pascale 7 → 2, Daniel 4 → 2, Rahel 3 → 2); `qa:carbon-lp` checks the limit.
 - 2026-10-31, reviews (user: as many as possible): 50 verbatim Treatwell reviews between the trust section and the form, six in view, the rest behind a button that only the script adds (without JavaScript all show). `qa:carbon-lp` checks the data for banned words and the section structure.
 
 - 2026-10-31, re-brief (user's go): the campaign goal is a Treatwell booking. Every primary CTA goes through `/termin/` to Treatwell; the form is the secondary path with one text link per CTA group; hero bullets removed (hero = H1, lead, price line, CTAs); FAQ recommends booking online; `qa:carbon-lp` and `qa:marketing` pin the new structure.

@@ -176,7 +176,11 @@ assert(reviewCount >= 6, `Carbon LP must carry at least six Treatwell reviews (g
 for (const name of ['Svenja', 'Rahel', 'Andreas', 'Klara']) {
   assert(reviews.includes(`name: "${name}"`), `Carbon LP reviews must include ${name}`);
 }
-assert((reviews.match(/^ {4}date: "\d{4}-\d{2}",$/gm) || []).length === reviewCount, 'Every review must carry its Treatwell month (YYYY-MM)');
+assert((reviews.match(/^ {4}date: "\d{4}-\d{2}",\r?$/gm) || []).length === reviewCount, 'Every review must carry its Treatwell month (YYYY-MM)');
+const reviewsPerName = {};
+for (const [, name] of reviews.matchAll(/^ {4}name: "([^"]+)"/gm)) reviewsPerName[name] = (reviewsPerName[name] || 0) + 1;
+const repeated = Object.entries(reviewsPerName).filter(([, count]) => count > 2);
+assert(repeated.length === 0, `Carbon LP shows at most two reviews per name (user, 2026-10-31); too many: ${JSON.stringify(repeated)}`);
 const brandWord = ['Hyd', 'ra'].join('');
 const reviewBans = [brandWord, ['Hyd', 'ro'].join(''), 'CHF', 'Resultat', 'Ergebnis', 'verbesser', 'strahl', 'Poren', 'jünger', 'Falten', 'garantiert', 'Ausfallzeit', 'ß'];
 for (const banned of reviewBans) {

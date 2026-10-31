@@ -1,8 +1,8 @@
 // Reviews of Beauty Face Lift on Treatwell, copied verbatim (spelling as written) on 2026-10-31 from
 // https://www.treatwell.ch/ort/beauty-face-lift/ (177 reviews with text; Treatwell counts 261 ratings).
-// Selection: 5 stars, German, named reviewer, face treatments. Left out: reviews that promise or describe
-// results, name a device brand or the other facial brand the site never uses, a price or another venue,
-// English ones and very short ones.
+// Selection: 5 stars, German, named reviewer, face treatments, at most two per name (the most recent,
+// Microneedling first). Left out: reviews that promise or describe results, name a device brand or the other
+// facial brand the site never uses, a price or another venue, English ones and very short ones.
 // The first six are shown directly (Microneedling first); the rest sit behind «Weitere Bewertungen anzeigen».
 // date = month of the review on Treatwell (YYYY-MM).
 export type TreatwellReview = { name: string; date: string; treatment: string; text: string };
@@ -93,12 +93,6 @@ export const TREATWELL_REVIEWS: readonly TreatwellReview[] = [
     text: "Fühle mich sehr wohl bei Teresa und bin immer sehr zufrieden!",
   },
   {
-    name: "Rahel",
-    date: "2025-09",
-    treatment: "Feuchtigkeitsspendende Gesichtsbehandlung",
-    text: "Alles super, ich geh wieder zu Teresa!!!",
-  },
-  {
     name: "Irina",
     date: "2025-05",
     treatment: "Feuchtigkeitsspendende Gesichtsbehandlung",
@@ -117,40 +111,16 @@ export const TREATWELL_REVIEWS: readonly TreatwellReview[] = [
     text: "Die Behandlungen sind immer professionell und erholsam",
   },
   {
-    name: "Pascale",
-    date: "2025-03",
-    treatment: "Gesichtsbehandlungen",
-    text: "Entspannende Gesichtspflege mit Dampf. War herrlich.",
-  },
-  {
     name: "Kostovic",
     date: "2024-12",
     treatment: "Feuchtigkeitsspendende Gesichtsbehandlung",
     text: "Die Behandlung sowie die Atmosphäre waren topp 💪🏻",
   },
   {
-    name: "Pascale",
-    date: "2024-12",
-    treatment: "Gesichtsbehandlungen",
-    text: "Gute Gesichtspflege mit wohlriechenden warmen Dampf und total entspannende Massage für Gesicht, Hände und Arme.",
-  },
-  {
     name: "Yilmaz",
     date: "2024-11",
     treatment: "Micro-Needling",
     text: "Es war eine gute Entscheidung dorthin zu gehen.",
-  },
-  {
-    name: "Pascale",
-    date: "2024-07",
-    treatment: "Gesichtsbehandlungen",
-    text: "Entspannende und wohltuende Gesichtsbehandlung begleitet mit einer Gesichtsmassage, Dekoltee sowie Arme und Hände.Einfach grossartig!",
-  },
-  {
-    name: "Pascale",
-    date: "2024-06",
-    treatment: "Feuchtigkeitsspendende Gesichtsbehandlung",
-    text: "Wohlfühlende und kompetente Behandlung. Gute Produkte und die Massage war sehr angenehm und entspannend. Ich komme wieder!😍",
   },
   {
     name: "Andrea.Fernandez",
@@ -163,12 +133,6 @@ export const TREATWELL_REVIEWS: readonly TreatwellReview[] = [
     date: "2024-01",
     treatment: "Gesichtsbehandlungen",
     text: "Die Behandlich war gut und gründlich !",
-  },
-  {
-    name: "Pascale",
-    date: "2023-12",
-    treatment: "Gesichtsbehandlungen",
-    text: "Wohltuende Behandlung. Gute Produkte.",
   },
   {
     name: "Daniel",
@@ -273,12 +237,6 @@ export const TREATWELL_REVIEWS: readonly TreatwellReview[] = [
     text: "Hat sie ganz toll gemacht ,komme gerne wieder 🙏❤️",
   },
   {
-    name: "Daniel",
-    date: "2021-05",
-    treatment: "Gesichtsbehandlungen",
-    text: "Ich bin schon über zehn Jahre Kunde bei Teresa. Sie arbeitet sehr professionell und konstant.",
-  },
-  {
     name: "Marlies",
     date: "2020-10",
     treatment: "Gesichtsbehandlungen",
@@ -289,12 +247,6 @@ export const TREATWELL_REVIEWS: readonly TreatwellReview[] = [
     date: "2018-12",
     treatment: "Gesichtsbehandlungen",
     text: "Alles bestens, Teresa macht ihre Arbeit einwandfrei und dazu ist sie sehr herzlich! Gehe gerne zu ihr, danke 😄",
-  },
-  {
-    name: "Daniel",
-    date: "2017-10",
-    treatment: "Gesichtsbehandlungen",
-    text: "Ich bin seit über 10 Jahren Stammkunden und bin wie immer sehr zufrieden.",
   },
   {
     name: "Denise",
