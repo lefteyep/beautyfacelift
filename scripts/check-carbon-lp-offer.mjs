@@ -169,6 +169,26 @@ for (const jargon of ['Tracking-Brücke', 'Kampagnenparameter']) {
   assert(!lp.includes(jargon), `Carbon LP must not show tracking jargon (${jargon}) to customers`);
 }
 
+// Reviews: verbatim from Treatwell (./_reviews.ts), six in view, the rest behind a button only the script reveals.
+const reviews = await readFile(new URL('../src/pages/lp/carbon-microneedling/_reviews.ts', import.meta.url), 'utf8');
+const reviewCount = (reviews.match(/^ {4}name: /gm) || []).length;
+assert(reviewCount >= 6, `Carbon LP must carry at least six Treatwell reviews (got ${reviewCount})`);
+for (const name of ['Svenja', 'Rahel', 'Andreas', 'Klara']) {
+  assert(reviews.includes(`name: "${name}"`), `Carbon LP reviews must include ${name}`);
+}
+assert((reviews.match(/^ {4}date: "\d{4}-\d{2}",$/gm) || []).length === reviewCount, 'Every review must carry its Treatwell month (YYYY-MM)');
+const brandWord = ['Hyd', 'ra'].join('');
+const reviewBans = [brandWord, ['Hyd', 'ro'].join(''), 'CHF', 'Resultat', 'Ergebnis', 'verbesser', 'strahl', 'Poren', 'jünger', 'Falten', 'garantiert', 'Ausfallzeit', 'ß'];
+for (const banned of reviewBans) {
+  assert(!reviews.toLowerCase().includes(banned.toLowerCase()), `Carbon LP reviews must not contain «${banned}»`);
+}
+assert(lp.includes("import { TREATWELL_REVIEWS } from './_reviews';") && lp.includes('const REVIEWS_SHOWN = 6;'), 'Carbon LP must render the review data with six in view');
+assert(lp.includes('<h2 id="lp-reviews-title" class="lp-section-title">Bewertungen auf Treatwell</h2>'), 'Carbon LP must title the reviews section plainly');
+assert(lp.includes('data-button-location="reviews_treatwell">Bewertung auf Treatwell</a>') && lp.includes('href={TREATWELL_URL}'), 'Every review must link its source on Treatwell');
+assert(lp.includes('data-reviews-toggle aria-controls="treatwell-reviews" aria-expanded="false" data-button-location="reviews_show_more" hidden>Weitere Bewertungen anzeigen</button>'), 'The show-more button must start hidden (all reviews show without JavaScript)');
+assert(lp.includes(".lp-reviews.is-collapsed .lp-review--more {") && lp.includes("section.classList.add('is-collapsed');"), 'Only the script collapses the extra reviews');
+assert(lp.indexOf('id="lp-trust-title"') < lp.indexOf('id="lp-reviews-title"') && lp.indexOf('id="lp-reviews-title"') < lp.indexOf('id={LEAD_FORM_TARGET_ID}'), 'Reviews sit between the trust section and the form');
+
 // Booking bridge: offer note and the Treatwell service detail (TR4124153, user 2026-10-31).
 assert(termin.includes('TREATWELL_BOOKING_URL'), 'Booking bridge must use the Treatwell booking URL constant');
 assert(termin.includes('booking-forward-offer'), 'Booking bridge must expose promo context to users');

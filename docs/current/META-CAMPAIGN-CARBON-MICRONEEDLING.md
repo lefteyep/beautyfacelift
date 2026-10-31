@@ -27,6 +27,7 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 | «seit über 20 Jahren im Beruf und selbstständig» | trust block | statement of the user, 2026-10-31 (no written source) |
 | Rating | «4,8 aus 260+ Bewertungen auf Treatwell» | Treatwell showed 4.8 from 261 reviews on 2026-10-31; the line links to the Treatwell page |
 | Treatwell service detail | `TR4124153` | user, 2026-10-31; `/termin/` opens it directly |
+| Reviews | 50 Treatwell reviews, verbatim, with name, month and treatment; six in view, the rest behind «Weitere Bewertungen anzeigen» | treatwell.ch venue page, read 2026-10-31 (177 reviews with text; Treatwell counts 261 ratings). Selection: 5 stars, German, named reviewer, face treatments; left out: result promises or descriptions, the other facial brand name, prices, other venues, English and very short reviews. Data in `src/pages/lp/carbon-microneedling/_reviews.ts`; checked against Treatwell with a checksum. |
 
 **Kept off the page:** Hyaluron and a numbing cream. Teresa's list of the steps (2026-10-31) does not name them. The mask is on her list and appears plainly as «Maske», without promises.
 
@@ -37,7 +38,7 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 ## 3. Page contract (`/lp/carbon-microneedling/`)
 
 - **Flow:** booking first. Every primary button («Jetzt auf Treatwell buchen»; «Jetzt buchen» in the mobile sticky bar) goes to `/termin/?service=Carbon+Microneedling&offer=carbon-microneedling-aktion&price=175`, which shows the Aktion note and forwards to the Treatwell service `TR4124153`. Under each booking button sits one secondary text link to the form («Lieber zuerst Fragen klären? Unverbindlich anfragen.»). After a sent request, the success message offers the booking link again. WhatsApp sits in the closing band and in the floating disc.
-- **Sections:** hero (kicker, H1, lead, price line with end date, CTAs, rating line) → «Das ist inbegriffen» → «So läuft die Behandlung ab» (three steps: Reinigung und Peelings, Microneedling, Maske und LED-Licht) → «Typische Behandlungsziele» → «Persönlich behandelt von Teresa Stimac» → form → FAQ → studio and directions (map loads on request) → closing band; mobile sticky bar and floating WhatsApp.
+- **Sections:** hero (kicker, H1, lead, price line with end date, CTAs, rating line) → «Das ist inbegriffen» → «So läuft die Behandlung ab» (three steps: Reinigung und Peelings, Microneedling, Maske und LED-Licht) → «Typische Behandlungsziele» → «Persönlich behandelt von Teresa Stimac» → «Bewertungen auf Treatwell» → form → FAQ → studio and directions (map loads on request) → closing band; mobile sticky bar and floating WhatsApp.
 - **End date** appears in the hero price line, FAQ 1, the closing band, the meta description and the schema `priceValidUntil`, all from `OFFER_VALID_UNTIL = '2026-11-30'`.
 - **Form:** JSON `POST /api/contact` with `topic` «Ich möchte einen Termin buchen», `source` `carbon-microneedling-lp`, `campaign` `carbon_microneedling`, `offer` `carbon-microneedling-aktion`, `treatment` `Carbon Microneedling`, `landing_page`, `page_path`, `page_url`, `referrer`, `utm_*`, `fbclid`, `gclid`, `msclkid`. Required: name, phone/WhatsApp, privacy consent. No Turnstile widget (the Worker exempts the campaign); honeypot and rate limit stay.
 - **Images:** placeholders from `src/assets/marketing/` until the generated Carbon series arrives in `src/assets/lp/carbon/`; the swap points are marked `IMAGE SWAP 1–6` in the page's frontmatter. The portrait of Teresa is not used until its origin is clear.
@@ -48,7 +49,7 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 | Layer | Value |
 |---|---|
 | `data-treatment` on every CTA | `Carbon Microneedling` |
-| `data-button-location` | Booking (to `/termin/`): `lp_hero_booking`, `offer_section_booking`, `trust_section_booking`, `lp_final_booking`, `sticky_booking`, `form_success_booking`. Form links (`data-lead-cta`): `lp_hero_lead`, `offer_section_lead`, `trust_section_lead`, `lp_final_lead`; `lead_form_submit`. Other: `lp_hero_reviews`, `trust_reviews`, `location_map_load` |
+| `data-button-location` | Booking (to `/termin/`): `lp_hero_booking`, `offer_section_booking`, `trust_section_booking`, `lp_final_booking`, `sticky_booking`, `form_success_booking`. Form links (`data-lead-cta`): `lp_hero_lead`, `offer_section_lead`, `trust_section_lead`, `lp_final_lead`; `lead_form_submit`. Other: `lp_hero_reviews`, `trust_reviews`, `reviews_treatwell`, `reviews_show_more`, `location_map_load` |
 | WhatsApp `source` | `carbon_final`, `carbon_floating_whatsapp` |
 | `data-source` | `carbon_location` (route link) |
 | ViewContent | `content_name` «Carbon Microneedling Aktion», value 175 CHF (`LANDING_PAGE_CONTENT` in `src/lib/track.ts`) |
@@ -73,6 +74,8 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 5. The user's go in chat.
 
 ## 6. Change log
+
+- 2026-10-31, reviews (user: as many as possible): 50 verbatim Treatwell reviews between the trust section and the form, six in view, the rest behind a button that only the script adds (without JavaScript all show). `qa:carbon-lp` checks the data for banned words and the section structure.
 
 - 2026-10-31, re-brief (user's go): the campaign goal is a Treatwell booking. Every primary CTA goes through `/termin/` to Treatwell; the form is the secondary path with one text link per CTA group; hero bullets removed (hero = H1, lead, price line, CTAs); FAQ recommends booking online; `qa:carbon-lp` and `qa:marketing` pin the new structure.
 

@@ -17,6 +17,7 @@ import nachsorgeStepImage from '../../../assets/marketing/spa_products.png';
 // IMAGE SWAP 6 · trust block: studio without a person (no portrait until its origin is clear).
 import studioImage from '../../../assets/marketing/spa_interior.png';
 import { ADDRESS, OPENING_HOURS, TREATWELL_URL, absoluteUrl, bookingLinkForService } from '../../../../shared/site';
+import { TREATWELL_REVIEWS } from './_reviews';
 
 const PROMO_PRICE = 175;
 const REGULAR_PRICE = 250;
@@ -117,6 +118,13 @@ const goalItems = [
   { title: 'Ebenmässigere Textur', text: 'Microneedling kann die natürliche Hauterneuerung und ein glatter wirkendes Hautbild unterstützen.' },
   { title: 'Frischerer Teint', text: 'Direkt nach der Behandlung kann die Haut frischer, klarer und gepflegter wirken.' },
 ];
+
+// Verbatim Treatwell reviews (./_reviews.ts): six in view, the rest behind a button the script adds,
+// so without JavaScript all of them show.
+const REVIEWS_SHOWN = 6;
+const reviewMonthFormat = new Intl.DateTimeFormat('de-CH', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const reviewMonth = (yearMonth: string) => reviewMonthFormat.format(new Date(`${yearMonth}-01T00:00:00Z`));
+const moreReviews = TREATWELL_REVIEWS.length - REVIEWS_SHOWN;
 
 // Studio facts in one hairline row; the review line links to its source (Treatwell, 261 reviews on 2026-10-31).
 const studioFacts = [
@@ -381,6 +389,31 @@ const structuredData = {
             <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="trust_section_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 5b · Reviews from Treatwell, verbatim; more than six stay behind a button that only the script reveals -->
+    <section class="lp-section lp-section--rule lp-reviews" aria-labelledby="lp-reviews-title" data-reviews>
+      <div class="container">
+        <div class="lp-section-head">
+          <h2 id="lp-reviews-title" class="lp-section-title">Bewertungen auf Treatwell</h2>
+          <p class="lp-section-lead">4,8 aus 260+ Bewertungen. Eine Auswahl, wörtlich übernommen.</p>
+        </div>
+        <ul class="lp-reviews-list" id="treatwell-reviews">
+          {TREATWELL_REVIEWS.map((review, index) => (
+            <li class:list={['lp-review', { 'lp-review--more': index >= REVIEWS_SHOWN }]} tabindex={index === REVIEWS_SHOWN ? -1 : undefined}>
+              <span class="lp-review-stars" role="img" aria-label="5 von 5 Sternen">★★★★★</span>
+              <blockquote class="lp-review-text">{review.text}</blockquote>
+              <p class="lp-review-meta">{review.name} · {reviewMonth(review.date)} · {review.treatment}</p>
+              <a class="lp-review-source" href={TREATWELL_URL} target="_blank" rel="noopener noreferrer" data-button-location="reviews_treatwell">Bewertung auf Treatwell</a>
+            </li>
+          ))}
+        </ul>
+        {moreReviews > 0 && (
+          <div class="lp-reviews-more">
+            <button type="button" class="btn btn-secondary" data-reviews-toggle aria-controls="treatwell-reviews" aria-expanded="false" data-button-location="reviews_show_more" hidden>Weitere Bewertungen anzeigen</button>
+          </div>
+        )}
       </div>
     </section>
 
@@ -852,6 +885,22 @@ const structuredData = {
       }
     }
 
+    // Reviews: without JavaScript every review shows; with it, the extra ones wait behind the button.
+    function initReviews() {
+      const section = document.querySelector('[data-reviews]');
+      const toggle = section?.querySelector('[data-reviews-toggle]');
+      if (!(section instanceof HTMLElement) || !(toggle instanceof HTMLButtonElement)) return;
+      section.classList.add('is-collapsed');
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => {
+        section.classList.remove('is-collapsed');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.hidden = true;
+        const firstMore = section.querySelector('.lp-review--more');
+        if (firstMore instanceof HTMLElement) firstMore.focus();
+      });
+    }
+
     // Click-to-load map, as on /kontakt/.
     function initMap() {
       document.querySelectorAll<HTMLButtonElement>('[data-map-load]').forEach((button) => {
@@ -875,6 +924,7 @@ const structuredData = {
     initLeadScroll();
     initFloatingUi();
     initMap();
+    initReviews();
   </script>
 </LandingPage>
 
@@ -1344,6 +1394,95 @@ const structuredData = {
 
   .lp-trust-content .lp-section-cta {
     margin-top: 12px;
+  }
+
+  /* ─── 5b · Reviews ───────────────────────────────────────── */
+  .lp-reviews-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 clamp(24px, 3vw, 48px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lp-review {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding-block: 24px 28px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .lp-review:focus {
+    outline: none;
+  }
+
+  .lp-review:focus-visible {
+    outline: 1px solid var(--clay);
+    outline-offset: 4px;
+  }
+
+  .lp-reviews.is-collapsed .lp-review--more {
+    display: none;
+  }
+
+  .lp-review-stars {
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+  }
+
+  .lp-review-text {
+    margin: 0;
+    color: var(--cocoa);
+    font-size: 1rem;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  .lp-review-meta {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+
+  .lp-review-source {
+    justify-self: start;
+    color: var(--text);
+    font-size: var(--fs-small);
+    border-bottom: 1px solid var(--line-strong);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .lp-review-source:hover {
+    color: var(--clay);
+    border-color: currentColor;
+  }
+
+  .lp-reviews-more {
+    margin-top: clamp(24px, 3vw, 40px);
+  }
+
+  .lp-reviews-more [hidden] {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .lp-reviews-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .lp-reviews-list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lp-reviews-more .btn {
+      width: 100%;
+    }
   }
 
   /* ─── 6 · Lead form ──────────────────────────────────────── */
