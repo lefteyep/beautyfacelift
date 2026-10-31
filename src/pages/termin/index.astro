@@ -7,6 +7,7 @@ import { TREATWELL_BOOKING_URL,
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
 const treatwellServiceDetailsByService = {
     'Aquafacial + Microneedling': 'TR4124140',
+    'Carbon Microneedling': 'TR4124153',
 };
 
 const structuredData = {
@@ -111,9 +112,9 @@ const structuredData = {
         }
         var offer = currentParams.get('offer') || storedParams.offer || '';
         var price = currentParams.get('price') || storedParams.price || '';
-        if (offerNote && offer === 'glow-up-aktion' && price === '169') {
+        if (offerNote && offer === 'carbon-microneedling-aktion' && price === '175') {
             offerNote.hidden = false;
-            offerNote.textContent = 'Glow-Up Aktion: Carbon Peeling + Microneedling für CHF 169 statt CHF 220 wird an Treatwell übergeben.';
+            offerNote.textContent = 'Aktion: Carbon-Peeling + Microneedling für CHF 175 statt CHF 250 wird an Treatwell übergeben.';
         } else if (offerNote && offer === 'aquafacial-microneedling-aktion' && price === '170') {
             offerNote.hidden = false;
             offerNote.textContent = 'Aktion: Aquafacial + Microneedling für CHF 170 statt CHF 250 wird an Treatwell übergeben.';

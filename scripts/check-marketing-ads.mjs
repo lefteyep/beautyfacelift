@@ -220,7 +220,7 @@ for (const needle of [
 }
 expectIncludes(
   'src/lib/track.ts',
-  "content_name: 'Carbon Microneedling Glow-Up Aktion'",
+  "content_name: 'Carbon Microneedling Aktion'",
   'Carbon ad LP must keep named ViewContent tracking for campaign diagnostics.',
 );
 expectIncludes(

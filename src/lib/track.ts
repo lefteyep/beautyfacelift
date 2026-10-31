@@ -94,10 +94,10 @@ const LANDING_PAGE_CONTENT: Record<string, EventPayload> = {
     currency: 'CHF',
   },
   '/lp/carbon-microneedling/': {
-    content_name: 'Carbon Microneedling Glow-Up Aktion',
+    content_name: 'Carbon Microneedling Aktion',
     treatment_name: 'Carbon Microneedling',
     service: 'Carbon Microneedling',
-    value: 169,
+    value: 175,
     currency: 'CHF',
   },
   '/lp/aquafacial-microneedling/': {
