@@ -5,8 +5,9 @@ import WhatsAppButton from '../../../components/lp/WhatsAppButton.astro';
 import { Image, getImage } from 'astro:assets';
 // Placeholder images until the generated Carbon series lands in src/assets/lp/carbon/ (WebP).
 // IMAGE SWAP 1 · hero (4:5 arch, 16:9 band on phones), also the schema and Open Graph image.
-import heroCarbonImage from '../../../assets/marketing/carbon_treatment_teresa.png';
-import heroCarbonUrl from '../../../assets/marketing/carbon_treatment_teresa.png?url';
+// No practitioner's face and no laser in the hero (generated images never show Teresa).
+import heroCarbonImage from '../../../assets/marketing/spa_facial_treatment.png';
+import heroCarbonUrl from '../../../assets/marketing/spa_facial_treatment.png?url';
 // IMAGE SWAP 2 · included (skin analysis).
 import hautanalyseImage from '../../../assets/marketing/consultation_trust.png';
 // IMAGE SWAP 3–5 · the three steps: Carbon-Lotion, Microneedling, Nachsorge.
@@ -48,9 +49,10 @@ const LEAD_FORM_ID = 'anfrage';
 const LEAD_FORM_TARGET_ID = 'anfrage-form';
 const bookingHref = `${bookingLinkForService(BOOKING_SERVICE)}&offer=${OFFER_SLUG}&price=${PROMO_PRICE}`;
 const whatsappMessage = 'Hallo Teresa, ich interessiere mich für die Aktion Carbon-Peeling + Microneedling für CHF 175 statt CHF 250. Passt die Behandlung zu meiner Haut?';
-// Desktop: the photo is cover-cropped into a 4:5 arch. Stacked (≤ 900px) it is a full-bleed 16:9 band.
-const lpHeroWidths = [480, 720, 960, 1254];
-const lpHeroSizes = '(min-width: 1320px) 540px, (min-width: 901px) 40vw, 100vw';
+// Desktop: the landscape photo is cover-cropped into a 4:5 arch, so the requested width
+// follows the frame height (≈ 1.78 × its width). Stacked (≤ 900px) it is a full-bleed 16:9 band.
+const lpHeroWidths = [480, 720, 960, 1200, 1440, 1536];
+const lpHeroSizes = '(min-width: 1320px) 1100px, (min-width: 901px) 80vw, 100vw';
 const lpHeroQuality = 86;
 const lpHalfSizes = '(min-width: 1440px) 640px, (min-width: 901px) 46vw, 100vw';
 const lpStepSizes = '(min-width: 1320px) 300px, (min-width: 901px) 24vw, (min-width: 421px) 38vw, 100vw';
@@ -254,7 +256,7 @@ const structuredData = {
             loading="eager"
             decoding="async"
             fetchpriority="high"
-            alt="Carbon-Maske wird aufgetragen, Beauty Face Lift Zürich"
+            alt="Gesichtsbehandlung, Pflege wird mit behandschuhten Händen aufgetragen"
           />
         </figure>
       </div>
@@ -270,7 +272,7 @@ const structuredData = {
             sizes={lpStepSizes}
             format="webp"
             quality={82}
-            alt="Persönliche Hautanalyse im Beauty Face Lift Studio Zürich"
+            alt="Hautanalyse vor der Behandlung"
             loading="lazy"
           />
         </figure>
@@ -356,7 +358,7 @@ const structuredData = {
             sizes={lpHalfSizes}
             format="webp"
             quality={82}
-            alt="Behandlungsraum im Beauty Face Lift Studio Zürich"
+            alt="Ruhiger Behandlungsraum mit Liege"
             loading="lazy"
           />
         </figure>

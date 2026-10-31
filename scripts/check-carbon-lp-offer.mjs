@@ -97,6 +97,7 @@ assert(
 );
 assert(!lp.includes('Spezialisierung auf Microneedling'), 'Carbon LP must not claim an unproven specialisation');
 assert(!lp.includes('teresa_portrait'), 'Carbon LP must not show the portrait until its origin is clear');
+assert(!lp.includes('carbon_treatment_teresa'), 'Carbon LP must not show the generated image with a Teresa-like face and a laser handpiece');
 
 // What is included: only from the treatment description (user, 2026-10-31).
 assert(lp.includes('Das ist inbegriffen'), 'Carbon LP must list what is included');
