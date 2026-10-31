@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createFakeD1 } from './fake-d1.mjs';
 import { contactRoute } from '../../worker/routes/contact.ts';
 import { CONTACT_TOPICS } from '../../shared/site.ts';
-import { mailtoHref, normalizeEmail } from '../../shared/leads.ts';
+import { CAMPAIGN_OFFERS, mailtoHref, normalizeEmail } from '../../shared/leads.ts';
 
 type Row = Record<string, unknown>;
 type FakeD1 = ReturnType<typeof createFakeD1>;
@@ -27,11 +27,15 @@ function check(condition: unknown, label: string, detail?: unknown): void {
 
 // ---- fetch stub ---------------------------------------------------------------------------
 const fetchCalls: string[] = [];
-globalThis.fetch = (async (input: RequestInfo | URL) => {
+const resendBodies: string[] = [];
+globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
   fetchCalls.push(url);
   if (url.startsWith('https://challenges.cloudflare.com/')) return Response.json({ success: true });
-  if (url === 'https://api.resend.com/emails') return Response.json({ id: 'fake' }, { status: 200 });
+  if (url === 'https://api.resend.com/emails') {
+    resendBodies.push(typeof init?.body === 'string' ? init.body : '');
+    return Response.json({ id: 'fake' }, { status: 200 });
+  }
   throw new Error(`Harness: unexpected fetch to ${url}`);
 }) as typeof fetch;
 
@@ -236,6 +240,51 @@ const aquafacialLpSubmission = {
   const { response } = await submit(jsonRequest({ ...aquafacialLpSubmission, source: 'manual' }), db);
   const lead = rows(db, 'SELECT source FROM leads')[0] ?? {};
   check(response.status === 201 && lead.source === 'aquafacial-lp', '2b source=manual from a form: ignored, stored as aquafacial-lp (campaign)', lead);
+}
+
+// ---- 2c. /lp/carbon-microneedling/ on the production host: Turnstile-exempt, carbon source and offer ----
+// The page posts JSON like formPayload() in src/pages/lp/carbon-microneedling/index.astro and has no
+// Turnstile widget. No TURNSTILE_SECRET_KEY is bound, so a non-exempt campaign on this host would fail.
+{
+  const db = newDb();
+  const request = new Request('https://beautyfacelift-zuerich.ch/api/contact', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'cf-connecting-ip': nextIp() },
+    body: JSON.stringify({
+      topic: 'Ich möchte einen Termin buchen',
+      source: 'carbon-microneedling-lp',
+      campaign: 'carbon_microneedling',
+      offer: 'carbon-microneedling-aktion',
+      treatment: 'Carbon Microneedling',
+      landing_page: '/lp/carbon-microneedling/',
+      page_path: '/lp/carbon-microneedling/',
+      page_url: 'https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=facebook',
+      utm_source: 'facebook',
+      utm_content: 'carbon-a',
+      name: 'Cora Carbon',
+      phone: '+41 79 111 22 33',
+      email: '',
+      privacyConsent: 'yes',
+      company: '',
+      message: 'Carbon-Peeling + Microneedling Terminwunsch\nHautziel: Poren',
+      skinConcern: 'Poren',
+      preferredDate: '',
+    }),
+  });
+  const resendBefore = resendBodies.length;
+  const { response, resend } = await submit(request, db);
+  check(response.status === 201, '2c carbon LP: 201 on the production host without a Turnstile token', response.status);
+  const lead = rows(db, 'SELECT * FROM leads')[0] ?? {};
+  check(lead.source === 'carbon-microneedling-lp', '2c carbon LP: source carbon-microneedling-lp', lead.source);
+  check(lead.campaign === 'carbon_microneedling' && lead.offer === 'carbon-microneedling-aktion' && lead.treatment === 'Carbon Microneedling',
+    '2c carbon LP: campaign, offer, treatment stored', lead);
+  const offer = CAMPAIGN_OFFERS[lead.campaign as keyof typeof CAMPAIGN_OFFERS];
+  check(offer?.label === 'Carbon-Peeling + Microneedling Aktion' && offer.validUntil === '2026-11-30' && offer.bookingService === 'Carbon Microneedling',
+    '2c carbon LP: the stored campaign resolves to its campaign offer (label, end date, booking service)', offer);
+  check(lead.landing_page === '/lp/carbon-microneedling/' && lead.utm_source === 'facebook' && lead.utm_content === 'carbon-a', '2c carbon LP: attribution stored');
+  const mail = JSON.parse(resendBodies[resendBefore] ?? '{}');
+  check(resend === 1 && mail.subject === 'Neue Kombi-Anfrage: Carbon-Peeling + Microneedling – Cora Carbon',
+    '2c carbon LP: one owner mail with the Carbon subject', mail.subject);
 }
 
 // ---- 4. marketing consent ---------------------------------------------------------------------

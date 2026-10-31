@@ -188,7 +188,7 @@ All five pages share the Atelier Glow ad-page standard (PR #27, #28). The Aquafa
 |------|-----|-------|
 | Aquafacial Aktion (Meta lead form, CHF 99) | /lp/aquafacial/ | du |
 | Aquafacial + Microneedling (combo) | /lp/aquafacial-microneedling/ | Sie |
-| Carbon Microneedling | /lp/carbon-microneedling/ | Sie |
+| Carbon-Peeling + Microneedling (Treatwell booking first, lead form second, CHF 175 statt 250 until 30.11.2026; [campaign doc](META-CAMPAIGN-CARBON-MICRONEEDLING.md)) | /lp/carbon-microneedling/ | Sie |
 | Microneedling LP | /lp/microneedling/ | Sie |
 | Peeling LP | /lp/peeling/ | Sie |
 
