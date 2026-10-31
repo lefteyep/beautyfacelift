@@ -52,26 +52,32 @@ for (const old of ['CHF 220', 'REGULAR_PRICE = 220', 'PROMO_PRICE = 169', 'Glow-
 }
 assert(!termin.includes('glow-up-aktion'), 'Booking bridge must not keep the old Glow-Up offer branch');
 
-// One offer, one primary action: the request form. WhatsApp second, Treatwell booking third.
-assert(lp.includes("const PRIMARY_CTA_LABEL = 'Unverbindlich Termin anfragen'"), 'Carbon LP must define the request form as the one primary CTA');
-assert(lp.includes("const STICKY_CTA_LABEL = 'Termin anfragen'"), 'Carbon LP must define the short sticky CTA label');
-assert(lp.includes("const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen'"), 'Carbon LP must define the WhatsApp secondary CTA label');
-assert(lp.includes("const BOOKING_CTA_LABEL = 'Direkt online buchen'"), 'Carbon LP must keep Treatwell as a tertiary booking link');
-for (const location of ['lp_hero_lead', 'offer_section_lead', 'trust_section_lead', 'lp_final_lead']) {
+// The campaign's goal is a booking (user, 2026-10-31): every primary CTA goes through the /termin/ bridge
+// to Treatwell; the request form is the secondary path; WhatsApp in the closing band and the floating disc.
+assert(lp.includes("const BOOKING_CTA_LABEL = 'Jetzt auf Treatwell buchen';"), 'Carbon LP primary CTA must be the Treatwell booking');
+assert(lp.includes("const STICKY_CTA_LABEL = 'Jetzt buchen';"), 'Carbon LP must define the short sticky booking label');
+assert(lp.includes("const LEAD_CTA_PROMPT = 'Lieber zuerst Fragen klären?';") && lp.includes("const LEAD_CTA_LABEL = 'Unverbindlich anfragen';"), 'Carbon LP must offer the form as the secondary path');
+assert(lp.includes("const SUBMIT_LABEL = 'Unverbindlich Termin anfragen';") && lp.includes('<span data-submit-label>{SUBMIT_LABEL}</span>'), 'Carbon LP submit button must carry the request label');
+assert(lp.includes("const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen'"), 'Carbon LP must define the WhatsApp CTA label');
+assert(!lp.includes('PRIMARY_CTA_LABEL'), 'Carbon LP must not keep the form-first primary CTA');
+const leadLink = (group) => '<p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="' + group + '_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>';
+for (const group of ['lp_hero', 'offer_section', 'trust_section', 'lp_final']) {
+  const buttonClass = group === 'lp_hero' ? 'btn lp-hero-primary' : 'btn';
   assert(
-    lp.includes(`data-treatment={BOOKING_SERVICE} data-button-location="${location}" data-lead-cta>{PRIMARY_CTA_LABEL}</a>`),
-    `Carbon LP ${location} CTA must scroll to the form with the one primary CTA label`,
+    lp.includes(`<a href={bookingHref} class="${buttonClass}" data-treatment={BOOKING_SERVICE} data-button-location="${group}_booking">{BOOKING_CTA_LABEL}</a>`),
+    `Carbon LP ${group} primary CTA must be the Treatwell booking button through /termin/`,
   );
+  assert(lp.includes(leadLink(group)), `Carbon LP ${group} must offer the form as one secondary text link`);
 }
-assert(lp.includes('data-button-location="sticky_lead" data-lead-cta>{STICKY_CTA_LABEL}</a>'), 'Carbon LP sticky bar must carry the short request CTA');
-assert((lp.match(/data-lead-cta/g) || []).length >= 5, 'Hero, included, trust, closing band and sticky bar must each carry the request CTA');
-assert(lp.includes('<span data-submit-label>{PRIMARY_CTA_LABEL}</span>'), 'Carbon LP submit button must carry the primary CTA label');
+assert(lp.includes('<a href={bookingHref} class="btn lp-mobile-sticky-cta" data-treatment={BOOKING_SERVICE} data-button-location="sticky_booking">{STICKY_CTA_LABEL}</a>'), 'Carbon LP sticky bar must carry the booking CTA');
+assert((lp.match(/href=\{bookingHref\}/g) || []).length === 6, 'Hero, included, trust, closing band, sticky bar and form success must link to the booking bridge');
+assert((lp.match(/data-lead-cta>/g) || []).length === 4, 'Hero, included, trust and closing band must each carry one form link');
 assert(lp.includes('data-button-location="form_success_booking">{BOOKING_CTA_LABEL}</a>'), 'Treatwell booking must be offered after a successful request');
-assert(lp.includes('data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>'), 'Treatwell booking must stay available in the closing band');
-assert(lp.includes('Kann ich auch direkt online buchen?'), 'Carbon LP FAQ must explain the online booking path');
-for (const source of ['carbon_hero', 'carbon_final', 'carbon_floating_whatsapp']) {
+assert(lp.includes('Kann ich direkt online buchen?') && lp.includes('Ja, das ist der einfachste Weg'), 'Carbon LP FAQ must recommend booking online on Treatwell');
+for (const source of ['carbon_final', 'carbon_floating_whatsapp']) {
   assert(lp.includes(`source="${source}"`), `Carbon LP WhatsApp CTA must carry source ${source}`);
 }
+assert(!/class="lp-hero-bullets|heroBullets/.test(lp), 'Carbon LP hero is H1, lead, price line and CTAs only (no bullet list)');
 assert(lp.includes('data-source="carbon_location"'), 'Carbon LP route link must carry data-source="carbon_location"');
 assert(!lp.includes('Termin für CHF'), 'Carbon LP must not keep the booking-first price CTA');
 assert(lp.includes('bookingLinkForService(BOOKING_SERVICE)'), 'Carbon LP must route booking through the /termin/ bridge');

@@ -223,6 +223,27 @@ expectIncludes(
   "content_name: 'Carbon Microneedling Aktion'",
   'Carbon ad LP must keep named ViewContent tracking for campaign diagnostics.',
 );
+// Carbon campaign goal is a booking: the primary CTAs go through /termin/ (BookingButtonClick, then
+// TreatwellOutboundClick on the bridge); the form links keep *_lead.
+for (const location of ['lp_hero_booking', 'offer_section_booking', 'trust_section_booking', 'lp_final_booking', 'sticky_booking', 'form_success_booking']) {
+  expectIncludes(
+    'src/pages/lp/carbon-microneedling/index.astro',
+    `data-treatment={BOOKING_SERVICE} data-button-location="${location}"`,
+    `Carbon ad LP booking CTA ${location} must keep its analytics attributes.`,
+  );
+}
+for (const location of ['lp_hero_lead', 'offer_section_lead', 'trust_section_lead', 'lp_final_lead']) {
+  expectIncludes(
+    'src/pages/lp/carbon-microneedling/index.astro',
+    `data-treatment={BOOKING_SERVICE} data-button-location="${location}" data-lead-cta>`,
+    `Carbon ad LP form link ${location} must keep its analytics attributes.`,
+  );
+}
+expectIncludes(
+  'src/lib/track.ts',
+  "url.pathname.startsWith('/termin/')",
+  'Booking-bridge links must count as booking clicks (BookingButtonClick).',
+);
 expectIncludes(
   'src/pages/lp/carbon-microneedling/index.astro',
   'Typische Behandlungsziele',

@@ -32,12 +32,15 @@ const OFFER_VALID_UNTIL_LABEL = new Intl.DateTimeFormat('de-CH', { day: 'numeric
   .replace(' ', ' ');
 const OFFER_LABEL = 'Carbon-Peeling + Microneedling Aktion';
 const OFFER_SLUG = 'carbon-microneedling-aktion';
-// One primary action on the whole page: the request form. WhatsApp is the secondary path,
-// Treatwell booking the tertiary one (after success, in the FAQ and in the closing band).
-const PRIMARY_CTA_LABEL = 'Unverbindlich Termin anfragen';
-const STICKY_CTA_LABEL = 'Termin anfragen';
+// The campaign's goal is a booking (user, 2026-10-31): every primary CTA goes through the /termin/
+// bridge to Treatwell. The request form is the secondary path for questions first; WhatsApp sits in
+// the closing band and the floating disc.
+const BOOKING_CTA_LABEL = 'Jetzt auf Treatwell buchen';
+const STICKY_CTA_LABEL = 'Jetzt buchen';
+const LEAD_CTA_PROMPT = 'Lieber zuerst Fragen klären?';
+const LEAD_CTA_LABEL = 'Unverbindlich anfragen';
+const SUBMIT_LABEL = 'Unverbindlich Termin anfragen';
 const SECONDARY_CTA_LABEL = 'Per WhatsApp anfragen';
-const BOOKING_CTA_LABEL = 'Direkt online buchen';
 const BOOKING_SERVICE = 'Carbon Microneedling';
 // Must be one of CONTACT_TOPICS (shared/site.ts), or the Worker rejects the form (checked by qa:contact).
 const CONTACT_TOPIC = 'Ich möchte einen Termin buchen';
@@ -69,13 +72,6 @@ const lpHeroPreload = await getImage({
   format: 'webp',
   quality: lpHeroQuality,
 });
-
-// What is included, the outcome, who treats you. Shown on every screen size.
-const heroBullets = [
-  'Hautanalyse und Nachsorge-Hinweise inklusive',
-  'Für einen frischer wirkenden Teint und optisch feinere Poren',
-  'Persönlich durch Teresa Stimac, seit über 20 Jahren im Beruf',
-];
 
 // In treatment order, built only from Teresa's list of the steps (2026-10-31) and the user's
 // treatment description (skin analysis, laser, needle depth, after-care).
@@ -144,8 +140,8 @@ const faqs = [
     a: `Für CHF ${PROMO_PRICE}.– statt CHF ${REGULAR_PRICE}.– erhalten Sie eine Behandlung von ${DURATION_LABEL} mit Reinigung, Hautanalyse, Fruchtsäure-Peeling, Carbon-Peeling, Diamantabrasion, Microneedling, Maske, LED-Licht und Nachsorge-Hinweisen. Das Angebot gilt bis ${OFFER_VALID_UNTIL_LABEL}.`,
   },
   {
-    q: 'Muss ich jetzt schon bezahlen?',
-    a: 'Nein. Sie fragen unverbindlich an, ohne Online-Zahlung. Das Studio meldet sich bei Ihnen, bevor der Termin bestätigt wird.',
+    q: 'Kostet die Anfrage über das Formular etwas?',
+    a: 'Nein. Die Anfrage ist unverbindlich und ohne Online-Zahlung. Teresa Stimac meldet sich bei Ihnen, klärt Ihre Fragen und bestätigt den Termin.',
   },
   {
     q: 'Ist die Behandlung schmerzhaft?',
@@ -168,8 +164,8 @@ const faqs = [
     a: 'Eine Sitzung kann die Haut bereits frischer wirken lassen. Für längerfristige Hautziele kann eine Serie sinnvoll sein. Das wird vor Ort realistisch eingeordnet.',
   },
   {
-    q: 'Kann ich auch direkt online buchen?',
-    a: 'Ja, über Treatwell. Für den ersten Besuch empfehlen wir die unverbindliche Anfrage, damit die Behandlung vorab auf Ihre Haut abgestimmt wird.',
+    q: 'Kann ich direkt online buchen?',
+    a: 'Ja, das ist der einfachste Weg: Über «Jetzt auf Treatwell buchen» wählen Sie Ihren Termin direkt online. Haben Sie vorher Fragen, senden Sie unverbindlich eine Anfrage über das Formular – Teresa Stimac meldet sich persönlich.',
   },
 ];
 
@@ -238,15 +234,9 @@ const structuredData = {
             <span class="lp-hero-offer-until">Angebot gültig bis {OFFER_VALID_UNTIL_LABEL}</span>
           </p>
 
-          <ul class="lp-hero-bullets lp-checks">
-            {heroBullets.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-
           <div class="lp-hero-ctas">
-            <a href={`#${LEAD_FORM_ID}`} class="btn lp-hero-primary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
-            <WhatsAppButton variant="link" message={whatsappMessage} source="carbon_hero" label={SECONDARY_CTA_LABEL} />
+            <a href={bookingHref} class="btn lp-hero-primary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_booking">{BOOKING_CTA_LABEL}</a>
+            <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
           </div>
 
           <p class="lp-hero-proof"><span class="lp-stars" aria-hidden="true">★★★★★</span><a href={TREATWELL_URL} target="_blank" rel="noopener noreferrer" data-button-location="lp_hero_reviews"><strong>4,8</strong> aus 260+ Bewertungen auf Treatwell</a></p>
@@ -294,7 +284,8 @@ const structuredData = {
             ))}
           </ul>
           <div class="lp-section-cta">
-            <a href={`#${LEAD_FORM_ID}`} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="offer_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+            <a href={bookingHref} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="offer_section_booking">{BOOKING_CTA_LABEL}</a>
+            <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="offer_section_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
           </div>
         </div>
       </div>
@@ -386,7 +377,8 @@ const structuredData = {
             ))}
           </ul>
           <div class="lp-section-cta">
-            <a href={`#${LEAD_FORM_ID}`} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="trust_section_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+            <a href={bookingHref} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="trust_section_booking">{BOOKING_CTA_LABEL}</a>
+            <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="trust_section_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
           </div>
         </div>
       </div>
@@ -490,7 +482,7 @@ const structuredData = {
 
             <div class="lp-form-submit">
               <button type="submit" class="btn lp-submit" data-lead-submit data-button-location="lead_form_submit">
-                <span data-submit-label>{PRIMARY_CTA_LABEL}</span>
+                <span data-submit-label>{SUBMIT_LABEL}</span>
               </button>
               <p class="lp-form-note">Keine Online-Zahlung. Das Studio meldet sich persönlich bei Ihnen.</p>
             </div>
@@ -564,27 +556,27 @@ const structuredData = {
         <div class="lp-final-copy">
           <h2 id="lp-final-title" class="lp-final-title">Carbon-Peeling + Microneedling für CHF&nbsp;{PROMO_PRICE}.– statt CHF&nbsp;{REGULAR_PRICE}.–</h2>
           <p class="lp-final-lead">
-            Das Angebot gilt bis {OFFER_VALID_UNTIL_LABEL}. Senden Sie Ihren Terminwunsch unverbindlich – Teresa Stimac stimmt die Behandlung persönlich
+            Das Angebot gilt bis {OFFER_VALID_UNTIL_LABEL}. Buchen Sie Ihren Termin direkt online – Teresa Stimac stimmt die Behandlung persönlich
             auf Ihre Haut ab.
           </p>
         </div>
         <div class="lp-final-actions">
           <div class="lp-final-ctas">
-            <a href={`#${LEAD_FORM_ID}`} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="lp_final_lead" data-lead-cta>{PRIMARY_CTA_LABEL}</a>
+            <a href={bookingHref} class="btn" data-treatment={BOOKING_SERVICE} data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>
             <WhatsAppButton variant="link" message={whatsappMessage} source="carbon_final" label={SECONDARY_CTA_LABEL} />
           </div>
-          <a href={bookingHref} class="lp-final-booking" data-treatment={BOOKING_SERVICE} data-button-location="lp_final_booking">{BOOKING_CTA_LABEL}</a>
+          <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="lp_final_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
           <p class="lp-final-address">Beauty Face Lift · {ADDRESS.street} · {ADDRESS.postalCode}&nbsp;{ADDRESS.city}</p>
         </div>
       </div>
     </section>
 
-    <div class="lp-mobile-sticky on-dark" role="complementary" aria-label="Carbon-Peeling + Microneedling anfragen" data-mobile-sticky inert>
+    <div class="lp-mobile-sticky on-dark" role="complementary" aria-label="Carbon-Peeling + Microneedling buchen" data-mobile-sticky inert>
       <div class="lp-mobile-sticky-offer">
         <span>CHF {PROMO_PRICE} statt CHF {REGULAR_PRICE}</span>
         <strong>Carbon-Peeling + Microneedling</strong>
       </div>
-      <a href={`#${LEAD_FORM_ID}`} class="btn lp-mobile-sticky-cta" data-treatment={BOOKING_SERVICE} data-button-location="sticky_lead" data-lead-cta>{STICKY_CTA_LABEL}</a>
+      <a href={bookingHref} class="btn lp-mobile-sticky-cta" data-treatment={BOOKING_SERVICE} data-button-location="sticky_booking">{STICKY_CTA_LABEL}</a>
     </div>
 
     <WhatsAppButton variant="sticky" message={whatsappMessage} source="carbon_floating_whatsapp" label="Per WhatsApp anfragen" />
@@ -951,7 +943,44 @@ const structuredData = {
   }
 
   .lp-section-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
     margin-top: clamp(32px, 4vw, 48px);
+  }
+
+  /* The secondary path under each booking button: a short question with a text link to the form. */
+  .lp-cta-alt {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+
+  .lp-cta-alt a {
+    color: var(--cocoa);
+    font-weight: 500;
+    border-bottom: 1px solid var(--line-strong);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .lp-cta-alt a:hover {
+    color: var(--clay);
+    border-color: currentColor;
+  }
+
+  .lp-final-dark .lp-cta-alt {
+    color: var(--on-dark);
+  }
+
+  .lp-final-dark .lp-cta-alt a {
+    color: var(--cream);
+    border-color: var(--line-light);
+  }
+
+  .lp-final-dark .lp-cta-alt a:hover {
+    border-color: currentColor;
   }
 
   /* Check list: copper tick in a shell disc, hairline rows. */
@@ -1061,10 +1090,6 @@ const structuredData = {
     flex-basis: 100%;
     color: var(--muted);
     font-size: var(--fs-small);
-  }
-
-  .lp-hero-bullets {
-    width: 100%;
   }
 
   .lp-hero-ctas {
@@ -1848,19 +1873,6 @@ const structuredData = {
     gap: 16px 32px;
   }
 
-  .lp-final-booking {
-    color: var(--on-dark);
-    font-size: var(--fs-small);
-    font-weight: 500;
-    border-bottom: 1px solid var(--line-light);
-    transition: color 0.3s ease, border-color 0.3s ease;
-  }
-
-  .lp-final-booking:hover {
-    color: var(--cream);
-    border-color: currentColor;
-  }
-
   .lp-final-address {
     margin: 0;
     padding-top: 20px;
@@ -1979,7 +1991,6 @@ const structuredData = {
     .lp-hero-ctas { order: 5; }
     .lp-hero-proof { order: 6; margin-top: 14px; }
     .lp-hero-media { order: 7; }
-    .lp-hero-bullets { order: 8; }
 
     .lp-title {
       max-width: none;
@@ -2029,11 +2040,6 @@ const structuredData = {
 
     .lp-hero-media :global(img) {
       object-position: 60% 40%;
-    }
-
-    .lp-hero-bullets {
-      margin-top: 20px;
-      border-top: 1px solid var(--line);
     }
 
     .lp-section-head,
@@ -2105,6 +2111,10 @@ const structuredData = {
 
     .lp-hero-primary {
       width: 100%;
+    }
+
+    .lp-hero-ctas .lp-cta-alt {
+      text-align: center;
     }
 
     .lp-included-list,
