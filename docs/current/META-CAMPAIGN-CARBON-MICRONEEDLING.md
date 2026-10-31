@@ -1,0 +1,69 @@
+# Meta campaign — Carbon-Peeling + Microneedling, CHF 175 statt CHF 250
+
+Status 2026-10-31: the ad page `/lp/carbon-microneedling/` is rebuilt for this offer (package 1). Ad images and texts (package 2) and the Meta build (package 3) follow in their own pull requests. Nothing runs on Meta yet; the campaign is switched on only after the launch gates below and the user's go.
+
+This is the only campaign that starts. There is no Carbon-only campaign. The older Aquafacial + Microneedling campaign (CHF 170, [META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md)) stays paused and is the template for structure, measurement and the build sheet.
+
+## 1. Summary
+
+- **Offer:** Carbon-Peeling + Microneedling, two treatments in one session of 90 minutes, **CHF 175 statt CHF 250** (Sie sparen CHF 75.–), **valid until Monday, 30 November 2026**.
+- **Goal:** leads, i.e. enquiries through the request form on the ad page. Each one is stored in the lead cockpit and e-mailed to Teresa with the agency in BCC. Meta optimises on the standard `Lead` event.
+- **Frame decided by the user (2026-10-31):** lifetime budget CHF 400 in one ad set, ending Sunday 29 November 2026 23:59; audience 15 km around Bahnhofstrasse 94, people living there, 25+, German, Advantage+ audience; Instagram placements; all images generated (Teresa's face is never generated), no Meta AI label; the page stays `noindex, nofollow`. If the ads start after 10 November, the end date is decided again.
+
+## 2. Offer facts and their sources
+
+| Fact | Value on the page | Source |
+|---|---|---|
+| Regular price | CHF 250 | Treatwell, «Carbon Laser Peeling + Microneedling», 90 Min. (TODO.md, Treatwell comparison 2026-10-09; the treatment pages list the same price) |
+| Campaign price | CHF 175 | agreed with Teresa on 2026-10-31 (user). Teresa sets CHF 175 on Treatwell as a **time-limited Aktionspreis until 30 November**, not as a new regular price; screenshot the CHF 250 listing before the change. |
+| End date | 30. November 2026 | user decision 2026-10-31 (today + 30 days); one constant `OFFER_VALID_UNTIL` on the page |
+| Duration | 90 Min. | Treatwell |
+| Treatment steps | skin analysis; Carbon lotion applied and treated with the laser; Microneedling with the depth set to the skin type; after-care advice | treatment description of the user, 2026-10-31 |
+| After-care | SPF 30–50 daily, keep the skin moist, a few days without retinol, acid or peeling products, 24–48 hours no heat and no intense sport | treatment description of the user, 2026-10-31 |
+| Not suitable | active infection, inflamed acne, damaged skin; pregnancy | treatment description (first three); pregnancy kept as a cautious exclusion (user decision 2026-10-31) |
+| «Dipl. Visagistin & Kosmetikerin» | trust block | Teresa's Treatwell profile; the user confirmed on 2026-10-31 that it applies |
+| «seit über 20 Jahren im Beruf und selbstständig» | hero bullet, trust block | statement of the user, 2026-10-31 (no written source) |
+| Rating | «4,8 aus 260+ Bewertungen auf Treatwell» | Treatwell showed 4.8 from 261 reviews on 2026-10-31; the line links to the Treatwell page |
+| Treatwell service detail | `TR4124153` | user, 2026-10-31; `/termin/` opens it directly |
+
+**Kept off the page** until Teresa confirms them: Hyaluron, a finishing mask, a numbing cream (asked on 2026-10-31, answer open). Adding one later is a one-line change in the page and in `qa:carbon-lp`.
+
+**Never on the page or in ads:** the effect claims of the treatment description (collagen, acne bacteria, scars, «tightens pores», rejuvenation), «keine Ausfallzeit», invented testimonials. Cosmetic claims stay cautious («kann … unterstützen», «kann … wirken»). «Laser» appears only in the method step («mit dem Laser behandelt»), never in the headline, the title or the ads, because Meta can read it as a medical service.
+
+## 3. Page contract (`/lp/carbon-microneedling/`)
+
+- **Flow:** lead first, like the Aquafacial + Microneedling page. One primary action, the request form «Unverbindlich Termin anfragen» (`#anfrage`); WhatsApp is the secondary path («Per WhatsApp anfragen»); Treatwell booking («Direkt online buchen», through `/termin/`) is tertiary: after a successful request and in the closing band.
+- **Sections:** hero (kicker, H1, lead, price line with end date, bullets, CTAs, rating line) → «Das ist inbegriffen» → «So läuft die Behandlung ab» (three steps) → «Typische Behandlungsziele» → «Persönlich behandelt von Teresa Stimac» → form → FAQ → studio and directions (map loads on request) → closing band; mobile sticky bar and floating WhatsApp.
+- **End date** appears in the hero price line, FAQ 1, the closing band, the meta description and the schema `priceValidUntil`, all from `OFFER_VALID_UNTIL = '2026-11-30'`.
+- **Form:** JSON `POST /api/contact` with `topic` «Ich möchte einen Termin buchen», `source` `carbon-microneedling-lp`, `campaign` `carbon_microneedling`, `offer` `carbon-microneedling-aktion`, `treatment` `Carbon Microneedling`, `landing_page`, `page_path`, `page_url`, `referrer`, `utm_*`, `fbclid`, `gclid`, `msclkid`. Required: name, phone/WhatsApp, privacy consent. No Turnstile widget (the Worker exempts the campaign); honeypot and rate limit stay.
+- **Images:** placeholders from `src/assets/marketing/` until the generated Carbon series arrives in `src/assets/lp/carbon/`; the swap points are marked `IMAGE SWAP 1–6` in the page's frontmatter. The portrait of Teresa is not used until its origin is clear.
+- **Locks:** `npm run qa:carbon-lp` (`scripts/check-carbon-lp-offer.mjs`) pins prices, saving, end date (three places and schema), labels, slug, CTAs, form fields, the absence of the old offer and of the banned claims, the `/termin/` note and `TR4124153`, and the tracking values. `qa:marketing` pins the ViewContent name and the neutral «Typische Behandlungsziele» framing; `qa:leads` pins the copies in `shared/leads.ts`.
+
+## 4. Tracking and lead cockpit
+
+| Layer | Value |
+|---|---|
+| `data-treatment` on every CTA | `Carbon Microneedling` |
+| `data-button-location` | `lp_hero_lead`, `offer_section_lead`, `trust_section_lead`, `lp_final_lead`, `sticky_lead` (form CTAs, `data-lead-cta`); `lead_form_submit`; `form_success_booking`, `lp_final_booking` (Treatwell); `lp_hero_reviews`, `trust_reviews`; `location_map_load` |
+| WhatsApp `source` | `carbon_hero`, `carbon_final`, `carbon_floating_whatsapp` |
+| `data-source` | `carbon_location` (route link) |
+| ViewContent | `content_name` «Carbon Microneedling Aktion», value 175 CHF (`LANDING_PAGE_CONTENT` in `src/lib/track.ts`) |
+| Lead | browser `fbq('track','Lead')` and the server event through `/api/track` with the same `event_id`, value 175 CHF, `source` `carbon_microneedling_lp_form`, hashed e-mail/phone; sent only after the Worker accepted the enquiry (2xx) |
+| GA4 | `generate_lead`; `cta_click_lead_form` with `treatment_name` «Carbon Microneedling» |
+| Cockpit | `source` `carbon-microneedling-lp` (chip «Carbon»), `campaign` `carbon_microneedling`; the offer label and end date come from `CAMPAIGN_OFFERS.carbon_microneedling` in `shared/leads.ts` |
+| Owner e-mail subject | «Neue Kombi-Anfrage: Carbon-Peeling + Microneedling – {Name}» |
+| Customer confirmation | variant `carbon_microneedling` exists, but customer mails stay off (`LEADS_CUSTOMER_MAILS` unset) |
+
+`shared/tracking.ts` is unchanged: the campaign keys and CAPI event-data keys already cover everything. Proof without a live submit: `npm run harness:leads-ingest` case 2c posts a Carbon enquiry to the production host without a Turnstile token and checks the stored source, campaign, offer, the resolved campaign offer and the owner-mail subject.
+
+## 5. Launch gates (all before the ads go on)
+
+1. The user's cockpit tests passed (login, manual entry, labelled test enquiry).
+2. Treatwell shows CHF 175 for Carbon Laser Peeling + Microneedling as a time-limited Aktionspreis; screenshot of the CHF 250 listing saved before the change.
+3. The end date is identical everywhere: page, ad images, ad texts, ad set end (29.11. 23:59).
+4. A labelled test enquiry from the new page (by the user, Teresa warned beforehand, name «TEST Agentur bitte ignorieren») shows the `Lead` in Events Manager and the lead in the cockpit.
+5. The user's go in chat.
+
+## 6. Change log
+
+- 2026-10-31: offer agreed with Teresa (user). Package 1: ad page rebuilt on the lead-form flow, CHF 175 statt CHF 250 until 30 November 2026; testimonials, Hyaluron, mask and numbing cream removed; Carbon campaign added to the lead cockpit vocabulary and the Worker; `qa:carbon-lp` rewritten.

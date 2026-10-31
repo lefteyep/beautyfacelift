@@ -28,6 +28,7 @@ Use this page to choose the right document quickly.
 | Tracking and paid ads setup | [current/PPC-TRACKING.md](current/PPC-TRACKING.md) |
 | Google Tag Manager and GA4 (IDs, container as code, consent) | [current/tracking/GOOGLE-ANALYTICS-GTM.md](current/tracking/GOOGLE-ANALYTICS-GTM.md) |
 | Meta campaign plan for the Aquafacial + Microneedling offer (questions, unit economics, measurement checklist, structure, creative, launch plan, risks) | [current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](current/META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md) |
+| Meta campaign for the Carbon-Peeling + Microneedling offer (CHF 175 statt 250 until 30.11.2026: offer facts with sources, page contract, tracking, launch gates) | [current/META-CAMPAIGN-CARBON-MICRONEEDLING.md](current/META-CAMPAIGN-CARBON-MICRONEEDLING.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
 | Lead cockpit `/admin/leads/`: Cloudflare Access, configuration, routes, status model, local development, go-live checklist | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
