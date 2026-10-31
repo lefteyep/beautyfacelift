@@ -61,6 +61,7 @@ def card_ad(W, H, top, footer_top, footer_h, name):
     im.save(f'{OUT}/{name}', quality=92); return y
 
 M = f'{RAW}/maske-v2_20261031_1.png'; P = f'{RAW}/pen-v2_20261031_2.png'; S = f'{RAW}/stillleben-v2_20261031_1.png'
+T = f'{RAW}/teresa_20261031_1.png'  # Teresa, generated from her consented reference photos
 offer = [(OFFER, serif(72), CREAM, 8),
          (f'{PRICE} · {SAVE}', sans(38, 600), CLAY_L, 6),
          (f'Nur bis {END}', sans(32, 600), ON_DARK, 0),
@@ -74,6 +75,9 @@ for key, src, fy, lines in [('maske', M, 0.25, offer), ('pen', P, 0.30, offer), 
     r[f'{key}_45'] = photo_ad(src, fy, lines, 1080, 1350, 1000, 1036, f'{key}_45.jpg')
     r[f'{key}_11'] = photo_ad(src, fy, lines, 1080, 1080, 740, 774, f'{key}_11.jpg')
     r[f'{key}_916'] = photo_ad(src, fy, lines, 1080, 1920, 1240, 1280, f'{key}_916.jpg')
+# Teresa: no 1:1, the square band would cut either her face or the brush on the cheek.
+r['teresa_45'] = photo_ad(T, 0.55, offer, 1080, 1350, 1000, 1036, 'teresa_45.jpg')
+r['teresa_916'] = photo_ad(T, 0.50, offer, 1080, 1920, 1240, 1280, 'teresa_916.jpg')
 r['karte_45'] = card_ad(1080, 1350, 70, 1128, 222, 'karte_45.jpg')
 r['karte_916'] = card_ad(1080, 1920, 290, 1300, 236, 'karte_916.jpg')
 print(r)

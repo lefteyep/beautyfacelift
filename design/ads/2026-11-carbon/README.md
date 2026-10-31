@@ -12,8 +12,9 @@ Paket 2 des Plans `docs/orchestrator/handover/CARBON-CAMPAIGN-PLAN-2026-10-31.md
 | M4 | Ruhiger Moment nach dem Termin, keine Ergebnisbehauptung | 4:5 | verworfen (Bildfehler: leeres Band unten) |
 | M5 | Text-Karte ohne Foto | 4:5, 9:16 | Anzeige 2 alternativ |
 | M6 | Vertrauen ohne Porträt (Foto M3 + Band) | 1:1, 4:5, 9:16 | Anzeige 3 |
+| M7 | Teresa trägt die Carbon-Lotion mit dem Pinsel auf, fiktive Kundin | 4:5, 9:16 | Seiten-Hero mit Teresa, Anzeige 4 |
 
-Prompts: [prompts.md](prompts.md). Alle Bilder sind generiert (es gibt keine echten Fotos); Teresas Gesicht wird nie generiert; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
+Prompts: [prompts.md](prompts.md). Alle Bilder sind generiert (es gibt keine echten Fotos); Teresa erscheint nur im Motiv M7 (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
 
 ## Auswahlkriterien
 
@@ -43,8 +44,9 @@ Modell `gpt-image-2.5-flare`, OpenAI-Playground, abgerechnet über das API-Gutha
 | 5 | 2026-10-31 | M1 v2 Carbon-Maske (Referenz M1-1) | 1088 × 1360 | max | 2 | 0,39 |
 | 6 | 2026-10-31 | M2 v2 Pen metallisch (Referenzen M1-1, Geräteausschnitt) | 1088 × 1360 | max | 2 | 0,39 |
 | 7 | 2026-10-31 | M3 v2 Stillleben | 1088 × 1088 | max | 1 | 0,16 |
+| 8 | 2026-10-31 | M7 Teresa (Referenzen: Teresa-Fotos 2 und 3, `maske-v2_20261031_1.png`) | 1088 × 1360 | max | 2 | 0,40 |
 
-Summe der Schätzungen: ≈ 1,85 USD (Obergrenze 5 USD). Der tatsächliche Betrag steht im Abschnitt «Kosten laut OpenAI».
+Summe der Schätzungen: ≈ 2,25 USD (Läufe 1–7 ≈ 1,85; Lauf 8 Teresa ≈ 0,40, eigene Obergrenze 2 USD) (Obergrenze 5 USD). Der tatsächliche Betrag steht im Abschnitt «Kosten laut OpenAI».
 
 ## Auswahl (User, 2026-10-31)
 
@@ -68,10 +70,13 @@ Anzeigen (JPG, Qualität 92), gerendert mit `render_ads.py`, kopiert nach `publi
 | `karte_45.jpg`, `karte_916.jpg` | 1080 × 1350, 1080 × 1920 | kein Foto | drei Fragen mit Antworten aus der Behandlungsbeschreibung, Preis, Ersparnis, Enddatum |
 
 - 9:16: kein Text in den oberen 14 % und unteren 20 % (Textband endet bei Pixel 1504 von 1920).
+| `teresa_45.jpg`, `teresa_916.jpg` | 1080 × 1350, 1080 × 1920 | M7-1 | wie «maske» |
+
+- Keine 1:1-Fassung von «teresa»: das quadratische Bildfeld schneidet entweder ihr Gesicht oder den Pinsel an der Wange ab.
 - Keine 1:1-Text-Karte: der Fragenblock passt nicht lesbar in 1080 × 1080.
 - «Über 20 Jahre Erfahrung»: Aussage des Users 2026-10-31. Die Bewertungszahl von Treatwell steht bewusst nicht im Bild, weil sie am Umsetzungstag nicht abgelesen wurde.
 
-Seitenbilder (WebP, Qualität 82, alle unter 100 KB, ohne Text), erzeugt mit `export_page_images.py` für `/lp/carbon-microneedling/` (Hero-Bogen und Schrittkarten sind dort 4:5):
+Seitenbilder (WebP, Qualität 82, eingebettetes sRGB-Profil, ohne Text; `hero-teresa.webp` 110 KB, alle anderen unter 100 KB), erzeugt mit `export_page_images.py` für `/lp/carbon-microneedling/` (Hero-Bogen und Schrittkarten sind dort 4:5):
 
 | Datei | Grösse | Quelle | Vorschlag für die Seite |
 |---|---|---|---|
@@ -79,8 +84,16 @@ Seitenbilder (WebP, Qualität 82, alle unter 100 KB, ohne Text), erzeugt mit `ex
 | `src/assets/lp/carbon/methode-1.webp` | 1088 × 1360 | M1 v2-2 | IMAGE SWAP 3 (Carbon-Lotion) |
 | `src/assets/lp/carbon/methode-2.webp` | 1088 × 1360 | M2 v2-2 | IMAGE SWAP 4 (Microneedling) |
 | `src/assets/lp/carbon/methode-3.webp` | 870 × 1088 | M3 v2-1 (mittig auf 4:5 beschnitten) | IMAGE SWAP 5 (Nachsorge) oder 6 (Studio) |
+| `src/assets/lp/carbon/hero-teresa.webp` | 1088 × 1360 | M7-1 (Teresa) | IMAGE SWAP 1 (Hero mit Teresa), Alternative zu `hero.webp` |
 
 Für IMAGE SWAP 2 (Hautanalyse) und 6 (Studio ohne Person) gibt es kein eigenes neues Motiv; dafür wäre ein weiterer Lauf nötig.
+
+## M7 · Teresa (Nachtrag 2026-10-31)
+
+Der User wollte Teresa auf der Landingpage und hat den Lauf im Chat freigegeben. Ihre Einwilligung in generierte Bilder nach ihren Fotos ist seit dem 11.10.2026 im Projekt dokumentiert ([teresa-varied-series](../../images/lp-shoot-2026-10/teresa-varied-series/README.md)). Hochgeladen wurden nur Fotos, auf denen Teresa allein ist (`teresa fotos/2.png.webp` und `3.png` im Kundenordner, nicht im Repository; SHA-256 in `reference-manifest.json` der Serie), dazu das eigene Bild `maske-v2_20261031_1.png` für Kundin und Studio. Fotos mit echten Kundinnen (1, 4, 5) wurden nicht hochgeladen.
+
+- Kandidaten: `raw/teresa_20261031_1.png` (gewählt vom User), `raw/teresa_20261031_2.png`.
+- Geprüft: Teresa erkennbar (Gesichtsform, Haar, Lippenstift wie Referenz), Kittel ohne Namensschild, natürliche Haut, keine Laser, keine Nadeln, kein Text, kein Vorher/Nachher.
 
 ## Neu erzeugen
 
@@ -122,5 +135,9 @@ Alle drei: Sie-Ton, Schweizer Schreibweise, Button «Mehr dazu», Anzeigelink `b
 Quellen: Preis, Ersparnis, Enddatum (Teresa/User 2026-10-31, Plan Abschnitt 2), 90 Min. (Treatwell), Titel «dipl. Visagistin & Kosmetikerin» (Treatwell-Profil, vom User freigegeben), «über 20 Jahre» (User 2026-10-31), Öffnungszeiten (`shared/site.ts`), Hautanalyse und Nachsorge (Behandlungsbeschreibung des Users).
 
 ## Kosten laut OpenAI
+
+Zweite Ablesung am 2026-10-31 um etwa 15:05 Uhr (gleiche Ansicht): **2,06 USD** bei 7 Anfragen (image output 1,967, image input 0,062, text input 0,03). Das sind die Läufe 1–7; Lauf 8 (Teresa, Schätzung ≈ 0,40 USD) war noch nicht verbucht. Erwartetes Total ≈ 2,45 USD.
+
+Erste Ablesung:
 
 Abgelesen auf `https://platform.openai.com/usage` (Spend categories, letzte 7 Tage, Nutzer Paulo Ferreira) am 2026-10-31 um etwa 13:40 Uhr: **0,99 USD** (gpt-image-2_5-flare image output 0,975 USD, text input 0,019 USD; image input noch 0 USD). Das deckt erkennbar nur Runde 1 (11 Bilder in xhigh); Runde 2 (5 Bilder in max mit Referenzbildern, Schätzung ≈ 0,94 USD) war zu diesem Zeitpunkt noch nicht verbucht. Erwartetes Total ≈ 1,9 USD; den Endstand bitte nach einigen Stunden auf derselben Seite ablesen.
