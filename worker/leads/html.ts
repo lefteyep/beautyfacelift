@@ -54,6 +54,7 @@ export const SOURCE_LABELS: Readonly<Record<LeadSource, string>> = {
   'kontakt-page': 'Kontakt',
   'aquafacial-lp': 'Aquafacial',
   'aquafacial-microneedling-lp': 'Kombi',
+  'carbon-microneedling-lp': 'Carbon',
   manual: 'Manuell',
 };
 
