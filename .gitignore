@@ -48,3 +48,6 @@ CLAUDE.md
 
 # local Supabase CLI state
 supabase/.temp/
+
+# third-party reference photos for image generation (other people, not ours to publish)
+design/ads/2026-11-carbon/referenzen/
