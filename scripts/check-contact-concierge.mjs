@@ -44,7 +44,7 @@ const pageRequirements = [
   'Hautberatung, Terminwünsche und Fragen zu Behandlungen: Teresa Stimac berät Sie persönlich an der Bahnhofstrasse 94 in Zürich.',
   'Persönliche Hautberatung &amp; Termine in Zürich',
   'Sie möchten einen Termin buchen, eine Behandlung abklären oder sind unsicher, was zu Ihrer Haut passt?',
-  '4,8 aus 248+ Bewertungen',
+  '4,8 aus 260+ Bewertungen',
   'Über 20 Jahre Erfahrung',
   'id="kontaktformular"',
   'Beratung anfragen',

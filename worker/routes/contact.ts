@@ -406,7 +406,9 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     ? 'Neue Aquafacial Aktion Anfrage'
     : comboLead
       ? 'Neue Kombi-Anfrage: Aquafacial + Microneedling'
-      : `Neue Kontaktanfrage: ${data.topic}`;
+      : carbonLead
+        ? 'Neue Kombi-Anfrage: Carbon-Peeling + Microneedling'
+        : `Neue Kontaktanfrage: ${data.topic}`;
   const subject = aquafacialLead
     ? 'Neue Aquafacial Aktion Anfrage – Beauty Face Lift'
     : comboLead

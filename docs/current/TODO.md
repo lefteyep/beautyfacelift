@@ -120,7 +120,7 @@ GitHub reports `master` as unprotected at this review. The new workflow blocks d
 - [x] Aquafacial LP "statt CHF 180": the user decided on 2026-10-10 to keep the "statt" prices as they are.
 - [ ] Treatwell: create a "Aquafacial Aktion – 60 Min. – CHF 99" service so the post-form link opens the advertised offer
 - [ ] Treatwell: create the "Aquafacial + Microneedling – 90 Min. – CHF 170" offer. Since the 2026-10-10 lead-first rebuild the combo ad page only links to Treatwell after a request ("Direkt online buchen"); until the offer exists that link shows Treatwell's CHF 200 sale price. The user takes this on (2026-10-10).
-- [ ] Confirm the review source and current count (site shows 4,8 / 5 from 248+; LP shows 249) and allow linking to it
+- [x] Review count aligned site-wide to 4,8 / 260+ on 2026-11-01 (Treatwell 261 on 2026-10-31); the ad pages and contact page link to Treatwell. Re-check the count with the next ad-page change.
 - [ ] Keep or replace the "90 Prozent von deinem Selfie" quote (du-voice on a Sie-voice site)
 - [ ] Book a half-day studio photo shoot (Teresa at work, hands, products, room) to replace AI-looking stock imagery
 - [ ] Old WordPress site `beautyfacelift.ch`: **decided on 2026-10-20 to shut it down before the Meta campaign starts** (the user does this). Recommendation: 301 every old URL to its counterpart on the new domain instead of switching the site off, and update the Google Business Profile link at the same time. The redirect map is live in the Worker (PR #53) and stays inert until the DNS moves; the steps and the after-switch checklist are in [OLD-SITE-SHUTDOWN.md](OLD-SITE-SHUTDOWN.md). It still sends Leads to the same Meta Pixel until then.
@@ -161,7 +161,7 @@ GitHub reports `master` as unprotected at this review. The new workflow blocks d
   - **Campaign price vs. booking price:** Treatwell shows sale prices "Hydra4Face Basic Intensiv CHF 144 statt 180" and "Hydra4Face + Microneedling CHF 200 statt 250". The ads promise CHF 99 (Aquafacial) and CHF 170 (combo). A visitor who books through Treatwell from the ad sees a different price. Align the Treatwell sale prices with the campaign prices, or create the campaign services (see the CHF 99 item above).
   - **Carbon reference price:** Treatwell confirms "Carbon Laser Peeling + Microneedling" at CHF 250. Resolved 2026-10-31: the Carbon ad page uses "statt CHF 250" with an end date.
   - **Combo reference price:** Treatwell confirms "Hydra4Face + Microneedling" at a regular CHF 250, which backs the combo ad's "statt CHF 250".
-  - **Reviews:** Treatwell now shows 4.8 from **260** reviews. "248+" on the site is still true; update it with the next ad-page change, since the ad pages pin the string in QA. The Carbon ad page says "260+" since 2026-10-31 (Treatwell: 261).
+  - **Reviews:** Treatwell now shows 4.8 from **260** reviews. The whole site says "260+" since 2026-11-01 (QA pins updated); the Carbon ad page since 2026-10-31 (Treatwell: 261).
   - **Teresa's title:** Treatwell describes her as "dipl. Visagistin & Kosmetikerin". The site states no diploma (the Wissen pass removed "diplomierte Kosmetikerin" as unsourced). If Teresa confirms it, "dipl. Kosmetikerin" could go back on /ueber-mich/.
   - **Naming:** Treatwell's "Hydra4Face …" services *are* the site's Aquafacial treatments. hydra4face is the brand of the device. The site says "Aquafacial" (client rule: no "Hydra"); prices and durations match one to one:
     - Basic Intensiv: 60 Min., CHF 180
