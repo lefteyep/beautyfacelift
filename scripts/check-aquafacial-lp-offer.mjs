@@ -111,7 +111,7 @@ assert(
 );
 assert(!/\.lp-hero-bullets\s*\{[^}]*display:\s*none;/.test(lp), 'Aquafacial LP hero bullets must stay visible on phones');
 assert(lp.includes('href={TREATWELL_URL}'), 'Aquafacial LP rating line and trust facts must link to the Treatwell source');
-assert(lp.includes('4,8</strong> aus 248+ Bewertungen auf Treatwell'), 'Aquafacial LP must show the rating line under the hero CTAs');
+assert(lp.includes('4,8</strong> aus 260+ Bewertungen auf Treatwell'), 'Aquafacial LP must show the rating line under the hero CTAs');
 
 // Styling: tokens only, pill buttons, no inline styles.
 assert(!/#[0-9a-f]{3,8}\b/i.test(lp.split('<style>')[1] ?? ''), 'Aquafacial LP styles must use design tokens instead of hard-coded colours');

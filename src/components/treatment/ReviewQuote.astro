@@ -1,6 +1,6 @@
 ---
 /**
- * One client review beside the shared rating heading (4,8 / 248+ on Treatwell).
+ * One client review beside the shared rating heading (4,8 / 260+ on Treatwell).
  * Pass the quote text without quotation marks — „…“ are added here.
  */
 import { TREATWELL_URL } from '../../../shared/site';
@@ -18,7 +18,7 @@ const { quote, author, detail, stars = false } = Astro.props;
 
 <div class="review">
   <div class="review-head">
-    <h2>4,8 Sterne aus 248+ Bewertungen</h2>
+    <h2>4,8 Sterne aus 260+ Bewertungen</h2>
     <a href={TREATWELL_URL} class="btn-link" target="_blank" rel="noopener">Alle auf Treatwell</a>
   </div>
   <figure class="review-card scroll-anim">

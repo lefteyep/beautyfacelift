@@ -100,7 +100,7 @@ The release covers:
 - **Page groups:** service hubs, treatment pages and comparison, About/Kontakt/FAQ/utility pages, the Wissen section, and the redesigned ad landing pages.
 - **October code health:** restored LP lead tracking, hashed CAPI data, re-openable consent and 0 audit findings.
 - **Ad pages (#27, #28):**
-  - All five `/lp/*` pages now follow one standard: shorter section flow, conversion copy, the rating line "4,8 aus 248+ Bewertungen" under the hero CTAs, and the shared ad components (OfferBox, TrustStrip, TestimonialStrip, StickyOfferBar, WhatsAppButton).
+  - All five `/lp/*` pages now follow one standard: shorter section flow, conversion copy, the rating line "4,8 aus 260+ Bewertungen" under the hero CTAs (260+ site-wide since 2026-11-01; Treatwell showed 261 on 2026-10-31), and the shared ad components (OfferBox, TrustStrip, TestimonialStrip, StickyOfferBar, WhatsAppButton).
   - The legal strip is in sentence case.
   - Offers, prices, form fields and tracking hooks are unchanged.
 - **Contact form (#28):** the Worker dropped the chosen treatment (`treatment_interest`) from `/kontakt/` enquiries from 2026-06-24 until this release. `npm run qa:contact` now guards every posted field.
