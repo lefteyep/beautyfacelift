@@ -77,6 +77,26 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 4. A test click on «Jetzt Termin buchen» (by the user, with marketing cookies accepted, without completing a Treatwell booking) shows `BookingButtonClick`, `TreatwellOutboundClick` and `Schedule` in Events Manager. A labelled test enquiry from the new page (Teresa warned beforehand, name «TEST Agentur bitte ignorieren») shows the `Lead` in Events Manager and the lead in the cockpit.
 5. The user's go in chat.
 
+## 7. Meta build sheet (built 2026-11-01, everything PAUSED)
+
+Built by the orchestrator through the Meta Ads connector on the user's go («erledige Paket 3»), each write approved by the user. Nothing is live; switching on needs the launch gates in section 5 and the user's explicit go.
+
+| Level | Value |
+|---|---|
+| Ad account / Business | `act_442592606954627` (CHF, payment method on file) / Business `135112460858934` |
+| Page / Instagram | Page `111912605814921` «Beauty Face Lift»; Instagram `17841448912607599` @beautyfacelift.zh (linked, used as identity on every creative) |
+| Dataset / Pixel | `1147246982373946` «BeautyFaceLifts Pixel» |
+| Campaign | `120254553998790195` «BFL | Schedule | Kombi Carbon-Peeling+Microneedling CHF 175 | 2026-11», objective Leads (OUTCOME_LEADS), no campaign budget (ABO), AUCTION, PAUSED |
+| Ad set | `120254554001060195` `p_zh15km_adv-carbon`, optimisation OFFSITE_CONVERSIONS on the standard event **Schedule** (pixel 1147246982373946), destination website, lifetime budget **CHF 400**, start 2026-11-03 00:00 (adjust to the go-live day), end **2026-11-29 23:59** (Europe/Zurich), bid: highest volume, attribution 7-day click / 1-day view, PAUSED |
+| Targeting | 15 km around Bahnhofstrasse 94, 8001 Zürich (47.37598 / 8.53968), location type «home» (Meta reports «frequently_in, home» after the update — check «Personen, die hier wohnen» in Ads Manager before go-live), age min 25, locale German (5); Advantage+ Audience on with suggestions age 30–60, women, audiences «Webseite Besucher - beide domains» `120248671679130195` and «BFL – Lead – alle URLs – 180 Tage» `120254199137880195`; **excluded** «BFL – Lead – Carbon LP – 90 Tage» `120254553998750195` (new, Lead + URL contains /lp/carbon-microneedling/) and «BFL – Treatwell Klick – 30 Tage» `120254199138260195` |
+| Placements | manual: Facebook feed, Reels, Stories, Marketplace, search; Instagram feed, Stories, Reels, Explore, Explore home (Meta dropped Marketplace and Explore as ineffective for this setup); brand-safety filter standard (moderate) |
+| Ads (all PAUSED, pending review) | `120254554002810195` `maske_static45_v1` (creative `1803091480597794`, maske_45.jpg); `120254554003260195` `erstes-mal_static45_v1` (`1728544031584082`, karte_45.jpg); `120254554003440195` `persoenlich_static45_v1` (`1671680161636682`, teresa_45.jpg); `120254554004740195` `maske_video45_v1` (`4273969012738776`, video `1081287691401994` = carbon-ad-45.mp4, thumbnail carbon-ad-45.jpg) |
+| Ad texts | README of `design/ads/2026-11-carbon/` (Anzeigentexte), closing line changed to «Termin direkt online buchen.» because the page is booking-first; button **Jetzt buchen** (BOOK_NOW); display link beautyfacelift-zuerich.ch; AI disclosure OPT_OUT per the user's decision Nr. 8 (the user carries that declaration) |
+| Link URL (every ad) | `https://beautyfacelift-zuerich.ch/lp/carbon-microneedling/?utm_source=meta&utm_medium=paid_social&utm_campaign=bfl_ch_meta_lead_carbon-microneedling_202611&utm_content={{adset.name}}__{{ad.name}}&utm_term={{placement}}&utm_id={{campaign.id}}&utm_source_platform=meta` |
+| Not built | custom conversion «BFL – Schedule – Carbon» (user, Events Manager, optional); reserve ad `enddatum_static45_v1` for the last week |
+
+Switch-on (only after section 5 and the user's go): activate the campaign, the ad set and the four ads in Ads Manager (or `ads_activate_entity`); set the ad set start date to the go-live day first.
+
 ## 6. Change log
 
 - 2026-11-01, hero video (user's go): the arch plays a silent 10.8 s loop of the three Seedance clips over the round-2 crossfade, lazy after the load event, reduced motion and failed autoplay fall back to the crossfade; ad videos in three formats with the price overlay (see sections 3 and «Ad videos»). `qa:carbon-lp` pins the markup, the script hooks, the CSS fallbacks and the file sizes. Teresa's consent for the moving footage is the user's gate before the merge.
@@ -92,3 +112,4 @@ This is the only campaign that starts. There is no Carbon-only campaign. The old
 - 2026-10-31, later: Teresa's list of the steps built in (Reinigung, Fruchtsäure-Peeling, Carbon-Peeling, Diamantabrasion, Microneedling, Maske, LED-Licht, order confirmed by the user); Hyaluron and numbing cream stay off.
 - 2026-10-31, after go-live: Teresa corrected the order — Diamantabrasion comes before the Carbon-Peeling (after the Fruchtsäure-Peeling). Page, FAQ 1, step text and QA script updated.
 - 2026-10-31: offer agreed with Teresa (user). Package 1: ad page rebuilt on the lead-form flow, CHF 175 statt CHF 250 until 30 November 2026; testimonials, Hyaluron, mask and numbing cream removed; Carbon campaign added to the lead cockpit vocabulary and the Worker; `qa:carbon-lp` rewritten.
+- 2026-11-01: Package 3 built paused through the Meta Ads connector (campaign, ad set, exclusion audience, four ads incl. the video ad); build sheet in section 7. Nothing switched on.
