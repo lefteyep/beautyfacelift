@@ -100,6 +100,8 @@ Switch-on (only after section 5 and the user's go): activate the campaign, the a
 
 ## 6. Change log
 
+- 2026-11-04, avatar video version 2 (user's request): best practices from three tutorial videos in `design/ads/2026-11-carbon/AI-VIDEO-BEST-PRACTICES.md` (one full transcript; two videos only by title and a related summary, YouTube blocked their transcripts); prompts rebuilt (Teresa sheet, empty studio plate, start frames, structured Intone/Seedance prompts with locks, draft first); Teresa approves the stills before any talking clip; transparent text layers for 9:16 and 4:5 in `video-overlays/` and a watermarked rough cut from `render_animatic.py`.
+
 - 2026-11-04, avatar video guide (user's request): storyline (five beats, about 28 s plus a 15 s cut), three test hooks and four reserve hooks, shot list with the approved clips as b-roll, prompts for start images, Higgsfield Intone / Seedance 2.5 + Sync Lipsync 3 and new device clips, edit and check lists, Meta test plan against `maske_video45_v1`. Built on the Marxx guides on AI-looking ads, UGC scripts and skincare hooks. Gates: Teresa's consent text in section 0 of the guide, the AI-disclosure decision, the Treatwell rating checked on the export day.
 
 - 2026-11-01, hero video (user's go): the arch plays a silent 10.8 s loop of the three Seedance clips over the round-2 crossfade, lazy after the load event, reduced motion and failed autoplay fall back to the crossfade; ad videos in three formats with the price overlay (see sections 3 and «Ad videos»). `qa:carbon-lp` pins the markup, the script hooks, the CSS fallbacks and the file sizes. Teresa's consent for the moving footage is the user's gate before the merge.

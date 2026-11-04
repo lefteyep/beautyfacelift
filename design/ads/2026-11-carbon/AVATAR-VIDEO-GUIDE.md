@@ -4,6 +4,8 @@ Campaign: Carbon-Peeling + Microneedling, **CHF 175 statt CHF 250**, Sie sparen 
 
 This guide is built on three Marxx guides ([avoid AI-looking ads](https://marxx.ai/guides/how-to-avoid-ai-looking-ads), [UGC script template](https://marxx.ai/templates/ugc-script-template), [hooks for skincare ads](https://marxx.ai/templates/hooks-for-skincare-ads)). They are adapted to this offer, to Meta's beauty-ad rules and to the copy rules this project already uses. Every fact Teresa says comes from the campaign doc, the ad page or Treatwell. Nothing new is claimed.
 
+Version 2 of the production steps and prompts (sections 4 and 5) applies the best practices from three further tutorial videos: [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md).
+
 ---
 
 ## 0. Three gates before anything is generated
@@ -157,6 +159,8 @@ The rule from Marxx: name a situation and promise something small and believable
 
 ## 4. Production, step by step
 
+Version 2 (2026-11-04). It applies [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md): build the assets first, get the stills approved before any video is made, use structured prompts with locks at the end, and draft before finalising.
+
 ### Step 1 – Voice
 
 **Route A (recommended): Teresa records the lines herself.** It takes about 3 minutes on her phone:
@@ -173,95 +177,188 @@ The rule from Marxx: name a situation and promise something small and believable
 - For text-to-speech, write numbers and English words the way they are spoken: «hundertfünfundsiebzig statt zweihundertfünfzig Franken», «Maikro-Niedling» if the voice says it wrongly. Compare with how Teresa says these words herself.
 - Her real recording still carries the hook and the price line.
 
-### Step 2 – Start images for the talking shots (two angles)
+### Step 2 – Assets: Teresa sheet, empty studio, two start frames
 
-Use the consented workflow from M7. Either stay in Higgsfield (**Nano Banana Pro** with image references, 9:16, 2K; if her face drifts, **GPT Image 2**), or use `gpt-image-2.5-flare` in the OpenAI Playground as for M7. Upload **only** photos on which Teresa is alone (photos 2 and 3 in the client folder), never photos with real clients. Generate 2–3 candidates per angle and pick the one where Teresa says "that's me". Prompts P1 and P2 are in section 5.
+Make all of them in Higgsfield with **Nano Banana Pro** (image references, 2K). If her face drifts, try **GPT Image 2**. Attach the references **in the numbered order** given with each prompt, every time.
 
-All prompts, Teresa's recording lines and the edit texts are also on a private copy-paste page with one copy button per box, in Higgsfield order: [Carbon Avatar Prompt Kit](https://claude.ai/artifact/4ZHcr4Wz1vnNqUPMdM1vdN). It opens for the agency account only.
+| Asset | Prompt | References (in this order) | Format |
+|---|---|---|---|
+| Teresa sheet: front, three-quarter, close-up | S1 | 1 Teresa photo 2 · 2 Teresa photo 3 (both: she is alone) · 3 `src/assets/lp/carbon/hero-teresa.webp` (look of the approved clip) | 3:2 |
+| Empty studio plate | S2 | 1 `hero-teresa.webp` · 2 `src/assets/lp/carbon/hero.webp` | 9:16 |
+| Start frame angle A | S3 | 1 the chosen sheet · 2 the chosen studio plate | 9:16 |
+| Start frame angle B | S4 | 1 the chosen sheet · 2 the chosen studio plate | 9:16 |
+
+Make 2–4 of each and keep the best. **Then send the sheet and both start frames to Teresa for approval.** Only after her yes do you make any talking clip; stills cost little, videos cost a lot (best practice 4).
 
 ### Step 3 – Talking-head clips
 
-**Main tool: Higgsfield Intone** (`intone`, "talking-head, lip-sync"):
+**Main tool: Higgsfield Intone** (`intone`):
 
-- character image = angle A or angle B;
-- audio = one recording per beat (Intone takes 2–30 s of voice);
-- location image: leave it empty, because the start image already shows the room;
+- character image = start frame A or B (table below);
+- location image = the studio plate;
+- audio = the matching voice file;
 - 9:16, 1080p, bitrate high;
-- prompt P3.
+- prompt S5.
 
-Make one clip per beat, not one 30-s take. You can then pick the best take per beat, and every clip stays short.
+Make one clip per sentence.
 
-**Fallback, if Intone looks floaty:** make a silent clip with **Seedance 2.5** (`seedance_2_5`, mode `omni_reference`, start image = angle A/B, 5–8 s, 1080p, 9:16, audio off, prompt P4). Then run it through **Sync Lipsync 3** (`sync_so`, input video + her audio, sync mode `cut_off`).
+| Clip | Voice file | Start frame | Used for |
+|---|---|---|---|
+| T1 | 02 «Zum ersten Mal …» | A | hook H2 |
+| T2 | 03 «Carbon-Peeling oder …» | A | hook H3 |
+| T3 | 04 «Zuerst schaue ich …» | A | shot 2 |
+| T4 | 05 «Erst Reinigung …» | B | shot 6 (only the last 2 s) |
+| T5 | 06 «Ich bin seit …» | A | shot 7 |
+| T6 | 07 «Carbon-Peeling und …» | B | shot 9 |
+| T7 | 08 «Jetzt für 175 …» | B | 15-s cut |
+
+Voice file 01 (hook H1) needs no clip; it runs over clip 1.
+
+**Second option, worth one test:** **Seedance 2.5** with her voice as an audio reference (prompt S6):
+
+- mode `omni_reference`;
+- start image = start frame A or B;
+- audio reference = her voice file;
+- 9:16, generate audio off;
+- **Draft on** (480p, about a quarter of the price), then finalise the take you keep in 1080p within seven days.
+
+If the lips don't follow her voice, run the silent clip through **Sync Lipsync 3** (`sync_so`, sync mode `cut_off`) with the voice file.
+
+**Check each clip second by second against the line, and zoom in on mouth, teeth, earrings and hair.** If two takes fail the same way, change the prompt instead of running it a third time.
 
 ### Step 4 – B-roll
 
-- Reuse clip 1 (Carbon lotion with Teresa), clip 2 (Microneedling pen) and clip 3 (still life) from `../ads/2026-11-carbon-video-clips/`. They are 3:4, so crop them to 9:16 and check that the faces, brush and pen stay in frame. Use `methode-1.webp` as a still with a slow push-in.
-- **New device clips only from real photos.** If you want LED-Licht or Diamantabrasion on screen, ask Teresa for two phone photos of each real device. Generate with prompt P5. Without real photos, the step is only named on screen.
-- Earlier clips cost 64 credits each (Seedance 2.5, 4 s, 1080p); Higgsfield shows the price before each run.
+- **Reuse** clip 1 (Carbon lotion with Teresa), clip 2 (Microneedling pen) and clip 3 (still life) from `../ads/2026-11-carbon-video-clips/`, and the page still `methode-1.webp`.
+- **Getting the 3:4 clips to 9:16:** a centred crop works for clips 1 and 3; for clip 2, crop to the right so the pen stays in frame. If a crop cuts off a face, the brush or the pen, use Higgsfield **Reframe** instead.
+- **New device clips only from real photos.** If you want LED-Licht or Diamantabrasion on screen, ask Teresa for two phone photos of each real device. Generate with S7 (Seedance 2.5, draft first). Without real photos, the step is only named on screen.
 
 ### Step 5 – Edit (CapCut, Premiere or DaVinci)
 
-- **Rhythm:** cut on sentence ends and keep each shot at about 4 s at most. Alternate angles A and B. Let her voice start just before the picture changes (J-cut).
-- **Captions:** every spoken word, typed by you, at most two lines of about 32 characters, Instrument Sans in the page colours. Use Swiss spelling and check for "ß". Turn **Meta's automatic captions off**, so you don't get two sets.
-- **Text position, 9:16:** nothing important in the top 14 % or the bottom 20 % (the same as `carbon-ad-916.mp4`). Her eyes sit about a third from the top; captions go over her chest.
-- **Look:** one light, even film grain over the whole timeline, so the generated and the other clips match. No beauty filter, no sharpening.
-- **Sound:** her voice at about −14 LUFS, room tone under the cuts so the silence never drops out completely. Music is optional and very quiet (Meta Sound Collection), or none at all; her voice is the point.
-- **Export:** MP4 H.264, 1080 × 1920 (Reels/Stories) and 1080 × 1350 (Feed, the same layout as `carbon-ad-45.mp4`), 25 or 30 fps.
+**Ready-made material** in `design/ads/2026-11-carbon/video-overlays/`:
+
+- transparent text layers, full frame, for 9:16 and 4:5. Each format has a scrim, the hooks, the step labels, two captions, the review card and the price block. They are rendered with `render_video_overlays.py` in the style of `carbon-ad-*.mp4`.
+- a rough cut, made with `render_animatic.py`: 30 s and 15 s, 9:16, silent, marked «ENTWURF». It uses the real b-roll and the final text layers, and shows marked stand-ins where T1–T7 go. Use it as the timing template, and never upload it.
+
+**Rhythm:** cut on sentence ends and keep each shot at about 4 s at most. Alternate angles A and B. Let her voice start just before the picture changes (J-cut).
+
+**Captions:**
+
+- The talking shots use the caption layers, or text you type if she rephrased.
+- The b-roll shots use the step labels.
+- Shot 9 uses the price block.
+- Turn **Meta's automatic captions off**.
+
+**Look:** one light, even film grain over the whole timeline. No beauty filter, no sharpening.
+
+**Sound:** her voice at about −14 LUFS, with room tone under the cuts. Music is optional and very quiet, or none at all.
+
+**Export:**
+
+- MP4 H.264, 25 or 30 fps;
+- 1080 × 1920 for Reels and Stories;
+- 1080 × 1350 for Feed. The 4:5 layers have the same layout as `carbon-ad-45.mp4`.
 
 ### Step 6 – Your check (section 6), then Teresa's approval of the final cut
 
 ---
 
-## 5. Prompts (copy-ready)
+## 5. Prompts (copy-ready, version 2)
 
-### Realism block (the same as round 2, put it at the start of P1, P2 and P5)
+The same prompts are on the private copy-paste page [Carbon Avatar Prompt Kit](https://claude.ai/artifact/4ZHcr4Wz1vnNqUPMdM1vdN), with the shared blocks already filled in.
+
+### Teresa realism block (S1, S3, S4)
+
+It never invents skin features on a real person, and it uses the same camera as every talking shot.
 
 ```text
-Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin: uneven tone, visible pores, fine vellus hair, a few freckles and small moles, slight natural shine on the nose, flyaway hairs. A lived-in small studio with ordinary details. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening, no overly perfect styling.
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Her real skin exactly as in the references: visible pores, fine lines, natural shine on the nose, flyaway hairs; do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
 ```
 
-### P1 · Start image angle A (front, 9:16) – `gpt-image-2.5-flare`, 1088 × 1920 or the nearest 9:16 size, quality `max`
+### S1 · Teresa sheet – Nano Banana Pro, 3:2, 2K
 
 ```text
-[Realism block] Use the attached photos only as identity reference for the woman: the same face shape, hair, hairline and lipstick as in the references; keep her clearly recognisable and her real age, do not beautify, slim or rejuvenate her. She is the practitioner in her small cosmetic studio, wearing a plain white practitioner coat without name tag or logo. She stands beside a treatment bed with a cream towel; a window on the left with soft daylight, a cream wall and a dark wooden side cabinet with a few plain unlabelled bottles are softly out of focus behind her. Vertical 9:16 frame as if filmed with a phone on a small tripod at eye level, about 70 cm away: head and shoulders down to mid-chest, her eyes about one third from the top of the frame, both hands out of frame. She looks straight into the lens with a calm, friendly, attentive expression, as if she is about to explain something to a client; lips gently closed, relaxed jaw. Light from the left with a soft shadow on the right side of her face. Avoid: text, letters, numbers, logos, name tags, retouched or poreless skin, glamour lighting, ring-light reflections in the eyes, perfect symmetry, stock-photo smile, studio backdrop, clinical setting. One photo.
+[Teresa realism block] Reference sheet of one woman, the practitioner. Images 1 and 2 are her identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives only her wardrobe, hair styling and make-up: a white short-sleeved practitioner tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair worn open. Three views of the same person side by side, the same size and the same light: left, front view, head and shoulders, looking into the lens; middle, three-quarter view, turned 30 degrees, head and shoulders; right, close-up of her face, front. All three views are the same person in the same clothes. Plain warm light-grey wall behind her, soft daylight from a window on the left and a warm ceiling lamp, a soft shadow on the right side of her face; no flash, no ring light, no studio backdrop. Calm, friendly, neutral expression, lips gently closed, both hands out of frame. Avoid: text, letters, numbers, labels, logos, name tags, retouched or poreless skin, glamour lighting, perfect symmetry, stock-photo smile.
 ```
 
-### P2 · Start image angle B (three-quarter, closer)
-
-Use the same prompt as P1, but replace the sentence starting «Vertical 9:16 frame …» with:
+### S2 · Empty studio plate – Nano Banana Pro, 9:16, 2K
 
 ```text
-Vertical 9:16 frame, phone on a small tripod slightly to her left, a little closer than a normal conversation: head and upper shoulders, her body turned about 30 degrees to the window, her face turned back towards the lens, eyes about one third from the top, both hands out of frame; the treatment bed and the window are visible in the soft background on the left.
+Unretouched real photograph of an empty small cosmetic studio, full-frame camera with a 35 mm lens at f/2.8, available window light mixed with a warm ceiling lamp, true-to-life colours, fine sensor noise. Use the attached images only for the room's geography, materials and lighting, not for framing: the same treatment bed with a cream towel, the same cream walls, the same dark wooden cabinet with a few plain unlabelled bottles and a candle, the same window on the left with soft daylight. Nobody in the room: no people, no hands, no client. Wide three-quarter view from standing eye height, the treatment bed in the middle ground, the window on the left, depth behind. A little everyday imperfection, such as a folded towel slightly askew. Avoid: people, text, letters, logos, labels, devices, needles, lasers, clinical setting, neon, marble, flowers everywhere, perfect symmetry, CGI look.
 ```
 
-### P3 · Intone performance prompt (for every talking clip)
+### S3 · Start frame angle A – Nano Banana Pro, 9:16, 2K
 
 ```text
-She speaks calmly and warmly straight into the camera, like explaining the treatment to a client at the treatment bed. Natural, unhurried delivery that follows the voice recording exactly: small head movements, an occasional slow nod on key words, natural blinking every few seconds, slight eyebrow movement, short pauses where the voice pauses. Shoulders stay relaxed and both hands stay out of frame. The camera stands still on a tripod: no zoom, no camera move, only the faintest handheld micro-drift. The daylight from the window on the left stays constant. No exaggerated mouth shapes, no flickering teeth, no head bobbing, no looking away, no morphing of the face, hair or background, no change of clothing.
+[Teresa realism block] Image 1 is the woman: her identity, real age, wardrobe, hair and make-up exactly as on the sheet (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair). Image 2 is the room: use it for geography, materials and lighting, not for framing. She stands beside the treatment bed and looks straight into the lens, calm and friendly, as if she is about to explain the treatment to a client; lips gently closed, relaxed jaw. Medium close-up, vertical 9:16, 35 mm, camera on a tripod at her eye level about one metre away: head and shoulders down to mid-chest, her eyes about one third from the top of the frame, both hands out of frame. The window is on the left of the frame, a soft shadow on the right side of her face, the room softly out of focus behind her. Avoid: text, letters, logos, name tags, glamour lighting, ring-light reflections in the eyes, stock-photo smile, perfect symmetry, a different outfit.
 ```
 
-### P4 · Fallback silent clip for lip-sync – Seedance 2.5, `omni_reference`, audio off
+### S4 · Start frame angle B
+
+Use S3, but replace the sentence that starts «Medium close-up, vertical 9:16 …» with:
 
 ```text
-Use the attached image as the exact first frame and identity reference. The woman talks to the camera in a calm, normal conversation, as if explaining a treatment to a client, mouth moving naturally with speech, small head movements, natural blinking, short pauses. Both hands stay out of frame. Static tripod camera, no zoom, no camera move, constant soft daylight from the left. Keep her face, age, hair and clothing exactly as in the image. No text, no logos, no exaggerated expressions, no morphing.
+Medium close-up, vertical 9:16, 35 mm, camera on a tripod slightly to her left and a little closer: head and upper shoulders, her body turned about 30 degrees towards the window, her face turned back to the lens, her eyes about one third from the top of the frame, both hands out of frame; the treatment bed and the window soft in the background on the left.
 ```
 
-### P5 · New device clip (only with real device photos) – Seedance 2.5, `omni_reference`, 4 s, 1080p, 9:16, audio off
+### S5 · Intone (every talking clip)
 
 ```text
-[Realism block] Use the first attached photo only as reference for the fictional client and the studio, and the second attached photo (the real device) only as reference for the exact shape, colour and material of the device; do not change, add or remove any part, no lettering on it. [Describe the moment in one sentence, for example: Two gloved hands in white nitrile gloves guide the device slowly over the client's cheek.] One simple, slow action for 4 seconds. Static camera or a very slow push-in, no cuts, no fast movements. Only gloved hands and forearms of the practitioner, her face out of frame; exactly two hands with five fingers each. Avoid: text, letters, logos, lasers, light beams, visible needles, blood, redness, results, before/after, extra fingers, morphing objects, clinical setting.
+Scene: the practitioner explains the treatment to the camera in her studio.
+References: character = the attached start frame; location = the attached studio plate (geography, materials and lighting only).
+Format: one continuous take, no cuts.
+Camera: medium close-up, 35 mm, locked-off tripod at eye level; no zoom, no push-in, no camera move.
+Performance: she speaks calmly and warmly into the lens and follows the voice recording exactly; small head movements, a slow nod on key words, natural blinking every few seconds, short pauses where the voice pauses; no hand gestures, no wide smile, no looking away.
+Light: soft daylight from the window on the left, constant; warm ceiling lamp.
+Audio: only her voice recording; no music, no added sounds.
+Locks: same face, real age, hair and make-up as the start frame · same white tunic and earrings · both hands out of frame · the camera does not move · the window stays on the left · her mouth follows her voice.
+```
+
+### S6 · Seedance 2.5 with her voice (test) – `omni_reference`, draft, 9:16, audio generation off
+
+Replace `[N]` with the length of the voice file in seconds, rounded up.
+
+```text
+Scene: the practitioner says one sentence to the camera in her studio, then stops speaking.
+References: image 1 is the exact first frame and gives her identity, wardrobe and the room; audio 1 is her voice: her lips follow audio 1 exactly, no other speech.
+First frame: exactly image 1.
+Format: one continuous take, no cuts, [N] seconds.
+Camera: medium close-up, 35 mm, locked-off tripod at eye level; no zoom, no push-in, no camera move.
+Action: at 0.0 s she starts speaking with audio 1; she pauses where the voice pauses; after the last word she holds a calm look into the lens.
+Performance: calm and warm; small head movements, one slow nod on a key word, natural blinking; no hand gestures, no wide smile.
+Light and colour: soft daylight from the left, warm ceiling lamp, true-to-life colours, fine grain.
+Audio: audio 1 only; no music, no added sounds, no other voices.
+Locks: same face and real age as image 1 · same white tunic, earrings and lipstick · both hands out of frame · camera still · window on the left · no text, no logos, no subtitles.
+```
+
+### S7 · Device clip (only with a real device photo) – Seedance 2.5, `omni_reference`, 4 s, draft, 9:16, audio off
+
+Replace the two [brackets].
+
+```text
+Scene: close-up of one treatment step in the studio, gloved hands only.
+References: image 1 gives the fictional client and the room (identity, geography, light); image 2 is the real device: copy its exact shape, colour and material, add nothing, no lettering.
+Location: the client reclines on the treatment bed with a cream towel headband, the window on the left.
+First frame: [the device already in the gloved hand, just above the cheek].
+Format: one continuous take, 4 seconds, no cuts.
+Camera: close-up, 50 mm, tripod slightly above cheek level, a very slow push-in, shallow depth of field.
+Action: 0–4 s [the device moves slowly across the cheek].
+Performance: the client is relaxed, eyes closed, no change of expression.
+Light and colour: soft daylight from the left, warm and natural, fine grain.
+Audio: none.
+Locks: exactly two gloved hands with five fingers each · the practitioner's face out of frame · the device exactly as image 2 · no text, logos, needles, light beams, blood, redness or results.
 ```
 
 ### Repair lines (add to the prompt, new run)
 
 | Problem | Line to add |
 |---|---|
-| She looks younger or "prettier" | «Keep her exact real age and features from the reference photos; no smoothing, no slimming.» |
+| She looks younger or "prettier" | «Keep her exact real age and features from the references; no smoothing, no slimming.» |
 | Waxy skin | «Real unretouched skin with visible pores and fine lines, matte, no beauty filter.» |
 | Mouth or teeth flicker | «Small natural mouth movements; teeth only briefly visible; no flicker.» |
 | Head floats or wobbles | «Head movement minimal and grounded; shoulders steady.» |
 | Text or letters appear | «Absolutely no text, letters, numbers or symbols anywhere.» |
 | Hands appear | «Both hands stay below the bottom edge of the frame.» |
+| The camera copies the reference angle | «Use image 2 for geography, materials and lighting only, not for framing.» |
 
 ---
 
@@ -286,6 +383,7 @@ Use the attached image as the exact first frame and identity reference. The woma
 - [ ] Price block exactly «CHF 175 statt ~~CHF 250~~ · Sie sparen CHF 75.–», no date in the video.
 - [ ] Treatwell rating read on the day of export.
 - [ ] AI-disclosure decision made (gate 2).
+- [ ] Teresa approved the sheet and both start frames before any talking clip was made.
 - [ ] Teresa has seen the final cut and said yes (gate 1).
 
 ---
@@ -312,4 +410,5 @@ The GitHub repository has been **public** since 2026-10-30.
 
 - **Never in the repository:** Teresa's reference photos, her voice recordings, the voice element, raw clips or job answers. Keep them next to the earlier clips, outside the repo, for example `../ads/2026-11-carbon-avatar/` (`voice/`, `startbilder/`, `clips/`, `export/`).
 - **The final videos** go straight to Meta. They only belong in `public/` if the website ever needs them, and the website does not need them.
+- **In the repository (no Teresa material):** `video-overlays/` (text layers), `render_video_overlays.py`, `render_animatic.py`. The rough cut itself is rebuilt from those scripts and is not committed.
 - **For the record (here, in a short note):** the date of Teresa's consent and which voice route she chose, the chosen start images (file names), the Higgsfield job ids, and the AI-disclosure decision.
