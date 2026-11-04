@@ -4,6 +4,8 @@ Campaign: Carbon-Peeling + Microneedling, **CHF 175 statt CHF 250**, Sie sparen 
 
 This guide is built on three Marxx guides ([avoid AI-looking ads](https://marxx.ai/guides/how-to-avoid-ai-looking-ads), [UGC script template](https://marxx.ai/templates/ugc-script-template), [hooks for skincare ads](https://marxx.ai/templates/hooks-for-skincare-ads)). They are adapted to this offer, to Meta's beauty-ad rules and to the copy rules this project already uses. Every fact Teresa says comes from the campaign doc, the ad page or Treatwell. Nothing new is claimed.
 
+**To make the video by hand, follow the step-by-step doc [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp)** (private to the agency account; ten steps with every click, upload, setting and prompt, checklists, and the Meta upload). This file keeps the reasons behind each step.
+
 Version 2 of the production steps and prompts (sections 4 and 5) applies the best practices from three further tutorial videos: [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md).
 
 ---
