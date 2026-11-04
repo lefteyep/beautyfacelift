@@ -14,7 +14,7 @@ Paket 2 des Plans `docs/orchestrator/handover/CARBON-CAMPAIGN-PLAN-2026-10-31.md
 | M6 | Vertrauen ohne Porträt (Foto M3 + Band) | 1:1, 4:5, 9:16 | Anzeige 3 |
 | M7 | Teresa trägt die Carbon-Lotion mit dem Pinsel auf, fiktive Kundin | 4:5, 9:16 | Seiten-Hero mit Teresa, Anzeige 4 |
 
-Prompts: [prompts.md](prompts.md). Alle Bilder sind generiert (es gibt keine echten Fotos); Teresa erscheint nur im Motiv M7 (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
+Prompts: [prompts.md](prompts.md). Video mit Teresa als sprechendem KI-Avatar (geplant, noch nichts erzeugt): [AVATAR-VIDEO-GUIDE.md](AVATAR-VIDEO-GUIDE.md). Alle Bilder sind generiert (es gibt keine echten Fotos); Teresa erscheint nur im Motiv M7 (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
 
 ## Auswahlkriterien
 
