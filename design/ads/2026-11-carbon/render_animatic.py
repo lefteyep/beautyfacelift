@@ -16,7 +16,7 @@ import sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
 OV, OUT, FONTS = sys.argv[1], sys.argv[2], sys.argv[3]
-W, H, FPS = 1080, 1920, 30
+W, H, FPS = 1080, 1920, 24  # the approved clips and Seedance run at 24 fps
 HERO = 'public/assets/lp-carbon/hero-video.mp4'  # 1080x1350, clip 1 0.0–3.4, clip 2 4.0–6.8, clip 3 7.4–10.2
 TERESA = 'src/assets/lp/carbon/hero-teresa.webp'
 METHODE1 = 'src/assets/lp/carbon/methode-1.webp'

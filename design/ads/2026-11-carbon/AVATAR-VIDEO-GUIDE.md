@@ -159,7 +159,15 @@ The rule from Marxx: name a situation and promise something small and believable
 
 ## 4. Production, step by step
 
-Version 2 (2026-11-04). It applies [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md): build the assets first, get the stills approved before any video is made, use structured prompts with locks at the end, and draft before finalising.
+Version 3 (2026-11-04). It applies [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md), which is built on the full transcripts of all three tutorial videos:
+
+- the assets come first, in the models the creators use;
+- the stills are approved before any video is made;
+- every talking clip has its own micro-action;
+- prompts are structured, with locks at the end;
+- every video is drafted in 480p first;
+- Teresa's real voice is always the soundtrack;
+- the edit runs at 24 fps.
 
 ### Step 1 – Voice
 
@@ -179,16 +187,22 @@ Version 2 (2026-11-04). It applies [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PR
 
 ### Step 2 – Assets: Teresa sheet, empty studio, two start frames
 
-Make all of them in Higgsfield with **Nano Banana Pro** (image references, 2K). If her face drifts, try **GPT Image 2**. Attach the references **in the numbered order** given with each prompt, every time.
+Use the models the three tutorial creators use; all of them are in the agency's Higgsfield account:
 
-| Asset | Prompt | References (in this order) | Format |
-|---|---|---|---|
-| Teresa sheet: front, three-quarter, close-up | S1 | 1 Teresa photo 2 · 2 Teresa photo 3 (both: she is alone) · 3 `src/assets/lp/carbon/hero-teresa.webp` (look of the approved clip) | 3:2 |
-| Empty studio plate | S2 | 1 `hero-teresa.webp` · 2 `src/assets/lp/carbon/hero.webp` | 9:16 |
-| Start frame angle A | S3 | 1 the chosen sheet · 2 the chosen studio plate | 9:16 |
-| Start frame angle B | S4 | 1 the chosen sheet · 2 the chosen studio plate | 9:16 |
+- **Seedream 5.0 Pro** for Teresa (real skin texture, no plastic look);
+- **Soul Cinema** for the empty studio (made for room light, grain and depth, and the cheapest model; it takes one reference image);
+- **3D Jutsu Angles** to turn angle A into angle B, so it stays the same face and the same room.
 
-Make 2–4 of each and keep the best. **Then send the sheet and both start frames to Teresa for approval.** Only after her yes do you make any talking clip; stills cost little, videos cost a lot (best practice 4).
+If Seedream drifts from her face, try **Nano Banana Pro**. Attach the references **in the numbered order** given, every time. Make four images per run, compare them side by side and keep the best one. Log every run in the cost log of [README.md](README.md).
+
+| Asset | Model | Prompt | References (in this order) | Format |
+|---|---|---|---|---|
+| Teresa sheet: front, three-quarter, close-up | Seedream 5.0 Pro | S1 | 1 Teresa photo 2 · 2 Teresa photo 3 (both: she is alone) · 3 `src/assets/lp/carbon/hero-teresa.webp` (look of the approved clip) | 16:9, 2K |
+| Empty studio plate | Soul Cinema | S2 | 1 `hero-teresa.webp` | 9:16, 2K |
+| Start frame angle A | Seedream 5.0 Pro | S3 | 1 the chosen sheet · 2 the chosen studio plate | 9:16, 2K |
+| Start frame angle B | 3D Jutsu Angles | S4 | 1 the chosen angle A | 9:16, 2K |
+
+Save the chosen sheet and plate in Higgsfield as elements (for example `bfl-teresa` and `bfl-studio`), so every later prompt refers to the same images. **Then send the sheet and both start frames to Teresa for approval.** Make no talking clip until she says yes; stills cost little, videos cost a lot.
 
 ### Step 3 – Talking-head clips
 
@@ -198,19 +212,19 @@ Make 2–4 of each and keep the best. **Then send the sheet and both start frame
 - location image = the studio plate;
 - audio = the matching voice file;
 - 9:16, 1080p, bitrate high;
-- prompt S5.
+- prompt S5, with the clip's micro-action pasted into the line «Micro-action».
 
-Make one clip per sentence.
+Make one clip per sentence. Each clip gets one small micro-action, because without one the model leaves her frozen (JOEY), and anything bigger looks staged (Sanji).
 
-| Clip | Voice file | Start frame | Used for |
-|---|---|---|---|
-| T1 | 02 «Zum ersten Mal …» | A | hook H2 |
-| T2 | 03 «Carbon-Peeling oder …» | A | hook H3 |
-| T3 | 04 «Zuerst schaue ich …» | A | shot 2 |
-| T4 | 05 «Erst Reinigung …» | B | shot 6 (only the last 2 s) |
-| T5 | 06 «Ich bin seit …» | A | shot 7 |
-| T6 | 07 «Carbon-Peeling und …» | B | shot 9 |
-| T7 | 08 «Jetzt für 175 …» | B | 15-s cut |
+| Clip | Voice file | Start frame | Used for | Micro-action (paste into S5 or S6) |
+|---|---|---|---|---|
+| T1 | 02 «Zum ersten Mal …» | A | hook H2 | eyebrows lift slightly on the question; a small reassuring nod on «So läuft es bei mir ab» |
+| T2 | 03 «Carbon-Peeling oder …» | A | hook H3 | a slight head tilt on «oder»; a small closed-mouth smile on «beides» |
+| T3 | 04 «Zuerst schaue ich …» | A | shot 2 | a short glance down towards the treatment bed on «Haut genau an», back to the lens before «und stimme» |
+| T4 | 05 «Erst Reinigung …» | B | shot 6 (only the last 2 s) | steady look into the lens; a small nod at each comma |
+| T5 | 06 «Ich bin seit …» | A | shot 7 | a slow nod on «20 Jahren»; a warm closed-mouth smile on «persönlich» |
+| T6 | 07 «Carbon-Peeling und …» | B | shot 9 | steady eye contact; a small nod on «175»; a light smile on «online buchen» |
+| T7 | 08 «Jetzt für 175 …» | B | 15-s cut | a small nod on «175»; a light smile on «online buchen» |
 
 Voice file 01 (hook H1) needs no clip; it runs over clip 1.
 
@@ -239,7 +253,7 @@ If the lips don't follow her voice, run the silent clip through **Sync Lipsync 3
 - transparent text layers, full frame, for 9:16 and 4:5. Each format has a scrim, the hooks, the step labels, two captions, the review card and the price block. They are rendered with `render_video_overlays.py` in the style of `carbon-ad-*.mp4`.
 - a rough cut, made with `render_animatic.py`: 30 s and 15 s, 9:16, silent, marked «ENTWURF». It uses the real b-roll and the final text layers, and shows marked stand-ins where T1–T7 go. Use it as the timing template, and never upload it.
 
-**Rhythm:** cut on sentence ends and keep each shot at about 4 s at most. Alternate angles A and B. Let her voice start just before the picture changes (J-cut).
+**Rhythm:** cut on sentence ends and keep each shot at about 4 s at most. Alternate angles A and B. Cut on a movement, such as a nod or a blink, never on a frozen face. Let her voice start just before the picture changes (J-cut).
 
 **Captions:**
 
@@ -250,11 +264,11 @@ If the lips don't follow her voice, run the silent clip through **Sync Lipsync 3
 
 **Look:** one light, even film grain over the whole timeline. No beauty filter, no sharpening.
 
-**Sound:** her voice at about −14 LUFS, with room tone under the cuts. Music is optional and very quiet, or none at all.
+**Sound:** **her original voice memo is always the voice track**. Mute the clips' generated audio, because it can bring in unwanted music. Her voice sits at about −14 LUFS, with room tone under the cuts. Music is optional and very quiet, or none at all.
 
 **Export:**
 
-- MP4 H.264, 25 or 30 fps;
+- MP4 H.264, **24 fps** (the approved clips and the Seedance clips run at 24 fps; a 25 or 30 fps timeline makes them judder);
 - 1080 × 1920 for Reels and Stories;
 - 1080 × 1350 for Feed. The 4:5 layers have the same layout as `carbon-ad-45.mp4`.
 
@@ -274,27 +288,31 @@ It never invents skin features on a real person, and it uses the same camera as 
 Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Her real skin exactly as in the references: visible pores, fine lines, natural shine on the nose, flyaway hairs; do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
 ```
 
-### S1 · Teresa sheet – Nano Banana Pro, 3:2, 2K
+### S1 · Teresa sheet – Seedream 5.0 Pro, 16:9, 2K, four images
 
 ```text
 [Teresa realism block] Reference sheet of one woman, the practitioner. Images 1 and 2 are her identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives only her wardrobe, hair styling and make-up: a white short-sleeved practitioner tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair worn open. Three views of the same person side by side, the same size and the same light: left, front view, head and shoulders, looking into the lens; middle, three-quarter view, turned 30 degrees, head and shoulders; right, close-up of her face, front. All three views are the same person in the same clothes. Plain warm light-grey wall behind her, soft daylight from a window on the left and a warm ceiling lamp, a soft shadow on the right side of her face; no flash, no ring light, no studio backdrop. Calm, friendly, neutral expression, lips gently closed, both hands out of frame. Avoid: text, letters, numbers, labels, logos, name tags, retouched or poreless skin, glamour lighting, perfect symmetry, stock-photo smile.
 ```
 
-### S2 · Empty studio plate – Nano Banana Pro, 9:16, 2K
+### S2 · Empty studio plate – Soul Cinema, 9:16, 2K, one reference
 
 ```text
-Unretouched real photograph of an empty small cosmetic studio, full-frame camera with a 35 mm lens at f/2.8, available window light mixed with a warm ceiling lamp, true-to-life colours, fine sensor noise. Use the attached images only for the room's geography, materials and lighting, not for framing: the same treatment bed with a cream towel, the same cream walls, the same dark wooden cabinet with a few plain unlabelled bottles and a candle, the same window on the left with soft daylight. Nobody in the room: no people, no hands, no client. Wide three-quarter view from standing eye height, the treatment bed in the middle ground, the window on the left, depth behind. A little everyday imperfection, such as a folded towel slightly askew. Avoid: people, text, letters, logos, labels, devices, needles, lasers, clinical setting, neon, marble, flowers everywhere, perfect symmetry, CGI look.
+Unretouched real photograph of an empty small cosmetic studio, full-frame camera with a 35 mm lens at f/2.8, available window light mixed with a warm ceiling lamp, true-to-life colours, fine sensor noise. Use the attached image only for the room's geography, materials and lighting, not for framing: the same treatment bed with a cream towel, the same cream walls, the same dark wooden cabinet with a few plain unlabelled bottles and a candle, the same window on the left with soft daylight. Nobody in the room: no people, no hands, no client. Wide three-quarter view from standing eye height, the treatment bed in the middle ground, the window on the left, depth behind. A little everyday imperfection, such as a folded towel slightly askew. Avoid: people, text, letters, logos, labels, devices, needles, lasers, clinical setting, neon, marble, flowers everywhere, perfect symmetry, CGI look.
 ```
 
-### S3 · Start frame angle A – Nano Banana Pro, 9:16, 2K
+### S3 · Start frame angle A – Seedream 5.0 Pro, 9:16, 2K, four images
 
 ```text
 [Teresa realism block] Image 1 is the woman: her identity, real age, wardrobe, hair and make-up exactly as on the sheet (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair). Image 2 is the room: use it for geography, materials and lighting, not for framing. She stands beside the treatment bed and looks straight into the lens, calm and friendly, as if she is about to explain the treatment to a client; lips gently closed, relaxed jaw. Medium close-up, vertical 9:16, 35 mm, camera on a tripod at her eye level about one metre away: head and shoulders down to mid-chest, her eyes about one third from the top of the frame, both hands out of frame. The window is on the left of the frame, a soft shadow on the right side of her face, the room softly out of focus behind her. Avoid: text, letters, logos, name tags, glamour lighting, ring-light reflections in the eyes, stock-photo smile, perfect symmetry, a different outfit.
 ```
 
-### S4 · Start frame angle B
+### S4 · Start frame angle B – 3D Jutsu Angles, from the chosen angle A
 
-Use S3, but replace the sentence that starts «Medium close-up, vertical 9:16 …» with:
+```text
+The same photograph from a second camera position: the camera moves about 30 degrees to her left and a little closer, at the same eye height. The same woman, face, real age, tunic, earrings, hair and make-up, the same room and the same window light from the left. She still looks into the lens with the same calm expression; both hands stay out of frame. Nothing else changes; no text.
+```
+
+Fallback, if Angles changes her face: use S3, but replace the sentence that starts «Medium close-up, vertical 9:16 …» with:
 
 ```text
 Medium close-up, vertical 9:16, 35 mm, camera on a tripod slightly to her left and a little closer: head and upper shoulders, her body turned about 30 degrees towards the window, her face turned back to the lens, her eyes about one third from the top of the frame, both hands out of frame; the treatment bed and the window soft in the background on the left.
@@ -307,9 +325,11 @@ Scene: the practitioner explains the treatment to the camera in her studio.
 References: character = the attached start frame; location = the attached studio plate (geography, materials and lighting only).
 Format: one continuous take, no cuts.
 Camera: medium close-up, 35 mm, locked-off tripod at eye level; no zoom, no push-in, no camera move.
-Performance: she speaks calmly and warmly into the lens and follows the voice recording exactly; small head movements, a slow nod on key words, natural blinking every few seconds, short pauses where the voice pauses; no hand gestures, no wide smile, no looking away.
-Light: soft daylight from the window on the left, constant; warm ceiling lamp.
-Audio: only her voice recording; no music, no added sounds.
+Performance: she speaks calmly and warmly into the lens and follows the voice recording exactly; natural blinking every few seconds, short pauses where the voice pauses; no hand gestures, no wide smile, no looking away.
+Micro-action: [paste the clip's micro-action from the table].
+Physics: she breathes naturally before the first word, a few loose strands of hair move slightly when she nods, the tunic creases softly with her shoulders.
+Light: soft daylight from the window on the left falls on her face and the room alike, constant; warm ceiling lamp.
+Audio: only her voice recording; no music, no score, no added sounds, no subtitles.
 Locks: same face, real age, hair and make-up as the start frame · same white tunic and earrings · both hands out of frame · the camera does not move · the window stays on the left · her mouth follows her voice.
 ```
 
@@ -324,9 +344,11 @@ First frame: exactly image 1.
 Format: one continuous take, no cuts, [N] seconds.
 Camera: medium close-up, 35 mm, locked-off tripod at eye level; no zoom, no push-in, no camera move.
 Action: at 0.0 s she starts speaking with audio 1; she pauses where the voice pauses; after the last word she holds a calm look into the lens.
-Performance: calm and warm; small head movements, one slow nod on a key word, natural blinking; no hand gestures, no wide smile.
-Light and colour: soft daylight from the left, warm ceiling lamp, true-to-life colours, fine grain.
-Audio: audio 1 only; no music, no added sounds, no other voices.
+Performance: calm and warm; natural blinking; no hand gestures, no wide smile.
+Micro-action: [paste the clip's micro-action from the table].
+Physics: she breathes naturally before the first word, a few loose strands of hair move slightly when she nods, the tunic creases softly with her shoulders.
+Light and colour: soft daylight from the left falls on her face and the room alike, warm ceiling lamp, true-to-life colours, fine grain, 24 fps with natural motion blur.
+Audio: audio 1 only; no music, no score, no added sounds, no other voices.
 Locks: same face and real age as image 1 · same white tunic, earrings and lipstick · both hands out of frame · camera still · window on the left · no text, no logos, no subtitles.
 ```
 
@@ -359,6 +381,9 @@ Locks: exactly two gloved hands with five fingers each · the practitioner's fac
 | Text or letters appear | «Absolutely no text, letters, numbers or symbols anywhere.» |
 | Hands appear | «Both hands stay below the bottom edge of the frame.» |
 | The camera copies the reference angle | «Use image 2 for geography, materials and lighting only, not for framing.» |
+| She stands frozen | Add or sharpen the micro-action; JOEY: without one the model leaves people still. |
+| A take ignores parts of the prompt | Shorten the prompt: remove everything that isn't a lock or the action (JOEY). |
+| Music appears in the generated audio | Mute it; her voice memo is the soundtrack anyway. |
 
 ---
 
