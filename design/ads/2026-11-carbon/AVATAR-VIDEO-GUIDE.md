@@ -175,7 +175,9 @@ The rule from Marxx: name a situation and promise something small and believable
 
 ### Step 2 – Start images for the talking shots (two angles)
 
-Use the consented workflow from M7 (`gpt-image-2.5-flare`, OpenAI Playground). Upload **only** photos on which Teresa is alone (photos 2 and 3 in the client folder), never photos with real clients. Generate 2–3 candidates per angle and pick the one where Teresa says "that's me". Prompts P1 and P2 are in section 5.
+Use the consented workflow from M7. Either stay in Higgsfield (**Nano Banana Pro** with image references, 9:16, 2K; if her face drifts, **GPT Image 2**), or use `gpt-image-2.5-flare` in the OpenAI Playground as for M7. Upload **only** photos on which Teresa is alone (photos 2 and 3 in the client folder), never photos with real clients. Generate 2–3 candidates per angle and pick the one where Teresa says "that's me". Prompts P1 and P2 are in section 5.
+
+All prompts, Teresa's recording lines and the edit texts are also on a private copy-paste page with one copy button per box, in Higgsfield order: [Carbon Avatar Prompt Kit](https://claude.ai/artifact/4ZHcr4Wz1vnNqUPMdM1vdN). It opens for the agency account only.
 
 ### Step 3 – Talking-head clips
 
