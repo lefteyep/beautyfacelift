@@ -202,3 +202,7 @@ Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «R
 - Geprüft: jedes Wort in voller Grösse (7 Schrittnamen, Handschrift, Sprechblasen, Bewertung, Adresse, Preise und Durchstreichungen).
 - **Offen:** Teresa gibt carbon-gold, cover, neon-studio und collage frei; Auswahl und Hochladen auf Meta.
 
+## Runde 6 · zehn Formate aus der Pinterest-Recherche (geplant, noch nichts erzeugt)
+
+Plan, Recherche und Übergabe an eine lokale Session: [ROUND6-PLAN.md](ROUND6-PLAN.md). Prompts: [motifs_r6.py](motifs_r6.py). Alle Prompts der Runden 4 bis 6 laufen mit [gen_ads.py](gen_ads.py), auch auf dem eigenen Rechner (Schlüssel aus `OPENAI_API_KEY`).
+
