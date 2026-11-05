@@ -91,3 +91,100 @@ Referenzen in dieser Reihenfolge: Teresa-Foto 2, Teresa-Foto 3 (nur Teresa, eing
 ```text
 Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin on both women: uneven tone, visible pores, fine lines, a few freckles, slight natural shine, flyaway hairs. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no overly perfect styling. The first two attached photos show the studio owner and practitioner, who has consented: keep her clearly recognisable as herself (face shape, eyes, smile lines, shoulder-length blond hair, age) and dress her in the same plain white short-sleeved tunic, with white nitrile gloves. The third attached photo is only the reference for the fictional client, the bed, the cream and sand studio and the window light. Scene: the practitioner sits beside the head end of the treatment bed, slightly leaning in, looking down at her work with calm concentration, mouth closed, not looking at the camera. With a flat cosmetic brush she applies a thin matte charcoal-black carbon lotion to the cheek of the reclining fictional client, who wears a cream towel headband, eyes closed; about half of the client's face is already covered in visible uneven brush strokes. Her other gloved hand rests lightly at the client's temple. Both faces fully visible in the upper 70 % of a portrait 4:5 frame, the practitioner's head in the upper half; lower 25 % calm (blanket and towel). Window on the left, cream wall, a dark wooden side cabinet softly out of focus. Avoid: text, letters, numbers, logos, name badges, labels, before/after, result claims, poreless plastic skin, needles, lasers, light beams, devices, clinical setting, extra or fused fingers, malformed hands, glossy catalogue look. One photo, no montage.
 ```
+
+## Runde 3 · ChatGPT, fünf neue Motive (geplant 2026-11-05, noch nichts erzeugt)
+Für ChatGPT (Bildgenerierung im Chat), je Motiv ein neuer Chat, Referenzen in der genannten Reihenfolge, Ausgabe Hochformat 2:3, drei Versionen, die beste wählen. Kein Text im Bild; das Textband (Headline, zweite Zeile, «CHF 175 statt CHF 250 · Sie sparen CHF 75.–», «Nur bis 30. November 2026 · Bahnhofstrasse 94, Zürich») kommt wie bei den bisherigen Anzeigen aus dem Render-Script. Teresa erscheint in M8, M11 und M12, erzeugt aus ihren eingewilligten Fotos (nur Fotos, auf denen sie allein ist); sie gibt die Bilder vor der Verwendung frei. Schritt-für-Schritt-Anleitung, Meta-Headlines und Reparaturzeilen im Tab «Image ads» des Docs [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp).
+
+### M8 · Hautanalyse («Zum ersten Mal Microneedling?»)
+
+Referenzen: 1 Teresa-Foto 2 · 2 Teresa-Foto 3 · 3 `raw/teresa_20261031_1.png`
+
+```text
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin on both women: visible pores, fine lines, natural shine, flyaway hairs; keep the practitioner's skin exactly as in images 1 and 2 and do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
+
+Images 1 and 2 show the practitioner's identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives her wardrobe, hair and make-up (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair), the fictional client and the studio.
+
+Scene: the skin analysis before the treatment. The client, a fictional woman around 40 with shoulder-length dark-blond hair under a cream towel headband, sits upright on the treatment bed, relaxed, with a calm closed-mouth smile; clean skin without make-up. The practitioner sits beside her, leaning in a little, and looks closely and attentively at the client's cheek in the window light; one gloved hand rests lightly near the client's jaw. Neither looks into the camera. No devices, no magnifying lamp.
+
+Studio: a window on the left with soft daylight, cream walls, a dark wooden cabinet with a few plain unlabelled bottles softly out of focus. Eye level, 35 mm, shallow depth of field.
+
+Format: tall portrait 2:3, both faces in the middle of the frame, with calm space above and below so it can be cropped to 4:5 and 9:16.
+
+Avoid: any text, letters, numbers, logos, labels or name tags; before/after; glowing or poreless skin; redness; glamour lighting; smiles into the camera; extra or fused fingers; perfect symmetry. One photo.
+```
+
+Textband: «Zum ersten Mal Microneedling?» · «Teresa prüft zuerst Ihre Haut und erklärt jeden Schritt.»
+
+### M9 · Zwei in einer Sitzung («Zwei Behandlungen, eine Sitzung»)
+
+Referenzen: 1 `raw/maske-v2_20261031_1.png` · 2 `raw/pen-v2_20261031_2.png`
+
+```text
+Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin: uneven tone, visible pores, fine vellus hair, a few freckles and small moles, slight natural shine on the nose, flyaway hairs. A lived-in small studio with ordinary details. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening, no overly perfect styling.
+
+Use image 1 only as reference for the fictional client, the studio and the light, and image 2 only for the exact look of the microneedling pen: brushed silver-grey metal, a fine knurled ring, a small transparent cartridge at the tip, no lettering.
+
+Scene: the Carbon step, with the next step already waiting. The client reclines on the treatment bed with her eyes closed and a cream towel headband; a thin, matte, charcoal-black carbon lotion covers about half of her face in visible, slightly uneven brush strokes. Two hands in white nitrile gloves: one holds a flat brush with black lotion on it, the other rests lightly near her temple. On a small brushed-brass tray beside her head lies the microneedling pen, ready for the next step, in focus. The practitioner is only hands and a plain off-white sleeve edge.
+
+Camera slightly above the bed, from the side, 35 mm, shallow depth of field. Tall portrait 2:3, her face and the pen both in the middle of the frame, with calm space above and below.
+
+Avoid: any text, letters, numbers, logos or lettering on the pen; visible needles; lasers or light beams; redness; before/after; extra or fused fingers; a clinical setting; a glossy catalogue look. Do not depict any real person; the practitioner is unidentifiable. One photo.
+```
+
+Textband: «Zwei Behandlungen, eine Sitzung» · «Carbon-Peeling + Microneedling in 90 Minuten.»
+
+### M10 · Ruhe («90 Minuten für Ihre Haut»)
+
+Referenzen: 1 `raw/maske-v2_20261031_1.png`
+
+```text
+Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin: uneven tone, visible pores, fine vellus hair, a few freckles and small moles, slight natural shine on the nose, flyaway hairs. A lived-in small studio with ordinary details. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening, no overly perfect styling.
+
+Use the attached image only as reference for the fictional client, the studio and the light.
+
+Scene: a quiet moment during a 90-minute appointment. The client lies on the treatment bed under a soft cream blanket, eyes closed, completely relaxed, a cream towel headband; her face is clean, with no mask and no lotion, ordinary skin with visible pores and fine lines. One hand of the practitioner in a white nitrile glove rests lightly on her shoulder; the practitioner is out of frame except for the hand and a plain off-white sleeve edge. Late-afternoon daylight from a window on the left, a candle softly out of focus on the dark wooden cabinet.
+
+Camera at bed height from the head end, 50 mm, shallow depth of field. Tall portrait 2:3, her face in the middle third of the frame, with calm space above and below.
+
+Avoid: any text, letters, numbers or logos; devices; glowing or poreless skin; a 'result' look; redness; smiles into the camera; extra or fused fingers; a clinical setting. Do not depict any real person. One photo.
+```
+
+Textband: «90 Minuten für Ihre Haut» · «Reinigung, Peelings, Carbon-Peeling, Microneedling, Maske und LED-Licht.»
+
+### M11 · Teresa-Porträt («Persönlich von Teresa Stimac»)
+
+Referenzen: 1 Teresa-Foto 2 · 2 Teresa-Foto 3 · 3 `raw/teresa_20261031_1.png` · 4 (optional) Teresa-Sheet aus dem Video-Guide
+
+```text
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Her real skin exactly as in images 1 and 2: visible pores, fine lines, natural shine on the nose, flyaway hairs; do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
+
+Images 1 and 2 are her identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives her wardrobe, hair and make-up (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair) and the studio. If a fourth image is attached, it shows the same woman from three angles; use it for her identity too.
+
+Scene: she stands beside the treatment bed in her studio and looks into the lens with a warm, calm, closed-mouth smile, as if welcoming a client. Head and shoulders down to mid-chest, both hands out of frame. Behind her, softly out of focus: the treatment bed with a folded cream towel, the dark wooden cabinet, a candle. Window on the left, a soft shadow on the right side of her face.
+
+Camera on a tripod at her eye level about one metre away, 35 mm, shallow depth of field. Tall portrait 2:3, her face in the upper middle of the frame, with calm space below.
+
+Avoid: any text, letters, numbers, logos or name tags; glamour lighting; ring-light reflections in the eyes; a wide or teeth-showing smile; perfect symmetry; a different outfit; a studio backdrop. One photo.
+```
+
+Textband: «Persönlich von Teresa Stimac» · «Dipl. Visagistin & Kosmetikerin, seit über 20 Jahren im Beruf.»
+
+### M12 · Danach («Auch danach gut beraten»)
+
+Referenzen: 1 Teresa-Foto 2 · 2 Teresa-Foto 3 · 3 `raw/teresa_20261031_1.png`
+
+```text
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin on both women: visible pores, fine lines, natural shine, flyaway hairs; keep the practitioner's skin exactly as in images 1 and 2 and do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
+
+Images 1 and 2 show the practitioner's identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives her wardrobe, hair and make-up (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair), the fictional client and the studio.
+
+Scene: the end of the appointment. The client, a fictional woman around 40 with shoulder-length dark-blond hair worn loose, sits upright on the edge of the treatment bed in a plain cream robe and listens. The practitioner stands beside her, holds a small plain white tube without any label in one bare hand and explains something calmly with a friendly look; the two women look at each other, not into the camera. The client's skin is ordinary, with visible pores and fine lines, no make-up, not glowing, not red.
+
+Studio: a window on the left with soft daylight, cream walls, the dark wooden cabinet softly out of focus. Eye level, 35 mm, shallow depth of field.
+
+Format: tall portrait 2:3, both faces and the tube in the middle of the frame, with calm space above and below.
+
+Avoid: any text, letters, numbers, labels or logos, also on the tube; before/after; glowing or 'perfect' skin; redness; glamour lighting; smiles into the camera; extra or fused fingers; perfect symmetry. One photo.
+```
+
+Textband: «Auch danach gut beraten» · «Klare Hinweise für die Tage danach: Sonnenschutz, Feuchtigkeit, kurze Pause von Hitze und Sport.»
