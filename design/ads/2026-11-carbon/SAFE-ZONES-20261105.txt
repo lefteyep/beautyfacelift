@@ -1,0 +1,21 @@
+Carbon-Peeling + Microneedling – Meta image ads, checked 5 November 2026
+
+feed-4x5/            1080 x 1350, for Facebook and Instagram Feed
+stories-reels-9x16/  1080 x 1920, for Stories AND Reels (one file covers both)
+
+Safe zones checked with text recognition (OCR) on every file:
+- Stories: no text in the top 14 % or the bottom 20 %.
+- Reels (stricter): no text in the top 14 % or the bottom 35 %, about 6 % free on each side.
+
+Result: all ten 9:16 files keep their text between 14.5 % and 64.5 % of the height, with 156 px free on each
+side, so they are safe for Stories and Reels. The design sits as a framed card on a background in the ad's own
+style; the background contains no text.
+
+Before this fix, 6 of the 10 earlier full-screen 9:16 versions had text in the Stories zones
+(carbon-gold, glass-30, cover, swiss-poster, collage, pop-art) and none was safe for Reels.
+Those versions are kept outside the public repository, in ../ads/2026-11-carbon-runden-3-6/raw/*-916_20261105_*.png
+(and final-teresa/alt-916-vollbild/ for the ads that show Teresa), and are not used.
+
+Still to do: Teresa approves the ads that show her (carbon-gold, cover, neon-studio, collage); until then their files
+are kept outside the repository in ../ads/2026-11-carbon-runden-3-6/final-teresa/.
+glass-30 and neon-studio show "Nur bis 30. November" in the picture: remake them if the end date moves.
