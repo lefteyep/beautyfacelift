@@ -185,3 +185,20 @@ Der User hat den Stil von Runde 3 (Foto + Textband) abgelehnt: «completely new 
 - 9:16 ist vorläufig: die 4:5-Anzeige zentriert auf 82 % (Text zwischen 14 % und 80 % der Höhe) auf einem Farbfeld aus ihr selbst. Echte 9:16-Layouts brauchen neues Guthaben.
 - **Offen:** OpenAI-Guthaben aufladen (Entscheid des Users) für Cover-Korrektur und echte 9:16; Teresa gibt carbon-gold, cover und neon-studio frei; Hochladen auf Meta. Datum im Bild: glass-30 und neon-studio müssen neu erzeugt werden, falls das Enddatum sich ändert.
 
+## Runde 5 · fünf weitere Stile, Cover korrigiert, native 9:16 (2026-11-05)
+
+Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «Runde 5»; Log weiter in `raw/generation-log-20261105-r4.jsonl`.
+
+| Datei (4:5 und 9:16) | Stil | Kandidat 4:5 | Teresa |
+|---|---|---|---|
+| `swiss-poster_*` | Swiss Style: Raster, Signalrot/Schwarz/Weiss, riesige «175», Behandlungsfoto | 1 | nein |
+| `collage_*` | Papier-Collage mit Sofortbildern, Klebeband, Handschrift | 1 | ja (Sofortbild aus ihrem echten Porträt) |
+| `clay-steps_*` | 3D-Clay-Pfad mit den 7 Schritten, Preisblase | 1 | nein |
+| `carbon-brush_*` | Minimal-Luxus: ein schwarzer Carbon-Pinselstrich auf Elfenbein | 1 | nein |
+| `pop-art_*` | Pop-Art-Comic, «BEIDES! CHF 175» | 1 | nein (Comic-Kundin, fiktiv) |
+
+- **Cover korrigiert:** `cover_45.jpg` jetzt aus `raw/cover-v2-45_20261105_2.png`, «BEAUTY FACE LIFT» voll lesbar. Der erste Cover-Lauf bleibt in `raw/cover-45_20261105_*.png`.
+- **Native 9:16 für alle zehn Anzeigen** (`*_916.jpg`, aus `raw/*-916_20261105_1.png`): ersetzen die vorläufigen Zentrier-Versionen. Fünf (carbon-gold, duo-split, cover, neon-studio, clay-steps) wurden mit strengeren Schutzzonen neu erzeugt, weil Text im unteren 20-%-Bereich lag; die erste Fassung liegt als `raw/*-916_20261105_0.png`. clay-steps 9:16 hat die Adresszeile weggelassen (steht im Anzeigentext).
+- Geprüft: jedes Wort in voller Grösse (7 Schrittnamen, Handschrift, Sprechblasen, Bewertung, Adresse, Preise und Durchstreichungen).
+- **Offen:** Teresa gibt carbon-gold, cover, neon-studio und collage frei; Auswahl und Hochladen auf Meta.
+

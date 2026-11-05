@@ -311,3 +311,110 @@ Render ONLY the text listed below, each word spelled exactly as written (German,
 Avoid: lasers or light beams aimed at the face, needles, sweat, gym equipment, before/after.
 ```
 
+## Runde 5 · fünf weitere Stile und native 9:16 (2026-11-05)
+Neues Guthaben des Users. Gleiches Verfahren wie Runde 4. Cover-Korrektur: Masthead-Satz ersetzt durch «…: "BEAUTY FACE LIFT", fully readable; her head sits below the masthead and nothing covers any letter.» 9:16: `/v1/images/edits` mit der gewählten 4:5-Anzeige als einziger Referenz, 1088 × 1936, Prompt unten.
+
+### swiss-poster
+
+Referenzen: maske-v2_20261031_1.png
+
+```text
+Design a striking Instagram feed ad (portrait 4:5) in the Swiss International Typographic Style, like a classic Zurich design poster reinterpreted for 2026: a strict modular grid, flat signal red, black and white, lots of white space, one bold asymmetric composition, no gradients, no decoration.
+
+Hero: the number "175" set gigantic in a heavy neo-grotesk sans-serif (like Helvetica Bold), black, running off the left edge, with a small "CHF" above it and ".–" after it. A flat red square block behind part of the number. A square, realistic photo of the treatment from image 1 (a woman reclining with closed eyes, half her face in matte black carbon lotion, a gloved hand with a brush) sits precisely on the grid, upper right.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text, all in the same neo-grotesk family, flush left, ragged right:
+- headline: "Carbon-Peeling + Microneedling"
+- below it, three short lines: "Zwei Behandlungen." "Eine Sitzung." "90 Minuten."
+- next to the number, small: "statt CHF 250.–" with "CHF 250.–" struck through
+- small, bottom left: "Zürich, Bahnhofstrasse 94"
+- a black rectangular button with white text, bottom right: "Jetzt Termin buchen"
+
+Avoid: flags, crosses, coats of arms, gradients, 3D effects, ornaments, lasers, needles, before/after.
+```
+
+### collage
+
+Referenzen: teresa_portrait.jpg · maske-v2_20261031_1.png · pen-v2_20261031_2.png
+
+```text
+Design an Instagram feed ad (portrait 4:5) as a trendy handmade paper collage, like a beauty creator's mood board: warm cream paper background with subtle texture, torn paper strips in blush, sand and black, pieces of washi tape, a few hand-drawn marker doodles (arrows, circles, small stars, a heart), slight shadows so every piece looks physically layered.
+
+Photos as instant photos with white borders, slightly rotated and taped down: one large one of the woman from image 1, smiling, exactly as in the photo (same face, real age, red lipstick, long blond hair, white tunic; no name tag); one of the treatment from image 2 (black carbon lotion being brushed on); one small one in the style of image 3 (a gloved hand with a silver-grey microneedling pen resting on a cheek, no needles visible).
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- big headline in bold black hand-cut paper letters: "Carbon-Peeling + Microneedling"
+- handwritten black marker note on a torn paper scrap: "Zum ersten Mal Microneedling?"
+- handwritten caption on the large photo's border: "Teresa Stimac"
+- a round blush price sticker: "CHF 175" big, "statt CHF 250" small with "CHF 250" struck through
+- a small paper label: "90 Min. · Bahnhofstrasse 94, Zürich"
+- a black pill-shaped button with white text: "Jetzt Termin buchen"
+
+Avoid: clutter that hides the faces, lasers, needles, before/after.
+```
+
+### clay-steps
+
+Referenzen: pen-v2_20261031_2.png
+
+```text
+Design a playful, premium Instagram feed ad (portrait 4:5) in a soft 3D clay style (claymorphism), like a modern app launch: smooth matte clay shapes with soft studio light and gentle shadows on a warm peach-to-cream gradient stage.
+
+Hero: a curved 3D clay path winding from top to bottom with seven round clay stepping stones. On each stone a cute, simple 3D clay icon: 1 a water drop, 2 a slice of citrus fruit, 3 a small diamond, 4 a small black bowl with a brush, 5 a silver-grey pen shaped like the one in image 1 (no needles), 6 a soft white face mask, 7 a small glowing round light. At the end of the path, a large glossy clay price bubble.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text, rounded bold sans-serif, dark cocoa:
+- top headline: "7 Schritte. 90 Minuten."
+- under it, smaller: "Carbon-Peeling + Microneedling"
+- one small label beside each stone, in this order: "Reinigung", "Fruchtsäure-Peeling", "Diamantabrasion", "Carbon-Peeling", "Microneedling", "Maske", "LED-Licht"
+- in the price bubble: "CHF 175" big and "statt CHF 250" small with "CHF 250" struck through
+- a clay button with white text: "Jetzt Termin buchen"
+- small, bottom: "Bahnhofstrasse 94, Zürich"
+
+Avoid: lasers, light beams, visible needles, syringes, medical symbols, faces, before/after.
+```
+
+### carbon-brush
+
+Referenzen: maske-v2_20261031_1.png
+
+```text
+Design a minimalist luxury Instagram feed ad (portrait 4:5), art-directed like a high-end fragrance campaign: a warm ivory paper background with fine texture and lots of empty space. Across the middle runs one single, huge, expressive brush stroke of glossy matte-black carbon lotion, painted diagonally, with real bristle texture, dry-brush edges and a few fine splatters.
+
+Photo: a small, round, realistic photo of the treatment from image 1 (a woman reclining with closed eyes, black carbon lotion on half her face, a gloved hand with a brush), sitting on the end of the stroke like a full stop.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- on the black stroke, in large elegant ivory high-contrast serif: "Carbon-Peeling"
+- under the stroke, in the same serif, black: "+ Microneedling"
+- price, black serif, large: "CHF 175.–" and next to it small "statt CHF 250.–" with "CHF 250.–" struck through
+- a small line in spaced capitals, sans-serif: "90 MIN. · BAHNHOFSTRASSE 94 · ZÜRICH"
+- a thin black outlined button: "Jetzt Termin buchen"
+
+Avoid: any colour besides ivory, black and a touch of warm brown; lasers, needles, before/after, clutter.
+```
+
+### pop-art
+
+Referenzen: maske-v2_20261031_1.png · pen-v2_20261031_2.png
+
+```text
+Design a bold, scroll-stopping Instagram feed ad (portrait 4:5) in classic 1960s pop-art comic style: thick black outlines, Ben-Day halftone dots, flat bright colours (lemon yellow, hot pink, cyan, red), dynamic diagonal panel borders.
+
+Panels: panel 1, top left, a comic-style woman (fictional, drawn after image 1) relaxing with closed eyes, half her face covered in a black carbon mask, a gloved hand with a brush. Panel 2, top right, a comic close-up drawn after image 2: a gloved hand holding a silver-grey microneedling pen on a cheek, no needles visible. Below, a huge red-and-yellow explosion burst.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text, comic lettering (bold, slightly italic hand-lettered caps):
+- speech bubble in panel 1: "CARBON-PEELING?"
+- speech bubble in panel 2: "MICRONEEDLING?"
+- in the burst, huge: "BEIDES!" and under it "CHF 175"
+- a small yellow caption box: "statt CHF 250" with "CHF 250" struck through
+- a small caption box: "90 Min. · Bahnhofstrasse 94, Zürich"
+- a black button with yellow text: "Jetzt Termin buchen"
+
+Avoid: violence, sound-effect words other than the ones given, lasers, needles, before/after.
+```
+
+### 9:16 aus der 4:5-Anzeige
+
+```text
+Re-design the attached Instagram feed ad (image 1) as a vertical 9:16 Instagram Story ad of the same campaign. Keep the same style, colours, 3D elements, photos, people and every text element with exactly the same words and spelling, including the struck-through old price; do not add, remove or change any words. Re-arrange the layout for the tall frame: extend the background naturally, give the hero element more room, keep generous spacing and the same visual hierarchy. Safe zones: the top 14 % and the bottom 20 % of the frame hold only background, with no text and no button; all text and the button sit between them. The canvas is 1088 x 1936 px: the top 290 px and the bottom 400 px are an empty continuation of the background (no words, no price, no labels, no button); everything else fits between y = 290 and y = 1536, a little smaller if needed. No other text, no logos, no watermarks.
+```
+
