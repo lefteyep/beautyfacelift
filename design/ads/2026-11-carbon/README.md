@@ -202,9 +202,29 @@ Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «R
 - Geprüft: jedes Wort in voller Grösse (7 Schrittnamen, Handschrift, Sprechblasen, Bewertung, Adresse, Preise und Durchstreichungen).
 - **Offen:** Teresa gibt carbon-gold, cover, neon-studio und collage frei; Auswahl und Hochladen auf Meta.
 
-## Runde 6 · zehn Formate aus der Pinterest-Recherche (geplant, noch nichts erzeugt)
+## Runde 6 · zehn Formate aus der Pinterest-Recherche (2026-11-05)
 
-Plan, Recherche und Übergabe an eine lokale Session: [ROUND6-PLAN.md](ROUND6-PLAN.md). Prompts: [motifs_r6.py](motifs_r6.py). Alle Prompts der Runden 4 bis 6 laufen mit [gen_ads.py](gen_ads.py), auch auf dem eigenen Rechner (Schlüssel aus `OPENAI_API_KEY`).
+Recherche in Chrome (eingeloggt) und die daraus überarbeiteten Prompts: [ROUND6-PLAN.md](ROUND6-PLAN.md), Abschnitt «Research in the local session». Alle zehn Anzeigen sitzen auf der Palette der Website (Cream, Shell, Blush, Kupfer, Cocoa, Gold), Serif-Headline über Sans-Labels, keine Tech-Farben. Prompts: [motifs_r6.py](motifs_r6.py), erzeugt mit [gen_ads.py](gen_ads.py) (`gpt-image-2.6-flare`, `high`, 1088 × 1360, je zwei Kandidaten; Schlüssel aus `OPENAI_API_KEY`, Umgebungsvariable des Users). Kontaktbogen `raw/contact-r6-20261105.jpg`, Stories und Finals mit [finalize_r6.py](finalize_r6.py) und [regen_story_r6.py](regen_story_r6.py). Log: `raw/generation-log-20261105.jsonl` (geteilt mit Runde 7).
+
+| Datei (4:5 und 9:16) | Format | Kandidat 4:5 | Teresa |
+|---|---|---|---|
+| `problem-loesung_*` | Split «Getrennt oder zusammen?», rote Kreuze gegen Kupfer-Häkchen, Behandlungsfoto auf der Trennlinie | 1 | nein |
+| `toggles_*` | Behandlungsmenü mit sieben Schaltern (Reinigung bis LED-Licht), Pinsel-Foto oben | 1 | nein |
+| `reviews_*` | Teresa vor dem Cocoa-Bogen, vier schwebende Treatwell-Bewertungen (wörtlich) | 1 | ja |
+| `chat-faq_*` | Chat als FAQ («Tut Microneedling weh?», Dauer), Preis-Karte, Teresa als Avatar | 1 | ja (Avatar) |
+| `ab-choice_*` | «Was ist Ihnen lieber?» A: zwei 3D-Kalender, B: ein Kalender mit dem Behandlungsfoto | 1 | nein |
+| `pov-caption_*` | Creator-Stil, Untertitel-Caption «POV: …» auf dem Behandlungsfoto, Preis-Sticker | 1 | nein |
+| `hand-hero_*` | Pen in der Handschuh-Hand vor dem Blush-Bogen, sechs Pills | 1 | nein |
+| `puzzle-3d_*` | Zwei 3D-Puzzleteile (Carbon-Schwarz, Perlrosa) im Blush-Studio, «Passt zusammen.» | 1 | nein |
+| `orbit_*` | Sieben Glas-Chips im Orbit um das Foto, Tief-Salbei, «1 Termin. 7 Schritte.» | 1 | nein |
+| `storyboard_*` | 2 × 2 Raster mit grossen Ziffern, «Ihre 90 Minuten», Teresa bei der Hautanalyse | 2 | ja (Foto 1) |
+
+- Geprüft (volle Grösse, jeder Kandidat und jede Story): jedes Wort gegen die Textliste des Prompts, «CHF 175 statt CHF 250» mit roter Durchstreichung, die sieben Schritte in der richtigen Reihenfolge (toggles, orbit), die vier Zitate wörtlich (reviews), FAQ-Antworten wörtlich von der Landingpage, Hände und Handschuhe, Pen ohne Nadeln (storyboard Foto 3 vergrössert geprüft), kein Laser, kein Vorher/Nachher, kein Datum im Bild. Teresa auf reviews, chat-faq und storyboard gegen ihr Porträt verglichen (Gesicht, Haar, Lippenstift, Ohrringe, Kittel ohne Namensschild).
+- Verworfen: `orbit` Kandidat 2 (Spritzen-Icon beim Microneedling). Die übrigen Kandidaten 2 sind gleichwertig und bleiben in `raw/` als Alternative.
+- **Stories 9:16** (`*_916.jpg` aus `raw/*-916_20261105_1.png`): der Story-Prompt von `gen_ads.py` setzte bei neun von zehn den Button oder die Adresszeile in die unteren 20 %. Sie wurden mit `regen_story_r6.py` (unteres Drittel leer) neu erzeugt; die erste Fassung liegt als `raw/*-916_20261105_0.png`, nur chat-faq stammt aus dem ersten Lauf. toggles 9:16 hat die Adresszeile weggelassen (steht im Anzeigentext). Kontaktbogen mit den Schutzzonen: `raw/contact-r6-stories-20261105.jpg`.
+- Kosten: 31 API-Aufrufe (10 Feed mit je 2 Kandidaten, 10 Stories, 11 strenge Stories inklusive 2 Testläufe), 80 188 Input- und 60 552 Output-Tokens laut API; Betrag in der OpenAI-Usage-Ansicht ablesen.
+- Kopie aller fertigen Anzeigen (Runden 1 bis 6) für den User: `../ads/carbon_microneedling/` im Kundenordner (nicht im Repository).
+- **Offen:** Teresa gibt reviews, chat-faq und storyboard frei; Auswahl und Hochladen auf Meta (Anleitung im Doc «Carbon Avatar Video Guide», Tab «Image ads»).
 
 ## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (geplant 2026-11-05, noch nichts erzeugt)
 

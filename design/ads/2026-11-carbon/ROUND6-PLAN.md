@@ -1,6 +1,6 @@
 # Round 6 · ten new ad formats from Pinterest research (handover to a local session)
 
-Status 2026-11-05, local session: the Pinterest research is done with Claude in Chrome (logged in) and the ten prompts in [motifs_r6.py](motifs_r6.py) are revised after it (section «Research in the local session» below). **Nothing generated yet:** `gen_ads.py` needs `OPENAI_API_KEY` in the terminal, and the key was not set on the computer when the session reached that step.
+Status 2026-11-05, local session: **done.** Research with Claude in Chrome (logged in), the ten prompts in [motifs_r6.py](motifs_r6.py) revised after it (section «Research in the local session» below), twenty feed candidates generated and checked word by word, one picked per format, ten Stories (nine regenerated with strict safe zones by [regen_story_r6.py](regen_story_r6.py)), finals `<name>_45.jpg` and `<name>_916.jpg` built by [finalize_r6.py](finalize_r6.py), round recorded in [README.md](README.md) («Runde 6»). Open: Teresa approves `reviews`, `chat-faq` and `storyboard`; selection and upload to Meta.
 
 Earlier status (cloud session): research started, ten concepts written as prompts, nothing generated. The cloud session could not reach the user's logged-in Chrome (Claude in Chrome is not connected there), so the work continued in a session on the user's computer.
 
@@ -46,7 +46,7 @@ Queries: the ideas page past the login wall (mostly Meta-ads agency pins, nothin
 
 Also seen and left out: booking-confirmation screens (Treatwell's own sponsored pin shows a calendar entry; for a studio it would look like a function the ad does not have), «before / after» face halves on clinic pins (banned), percentage badges and price tags in other currencies, Canva template packs.
 
-## Next steps in the local session
+## Next steps in the local session (all done 2026-11-05)
 
 1. `git pull` and switch to branch `claude/charming-meitner-694rqy`.
 2. **Research with Claude in Chrome** (the user is logged in to Pinterest): the ideas page above, then searches such as «skincare ad design», «beauty salon instagram ad», «facial treatment social media post», «aesthetic clinic ad», «spa promotion poster», «3d cosmetic ad», «microneedling ad». Note the patterns that recur in beauty and service ads and what makes the best ones click-strong. Do not download or commit other people's pins.
