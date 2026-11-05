@@ -91,3 +91,330 @@ Referenzen in dieser Reihenfolge: Teresa-Foto 2, Teresa-Foto 3 (nur Teresa, eing
 ```text
 Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin on both women: uneven tone, visible pores, fine lines, a few freckles, slight natural shine, flyaway hairs. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no overly perfect styling. The first two attached photos show the studio owner and practitioner, who has consented: keep her clearly recognisable as herself (face shape, eyes, smile lines, shoulder-length blond hair, age) and dress her in the same plain white short-sleeved tunic, with white nitrile gloves. The third attached photo is only the reference for the fictional client, the bed, the cream and sand studio and the window light. Scene: the practitioner sits beside the head end of the treatment bed, slightly leaning in, looking down at her work with calm concentration, mouth closed, not looking at the camera. With a flat cosmetic brush she applies a thin matte charcoal-black carbon lotion to the cheek of the reclining fictional client, who wears a cream towel headband, eyes closed; about half of the client's face is already covered in visible uneven brush strokes. Her other gloved hand rests lightly at the client's temple. Both faces fully visible in the upper 70 % of a portrait 4:5 frame, the practitioner's head in the upper half; lower 25 % calm (blanket and towel). Window on the left, cream wall, a dark wooden side cabinet softly out of focus. Avoid: text, letters, numbers, logos, name badges, labels, before/after, result claims, poreless plastic skin, needles, lasers, light beams, devices, clinical setting, extra or fused fingers, malformed hands, glossy catalogue look. One photo, no montage.
 ```
+
+## Runde 3 · ChatGPT, fünf neue Motive (für ChatGPT geplant; erzeugt 2026-11-05 über die API, siehe README «Runde 3»)
+Für ChatGPT (Bildgenerierung im Chat), je Motiv ein neuer Chat, Referenzen in der genannten Reihenfolge, Ausgabe Hochformat 2:3, drei Versionen, die beste wählen. Kein Text im Bild; das Textband (Headline, zweite Zeile, «CHF 175 statt CHF 250 · Sie sparen CHF 75.–», «Nur bis 30. November 2026 · Bahnhofstrasse 94, Zürich») kommt wie bei den bisherigen Anzeigen aus dem Render-Script. Teresa erscheint in M8, M11 und M12, erzeugt aus ihren eingewilligten Fotos (nur Fotos, auf denen sie allein ist); sie gibt die Bilder vor der Verwendung frei. Schritt-für-Schritt-Anleitung, Meta-Headlines und Reparaturzeilen im Tab «Image ads» des Docs [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp).
+
+### M8 · Hautanalyse («Zum ersten Mal Microneedling?»)
+
+Referenzen: 1 Teresa-Foto 2 · 2 Teresa-Foto 3 · 3 `raw/teresa_20261031_1.png`
+
+```text
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin on both women: visible pores, fine lines, natural shine, flyaway hairs; keep the practitioner's skin exactly as in images 1 and 2 and do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
+
+Images 1 and 2 show the practitioner's identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives her wardrobe, hair and make-up (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair), the fictional client and the studio.
+
+Scene: the skin analysis before the treatment. The client, a fictional woman around 40 with shoulder-length dark-blond hair under a cream towel headband, sits upright on the treatment bed, relaxed, with a calm closed-mouth smile; clean skin without make-up. The practitioner sits beside her, leaning in a little, and looks closely and attentively at the client's cheek in the window light; one gloved hand rests lightly near the client's jaw. Neither looks into the camera. No devices, no magnifying lamp.
+
+Studio: a window on the left with soft daylight, cream walls, a dark wooden cabinet with a few plain unlabelled bottles softly out of focus. Eye level, 35 mm, shallow depth of field.
+
+Format: tall portrait 2:3, both faces in the middle of the frame, with calm space above and below so it can be cropped to 4:5 and 9:16.
+
+Avoid: any text, letters, numbers, logos, labels or name tags; before/after; glowing or poreless skin; redness; glamour lighting; smiles into the camera; extra or fused fingers; perfect symmetry. One photo.
+```
+
+Textband: «Zum ersten Mal Microneedling?» · «Teresa prüft zuerst Ihre Haut und erklärt jeden Schritt.»
+
+### M9 · Zwei in einer Sitzung («Zwei Behandlungen, eine Sitzung»)
+
+Referenzen: 1 `raw/maske-v2_20261031_1.png` · 2 `raw/pen-v2_20261031_2.png`
+
+```text
+Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin: uneven tone, visible pores, fine vellus hair, a few freckles and small moles, slight natural shine on the nose, flyaway hairs. A lived-in small studio with ordinary details. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening, no overly perfect styling.
+
+Use image 1 only as reference for the fictional client, the studio and the light, and image 2 only for the exact look of the microneedling pen: brushed silver-grey metal, a fine knurled ring, a small transparent cartridge at the tip, no lettering.
+
+Scene: the Carbon step, with the next step already waiting. The client reclines on the treatment bed with her eyes closed and a cream towel headband; a thin, matte, charcoal-black carbon lotion covers about half of her face in visible, slightly uneven brush strokes. Two hands in white nitrile gloves: one holds a flat brush with black lotion on it, the other rests lightly near her temple. On a small brushed-brass tray beside her head lies the microneedling pen, ready for the next step, in focus. The practitioner is only hands and a plain off-white sleeve edge.
+
+Camera slightly above the bed, from the side, 35 mm, shallow depth of field. Tall portrait 2:3, her face and the pen both in the middle of the frame, with calm space above and below.
+
+Avoid: any text, letters, numbers, logos or lettering on the pen; visible needles; lasers or light beams; redness; before/after; extra or fused fingers; a clinical setting; a glossy catalogue look. Do not depict any real person; the practitioner is unidentifiable. One photo.
+```
+
+Textband: «Zwei Behandlungen, eine Sitzung» · «Carbon-Peeling + Microneedling in 90 Minuten.»
+
+### M10 · Ruhe («90 Minuten für Ihre Haut»)
+
+Referenzen: 1 `raw/maske-v2_20261031_1.png`
+
+```text
+Unretouched real photograph taken by a working photographer during an actual appointment, Fujifilm X-T5 with a 35 mm f/1.4 lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin: uneven tone, visible pores, fine vellus hair, a few freckles and small moles, slight natural shine on the nose, flyaway hairs. A lived-in small studio with ordinary details. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening, no overly perfect styling.
+
+Use the attached image only as reference for the fictional client, the studio and the light.
+
+Scene: a quiet moment during a 90-minute appointment. The client lies on the treatment bed under a soft cream blanket, eyes closed, completely relaxed, a cream towel headband; her face is clean, with no mask and no lotion, ordinary skin with visible pores and fine lines. One hand of the practitioner in a white nitrile glove rests lightly on her shoulder; the practitioner is out of frame except for the hand and a plain off-white sleeve edge. Late-afternoon daylight from a window on the left, a candle softly out of focus on the dark wooden cabinet.
+
+Camera at bed height from the head end, 50 mm, shallow depth of field. Tall portrait 2:3, her face in the middle third of the frame, with calm space above and below.
+
+Avoid: any text, letters, numbers or logos; devices; glowing or poreless skin; a 'result' look; redness; smiles into the camera; extra or fused fingers; a clinical setting. Do not depict any real person. One photo.
+```
+
+Textband: «90 Minuten für Ihre Haut» · «Reinigung, Fruchtsäure-Peeling, Diamantabrasion, Carbon-Peeling, Microneedling, Maske und LED-Licht.»
+
+### M11 · Teresa-Porträt («Persönlich von Teresa Stimac»)
+
+Referenzen: 1 Teresa-Foto 2 · 2 Teresa-Foto 3 · 3 `raw/teresa_20261031_1.png` · 4 (optional) Teresa-Sheet aus dem Video-Guide
+
+```text
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Her real skin exactly as in images 1 and 2: visible pores, fine lines, natural shine on the nose, flyaway hairs; do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
+
+Images 1 and 2 are her identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives her wardrobe, hair and make-up (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair) and the studio. If a fourth image is attached, it shows the same woman from three angles; use it for her identity too.
+
+Scene: she stands beside the treatment bed in her studio and looks into the lens with a warm, calm, closed-mouth smile, as if welcoming a client. Head and shoulders down to mid-chest, both hands out of frame. Behind her, softly out of focus: the treatment bed with a folded cream towel, the dark wooden cabinet, a candle. Window on the left, a soft shadow on the right side of her face.
+
+Camera on a tripod at her eye level about one metre away, 35 mm, shallow depth of field. Tall portrait 2:3, her face in the upper middle of the frame, with calm space below.
+
+Avoid: any text, letters, numbers, logos or name tags; glamour lighting; ring-light reflections in the eyes; a wide or teeth-showing smile; perfect symmetry; a different outfit; a studio backdrop. One photo.
+```
+
+Textband: «Persönlich von Teresa Stimac» · «Dipl. Visagistin & Kosmetikerin, seit über 20 Jahren im Beruf.»
+
+### M12 · Danach («Auch danach gut beraten»)
+
+Referenzen: 1 Teresa-Foto 2 · 2 Teresa-Foto 3 · 3 `raw/teresa_20261031_1.png`
+
+```text
+Unretouched real photograph, full-frame camera with a 35 mm lens, available window light mixed with a warm ceiling lamp, true-to-life colours, slightly imperfect framing, natural lens vignetting, fine sensor noise. Real skin on both women: visible pores, fine lines, natural shine, flyaway hairs; keep the practitioner's skin exactly as in images 1 and 2 and do not add or remove freckles, moles or lines. Not a stock photo, not a render, no CGI look, no airbrushing, no beauty filter, no HDR, no oversharpening.
+
+Images 1 and 2 show the practitioner's identity: the same face shape, eyes, nose, lips, hairline and real age; keep her clearly recognisable, do not beautify, slim or rejuvenate her. Image 3 gives her wardrobe, hair and make-up (white short-sleeved tunic with a round neckline, small drop earrings, red lipstick, long wavy blond hair), the fictional client and the studio.
+
+Scene: the end of the appointment. The client, a fictional woman around 40 with shoulder-length dark-blond hair worn loose, sits upright on the edge of the treatment bed in a plain cream robe and listens. The practitioner stands beside her, holds a small plain white tube without any label in one bare hand and explains something calmly with a friendly look; the two women look at each other, not into the camera. The client's skin is ordinary, with visible pores and fine lines, no make-up, not glowing, not red.
+
+Studio: a window on the left with soft daylight, cream walls, the dark wooden cabinet softly out of focus. Eye level, 35 mm, shallow depth of field.
+
+Format: tall portrait 2:3, both faces and the tube in the middle of the frame, with calm space above and below.
+
+Avoid: any text, letters, numbers, labels or logos, also on the tube; before/after; glowing or 'perfect' skin; redness; glamour lighting; smiles into the camera; extra or fused fingers; perfect symmetry. One photo.
+```
+
+Textband: «Auch danach gut beraten» · «Klare Hinweise für die Tage danach: Sonnenschutz, Feuchtigkeit, kurze Pause von Hitze und Sport.»
+
+## Runde 4 · gestaltete Anzeigen mit Text im Bild (2026-11-05)
+Neuer Stil auf Wunsch des Users (Vorbilder: 3D-Preiszahlen, kräftige Farben, Glas und Gold, Teresa als Freisteller, echte Behandlungsfotos in Rahmen, Pills, Button), ersetzt das Textband von Runde 3. Erzeugt mit `gpt-image-2.6-flare` über `/v1/images/edits`, `high`, 1088 × 1360, je zwei Kandidaten; der Text steht im Bild und wurde in voller Grösse Wort für Wort geprüft. Referenzen in der Reihenfolge der Liste (`teresa_portrait.jpg` = ihr eingewilligtes echtes Porträt).
+
+### carbon-gold
+
+Referenzen: teresa_portrait.jpg · maske-v2_20261031_1.png
+
+```text
+Design a premium, click-strong Instagram feed ad (portrait 4:5) for a beauty studio in Zurich, art-directed like a top luxury-cosmetics campaign.
+
+Style: deep matte carbon-black background with slow, glossy liquid-carbon swirls and fine gold dust; warm gold rim light. Hero 3D element: a huge polished 3D gold number "175", slightly tilted, with soft reflections, standing on a dark glass plate that mirrors it.
+
+People and photos: on the left, the woman from image 1 as a clean cutout, waist up, exactly as in the photo: same face, same real age, same warm smile, red lipstick, long blond hair, white short-sleeved tunic; remove the name tag and the photo's background. Bottom right, a round window with a thin gold rim showing a realistic photo of the treatment from image 2: a woman reclining with closed eyes, half her face covered in matte black carbon lotion, a gloved hand with a brush.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- top, elegant high-contrast serif, ivory: "Carbon-Peeling + Microneedling"
+- small before the gold number: "CHF"; small after it: ".–"
+- under the number: "statt CHF 250.–" with "CHF 250.–" struck through by a thin red line
+- a small gold-outlined label: "Aktion · nur für kurze Zeit"
+- two small labels with thin gold line icons: "90 Minuten" and "2 Behandlungen, 1 Sitzung"
+- a gold button with dark text: "Jetzt Termin buchen"
+- bottom line, small ivory: "Persönlich von Teresa Stimac · Bahnhofstrasse 94, Zürich"
+
+Hierarchy: the gold number first, the headline second, the button third; generous spacing, nothing crowded.
+
+Avoid: lasers or light beams, needles, before/after, glitter overload, cheap clip-art.
+```
+
+### duo-split
+
+Referenzen: maske-v2_20261031_1.png · pen-v2_20261031_2.png
+
+```text
+Design a bold, modern Instagram feed ad (portrait 4:5) with a dynamic diagonal split, art-directed like a high-end skincare launch.
+
+Layout: the canvas is split by a diagonal from top right to bottom left. Upper-left half: deep charcoal black with a soft carbon texture. Lower-right half: luminous pearl-blush with soft pink and peach light. On the split line floats a large glossy 3D "+" in brushed rose-gold, lit from both sides.
+
+Photos: in the black half, a rounded-rectangle photo of the treatment from image 1 (a woman reclining with closed eyes, half her face in matte black carbon lotion, a gloved hand with a brush). In the blush half, a rounded-rectangle photo in the style of image 2: a gloved hand holding a brushed silver-grey microneedling pen with a transparent cartridge resting on a cheek, no needles visible. Both photos realistic, natural skin, soft shadows, slightly overlapping the split line.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- big bold headline, top left, white: "2 Behandlungen." and on the next line "1 Sitzung."
+- a small pill label on the black photo: "Carbon-Peeling"; a small pill label on the blush photo: "Microneedling"
+- a round, tilted 3D price sticker in rose-gold: "CHF 175" large, and below it smaller "statt CHF 250" with "CHF 250" struck through
+- bottom, small: "90 Min. · Bahnhofstrasse 94, Zürich"
+- a black button with white text: "Jetzt Termin buchen"
+
+Typography: heavy geometric sans-serif headline, tight leading, strong contrast.
+
+Avoid: lasers, light beams, visible needles, blood, redness, before/after.
+```
+
+### glass-30
+
+Referenzen: pen-v2_20261031_2.png
+
+```text
+Design a fresh, eye-catching Instagram feed ad (portrait 4:5) in a soft 3D glass style, like a premium beauty-tech campaign.
+
+Background: smooth gradient from blush pink to soft lilac with a hint of mint; floating translucent 3D glass spheres and droplets with real refraction and soft caustic light.
+
+Hero 3D element: a huge number "30 %" made of clear frosted glass with tiny bubbles inside, pink and lilac reflections, a slight tilt, a soft coloured shadow.
+
+Photo: a large circular glass bubble in the lower part of the ad holds a realistic close-up photo in the style of image 1: a gloved hand holding a brushed silver-grey microneedling pen with a transparent cartridge resting on a woman's cheek; natural skin with pores; no needles visible.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- above the number, bold dark plum sans-serif: "Sie sparen"
+- under the number: "CHF 175 statt CHF 250" with "CHF 250" struck through
+- headline, elegant serif, dark plum: "Carbon-Peeling + Microneedling"
+- a small frosted-glass pill: "90 Min. · Bahnhofstrasse 94, Zürich"
+- a small line: "Nur bis 30. November 2026"
+- a glossy plum button with white text: "Jetzt Termin buchen"
+
+Avoid: lasers, visible needles, blood, redness, before/after, clutter.
+```
+
+### cover
+
+Referenzen: teresa_portrait.jpg
+
+```text
+Design an Instagram feed ad (portrait 4:5) styled as a confident fashion-magazine cover.
+
+Photo: the woman from image 1 as the full-bleed cover portrait, from the chest up, looking into the camera with her warm smile, exactly as in the photo: same face, same real age, red lipstick, long blond hair, white short-sleeved tunic; remove the name tag; replace the background with a warm, softly lit cream studio wall with a gentle shadow. Real skin, no retouching.
+
+Masthead: huge, elegant high-contrast serif across the top: "BEAUTY FACE LIFT", fully readable; her head sits below the masthead and nothing covers any letter.
+
+Colours: deep lipstick red (matching her lips), black and ivory.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text (cover lines):
+- masthead: "BEAUTY FACE LIFT"
+- left column, bold condensed sans, red and black: "Carbon-Peeling + Microneedling", then smaller "Zwei Behandlungen in einer Sitzung"
+- right side: "Persönlich von Teresa Stimac"
+- a round red 3D sticker, slightly embossed: "CHF 175" big, "statt CHF 250" small with "CHF 250" struck through
+- bottom left, small: "4,8 ★ aus 260+ Bewertungen auf Treatwell"
+- bottom strip: "Zürich · Bahnhofstrasse 94"
+- a small black button: "Jetzt Termin buchen"
+
+Avoid: barcodes, issue numbers, prices other than the ones given, glamour retouching.
+```
+
+### neon-studio
+
+Referenzen: teresa_20261031_1.png · teresa_portrait.jpg
+
+```text
+Design a dramatic, high-energy Instagram feed ad (portrait 4:5) with cinematic lighting, like a bold sports-brand poster but for a beauty studio.
+
+Scene: the treatment room from image 1 at dusk, darker and moody, with warm copper-orange neon light lines running along the ceiling and walls (architectural LED strips) and warm window light. In the scene, the moment from image 1: the practitioner applies matte black carbon lotion with a brush to the face of a reclining client with closed eyes. The practitioner is the same woman as in image 2: same face, same real age, red lipstick, long blond hair, white short-sleeved tunic, no name tag. Realistic photo, real skin.
+
+Hero 3D element: a giant extruded 3D number "175" in glossy copper-orange, standing in the room beside the bed, lit by the neon, reflected on the floor.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- top, bold white condensed sans with a slight orange glow: "Carbon-Peeling + Microneedling"
+- small "CHF" before the 3D number and ".–" after it
+- under the number, on a dark tag: "statt CHF 250.–" with "CHF 250.–" struck through
+- an orange tag: "Nur bis 30. November"
+- bottom: "90 Minuten · Bahnhofstrasse 94, Zürich"
+- an orange button with black text: "Jetzt Termin buchen"
+
+Avoid: lasers or light beams aimed at the face, needles, sweat, gym equipment, before/after.
+```
+
+## Runde 5 · fünf weitere Stile und native 9:16 (2026-11-05)
+Neues Guthaben des Users. Gleiches Verfahren wie Runde 4. Cover-Korrektur: Masthead-Satz ersetzt durch «…: "BEAUTY FACE LIFT", fully readable; her head sits below the masthead and nothing covers any letter.» 9:16: `/v1/images/edits` mit der gewählten 4:5-Anzeige als einziger Referenz, 1088 × 1936, Prompt unten.
+
+### swiss-poster
+
+Referenzen: maske-v2_20261031_1.png
+
+```text
+Design a striking Instagram feed ad (portrait 4:5) in the Swiss International Typographic Style, like a classic Zurich design poster reinterpreted for 2026: a strict modular grid, flat signal red, black and white, lots of white space, one bold asymmetric composition, no gradients, no decoration.
+
+Hero: the number "175" set gigantic in a heavy neo-grotesk sans-serif (like Helvetica Bold), black, running off the left edge, with a small "CHF" above it and ".–" after it. A flat red square block behind part of the number. A square, realistic photo of the treatment from image 1 (a woman reclining with closed eyes, half her face in matte black carbon lotion, a gloved hand with a brush) sits precisely on the grid, upper right.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text, all in the same neo-grotesk family, flush left, ragged right:
+- headline: "Carbon-Peeling + Microneedling"
+- below it, three short lines: "Zwei Behandlungen." "Eine Sitzung." "90 Minuten."
+- next to the number, small: "statt CHF 250.–" with "CHF 250.–" struck through
+- small, bottom left: "Zürich, Bahnhofstrasse 94"
+- a black rectangular button with white text, bottom right: "Jetzt Termin buchen"
+
+Avoid: flags, crosses, coats of arms, gradients, 3D effects, ornaments, lasers, needles, before/after.
+```
+
+### collage
+
+Referenzen: teresa_portrait.jpg · maske-v2_20261031_1.png · pen-v2_20261031_2.png
+
+```text
+Design an Instagram feed ad (portrait 4:5) as a trendy handmade paper collage, like a beauty creator's mood board: warm cream paper background with subtle texture, torn paper strips in blush, sand and black, pieces of washi tape, a few hand-drawn marker doodles (arrows, circles, small stars, a heart), slight shadows so every piece looks physically layered.
+
+Photos as instant photos with white borders, slightly rotated and taped down: one large one of the woman from image 1, smiling, exactly as in the photo (same face, real age, red lipstick, long blond hair, white tunic; no name tag); one of the treatment from image 2 (black carbon lotion being brushed on); one small one in the style of image 3 (a gloved hand with a silver-grey microneedling pen resting on a cheek, no needles visible).
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- big headline in bold black hand-cut paper letters: "Carbon-Peeling + Microneedling"
+- handwritten black marker note on a torn paper scrap: "Zum ersten Mal Microneedling?"
+- handwritten caption on the large photo's border: "Teresa Stimac"
+- a round blush price sticker: "CHF 175" big, "statt CHF 250" small with "CHF 250" struck through
+- a small paper label: "90 Min. · Bahnhofstrasse 94, Zürich"
+- a black pill-shaped button with white text: "Jetzt Termin buchen"
+
+Avoid: clutter that hides the faces, lasers, needles, before/after.
+```
+
+### clay-steps
+
+Referenzen: pen-v2_20261031_2.png
+
+```text
+Design a playful, premium Instagram feed ad (portrait 4:5) in a soft 3D clay style (claymorphism), like a modern app launch: smooth matte clay shapes with soft studio light and gentle shadows on a warm peach-to-cream gradient stage.
+
+Hero: a curved 3D clay path winding from top to bottom with seven round clay stepping stones. On each stone a cute, simple 3D clay icon: 1 a water drop, 2 a slice of citrus fruit, 3 a small diamond, 4 a small black bowl with a brush, 5 a silver-grey pen shaped like the one in image 1 (no needles), 6 a soft white face mask, 7 a small glowing round light. At the end of the path, a large glossy clay price bubble.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text, rounded bold sans-serif, dark cocoa:
+- top headline: "7 Schritte. 90 Minuten."
+- under it, smaller: "Carbon-Peeling + Microneedling"
+- one small label beside each stone, in this order: "Reinigung", "Fruchtsäure-Peeling", "Diamantabrasion", "Carbon-Peeling", "Microneedling", "Maske", "LED-Licht"
+- in the price bubble: "CHF 175" big and "statt CHF 250" small with "CHF 250" struck through
+- a clay button with white text: "Jetzt Termin buchen"
+- small, bottom: "Bahnhofstrasse 94, Zürich"
+
+Avoid: lasers, light beams, visible needles, syringes, medical symbols, faces, before/after.
+```
+
+### carbon-brush
+
+Referenzen: maske-v2_20261031_1.png
+
+```text
+Design a minimalist luxury Instagram feed ad (portrait 4:5), art-directed like a high-end fragrance campaign: a warm ivory paper background with fine texture and lots of empty space. Across the middle runs one single, huge, expressive brush stroke of glossy matte-black carbon lotion, painted diagonally, with real bristle texture, dry-brush edges and a few fine splatters.
+
+Photo: a small, round, realistic photo of the treatment from image 1 (a woman reclining with closed eyes, black carbon lotion on half her face, a gloved hand with a brush), sitting on the end of the stroke like a full stop.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text:
+- on the black stroke, in large elegant ivory high-contrast serif: "Carbon-Peeling"
+- under the stroke, in the same serif, black: "+ Microneedling"
+- price, black serif, large: "CHF 175.–" and next to it small "statt CHF 250.–" with "CHF 250.–" struck through
+- a small line in spaced capitals, sans-serif: "90 MIN. · BAHNHOFSTRASSE 94 · ZÜRICH"
+- a thin black outlined button: "Jetzt Termin buchen"
+
+Avoid: any colour besides ivory, black and a touch of warm brown; lasers, needles, before/after, clutter.
+```
+
+### pop-art
+
+Referenzen: maske-v2_20261031_1.png · pen-v2_20261031_2.png
+
+```text
+Design a bold, scroll-stopping Instagram feed ad (portrait 4:5) in classic 1960s pop-art comic style: thick black outlines, Ben-Day halftone dots, flat bright colours (lemon yellow, hot pink, cyan, red), dynamic diagonal panel borders.
+
+Panels: panel 1, top left, a comic-style woman (fictional, drawn after image 1) relaxing with closed eyes, half her face covered in a black carbon mask, a gloved hand with a brush. Panel 2, top right, a comic close-up drawn after image 2: a gloved hand holding a silver-grey microneedling pen on a cheek, no needles visible. Below, a huge red-and-yellow explosion burst.
+
+Render ONLY the text listed below, each word spelled exactly as written (German, Swiss spelling), with clean, sharp, correctly kerned letters; no other words, no lorem ipsum, no logos, no watermarks. Text, comic lettering (bold, slightly italic hand-lettered caps):
+- speech bubble in panel 1: "CARBON-PEELING?"
+- speech bubble in panel 2: "MICRONEEDLING?"
+- in the burst, huge: "BEIDES!" and under it "CHF 175"
+- a small yellow caption box: "statt CHF 250" with "CHF 250" struck through
+- a small caption box: "90 Min. · Bahnhofstrasse 94, Zürich"
+- a black button with yellow text: "Jetzt Termin buchen"
+
+Avoid: violence, sound-effect words other than the ones given, lasers, needles, before/after.
+```
+
+### 9:16 aus der 4:5-Anzeige
+
+```text
+Re-design the attached Instagram feed ad (image 1) as a vertical 9:16 Instagram Story ad of the same campaign. Keep the same style, colours, 3D elements, photos, people and every text element with exactly the same words and spelling, including the struck-through old price; do not add, remove or change any words. Re-arrange the layout for the tall frame: extend the background naturally, give the hero element more room, keep generous spacing and the same visual hierarchy. Safe zones: the top 14 % and the bottom 20 % of the frame hold only background, with no text and no button; all text and the button sit between them. The canvas is 1088 x 1936 px: the top 290 px and the bottom 400 px are an empty continuation of the background (no words, no price, no labels, no button); everything else fits between y = 290 and y = 1536, a little smaller if needed. No other text, no logos, no watermarks.
+```
+
