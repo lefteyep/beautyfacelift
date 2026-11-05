@@ -2,7 +2,7 @@
 
 Status 2026-10-31: the ad page `/lp/carbon-microneedling/` is rebuilt for this offer (package 1). Ad images and texts (package 2) and the Meta build (package 3) follow in their own pull requests. Nothing runs on Meta yet; the campaign is switched on only after the launch gates below and the user's go.
 
-**Creative files (since 2026-11-06):** the ad images and videos are no longer in git (user decision); they live locally in `C:\Users\Nutzer\Desktop\Projekte\Kunden\beautyfacelift\ads\carbon_microneedling\` (feed `feed-4x5\`, Stories and Reels `stories-reels-9x16\`, square ads and video posters in the folder itself, videos in `video\`). Paths to `design/ads/...` or `public/ads/...` image and video files below are the historical record of where they were.
+**Creative files (since 2026-11-05):** the ad images and videos are no longer in git (user decision); they live locally in `../ads/carbon_microneedling/` next to the repository (feed `feed-4x5/`, Stories and Reels `stories-reels-9x16/`, square ads and video posters in the folder itself, videos in `video/`). Paths to `design/ads/...` or `public/ads/...` image and video files below are the historical record of where they were.
 
 This is the only campaign that starts. There is no Carbon-only campaign. The older Aquafacial + Microneedling campaign (CHF 170, [META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md](META-CAMPAIGN-AQUAFACIAL-MICRONEEDLING.md)) stays paused and is the template for structure, measurement and the build sheet.
 

@@ -52,7 +52,7 @@ supabase/.temp/
 # third-party reference photos for image generation (other people, not ours to publish)
 design/ads/2026-11-carbon/referenzen/
 
-# Meta ad creatives (images and videos) are kept locally since 2026-11-06, not in git (user decision):
+# Meta ad creatives (images and videos) are kept locally since 2026-11-05, not in git (user decision):
 # ..\ads\carbon_microneedling\ (feed-4x5\, stories-reels-9x16\, video\) and the other folders under ..\ads\.
 # Text files under design/ads/ (README, prompts, scripts, logs) stay in git.
 design/ads/**/*.png
