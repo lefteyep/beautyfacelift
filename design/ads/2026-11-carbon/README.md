@@ -14,7 +14,7 @@ Paket 2 des Plans `docs/orchestrator/handover/CARBON-CAMPAIGN-PLAN-2026-10-31.md
 | M6 | Vertrauen ohne Porträt (Foto M3 + Band) | 1:1, 4:5, 9:16 | Anzeige 3 |
 | M7 | Teresa trägt die Carbon-Lotion mit dem Pinsel auf, fiktive Kundin | 4:5, 9:16 | Seiten-Hero mit Teresa, Anzeige 4 |
 
-Prompts: [prompts.md](prompts.md). Video mit Teresa als sprechendem KI-Avatar (geplant, noch nichts erzeugt): Schritt-für-Schritt-Anleitung zum Nachklicken in Higgsfield im Doc [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp), Hintergründe in [AVATAR-VIDEO-GUIDE.md](AVATAR-VIDEO-GUIDE.md), Best Practices aus drei Tutorial-Videos in [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md), Textebenen in `video-overlays/` (aus `render_video_overlays.py`), Rohschnitt aus `render_animatic.py`. Alle Bilder sind generiert (es gibt keine echten Fotos); von den Bildern in diesem Ordner zeigt nur Motiv M7 Teresa (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
+Prompts: [prompts.md](prompts.md). Video mit Teresa als sprechendem KI-Avatar (geplant, noch nichts erzeugt): Schritt-für-Schritt-Anleitung zum Nachklicken in Higgsfield im Doc [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp), Hintergründe in [AVATAR-VIDEO-GUIDE.md](AVATAR-VIDEO-GUIDE.md), Best Practices aus drei Tutorial-Videos in [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md), Textebenen aus `render_video_overlays.py` (lokal gerendert, nicht im Repository; Stand 2026-11-05 in `../ads/2026-11-carbon-video-overlays/`, Unterordner `45/` und `916/`), Rohschnitt aus `render_animatic.py`. Alle Bilder sind generiert (es gibt keine echten Fotos); von den Bildern in diesem Ordner zeigt nur Motiv M7 Teresa (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
 
 ## Auswahlkriterien
 
@@ -102,11 +102,11 @@ py -I design/ads/2026-11-carbon/render_ads.py <fonts-dir> design/ads/2026-11-car
 py -I design/ads/2026-11-carbon/export_page_images.py
 ```
 
-Textebenen und Rohschnitt für das Avatar-Video (aus dem Repository-Root):
+Textebenen und Rohschnitt für das Avatar-Video (aus dem Repository-Root; beides wird lokal ausserhalb des Repositorys abgelegt, keine Anzeigendateien auf GitHub):
 
 ```bash
-py -I design/ads/2026-11-carbon/render_video_overlays.py <fonts-dir> design/ads/2026-11-carbon/video-overlays
-py -I design/ads/2026-11-carbon/render_animatic.py design/ads/2026-11-carbon/video-overlays/916 <out-dir> <fonts-dir>
+py -I design/ads/2026-11-carbon/render_video_overlays.py <fonts-dir> ../ads/2026-11-carbon-video-overlays
+py -I design/ads/2026-11-carbon/render_animatic.py ../ads/2026-11-carbon-video-overlays/916 <out-dir> <fonts-dir>
 ```
 
 `<fonts-dir>` enthält `InstrumentSerif-Regular.ttf` und `InstrumentSans-Var.ttf`, mit fontTools aus den `@fontsource`-WOFF2-Dateien (`instrument-serif-latin-400-normal.woff2`, `instrument-sans-latin-wght-normal.woff2`) umgewandelt. Danach die gewählten JPGs nach `public/ads/2026-11-carbon/` kopieren. Das Enddatum steht nur an einer Stelle: `END` im Script.
