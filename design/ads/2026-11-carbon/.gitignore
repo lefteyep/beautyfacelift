@@ -1,6 +1,10 @@
-# The repository is public. Unapproved images of Teresa Stimac and raw generator output stay outside it,
-# in ../ads/2026-11-carbon-runden-3-6/ (see README.md, «Runde 3»). Files already tracked are not affected.
-# To add an approved file anyway: git add -f <file>, after Teresa's written OK and the user's go.
+# The repository is public, and no ad files go to GitHub (user decision 2026-11-05). Ad finals, raw generator output
+# and every image of Teresa Stimac stay outside it: ../ads/carbon_microneedling/ (the user's ads folder) and
+# ../ads/2026-11-carbon-runden-3-6/ (see README.md, «Runde 3»). Files already tracked (rounds 1 and 2) are not affected.
+# To add a file anyway: git add -f <file>, only on the user's explicit go (and Teresa's written OK if it shows her).
+
+# All new ad finals and contact sheets
+*.jpg
 
 # Raw candidates and contact sheets from gen_ads.py / finalize_r7.py
 raw/*.png

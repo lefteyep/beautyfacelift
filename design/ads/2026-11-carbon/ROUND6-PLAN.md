@@ -58,7 +58,7 @@ Also seen and left out: booking-confirmation screens (Treatwell's own sponsored 
    `py -I design/ads/2026-11-carbon/gen_ads.py feed motifs_r6`
 4. Check every candidate at full size: every word against the prompt's text list, prices and strikes, hands, no needles, no laser, no invented devices; pick one per format.
 5. Story versions: `py -I design/ads/2026-11-carbon/gen_ads.py story motifs_r6 problem-loesung=1 toggles=2 …`, check the safe zones (no text in the top 14 % or the bottom 20 %), redo any that break them.
-6. Finals: resize to 1080 × 1350 and 1080 × 1920 as `<name>_45.jpg` / `<name>_916.jpg` (as in rounds 4 and 5) and record the round in README.md. Finals without Teresa may be committed on that branch; finals with Teresa (`reviews`, `chat-faq`, `storyboard`) and all raw candidates go to `../ads/2026-11-carbon-runden-3-6/`. Push the branch and open a PR; no merge without the user's approval.
+6. Finals: resize to 1080 × 1350 and 1080 × 1920 as `<name>_45.jpg` / `<name>_916.jpg` (as in rounds 4 and 5) and record the round in README.md. No ad files go to GitHub (user decision 2026-11-05): finals without Teresa go to the user's ads folder `../ads/carbon_microneedling/`, finals with Teresa (`reviews`, `chat-faq`, `storyboard`) and all raw candidates to `../ads/2026-11-carbon-runden-3-6/`; only prompts, scripts, logs and the README go on the branch. Push the branch and open a PR; no merge without the user's approval.
 
 ## Rules for every ad
 
