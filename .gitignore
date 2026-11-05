@@ -51,3 +51,47 @@ supabase/.temp/
 
 # third-party reference photos for image generation (other people, not ours to publish)
 design/ads/2026-11-carbon/referenzen/
+
+# Meta ad creatives (images and videos) are kept locally since 2026-11-06, not in git (user decision):
+# ..\ads\carbon_microneedling\ (feed-4x5\, stories-reels-9x16\, video\) and the other folders under ..\ads\.
+# Text files under design/ads/ (README, prompts, scripts, logs) stay in git.
+design/ads/**/*.png
+design/ads/**/*.jpg
+design/ads/**/*.jpeg
+design/ads/**/*.webp
+design/ads/**/*.avif
+design/ads/**/*.gif
+design/ads/**/*.tif
+design/ads/**/*.tiff
+design/ads/**/*.heic
+design/ads/**/*.psd
+design/ads/**/*.mp4
+design/ads/**/*.mov
+design/ads/**/*.webm
+design/ads/**/*.m4v
+design/ads/**/*.avi
+design/ads/**/*.PNG
+design/ads/**/*.JPG
+design/ads/**/*.JPEG
+design/ads/**/*.MP4
+design/ads/**/*.MOV
+public/ads/**/*.png
+public/ads/**/*.jpg
+public/ads/**/*.jpeg
+public/ads/**/*.webp
+public/ads/**/*.avif
+public/ads/**/*.gif
+public/ads/**/*.tif
+public/ads/**/*.tiff
+public/ads/**/*.heic
+public/ads/**/*.psd
+public/ads/**/*.mp4
+public/ads/**/*.mov
+public/ads/**/*.webm
+public/ads/**/*.m4v
+public/ads/**/*.avi
+public/ads/**/*.PNG
+public/ads/**/*.JPG
+public/ads/**/*.JPEG
+public/ads/**/*.MP4
+public/ads/**/*.MOV

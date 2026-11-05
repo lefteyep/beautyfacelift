@@ -4,6 +4,8 @@
 >
 > Current instructions take precedence over dated decisions in section 9: optimise on standard `Lead`, use the custom conversion only for reporting, redirect/shut down the old site before launch, and keep the user's cockpit-Phase-1-before-campaign gate. Existing page/ad end date is 14 November 2026; no new start/end date has been chosen. Earlier target dates are history, not an active schedule.
 
+**Creative files (since 2026-11-06):** the ad images and videos are no longer in git (user decision); they live locally in `C:\Users\Nutzer\Desktop\Projekte\Kunden\beautyfacelift\ads\carbon_microneedling\` (feed `feed-4x5\`, Stories and Reels `stories-reels-9x16\`, square ads and video posters in the folder itself, videos in `video\`). The October Kombi ads keep their names there, except `teresa_45-kombi-2026-10.jpg` and `teresa_916-kombi-2026-10.jpg` (the Carbon campaign has its own `teresa_*`); the reference crop is in `...\ads\2026-10-kombi-referenz\`. Paths to `design/ads/...` or `public/ads/...` image and video files below are the historical record of where they were.
+
 ## 0. Summary
 
 - **Offer:** Aquafacial + Microneedling, 90 minutes (shown as "1 Std. 30 Min."), CHF 170 statt CHF 250, at Beauty Face Lift, Bahnhofstrasse 94, 8001 Zürich, treated personally by Teresa Stimac.
