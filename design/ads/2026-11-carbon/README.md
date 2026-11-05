@@ -206,3 +206,6 @@ Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «R
 
 Plan, Recherche und Übergabe an eine lokale Session: [ROUND6-PLAN.md](ROUND6-PLAN.md). Prompts: [motifs_r6.py](motifs_r6.py). Alle Prompts der Runden 4 bis 6 laufen mit [gen_ads.py](gen_ads.py), auch auf dem eigenen Rechner (Schlüssel aus `OPENAI_API_KEY`).
 
+## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (geplant 2026-11-05, noch nichts erzeugt)
+
+Recherche in Chrome (eingeloggt), fünf Stile, fünfzehn Prompts und fünf Anzeigentexte: [ROUND7-PLAN.md](ROUND7-PLAN.md). Prompts: [motifs_r7.py](motifs_r7.py) (`knockout-*`, `facemap-*`, `colorblock-*`, `bento-*`, `sticker-*`). Erzeugen mit [gen_ads.py](gen_ads.py) (`feed motifs_r7`, dann `story motifs_r7 …`), Kontaktbogen und Finals mit [finalize_r7.py](finalize_r7.py). Offen: `OPENAI_API_KEY` für das Terminal (auf diesem Rechner liegt kein Schlüssel), danach Auswahl, Stories, Finals, Kosten hier nachtragen; Teresa gibt `knockout-teresa`, `facemap-hautanalyse`, `colorblock-teresa` und `bento-teresa` frei.
