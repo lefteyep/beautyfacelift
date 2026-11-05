@@ -1,6 +1,8 @@
 # Round 6 · ten new ad formats from Pinterest research (handover to a local session)
 
-Status 2026-11-05: research started in the cloud session, ten concepts written as prompts in [motifs_r6.py](motifs_r6.py), **nothing generated yet**. The cloud session could not reach the user's logged-in Chrome (Claude in Chrome is not connected there), so the work continues in a session on the user's computer.
+Status 2026-11-05, local session: the Pinterest research is done with Claude in Chrome (logged in) and the ten prompts in [motifs_r6.py](motifs_r6.py) are revised after it (section «Research in the local session» below). **Nothing generated yet:** `gen_ads.py` needs `OPENAI_API_KEY` in the terminal, and the key was not set on the computer when the session reached that step.
+
+Earlier status (cloud session): research started, ten concepts written as prompts, nothing generated. The cloud session could not reach the user's logged-in Chrome (Claude in Chrome is not connected there), so the work continued in a session on the user's computer.
 
 ## What exists already
 
@@ -26,6 +28,23 @@ Source: the public part of https://de.pinterest.com/ideas/meta-ads-creative/9275
 | Grid of several creatives or steps | storytelling in one frame | `storyboard` («Ihre 90 Minuten») |
 
 Left out on purpose: an incoming-call screen with an «Accept» slider and fake like counts (Meta's rule against non-existent functionality); ChatGPT look-alikes (an AI that seems to recommend the studio); film stills and celebrities (rights); skin problems as hooks (Meta personal attributes, project copy rules).
+
+## Research in the local session (2026-11-05, logged in to Pinterest)
+
+Queries: the ideas page past the login wall (mostly Meta-ads agency pins, nothing new for beauty), «skincare ad design», «beauty salon instagram ad», «facial treatment social media post», «aesthetic clinic ad», «spa promotion poster», «3d cosmetic ad», «microneedling» («microneedling ad» returns no pins), «kosmetikstudio instagram post». Nothing downloaded or stored; the notes below describe recurring patterns, not single pins.
+
+| Pattern in beauty and clinic ads | What it tells us | Change to the prompts |
+|---|---|---|
+| One warm, monochrome palette per brand (wine, dusty rose, bronze and sand, sage); the ads that look premium never use primary colours | cobalt, sky blue, teal and sunshine yellow read as tech or agency ads, not as a studio | all ten ads now sit on the website palette (cream, shell, blush, copper-clay, cocoa, gold): `reviews` cream with a cocoa arch instead of cobalt, `ab-choice` cream instead of sky blue, `puzzle-3d` blush studio instead of cobalt, `orbit` deep sage instead of teal, copper or cocoa buttons instead of yellow and navy |
+| A large elegant serif headline over small, clean sans labels (clinic sets, spa posters, Douglas, Lavera) | the headline carries the ad; the type mix looks designed | every ad: serif display headline, sans for everything else, no italics (site rule), no outlined or neon lettering |
+| Numbered step panels with huge thin numerals behind the photo edge (clinic carousel 1 to 4, one step per panel) | scannable storytelling without text blocks | `storyboard`: large outlined serif numerals instead of small circles, all four photos in one warm grade |
+| The practitioner looks at the client's skin, hand on the face, client at ease | trust without before/after | kept: `storyboard` photo 1 from the `hautanalyse` reference |
+| A big editorial statement instead of a problem list («Anti Ageing ist OUT! Das kommt jetzt.») | one line stops the scroll | `problem-loesung` gets the serif headline «Getrennt oder zusammen?» above the two columns |
+| The website's own motif (arches, cards) repeated in the ads of the strongest brand sets | ads and landing page look like one brand | a cocoa arch behind Teresa in `reviews`, a blush arch behind the pen in `hand-hero` |
+| 3D cosmetics ads: pastel studio, floating spheres and bubbles, one hero object | 3D works in beauty when the palette is soft | `puzzle-3d`: blush studio with floating matte spheres in cream and copper |
+| Creator-style photo with a subtitle caption (sponsored pins from cewe and Vattenfall) | native, not an ad | `pov-caption` unchanged, sticker now cream and cocoa |
+
+Also seen and left out: booking-confirmation screens (Treatwell's own sponsored pin shows a calendar entry; for a studio it would look like a function the ad does not have), «before / after» face halves on clinic pins (banned), percentage badges and price tags in other currencies, Canva template packs.
 
 ## Next steps in the local session
 
