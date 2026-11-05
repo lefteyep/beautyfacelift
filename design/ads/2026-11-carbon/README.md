@@ -168,3 +168,20 @@ Auf Wunsch des Users von Claude erzeugt: OpenAI-API (`/v1/images/edits`), Modell
 py -I design/ads/2026-11-carbon/render_ads_r3.py <fonts-dir> design/ads/2026-11-carbon
 ```
 
+## Runde 4 · gestaltete Anzeigen, Text im Bild (2026-11-05)
+
+Der User hat den Stil von Runde 3 (Foto + Textband) abgelehnt: «completely new style … click-strong … 3D elements, dynamic colors». Runde 3 bleibt als Archiv im Ordner, wird aber nicht verwendet. Fünf Art-Directions, je zwei Kandidaten, Prompts in [prompts.md](prompts.md), Abschnitt «Runde 4», Log `raw/generation-log-20261105-r4.jsonl` (≈ 44 000 Tokens).
+
+| Datei (4:5 und 9:16) | Stil | Kandidat | Teresa |
+|---|---|---|---|
+| `carbon-gold_45.jpg` / `_916.jpg` | Carbon-Schwarz, 3D-Gold «175», Teresa freigestellt, Behandlungsfoto im Goldrahmen | 2 | ja |
+| `duo-split_45.jpg` / `_916.jpg` | Diagonale Schwarz/Perlrosa, 3D-«+», zwei Behandlungsfotos, Preis-Sticker | 2 | nein |
+| `glass-30_45.jpg` / `_916.jpg` | Pastell-Glas, 3D-«30 %», Pen-Foto in Glasblase | 1 | nein |
+| `cover_45.jpg` / `_916.jpg` | Magazin-Cover mit Teresa, Lippenstiftrot | 1 | ja |
+| `neon-studio_45.jpg` / `_916.jpg` | Studio mit Kupfer-Neon, riesige 3D-«175» im Raum | 2 | ja |
+
+- Geprüft (volle Grösse): jedes Wort, Preis «CHF 175» und «statt CHF 250» durchgestrichen, «Sie sparen 30 %» (75 von 250), «4,8 ★ aus 260+ Bewertungen auf Treatwell», Adresse, «Nur bis 30. November» (nur in glass-30 und neon-studio); keine Nadeln, kein Laser, kein Vorher/Nachher, keine erfundenen Geräte.
+- **Bekannter Mangel:** auf `cover` verdeckt Teresas Haar das «F» von «BEAUTY FACE LIFT». Die Korrektur (Prompt angepasst) scheiterte, weil das OpenAI-Guthaben aufgebraucht war.
+- 9:16 ist vorläufig: die 4:5-Anzeige zentriert auf 82 % (Text zwischen 14 % und 80 % der Höhe) auf einem Farbfeld aus ihr selbst. Echte 9:16-Layouts brauchen neues Guthaben.
+- **Offen:** OpenAI-Guthaben aufladen (Entscheid des Users) für Cover-Korrektur und echte 9:16; Teresa gibt carbon-gold, cover und neon-studio frei; Hochladen auf Meta. Datum im Bild: glass-30 und neon-studio müssen neu erzeugt werden, falls das Enddatum sich ändert.
+
