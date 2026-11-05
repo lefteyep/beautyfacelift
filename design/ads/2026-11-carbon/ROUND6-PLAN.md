@@ -1,10 +1,8 @@
-# Round 6 · ten new ad formats from Pinterest research (proposal)
+# Round 6 · ten new ad formats from Pinterest research (generated 2026-11-05)
 
-> **Proposal only. No session acts on this plan by itself.** Generating costs money (paid OpenAI API) and uploads Teresa's real portrait and generated images of her to OpenAI. Before anything is generated: (1) the user gives an explicit go in chat for this round, its cost ceiling and the motifs, (2) the orchestrator board (`docs/orchestrator/STATUS.md` in the main copy) has an entry with the worker, worktree and branch, (3) the user provides the key at runtime in the terminal; it is never stored. Results are not pushed to the source branch of #73; they go to a new `codex/*` branch in its own worktree, and every image that shows Teresa stays outside the repository in `../ads/2026-11-carbon-runden-3-6/` until her written OK.
+> **Round 6 has been generated (2026-11-05). For any further run of these prompts: no session acts on this plan by itself.** Generating costs money (paid OpenAI API) and uploads Teresa's real portrait and generated images of her to OpenAI. Before anything is generated: (1) the user gives an explicit go in chat for this round, its cost ceiling and the motifs, (2) the orchestrator board (`docs/orchestrator/STATUS.md` in the main copy) has an entry with the worker, worktree and branch, (3) the user provides the key at runtime in the terminal; it is never stored. Results are not pushed to the source branch of #73; they go to a new `codex/*` branch in its own worktree, and every image that shows Teresa stays outside the repository in `../ads/2026-11-carbon-runden-3-6/` until her written OK.
 
-Status 2026-11-05, evening: the ten round-6 ads have been generated; their finals are kept outside the repository in `../ads/carbon_microneedling/`, none is in git yet, and `reviews`, `chat-faq` and `storyboard` wait for Teresa's approval. The rest of this section describes the state before that.
-
-Earlier status 2026-11-05, local session: the Pinterest research is done with Claude in Chrome (logged in) and the ten prompts in [motifs_r6.py](motifs_r6.py) are revised after it (section «Research in the local session» below). **Nothing generated yet:** `gen_ads.py` needs `OPENAI_API_KEY` in the terminal, and the key was not set on the computer when the session reached that step.
+Status 2026-11-05, local session: **done.** Research with Claude in Chrome (logged in), the ten prompts in [motifs_r6.py](motifs_r6.py) revised after it (section «Research in the local session» below), twenty feed candidates generated and checked word by word, one picked per format, ten Stories (nine regenerated with strict safe zones by [regen_story_r6.py](regen_story_r6.py)), finals `<name>_45.jpg` and `<name>_916.jpg` built by [finalize_r6.py](finalize_r6.py), round recorded in [README.md](README.md) («Runde 6»). No file of this round is in the repository (user decision 2026-11-05): finals without Teresa in `../ads/2026-11-carbon-runden-3-6/final/` and the user's ads folder `../ads/carbon_microneedling/`, finals with Teresa in `../ads/2026-11-carbon-runden-3-6/final-teresa/`, raw candidates and contact sheets in `../ads/2026-11-carbon-runden-3-6/raw/`. Open: Teresa approves `reviews`, `chat-faq` and `storyboard`; selection and upload to Meta.
 
 Earlier status (cloud session): research started, ten concepts written as prompts, nothing generated. The cloud session could not reach the user's logged-in Chrome (Claude in Chrome is not connected there), so the work continued in a session on the user's computer.
 
@@ -50,7 +48,7 @@ Queries: the ideas page past the login wall (mostly Meta-ads agency pins, nothin
 
 Also seen and left out: booking-confirmation screens (Treatwell's own sponsored pin shows a calendar entry; for a studio it would look like a function the ad does not have), «before / after» face halves on clinic pins (banned), percentage badges and price tags in other currencies, Canva template packs.
 
-## Proposed steps (only after the go described at the top)
+## Steps (done 2026-11-05; a further run only after the go described at the top)
 
 1. The orchestrator creates a worktree under `../astro-v2-worktrees/` on a new `codex/*` branch from `origin/master` and records it on the board.
 2. Copy the reference images that are not in the repository from `../ads/2026-11-carbon-runden-3-6/raw/` into `raw/` (`storyboard` needs `hautanalyse_20261105_1.png` and `ruhe_20261105_1.png`; Git ignores them there).

@@ -19,3 +19,12 @@ Those versions are kept outside the public repository, in ../ads/2026-11-carbon-
 Still to do: Teresa approves the ads that show her (carbon-gold, cover, neon-studio, collage); until then their files
 are kept outside the repository in ../ads/2026-11-carbon-runden-3-6/final-teresa/.
 glass-30 and neon-studio show "Nur bis 30. November" in the picture: remake them if the end date moves.
+
+Round 6 (ten formats from the Pinterest research), added later the same day:
+- The full-screen 9:16 versions (<name>_916.jpg, not in the repository: ../ads/2026-11-carbon-runden-3-6/final/ and
+  final-teresa/, locally also <name>_916-stories-only.jpg) keep their text between
+  14 % and 80 % of the height (checked on a contact sheet with the zone lines; no OCR available on this computer),
+  so they are safe for Stories only.
+- Stories+Reels-safe versions were built the same way as above (4:5 ad as a card between 14.5 % and 64.5 %, 156 px
+  free on each side, text-free background plate checked by eye). By the user's decision they are stored locally only,
+  in ads/carbon_microneedling/stories-reels-9x16/, and are not pushed to GitHub. Script: reels_916_r6.py.
