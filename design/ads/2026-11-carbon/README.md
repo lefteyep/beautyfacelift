@@ -13,6 +13,11 @@ Paket 2 des Plans `docs/orchestrator/handover/CARBON-CAMPAIGN-PLAN-2026-10-31.md
 | M5 | Text-Karte ohne Foto | 4:5, 9:16 | Anzeige 2 alternativ |
 | M6 | Vertrauen ohne Porträt (Foto M3 + Band) | 1:1, 4:5, 9:16 | Anzeige 3 |
 | M7 | Teresa trägt die Carbon-Lotion mit dem Pinsel auf, fiktive Kundin | 4:5, 9:16 | Seiten-Hero mit Teresa, Anzeige 4 |
+| M8 | Hautanalyse: Teresa schaut sich die Haut der Kundin an | 4:5, 9:16 | Runde 3, «Zum ersten Mal Microneedling?» |
+| M9 | Carbon-Lotion, daneben der Microneedling-Pen auf dem Tablett | 4:5, 9:16 | Runde 3, «Zwei Behandlungen, eine Sitzung» |
+| M10 | Ruhiger Moment unter der Decke, Hand auf der Schulter | 4:5, 9:16 | Runde 3, «90 Minuten für Ihre Haut» |
+| M11 | Teresa am Behandlungsbett, Blick in die Kamera | 4:5, 9:16 | Runde 3, «Persönlich von Teresa Stimac» |
+| M12 | Teresa erklärt die Pflege danach, neutrale Tube | 4:5, 9:16 | Runde 3, «Auch danach gut beraten» |
 
 Prompts: [prompts.md](prompts.md). Video mit Teresa als sprechendem KI-Avatar (geplant, noch nichts erzeugt): Schritt-für-Schritt-Anleitung zum Nachklicken in Higgsfield im Doc [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp), Hintergründe in [AVATAR-VIDEO-GUIDE.md](AVATAR-VIDEO-GUIDE.md), Best Practices aus drei Tutorial-Videos in [AI-VIDEO-BEST-PRACTICES.md](AI-VIDEO-BEST-PRACTICES.md), Textebenen in `video-overlays/` (aus `render_video_overlays.py`), Rohschnitt aus `render_animatic.py`. Alle Bilder sind generiert (es gibt keine echten Fotos); Teresa erscheint nur im Motiv M7 (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
 
@@ -45,6 +50,7 @@ Modell `gpt-image-2.5-flare`, OpenAI-Playground, abgerechnet über das API-Gutha
 | 6 | 2026-10-31 | M2 v2 Pen metallisch (Referenzen M1-1, Geräteausschnitt) | 1088 × 1360 | max | 2 | 0,39 |
 | 7 | 2026-10-31 | M3 v2 Stillleben | 1088 × 1088 | max | 1 | 0,16 |
 | 8 | 2026-10-31 | M7 Teresa (Referenzen: Teresa-Fotos 2 und 3, `maske-v2_20261031_1.png`) | 1088 × 1360 | max | 2 | 0,40 |
+| 9 | 2026-11-05 | M8–M12, `gpt-image-2.6-flare` über die API (Wunsch des Users), Referenzen siehe Runde 3 | 1088 × 1360 | high | 12 (davon 2 Fehlversuch: Prompt beim Upload abgeschnitten) | ≈ 56 700 Tokens laut API; Betrag in der OpenAI-Usage-Ansicht |
 
 Summe der Schätzungen: ≈ 2,25 USD (Läufe 1–7 ≈ 1,85; Lauf 8 Teresa ≈ 0,40, eigene Obergrenze 2 USD) (Obergrenze 5 USD). Der tatsächliche Betrag steht im Abschnitt «Kosten laut OpenAI».
 
@@ -148,3 +154,17 @@ Zweite Ablesung am 2026-10-31 um etwa 15:05 Uhr (gleiche Ansicht): **2,06 USD** 
 Erste Ablesung:
 
 Abgelesen auf `https://platform.openai.com/usage` (Spend categories, letzte 7 Tage, Nutzer Paulo Ferreira) am 2026-10-31 um etwa 13:40 Uhr: **0,99 USD** (gpt-image-2_5-flare image output 0,975 USD, text input 0,019 USD; image input noch 0 USD). Das deckt erkennbar nur Runde 1 (11 Bilder in xhigh); Runde 2 (5 Bilder in max mit Referenzbildern, Schätzung ≈ 0,94 USD) war zu diesem Zeitpunkt noch nicht verbucht. Erwartetes Total ≈ 1,9 USD; den Endstand bitte nach einigen Stunden auf derselben Seite ablesen.
+
+## Runde 3 · fünf neue Motive mit gpt-image-2.6-flare (2026-11-05)
+
+Auf Wunsch des Users von Claude erzeugt: OpenAI-API (`/v1/images/edits`), Modell `gpt-image-2.6-flare`, Qualität `high` (die höchste Stufe des Modells), 1088 × 1360, je Motiv zwei Kandidaten, abgerechnet über den API-Key des Users. Prompts: [prompts.md](prompts.md), Abschnitt «Runde 3» (für die API ist das Format «Portrait 4:5» statt «2:3», und die Teresa-Referenzen sind ihr echtes Porträt `src/assets/marketing/teresa_portrait.jpg` als Identität plus `raw/teresa_20261031_1.png` für Kittel, Ohrringe, Lippenstift, Kundin und Studio). Log: `raw/generation-log-20261105.jsonl`.
+
+- Gewählt (jeweils Kandidat 1): `raw/hautanalyse_20261105_1.png`, `raw/zwei-in-einer_20261105_1.png` (Pen neben dem Gesicht; bei Kandidat 2 läge er im Textband), `raw/ruhe_20261105_1.png`, `raw/teresa-portrait_20261105_1.png`, `raw/danach_20261105_1.png`. Kandidaten 2 bleiben als Alternative.
+- Geprüft: Hände (fünf Finger, Handschuhe), kein Text auf Tube, Pen, Flaschen; keine Nadeln, kein Laser, keine Rötung, kein Vorher/Nachher; Teresa erkennbar, Kittel, Ohrringe, Lippenstift wie M7.
+- Finale Anzeigen mit `render_ads_r3.py` (Textband wie die bisherigen Anzeigen, «CHF 250» mit der roten Diagonale der Seite, Enddatum nur in `END`): `hautanalyse_45.jpg`, `zwei-in-einer_45.jpg`, `ruhe_45.jpg`, `teresa-portrait_45.jpg`, `danach_45.jpg` und je `_916.jpg`. Nicht nach `public/` kopiert (die Website braucht sie nicht).
+- **Offen:** Teresa gibt M8, M11 und M12 frei, bevor sie laufen; Hochladen auf Meta (Anleitung im Tab «Image ads» des Docs [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp)); falls die Anzeigen nach dem 10. November starten und das Enddatum sich ändert: `END` anpassen und neu rendern.
+
+```bash
+py -I design/ads/2026-11-carbon/render_ads_r3.py <fonts-dir> design/ads/2026-11-carbon
+```
+
