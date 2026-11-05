@@ -1,0 +1,23 @@
+# The repository is public. Unapproved images of Teresa Stimac and raw generator output stay outside it,
+# in ../ads/2026-11-carbon-runden-3-6/ (see README.md, «Runde 3»). Files already tracked are not affected.
+# To add an approved file anyway: git add -f <file>, after Teresa's written OK and the user's go.
+
+# Raw candidates and contact sheets from gen_ads.py / finalize_r7.py
+raw/*.png
+raw/contact-*.jpg
+
+# Finals that show Teresa (rounds 3 to 7), waiting for her approval
+hautanalyse_*.jpg
+teresa-portrait_*.jpg
+danach_*.jpg
+carbon-gold_*.jpg
+cover_*.jpg
+neon-studio_*.jpg
+collage_*.jpg
+reviews_*.jpg
+chat-faq_*.jpg
+storyboard_*.jpg
+knockout-teresa_*.jpg
+facemap-hautanalyse_*.jpg
+colorblock-teresa_*.jpg
+bento-teresa_*.jpg
