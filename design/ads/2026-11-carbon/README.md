@@ -154,9 +154,9 @@ Abgelesen auf `https://platform.openai.com/usage` (Spend categories, letzte 7 Ta
 
 Auf Wunsch des Users von Claude erzeugt: OpenAI-API (`/v1/images/edits`), Modell `gpt-image-2.6-flare`, Qualität `high` (die höchste Stufe des Modells), 1088 × 1360, je Motiv zwei Kandidaten, abgerechnet über den API-Key des Users. Prompts: [prompts.md](prompts.md), Abschnitt «Runde 3» (für die API ist das Format «Portrait 4:5» statt «2:3», und die Teresa-Referenzen sind ihr echtes Porträt `src/assets/marketing/teresa_portrait.jpg` als Identität plus `raw/teresa_20261031_1.png` für Kittel, Ohrringe, Lippenstift, Kundin und Studio). Log: `raw/generation-log-20261105.jsonl`.
 
-- Gewählt (jeweils Kandidat 1): `raw/hautanalyse_20261105_1.png`, `raw/zwei-in-einer_20261105_1.png` (Pen neben dem Gesicht; bei Kandidat 2 läge er im Textband), `raw/ruhe_20261105_1.png`, `raw/teresa-portrait_20261105_1.png`, `raw/danach_20261105_1.png`. Kandidaten 2 bleiben als Alternative. Alle Rohbilder liegen in `../ads/2026-11-carbon-runden-3-6/``raw/`.
+- Gewählt (jeweils Kandidat 1): `raw/hautanalyse_20261105_1.png`, `raw/zwei-in-einer_20261105_1.png` (Pen neben dem Gesicht; bei Kandidat 2 läge er im Textband), `raw/ruhe_20261105_1.png`, `raw/teresa-portrait_20261105_1.png`, `raw/danach_20261105_1.png`. Kandidaten 2 bleiben als Alternative. Alle Rohbilder liegen in `../ads/2026-11-carbon-runden-3-6/raw/`.
 - Geprüft: Hände (fünf Finger, Handschuhe), kein Text auf Tube, Pen, Flaschen; keine Nadeln, kein Laser, keine Rötung, kein Vorher/Nachher; Teresa erkennbar, Kittel, Ohrringe, Lippenstift wie M7.
-- Finale Anzeigen mit `render_ads_r3.py` (Textband wie die bisherigen Anzeigen, «CHF 250» mit der roten Diagonale der Seite, Enddatum nur in `END`): `hautanalyse_45.jpg`, `zwei-in-einer_45.jpg`, `ruhe_45.jpg`, `teresa-portrait_45.jpg`, `danach_45.jpg` und je `_916.jpg`. Im Repository: `zwei-in-einer` und `ruhe`. `hautanalyse`, `teresa-portrait` und `danach` zeigen Teresa, wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/``final-teresa/`. `ruhe` ist am 2026-11-05 neu gerendert, mit allen sieben Schritten in Teresas Reihenfolge. Nicht nach `public/` kopiert (die Website braucht sie nicht).
+- Finale Anzeigen mit `render_ads_r3.py` (Textband wie die bisherigen Anzeigen, «CHF 250» mit der roten Diagonale der Seite, Enddatum nur in `END`): `hautanalyse_45.jpg`, `zwei-in-einer_45.jpg`, `ruhe_45.jpg`, `teresa-portrait_45.jpg`, `danach_45.jpg` und je `_916.jpg`. Im Repository: `zwei-in-einer` und `ruhe`. `hautanalyse`, `teresa-portrait` und `danach` zeigen Teresa, wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/`. `ruhe` ist am 2026-11-05 neu gerendert, mit allen sieben Schritten in Teresas Reihenfolge. Nicht nach `public/` kopiert (die Website braucht sie nicht).
 - **Offen:** Teresa gibt M8, M11 und M12 frei, bevor sie laufen; Hochladen auf Meta (Anleitung im Tab «Image ads» des Docs [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp)); falls die Anzeigen nach dem 10. November starten und das Enddatum sich ändert: `END` anpassen und neu rendern.
 
 ```bash
@@ -169,11 +169,11 @@ Der User hat den Stil von Runde 3 (Foto + Textband) abgelehnt: «completely new 
 
 | Datei (4:5 und 9:16) | Stil | Kandidat | Teresa |
 |---|---|---|---|
-| `carbon-gold_45.jpg` / `_916.jpg` | Carbon-Schwarz, 3D-Gold «175», Teresa freigestellt, Behandlungsfoto im Goldrahmen | 2 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/``final-teresa/` |
+| `carbon-gold_45.jpg` / `_916.jpg` | Carbon-Schwarz, 3D-Gold «175», Teresa freigestellt, Behandlungsfoto im Goldrahmen | 2 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
 | `duo-split_45.jpg` / `_916.jpg` | Diagonale Schwarz/Perlrosa, 3D-«+», zwei Behandlungsfotos, Preis-Sticker | 2 | nein |
 | `glass-30_45.jpg` / `_916.jpg` | Pastell-Glas, 3D-«30 %», Pen-Foto in Glasblase | 1 | nein |
-| `cover_45.jpg` / `_916.jpg` | Magazin-Cover mit Teresa, Lippenstiftrot | 1 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/``final-teresa/` |
-| `neon-studio_45.jpg` / `_916.jpg` | Studio mit Kupfer-Neon, riesige 3D-«175» im Raum | 2 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/``final-teresa/` |
+| `cover_45.jpg` / `_916.jpg` | Magazin-Cover mit Teresa, Lippenstiftrot | 1 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+| `neon-studio_45.jpg` / `_916.jpg` | Studio mit Kupfer-Neon, riesige 3D-«175» im Raum | 2 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
 
 - Geprüft (volle Grösse): jedes Wort, Preis «CHF 175» und «statt CHF 250» durchgestrichen, «Sie sparen 30 %» (75 von 250), «4,8 ★ aus 260+ Bewertungen auf Treatwell», Adresse, «Nur bis 30. November» (nur in glass-30 und neon-studio); keine Nadeln, kein Laser, kein Vorher/Nachher, keine erfundenen Geräte.
 - **Bekannter Mangel:** auf `cover` verdeckt Teresas Haar das «F» von «BEAUTY FACE LIFT». Die Korrektur (Prompt angepasst) scheiterte, weil das OpenAI-Guthaben aufgebraucht war.
@@ -187,7 +187,7 @@ Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «R
 | Datei (4:5 und 9:16) | Stil | Kandidat 4:5 | Teresa |
 |---|---|---|---|
 | `swiss-poster_*` | Swiss Style: Raster, Signalrot/Schwarz/Weiss, riesige «175», Behandlungsfoto | 1 | nein |
-| `collage_*` | Papier-Collage mit Sofortbildern, Klebeband, Handschrift | 1 | ja (Sofortbild aus ihrem echten Porträt); wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/``final-teresa/` |
+| `collage_*` | Papier-Collage mit Sofortbildern, Klebeband, Handschrift | 1 | ja (Sofortbild aus ihrem echten Porträt); wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
 | `clay-steps_*` | 3D-Clay-Pfad mit den 7 Schritten, Preisblase | 1 | nein |
 | `carbon-brush_*` | Minimal-Luxus: ein schwarzer Carbon-Pinselstrich auf Elfenbein | 1 | nein |
 | `pop-art_*` | Pop-Art-Comic, «BEIDES! CHF 175» | 1 | nein (Comic-Kundin, fiktiv) |
@@ -197,14 +197,18 @@ Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «R
 - Geprüft: jedes Wort in voller Grösse (7 Schrittnamen, Handschrift, Sprechblasen, Bewertung, Adresse, Preise und Durchstreichungen).
 - **Offen:** Teresa gibt carbon-gold, cover, neon-studio und collage frei; Auswahl und Hochladen auf Meta.
 
-## Runde 6 · zehn Formate aus der Pinterest-Recherche (geplant, noch nichts erzeugt)
+## Runde 6 · zehn Formate aus der Pinterest-Recherche (erzeugt 2026-11-05, noch keine Finals in Git)
+
+Stand 2026-11-05 abends: Die zehn Anzeigen wurden erzeugt. Ihre Finals (`<motiv>_45.jpg`, `<motiv>_916.jpg`) liegen ausserhalb des Repositorys in `../ads/carbon_microneedling/`. In Git ist noch keines. Die Motive mit Teresa (`reviews`, `chat-faq`, `storyboard`) warten auf ihre Freigabe.
 
 Plan, Recherche und Übergabe an eine lokale Session: [ROUND6-PLAN.md](ROUND6-PLAN.md). Prompts: [motifs_r6.py](motifs_r6.py). Alle Prompts der Runden 4 bis 7 laufen mit [gen_ads.py](gen_ads.py). **Der Plan ist ein Vorschlag:** `gen_ads.py` ruft die kostenpflichtige OpenAI-API auf und lädt Teresas echtes Porträt hoch. Es läuft nur nach dem ausdrücklichen Go des Users und mit einem Eintrag auf dem Orchestrator-Board. Der Schlüssel kommt erst beim Start ins Terminal (`OPENAI_API_KEY`) und wird nie gespeichert. Keine Session handelt von sich aus.
 
-## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (geplant 2026-11-05, noch nichts erzeugt)
+## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (erzeugt 2026-11-05, Ergebnisse in PR #76)
+
+Stand 2026-11-05 abends: Die fünfzehn Anzeigen wurden auf Go des Users erzeugt. Die Finals ohne Teresa und das Log sind in PR #76 (Branch `codex/carbon-ad-round-7`, baut auf diesem PR auf). Die Rohbilder und die vier Finals mit Teresa liegen in `../ads/2026-11-carbon-runden-3-6/`. Der Text unten beschreibt den Stand vor der Erzeugung.
 
 Recherche in Chrome (eingeloggt), fünf Stile, fünfzehn Prompts und fünf Anzeigentexte: [ROUND7-PLAN.md](ROUND7-PLAN.md). Prompts: [motifs_r7.py](motifs_r7.py) (`knockout-*`, `facemap-*`, `colorblock-*`, `bento-*`, `sticker-*`). Erzeugen mit [gen_ads.py](gen_ads.py) (`feed motifs_r7`, dann `story motifs_r7 …`), Kontaktbogen und Finals mit [finalize_r7.py](finalize_r7.py). Vorschlag wie Runde 6: erst das ausdrückliche Go des Users und ein Eintrag auf dem Orchestrator-Board, dann `OPENAI_API_KEY` für das Terminal (auf diesem Rechner liegt kein Schlüssel), danach Auswahl, Stories, Finals, Kosten hier nachtragen; Teresa gibt `knockout-teresa`, `facemap-hautanalyse`, `colorblock-teresa` und `bento-teresa` frei; bis dahin liegen sie in `../ads/2026-11-carbon-runden-3-6/`.
 
 ## 9:16 Schutzzonen geprüft und korrigiert (2026-11-05)
 
-OCR-Messung (Tesseract) aller zehn 9:16-Fassungen: sechs hatten Text in den Stories-Zonen (oben 14 %, unten 20 %), keine war Reels-sicher (unten 35 %). Neu: `*_916.jpg` = die 4:5-Anzeige als Karte (768 × 960, abgerundet, Schatten) zwischen 14,5 % und 64,5 % der Höhe, seitlich 156 px frei, auf einem textfreien Hintergrund im Stil der Anzeige (`raw/plate-*-916_20261105.png`, gpt-image-2.6-flare, per OCR auf Text geprüft; die zehn Hintergründe, etwa 30 MB, liegen in `../ads/2026-11-carbon-runden-3-6/``raw/`). Damit gilt eine Datei für Stories und Reels. Die Vollbild-9:16 aus Runde 5 bleiben in `../ads/2026-11-carbon-runden-3-6/``raw/*-916_20261105_*.png`, werden aber nicht verwendet. Im Repository sind die neuen 9:16 von `carbon-brush`, `clay-steps`, `duo-split`, `glass-30`, `pop-art` und `swiss-poster`. Die neuen 9:16 von `carbon-gold`, `collage`, `cover` und `neon-studio` zeigen Teresa: wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/``final-teresa/` (die alten Vollbild-Fassungen in `final-teresa/alt-916-vollbild/`). Prüfbericht: [SAFE-ZONES-20261105.txt](SAFE-ZONES-20261105.txt).
+OCR-Messung (Tesseract) aller zehn 9:16-Fassungen: sechs hatten Text in den Stories-Zonen (oben 14 %, unten 20 %), keine war Reels-sicher (unten 35 %). Neu: `*_916.jpg` = die 4:5-Anzeige als Karte (768 × 960, abgerundet, Schatten) zwischen 14,5 % und 64,5 % der Höhe, seitlich 156 px frei, auf einem textfreien Hintergrund im Stil der Anzeige (`raw/plate-*-916_20261105.png`, gpt-image-2.6-flare, per OCR auf Text geprüft; die zehn Hintergründe, etwa 30 MB, liegen in `../ads/2026-11-carbon-runden-3-6/raw/`). Damit gilt eine Datei für Stories und Reels. Die Vollbild-9:16 aus Runde 5 bleiben in `../ads/2026-11-carbon-runden-3-6/raw/*-916_20261105_*.png`, werden aber nicht verwendet. Im Repository sind die neuen 9:16 von `carbon-brush`, `clay-steps`, `duo-split`, `glass-30`, `pop-art` und `swiss-poster`. Die neuen 9:16 von `carbon-gold`, `collage`, `cover` und `neon-studio` zeigen Teresa: wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` (die alten Vollbild-Fassungen in `final-teresa/alt-916-vollbild/`). Prüfbericht: [SAFE-ZONES-20261105.txt](SAFE-ZONES-20261105.txt).

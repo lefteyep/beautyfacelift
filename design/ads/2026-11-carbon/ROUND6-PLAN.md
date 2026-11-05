@@ -2,7 +2,9 @@
 
 > **Proposal only. No session acts on this plan by itself.** Generating costs money (paid OpenAI API) and uploads Teresa's real portrait and generated images of her to OpenAI. Before anything is generated: (1) the user gives an explicit go in chat for this round, its cost ceiling and the motifs, (2) the orchestrator board (`docs/orchestrator/STATUS.md` in the main copy) has an entry with the worker, worktree and branch, (3) the user provides the key at runtime in the terminal; it is never stored. Results are not pushed to the source branch of #73; they go to a new `codex/*` branch in its own worktree, and every image that shows Teresa stays outside the repository in `../ads/2026-11-carbon-runden-3-6/` until her written OK.
 
-Status 2026-11-05, local session: the Pinterest research is done with Claude in Chrome (logged in) and the ten prompts in [motifs_r6.py](motifs_r6.py) are revised after it (section «Research in the local session» below). **Nothing generated yet:** `gen_ads.py` needs `OPENAI_API_KEY` in the terminal, and the key was not set on the computer when the session reached that step.
+Status 2026-11-05, evening: the ten round-6 ads have been generated; their finals are kept outside the repository in `../ads/carbon_microneedling/`, none is in git yet, and `reviews`, `chat-faq` and `storyboard` wait for Teresa's approval. The rest of this section describes the state before that.
+
+Earlier status 2026-11-05, local session: the Pinterest research is done with Claude in Chrome (logged in) and the ten prompts in [motifs_r6.py](motifs_r6.py) are revised after it (section «Research in the local session» below). **Nothing generated yet:** `gen_ads.py` needs `OPENAI_API_KEY` in the terminal, and the key was not set on the computer when the session reached that step.
 
 Earlier status (cloud session): research started, ten concepts written as prompts, nothing generated. The cloud session could not reach the user's logged-in Chrome (Claude in Chrome is not connected there), so the work continued in a session on the user's computer.
 

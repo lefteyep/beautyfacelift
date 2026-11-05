@@ -5,7 +5,7 @@ import os
 from motifs_r4 import PORTRAIT, MASKE, PEN, RULES, RAW
 
 STILL = os.path.join(RAW, 'stillleben-v2_20261031_1.png')          # treatment table, no people
-HAUTANALYSE = os.path.join(RAW, 'hautanalyse_20261105_1.png')      # Teresa (generated, consented) looks at the client's skin
+HAUTANALYSE = os.path.join(RAW, 'hautanalyse_20261105_1.png')      # Teresa (generated from her consented portrait; each ad still needs her approval) looks at the client's skin
 RUHE = os.path.join(RAW, 'ruhe_20261105_1.png')                    # the fictional client, calm, no device
 
 STRIKE = 'with "CHF 250" struck through by a thin red line'

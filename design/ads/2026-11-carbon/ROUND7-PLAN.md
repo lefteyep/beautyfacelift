@@ -2,7 +2,7 @@
 
 > **Proposal only. No session acts on this plan by itself.** Generating costs money (paid OpenAI API) and uploads Teresa's real portrait and generated images of her to OpenAI. Before anything is generated: (1) the user gives an explicit go in chat for this round, its cost ceiling and the motifs, (2) the orchestrator board (`docs/orchestrator/STATUS.md` in the main copy) has an entry with the worker, worktree and branch, (3) the user provides the key at runtime in the terminal; it is never stored. Results are not pushed to the source branch of #73; they go to a new `codex/*` branch in its own worktree, and every image that shows Teresa stays outside the repository in `../ads/2026-11-carbon-runden-3-6/` until her written OK.
 
-Status 2026-11-05: research done in the user's logged-in Chrome, fifteen prompts written in [motifs_r7.py](motifs_r7.py), **nothing generated yet**. This computer holds no OpenAI key (the Codex CLI is logged in through ChatGPT, not with an API key, and no `OPENAI_API_KEY` is set), so the generation waits for the key.
+Status 2026-11-05, evening: **round 7 has been generated** on the user's go; the results are in PR #76 (branch `codex/carbon-ad-round-7`, the four finals with Teresa and all raw files in `../ads/2026-11-carbon-runden-3-6/`). Before that: research done in the user's logged-in Chrome, fifteen prompts written in [motifs_r7.py](motifs_r7.py). This computer holds no OpenAI key (the Codex CLI is logged in through ChatGPT, not with an API key, and no `OPENAI_API_KEY` is set), so the generation waits for the key.
 
 Round 6 ([ROUND6-PLAN.md](ROUND6-PLAN.md), ten formats from the public Pinterest ideas page) stays as drafted and is not part of this round.
 
