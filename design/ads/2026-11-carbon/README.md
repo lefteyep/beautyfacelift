@@ -209,3 +209,7 @@ Plan, Recherche und Übergabe an eine lokale Session: [ROUND6-PLAN.md](ROUND6-PL
 ## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (geplant 2026-11-05, noch nichts erzeugt)
 
 Recherche in Chrome (eingeloggt), fünf Stile, fünfzehn Prompts und fünf Anzeigentexte: [ROUND7-PLAN.md](ROUND7-PLAN.md). Prompts: [motifs_r7.py](motifs_r7.py) (`knockout-*`, `facemap-*`, `colorblock-*`, `bento-*`, `sticker-*`). Erzeugen mit [gen_ads.py](gen_ads.py) (`feed motifs_r7`, dann `story motifs_r7 …`), Kontaktbogen und Finals mit [finalize_r7.py](finalize_r7.py). Offen: `OPENAI_API_KEY` für das Terminal (auf diesem Rechner liegt kein Schlüssel), danach Auswahl, Stories, Finals, Kosten hier nachtragen; Teresa gibt `knockout-teresa`, `facemap-hautanalyse`, `colorblock-teresa` und `bento-teresa` frei.
+
+## 9:16 Schutzzonen geprüft und korrigiert (2026-11-05)
+
+OCR-Messung (Tesseract) aller zehn 9:16-Fassungen: sechs hatten Text in den Stories-Zonen (oben 14 %, unten 20 %), keine war Reels-sicher (unten 35 %). Neu: `*_916.jpg` = die 4:5-Anzeige als Karte (768 × 960, abgerundet, Schatten) zwischen 14,5 % und 64,5 % der Höhe, seitlich 156 px frei, auf einem textfreien Hintergrund im Stil der Anzeige (`raw/plate-*-916_20261105.png`, gpt-image-2.6-flare, per OCR auf Text geprüft). Damit gilt eine Datei für Stories und Reels. Die Vollbild-9:16 aus Runde 5 bleiben in `raw/*-916_20261105_*.png`, werden aber nicht verwendet. Prüfbericht: [SAFE-ZONES-20261105.txt](SAFE-ZONES-20261105.txt).
