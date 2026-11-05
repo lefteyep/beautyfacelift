@@ -226,11 +226,34 @@ Recherche in Chrome (eingeloggt) und die daraus überarbeiteten Prompts: [ROUND6
 - Kopie aller fertigen Anzeigen (Runden 1 bis 6) für den User: `../ads/carbon_microneedling/` im Kundenordner (nicht im Repository), Feed in `feed-4x5/`, 9:16 in `stories-reels-9x16/`.
 - **Offen:** Teresa gibt reviews, chat-faq und storyboard frei; Auswahl und Hochladen auf Meta (Anleitung im Doc «Carbon Avatar Video Guide», Tab «Image ads»).
 
-## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (erzeugt 2026-11-05, Code in PR #76, Finals lokal)
+## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (erzeugt 2026-11-05, Finals nicht in Git)
 
-Stand 2026-11-05 abends: Die fünfzehn Anzeigen wurden auf Go des Users erzeugt. Prompts, Scripts und das Log sind in PR #76 (Branch `codex/carbon-ad-round-7`, baut auf diesem PR auf); Anzeigendateien sind nicht auf GitHub. Die Finals ohne Teresa liegen im Anzeigenordner des Users `../ads/carbon_microneedling/`, die Rohbilder und die vier Finals mit Teresa in `../ads/2026-11-carbon-runden-3-6/`. Der Text unten beschreibt den Stand vor der Erzeugung.
+Go des Users im Chat (2026-11-05: «create me 15 meta ads … 5 new styles based on your research … chatgpt api … gpt-image-2.6-flare»); der Key wurde vom User im Chat übergeben und nur als Umgebungsvariable des Generator-Prozesses verwendet, nie in eine Datei geschrieben. **Entscheid des Users (2026-11-05, Chat): keine Anzeigen-Dateien auf GitHub.** Alle Finals liegen deshalb nur lokal in `../ads/carbon_microneedling/`; in diesem PR (#76) sind nur Prompts, Scripts, Log und Doku. Recherche in Chrome (eingeloggt), Stile, Prompts, Anzeigentexte und Regeln: [ROUND7-PLAN.md](ROUND7-PLAN.md). Prompts: [motifs_r7.py](motifs_r7.py); Erzeugung mit [gen_ads.py](gen_ads.py) (`gpt-image-2.6-flare`, `high`, 1088 × 1360, je zwei Kandidaten; Vollbild-Story 1088 × 1936 aus dem gewählten Kandidaten); Finals mit [finalize_r7.py](finalize_r7.py); Stories-und-Reels-Karten mit [cards_916_r7.py](cards_916_r7.py). Log: `raw/generation-log-20261105.jsonl` (Runde 7: 31 Aufrufe für Feed und Vollbild-Stories, 98 562 Input- und 72 108 Output-Tokens, plus 15 Aufrufe für die Hintergrundplatten; Betrag auf platform.openai.com/usage ablesen und hier nachtragen). Branch `codex/carbon-ad-round-7` im Worktree `../astro-v2-worktrees/carbon-ad-round-7`, aufgesetzt auf `codex/carbon-ad-rounds-3-6` (PR #75).
 
-Recherche in Chrome (eingeloggt), fünf Stile, fünfzehn Prompts und fünf Anzeigentexte: [ROUND7-PLAN.md](ROUND7-PLAN.md). Prompts: [motifs_r7.py](motifs_r7.py) (`knockout-*`, `facemap-*`, `colorblock-*`, `bento-*`, `sticker-*`). Erzeugen mit [gen_ads.py](gen_ads.py) (`feed motifs_r7`, dann `story motifs_r7 …`), Kontaktbogen und Finals mit [finalize_r7.py](finalize_r7.py). Vorschlag wie Runde 6: erst das ausdrückliche Go des Users und ein Eintrag auf dem Orchestrator-Board, dann `OPENAI_API_KEY` für das Terminal (auf diesem Rechner liegt kein Schlüssel), danach Auswahl, Stories, Finals, Kosten hier nachtragen; Teresa gibt `knockout-teresa`, `facemap-hautanalyse`, `colorblock-teresa` und `bento-teresa` frei; bis dahin liegen sie in `../ads/2026-11-carbon-runden-3-6/`.
+| Datei (lokal) | Stil · Botschaft | Kandidat 4:5 | Teresa |
+|---|---|---|---|
+| `knockout-175_*` | Knockout · Angebot: «175» mit dem Carbon-Foto gefüllt | 1 | nein |
+| `knockout-carbon_*` | Knockout · Ablauf: «CARBON» mit Foto, Pen-Karte | 1 | nein |
+| `knockout-teresa_*` | Knockout · Vertrauen: Teresa im «B» | 2 (Kandidat 1: «Persönlich» mit defektem n) | ja |
+| `facemap-schritte_*` | Face-Map · Ablauf: Porträt mit vier Schritt-Labels | 2 (zweiter Lauf, siehe unten) | nein |
+| `facemap-hautanalyse_*` | Face-Map · Vertrauen: Teresa prüft die Haut, drei Labels | 1 | ja |
+| `facemap-flatlay_*` | Face-Map · Angebot: Behandlungstisch mit drei Labels | 1 | nein |
+| `colorblock-pen_*` | Colour-Block · Ablauf: Terracotta, Pen | 1 | nein |
+| `colorblock-bowl_*` | Colour-Block · Angebot: Salbei, Carbon-Schale | 1 | nein |
+| `colorblock-teresa_*` | Colour-Block · Vertrauen: Lila, Teresa freigestellt | 1 | ja |
+| `bento-angebot_*` | Bento · Angebot: Foto-, Preis-, 90-Min.-, Pen-, Button-Kachel | 2 | nein |
+| `bento-reviews_*` | Bento · Vertrauen: Bewertung, zwei wörtliche Zitate | 1 | nein |
+| `bento-teresa_*` | Bento · Vertrauen: Teresa-Kachel, Titel, Erfahrung | 2 | ja |
+| `sticker-angebot_*` | Sticker · Angebot: Preis-Sticker, «90 Min.», «2 in 1» | 1 | nein |
+| `sticker-ablauf_*` | Sticker · Ablauf: sieben nummerierte Schritt-Sticker | 1 | nein |
+| `sticker-reviews_*` | Sticker · Vertrauen: zwei Zitat-Sprechblasen, Bewertung | 1 | nein |
+
+- **Dateien je Anzeige:** `<name>_45.jpg` (1080 × 1350, Feed), `<name>_916.jpg` (1080 × 1920, Stories **und** Reels: die 4:5-Anzeige als Karte 768 × 960 mit runden Ecken und Schatten zwischen 14,5 % und 64,5 % der Höhe, seitlich 156 px frei, auf einer textfreien Hintergrundplatte im Stil der Anzeige, `raw/plate-<name>-916_20261105.png`, gpt-image-2.6-flare; dasselbe Format wie die Karten der Runden 4 und 5, Abschnitt «9:16 Schutzzonen»), `<name>_916-vollbild.jpg` (1080 × 1920, Vollbild-Story aus dem Modell, Text zwischen 14 % und etwa 81 %, nur für Stories, nicht Reels-sicher).
+- **facemap-schritte:** im ersten Lauf (`raw/facemap-schritte-v1-45_20261105_*.png`) lag der Punkt «Carbon-Peeling» bei beiden Kandidaten auf der Lippe; Prompt ergänzt (Punkte nur auf Wange, Stirn und Kiefer), zweiter Lauf, Kandidat 2 gewählt.
+- **Geprüft in voller Grösse (4:5 und Vollbild-9:16):** jedes Wort gegen die Textliste, «CHF 175» und «statt CHF 250» mit Durchstreichung, die sieben Schritte in Reihenfolge, die Zitate wörtlich (Patricia, Denise, Yilmaz), Hände, Pen wie `raw/pen-v2_20261031_2.png`, keine Nadeln, kein Laser, keine Rötung, kein Vorher/Nachher, kein Datum. Hintergrundplatten per Sichtkontrolle ohne Text.
+- **Vollbild-Stories (Zonen 14 % oben, 20 % unten, Tintenzeilen-Messung):** oben überall frei. Die knockout- und bento-Stories haben die Adresszeile weggelassen. Bei `facemap-hautanalyse`, `colorblock-pen`, `colorblock-bowl` und `colorblock-teresa` lag nur die kleine Adresszeile unter 80 %; sie wurde mit der flachen Hintergrundfarbe übermalt, das unveränderte Modellbild liegt als `raw/<name>-916_20261105_0.png`. Belassen (höchstens 1,5 % über der Linie): Button von `knockout-175` bis 81,3 %, Button von `facemap-hautanalyse` bis 81,5 %, Adresse von `facemap-schritte` bis 80,8 %, Adress-Sticker von `sticker-ablauf` etwa 82 %.
+- **Ablage (alles ausserhalb von Git):** alle 45 Finals (15 × 4:5, 15 × Karte 9:16, 15 × Vollbild 9:16) in `../ads/carbon_microneedling/`; die Teresa-Finals zusätzlich in `../ads/2026-11-carbon-runden-3-6/final-teresa/` (Vollbild-Stories in `final-teresa/alt-916-vollbild/`) bis zu ihrer Freigabe; alle Rohbilder der Runde 7 (32 Feed-Kandidaten, 15 Vollbild-Stories, 4 Story-Originale, 15 Hintergrundplatten, Kontaktbogen, Lauf-Protokolle) in `../ads/2026-11-carbon-runden-3-6/raw/`.
+- **Offen:** Teresa gibt `knockout-teresa`, `facemap-hautanalyse`, `colorblock-teresa` und `bento-teresa` frei; Auswahl und Hochladen auf Meta (Anzeigentexte in ROUND7-PLAN.md); Betrag laut OpenAI nachtragen.
 
 ## 9:16 Schutzzonen geprüft und korrigiert (2026-11-05)
 
