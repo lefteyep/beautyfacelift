@@ -484,8 +484,8 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
       <div style="margin-top: 24px; padding: 20px; background: #FBF8F3; border: 1px solid rgba(28, 26, 23, 0.08); border-radius: 16px;">
         <p style="margin: 0 0 8px; font-weight: 600;">Nachricht</p>
         <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(messageText)}</p>
-      </div>
-      ${cockpitUrl ? `<p style="margin: 24px 0 0;"><a href="${escapeHtml(cockpitUrl)}" style="display: inline-block; padding: 12px 20px; background: #8F5A2E; color: #FFFFFF; text-decoration: none; border-radius: 999px; font-weight: 600;">Im Lead-Cockpit öffnen</a></p>` : ''}
+      </div>${cockpitUrl ? `
+      <p style="margin: 24px 0 0;"><a href="${escapeHtml(cockpitUrl)}" style="display: inline-block; padding: 12px 20px; background: #8F5A2E; color: #FFFFFF; text-decoration: none; border-radius: 999px; font-weight: 600;">Im Lead-Cockpit öffnen</a></p>` : ''}
     </div>
   `;
 

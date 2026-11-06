@@ -6,10 +6,10 @@ Das Lead-Cockpit ist eine kleine Übersicht aller Anfragen, die über die Websit
 
 ## Anmelden mit dem Einmal-Code
 
-1. Öffnen Sie die Adresse oben. Es erscheint eine Anmeldeseite.
-2. Geben Sie Ihre E-Mail-Adresse ein (die Adresse, die wir für Sie freigeschaltet haben) und klicken Sie auf «Code senden».
-3. Sie erhalten innerhalb von einer Minute eine E-Mail mit einem Code. Absender ist «Cloudflare» (noreply@notify.cloudflare.com). Falls die E-Mail nicht ankommt, bitte den Spam-Ordner prüfen.
-4. Tippen Sie den Code ein. Danach sind Sie angemeldet und bleiben es rund zwei Wochen auf diesem Gerät. Danach bitten wir Sie einfach erneut um einen Code.
+1. Öffnen Sie die Adresse oben. Es erscheint eine Anmeldeseite (sie ist auf Englisch).
+2. Geben Sie Ihre E-Mail-Adresse ein (die Adresse, die wir für Sie freigeschaltet haben) und fordern Sie den Code an.
+3. Sie erhalten kurz darauf eine E-Mail mit einem Code. Absender ist «Cloudflare» (noreply@notify.cloudflare.com). Falls die E-Mail nicht ankommt, bitte den Spam-Ordner prüfen.
+4. Tippen Sie den Code ein. Danach sind Sie angemeldet und bleiben es rund zwei Wochen auf diesem Gerät. Danach werden Sie einfach erneut nach einem Code gefragt.
 
 Es gibt kein Passwort. Wenn Sie «Abmelden» antippen, ist die Anmeldung sofort beendet.
 
@@ -53,11 +53,11 @@ Auch die normale Anfrage-E-Mail enthält den Knopf «Im Lead-Cockpit öffnen», 
 
 ## Testanfragen und Spam
 
-Eine Testanfrage oder offensichtlichen Spam müssen Sie nicht löschen: Öffnen Sie die Anfrage und wählen Sie unten «Ausschliessen». Der Eintrag verschwindet aus den Listen, nur unter «Alle» bleibt er sichtbar.
+Eine Testanfrage oder offensichtlichen Spam müssen Sie nicht löschen: Öffnen Sie die Anfrage, wählen Sie unten im Abschnitt «Ausschliessen» den Punkt «Test» oder «Spam» und tippen Sie auf «Ausschluss speichern». Der Eintrag verschwindet aus den Listen, nur unter «Alle» bleibt er sichtbar.
 
 ## Wenn eine Kundin ihre Daten gelöscht haben möchte
 
-Das Cockpit hat bewusst keinen Löschknopf. Melden Sie den Wunsch bitte der Agentur; wir löschen die Anfrage dann für Sie und bestätigen es Ihnen. Anfragen werden ohnehin spätestens 24 Monate nach dem letzten Kontakt gelöscht.
+Das Cockpit hat bewusst keinen Löschknopf. Melden Sie den Wunsch bitte der Agentur; wir löschen die Anfrage dann für Sie und bestätigen es Ihnen. Die Agentur löscht Anfragen ausserdem spätestens 24 Monate nach dem letzten Kontakt, wie es in der Datenschutzerklärung steht.
 
 ## Bei Fragen
 

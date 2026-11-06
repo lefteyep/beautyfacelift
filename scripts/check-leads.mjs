@@ -153,9 +153,34 @@ check(weekly[0] === siteHours.Sonntag, `OPENING_HOURS_WEEKLY Sunday = "${siteHou
 const AGENCY_ADDRESS = 'mediapaulo@gmail.com';
 const STUDIO_ADDRESS = 'info@beautyfacelift.ch';
 const wrangler = read('wrangler.jsonc');
-const wranglerVar = (name) => wrangler.match(new RegExp(`^\\s*"${name}": "([^"]*)"`, 'm'))?.[1];
-const wranglerVarDefined = (name) => new RegExp(`^\\s*"${name}"\\s*:`, 'm').test(wrangler);
-const isSwitch = (name, allowed) => (wranglerVarDefined(name) ? allowed.includes(wranglerVar(name)) : allowed.includes(undefined));
+
+/** The switch and recipient rules for one wrangler.jsonc text, so the go-live variants can be tested below. */
+function configRules(text) {
+  const varValue = (name) => text.match(new RegExp(`^\\s*"${name}"\\s*:\\s*"([^"]*)"`, 'm'))?.[1];
+  const varDefined = (name) => new RegExp(`^\\s*"${name}"\\s*:`, 'm').test(text);
+  // A defined var whose value is not a plain string (anything but "…") never counts as absent.
+  const isSwitch = (name, allowed) => (varDefined(name) ? varValue(name) !== undefined && allowed.includes(varValue(name)) : allowed.includes(undefined));
+  const nudgeTo = varValue('LEADS_NUDGE_TO') ?? '';
+  const allowedEmails = (varValue('ACCESS_ALLOWED_EMAILS') ?? '').split(',').map((address) => address.trim()).filter(Boolean);
+  const studioMayLogIn = allowedEmails.includes(STUDIO_ADDRESS);
+  return [
+    [varValue('LEADS_FORWARD_TO') === AGENCY_ADDRESS, 'LEADS_FORWARD_TO is the agency address (booking forwarding is not part of the go-live)'],
+    [varValue('LEADS_ALERT_TO') === AGENCY_ADDRESS && varValue('LEADS_DATA_OPERATORS') === AGENCY_ADDRESS, 'LEADS_ALERT_TO and LEADS_DATA_OPERATORS are the agency address (not part of the go-live)'],
+    [nudgeTo === AGENCY_ADDRESS || nudgeTo === STUDIO_ADDRESS, `LEADS_NUDGE_TO is the agency address or, at go-live, the studio address (got "${nudgeTo}")`],
+    [/^[^\s@,]+@[^\s@,]+\.[^\s@,]+$/.test(nudgeTo), `LEADS_NUDGE_TO is a single address, no comma (got "${nudgeTo}"; the agency blind copy is added in code)`],
+    [isSwitch('LEADS_CAPTURE', ['on']) && isSwitch('LEADS_DATA_OPERATIONS', ['off']),
+      'capture is on for the agency pilot; data operations remain explicitly off (deletions follow the manual procedure)'],
+    [isSwitch('LEADS_REMINDERS', ['on', 'off']), `LEADS_REMINDERS is "on" or "off" (got "${varValue('LEADS_REMINDERS')}")`],
+    [isSwitch('LEADS_CUSTOMER_MAILS', [undefined, 'on', 'off']), `LEADS_CUSTOMER_MAILS is absent (off), "on" or "off" (got "${varValue('LEADS_CUSTOMER_MAILS')}")`],
+    [isSwitch('LEADS_OWNER_COCKPIT_LINK', [undefined, 'on', 'off']), `LEADS_OWNER_COCKPIT_LINK is absent (off), "on" or "off" (got "${varValue('LEADS_OWNER_COCKPIT_LINK')}")`],
+    [allowedEmails.includes(AGENCY_ADDRESS) && allowedEmails.every((address) => address === AGENCY_ADDRESS || address === STUDIO_ADDRESS),
+      `ACCESS_ALLOWED_EMAILS holds the agency address and at most the studio address (got "${allowedEmails.join(', ')}")`],
+    [nudgeTo !== STUDIO_ADDRESS || studioMayLogIn, 'LEADS_NUDGE_TO = studio only with the studio address in ACCESS_ALLOWED_EMAILS (the reminder links into the cockpit)'],
+    [varValue('LEADS_OWNER_COCKPIT_LINK') !== 'on' || studioMayLogIn, 'LEADS_OWNER_COCKPIT_LINK "on" only with the studio address in ACCESS_ALLOWED_EMAILS (the owner e-mail links into the cockpit)'],
+    [!/"LEADS_SIGNING_SECRET"/.test(text), 'LEADS_SIGNING_SECRET is not a plain var in wrangler.jsonc (dashboard secret)'],
+  ];
+}
+const wranglerVar = (name) => wrangler.match(new RegExp(`^\\s*"${name}"\\s*:\\s*"([^"]*)"`, 'm'))?.[1];
 const d1Block = wrangler.split('"d1_databases"')[1]?.split(']')[0] ?? '';
 check(/"binding": "LEADS_DB"/.test(d1Block) && /"database_name": "beautyfacelift-leads"/.test(d1Block)
   && /"migrations_dir": "worker\/migrations"/.test(d1Block) && /"database_id": "[0-9a-f-]{36}"/.test(d1Block),
@@ -163,10 +188,24 @@ check(/"binding": "LEADS_DB"/.test(d1Block) && /"database_name": "beautyfacelift
 check(/"crons": \["\*\/15 \* \* \* \*"\]/.test(wrangler), 'wrangler.jsonc has the cron */15 * * * *');
 check(/"LEADS_FORWARD_TO": "[^"]+@[^"]+"/.test(wrangler) && /"LEADS_NUDGE_TO": "[^"]+@[^"]+"/.test(wrangler),
   'wrangler.jsonc sets the vars LEADS_FORWARD_TO and LEADS_NUDGE_TO');
-check(wranglerVar('LEADS_FORWARD_TO') === AGENCY_ADDRESS, 'LEADS_FORWARD_TO is the agency address (booking forwarding is not part of the go-live)');
-const nudgeTo = wranglerVar('LEADS_NUDGE_TO') ?? '';
-check(nudgeTo === AGENCY_ADDRESS || nudgeTo === STUDIO_ADDRESS, `LEADS_NUDGE_TO is the agency address or, at go-live, the studio address (got "${nudgeTo}")`);
-check(/^[^\s@,]+@[^\s@,]+\.[^\s@,]+$/.test(nudgeTo), `LEADS_NUDGE_TO is a single address, no comma (got "${nudgeTo}"; the agency blind copy is added in code)`);
+for (const [ok, label] of configRules(wrangler)) check(ok, label);
+
+// The rules themselves: the shipped file, a go-live file and typo variants of the go-live file.
+const goLive = wrangler
+  .replace(/"LEADS_REMINDERS"\s*:\s*"off"/, '"LEADS_REMINDERS": "on"')
+  .replace(/"LEADS_NUDGE_TO"\s*:\s*"[^"]*"/, `"LEADS_NUDGE_TO": "${STUDIO_ADDRESS}",\n    "LEADS_CUSTOMER_MAILS": "on",\n    "LEADS_OWNER_COCKPIT_LINK":"on"`)
+  .replace(/"ACCESS_ALLOWED_EMAILS"\s*:\s*"[^"]*"/, `"ACCESS_ALLOWED_EMAILS": "${AGENCY_ADDRESS}, ${STUDIO_ADDRESS}"`);
+const failing = (text) => configRules(text).filter(([ok]) => !ok).map(([, label]) => label.split(' (')[0]);
+check(failing(goLive).length === 0, `the go-live wrangler.jsonc (studio recipient, every switch on, studio allowed) passes the rules${failing(goLive).length ? `: ${failing(goLive).join('; ')}` : ''}`);
+const typos = [
+  [goLive.replace(`"${AGENCY_ADDRESS}, ${STUDIO_ADDRESS}"`, `"${AGENCY_ADDRESS}"`), 'the studio recipient and the owner link without the studio address in ACCESS_ALLOWED_EMAILS'],
+  [goLive.replace('"LEADS_REMINDERS": "on"', '"LEADS_REMINDERS": "On"'), 'LEADS_REMINDERS "On"'],
+  [goLive.replace(STUDIO_ADDRESS, 'info@beautyfacelift.com'), 'a misspelled studio address'],
+  [goLive.replace('"LEADS_OWNER_COCKPIT_LINK":"on"', '"LEADS_OWNER_COCKPIT_LINK": true'), 'LEADS_OWNER_COCKPIT_LINK without a string value'],
+  [goLive.replace(`"LEADS_NUDGE_TO": "${STUDIO_ADDRESS}"`, `"LEADS_NUDGE_TO": "${STUDIO_ADDRESS},${AGENCY_ADDRESS}"`), 'a comma list in LEADS_NUDGE_TO'],
+  [goLive.replace(/"LEADS_FORWARD_TO"\s*:\s*"[^"]*"/, `"LEADS_FORWARD_TO": "${STUDIO_ADDRESS}"`), 'LEADS_FORWARD_TO pointing at the studio'],
+];
+for (const [text, label] of typos) check(text !== goLive && failing(text).length > 0, `the rules reject ${label}`);
 
 const deploy = read('.github/workflows/deploy.yml');
 check(deploy.includes('preCommands: npx wrangler d1 migrations apply beautyfacelift-leads --remote'), 'deploy.yml applies the D1 migrations before deploying');
@@ -181,11 +220,6 @@ const mailIndex = contactRoute.indexOf('await sendNotificationEmail(data, reques
 check(ingestIndex !== -1 && mailIndex !== -1 && ingestIndex < mailIndex, 'contact route stores the lead before the owner e-mail');
 check(contactRoute.includes('reportStorageFailure(env,') && read('worker/leads/storage-alert.ts').includes("console.error('Lead ingest failed:'"),
   'contact route reports sanitized storage failures independently of owner email');
-check(/"LEADS_CAPTURE": "on"/.test(wrangler) && /"LEADS_DATA_OPERATIONS": "off"/.test(wrangler),
-  'capture is on for the agency pilot; data operations remain explicitly off (deletions follow the manual procedure)');
-check(isSwitch('LEADS_REMINDERS', ['on', 'off']), `LEADS_REMINDERS is "on" or "off" (got "${wranglerVar('LEADS_REMINDERS')}")`);
-check(isSwitch('LEADS_CUSTOMER_MAILS', [undefined, 'on', 'off']), `LEADS_CUSTOMER_MAILS is absent (off), "on" or "off" (got "${wranglerVar('LEADS_CUSTOMER_MAILS')}")`);
-check(isSwitch('LEADS_OWNER_COCKPIT_LINK', [undefined, 'on', 'off']), `LEADS_OWNER_COCKPIT_LINK is absent (off), "on" or "off" (got "${wranglerVar('LEADS_OWNER_COCKPIT_LINK')}")`);
 
 // ---- forms ------------------------------------------------------------------------------------------
 check(aktionLp.includes('<input type="hidden" name="source" value="aquafacial-lp" />'), '/lp/aquafacial/ posts source=aquafacial-lp');
@@ -220,14 +254,7 @@ const smoke = read('scripts/security-smoke.mjs');
 check(smoke.includes('cloudflareaccess.com') && !smoke.includes("'admin page stays noindex and protected by headers'"),
   'security-smoke.mjs expects Access (302 to *.cloudflareaccess.com or 401/403) on /admin/, not 200');
 
-const allowedEmails = (wranglerVar('ACCESS_ALLOWED_EMAILS') ?? '').split(',').map((address) => address.trim()).filter(Boolean);
-check(allowedEmails.includes(AGENCY_ADDRESS) && allowedEmails.every((address) => address === AGENCY_ADDRESS || address === STUDIO_ADDRESS),
-  `ACCESS_ALLOWED_EMAILS holds the agency address and at most the studio address (got "${allowedEmails.join(', ')}")`);
-const studioMayLogIn = allowedEmails.includes(STUDIO_ADDRESS);
-check(nudgeTo !== STUDIO_ADDRESS || studioMayLogIn, 'LEADS_NUDGE_TO = studio only with the studio address in ACCESS_ALLOWED_EMAILS (the reminder links into the cockpit)');
-check(wranglerVar('LEADS_OWNER_COCKPIT_LINK') !== 'on' || studioMayLogIn, 'LEADS_OWNER_COCKPIT_LINK "on" only with the studio address in ACCESS_ALLOWED_EMAILS (the owner e-mail links into the cockpit)');
 check(/"ACCESS_TEAM_DOMAIN": "[^"]*"/.test(wrangler) && /"ACCESS_AUD": "[^"]*"/.test(wrangler), 'wrangler.jsonc declares ACCESS_TEAM_DOMAIN and ACCESS_AUD');
-check(!/"LEADS_SIGNING_SECRET"/.test(wrangler), 'LEADS_SIGNING_SECRET is not a plain var in wrangler.jsonc (dashboard secret)');
 
 const cockpitDoc = 'docs/current/LEAD-COCKPIT.md';
 check(existsSync(path.join(root, cockpitDoc)), `${cockpitDoc} exists`);
