@@ -31,6 +31,7 @@ Use this page to choose the right document quickly.
 | Meta campaign for the Carbon-Peeling + Microneedling offer (CHF 175 statt 250 until 30.11.2026: offer facts with sources, page contract, tracking, launch gates) | [current/META-CAMPAIGN-CARBON-MICRONEEDLING.md](current/META-CAMPAIGN-CARBON-MICRONEEDLING.md) |
 | Security actions | [current/SECURITY.md](current/SECURITY.md) |
 | Lead cockpit `/admin/leads/`: Cloudflare Access, configuration, routes, status model, local development, go-live checklist | [current/LEAD-COCKPIT.md](current/LEAD-COCKPIT.md) |
+| Lead-Cockpit: one-page German guide for the studio owner (login, list, statuses, reminder; handed over at go-live) | [current/COCKPIT-ANLEITUNG-TERESA.md](current/COCKPIT-ANLEITUNG-TERESA.md) |
 | Sitemap and indexable routes | [current/SITEMAP.md](current/SITEMAP.md) |
 | Old site `beautyfacelift.ch`: shutdown, redirect map, what to update afterwards | [current/OLD-SITE-SHUTDOWN.md](current/OLD-SITE-SHUTDOWN.md) |
 | Domain launch record | [current/DOMAIN-LAUNCH.md](current/DOMAIN-LAUNCH.md) |

@@ -42,20 +42,26 @@
     "ENABLE_LEGACY_BOOKING": "false",
     "ENVIRONMENT": "production",
     // Lead capture is on for the agency pilot (reviewed capture-on change). Reminders and data operations stay off
-    // until a separately approved rollout.
+    // until a separately approved rollout. Go-live switches and their order: docs/current/LEAD-COCKPIT.md, "Go-live checklist".
     "LEADS_CAPTURE": "on",
+    // "on" sends the reminder about unanswered enquiries (every 15 minutes, opening hours) to LEADS_NUDGE_TO.
     "LEADS_REMINDERS": "off",
     "LEADS_ALERT_TO": "mediapaulo@gmail.com",
     "LEADS_DATA_OPERATIONS": "off",
     "LEADS_DATA_OPERATORS": "mediapaulo@gmail.com",
     // Agency until go-live.
     "LEADS_FORWARD_TO": "mediapaulo@gmail.com",
-    // LEADS_NUDGE_TO must stay a single address (no comma list); at go-live the agency BCC is added in code.
+    // LEADS_NUDGE_TO must stay a single address (no comma list). At go-live it becomes the studio address; the
+    // agency blind copy then comes from the dashboard secret CONTACT_BCC_EMAIL in code (worker/cron/automations.ts),
+    // the same copy the owner enquiry e-mail uses. check-leads.mjs accepts only the agency or the studio address.
     "LEADS_NUDGE_TO": "mediapaulo@gmail.com",
     // LEADS_CUSTOMER_MAILS is deliberately not set: customer confirmations stay off until go-live sets it to "on".
+    // LEADS_OWNER_COCKPIT_LINK is deliberately not set: the owner enquiry e-mail gets the "Im Lead-Cockpit öffnen"
+    // link only once go-live sets it to "on" (and the studio address is in ACCESS_ALLOWED_EMAILS).
     // Lead cockpit (/admin/, Cloudflare Access). ACCESS_TEAM_DOMAIN (https://<team>.cloudflareaccess.com)
     // and ACCESS_AUD: Access application "Beauty Face Lift – Agenturcockpit" (created 2026-10-30); while empty the Worker fails closed
     // and every /admin/* request answers 401. LEADS_SIGNING_SECRET is a dashboard secret, not a var.
+    // ACCESS_ALLOWED_EMAILS must equal the Access policy; at go-live the studio address is added to both (see the runbook).
     "ACCESS_TEAM_DOMAIN": "https://mediapaulo.cloudflareaccess.com",
     "ACCESS_AUD": "25cd22da8935572227bcc67375d4a4450edf41a2840eb6f072c4ed82a30a490f",
     "ACCESS_ALLOWED_EMAILS": "mediapaulo@gmail.com"
