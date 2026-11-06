@@ -146,7 +146,16 @@ check(weekly[6] === siteHours.Samstag, `OPENING_HOURS_WEEKLY Saturday = "${siteH
 check(weekly[0] === siteHours.Sonntag, `OPENING_HOURS_WEEKLY Sunday = "${siteHours.Sonntag}" (shared/site.ts)`);
 
 // ---- config -----------------------------------------------------------------------------------------
+// Go-live switches (docs/current/LEAD-COCKPIT.md, "Go-live checklist"): the shipped values stay safe-off, but a
+// go-live PR that flips them must still pass this gate. Hence each switch may only hold one of its known values
+// and each recipient one of the two known addresses; the combinations that would send Teresa a link she cannot
+// open are rejected.
+const AGENCY_ADDRESS = 'mediapaulo@gmail.com';
+const STUDIO_ADDRESS = 'info@beautyfacelift.ch';
 const wrangler = read('wrangler.jsonc');
+const wranglerVar = (name) => wrangler.match(new RegExp(`^\\s*"${name}": "([^"]*)"`, 'm'))?.[1];
+const wranglerVarDefined = (name) => new RegExp(`^\\s*"${name}"\\s*:`, 'm').test(wrangler);
+const isSwitch = (name, allowed) => (wranglerVarDefined(name) ? allowed.includes(wranglerVar(name)) : allowed.includes(undefined));
 const d1Block = wrangler.split('"d1_databases"')[1]?.split(']')[0] ?? '';
 check(/"binding": "LEADS_DB"/.test(d1Block) && /"database_name": "beautyfacelift-leads"/.test(d1Block)
   && /"migrations_dir": "worker\/migrations"/.test(d1Block) && /"database_id": "[0-9a-f-]{36}"/.test(d1Block),
@@ -154,7 +163,10 @@ check(/"binding": "LEADS_DB"/.test(d1Block) && /"database_name": "beautyfacelift
 check(/"crons": \["\*\/15 \* \* \* \*"\]/.test(wrangler), 'wrangler.jsonc has the cron */15 * * * *');
 check(/"LEADS_FORWARD_TO": "[^"]+@[^"]+"/.test(wrangler) && /"LEADS_NUDGE_TO": "[^"]+@[^"]+"/.test(wrangler),
   'wrangler.jsonc sets the vars LEADS_FORWARD_TO and LEADS_NUDGE_TO');
-check(!/"LEADS_(FORWARD|NUDGE)_TO": "info@beautyfacelift\.ch"/.test(wrangler), 'LEADS_FORWARD_TO / LEADS_NUDGE_TO do not point at the studio inbox yet');
+check(wranglerVar('LEADS_FORWARD_TO') === AGENCY_ADDRESS, 'LEADS_FORWARD_TO is the agency address (booking forwarding is not part of the go-live)');
+const nudgeTo = wranglerVar('LEADS_NUDGE_TO') ?? '';
+check(nudgeTo === AGENCY_ADDRESS || nudgeTo === STUDIO_ADDRESS, `LEADS_NUDGE_TO is the agency address or, at go-live, the studio address (got "${nudgeTo}")`);
+check(/^[^\s@,]+@[^\s@,]+\.[^\s@,]+$/.test(nudgeTo), `LEADS_NUDGE_TO is a single address, no comma (got "${nudgeTo}"; the agency blind copy is added in code)`);
 
 const deploy = read('.github/workflows/deploy.yml');
 check(deploy.includes('preCommands: npx wrangler d1 migrations apply beautyfacelift-leads --remote'), 'deploy.yml applies the D1 migrations before deploying');
@@ -169,8 +181,11 @@ const mailIndex = contactRoute.indexOf('await sendNotificationEmail(data, reques
 check(ingestIndex !== -1 && mailIndex !== -1 && ingestIndex < mailIndex, 'contact route stores the lead before the owner e-mail');
 check(contactRoute.includes('reportStorageFailure(env,') && read('worker/leads/storage-alert.ts').includes("console.error('Lead ingest failed:'"),
   'contact route reports sanitized storage failures independently of owner email');
-check(/"LEADS_CAPTURE": "on"/.test(wrangler) && /"LEADS_REMINDERS": "off"/.test(wrangler) && /"LEADS_DATA_OPERATIONS": "off"/.test(wrangler),
-  'capture is on for the agency pilot; reminders and data operations remain explicitly off until an approved rollout');
+check(/"LEADS_CAPTURE": "on"/.test(wrangler) && /"LEADS_DATA_OPERATIONS": "off"/.test(wrangler),
+  'capture is on for the agency pilot; data operations remain explicitly off (deletions follow the manual procedure)');
+check(isSwitch('LEADS_REMINDERS', ['on', 'off']), `LEADS_REMINDERS is "on" or "off" (got "${wranglerVar('LEADS_REMINDERS')}")`);
+check(isSwitch('LEADS_CUSTOMER_MAILS', [undefined, 'on', 'off']), `LEADS_CUSTOMER_MAILS is absent (off), "on" or "off" (got "${wranglerVar('LEADS_CUSTOMER_MAILS')}")`);
+check(isSwitch('LEADS_OWNER_COCKPIT_LINK', [undefined, 'on', 'off']), `LEADS_OWNER_COCKPIT_LINK is absent (off), "on" or "off" (got "${wranglerVar('LEADS_OWNER_COCKPIT_LINK')}")`);
 
 // ---- forms ------------------------------------------------------------------------------------------
 check(aktionLp.includes('<input type="hidden" name="source" value="aquafacial-lp" />'), '/lp/aquafacial/ posts source=aquafacial-lp');
@@ -205,13 +220,27 @@ const smoke = read('scripts/security-smoke.mjs');
 check(smoke.includes('cloudflareaccess.com') && !smoke.includes("'admin page stays noindex and protected by headers'"),
   'security-smoke.mjs expects Access (302 to *.cloudflareaccess.com or 401/403) on /admin/, not 200');
 
-check(/"ACCESS_ALLOWED_EMAILS": "mediapaulo@gmail\.com"/.test(wrangler), 'wrangler.jsonc allows only the agency address into the cockpit');
+const allowedEmails = (wranglerVar('ACCESS_ALLOWED_EMAILS') ?? '').split(',').map((address) => address.trim()).filter(Boolean);
+check(allowedEmails.includes(AGENCY_ADDRESS) && allowedEmails.every((address) => address === AGENCY_ADDRESS || address === STUDIO_ADDRESS),
+  `ACCESS_ALLOWED_EMAILS holds the agency address and at most the studio address (got "${allowedEmails.join(', ')}")`);
+const studioMayLogIn = allowedEmails.includes(STUDIO_ADDRESS);
+check(nudgeTo !== STUDIO_ADDRESS || studioMayLogIn, 'LEADS_NUDGE_TO = studio only with the studio address in ACCESS_ALLOWED_EMAILS (the reminder links into the cockpit)');
+check(wranglerVar('LEADS_OWNER_COCKPIT_LINK') !== 'on' || studioMayLogIn, 'LEADS_OWNER_COCKPIT_LINK "on" only with the studio address in ACCESS_ALLOWED_EMAILS (the owner e-mail links into the cockpit)');
 check(/"ACCESS_TEAM_DOMAIN": "[^"]*"/.test(wrangler) && /"ACCESS_AUD": "[^"]*"/.test(wrangler), 'wrangler.jsonc declares ACCESS_TEAM_DOMAIN and ACCESS_AUD');
 check(!/"LEADS_SIGNING_SECRET"/.test(wrangler), 'LEADS_SIGNING_SECRET is not a plain var in wrangler.jsonc (dashboard secret)');
 
 const cockpitDoc = 'docs/current/LEAD-COCKPIT.md';
 check(existsSync(path.join(root, cockpitDoc)), `${cockpitDoc} exists`);
 check(read('scripts/check-docs-current.mjs').includes(`'${cockpitDoc}'`), `check-docs-current.mjs lists ${cockpitDoc}`);
+const runbook = existsSync(path.join(root, cockpitDoc)) ? read(cockpitDoc) : '';
+check(['## Go-live checklist', '## Deleting a lead on request', '## Storage alert activation', 'LEADS_OWNER_COCKPIT_LINK'].every((needle) => runbook.includes(needle)),
+  `${cockpitDoc} has the go-live checklist, the deletion procedure, the storage alert steps and the owner-link switch`);
+const teresaGuide = 'docs/current/COCKPIT-ANLEITUNG-TERESA.md';
+const guide = existsSync(path.join(root, teresaGuide)) ? read(teresaGuide) : '';
+check(guide !== '' && guide.includes('https://beautyfacelift-zuerich.ch/admin/leads/'), `${teresaGuide} exists and names the cockpit address`);
+check(['Kontaktiert', 'Gebucht', 'Erinnerung'].every((word) => guide.includes(word)) && !/\b(D1|Worker|JWT|wrangler|Resend|CSRF|Cron|Deploy|GitHub)\b/.test(guide),
+  `${teresaGuide} explains the statuses and the reminder in plain language (no technical terms)`);
+check(!/\bdu\b|\bdir\b|\bdein/i.test(guide), `${teresaGuide} addresses the reader as "Sie"`);
 const cockpitViews = filesUnder('worker/leads').filter((file) => file.endsWith('.ts'));
 check(cockpitViews.every((file) => !/<script/i.test(read(file))), `no <script> in the ${cockpitViews.length} worker/leads files (cockpit pages work without JS)`);
 
@@ -231,17 +260,20 @@ const nudgeTemplateFile = 'worker/email/templates/nudge.ts';
 check(existsSync(path.join(root, nudgeTemplateFile)) && read(nudgeTemplateFile).includes('Noch offen: Anfrage von'), `${nudgeTemplateFile} has the subject "Noch offen: Anfrage von …"`);
 const confirmationSender = existsSync(path.join(root, 'worker/email/confirmation.ts')) ? read('worker/email/confirmation.ts') : '';
 check(confirmationSender.includes("env.LEADS_CUSTOMER_MAILS !== 'on'"), 'worker/email/confirmation.ts sends nothing unless LEADS_CUSTOMER_MAILS is "on"');
-check(!/"LEADS_CUSTOMER_MAILS"\s*:/.test(wrangler), 'wrangler.jsonc does not define LEADS_CUSTOMER_MAILS (customer mails off until go-live)');
-check(/"LEADS_NUDGE_TO": "mediapaulo@gmail\.com"/.test(wrangler), 'LEADS_NUDGE_TO is the agency address mediapaulo@gmail.com');
-const nudgeTo = wrangler.match(/"LEADS_NUDGE_TO": "([^"]*)"/)?.[1] ?? '';
-check(/^[^\s@,]+@[^\s@,]+\.[^\s@,]+$/.test(nudgeTo), `LEADS_NUDGE_TO is a single address, no comma (got "${nudgeTo}"; the BCC is added in code at go-live)`);
+check(confirmationTemplate.includes("carbon_microneedling: 'Ihre Anfrage: Carbon-Peeling + Microneedling bei Beauty Face Lift'")
+  && /campaign === 'carbon_microneedling'/.test(confirmationTemplate),
+  `${confirmationTemplateFile} has the Carbon ad page variant (subject and campaign)`);
 const automations = existsSync(path.join(root, 'worker/cron/automations.ts')) ? read('worker/cron/automations.ts') : '';
 check(automations.includes('env.LEADS_NUDGE_TO') && !automations.includes('CONTACT_TO_EMAIL'), 'worker/cron/automations.ts sends reminders to LEADS_NUDGE_TO only');
+check(automations.includes('blindCopies(env.CONTACT_BCC_EMAIL, to)') && automations.includes('address !== to') && /^\s*bcc,$/m.test(automations),
+  'worker/cron/automations.ts adds the agency blind copy from CONTACT_BCC_EMAIL, never the recipient itself');
+check(contactRoute.includes("env.LEADS_OWNER_COCKPIT_LINK === 'on' && lead ?") && /LEADS_OWNER_COCKPIT_LINK\?: string;/.test(env),
+  'contact route adds the cockpit link to the owner e-mail only with LEADS_OWNER_COCKPIT_LINK "on" and a stored lead');
 check(read('worker/index.ts').includes('runAutomations(env, new Date(controller.scheduledTime))'), 'worker/index.ts runs runAutomations from the scheduled handler');
 check(contactRoute.includes('ctx.waitUntil(sendConfirmationIfDue(env, lead, new Date()))'), 'contact route queues sendConfirmationIfDue inside ctx.waitUntil');
 
 // ---- Swiss spelling -----------------------------------------------------------------------------------
-const spellingFiles = ['shared/leads.ts', ...filesUnder('worker/leads'), ...filesUnder('worker/migrations'), ...filesUnder('worker/email'), ...filesUnder('worker/cron'), cockpitDoc].filter((file) => existsSync(path.join(root, file)));
+const spellingFiles = ['shared/leads.ts', ...filesUnder('worker/leads'), ...filesUnder('worker/migrations'), ...filesUnder('worker/email'), ...filesUnder('worker/cron'), cockpitDoc, teresaGuide].filter((file) => existsSync(path.join(root, file)));
 const withEszett = spellingFiles.filter((file) => read(file).includes('ß'));
 check(withEszett.length === 0, `no "ß" in ${spellingFiles.length} lead files${withEszett.length ? ` (found in: ${withEszett.join(', ')})` : ''}`);
 

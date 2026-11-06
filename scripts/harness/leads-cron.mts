@@ -193,6 +193,44 @@ const TUE_1100 = new Date('2026-10-20T09:00:00.000Z');
   check(takeLogged().length === 0, '1 nudge: nothing logged');
 }
 
+// ---- 1b. go-live recipient: the studio gets the reminder, the agency a blind copy ---------------------------
+{
+  const STUDIO = 'studio@example.test';
+  // Before go-live: LEADS_NUDGE_TO and CONTACT_BCC_EMAIL are both the agency address → no blind copy (no double delivery).
+  const pilotDb = newDb();
+  const pilotLead = await seed(pilotDb, '2026-10-20T07:59:00.000Z');
+  let before = resendCalls.length;
+  await runAutomations(makeEnv(pilotDb, { CONTACT_BCC_EMAIL: AGENCY }), TUE_1100);
+  const pilotCall = resendCalls[before];
+  check(callsSince(before) === 1 && JSON.stringify(pilotCall?.to) === JSON.stringify([AGENCY]) && !pilotCall?.bcc,
+    '1b pilot: CONTACT_BCC_EMAIL = LEADS_NUDGE_TO (agency) → sent once, no BCC', pilotCall && { to: pilotCall.to, bcc: pilotCall.bcc });
+  check(!('bcc' in meta(events(pilotDb, pilotLead.id, 'nudge_sent')[0])), '1b pilot: nudge_sent event records no bcc');
+
+  // Go-live: LEADS_NUDGE_TO = studio, CONTACT_BCC_EMAIL = agency (case, spaces, duplicates and the recipient itself are dropped).
+  const liveDb = newDb();
+  const liveLead = await seed(liveDb, '2026-10-20T07:59:00.000Z');
+  before = resendCalls.length;
+  const live = await runAutomations(makeEnv(liveDb, { LEADS_NUDGE_TO: STUDIO, CONTACT_BCC_EMAIL: ` ${AGENCY}, Agency@Example.test ,${STUDIO}, not-an-address` }), TUE_1100);
+  const liveCall = resendCalls[before];
+  check(live.nudged.length === 1 && callsSince(before) === 1 && JSON.stringify(liveCall?.to) === JSON.stringify([STUDIO]),
+    '1b go-live: one reminder to LEADS_NUDGE_TO (the studio)', liveCall && { to: liveCall.to, nudged: live.nudged.length });
+  check(JSON.stringify(liveCall?.bcc) === JSON.stringify([AGENCY]), '1b go-live: the agency in BCC exactly once (CONTACT_BCC_EMAIL, without the recipient, lower-cased, no invalid entry)', liveCall?.bcc);
+  check(JSON.stringify(liveCall?.reply_to) === JSON.stringify([STUDIO]), '1b go-live: reply-to is the studio', liveCall?.reply_to);
+  check(liveCall?.html.includes(`href="https://beautyfacelift-zuerich.ch/admin/leads/${liveLead.id}/"`), '1b go-live: the cockpit link is in the reminder');
+  const liveEvent = meta(events(liveDb, liveLead.id, 'nudge_sent')[0]);
+  check(liveEvent.to === 'LEADS_NUDGE_TO' && liveEvent.bcc === 'CONTACT_BCC_EMAIL' && !JSON.stringify(liveEvent).includes('@'),
+    '1b go-live: nudge_sent event names the settings (to, bcc), never an address', liveEvent);
+
+  // CONTACT_BCC_EMAIL unset at go-live: the studio alone, no BCC (the agency copy is a configuration, not a requirement).
+  const soloDb = newDb();
+  await seed(soloDb, '2026-10-20T07:59:00.000Z');
+  before = resendCalls.length;
+  await runAutomations(makeEnv(soloDb, { LEADS_NUDGE_TO: STUDIO }), TUE_1100);
+  const soloCall = resendCalls[before];
+  check(callsSince(before) === 1 && JSON.stringify(soloCall?.to) === JSON.stringify([STUDIO]) && !soloCall?.bcc, '1b go-live: without CONTACT_BCC_EMAIL the studio alone receives it', soloCall && { to: soloCall.to, bcc: soloCall.bcc });
+  check(takeLogged().length === 0, '1b: nothing logged');
+}
+
 // ---- 2. opening hours: Sunday closed, Monday catches up (CET after the DST change) ---------------------------
 {
   const db = newDb();
@@ -373,9 +411,24 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'rate'], [19, 
   check(aktion.subject === 'Ihre Aquafacial-Anfrage bei Beauty Face Lift' && !aktion.text.includes('Das Angebot gilt'), '8 aktion: subject, no end date (none on the page)', aktion.subject);
   check(aktion.html.includes('href="https://beautyfacelift-zuerich.ch/termin/?service=Aquafacial"') && aktion.text.includes('per WhatsApp.'), '8 aktion: booking link for "Aquafacial", channel WhatsApp');
 
+  const carbon = { ...base, campaign: 'carbon_microneedling', treatment: 'Carbon Microneedling', preferred_contact_method: 'Telefon' };
+  const carbonOffer = 'Das Angebot gilt bis 30. November 2026.';
+  const carbonOct = confirmationMail(carbon, TUE_1100);
+  check(carbonOct.subject === 'Ihre Anfrage: Carbon-Peeling + Microneedling bei Beauty Face Lift', '8 carbon: subject', carbonOct.subject);
+  check(carbonOct.text.includes(carbonOffer) && carbonOct.html.includes(carbonOffer), '8 carbon on 2026-10-20: "Das Angebot gilt bis 30. November 2026." (CAMPAIGN_OFFERS)');
+  check(carbonOct.html.includes('href="https://beautyfacelift-zuerich.ch/termin/?service=Carbon+Microneedling"') && carbonOct.text.includes('Termin online buchen: https://beautyfacelift-zuerich.ch/termin/?service=Carbon+Microneedling'),
+    '8 carbon: booking link with service "Carbon Microneedling" in HTML and text');
+  check(carbonOct.text.includes('«Carbon-Peeling + Microneedling Aktion»') && carbonOct.text.includes('per Telefon.'), '8 carbon: offer label from CAMPAIGN_OFFERS and the channel Telefon');
+  check(carbonOct.text.includes('Guten Tag Anna Muster') && carbonOct.text.includes('Vielen Dank für Ihre Anfrage') && !/\bdu\b|\bdir\b|\bdein/i.test(carbonOct.text),
+    '8 carbon: greeting and "Sie" wording (no "du")');
+  const carbonLastDay = confirmationMail(carbon, new Date('2026-11-30T22:30:00.000Z'));
+  check(carbonLastDay.text.includes(carbonOffer), '8 carbon on 30 Nov 23:30 Zurich: still the offer sentence');
+  const carbonDec = confirmationMail(carbon, new Date('2026-12-01T09:00:00.000Z'));
+  check(!carbonDec.text.includes('Das Angebot gilt') && !carbonDec.html.includes('Das Angebot gilt'), '8 carbon on 2026-12-01: no offer sentence');
+
   const xss = confirmationMail({ ...base, campaign: '', name: '<b>Eve</b> & Co', topic: 'Allgemeine Frage' }, TUE_1100);
   check(xss.html.includes('Guten Tag &lt;b&gt;Eve&lt;/b&gt; &amp; Co') && !xss.html.includes('<b>Eve'), '8 kontakt: the name is escaped in HTML');
-  const all = [comboOct, comboNov, aktion, xss].map((mail) => `${mail.subject}${mail.html}${mail.text}`).join('');
+  const all = [comboOct, comboNov, aktion, carbonOct, carbonDec, xss].map((mail) => `${mail.subject}${mail.html}${mail.text}`).join('');
   check(!/CHF|ß|\/admin\//.test(all), '8 variants: no "CHF", no "ß", no cockpit link');
 }
 
@@ -423,7 +476,8 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'rate'], [19, 
   }
 
   let ip = 0;
-  async function postContact(env: WorkerEnv, email: string) {
+  // The combo ad page's post by default; `fields` overrides it (e.g. the Carbon ad page).
+  async function postContact(env: WorkerEnv, email: string, fields: Record<string, string> = {}) {
     background.length = 0;
     ip += 1;
     globalThis.Date = FixedDate as DateConstructor;
@@ -435,6 +489,7 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'rate'], [19, 
           name: 'Kim Kontakt', email, phone: '079 555 66 77', privacy_consent: 'yes',
           topic: 'Ich möchte einen Termin buchen', message: 'Kombi-Angebot, bitte um Rückruf.',
           campaign: 'aquafacial_microneedling', treatment: 'Aquafacial + Microneedling', landing_page: '/lp/aquafacial-microneedling/',
+          ...fields,
         }),
       }), env, ctx);
       const results = await Promise.all(background);
@@ -465,6 +520,59 @@ for (const [confirmedInLastHour, expected] of [[21, 'rate'], [20, 'rate'], [19, 
   const offLead = offDb._db.prepare('SELECT confirmation_sent_at FROM leads').get() as Row;
   check(offLead.confirmation_sent_at === null, '9 contact unset: confirmation_sent_at stays NULL');
   check(takeLogged().length === 0, '9 contact: nothing logged');
+
+  // The Carbon ad page end to end (what /lp/carbon-microneedling/ posts): owner e-mail with the Carbon subject,
+  // then the Carbon confirmation with the offer date from CAMPAIGN_OFFERS.
+  const carbonDb = newDb();
+  const carbonBefore = resendCalls.length;
+  const carbonPost = await postContact(makeEnv(carbonDb, ON), 'cora@example.test', {
+    source: 'carbon-microneedling-lp', campaign: 'carbon_microneedling', offer: 'carbon-microneedling-aktion',
+    treatment: 'Carbon Microneedling', landing_page: '/lp/carbon-microneedling/', message: 'Carbon-Aktion, bitte um Rückruf.',
+  });
+  const carbonCalls = resendCalls.slice(carbonBefore);
+  check(carbonPost.status === 201 && carbonCalls.length === 2 && 'sent' in (carbonPost.results[0] as object), '9 carbon "on": 201, owner e-mail and confirmation sent', { status: carbonPost.status, calls: carbonCalls.length, results: carbonPost.results });
+  check(carbonCalls[0]?.subject === 'Neue Kombi-Anfrage: Carbon-Peeling + Microneedling – Kim Kontakt' && JSON.stringify(carbonCalls[0]?.to) === JSON.stringify(['owner@example.test']),
+    '9 carbon: owner e-mail subject names the Carbon campaign', carbonCalls[0]?.subject);
+  check(JSON.stringify(carbonCalls[1]?.to) === JSON.stringify(['cora@example.test']) && carbonCalls[1]?.subject === 'Ihre Anfrage: Carbon-Peeling + Microneedling bei Beauty Face Lift'
+    && carbonCalls[1]?.text.includes('Das Angebot gilt bis 30. November 2026.') && carbonCalls[1]?.html.includes('href="https://beautyfacelift-zuerich.ch/termin/?service=Carbon+Microneedling"'),
+    '9 carbon "on" (fixed clock 2026-10-20): Carbon subject, "Das Angebot gilt bis 30. November 2026.", Carbon booking link', carbonCalls[1]?.subject);
+  check(!/\/admin\/|CHF|ß/.test(`${carbonCalls[1]?.subject}${carbonCalls[1]?.html}${carbonCalls[1]?.text}`), '9 carbon: confirmation without cockpit link, "CHF" or "ß"');
+  const carbonLead = carbonDb._db.prepare('SELECT source, campaign, confirmation_sent_at FROM leads').get() as Row;
+  check(carbonLead.source === 'carbon-microneedling-lp' && carbonLead.campaign === 'carbon_microneedling' && carbonLead.confirmation_sent_at === TUE_1100.toISOString(),
+    '9 carbon: lead stored with source carbon-microneedling-lp and confirmation_sent_at = the fixed clock', carbonLead);
+
+  // The cockpit link in the owner e-mail: only with LEADS_OWNER_COCKPIT_LINK exactly "on" and a stored lead.
+  const LINK_ON = { LEADS_OWNER_COCKPIT_LINK: 'on' };
+  const linkDb = newDb();
+  const linkBefore = resendCalls.length;
+  const linked = await postContact(makeEnv(linkDb, LINK_ON), 'lea@example.test');
+  const linkedLead = linkDb._db.prepare('SELECT id FROM leads').get() as Row;
+  const linkedUrl = `https://beautyfacelift-zuerich.ch/admin/leads/${String(linkedLead.id)}/`;
+  const linkedCall = resendCalls[linkBefore];
+  check(linked.status === 201 && callsSince(linkBefore) === 1 && linkedCall?.html.includes(`href="${linkedUrl}"`) && linkedCall?.html.includes('Im Lead-Cockpit öffnen')
+    && linkedCall?.text.includes(`Im Lead-Cockpit öffnen: ${linkedUrl}`),
+    '9 owner link "on": the owner e-mail carries "Im Lead-Cockpit öffnen" with the cockpit URL of the stored lead in HTML and text', linkedUrl);
+  check(JSON.stringify(linkedCall?.to) === JSON.stringify(['owner@example.test']) && linkedCall?.subject === 'Neue Kombi-Anfrage: Aquafacial + Microneedling – Kim Kontakt',
+    '9 owner link "on": recipient and subject unchanged', linkedCall && { to: linkedCall.to, subject: linkedCall.subject });
+  for (const [label, overrides] of [
+    ['"ON"', { LEADS_OWNER_COCKPIT_LINK: 'ON' }],
+    ['"off"', { LEADS_OWNER_COCKPIT_LINK: 'off' }],
+    ['"on" without capture (no stored lead)', { ...LINK_ON, LEADS_CAPTURE: 'off' }],
+    ['"on" without LEADS_DB (no stored lead)', { ...LINK_ON, LEADS_DB: undefined }],
+  ] as const) {
+    const noLinkBefore = resendCalls.length;
+    const noLink = await postContact(makeEnv(newDb(), overrides), 'noa@example.test');
+    const noLinkCall = resendCalls[noLinkBefore];
+    check(noLink.status === 201 && callsSince(noLinkBefore) === 1 && !noLinkCall?.html.includes('/admin/') && !noLinkCall?.text.includes('/admin/') && !noLinkCall?.html.includes('Im Lead-Cockpit'),
+      `9 owner link ${label}: no cockpit link in the owner e-mail`, { status: noLink.status, calls: callsSince(noLinkBefore) });
+    // Capture on without a database is a storage failure: the sanitized log line is expected, nothing else.
+    const caseLogs = takeLogged();
+    const expectStorageLog = 'LEADS_DB' in overrides;
+    check(expectStorageLog
+      ? caseLogs.length === 1 && /^error: Lead ingest failed: \{.*"reason":"missing-db".*\}$/.test(caseLogs[0] ?? '') && !caseLogs[0]?.includes('@')
+      : caseLogs.length === 0,
+      `9 owner link ${label}: ${expectStorageLog ? 'only the sanitized storage-failure log line' : 'nothing logged'}`, caseLogs);
+  }
 }
 
 // ---- 10. atomic per-address/hourly limits include in-flight distinct leads -------------------------

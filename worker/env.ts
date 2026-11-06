@@ -47,6 +47,8 @@ export interface Env {
   LEADS_NUDGE_TO?: string;
   /** "on" enables automated e-mails to customers; anything else keeps them off. */
   LEADS_CUSTOMER_MAILS?: string;
+  /** "on" adds the "Im Lead-Cockpit öffnen" link to the owner enquiry e-mail (go-live only); anything else leaves it out. */
+  LEADS_OWNER_COCKPIT_LINK?: string;
   /** Resend audience for contacts with marketing consent. */
   RESEND_AUDIENCE_ID?: string;
   /** Review link used in review requests. */

@@ -7,6 +7,7 @@ import {
   CONTACT_TOPICS,
   CONTACT_TO_EMAIL_FALLBACK,
   TURNSTILE_ALLOWED_HOSTS,
+  absoluteUrl,
 } from '../../shared/site';
 import { createLeadFromSubmission } from '../leads/ingest';
 import { isSingleMailbox } from '../../shared/leads';
@@ -380,7 +381,8 @@ async function verifyTurnstile(token: string, ip: string, secret: string): Promi
 }
 
 // Next refactor: move this request onto sendEmail() in worker/email/resend.ts (kept as is so the owner mail stays unchanged).
-async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string, enquiryId: string, receivedAt: string): Promise<void> {
+// `cockpitUrl` is the lead's cockpit page, only at go-live (LEADS_OWNER_COCKPIT_LINK "on") and only for a stored lead.
+async function sendNotificationEmail(data: ContactSubmission, request: Request, env: Env, ip: string, enquiryId: string, receivedAt: string, cockpitUrl: string | null = null): Promise<void> {
   if (!env.RESEND_API_KEY) {
     throw new ContactConfigError('RESEND_API_KEY is missing');
   }
@@ -458,6 +460,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
     '',
     'Nachricht:',
     messageText,
+    ...(cockpitUrl ? ['', `Im Lead-Cockpit öffnen: ${cockpitUrl}`] : []),
     '',
     `IP: ${ip}`,
     `User-Agent: ${userAgent}`,
@@ -482,6 +485,7 @@ async function sendNotificationEmail(data: ContactSubmission, request: Request, 
         <p style="margin: 0 0 8px; font-weight: 600;">Nachricht</p>
         <p style="margin: 0; white-space: pre-wrap;">${escapeHtml(messageText)}</p>
       </div>
+      ${cockpitUrl ? `<p style="margin: 24px 0 0;"><a href="${escapeHtml(cockpitUrl)}" style="display: inline-block; padding: 12px 20px; background: #8F5A2E; color: #FFFFFF; text-decoration: none; border-radius: 999px; font-weight: 600;">Im Lead-Cockpit öffnen</a></p>` : ''}
     </div>
   `;
 
@@ -576,8 +580,11 @@ export async function contactRoute(request: Request, env: Env, ctx: ExecutionCon
     }
   }
 
+  // The cockpit link in the owner e-mail is a go-live switch (LEADS_OWNER_COCKPIT_LINK "on"). Without a
+  // stored row there is nothing to open, so a storage failure never produces a dead link.
+  const cockpitUrl = env.LEADS_OWNER_COCKPIT_LINK === 'on' && lead ? `${absoluteUrl('/admin/leads/')}${lead.id}/` : null;
   try {
-    await sendNotificationEmail(data, request, env, ip, enquiryId, receivedAt.toISOString());
+    await sendNotificationEmail(data, request, env, ip, enquiryId, receivedAt.toISOString(), cockpitUrl);
   } catch (error) {
     const isConfigError = error instanceof ContactConfigError;
     console.error('Contact route failed:', isConfigError ? error.message : 'email delivery failed');
