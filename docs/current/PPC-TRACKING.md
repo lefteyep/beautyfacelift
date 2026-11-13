@@ -69,6 +69,22 @@ Astro embeds `PUBLIC_*` at build time; dashboard-only changes to Worker variable
 - `Schedule`, `TreatwellOutboundClick`, phone and WhatsApp events measure intent/contact clicks. Verified appointments/outcomes require the staff record, not a click event.
 - Offline conversions, new audiences/conversions and further automation are outside this repair. Historical recommendations are retained in the archive.
 
+### UTM standard for Meta ads (from the next campaign on)
+
+Decided by the user on 2026-11-13. Paste this into the URL parameters of every new Meta ad and replace only the campaign name:
+
+```text
+utm_source={{site_source_name}}&utm_medium=paid_social&utm_campaign=bfl_ch_meta_{funnel}_{treatment}_{yyyymm}&utm_content={{adset.name}}__{{ad.name}}&utm_term={{placement}}&utm_id={{campaign.id}}&utm_source_platform=meta
+```
+
+- **`utm_source={{site_source_name}}`** replaces the old fixed value `meta`. Meta fills in `fb`, `ig`, `msg` or `an`.
+  - GA4 puts a visit into "Paid Social" only when the source is on Google's list of social sites and the medium is a paid one.
+  - `meta` is reported as missing from that list, so those visits land in "Paid Other". This was not checked against Google's own list or in the GA4 property.
+  - The new value also shows in the source whether Facebook or Instagram sent the visit.
+- **Everything else stays as before:** `utm_medium=paid_social`, the fixed lowercase campaign name, `utm_content`, `utm_term`, `utm_id` and `utm_source_platform=meta`.
+- **Running ads keep `utm_source=meta`.** Editing the URL parameters of a live ad sends it back through Meta's review and can restart the learning phase. This covers the Carbon campaign of November 2026 and the paused combo campaign; their documents record the links as they are in Ads Manager.
+- **Reports must expect both spellings.** Anything that filters ad visits or enquiries by `utm_source` matches `meta`, `fb`, `ig`, `msg` and `an`. No website or Worker code depends on the value.
+
 ## GTM And GA4
 
 Create dataLayer variables for:
