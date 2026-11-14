@@ -279,7 +279,7 @@ const structuredData = {
 
           <div class="lp-hero-ctas">
             <a href={bookingHref} class="btn lp-hero-primary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_booking">{BOOKING_CTA_LABEL}</a>
-            <p class="lp-cta-alt">{LEAD_CTA_PROMPT} <a href={`#${LEAD_FORM_ID}`} data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{LEAD_CTA_LABEL}</a></p>
+            <a href={`#${LEAD_FORM_ID}`} class="btn btn-secondary lp-hero-secondary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>
           </div>
           {TREATWELL_SHOWS_PROMO && <p class="lp-hero-note">{TREATWELL_PROMO_HINT}</p>}
 
@@ -1398,7 +1398,7 @@ const structuredData = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px 32px;
+    gap: 16px;
     margin-top: clamp(24px, 2.4vw, 32px);
   }
 
@@ -2650,12 +2650,9 @@ const structuredData = {
       gap: 14px;
     }
 
-    .lp-hero-primary {
+    .lp-hero-primary,
+    .lp-hero-secondary {
       width: 100%;
-    }
-
-    .lp-hero-ctas .lp-cta-alt {
-      text-align: center;
     }
 
     .lp-included-list,

@@ -102,7 +102,17 @@ for (const group of ['lp_hero', 'offer_section', 'trust_section', 'lp_final']) {
     lp.includes(`<a href={bookingHref} class="${buttonClass}" data-treatment={BOOKING_SERVICE} data-button-location="${group}_booking">{BOOKING_CTA_LABEL}</a>`),
     `Carbon LP ${group} primary CTA must be the Treatwell booking button through /termin/`,
   );
-  assert(lp.includes(leadLink(group)), `Carbon LP ${group} must offer the form as one secondary text link`);
+  // The hero offers the form as a second button since 2026-11-14 (user): in the first week nine ad
+  // visitors went on to Treatwell; the one new client among three bookings had sent a form enquiry first.
+  if (group === 'lp_hero') {
+    assert(
+      lp.includes('<a href={`#${LEAD_FORM_ID}`} class="btn btn-secondary lp-hero-secondary" data-treatment={BOOKING_SERVICE} data-button-location="lp_hero_lead" data-lead-cta>{LEAD_CTA_LABEL}</a>'),
+      'Carbon LP hero must offer the form as a second button beside the booking button',
+    );
+    assert(!lp.includes(leadLink(group)), 'Carbon LP hero must not keep the old text link to the form');
+  } else {
+    assert(lp.includes(leadLink(group)), `Carbon LP ${group} must offer the form as one secondary text link`);
+  }
 }
 assert(lp.includes('<a href={bookingHref} class="btn lp-mobile-sticky-cta" data-treatment={BOOKING_SERVICE} data-button-location="sticky_booking">{STICKY_CTA_LABEL}</a>'), 'Carbon LP sticky bar must carry the booking CTA');
 assert((lp.match(/href=\{bookingHref\}/g) || []).length === 6, 'Hero, included, trust, closing band, sticky bar and form success must link to the booking bridge');
