@@ -1,13 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { beautySalon } from '../../lib/schema';
-import { TREATWELL_BOOKING_URL,
+import { TREATWELL_AVAILABILITY_URL, TREATWELL_BOOKING_URL, TREATWELL_VENUE_ID,
     BOOKING_FORWARD_KEYS, } from '../../../shared/site';
 
 const bookingForwardKeys = [...BOOKING_FORWARD_KEYS];
 const treatwellServiceDetailsByService = {
     'Aquafacial + Microneedling': 'TR4124140',
     'Carbon Microneedling': 'TR4124153',
+};
+// Services that skip Treatwell's service panel and open the time selection with the service already in the
+// basket (user's decision, 2026-11-15). The option id belongs to the service as it exists in Treatwell today.
+// If the service is created anew there, the id changes and visitors see Treatwell's error page until this
+// entry is updated or removed; without the entry the bridge uses the service panel above again.
+const treatwellTimeSelectionByService = {
+    'Carbon Microneedling': { menuItemId: 'TR4124153', optionId: '14571693' },
 };
 
 const structuredData = {
@@ -70,7 +77,7 @@ const structuredData = {
     </section>
 </Base>
 
-<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys, treatwellServiceDetailsByService }}>
+<script is:inline define:vars={{ bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys, treatwellServiceDetailsByService, treatwellAvailabilityUrl: TREATWELL_AVAILABILITY_URL, treatwellVenueId: TREATWELL_VENUE_ID, treatwellTimeSelectionByService }}>
     (function() {
         var fallbackLink = document.getElementById('treatwell-booking-link');
         var status = document.getElementById('booking-forward-status');
@@ -85,7 +92,17 @@ const structuredData = {
             storedParams = {};
         }
 
-        var target = new URL(bookingTargetUrl);
+        var currentService = currentParams.get('service') || (typeof storedParams.service === 'string' ? storedParams.service : '');
+        var timeSelection = Object.prototype.hasOwnProperty.call(treatwellTimeSelectionByService, currentService)
+            ? treatwellTimeSelectionByService[currentService]
+            : null;
+        var target = new URL(timeSelection ? treatwellAvailabilityUrl : bookingTargetUrl);
+        if (timeSelection) {
+            target.searchParams.set('venueId', treatwellVenueId);
+            target.searchParams.set('proposedServices', JSON.stringify([
+                { menuItemId: timeSelection.menuItemId, optionIds: [timeSelection.optionId] }
+            ]));
+        }
         var metaCookieMaxAgeSeconds = 90 * 24 * 60 * 60;
         var metaClickIdPattern = /^[A-Za-z0-9._:-]{1,480}$/;
         var metaTestEventCodeStorageKey = 'bfl_meta_test_event_code';
@@ -100,9 +117,10 @@ const structuredData = {
             }
         });
 
-        var currentService = currentParams.get('service') || (typeof storedParams.service === 'string' ? storedParams.service : '');
-        var serviceDetailsId = treatwellServiceDetailsByService[currentService];
-        if (serviceDetailsId) {
+        var serviceDetailsId = Object.prototype.hasOwnProperty.call(treatwellServiceDetailsByService, currentService)
+            ? treatwellServiceDetailsByService[currentService]
+            : '';
+        if (serviceDetailsId && !timeSelection) {
             target.hash = 'serviceDetails=' + encodeURIComponent(serviceDetailsId);
         }
 

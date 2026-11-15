@@ -324,6 +324,13 @@ assert(termin.includes("offer === 'carbon-microneedling-aktion' && price === '17
 assert(termin.includes('Aktion: Carbon-Peeling + Microneedling für CHF 175 statt CHF 250 wird an Treatwell übergeben.'), 'Booking bridge must show the Carbon offer note');
 assert(termin.includes("'Carbon Microneedling': 'TR4124153'"), 'Booking bridge must open the Carbon Treatwell service detail');
 assert(termin.includes("'Aquafacial + Microneedling': 'TR4124140'"), 'Booking bridge must keep the Aquafacial service detail');
+// Since 2026-11-15 (user) the Carbon offer skips the service panel and opens Treatwell's time selection.
+assert(termin.includes("'Carbon Microneedling': { menuItemId: 'TR4124153', optionId: '14571693' }"), 'Booking bridge must send the Carbon offer to the Treatwell time selection');
+assert(site.includes("export const TREATWELL_AVAILABILITY_URL = 'https://buchung.treatwell.ch/availability';") && site.includes("export const TREATWELL_VENUE_ID = '301542';"), 'Shared site data must hold the Treatwell time selection address and venue');
+assert(termin.includes('treatwellAvailabilityUrl: TREATWELL_AVAILABILITY_URL, treatwellVenueId: TREATWELL_VENUE_ID, treatwellTimeSelectionByService'), 'Booking bridge must pass the time selection data to its script');
+assert((await readFile(new URL('../worker/routes/track.ts', import.meta.url), 'utf8')).includes("parsed.searchParams.get('venueId') === TREATWELL_VENUE_ID"), 'Worker must accept the time selection of this venue as a Treatwell destination');
+assert(termin.includes("if (serviceDetailsId && !timeSelection) {"), 'Booking bridge must keep the service panel as the route for every other service');
+assert(!termin.includes("'Aquafacial + Microneedling': { menuItemId"), 'Only the Carbon offer goes straight to the time selection');
 assert(site.includes("TREATWELL_BOOKING_URL = 'https://buchung.treatwell.ch/ort/beauty-face-lift/'"), 'Shared booking target must be Treatwell');
 assert(site.includes("'offer', 'price'"), 'Shared booking bridge must forward offer and price parameters');
 

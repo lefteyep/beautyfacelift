@@ -33,7 +33,7 @@ Browser → Cloudflare CDN (cached HTML) → served directly
 1. User lands on homepage, treatment page, or noindex ad landing page.
 2. Shared layout captures attribution; marketing Pixel/GTM/CAPI events are gated by consent.
 3. Booking CTAs go to /termin/?service=... so attribution and treatment intent stay on the owned domain.
-4. /termin/ emits TreatwellOutboundClick and forwards to https://buchung.treatwell.ch/ort/beauty-face-lift/.
+4. /termin/ emits TreatwellOutboundClick and forwards to https://buchung.treatwell.ch/ort/beauty-face-lift/. For the Carbon offer it forwards to the time selection https://buchung.treatwell.ch/availability with the service in the basket (since 2026-11-15).
 5. Confirmed appointment completion happens on Treatwell, so the site measures booking intent, not confirmed bookings.
 ```
 

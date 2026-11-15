@@ -1,5 +1,5 @@
 import type { Env } from '../env';
-import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, TREATWELL_BOOKING_URL, WWW_HOST } from '../../shared/site';
+import { CANONICAL_HOST, TEMP_WORKERS_DEV_HOST, TREATWELL_AVAILABILITY_URL, TREATWELL_BOOKING_URL, TREATWELL_VENUE_ID, WWW_HOST } from '../../shared/site';
 import { CAPI_EVENT_DATA_KEYS } from '../../shared/tracking';
 
 const TRACK_RATE_LIMIT_WINDOW_MS = 60 * 1000;
@@ -128,7 +128,13 @@ function validateDestinationUrl(value: unknown, eventSourceUrl: string, eventNam
 
     if (eventName === 'TreatwellOutboundClick') {
       const treatwellTarget = new URL(TREATWELL_BOOKING_URL);
-      if (parsed.hostname !== treatwellTarget.hostname || !parsed.pathname.startsWith(treatwellTarget.pathname)) {
+      const treatwellAvailability = new URL(TREATWELL_AVAILABILITY_URL);
+      const isVenuePage = parsed.hostname === treatwellTarget.hostname && parsed.pathname.startsWith(treatwellTarget.pathname);
+      // The bridge opens the time selection directly for some services (this venue only).
+      const isTimeSelection = parsed.hostname === treatwellAvailability.hostname
+        && parsed.pathname === treatwellAvailability.pathname
+        && parsed.searchParams.get('venueId') === TREATWELL_VENUE_ID;
+      if (!isVenuePage && !isTimeSelection) {
         return null;
       }
     }
