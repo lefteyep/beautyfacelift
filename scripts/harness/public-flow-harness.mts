@@ -147,6 +147,7 @@ function browserCase(path: 'module' | 'bridge', options: BrowserCase) {
     const other = new URL(browserCase('bridge', { service }).redirects.at(-1)!);
     assert.equal(other.origin + other.pathname, venue.origin + venue.pathname, `bridge: ${service} keeps the venue page`);
     assert.equal(other.searchParams.get('venueId'), null);
+    assert.equal(other.hash, '', `bridge: ${service} gets no service panel`);
   }
 }
 const oldCookie = 'fb.1.1700000000000.OLD_CLICK';
