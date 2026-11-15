@@ -5,6 +5,10 @@
 // At most once per lead: claimAutomation sets nudge_sent_at before sending; only the run that made the
 // claim sends. Only a definite rejection gives the claim back for a retry after 2 h. Uncertain
 // deliveries keep their reservation and require a manual check, so a lost response cannot resend.
+//
+// Recipient: LEADS_NUDGE_TO (one address). At go-live it becomes the studio address and the agency keeps
+// a blind copy: the same CONTACT_BCC_EMAIL the owner enquiry e-mail uses. Until then LEADS_NUDGE_TO and
+// CONTACT_BCC_EMAIL are both the agency address, and an address never receives the same mail twice.
 import type { Env } from '../env';
 import { NUDGE_AFTER_MINUTES, normalizeEmail } from '../../shared/leads';
 import { absoluteUrl } from '../../shared/site';
@@ -29,6 +33,16 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : 'unknown error';
 }
 
+/** The blind-copy addresses of CONTACT_BCC_EMAIL (comma-separated), without the recipient and without duplicates. */
+export function blindCopies(value: string | undefined, to: string): string[] {
+  const copies: string[] = [];
+  for (const entry of (value ?? '').split(',')) {
+    const address = normalizeEmail(entry);
+    if (address && address !== to && !copies.includes(address)) copies.push(address);
+  }
+  return copies;
+}
+
 export async function runAutomations(env: Env, now: Date): Promise<AutomationsResult> {
   const result: AutomationsResult = { nudged: [], skipped: '', errors: 0 };
   if (env.LEADS_REMINDERS !== 'on') return { ...result, skipped: 'off' };
@@ -42,6 +56,7 @@ export async function runAutomations(env: Env, now: Date): Promise<AutomationsRe
     console.error('Lead automations: LEADS_NUDGE_TO is missing; no reminders sent');
     return { ...result, skipped: 'no-recipient' };
   }
+  const bcc = blindCopies(env.CONTACT_BCC_EMAIL, to);
 
   const nowIso = now.toISOString();
   const candidates = await listNudgeCandidates(db, {
@@ -59,6 +74,7 @@ export async function runAutomations(env: Env, now: Date): Promise<AutomationsRe
     try {
       ({ id } = await sendEmail(env, {
         to,
+        bcc,
         subject: mail.subject,
         text: mail.text,
         html: mail.html,
@@ -84,7 +100,11 @@ export async function runAutomations(env: Env, now: Date): Promise<AutomationsRe
 
     result.nudged.push(lead.id);
     try {
-      await appendEvent(db, { lead_id: lead.id, at: nowIso, type: 'nudge_sent', actor: 'system', meta: JSON.stringify({ to: 'LEADS_NUDGE_TO', id }) });
+      // Setting names only, never addresses: the timeline and the logs stay free of personal data.
+      await appendEvent(db, {
+        lead_id: lead.id, at: nowIso, type: 'nudge_sent', actor: 'system',
+        meta: JSON.stringify({ to: 'LEADS_NUDGE_TO', ...(bcc.length > 0 ? { bcc: 'CONTACT_BCC_EMAIL' } : {}), id }),
+      });
     } catch (error) {
       console.error('Lead reminder event failed:', errorMessage(error));
     }
