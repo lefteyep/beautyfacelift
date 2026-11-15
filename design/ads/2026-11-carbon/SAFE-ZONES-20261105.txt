@@ -1,0 +1,27 @@
+Carbon-Peeling + Microneedling – Meta image ads, checked 5 November 2026
+
+feed-4x5/            1080 x 1350, for Facebook and Instagram Feed
+stories-reels-9x16/  1080 x 1920, for Stories AND Reels (one file covers both)
+
+Safe zones checked with text recognition (OCR) on every file:
+- Stories: no text in the top 14 % or the bottom 20 %.
+- Reels (stricter): no text in the top 14 % or the bottom 35 %, about 6 % free on each side.
+
+Result: all ten 9:16 files keep their text between 14.5 % and 64.5 % of the height, with 156 px free on each
+side, so they are safe for Stories and Reels. The design sits as a framed card on a background in the ad's own
+style; the background contains no text.
+
+Before this fix, 6 of the 10 earlier full-screen 9:16 versions had text in the Stories zones
+(carbon-gold, glass-30, cover, swiss-poster, collage, pop-art) and none was safe for Reels.
+Those versions stay on GitHub (design/ads/2026-11-carbon/raw/*-916_20261105_*.png) but are not used.
+
+Still to do: Teresa approves the ads that show her (carbon-gold, cover, neon-studio, collage).
+glass-30 and neon-studio show "Nur bis 30. November" in the picture: remake them if the end date moves.
+
+Round 6 (ten formats from the Pinterest research), added later the same day:
+- The full-screen 9:16 versions in the repository (design/ads/2026-11-carbon/<name>_916.jpg) keep their text between
+  14 % and 80 % of the height (checked on a contact sheet with the zone lines; no OCR available on this computer),
+  so they are safe for Stories only.
+- Stories+Reels-safe versions were built the same way as above (4:5 ad as a card between 14.5 % and 64.5 %, 156 px
+  free on each side, text-free background plate checked by eye). By the user's decision they are stored locally only,
+  in ads/carbon_microneedling/stories-reels-9x16/, and are not pushed to GitHub. Script: reels_916_r6.py.
