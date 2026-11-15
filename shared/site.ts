@@ -15,6 +15,10 @@ export function absoluteUrl(path = '/'): string {
 }
 
 export const TREATWELL_BOOKING_URL = 'https://buchung.treatwell.ch/ort/beauty-face-lift/';
+// Treatwell's time selection. The /termin/ bridge opens it directly for services listed there, with the
+// service already in the basket; the Worker accepts it as a booking destination for this venue only.
+export const TREATWELL_AVAILABILITY_URL = 'https://buchung.treatwell.ch/availability';
+export const TREATWELL_VENUE_ID = '301542';
 export const AESTHETIKA_BOOKING_URL = TREATWELL_BOOKING_URL;
 export const TREATWELL_URL = 'https://www.treatwell.ch/ort/beauty-face-lift/';
 

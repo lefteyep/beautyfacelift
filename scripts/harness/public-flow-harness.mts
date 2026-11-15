@@ -9,7 +9,7 @@ import ts from 'typescript';
 import sharp from 'sharp';
 import { trackRoute } from '../../worker/routes/track.ts';
 import * as tracking from '../../shared/tracking.ts';
-import { BOOKING_FORWARD_KEYS, TREATWELL_BOOKING_URL } from '../../shared/site.ts';
+import { BOOKING_FORWARD_KEYS, TREATWELL_AVAILABILITY_URL, TREATWELL_BOOKING_URL, TREATWELL_VENUE_ID } from '../../shared/site.ts';
 
 const origin = 'https://beautyfacelift-zuerich.ch';
 const graphCalls: Record<string, any>[] = [];
@@ -55,6 +55,26 @@ const invalidJson = await trackRoute(new Request(`${origin}/api/track`, {
 assert.equal(invalidJson.status, 400, 'invalid JSON returns a client error');
 await post({ ...validEvent, user_data: { em: 'person@example.test' } }, { 'content-type': 'application/json' }, 400, 'raw contact data remains rejected');
 await post({ ...validEvent, event_data: { unknown_key: 'x' } }, { 'content-type': 'application/json' }, 400, 'unknown event keys remain rejected');
+// The bridge's two Treatwell destinations are accepted for TreatwellOutboundClick; anything else is not.
+const timeSelectionUrl = `${TREATWELL_AVAILABILITY_URL}?venueId=${TREATWELL_VENUE_ID}&proposedServices=${encodeURIComponent(JSON.stringify([{ menuItemId: 'TR4124153', optionIds: ['14571693'] }]))}&service=Carbon+Microneedling`;
+const outbound = (destination_url: string) => ({
+  event_name: 'TreatwellOutboundClick', event_id: `outbound-${destination_url.length}-${requestNumber}`, event_source_url: `${origin}/termin/`,
+  event_data: { service: 'Carbon Microneedling', page_type: 'booking_forward', destination_url, link_domain: 'buchung.treatwell.ch', value: 10, currency: 'CHF' },
+  user_data: {},
+});
+await post(outbound(`${TREATWELL_BOOKING_URL}?service=Waxing`), { 'content-type': 'application/json' }, 200, 'outbound click to the venue page');
+await post(outbound(timeSelectionUrl), { 'content-type': 'application/json' }, 200, 'outbound click to the time selection of this venue');
+assert.equal(graphCalls.at(-1)!.data[0].custom_data.destination_url, timeSelectionUrl, 'time selection URL reaches Meta unchanged');
+await post({ ...outbound(timeSelectionUrl), event_name: 'Schedule' }, { 'content-type': 'application/json' }, 200, 'Schedule with the time selection URL');
+for (const [label, url] of [
+  ['another venue', timeSelectionUrl.replace(`venueId=${TREATWELL_VENUE_ID}`, 'venueId=1')],
+  ['no venue', `${TREATWELL_AVAILABILITY_URL}?proposedServices=%5B%5D`],
+  ['another Treatwell path', 'https://buchung.treatwell.ch/ort/another-salon/'],
+  ['another host', `https://example.com/availability?venueId=${TREATWELL_VENUE_ID}`],
+  ['a path that only starts like it', `https://buchung.treatwell.ch/availability-x?venueId=${TREATWELL_VENUE_ID}`],
+] as const) {
+  await post(outbound(url), { 'content-type': 'application/json' }, 400, `outbound click to ${label} is rejected`);
+}
 console.log('[ok] tracking origin, media type, body shape and forwarding contract');
 
 const browserModule = ts.transpileModule(readFileSync('src/lib/track.ts', 'utf8'), {
@@ -64,7 +84,7 @@ const bridgeSource = readFileSync('src/pages/termin/index.astro', 'utf8')
   .replace(/\r\n?/g, '\n')
   .match(/<script is:inline define:vars=\{\{ bookingTargetUrl:[^\n]+>\n([\s\S]*?)<\/script>/)?.[1];
 assert.ok(bridgeSource, 'booking bridge inline script found');
-type BrowserCase = { oldCookie?: string; click?: string; storedClick?: string; consent?: boolean };
+type BrowserCase = { oldCookie?: string; click?: string; storedClick?: string; consent?: boolean; service?: string };
 function browserCase(path: 'module' | 'bridge', options: BrowserCase) {
   const cookies = new Map<string, string>([['_fbp', 'fb.1.1700000000000.1234567']]);
   if (options.oldCookie) cookies.set('_fbc', options.oldCookie);
@@ -72,7 +92,9 @@ function browserCase(path: 'module' | 'bridge', options: BrowserCase) {
   const requests: Record<string, any>[] = [];
   const location = new URL(`${origin}/${path === 'bridge' ? 'termin/' : 'lp/aquafacial/'}`);
   if (options.click !== undefined) location.searchParams.set('fbclid', options.click);
-  Object.assign(location, { replace() {}, assign() {} });
+  if (options.service !== undefined) location.searchParams.set('service', options.service);
+  const redirects: string[] = [];
+  Object.assign(location, { replace(url: string) { redirects.push(String(url)); }, assign() {} });
   const storage = { getItem(key: string) {
     if (key === 'bfl_marketing_consent') return options.consent === false ? 'denied' : 'granted';
     if (key === 'bfl_utm') return JSON.stringify(options.storedClick ? { fbclid: options.storedClick } : {});
@@ -95,7 +117,9 @@ function browserCase(path: 'module' | 'bridge', options: BrowserCase) {
   const context = vm.createContext({ window, document, sessionStorage: storage, localStorage: storage,
     URL, URLSearchParams, Date, crypto: globalThis.crypto, TextEncoder, exports, module: { exports },
     require(name: string) { assert.equal(name, '../../shared/tracking'); return tracking; },
-    bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys: [...BOOKING_FORWARD_KEYS], treatwellServiceDetailsByService: {},
+    bookingTargetUrl: TREATWELL_BOOKING_URL, bookingForwardKeys: [...BOOKING_FORWARD_KEYS], treatwellServiceDetailsByService: { 'Aquafacial + Microneedling': 'TR4124140', 'Carbon Microneedling': 'TR4124153' },
+    treatwellAvailabilityUrl: TREATWELL_AVAILABILITY_URL, treatwellVenueId: TREATWELL_VENUE_ID,
+    treatwellTimeSelectionByService: { 'Carbon Microneedling': { menuItemId: 'TR4124153', optionId: '14571693' } },
     fetch(_input: unknown, init: RequestInit) { requests.push(JSON.parse(String(init.body))); return Promise.resolve(new Response('{}')); },
   });
   if (path === 'module') {
@@ -105,7 +129,26 @@ function browserCase(path: 'module' | 'bridge', options: BrowserCase) {
     vm.runInContext(bridgeSource!, context);
     callbacks.forEach((callback) => callback());
   }
-  return { fbc: cookies.get('_fbc'), fbcWrites: writes.filter((value) => value.startsWith('_fbc=')), writes, requests };
+  return { fbc: cookies.get('_fbc'), fbcWrites: writes.filter((value) => value.startsWith('_fbc=')), writes, requests, redirects };
+}
+// The bridge sends the Carbon offer to Treatwell's time selection and every other service to the venue page.
+{
+  const carbon = new URL(browserCase('bridge', { service: 'Carbon Microneedling' }).redirects.at(-1)!);
+  assert.equal(carbon.origin + carbon.pathname, 'https://buchung.treatwell.ch/availability', 'bridge: Carbon opens the time selection');
+  assert.equal(carbon.searchParams.get('venueId'), '301542');
+  assert.deepEqual(JSON.parse(carbon.searchParams.get('proposedServices')!), [{ menuItemId: 'TR4124153', optionIds: ['14571693'] }]);
+  assert.equal(carbon.searchParams.get('service'), 'Carbon Microneedling', 'bridge: campaign parameters still forwarded');
+  assert.equal(carbon.hash, '');
+  const venue = new URL(TREATWELL_BOOKING_URL);
+  const combo = new URL(browserCase('bridge', { service: 'Aquafacial + Microneedling' }).redirects.at(-1)!);
+  assert.equal(combo.origin + combo.pathname, venue.origin + venue.pathname, 'bridge: combo keeps the venue page');
+  assert.equal(combo.hash, '#serviceDetails=TR4124140');
+  for (const service of [undefined, 'Waxing', '__proto__', 'constructor', 'toString']) {
+    const other = new URL(browserCase('bridge', { service }).redirects.at(-1)!);
+    assert.equal(other.origin + other.pathname, venue.origin + venue.pathname, `bridge: ${service} keeps the venue page`);
+    assert.equal(other.searchParams.get('venueId'), null);
+    assert.equal(other.hash, '', `bridge: ${service} gets no service panel`);
+  }
 }
 const oldCookie = 'fb.1.1700000000000.OLD_CLICK';
 const sameCookie = 'fb.1.1700000000000.NEW.CLICK';

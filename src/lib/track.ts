@@ -771,7 +771,9 @@ function closestLink(target: EventTarget | null): HTMLAnchorElement | null {
 }
 
 function isTreatwellBookingUrl(url: URL): boolean {
-  return url.hostname === 'buchung.treatwell.ch' && url.pathname.startsWith('/ort/beauty-face-lift');
+  if (url.hostname !== 'buchung.treatwell.ch') return false;
+  // The venue page, or the time selection the /termin/ bridge opens directly for some services.
+  return url.pathname.startsWith('/ort/beauty-face-lift') || url.pathname === '/availability';
 }
 
 function isBookingLink(url: URL): boolean {
