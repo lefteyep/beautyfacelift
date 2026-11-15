@@ -13,6 +13,11 @@ Paket 2 des Plans `docs/orchestrator/handover/CARBON-CAMPAIGN-PLAN-2026-10-31.md
 | M5 | Text-Karte ohne Foto | 4:5, 9:16 | Anzeige 2 alternativ |
 | M6 | Vertrauen ohne Porträt (Foto M3 + Band) | 1:1, 4:5, 9:16 | Anzeige 3 |
 | M7 | Teresa trägt die Carbon-Lotion mit dem Pinsel auf, fiktive Kundin | 4:5, 9:16 | Seiten-Hero mit Teresa, Anzeige 4 |
+| M8 | Hautanalyse: Teresa schaut sich die Haut der Kundin an | 4:5, 9:16 | Runde 3, «Zum ersten Mal Microneedling?»; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/` |
+| M9 | Carbon-Lotion, daneben der Microneedling-Pen auf dem Tablett | 4:5, 9:16 | Runde 3, «Zwei Behandlungen, eine Sitzung» |
+| M10 | Ruhiger Moment unter der Decke, Hand auf der Schulter | 4:5, 9:16 | Runde 3, «90 Minuten für Ihre Haut» |
+| M11 | Teresa am Behandlungsbett, Blick in die Kamera | 4:5, 9:16 | Runde 3, «Persönlich von Teresa Stimac»; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/` |
+| M12 | Teresa erklärt die Pflege danach, neutrale Tube | 4:5, 9:16 | Runde 3, «Auch danach gut beraten»; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/` |
 
 Prompts: [prompts.md](prompts.md). Alle Bilder sind generiert (es gibt keine echten Fotos); Teresa erscheint nur im Motiv M7 (siehe unten), erzeugt aus ihren eingewilligten Referenzfotos; sonst nur Hände; das Modell erzeugt keinen Text, alles Geschriebene kommt aus `render_ads.py`.
 
@@ -45,6 +50,7 @@ Modell `gpt-image-2.5-flare`, OpenAI-Playground, abgerechnet über das API-Gutha
 | 6 | 2026-10-31 | M2 v2 Pen metallisch (Referenzen M1-1, Geräteausschnitt) | 1088 × 1360 | max | 2 | 0,39 |
 | 7 | 2026-10-31 | M3 v2 Stillleben | 1088 × 1088 | max | 1 | 0,16 |
 | 8 | 2026-10-31 | M7 Teresa (Referenzen: Teresa-Fotos 2 und 3, `maske-v2_20261031_1.png`) | 1088 × 1360 | max | 2 | 0,40 |
+| 9 | 2026-11-05 | M8–M12, `gpt-image-2.6-flare` über die API (Wunsch des Users), Referenzen siehe Runde 3 | 1088 × 1360 | high | 12 (davon 2 Fehlversuch: Prompt beim Upload abgeschnitten) | ≈ 56 700 Tokens laut API; Betrag in der OpenAI-Usage-Ansicht |
 
 Summe der Schätzungen: ≈ 2,25 USD (Läufe 1–7 ≈ 1,85; Lauf 8 Teresa ≈ 0,40, eigene Obergrenze 2 USD) (Obergrenze 5 USD). Der tatsächliche Betrag steht im Abschnitt «Kosten laut OpenAI».
 
@@ -141,3 +147,91 @@ Zweite Ablesung am 2026-10-31 um etwa 15:05 Uhr (gleiche Ansicht): **2,06 USD** 
 Erste Ablesung:
 
 Abgelesen auf `https://platform.openai.com/usage` (Spend categories, letzte 7 Tage, Nutzer Paulo Ferreira) am 2026-10-31 um etwa 13:40 Uhr: **0,99 USD** (gpt-image-2_5-flare image output 0,975 USD, text input 0,019 USD; image input noch 0 USD). Das deckt erkennbar nur Runde 1 (11 Bilder in xhigh); Runde 2 (5 Bilder in max mit Referenzbildern, Schätzung ≈ 0,94 USD) war zu diesem Zeitpunkt noch nicht verbucht. Erwartetes Total ≈ 1,9 USD; den Endstand bitte nach einigen Stunden auf derselben Seite ablesen.
+
+## Runde 3 · fünf neue Motive mit gpt-image-2.6-flare (2026-11-05)
+
+**Ablage für die Runden 3 bis 7:** Das Repository ist öffentlich. Deshalb liegen alle Rohbilder dieser Runden (`raw/*_20261105_*.png`, 47 Dateien, etwa 104 MB) und alle fertigen Anzeigen, die Teresa zeigen, nicht hier, sondern ausserhalb im Ordner `../ads/2026-11-carbon-runden-3-6/` (neben `astro-v2`, mit eigener README; Unterordner `raw/` und `final-teresa/`). Die Dateinamen unten sind dieselben wie dort.
+
+**Fertige Anzeigen (Entscheid des Users 2026-11-05: keine Anzeigendateien auf GitHub):** Ab Runde 3 liegt keine fertige Anzeige (`*_45.jpg`, `*_916.jpg`) im Repository, auch keine ohne Teresa. Die Anzeigen ohne Teresa liegen im lokalen Anzeigenordner des Users `../ads/carbon_microneedling/` (Unterordner `feed-4x5/` und `stories-reels-9x16/`), eine Kopie in `../ads/2026-11-carbon-runden-3-6/final/`. Die Anzeigen mit Teresa liegen in `../ads/2026-11-carbon-runden-3-6/final-teresa/` und warten auf ihre Freigabe. Die Tabellen unten nennen die Dateinamen. `design/ads/2026-11-carbon/.gitignore` hält neue Anzeigen (`*.jpg`) und Rohbilder aus Git heraus; die Oktober-Anzeigen der Runden 1 und 2 und ihre Rohbilder entfernt der PR «Remove Meta ad creative files from git (kept locally)» ebenfalls aus Git; sie liegen lokal im Anzeigenordner des Users `../ads/carbon_microneedling/` (Rohbilder in `../ads/2026-11-carbon-runden-3-6/raw/`). Die Abschnitte zu den Runden 1 und 2 oben nennen ihre früheren Pfade im Repository.
+
+Auf Wunsch des Users von Claude erzeugt: OpenAI-API (`/v1/images/edits`), Modell `gpt-image-2.6-flare`, Qualität `high` (die höchste Stufe des Modells), 1088 × 1360, je Motiv zwei Kandidaten, abgerechnet über den API-Key des Users. Prompts: [prompts.md](prompts.md), Abschnitt «Runde 3» (für die API ist das Format «Portrait 4:5» statt «2:3», und die Teresa-Referenzen sind ihr echtes Porträt `src/assets/marketing/teresa_portrait.jpg` als Identität plus `raw/teresa_20261031_1.png` für Kittel, Ohrringe, Lippenstift, Kundin und Studio). Log: `raw/generation-log-20261105.jsonl`.
+
+- Gewählt (jeweils Kandidat 1): `raw/hautanalyse_20261105_1.png`, `raw/zwei-in-einer_20261105_1.png` (Pen neben dem Gesicht; bei Kandidat 2 läge er im Textband), `raw/ruhe_20261105_1.png`, `raw/teresa-portrait_20261105_1.png`, `raw/danach_20261105_1.png`. Kandidaten 2 bleiben als Alternative. Alle Rohbilder liegen in `../ads/2026-11-carbon-runden-3-6/raw/`.
+- Geprüft: Hände (fünf Finger, Handschuhe), kein Text auf Tube, Pen, Flaschen; keine Nadeln, kein Laser, keine Rötung, kein Vorher/Nachher; Teresa erkennbar, Kittel, Ohrringe, Lippenstift wie M7.
+- Finale Anzeigen mit `render_ads_r3.py` (Textband wie die bisherigen Anzeigen, «CHF 250» mit der roten Diagonale der Seite, Enddatum nur in `END`): `hautanalyse_45.jpg`, `zwei-in-einer_45.jpg`, `ruhe_45.jpg`, `teresa-portrait_45.jpg`, `danach_45.jpg` und je `_916.jpg`. `zwei-in-einer` und `ruhe` (ohne Teresa) liegen in `../ads/2026-11-carbon-runden-3-6/final/` und im Anzeigenordner des Users. `hautanalyse`, `teresa-portrait` und `danach` zeigen Teresa, wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/`. `ruhe` ist am 2026-11-05 neu gerendert, mit allen sieben Schritten in Teresas Reihenfolge. Nicht nach `public/` kopiert (die Website braucht sie nicht).
+- **Offen:** Teresa gibt M8, M11 und M12 frei, bevor sie laufen; Hochladen auf Meta (Anleitung im Tab «Image ads» des Docs [Carbon Avatar Video Guide](https://claude.ai/artifact/SM5NNZGqhqV5SEVJAQeLkp)); falls die Anzeigen nach dem 10. November starten und das Enddatum sich ändert: `END` anpassen und neu rendern.
+
+```bash
+py -I design/ads/2026-11-carbon/render_ads_r3.py <fonts-dir> design/ads/2026-11-carbon
+```
+
+## Runde 4 · gestaltete Anzeigen, Text im Bild (2026-11-05)
+
+Der User hat den Stil von Runde 3 (Foto + Textband) abgelehnt: «completely new style … click-strong … 3D elements, dynamic colors». Runde 3 bleibt als Archiv im Ordner, wird aber nicht verwendet. Fünf Art-Directions, je zwei Kandidaten, Prompts in [prompts.md](prompts.md), Abschnitt «Runde 4», Log `raw/generation-log-20261105-r4.jsonl` (≈ 44 000 Tokens).
+
+| Datei (4:5 und 9:16) | Stil | Kandidat | Teresa |
+|---|---|---|---|
+| `carbon-gold_45.jpg` / `_916.jpg` | Carbon-Schwarz, 3D-Gold «175», Teresa freigestellt, Behandlungsfoto im Goldrahmen | 2 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+| `duo-split_45.jpg` / `_916.jpg` | Diagonale Schwarz/Perlrosa, 3D-«+», zwei Behandlungsfotos, Preis-Sticker | 2 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `glass-30_45.jpg` / `_916.jpg` | Pastell-Glas, 3D-«30 %», Pen-Foto in Glasblase | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `cover_45.jpg` / `_916.jpg` | Magazin-Cover mit Teresa, Lippenstiftrot | 1 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+| `neon-studio_45.jpg` / `_916.jpg` | Studio mit Kupfer-Neon, riesige 3D-«175» im Raum | 2 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+
+- Geprüft (volle Grösse): jedes Wort, Preis «CHF 175» und «statt CHF 250» durchgestrichen, «Sie sparen 30 %» (75 von 250), «4,8 ★ aus 260+ Bewertungen auf Treatwell», Adresse, «Nur bis 30. November» (nur in glass-30 und neon-studio); keine Nadeln, kein Laser, kein Vorher/Nachher, keine erfundenen Geräte.
+- **Bekannter Mangel:** auf `cover` verdeckt Teresas Haar das «F» von «BEAUTY FACE LIFT». Die Korrektur (Prompt angepasst) scheiterte, weil das OpenAI-Guthaben aufgebraucht war.
+- 9:16 ist vorläufig: die 4:5-Anzeige zentriert auf 82 % (Text zwischen 14 % und 80 % der Höhe) auf einem Farbfeld aus ihr selbst. Echte 9:16-Layouts brauchen neues Guthaben.
+- **Offen:** OpenAI-Guthaben aufladen (Entscheid des Users) für Cover-Korrektur und echte 9:16; Teresa gibt carbon-gold, cover und neon-studio frei; Hochladen auf Meta. Datum im Bild: glass-30 und neon-studio müssen neu erzeugt werden, falls das Enddatum sich ändert.
+
+## Runde 5 · fünf weitere Stile, Cover korrigiert, native 9:16 (2026-11-05)
+
+Neues OpenAI-Guthaben (User). Prompts in [prompts.md](prompts.md), Abschnitt «Runde 5»; Log weiter in `raw/generation-log-20261105-r4.jsonl`.
+
+| Datei (4:5 und 9:16) | Stil | Kandidat 4:5 | Teresa |
+|---|---|---|---|
+| `swiss-poster_*` | Swiss Style: Raster, Signalrot/Schwarz/Weiss, riesige «175», Behandlungsfoto | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `collage_*` | Papier-Collage mit Sofortbildern, Klebeband, Handschrift | 1 | ja (Sofortbild aus ihrem echten Porträt); wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+| `clay-steps_*` | 3D-Clay-Pfad mit den 7 Schritten, Preisblase | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `carbon-brush_*` | Minimal-Luxus: ein schwarzer Carbon-Pinselstrich auf Elfenbein | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `pop-art_*` | Pop-Art-Comic, «BEIDES! CHF 175» | 1 | nein (Comic-Kundin, fiktiv); Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+
+- **Cover korrigiert:** `cover_45.jpg` jetzt aus `raw/cover-v2-45_20261105_2.png`, «BEAUTY FACE LIFT» voll lesbar. Der erste Cover-Lauf bleibt in `raw/cover-45_20261105_*.png`.
+- **Native 9:16 für alle zehn Anzeigen** (`*_916.jpg`, aus `raw/*-916_20261105_1.png`): ersetzen die vorläufigen Zentrier-Versionen. Fünf (carbon-gold, duo-split, cover, neon-studio, clay-steps) wurden mit strengeren Schutzzonen neu erzeugt, weil Text im unteren 20-%-Bereich lag; die erste Fassung liegt als `raw/*-916_20261105_0.png`. clay-steps 9:16 hat die Adresszeile weggelassen (steht im Anzeigentext).
+- Geprüft: jedes Wort in voller Grösse (7 Schrittnamen, Handschrift, Sprechblasen, Bewertung, Adresse, Preise und Durchstreichungen).
+- **Offen:** Teresa gibt carbon-gold, cover, neon-studio und collage frei; Auswahl und Hochladen auf Meta.
+
+## Runde 6 · zehn Formate aus der Pinterest-Recherche (erzeugt 2026-11-05, Finals lokal)
+
+**Ablage:** keine Datei dieser Runde liegt im Repository (Entscheid des Users 2026-11-05). Finals ohne Teresa: `../ads/2026-11-carbon-runden-3-6/final/` und im Anzeigenordner des Users `../ads/carbon_microneedling/` (`feed-4x5/`, `stories-reels-9x16/`). Finals mit Teresa: `../ads/2026-11-carbon-runden-3-6/final-teresa/`. Rohbilder (39 PNG) und beide Kontaktbögen: `../ads/2026-11-carbon-runden-3-6/raw/`. Die Pfade `raw/…` unten meinen diesen Ordner. Neue Läufe nur nach dem ausdrücklichen Go des Users (siehe [ROUND6-PLAN.md](ROUND6-PLAN.md)).
+
+Recherche in Chrome (eingeloggt) und die daraus überarbeiteten Prompts: [ROUND6-PLAN.md](ROUND6-PLAN.md), Abschnitt «Research in the local session». Alle zehn Anzeigen sitzen auf der Palette der Website (Cream, Shell, Blush, Kupfer, Cocoa, Gold), Serif-Headline über Sans-Labels, keine Tech-Farben. Prompts: [motifs_r6.py](motifs_r6.py), erzeugt mit [gen_ads.py](gen_ads.py) (`gpt-image-2.6-flare`, `high`, 1088 × 1360, je zwei Kandidaten; Schlüssel aus `OPENAI_API_KEY`, Umgebungsvariable des Users). Kontaktbogen `raw/contact-r6-20261105.jpg`, Stories und Finals mit [finalize_r6.py](finalize_r6.py) und [regen_story_r6.py](regen_story_r6.py). Log: `raw/generation-log-20261105.jsonl` (geteilt mit Runde 7).
+
+| Datei (4:5 und 9:16) | Format | Kandidat 4:5 | Teresa |
+|---|---|---|---|
+| `problem-loesung_*` | Split «Getrennt oder zusammen?», rote Kreuze gegen Kupfer-Häkchen, Behandlungsfoto auf der Trennlinie | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `toggles_*` | Behandlungsmenü mit sieben Schaltern (Reinigung bis LED-Licht), Pinsel-Foto oben | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `reviews_*` | Teresa vor dem Cocoa-Bogen, vier schwebende Treatwell-Bewertungen (wörtlich) | 1 | ja; wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+| `chat-faq_*` | Chat als FAQ («Tut Microneedling weh?», Dauer), Preis-Karte, Teresa als Avatar | 1 | ja (Avatar); wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+| `ab-choice_*` | «Was ist Ihnen lieber?» A: zwei 3D-Kalender, B: ein Kalender mit dem Behandlungsfoto | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `pov-caption_*` | Creator-Stil, Untertitel-Caption «POV: …» auf dem Behandlungsfoto, Preis-Sticker | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `hand-hero_*` | Pen in der Handschuh-Hand vor dem Blush-Bogen, sechs Pills | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `puzzle-3d_*` | Zwei 3D-Puzzleteile (Carbon-Schwarz, Perlrosa) im Blush-Studio, «Passt zusammen.» | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `orbit_*` | Sieben Glas-Chips im Orbit um das Foto, Tief-Salbei, «1 Termin. 7 Schritte.» | 1 | nein; Dateien in `../ads/2026-11-carbon-runden-3-6/final/` |
+| `storyboard_*` | 2 × 2 Raster mit grossen Ziffern, «Ihre 90 Minuten», Teresa bei der Hautanalyse | 2 | ja (Foto 1); wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` |
+
+- Geprüft (volle Grösse, jeder Kandidat und jede Story): jedes Wort gegen die Textliste des Prompts, «CHF 175 statt CHF 250» mit roter Durchstreichung, die sieben Schritte in der richtigen Reihenfolge (toggles, orbit), die vier Zitate wörtlich (reviews), FAQ-Antworten wörtlich von der Landingpage, Hände und Handschuhe, Pen ohne Nadeln (storyboard Foto 3 vergrössert geprüft), kein Laser, kein Vorher/Nachher, kein Datum im Bild. Teresa auf reviews, chat-faq und storyboard gegen ihr Porträt verglichen (Gesicht, Haar, Lippenstift, Ohrringe, Kittel ohne Namensschild).
+- Verworfen: `orbit` Kandidat 2 (Spritzen-Icon beim Microneedling). Die übrigen Kandidaten 2 sind gleichwertig und bleiben als Alternative in `../ads/2026-11-carbon-runden-3-6/raw/`.
+- **Stories 9:16** (`*_916.jpg` aus `raw/*-916_20261105_1.png`): der Story-Prompt von `gen_ads.py` setzte bei neun von zehn den Button oder die Adresszeile in die unteren 20 %. Sie wurden mit `regen_story_r6.py` (unteres Drittel leer) neu erzeugt; die erste Fassung liegt als `raw/*-916_20261105_0.png`, nur chat-faq stammt aus dem ersten Lauf. toggles 9:16 hat die Adresszeile weggelassen (steht im Anzeigentext). Kontaktbogen mit den Schutzzonen: `raw/contact-r6-stories-20261105.jpg`.
+- Kosten: 31 API-Aufrufe (10 Feed mit je 2 Kandidaten, 10 Stories, 11 strenge Stories inklusive 2 Testläufe), 80 188 Input- und 60 552 Output-Tokens laut API; Betrag in der OpenAI-Usage-Ansicht ablesen.
+- **Stories+Reels-sichere 9:16** (Nachtrag, gleicher Tag, Wunsch des Users): wie bei den Runden 4 und 5 die 4:5-Anzeige als Karte (768 × 960, abgerundet, Schatten) zwischen 14,5 % und 64,5 % der Höhe auf einem textfreien Hintergrund im Stil der Anzeige, gebaut mit [reels_916_r6.py](reels_916_r6.py) (`plates`, `build`, `sheet`). Zehn Hintergründe mit `gpt-image-2.6-flare` erzeugt und einzeln auf Text geprüft (kein OCR auf diesem Rechner); reviews und hand-hero ohne den Bogen neu erzeugt, weil er unter der Karte als Block weiterlief. **Diese Dateien liegen nur lokal** (Entscheid des Users 2026-11-05: keine Anzeigenbilder mehr auf GitHub): `../ads/carbon_microneedling/stories-reels-9x16/<name>_916.jpg` plus Hintergründe und Kontaktbogen in `_plates-r6/`. Die Vollbild-Stories dieser Runde (nur Stories-sicher) liegen nicht im Repository, sondern in `../ads/2026-11-carbon-runden-3-6/final/` bzw. `final-teresa/` als `<name>_916.jpg` und lokal als `<name>_916-stories-only.jpg`.
+- Kopie aller fertigen Anzeigen (Runden 1 bis 6) für den User: `../ads/carbon_microneedling/` im Kundenordner (nicht im Repository), Feed in `feed-4x5/`, 9:16 in `stories-reels-9x16/`.
+- **Offen:** Teresa gibt reviews, chat-faq und storyboard frei; Auswahl und Hochladen auf Meta (Anleitung im Doc «Carbon Avatar Video Guide», Tab «Image ads»).
+
+## Runde 7 · fünf neue Stile aus der Pinterest-Recherche, je drei Anzeigen (erzeugt 2026-11-05, Code in PR #76, Finals lokal)
+
+Stand 2026-11-05 abends: Die fünfzehn Anzeigen wurden auf Go des Users erzeugt. Prompts, Scripts und das Log sind in PR #76 (Branch `codex/carbon-ad-round-7`, baut auf diesem PR auf); Anzeigendateien sind nicht auf GitHub. Die Finals ohne Teresa liegen im Anzeigenordner des Users `../ads/carbon_microneedling/`, die Rohbilder und die vier Finals mit Teresa in `../ads/2026-11-carbon-runden-3-6/`. Der Text unten beschreibt den Stand vor der Erzeugung.
+
+Recherche in Chrome (eingeloggt), fünf Stile, fünfzehn Prompts und fünf Anzeigentexte: [ROUND7-PLAN.md](ROUND7-PLAN.md). Prompts: [motifs_r7.py](motifs_r7.py) (`knockout-*`, `facemap-*`, `colorblock-*`, `bento-*`, `sticker-*`). Erzeugen mit [gen_ads.py](gen_ads.py) (`feed motifs_r7`, dann `story motifs_r7 …`), Kontaktbogen und Finals mit [finalize_r7.py](finalize_r7.py). Vorschlag wie Runde 6: erst das ausdrückliche Go des Users und ein Eintrag auf dem Orchestrator-Board, dann `OPENAI_API_KEY` für das Terminal (auf diesem Rechner liegt kein Schlüssel), danach Auswahl, Stories, Finals, Kosten hier nachtragen; Teresa gibt `knockout-teresa`, `facemap-hautanalyse`, `colorblock-teresa` und `bento-teresa` frei; bis dahin liegen sie in `../ads/2026-11-carbon-runden-3-6/`.
+
+## 9:16 Schutzzonen geprüft und korrigiert (2026-11-05)
+
+OCR-Messung (Tesseract) aller zehn 9:16-Fassungen: sechs hatten Text in den Stories-Zonen (oben 14 %, unten 20 %), keine war Reels-sicher (unten 35 %). Neu: `*_916.jpg` = die 4:5-Anzeige als Karte (768 × 960, abgerundet, Schatten) zwischen 14,5 % und 64,5 % der Höhe, seitlich 156 px frei, auf einem textfreien Hintergrund im Stil der Anzeige (`raw/plate-*-916_20261105.png`, gpt-image-2.6-flare, per OCR auf Text geprüft; die zehn Hintergründe, etwa 30 MB, liegen in `../ads/2026-11-carbon-runden-3-6/raw/`). Damit gilt eine Datei für Stories und Reels. Die Vollbild-9:16 aus Runde 5 bleiben in `../ads/2026-11-carbon-runden-3-6/raw/*-916_20261105_*.png`, werden aber nicht verwendet. Die neuen 9:16 von `carbon-brush`, `clay-steps`, `duo-split`, `glass-30`, `pop-art` und `swiss-poster` liegen in `../ads/2026-11-carbon-runden-3-6/final/` und im Anzeigenordner des Users (nicht im Repository). Die neuen 9:16 von `carbon-gold`, `collage`, `cover` und `neon-studio` zeigen Teresa: wartet auf Teresas Freigabe, Dateien in `../ads/2026-11-carbon-runden-3-6/final-teresa/` (die alten Vollbild-Fassungen in `final-teresa/alt-916-vollbild/`). Prüfbericht: [SAFE-ZONES-20261105.txt](SAFE-ZONES-20261105.txt).
