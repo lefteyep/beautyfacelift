@@ -255,7 +255,9 @@ for (const component of ['OfferBox', 'TrustStrip', 'BookingCta', 'StickyOfferBar
   assert(!lp.includes(component), `Carbon LP must not use ${component}`);
 }
 assert(lp.includes('data-mobile-sticky inert') && lp.includes('sticky.inert = !visible'), 'Carbon LP sticky bar must start inert and leave the tab order while hidden');
-assert(lp.includes('body.lp-sticky-visible:not(.bfl-consent-visible):not(.lp-lead-success)'), 'Carbon LP sticky bar must hide while consent is open and after success');
+// Since 2026-11-16 (user) the bar stays visible while the consent banner is open; the banner sits above it.
+assert(lp.includes(':global(body.lp-sticky-visible:not(.lp-lead-success)) .lp-mobile-sticky {') && !lp.includes('body.lp-sticky-visible:not(.bfl-consent-visible)'), 'Carbon LP sticky bar must stay visible while consent is open and hide after success');
+assert(lp.includes(':global(body.bfl-consent-visible.lp-sticky-visible:not(.lp-lead-success)) {'), 'The consent banner must make room for the sticky bar once the bar is visible');
 // Map (user, 2026-10-31, round 2): a static image rendered once from OpenStreetMap tiles, with the ODbL credit,
 // the whole image linking to Google Maps. No embed, no consent button, no script.
 assert(lp.includes("import mapImage from '../../../assets/lp/carbon/map-bahnhofstrasse-94.webp';") && lp.includes('src={mapImage}'), 'Carbon LP must show the static OSM map image');

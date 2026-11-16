@@ -948,8 +948,9 @@ const structuredData = {
 
     // Floating UI rules: the sticky bar and the floating WhatsApp disc appear once the hero has left the
     // viewport (the disc earlier than on /lp/aquafacial-microneedling/, where it waits for 25 % scroll depth;
-    // user, 2026-10-31). Both step aside while the lead form is on screen and stay hidden while the consent
-    // banner is open (CSS). The disc is revealed here, not by WhatsAppButton (reveal="page").
+    // user, 2026-10-31). Both step aside while the lead form is on screen. The disc stays hidden while the
+    // consent banner is open (CSS); the sticky bar does not: the banner then sits directly above it (user,
+    // 2026-11-16). The disc is revealed here, not by WhatsAppButton (reveal="page").
     function initFloatingUi() {
       const body = document.body;
       const hero = document.querySelector('[data-lp-hero]');
@@ -1140,9 +1141,15 @@ const structuredData = {
     --lp-sticky-offer-height: 68px;
   }
 
-  /* The sticky bar never shows while the consent banner is open, so the banner can sit at the bottom edge. */
+  /* While the consent banner is open it sits at the bottom edge until the sticky bar appears (after the
+     hero); from then on the bar keeps the edge and the banner sits directly above it, so the booking
+     button stays visible for visitors who leave the banner unanswered. */
   :global(body.bfl-consent-visible) {
     --lp-sticky-offer-height: 0px;
+  }
+
+  :global(body.bfl-consent-visible.lp-sticky-visible:not(.lp-lead-success)) {
+    --lp-sticky-offer-height: 68px;
   }
 
   .lp-page {
@@ -2448,7 +2455,9 @@ const structuredData = {
       justify-content: space-between;
       gap: 12px;
       box-sizing: border-box;
-      height: calc(var(--lp-sticky-offer-height) + env(safe-area-inset-bottom, 0px));
+      /* Fixed height, not the variable: the variable drops to 0 while the consent banner is open and the bar
+         is hidden, which would collapse the bar during its slide-out. */
+      height: calc(68px + env(safe-area-inset-bottom, 0px));
       padding: 0 var(--gutter) env(safe-area-inset-bottom, 0px);
       border-top: 1px solid var(--rule-light-strong);
       box-shadow: var(--shadow-float);
@@ -2457,7 +2466,7 @@ const structuredData = {
       transition: transform 0.5s var(--ease-expo), visibility 0s linear 0.5s;
     }
 
-    :global(body.lp-sticky-visible:not(.bfl-consent-visible):not(.lp-lead-success)) .lp-mobile-sticky {
+    :global(body.lp-sticky-visible:not(.lp-lead-success)) .lp-mobile-sticky {
       visibility: visible;
       transform: none;
       transition-delay: 0s;
